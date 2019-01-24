@@ -1,0 +1,16 @@
+
+# Ignore gradle.
+/.gradle/
+
+# Ignore built content.
+/bin/
+/build/
+
+# Ignore VIM swap files.
+.*.swp
+
+# Ignore Eclipse files
+/.classpath
+/.project
+/.settings
+
