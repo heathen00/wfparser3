@@ -27,4 +27,35 @@ public interface Factory {
     return null;
   }
 
+  static ReferenceNumbers createReferenceNumbers(String geometricVertexReferenceNumber) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  static ReferenceNumbers createReferenceNumbers(String geometricVertexReferenceNumber,
+      String textureVertexReferenceNumber) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  static ReferenceNumbers createReferenceNumbers(String geometricVertexReferenceNumber,
+      String textureVertexReferenceNumber, String normalVertexReferenceNumber) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  static Point createPoint() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  static Line createLine() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  static Face createFace() {
+    // TODO Auto-generated method stub
+    return null;
+  }
 }
