@@ -1,7 +1,7 @@
 package com.ht.wfp3.api;
 
 /**
- * The Texture Vertex.
+ * The Texture Vertex element.
  * 
  * vt u v w
  * 

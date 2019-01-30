@@ -1,5 +1,13 @@
 package com.ht.wfp3.api;
 
+/**
+ * The OBJ element factory.
+ * 
+ * The purpose of this factory is to hide the details of how the elements are created.
+ * 
+ * @author nickl
+ *
+ */
 public interface Factory {
 
   static Document createObjDocument() {

@@ -1,7 +1,7 @@
 package com.ht.wfp3.api;
 
 /**
- * The Geometric Vertex.
+ * The Geometric Vertex element.
  * 
  * v x y z w
  * 

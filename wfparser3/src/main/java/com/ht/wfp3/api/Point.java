@@ -3,7 +3,7 @@ package com.ht.wfp3.api;
 import java.util.List;
 
 /**
- * The Point Polygon Element
+ * The Point Polygon element.
  * 
  * p v1 v2 v3 . . .
  * 

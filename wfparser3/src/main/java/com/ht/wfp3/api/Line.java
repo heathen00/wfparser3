@@ -3,7 +3,7 @@ package com.ht.wfp3.api;
 import java.util.List;
 
 /**
- * The Line Polygon Element
+ * The Line Polygon element.
  * 
  * l v1/vt1 v2/vt2 v3/vt3 . . .
  * 

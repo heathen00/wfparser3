@@ -1,7 +1,7 @@
 package com.ht.wfp3.api;
 
 /**
- * The Normal Vertex
+ * The Normal Vertex element.
  * 
  * Polygonal and free-form geometry statement.
  * 

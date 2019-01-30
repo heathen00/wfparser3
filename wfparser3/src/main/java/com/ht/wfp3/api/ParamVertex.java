@@ -2,7 +2,7 @@ package com.ht.wfp3.api;
 
 
 /**
- * The Parameter Vertex
+ * The Parameter Vertex element.
  * 
  * Free-form geometry statement.
  * 

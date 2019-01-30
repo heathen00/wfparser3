@@ -1,6 +1,9 @@
 package com.ht.wfp3.api;
 
 /**
+ * The Vertex Reference Numbers. Not an element but a component of elements such as Point, Line,
+ * Face, ...
+ * 
  * Referencing groups of vertices
  * 
  * Some elements, such as faces and surfaces, may have a triplet of numbers that reference vertex
@@ -23,7 +26,7 @@ package com.ht.wfp3.api;
  *
  */
 public interface ReferenceNumbers {
-  
+
   int getGeometricVertexReferenceNumber();
 
   int getTextureVertexReferenceNumber();
