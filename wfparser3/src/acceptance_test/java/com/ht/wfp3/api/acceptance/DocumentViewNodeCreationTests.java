@@ -2,6 +2,7 @@ package com.ht.wfp3.api.acceptance;
 
 import static org.junit.Assert.*;
 
+import com.ht.wfp3.api.CSType;
 import com.ht.wfp3.api.Document;
 import com.ht.wfp3.api.Face;
 import com.ht.wfp3.api.Factory;
@@ -20,6 +21,9 @@ public class DocumentViewNodeCreationTests {
 
   // TODO: You know you'll need a test for adding to line "0". Your choices is that it fails OR it
   // just adds to line 1.
+  
+  // TODO: Can you add nodes out of order, i.e., one at line 2, then one at line 5, then another at line 1?
+  // TODO: What if you skip lines?  Should the skipped lines just be rendered as blank lines?
 
 
   @Test
@@ -110,4 +114,15 @@ public class DocumentViewNodeCreationTests {
     
     assertEquals(face, objDocument.peekAtNodeAtLine(FIRST_LINE));
   }
+  
+  @Test
+  public void Document_addOneCSTypeToEmptyObjDocumentAtSpecifiedLine_OneCSTypeIsAddedAtSpecifiedLine() {
+    Document objDocument = Factory.createObjDocument();
+    
+    CSType cstype = Factory.createCSType(false, CSType.Key.BMATRIX);
+    objDocument.insertNodeAtLine(cstype, FIRST_LINE);
+    
+    assertEquals(cstype, objDocument.peekAtNodeAtLine(FIRST_LINE));
+  }
+  
 }

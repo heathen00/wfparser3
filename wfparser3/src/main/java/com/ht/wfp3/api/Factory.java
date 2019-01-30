@@ -1,5 +1,7 @@
 package com.ht.wfp3.api;
 
+import com.ht.wfp3.api.CSType.Key;
+
 /**
  * The OBJ element factory.
  * 
@@ -63,6 +65,11 @@ public interface Factory {
   }
 
   static Face createFace() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  static CSType createCSType(boolean isRational, CSType.Key typeKey) {
     // TODO Auto-generated method stub
     return null;
   }

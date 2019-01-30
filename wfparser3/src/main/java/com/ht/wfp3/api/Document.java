@@ -30,4 +30,6 @@ public interface Document {
   void insertNodeAtLine(Line line, int lineNumber);
 
   void insertNodeAtLine(Face face, int lineNumber);
+
+  void insertNodeAtLine(CSType cstype, int firstLine);
 }
