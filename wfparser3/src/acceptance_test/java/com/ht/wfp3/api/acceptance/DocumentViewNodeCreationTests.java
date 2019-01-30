@@ -14,7 +14,7 @@ import com.ht.wfp3.api.TexVertex;
 
 import org.junit.Test;
 
-public class DocumentViewElementCreationTests {
+public class DocumentViewNodeCreationTests {
 
   private static final int FIRST_LINE = 1;
 
@@ -34,9 +34,9 @@ public class DocumentViewElementCreationTests {
     Document objDocument = Factory.createObjDocument();
 
     GeoVertex geoVertex = Factory.createGeoVertex("1.000", "2.000", "3.000", "4.000");
-    objDocument.insertElementAtLine(geoVertex, FIRST_LINE);
+    objDocument.insertNodeAtLine(geoVertex, FIRST_LINE);
 
-    assertEquals(geoVertex, objDocument.peekAtElementAtLine(FIRST_LINE));
+    assertEquals(geoVertex, objDocument.peekAtNodeAtLine(FIRST_LINE));
   }
 
   @Test
@@ -44,9 +44,9 @@ public class DocumentViewElementCreationTests {
     Document objDocument = Factory.createObjDocument();
 
     TexVertex texVertex = Factory.createTexVertex("3.3", "2.2", "1.1");
-    objDocument.insertElementAtLine(texVertex, FIRST_LINE);
+    objDocument.insertNodeAtLine(texVertex, FIRST_LINE);
 
-    assertEquals(texVertex, objDocument.peekAtElementAtLine(FIRST_LINE));
+    assertEquals(texVertex, objDocument.peekAtNodeAtLine(FIRST_LINE));
   }
 
   @Test
@@ -54,9 +54,9 @@ public class DocumentViewElementCreationTests {
     Document objDocument = Factory.createObjDocument();
 
     NormalVertex normalVertex = Factory.createNormalVertex("9.9", "8.8", "7.7");
-    objDocument.insertElementAtLine(normalVertex, FIRST_LINE);
+    objDocument.insertNodeAtLine(normalVertex, FIRST_LINE);
 
-    assertEquals(normalVertex, objDocument.peekAtElementAtLine(FIRST_LINE));
+    assertEquals(normalVertex, objDocument.peekAtNodeAtLine(FIRST_LINE));
   }
 
   @Test
@@ -64,9 +64,9 @@ public class DocumentViewElementCreationTests {
     Document objDocument = Factory.createObjDocument();
 
     ParamVertex paramVertex = Factory.createParamVertex("3.13", "3.31", "1.33");
-    objDocument.insertElementAtLine(paramVertex, FIRST_LINE);
+    objDocument.insertNodeAtLine(paramVertex, FIRST_LINE);
 
-    assertEquals(paramVertex, objDocument.peekAtElementAtLine(FIRST_LINE));
+    assertEquals(paramVertex, objDocument.peekAtNodeAtLine(FIRST_LINE));
   }
 
   @Test
@@ -78,9 +78,9 @@ public class DocumentViewElementCreationTests {
     point.appendReferenceNumbers(Factory.createReferenceNumbers("2"));
     point.appendReferenceNumbers(Factory.createReferenceNumbers("3"));
     point.appendReferenceNumbers(Factory.createReferenceNumbers("4"));
-    objDocument.insertElementAtLine(point, FIRST_LINE);
+    objDocument.insertNodeAtLine(point, FIRST_LINE);
 
-    assertEquals(point, objDocument.peekAtElementAtLine(FIRST_LINE));
+    assertEquals(point, objDocument.peekAtNodeAtLine(FIRST_LINE));
   }
   
   @Test
@@ -92,9 +92,9 @@ public class DocumentViewElementCreationTests {
     line.appendReferenceNumbers(Factory.createReferenceNumbers("2", "2"));
     line.appendReferenceNumbers(Factory.createReferenceNumbers("3", "3"));
     line.appendReferenceNumbers(Factory.createReferenceNumbers("4", "4"));
-    objDocument.insertElementAtLine(line, FIRST_LINE);
+    objDocument.insertNodeAtLine(line, FIRST_LINE);
 
-    assertEquals(line, objDocument.peekAtElementAtLine(FIRST_LINE));
+    assertEquals(line, objDocument.peekAtNodeAtLine(FIRST_LINE));
   }
   
   @Test
@@ -106,8 +106,8 @@ public class DocumentViewElementCreationTests {
     face.appendReferenceNumbers(Factory.createReferenceNumbers("2", "2", "2"));
     face.appendReferenceNumbers(Factory.createReferenceNumbers("3", "3", "3"));
     face.appendReferenceNumbers(Factory.createReferenceNumbers("4", "4", "4"));
-    objDocument.insertElementAtLine(face, FIRST_LINE);
+    objDocument.insertNodeAtLine(face, FIRST_LINE);
     
-    assertEquals(face, objDocument.peekAtElementAtLine(FIRST_LINE));
+    assertEquals(face, objDocument.peekAtNodeAtLine(FIRST_LINE));
   }
 }

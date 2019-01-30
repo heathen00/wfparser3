@@ -2,7 +2,7 @@ package com.ht.wfp3.api;
 
 
 /**
- * The Parameter Vertex element.
+ * The Parameter Vertex data.
  * 
  * Free-form geometry statement.
  * 
@@ -33,7 +33,7 @@ package com.ht.wfp3.api;
  * @author nickl
  *
  */
-public interface ParamVertex extends Element {
+public interface ParamVertex extends Node {
   String getUCoord();
 
   String getVCoord();

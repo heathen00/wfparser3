@@ -1,7 +1,7 @@
 package com.ht.wfp3.api;
 
 /**
- * The Texture Vertex element.
+ * The Texture Vertex data.
  * 
  * vt u v w
  * 
@@ -30,7 +30,7 @@ package com.ht.wfp3.api;
  * @author nickl
  *
  */
-public interface TexVertex extends Element {
+public interface TexVertex extends Node {
   String getUCoord();
 
   String getVCoord();

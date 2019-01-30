@@ -36,7 +36,7 @@ import java.util.List;
  * @author nickl
  *
  */
-public interface Point extends Element {
+public interface Point extends Node {
 
   void appendReferenceNumbers(ReferenceNumbers referenceNumbers);
 

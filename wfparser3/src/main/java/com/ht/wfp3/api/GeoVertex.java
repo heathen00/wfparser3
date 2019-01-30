@@ -1,7 +1,7 @@
 package com.ht.wfp3.api;
 
 /**
- * The Geometric Vertex element.
+ * The Geometric Vertex data.
  * 
  * v x y z w
  * 
@@ -28,7 +28,7 @@ package com.ht.wfp3.api;
  * @author nickl
  *
  */
-public interface GeoVertex extends Element {
+public interface GeoVertex extends Node {
   String getXCoord();
 
   String getYCoord();

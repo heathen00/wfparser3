@@ -1,7 +1,7 @@
 package com.ht.wfp3.api;
 
 /**
- * The Normal Vertex element.
+ * The Normal Vertex data.
  * 
  * Polygonal and free-form geometry statement.
  * 
@@ -24,7 +24,7 @@ package com.ht.wfp3.api;
  * @author nickl
  *
  */
-public interface NormalVertex extends Element {
+public interface NormalVertex extends Node {
   String getICoord();
 
   String getJCoord();

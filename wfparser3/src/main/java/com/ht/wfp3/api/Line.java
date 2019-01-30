@@ -43,7 +43,7 @@ import java.util.List;
  * @author nickl
  *
  */
-public interface Line extends Element {
+public interface Line extends Node {
 
   void appendReferenceNumbers(ReferenceNumbers referenceNumbers);
 
