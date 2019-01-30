@@ -1,6 +1,8 @@
 package com.ht.wfp3.api;
 
-import com.ht.wfp3.api.CSType.Key;
+import com.ht.wfp3.api.BasisMatrix.Axis;
+
+import java.util.List;
 
 /**
  * The OBJ element factory.
@@ -69,7 +71,22 @@ public interface Factory {
     return null;
   }
 
-  static CSType createCSType(boolean isRational, CSType.Key typeKey) {
+  static CurveOrSurface createCurveOrSurfaceType(boolean isRational, CurveOrSurface.Type typeKey) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  static Degree createDegree(String uAxisDegree, String vAxisDegree) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  static BasisMatrix createBasisMatrix(Axis axis, List<String> flattenedMatrix) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  static StepSize createStepSize(String stepSizeInUAxis, String stepSizeInVAxis) {
     // TODO Auto-generated method stub
     return null;
   }

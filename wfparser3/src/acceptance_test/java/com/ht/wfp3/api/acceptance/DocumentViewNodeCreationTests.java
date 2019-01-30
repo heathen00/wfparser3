@@ -2,7 +2,9 @@ package com.ht.wfp3.api.acceptance;
 
 import static org.junit.Assert.*;
 
-import com.ht.wfp3.api.CSType;
+import com.ht.wfp3.api.BasisMatrix;
+import com.ht.wfp3.api.CurveOrSurface;
+import com.ht.wfp3.api.Degree;
 import com.ht.wfp3.api.Document;
 import com.ht.wfp3.api.Face;
 import com.ht.wfp3.api.Factory;
@@ -11,7 +13,10 @@ import com.ht.wfp3.api.Line;
 import com.ht.wfp3.api.NormalVertex;
 import com.ht.wfp3.api.ParamVertex;
 import com.ht.wfp3.api.Point;
+import com.ht.wfp3.api.StepSize;
 import com.ht.wfp3.api.TexVertex;
+
+import java.util.Arrays;
 
 import org.junit.Test;
 
@@ -119,10 +124,43 @@ public class DocumentViewNodeCreationTests {
   public void Document_addOneCSTypeToEmptyObjDocumentAtSpecifiedLine_OneCSTypeIsAddedAtSpecifiedLine() {
     Document objDocument = Factory.createObjDocument();
     
-    CSType cstype = Factory.createCSType(false, CSType.Key.BMATRIX);
+    CurveOrSurface cstype = Factory.createCurveOrSurfaceType(false, CurveOrSurface.Type.BMATRIX);
     objDocument.insertNodeAtLine(cstype, FIRST_LINE);
     
     assertEquals(cstype, objDocument.peekAtNodeAtLine(FIRST_LINE));
   }
   
+  @Test
+  public void Document_addOneDegreeToEmptyObjDocumentAtSpecifiedLine_OneDegreeIsAddedAtSpecifiedLine() {
+    Document objDocument = Factory.createObjDocument();
+    
+    Degree deg = Factory.createDegree("5", "6");
+    objDocument.insertNodeAtLine(deg, FIRST_LINE);
+    
+    assertEquals(deg, objDocument.peekAtNodeAtLine(FIRST_LINE));
+  }
+  
+  @Test
+  public void Document_addOneBasisMatrixToEmptyObjDocumentAtSpecifiedLine_OneBasisMatrixIsAddedAtSpecifiedLine() {
+    Document objDocument = Factory.createObjDocument();
+    
+    String[] flattenedUAxisBasisMatrix = { 
+        "1.234", "-1.234", "4.321", 
+        "-4.321", "9.876", "-9.876"
+    };
+    BasisMatrix bmat = Factory.createBasisMatrix(BasisMatrix.Axis.U, Arrays.asList(flattenedUAxisBasisMatrix));
+    objDocument.insertNodeAtLine(bmat, FIRST_LINE);
+    
+    assertEquals(bmat, objDocument.peekAtNodeAtLine(FIRST_LINE));
+  }
+  
+  @Test
+  public void Document_addOneStepToEmptyObjDocumentAtSpecifiedLine_OneStepIsAddedAtSpecifiedLine() {
+    Document objDocument = Factory.createObjDocument();
+    
+    StepSize step = Factory.createStepSize("7", "33");
+    objDocument.insertNodeAtLine(step, FIRST_LINE);
+    
+    assertEquals(step, objDocument.peekAtNodeAtLine(FIRST_LINE));
+  }
 }

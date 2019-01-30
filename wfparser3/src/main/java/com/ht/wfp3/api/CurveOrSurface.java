@@ -1,7 +1,7 @@
 package com.ht.wfp3.api;
 
 /**
- * The curve of service type for free form geometry.
+ * The curve or service type for free form geometry.
  * 
  * cstype rat type
  * 
@@ -31,8 +31,8 @@ package com.ht.wfp3.api;
  * @author nickl
  *
  */
-public interface CSType {
-  enum Key {
+public interface CurveOrSurface extends Node {
+  enum Type {
     BMATRIX,
     BEZIER,
     BSPLINE,
@@ -42,5 +42,5 @@ public interface CSType {
 
   boolean isRational();
 
-  CSType.Key getTypeKey();
+  CurveOrSurface.Type getType();
 }
