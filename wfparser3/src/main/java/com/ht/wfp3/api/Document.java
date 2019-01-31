@@ -37,5 +37,11 @@ public interface Document {
 
   void insertNodeAtLine(BasisMatrix bmat, int lineNumber);
 
-  void insertNodeAtLine(StepSize stepSize, int lineNumber);
+  void insertNodeAtLine(StepSize step, int lineNumber);
+
+  void insertNodeAtLine(Curve curv, int lineNumber);
+
+  void insertNodeAtLine(Curve2D curv2, int lineNumber);
+
+  void insertNodeAtLine(Surface surf, int lineNumber);
 }

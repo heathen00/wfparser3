@@ -3,6 +3,8 @@ package com.ht.wfp3.api.acceptance;
 import static org.junit.Assert.*;
 
 import com.ht.wfp3.api.BasisMatrix;
+import com.ht.wfp3.api.Curve;
+import com.ht.wfp3.api.Curve2D;
 import com.ht.wfp3.api.CurveOrSurface;
 import com.ht.wfp3.api.Degree;
 import com.ht.wfp3.api.Document;
@@ -14,6 +16,7 @@ import com.ht.wfp3.api.NormalVertex;
 import com.ht.wfp3.api.ParamVertex;
 import com.ht.wfp3.api.Point;
 import com.ht.wfp3.api.StepSize;
+import com.ht.wfp3.api.Surface;
 import com.ht.wfp3.api.TexVertex;
 
 import java.util.Arrays;
@@ -26,9 +29,10 @@ public class DocumentViewNodeCreationTests {
 
   // TODO: You know you'll need a test for adding to line "0". Your choices is that it fails OR it
   // just adds to line 1.
-  
-  // TODO: Can you add nodes out of order, i.e., one at line 2, then one at line 5, then another at line 1?
-  // TODO: What if you skip lines?  Should the skipped lines just be rendered as blank lines?
+
+  // TODO: Can you add nodes out of order, i.e., one at line 2, then one at line 5, then another at
+  // line 1?
+  // TODO: What if you skip lines? Should the skipped lines just be rendered as blank lines?
 
 
   @Test
@@ -91,11 +95,11 @@ public class DocumentViewNodeCreationTests {
 
     assertEquals(point, objDocument.peekAtNodeAtLine(FIRST_LINE));
   }
-  
+
   @Test
   public void Document_addOneLineToEmptyObjDocumentAtSpecifiedLine_OneLineIsAddedAtSpecifiedLine() {
     Document objDocument = Factory.createObjDocument();
-    
+
     Line line = Factory.createLine();
     line.appendReferenceNumbers(Factory.createReferenceNumbers("1", "1"));
     line.appendReferenceNumbers(Factory.createReferenceNumbers("2", "2"));
@@ -105,62 +109,105 @@ public class DocumentViewNodeCreationTests {
 
     assertEquals(line, objDocument.peekAtNodeAtLine(FIRST_LINE));
   }
-  
+
   @Test
   public void Document_addOneFaceToEmptyObjDocumentAtSpecifiedLine_OneFaceIsAddedAtSpecifiedLine() {
     Document objDocument = Factory.createObjDocument();
-    
+
     Face face = Factory.createFace();
     face.appendReferenceNumbers(Factory.createReferenceNumbers("1", "1", "1"));
     face.appendReferenceNumbers(Factory.createReferenceNumbers("2", "2", "2"));
     face.appendReferenceNumbers(Factory.createReferenceNumbers("3", "3", "3"));
     face.appendReferenceNumbers(Factory.createReferenceNumbers("4", "4", "4"));
     objDocument.insertNodeAtLine(face, FIRST_LINE);
-    
+
     assertEquals(face, objDocument.peekAtNodeAtLine(FIRST_LINE));
   }
-  
+
   @Test
   public void Document_addOneCSTypeToEmptyObjDocumentAtSpecifiedLine_OneCSTypeIsAddedAtSpecifiedLine() {
     Document objDocument = Factory.createObjDocument();
-    
+
     CurveOrSurface cstype = Factory.createCurveOrSurfaceType(false, CurveOrSurface.Type.BMATRIX);
     objDocument.insertNodeAtLine(cstype, FIRST_LINE);
-    
+
     assertEquals(cstype, objDocument.peekAtNodeAtLine(FIRST_LINE));
   }
-  
+
   @Test
   public void Document_addOneDegreeToEmptyObjDocumentAtSpecifiedLine_OneDegreeIsAddedAtSpecifiedLine() {
     Document objDocument = Factory.createObjDocument();
-    
+
     Degree deg = Factory.createDegree("5", "6");
     objDocument.insertNodeAtLine(deg, FIRST_LINE);
-    
+
     assertEquals(deg, objDocument.peekAtNodeAtLine(FIRST_LINE));
   }
-  
+
   @Test
   public void Document_addOneBasisMatrixToEmptyObjDocumentAtSpecifiedLine_OneBasisMatrixIsAddedAtSpecifiedLine() {
     Document objDocument = Factory.createObjDocument();
-    
-    String[] flattenedUAxisBasisMatrix = { 
-        "1.234", "-1.234", "4.321", 
-        "-4.321", "9.876", "-9.876"
-    };
-    BasisMatrix bmat = Factory.createBasisMatrix(BasisMatrix.Axis.U, Arrays.asList(flattenedUAxisBasisMatrix));
+
+    String[] flattenedUAxisBasisMatrix =
+        { "1.234", "-1.234", "4.321", "-4.321", "9.876", "-9.876" };
+    BasisMatrix bmat =
+        Factory.createBasisMatrix(BasisMatrix.Axis.U, Arrays.asList(flattenedUAxisBasisMatrix));
     objDocument.insertNodeAtLine(bmat, FIRST_LINE);
-    
+
     assertEquals(bmat, objDocument.peekAtNodeAtLine(FIRST_LINE));
   }
-  
+
   @Test
   public void Document_addOneStepToEmptyObjDocumentAtSpecifiedLine_OneStepIsAddedAtSpecifiedLine() {
     Document objDocument = Factory.createObjDocument();
-    
+
     StepSize step = Factory.createStepSize("7", "33");
     objDocument.insertNodeAtLine(step, FIRST_LINE);
-    
+
     assertEquals(step, objDocument.peekAtNodeAtLine(FIRST_LINE));
+  }
+
+  @Test
+  public void Document_addOneCurveToEmptyObjDocumentAtSpecifiedLine_OneCurveIsAddedAtSpecifiedLine() {
+    Document objDocument = Factory.createObjDocument();
+
+    Curve curv = Factory.createCurve("1.23456", "9.5321");
+    curv.appendReferenceNumbers(Factory.createReferenceNumbers("1"));
+    curv.appendReferenceNumbers(Factory.createReferenceNumbers("2"));
+    curv.appendReferenceNumbers(Factory.createReferenceNumbers("3"));
+    curv.appendReferenceNumbers(Factory.createReferenceNumbers("4"));
+    objDocument.insertNodeAtLine(curv, FIRST_LINE);
+
+    assertEquals(curv, objDocument.peekAtNodeAtLine(FIRST_LINE));
+  }
+
+  @Test
+  public void Document_addOneCurve2DToEmptyObjDocumentAtSpecifiedLine_OneCurve2DIsAddedAtSpecifiedLine() {
+    Document objDocument = Factory.createObjDocument();
+
+    // TODO: The reference number in this case is a Parametric Vertex and NOT a Geometric Vertex.
+    // You'll need to redo the reference number implementations.
+    Curve2D curv2 = Factory.createCurve2D();
+    curv2.appendReferenceNumbers(Factory.createReferenceNumbers("1"));
+    curv2.appendReferenceNumbers(Factory.createReferenceNumbers("2"));
+    curv2.appendReferenceNumbers(Factory.createReferenceNumbers("3"));
+    curv2.appendReferenceNumbers(Factory.createReferenceNumbers("4"));
+    objDocument.insertNodeAtLine(curv2, FIRST_LINE);
+
+    assertEquals(curv2, objDocument.peekAtNodeAtLine(FIRST_LINE));
+  }
+
+  @Test
+  public void Document_addOneSurfaceToEmptyObjDocumentAtSpecifiedLine_OneSurfaceIsAddedAtSpecifiedLine() {
+    Document objDocument = Factory.createObjDocument();
+
+    Surface surf = Factory.createSurface("1.2345", "-5.4321", "9.8765", "-5.6789");
+    surf.appendReferenceNumbers(Factory.createReferenceNumbers("1", "1", "1"));
+    surf.appendReferenceNumbers(Factory.createReferenceNumbers("2", "2", "2"));
+    surf.appendReferenceNumbers(Factory.createReferenceNumbers("3", "3", "3"));
+    surf.appendReferenceNumbers(Factory.createReferenceNumbers("4", "4", "4"));
+    objDocument.insertNodeAtLine(surf, FIRST_LINE);
+
+    assertEquals(surf, objDocument.peekAtNodeAtLine(FIRST_LINE));
   }
 }

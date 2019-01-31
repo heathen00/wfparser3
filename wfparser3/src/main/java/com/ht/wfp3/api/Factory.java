@@ -90,4 +90,20 @@ public interface Factory {
     // TODO Auto-generated method stub
     return null;
   }
+
+  static Curve createCurve(String startingParameterValue, String endingParameterValue) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  static Curve2D createCurve2D() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  static Surface createSurface(String startingParameterValueUAxis, String endingParameterValueUAxis,
+      String startingParameterValueVAxis, String endingParameterValueVAxis) {
+    // TODO Auto-generated method stub
+    return null;
+  }
 }
