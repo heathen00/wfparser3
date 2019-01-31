@@ -26,12 +26,13 @@ import java.util.List;
  *
  */
 public interface Curve extends Node {
-  
+
   String getStartingParameterValue();
+
   String getEndingParameterValue();
 
   void appendReferenceNumbers(ReferenceNumbers referenceNumbers);
-  
+
   List<ReferenceNumbers> getControlPointReferenceNumbers();
 
 }

@@ -22,15 +22,24 @@ package com.ht.wfp3.api;
  * There is no space between numbers and the slashes. There may be more than one series of geometric
  * vertex/texture vertex/vertex normal numbers on a line.
  * 
+ * What sort of reference numbers are used and by which elements?
+ * 
+ * Point: geometric vertex (required).
+ * 
+ * Line: geometric vertex (required), texture vertex (optional).
+ * 
+ * Face: geometric vertex (required), texture vertex (optional) normal vertex (optional).
+ * 
+ * Curve: geometric vertex (required). NOTE: referred to as "control point" in specification.
+ * 
+ * Curve2D: parameter vertex (required).
+ * 
+ * Surface: geometric vertex (required), texture vertex (optional), normal vertex (optional).
+ * 
  * @author nickl
  *
  */
 public interface ReferenceNumbers {
-
-  int getGeometricVertexReferenceNumber();
-
-  int getTextureVertexReferenceNumber();
-
-  int getNormalVertexReferenceNumber();
-
+  boolean supportsVertex(ReferenceNumber.Vertex vertex);
+  ReferenceNumber getReferenceNumber(ReferenceNumber.Vertex vertex);
 }

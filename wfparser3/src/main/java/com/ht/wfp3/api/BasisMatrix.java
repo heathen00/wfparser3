@@ -39,7 +39,9 @@ public interface BasisMatrix extends Node {
     U,
     V,
   }
+
   BasisMatrix.Axis getBasisMatrixAxis();
+
   List<String> getFlattenedBasisMatrix();
 }
 

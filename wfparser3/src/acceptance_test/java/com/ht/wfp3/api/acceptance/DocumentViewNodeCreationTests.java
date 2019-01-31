@@ -185,8 +185,6 @@ public class DocumentViewNodeCreationTests {
   public void Document_addOneCurve2DToEmptyObjDocumentAtSpecifiedLine_OneCurve2DIsAddedAtSpecifiedLine() {
     Document objDocument = Factory.createObjDocument();
 
-    // TODO: The reference number in this case is a Parametric Vertex and NOT a Geometric Vertex.
-    // You'll need to redo the reference number implementations.
     Curve2D curv2 = Factory.createCurve2D();
     curv2.appendReferenceNumbers(Factory.createReferenceNumbers("1"));
     curv2.appendReferenceNumbers(Factory.createReferenceNumbers("2"));
