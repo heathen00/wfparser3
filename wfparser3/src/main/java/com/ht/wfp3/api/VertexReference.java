@@ -1,7 +1,7 @@
 package com.ht.wfp3.api;
 
-public interface ReferenceNumber {
-  enum Vertex {
+public interface VertexReference {
+  enum Type {
     GEOMETRIC,
     TEXTURE,
     NORMAL,
@@ -12,5 +12,5 @@ public interface ReferenceNumber {
 
   int getValue();
 
-  ReferenceNumber.Vertex getVertex();
+  VertexReference.Type getVertex();
 }

@@ -31,8 +31,8 @@ public interface Curve extends Node {
 
   String getEndingParameterValue();
 
-  void appendReferenceNumbers(ReferenceNumbers referenceNumbers);
+  void appendControlPointVertexReferenceGroup(VertexReferenceGroup referenceNumbers);
 
-  List<ReferenceNumbers> getControlPointReferenceNumbers();
+  List<VertexReferenceGroup> getControlPointVertexReferenceGroup();
 
 }

@@ -24,8 +24,8 @@ import java.util.List;
  */
 public interface Curve2D extends Node {
 
-  void appendReferenceNumbers(ReferenceNumbers referenceNumbers);
+  void appendControlPointVertexReferenceGroup(VertexReferenceGroup referenceNumbers);
 
-  List<ReferenceNumbers> getControlPointReferenceNumbers();
+  List<VertexReferenceGroup> getControlPointVertexReferenceGroup();
 
 }

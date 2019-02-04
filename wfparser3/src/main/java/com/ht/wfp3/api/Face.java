@@ -61,8 +61,8 @@ import java.util.List;
  */
 public interface Face {
 
-  void appendReferenceNumbers(ReferenceNumbers referenceNumbers);
+  void appendReferenceNumbers(VertexReferenceGroup referenceNumbers);
 
-  List<ReferenceNumbers> getReferenceNumbers();
+  List<VertexReferenceGroup> getReferenceNumbers();
 
 }

@@ -26,6 +26,8 @@ import com.ht.wfp3.api.StepSize;
 import com.ht.wfp3.api.Surface;
 import com.ht.wfp3.api.TexVertex;
 import com.ht.wfp3.api.Trim;
+import com.ht.wfp3.api.VertexReference;
+import com.ht.wfp3.api.VertexReferenceGroup;
 
 import java.util.Arrays;
 
@@ -97,10 +99,22 @@ public class DocumentViewNodeCreationTests {
     Document objDocument = Factory.createObjDocument();
 
     Point point = Factory.createPoint();
-    point.appendReferenceNumbers(Factory.createReferenceNumbers("1"));
-    point.appendReferenceNumbers(Factory.createReferenceNumbers("2"));
-    point.appendReferenceNumbers(Factory.createReferenceNumbers("3"));
-    point.appendReferenceNumbers(Factory.createReferenceNumbers("4"));
+    VertexReferenceGroup vertexReferenceGroup = Factory.createVertexReferenceGroup();
+    vertexReferenceGroup
+        .addVertexReference(Factory.createVertexReference(VertexReference.Type.GEOMETRIC, "1"));
+    point.appendReferenceNumbers(vertexReferenceGroup);
+    vertexReferenceGroup = Factory.createVertexReferenceGroup();
+    vertexReferenceGroup
+        .addVertexReference(Factory.createVertexReference(VertexReference.Type.GEOMETRIC, "2"));
+    point.appendReferenceNumbers(vertexReferenceGroup);
+    vertexReferenceGroup = Factory.createVertexReferenceGroup();
+    vertexReferenceGroup
+        .addVertexReference(Factory.createVertexReference(VertexReference.Type.GEOMETRIC, "3"));
+    point.appendReferenceNumbers(vertexReferenceGroup);
+    vertexReferenceGroup = Factory.createVertexReferenceGroup();
+    vertexReferenceGroup
+        .addVertexReference(Factory.createVertexReference(VertexReference.Type.GEOMETRIC, "4"));
+    point.appendReferenceNumbers(vertexReferenceGroup);
     objDocument.insertNodeAtLine(point, FIRST_LINE);
 
     assertEquals(point, objDocument.peekAtNodeAtLine(FIRST_LINE));
@@ -111,10 +125,30 @@ public class DocumentViewNodeCreationTests {
     Document objDocument = Factory.createObjDocument();
 
     Line line = Factory.createLine();
-    line.appendReferenceNumbers(Factory.createReferenceNumbers("1", "1"));
-    line.appendReferenceNumbers(Factory.createReferenceNumbers("2", "2"));
-    line.appendReferenceNumbers(Factory.createReferenceNumbers("3", "3"));
-    line.appendReferenceNumbers(Factory.createReferenceNumbers("4", "4"));
+    VertexReferenceGroup vertexReferenceGroup = Factory.createVertexReferenceGroup();
+    vertexReferenceGroup
+        .addVertexReference(Factory.createVertexReference(VertexReference.Type.GEOMETRIC, "1"));
+    vertexReferenceGroup
+        .addVertexReference(Factory.createVertexReference(VertexReference.Type.TEXTURE, "1"));
+    line.appendReferenceNumbers(vertexReferenceGroup);
+    vertexReferenceGroup = Factory.createVertexReferenceGroup();
+    vertexReferenceGroup
+        .addVertexReference(Factory.createVertexReference(VertexReference.Type.GEOMETRIC, "2"));
+    vertexReferenceGroup
+        .addVertexReference(Factory.createVertexReference(VertexReference.Type.TEXTURE, "2"));
+    line.appendReferenceNumbers(vertexReferenceGroup);
+    vertexReferenceGroup = Factory.createVertexReferenceGroup();
+    vertexReferenceGroup
+        .addVertexReference(Factory.createVertexReference(VertexReference.Type.GEOMETRIC, "3"));
+    vertexReferenceGroup
+        .addVertexReference(Factory.createVertexReference(VertexReference.Type.TEXTURE, "3"));
+    line.appendReferenceNumbers(vertexReferenceGroup);
+    vertexReferenceGroup = Factory.createVertexReferenceGroup();
+    vertexReferenceGroup
+        .addVertexReference(Factory.createVertexReference(VertexReference.Type.GEOMETRIC, "4"));
+    vertexReferenceGroup
+        .addVertexReference(Factory.createVertexReference(VertexReference.Type.TEXTURE, "4"));
+    line.appendReferenceNumbers(vertexReferenceGroup);
     objDocument.insertNodeAtLine(line, FIRST_LINE);
 
     assertEquals(line, objDocument.peekAtNodeAtLine(FIRST_LINE));
@@ -125,10 +159,38 @@ public class DocumentViewNodeCreationTests {
     Document objDocument = Factory.createObjDocument();
 
     Face face = Factory.createFace();
-    face.appendReferenceNumbers(Factory.createReferenceNumbers("1", "1", "1"));
-    face.appendReferenceNumbers(Factory.createReferenceNumbers("2", "2", "2"));
-    face.appendReferenceNumbers(Factory.createReferenceNumbers("3", "3", "3"));
-    face.appendReferenceNumbers(Factory.createReferenceNumbers("4", "4", "4"));
+    VertexReferenceGroup vertexReferenceGroup = Factory.createVertexReferenceGroup();
+    vertexReferenceGroup
+        .addVertexReference(Factory.createVertexReference(VertexReference.Type.GEOMETRIC, "1"));
+    vertexReferenceGroup
+        .addVertexReference(Factory.createVertexReference(VertexReference.Type.TEXTURE, "1"));
+    vertexReferenceGroup
+        .addVertexReference(Factory.createVertexReference(VertexReference.Type.NORMAL, "1"));
+    face.appendReferenceNumbers(vertexReferenceGroup);
+    vertexReferenceGroup = Factory.createVertexReferenceGroup();
+    vertexReferenceGroup
+        .addVertexReference(Factory.createVertexReference(VertexReference.Type.GEOMETRIC, "2"));
+    vertexReferenceGroup
+        .addVertexReference(Factory.createVertexReference(VertexReference.Type.TEXTURE, "2"));
+    vertexReferenceGroup
+        .addVertexReference(Factory.createVertexReference(VertexReference.Type.NORMAL, "2"));
+    face.appendReferenceNumbers(vertexReferenceGroup);
+    vertexReferenceGroup = Factory.createVertexReferenceGroup();
+    vertexReferenceGroup
+        .addVertexReference(Factory.createVertexReference(VertexReference.Type.GEOMETRIC, "3"));
+    vertexReferenceGroup
+        .addVertexReference(Factory.createVertexReference(VertexReference.Type.TEXTURE, "3"));
+    vertexReferenceGroup
+        .addVertexReference(Factory.createVertexReference(VertexReference.Type.NORMAL, "3"));
+    face.appendReferenceNumbers(vertexReferenceGroup);
+    vertexReferenceGroup = Factory.createVertexReferenceGroup();
+    vertexReferenceGroup
+        .addVertexReference(Factory.createVertexReference(VertexReference.Type.GEOMETRIC, "4"));
+    vertexReferenceGroup
+        .addVertexReference(Factory.createVertexReference(VertexReference.Type.TEXTURE, "4"));
+    vertexReferenceGroup
+        .addVertexReference(Factory.createVertexReference(VertexReference.Type.NORMAL, "4"));
+    face.appendReferenceNumbers(vertexReferenceGroup);
     objDocument.insertNodeAtLine(face, FIRST_LINE);
 
     assertEquals(face, objDocument.peekAtNodeAtLine(FIRST_LINE));
@@ -182,10 +244,22 @@ public class DocumentViewNodeCreationTests {
     Document objDocument = Factory.createObjDocument();
 
     Curve curv = Factory.createCurve("1.23456", "9.5321");
-    curv.appendReferenceNumbers(Factory.createReferenceNumbers("1"));
-    curv.appendReferenceNumbers(Factory.createReferenceNumbers("2"));
-    curv.appendReferenceNumbers(Factory.createReferenceNumbers("3"));
-    curv.appendReferenceNumbers(Factory.createReferenceNumbers("4"));
+    VertexReferenceGroup vertexReferenceGroup = Factory.createVertexReferenceGroup();
+    vertexReferenceGroup
+        .addVertexReference(Factory.createVertexReference(VertexReference.Type.GEOMETRIC, "1"));
+    curv.appendControlPointVertexReferenceGroup(vertexReferenceGroup);
+    vertexReferenceGroup = Factory.createVertexReferenceGroup();
+    vertexReferenceGroup
+        .addVertexReference(Factory.createVertexReference(VertexReference.Type.GEOMETRIC, "2"));
+    curv.appendControlPointVertexReferenceGroup(vertexReferenceGroup);
+    vertexReferenceGroup = Factory.createVertexReferenceGroup();
+    vertexReferenceGroup
+        .addVertexReference(Factory.createVertexReference(VertexReference.Type.GEOMETRIC, "3"));
+    curv.appendControlPointVertexReferenceGroup(vertexReferenceGroup);
+    vertexReferenceGroup = Factory.createVertexReferenceGroup();
+    vertexReferenceGroup
+        .addVertexReference(Factory.createVertexReference(VertexReference.Type.GEOMETRIC, "4"));
+    curv.appendControlPointVertexReferenceGroup(vertexReferenceGroup);
     objDocument.insertNodeAtLine(curv, FIRST_LINE);
 
     assertEquals(curv, objDocument.peekAtNodeAtLine(FIRST_LINE));
@@ -196,10 +270,22 @@ public class DocumentViewNodeCreationTests {
     Document objDocument = Factory.createObjDocument();
 
     Curve2D curv2 = Factory.createCurve2D();
-    curv2.appendReferenceNumbers(Factory.createReferenceNumbers("1"));
-    curv2.appendReferenceNumbers(Factory.createReferenceNumbers("2"));
-    curv2.appendReferenceNumbers(Factory.createReferenceNumbers("3"));
-    curv2.appendReferenceNumbers(Factory.createReferenceNumbers("4"));
+    VertexReferenceGroup vertexReferenceGroup = Factory.createVertexReferenceGroup();
+    vertexReferenceGroup
+        .addVertexReference(Factory.createVertexReference(VertexReference.Type.PARAMETER, "1"));
+    curv2.appendControlPointVertexReferenceGroup(vertexReferenceGroup);
+    vertexReferenceGroup = Factory.createVertexReferenceGroup();
+    vertexReferenceGroup
+        .addVertexReference(Factory.createVertexReference(VertexReference.Type.PARAMETER, "2"));
+    curv2.appendControlPointVertexReferenceGroup(vertexReferenceGroup);
+    vertexReferenceGroup = Factory.createVertexReferenceGroup();
+    vertexReferenceGroup
+        .addVertexReference(Factory.createVertexReference(VertexReference.Type.PARAMETER, "3"));
+    curv2.appendControlPointVertexReferenceGroup(vertexReferenceGroup);
+    vertexReferenceGroup = Factory.createVertexReferenceGroup();
+    vertexReferenceGroup
+        .addVertexReference(Factory.createVertexReference(VertexReference.Type.PARAMETER, "4"));
+    curv2.appendControlPointVertexReferenceGroup(vertexReferenceGroup);
     objDocument.insertNodeAtLine(curv2, FIRST_LINE);
 
     assertEquals(curv2, objDocument.peekAtNodeAtLine(FIRST_LINE));
@@ -210,10 +296,38 @@ public class DocumentViewNodeCreationTests {
     Document objDocument = Factory.createObjDocument();
 
     Surface surf = Factory.createSurface("1.2345", "-5.4321", "9.8765", "-5.6789");
-    surf.appendReferenceNumbers(Factory.createReferenceNumbers("1", "1", "1"));
-    surf.appendReferenceNumbers(Factory.createReferenceNumbers("2", "2", "2"));
-    surf.appendReferenceNumbers(Factory.createReferenceNumbers("3", "3", "3"));
-    surf.appendReferenceNumbers(Factory.createReferenceNumbers("4", "4", "4"));
+    VertexReferenceGroup vertexReferenceGroup = Factory.createVertexReferenceGroup();
+    vertexReferenceGroup
+        .addVertexReference(Factory.createVertexReference(VertexReference.Type.GEOMETRIC, "1"));
+    vertexReferenceGroup
+        .addVertexReference(Factory.createVertexReference(VertexReference.Type.TEXTURE, "1"));
+    vertexReferenceGroup
+        .addVertexReference(Factory.createVertexReference(VertexReference.Type.NORMAL, "1"));
+    surf.appendControlPointVertexReferenceGroup(vertexReferenceGroup);
+    vertexReferenceGroup = Factory.createVertexReferenceGroup();
+    vertexReferenceGroup
+        .addVertexReference(Factory.createVertexReference(VertexReference.Type.GEOMETRIC, "2"));
+    vertexReferenceGroup
+        .addVertexReference(Factory.createVertexReference(VertexReference.Type.TEXTURE, "2"));
+    vertexReferenceGroup
+        .addVertexReference(Factory.createVertexReference(VertexReference.Type.NORMAL, "2"));
+    surf.appendControlPointVertexReferenceGroup(vertexReferenceGroup);
+    vertexReferenceGroup = Factory.createVertexReferenceGroup();
+    vertexReferenceGroup
+        .addVertexReference(Factory.createVertexReference(VertexReference.Type.GEOMETRIC, "3"));
+    vertexReferenceGroup
+        .addVertexReference(Factory.createVertexReference(VertexReference.Type.TEXTURE, "3"));
+    vertexReferenceGroup
+        .addVertexReference(Factory.createVertexReference(VertexReference.Type.NORMAL, "3"));
+    surf.appendControlPointVertexReferenceGroup(vertexReferenceGroup);
+    vertexReferenceGroup = Factory.createVertexReferenceGroup();
+    vertexReferenceGroup
+        .addVertexReference(Factory.createVertexReference(VertexReference.Type.GEOMETRIC, "4"));
+    vertexReferenceGroup
+        .addVertexReference(Factory.createVertexReference(VertexReference.Type.TEXTURE, "4"));
+    vertexReferenceGroup
+        .addVertexReference(Factory.createVertexReference(VertexReference.Type.NORMAL, "4"));
+    surf.appendControlPointVertexReferenceGroup(vertexReferenceGroup);
     objDocument.insertNodeAtLine(surf, FIRST_LINE);
 
     assertEquals(surf, objDocument.peekAtNodeAtLine(FIRST_LINE));
@@ -261,9 +375,9 @@ public class DocumentViewNodeCreationTests {
     Document objDocument = Factory.createObjDocument();
 
     Trim trim = Factory.createTrim();
-    trim.appendTrimmingCurve2D(Factory.createCurve2DReference("1.4567", "-99.5463", "1"));
-    trim.appendTrimmingCurve2D(Factory.createCurve2DReference("1.111", "2.22", "5"));
-    trim.appendTrimmingCurve2D(Factory.createCurve2DReference("6.789", "0.543", "77"));
+    trim.appendTrimmingCurve2DReference(Factory.createCurve2DReference("1.4567", "-99.5463", "1"));
+    trim.appendTrimmingCurve2DReference(Factory.createCurve2DReference("1.111", "2.22", "5"));
+    trim.appendTrimmingCurve2DReference(Factory.createCurve2DReference("6.789", "0.543", "77"));
     objDocument.insertNodeAtLine(trim, FIRST_LINE);
 
     assertEquals(trim, objDocument.peekAtNodeAtLine(FIRST_LINE));
@@ -274,9 +388,9 @@ public class DocumentViewNodeCreationTests {
     Document objDocument = Factory.createObjDocument();
 
     Hole hole = Factory.createHole();
-    hole.appendTrimmingCurve2D(Factory.createCurve2DReference("3.333", "4.444", "22"));
-    hole.appendTrimmingCurve2D(Factory.createCurve2DReference("-1.111", "-2.232", "3"));
-    hole.appendTrimmingCurve2D(Factory.createCurve2DReference("4.78", "99.99", "11"));
+    hole.appendTrimmingCurve2DReference(Factory.createCurve2DReference("3.333", "4.444", "22"));
+    hole.appendTrimmingCurve2DReference(Factory.createCurve2DReference("-1.111", "-2.232", "3"));
+    hole.appendTrimmingCurve2DReference(Factory.createCurve2DReference("4.78", "99.99", "11"));
     objDocument.insertNodeAtLine(hole, FIRST_LINE);
 
     assertEquals(hole, objDocument.peekAtNodeAtLine(FIRST_LINE));
@@ -287,8 +401,8 @@ public class DocumentViewNodeCreationTests {
     Document objDocument = Factory.createObjDocument();
 
     SpecialCurve scrv = Factory.createSpecialCurve();
-    scrv.appendSpecialCurve2D(Factory.createCurve2DReference("3.333", "4.444", "22"));
-    scrv.appendSpecialCurve2D(Factory.createCurve2DReference("3.333", "4.444", "22"));
+    scrv.appendSpecialCurve2DReference(Factory.createCurve2DReference("3.333", "4.444", "22"));
+    scrv.appendSpecialCurve2DReference(Factory.createCurve2DReference("3.333", "4.444", "22"));
     objDocument.insertNodeAtLine(scrv, FIRST_LINE);
 
     assertEquals(scrv, objDocument.peekAtNodeAtLine(FIRST_LINE));
@@ -298,12 +412,23 @@ public class DocumentViewNodeCreationTests {
   public void Document_addOneSpecialPointToEmptyObjDocumentAtSpecifiedLine_OneSpecialPointIsAddedAtSpecifiedLine() {
     Document objDocument = Factory.createObjDocument();
 
-    // TODO the methods in the factory for creating reference numbers is wrong!
     SpecialPoint sp = Factory.createSpecialPoint();
-    sp.appendSpecialPoint(Factory.createReferenceNumbers("1"));
-    sp.appendSpecialPoint(Factory.createReferenceNumbers("300"));
-    sp.appendSpecialPoint(Factory.createReferenceNumbers("6"));
-    sp.appendSpecialPoint(Factory.createReferenceNumbers("88"));
+    VertexReferenceGroup vertexReferenceGroup = Factory.createVertexReferenceGroup();
+    vertexReferenceGroup
+        .addVertexReference(Factory.createVertexReference(VertexReference.Type.PARAMETER, "1"));
+    sp.appendSpecialPointVertexReferenceGroup(vertexReferenceGroup);
+    vertexReferenceGroup = Factory.createVertexReferenceGroup();
+    vertexReferenceGroup
+        .addVertexReference(Factory.createVertexReference(VertexReference.Type.PARAMETER, "300"));
+    sp.appendSpecialPointVertexReferenceGroup(vertexReferenceGroup);
+    vertexReferenceGroup = Factory.createVertexReferenceGroup();
+    vertexReferenceGroup
+        .addVertexReference(Factory.createVertexReference(VertexReference.Type.PARAMETER, "6"));
+    sp.appendSpecialPointVertexReferenceGroup(vertexReferenceGroup);
+    vertexReferenceGroup = Factory.createVertexReferenceGroup();
+    vertexReferenceGroup
+        .addVertexReference(Factory.createVertexReference(VertexReference.Type.PARAMETER, "88"));
+    sp.appendSpecialPointVertexReferenceGroup(vertexReferenceGroup);
     objDocument.insertNodeAtLine(sp, FIRST_LINE);
 
     assertEquals(sp, objDocument.peekAtNodeAtLine(FIRST_LINE));

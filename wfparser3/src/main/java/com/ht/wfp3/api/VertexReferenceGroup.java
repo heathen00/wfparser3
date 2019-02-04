@@ -39,8 +39,8 @@ package com.ht.wfp3.api;
  * @author nickl
  *
  */
-public interface ReferenceNumbers {
-  boolean supportsVertex(ReferenceNumber.Vertex vertex);
+public interface VertexReferenceGroup {
+  void addVertexReference(VertexReference vertexReference);
 
-  ReferenceNumber getReferenceNumber(ReferenceNumber.Vertex vertex);
+  VertexReference getVertexReference(VertexReference.Type vertexReferenceType);
 }

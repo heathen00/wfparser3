@@ -38,8 +38,8 @@ import java.util.List;
  */
 public interface Point extends Node {
 
-  void appendReferenceNumbers(ReferenceNumbers referenceNumbers);
+  void appendReferenceNumbers(VertexReferenceGroup referenceNumbers);
 
-  List<ReferenceNumbers> getReferenceNumbers();
+  List<VertexReferenceGroup> getReferenceNumbers();
 
 }

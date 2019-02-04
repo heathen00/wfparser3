@@ -39,19 +39,12 @@ public interface Factory {
     return null;
   }
 
-  static ReferenceNumbers createReferenceNumbers(String geometricVertexReferenceNumber) {
+  static VertexReferenceGroup createVertexReferenceGroup() {
     // TODO Auto-generated method stub
     return null;
   }
 
-  static ReferenceNumbers createReferenceNumbers(String geometricVertexReferenceNumber,
-      String textureVertexReferenceNumber) {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-  static ReferenceNumbers createReferenceNumbers(String geometricVertexReferenceNumber,
-      String textureVertexReferenceNumber, String normalVertexReferenceNumber) {
+  static VertexReference createVertexReference(VertexReference.Type type, String vertexIndex) {
     // TODO Auto-generated method stub
     return null;
   }

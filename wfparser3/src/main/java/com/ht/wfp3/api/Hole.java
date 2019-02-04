@@ -22,7 +22,7 @@ import java.util.List;
  *
  */
 public interface Hole extends Node {
-  List<Curve2DReference> getTrimmingCurves();
+  List<Curve2DReference> getTrimmingCurve2DReferences();
 
-  void appendTrimmingCurve2D(Curve2DReference trimmingCurve);
+  void appendTrimmingCurve2DReference(Curve2DReference trimmingCurve);
 }

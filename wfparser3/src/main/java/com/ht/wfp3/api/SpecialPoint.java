@@ -20,7 +20,8 @@ import java.util.List;
  *
  */
 public interface SpecialPoint extends Node {
-  void appendSpecialPoint(ReferenceNumbers referenceNumbers);
+  void appendSpecialPointVertexReferenceGroup(
+      VertexReferenceGroup specialPointVertexReferenceGroup);
 
-  List<ReferenceNumbers> getSpecialPoints();
+  List<VertexReferenceGroup> getSpecialPointsVertexReferenceGroup();
 }

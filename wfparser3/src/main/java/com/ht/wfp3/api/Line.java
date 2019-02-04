@@ -45,8 +45,8 @@ import java.util.List;
  */
 public interface Line extends Node {
 
-  void appendReferenceNumbers(ReferenceNumbers referenceNumbers);
+  void appendReferenceNumbers(VertexReferenceGroup referenceNumbers);
 
-  List<ReferenceNumbers> getReferenceNumbers();
+  List<VertexReferenceGroup> getReferenceNumbers();
 
 }

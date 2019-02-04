@@ -22,7 +22,7 @@ import java.util.List;
  *
  */
 public interface SpecialCurve extends Node {
-  List<Curve2DReference> getSpecialCurves();
+  List<Curve2DReference> getSpecialCurve2DReferences();
 
-  void appendSpecialCurve2D(Curve2DReference trimmingCurve);
+  void appendSpecialCurve2DReference(Curve2DReference trimmingCurve);
 }

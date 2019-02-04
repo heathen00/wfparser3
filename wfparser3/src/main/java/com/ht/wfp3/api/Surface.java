@@ -52,7 +52,7 @@ public interface Surface extends Node {
 
   String getEndingParameterValueVAxis();
 
-  void appendReferenceNumbers(ReferenceNumbers createReferenceNumbers);
+  void appendControlPointVertexReferenceGroup(VertexReferenceGroup createReferenceNumbers);
 
-  List<ReferenceNumbers> getControlPointReferenceNumbers();
+  List<VertexReferenceGroup> getControlPointVertexReferenceGroup();
 }
