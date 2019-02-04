@@ -145,4 +145,31 @@ public interface Factory {
     // TODO Auto-generated method stub
     return null;
   }
+
+  static Connect createConnect(String firstSurfaceIndex,
+      Curve2DReference curve2dReferenceForFirstSurface, String secondSurfaceIndex,
+      Curve2DReference curve2dReferenceForSecondSurface) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  static GroupNameList createGroupName() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  static SmoothingGroup createSmoothingGroup(String groupNumberOrOff) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  static MergingGroup createMergingGroup(String groupNumberOrOff, String resolution) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  static ObjectName createObjectName(String objectName) {
+    // TODO Auto-generated method stub
+    return null;
+  }
 }

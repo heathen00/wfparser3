@@ -4,9 +4,11 @@ import static org.junit.Assert.*;
 
 import com.ht.wfp3.api.BasisMatrix;
 import com.ht.wfp3.api.Call;
+import com.ht.wfp3.api.Connect;
 import com.ht.wfp3.api.Csh;
 import com.ht.wfp3.api.Curve;
 import com.ht.wfp3.api.Curve2D;
+import com.ht.wfp3.api.Curve2DReference;
 import com.ht.wfp3.api.CurveOrSurface;
 import com.ht.wfp3.api.Degree;
 import com.ht.wfp3.api.Document;
@@ -14,12 +16,16 @@ import com.ht.wfp3.api.End;
 import com.ht.wfp3.api.Face;
 import com.ht.wfp3.api.Factory;
 import com.ht.wfp3.api.GeoVertex;
+import com.ht.wfp3.api.GroupNameList;
 import com.ht.wfp3.api.Hole;
 import com.ht.wfp3.api.Line;
+import com.ht.wfp3.api.MergingGroup;
 import com.ht.wfp3.api.NormalVertex;
+import com.ht.wfp3.api.ObjectName;
 import com.ht.wfp3.api.ParamVertex;
 import com.ht.wfp3.api.Parm;
 import com.ht.wfp3.api.Point;
+import com.ht.wfp3.api.SmoothingGroup;
 import com.ht.wfp3.api.SpecialCurve;
 import com.ht.wfp3.api.SpecialPoint;
 import com.ht.wfp3.api.StepSize;
@@ -442,5 +448,59 @@ public class DocumentViewNodeCreationTests {
     objDocument.insertNodeAtLine(end, FIRST_LINE);
 
     assertEquals(end, objDocument.peekAtNodeAtLine(FIRST_LINE));
+  }
+  
+  @Test
+  public void Document_addOneConnectToEmptyObjDocumentAtSpecifiedLine_OneConnectIsAddedAtSpecifiedLine() {
+    Document objDocument = Factory.createObjDocument();
+
+    Curve2DReference curve2dReferenceForSurface3 = Factory.createCurve2DReference("1.111", "2.222", "1");
+    Curve2DReference curve2dReferenceForSurface4 = Factory.createCurve2DReference("3.333", "4.444", "2");
+    Connect con = Factory.createConnect("3", curve2dReferenceForSurface3, "4", curve2dReferenceForSurface4);
+    objDocument.insertNodeAtLine(con, FIRST_LINE);
+    
+    assertEquals(con, objDocument.peekAtNodeAtLine(FIRST_LINE));
+  }
+  
+  @Test
+  public void Document_addOneGroupNameToEmptyObjDocumentAtSpecifiedLine_OneGroupNameIsAddedAtSpecifiedLine() {
+    Document objDocument = Factory.createObjDocument();
+    
+    GroupNameList g = Factory.createGroupName();
+    g.appendGroupName("cube");
+    g.appendGroupName("top");
+    objDocument.insertNodeAtLine(g, FIRST_LINE);
+    
+    assertEquals(g, objDocument.peekAtNodeAtLine(FIRST_LINE));
+  }
+  
+  @Test
+  public void Document_addOneSmoothingGroupToEmptyObjDocumentAtSpecifiedLine_OneSmoothingGroupIsAddedAtSpecifiedLine() {
+    Document objDocument = Factory.createObjDocument();
+    
+    SmoothingGroup s = Factory.createSmoothingGroup("3");
+    objDocument.insertNodeAtLine(s, FIRST_LINE);
+    
+    assertEquals(s, objDocument.peekAtNodeAtLine(FIRST_LINE));
+  }
+  
+  @Test
+  public void Document_addMergingGroupToEmptyObjDocumentAtSpecifiedLine_OneMergingGroupIsAddedAtSpecifiedLine() {
+    Document objDocument = Factory.createObjDocument();
+    
+    MergingGroup mg = Factory.createMergingGroup("3", "0.6");
+    objDocument.insertNodeAtLine(mg, FIRST_LINE);
+    
+    assertEquals(mg, objDocument.peekAtNodeAtLine(FIRST_LINE));
+  }
+  
+  @Test
+  public void Document_addObjectNameToEmptyObjDocumentAtSpecifiedLine_OneObjectNameIsAddedAtSpecifiedLine() {
+    Document objDocument = Factory.createObjDocument();
+    
+    ObjectName o = Factory.createObjectName("test_cube");
+    objDocument.insertNodeAtLine(o, FIRST_LINE);
+    
+    assertEquals(o, objDocument.peekAtNodeAtLine(FIRST_LINE));
   }
 }

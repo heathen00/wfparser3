@@ -59,5 +59,15 @@ public interface Document {
 
   void insertNodeAtLine(SpecialPoint sp, int lineNumber);
 
-  void insertNodeAtLine(End end, int firstLine);
+  void insertNodeAtLine(End end, int lineNumber);
+
+  void insertNodeAtLine(Connect con, int lineNumber);
+
+  void insertNodeAtLine(GroupNameList g, int lineNumber);
+
+  void insertNodeAtLine(SmoothingGroup s, int lineNumber);
+
+  void insertNodeAtLine(MergingGroup mg, int lineNumber);
+
+  void insertNodeAtLine(ObjectName o, int lineNumber);
 }
