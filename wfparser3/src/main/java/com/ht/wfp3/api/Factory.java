@@ -106,4 +106,50 @@ public interface Factory {
     // TODO Auto-generated method stub
     return null;
   }
+
+  static Call createCall(String fileName) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  static Csh createCsh(boolean shouldIgnoreError, String command) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  static Parm createParm(Parm.Axis axis) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  static Trim createTrim() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  static Curve2DReference createCurve2DReference(String startingParameterValue,
+      String endingParameterValue, String curve2DIndex) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  static Hole createHole() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  static SpecialCurve createSpecialCurve() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  static SpecialPoint createSpecialPoint() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  static End createEnd() {
+    // TODO Auto-generated method stub
+    return null;
+  }
 }

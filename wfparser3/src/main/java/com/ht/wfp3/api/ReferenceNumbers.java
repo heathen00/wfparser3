@@ -41,5 +41,6 @@ package com.ht.wfp3.api;
  */
 public interface ReferenceNumbers {
   boolean supportsVertex(ReferenceNumber.Vertex vertex);
+
   ReferenceNumber getReferenceNumber(ReferenceNumber.Vertex vertex);
 }

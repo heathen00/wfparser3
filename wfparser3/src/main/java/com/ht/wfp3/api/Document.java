@@ -44,4 +44,20 @@ public interface Document {
   void insertNodeAtLine(Curve2D curv2, int lineNumber);
 
   void insertNodeAtLine(Surface surf, int lineNumber);
+
+  void insertNodeAtLine(Call call, int lineNumber);
+
+  void insertNodeAtLine(Csh csh, int lineNumber);
+
+  void insertNodeAtLine(Parm parm, int lineNumber);
+
+  void insertNodeAtLine(Trim trim, int lineNumber);
+
+  void insertNodeAtLine(Hole hole, int lineNumber);
+
+  void insertNodeAtLine(SpecialCurve scrv, int lineNumber);
+
+  void insertNodeAtLine(SpecialPoint sp, int lineNumber);
+
+  void insertNodeAtLine(End end, int firstLine);
 }
