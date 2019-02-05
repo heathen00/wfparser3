@@ -17,6 +17,7 @@ import com.ht.wfp3.api.CparmbSurfaceApprox;
 import com.ht.wfp3.api.Csh;
 import com.ht.wfp3.api.CspaceCurveApprox;
 import com.ht.wfp3.api.CspaceSurfaceApprox;
+import com.ht.wfp3.api.Cursor;
 import com.ht.wfp3.api.CurvCurveApprox;
 import com.ht.wfp3.api.CurvSurfaceApprox;
 import com.ht.wfp3.api.Curve;
@@ -63,18 +64,6 @@ import org.junit.Test;
 
 public class DocumentViewStatementCreationTests {
 
-  private static final int FIRST_LINE = 1;
-
-  // TODO: You know you'll need a test for adding to line "0". Your choices is that it fails OR it
-  // just adds to line 1.
-
-  // TODO: Can you add nodes out of order, i.e., one at line 2, then one at line 5, then another at
-  // line 1?
-  // TODO: What if you skip lines? Should the skipped lines just be rendered as blank lines?
-
-  // TODO: It might be useful to have an end of document marker.
-
-
   @Test
   public void Document_createEmptyObjDocument_EmptyDocumentIsCreated() {
     Document objDocument = Factory.createObjDocument();
@@ -83,48 +72,58 @@ public class DocumentViewStatementCreationTests {
   }
 
   @Test
-  public void Document_addOneGeometricVertexToEmptyObjDocumentAtSpecifiedLine_OneGeometricVertexIsAddedAtSpecifiedLine() {
+  public void Document_addOneGeometricVertexToEmptyObjDocumentAtCursor_OneGeometricVertexIsAddedAtCursor() {
     Document objDocument = Factory.createObjDocument();
+    Cursor cursor = objDocument.getCursor();
+    cursor.setTo(objDocument.getReadOnlyEofCursor());
 
     GeoVertex geoVertex = Factory.createGeoVertex("1.000", "2.000", "3.000", "4.000");
-    objDocument.insertStatementAtLine(geoVertex, FIRST_LINE);
+    objDocument.append(geoVertex, cursor);
 
-    assertEquals(geoVertex, objDocument.peekAtStatementAtLine(FIRST_LINE));
+    assertEquals(geoVertex, objDocument.peek(cursor));
   }
 
   @Test
-  public void Document_addOneTextureVertexToEmptyObjDocumentAtSpecifiedLine_OneTextureVertexIsAddedAtSpecifiedLine() {
+  public void Document_addOneTextureVertexToEmptyObjDocumentAtCursor_OneTextureVertexIsAddedAtCursor() {
     Document objDocument = Factory.createObjDocument();
+    Cursor cursor = objDocument.getCursor();
+    cursor.setTo(objDocument.getReadOnlyEofCursor());
 
     TexVertex texVertex = Factory.createTexVertex("3.3", "2.2", "1.1");
-    objDocument.insertStatementAtLine(texVertex, FIRST_LINE);
+    objDocument.append(texVertex, cursor);
 
-    assertEquals(texVertex, objDocument.peekAtStatementAtLine(FIRST_LINE));
+    assertEquals(texVertex, objDocument.peek(cursor));
   }
 
   @Test
-  public void Document_addOneNormalVertexToEmptyObjDocumentAtSpecifiedLine_OneNormalVertexIsAddedAtSpecifiedLine() {
+  public void Document_addOneNormalVertexToEmptyObjDocumentAtCursor_OneNormalVertexIsAddedAtCursor() {
     Document objDocument = Factory.createObjDocument();
+    Cursor cursor = objDocument.getCursor();
+    cursor.setTo(objDocument.getReadOnlyEofCursor());
 
     NormalVertex normalVertex = Factory.createNormalVertex("9.9", "8.8", "7.7");
-    objDocument.insertStatementAtLine(normalVertex, FIRST_LINE);
+    objDocument.append(normalVertex, cursor);
 
-    assertEquals(normalVertex, objDocument.peekAtStatementAtLine(FIRST_LINE));
+    assertEquals(normalVertex, objDocument.peek(cursor));
   }
 
   @Test
-  public void Document_addOneParamVertexToEmptyObjDocumentAtSpecifiedLine_OneParamVertexIsAddedAtSpecifiedLine() {
+  public void Document_addOneParamVertexToEmptyObjDocumentAtCursor_OneParamVertexIsAddedAtCursor() {
     Document objDocument = Factory.createObjDocument();
+    Cursor cursor = objDocument.getCursor();
+    cursor.setTo(objDocument.getReadOnlyEofCursor());
 
     ParamVertex paramVertex = Factory.createParamVertex("3.13", "3.31", "1.33");
-    objDocument.insertStatementAtLine(paramVertex, FIRST_LINE);
+    objDocument.append(paramVertex, cursor);
 
-    assertEquals(paramVertex, objDocument.peekAtStatementAtLine(FIRST_LINE));
+    assertEquals(paramVertex, objDocument.peek(cursor));
   }
 
   @Test
-  public void Document_addOnePointToEmptyObjDocumentAtSpecifiedLine_OnePointIsAddedAtSpecifiedLine() {
+  public void Document_addOnePointToEmptyObjDocumentAtCursor_OnePointIsAddedAtCursor() {
     Document objDocument = Factory.createObjDocument();
+    Cursor cursor = objDocument.getCursor();
+    cursor.setTo(objDocument.getReadOnlyEofCursor());
 
     Point point = Factory.createPoint();
     VertexReferenceGroup vertexReferenceGroup = Factory.createVertexReferenceGroup();
@@ -143,14 +142,16 @@ public class DocumentViewStatementCreationTests {
     vertexReferenceGroup
         .addVertexReference(Factory.createVertexReference(VertexReference.Type.GEOMETRIC, "4"));
     point.appendReferenceNumbers(vertexReferenceGroup);
-    objDocument.insertStatementAtLine(point, FIRST_LINE);
+    objDocument.append(point, cursor);
 
-    assertEquals(point, objDocument.peekAtStatementAtLine(FIRST_LINE));
+    assertEquals(point, objDocument.peek(cursor));
   }
 
   @Test
-  public void Document_addOneLineToEmptyObjDocumentAtSpecifiedLine_OneLineIsAddedAtSpecifiedLine() {
+  public void Document_addOneLineToEmptyObjDocumentAtCursor_OneLineIsAddedAtCursor() {
     Document objDocument = Factory.createObjDocument();
+    Cursor cursor = objDocument.getCursor();
+    cursor.setTo(objDocument.getReadOnlyEofCursor());
 
     Line line = Factory.createLine();
     VertexReferenceGroup vertexReferenceGroup = Factory.createVertexReferenceGroup();
@@ -177,14 +178,16 @@ public class DocumentViewStatementCreationTests {
     vertexReferenceGroup
         .addVertexReference(Factory.createVertexReference(VertexReference.Type.TEXTURE, "4"));
     line.appendReferenceNumbers(vertexReferenceGroup);
-    objDocument.insertStatementAtLine(line, FIRST_LINE);
+    objDocument.append(line, cursor);
 
-    assertEquals(line, objDocument.peekAtStatementAtLine(FIRST_LINE));
+    assertEquals(line, objDocument.peek(cursor));
   }
 
   @Test
-  public void Document_addOneFaceToEmptyObjDocumentAtSpecifiedLine_OneFaceIsAddedAtSpecifiedLine() {
+  public void Document_addOneFaceToEmptyObjDocumentAtCursor_OneFaceIsAddedAtCursor() {
     Document objDocument = Factory.createObjDocument();
+    Cursor cursor = objDocument.getCursor();
+    cursor.setTo(objDocument.getReadOnlyEofCursor());
 
     Face face = Factory.createFace();
     VertexReferenceGroup vertexReferenceGroup = Factory.createVertexReferenceGroup();
@@ -219,57 +222,67 @@ public class DocumentViewStatementCreationTests {
     vertexReferenceGroup
         .addVertexReference(Factory.createVertexReference(VertexReference.Type.NORMAL, "4"));
     face.appendReferenceNumbers(vertexReferenceGroup);
-    objDocument.insertStatementAtLine(face, FIRST_LINE);
+    objDocument.append(face, cursor);
 
-    assertEquals(face, objDocument.peekAtStatementAtLine(FIRST_LINE));
+    assertEquals(face, objDocument.peek(cursor));
   }
 
   @Test
-  public void Document_addOneCSTypeToEmptyObjDocumentAtSpecifiedLine_OneCSTypeIsAddedAtSpecifiedLine() {
+  public void Document_addOneCSTypeToEmptyObjDocumentAtCursor_OneCSTypeIsAddedAtCursor() {
     Document objDocument = Factory.createObjDocument();
+    Cursor cursor = objDocument.getCursor();
+    cursor.setTo(objDocument.getReadOnlyEofCursor());
 
     CurveOrSurface cstype = Factory.createCurveOrSurfaceType(false, CurveOrSurface.Type.BMATRIX);
-    objDocument.insertStatementAtLine(cstype, FIRST_LINE);
+    objDocument.append(cstype, cursor);
 
-    assertEquals(cstype, objDocument.peekAtStatementAtLine(FIRST_LINE));
+    assertEquals(cstype, objDocument.peek(cursor));
   }
 
   @Test
-  public void Document_addOneDegreeToEmptyObjDocumentAtSpecifiedLine_OneDegreeIsAddedAtSpecifiedLine() {
+  public void Document_addOneDegreeToEmptyObjDocumentAtCursor_OneDegreeIsAddedAtCursor() {
     Document objDocument = Factory.createObjDocument();
+    Cursor cursor = objDocument.getCursor();
+    cursor.setTo(objDocument.getReadOnlyEofCursor());
 
     Degree deg = Factory.createDegree("5", "6");
-    objDocument.insertStatementAtLine(deg, FIRST_LINE);
+    objDocument.append(deg, cursor);
 
-    assertEquals(deg, objDocument.peekAtStatementAtLine(FIRST_LINE));
+    assertEquals(deg, objDocument.peek(cursor));
   }
 
   @Test
-  public void Document_addOneBasisMatrixToEmptyObjDocumentAtSpecifiedLine_OneBasisMatrixIsAddedAtSpecifiedLine() {
+  public void Document_addOneBasisMatrixToEmptyObjDocumentAtCursor_OneBasisMatrixIsAddedAtCursor() {
     Document objDocument = Factory.createObjDocument();
+    Cursor cursor = objDocument.getCursor();
+    cursor.setTo(objDocument.getReadOnlyEofCursor());
 
     String[] flattenedUAxisBasisMatrix =
         { "1.234", "-1.234", "4.321", "-4.321", "9.876", "-9.876" };
     BasisMatrix bmat =
         Factory.createBasisMatrix(BasisMatrix.Axis.U, Arrays.asList(flattenedUAxisBasisMatrix));
-    objDocument.insertStatementAtLine(bmat, FIRST_LINE);
+    objDocument.append(bmat, cursor);
 
-    assertEquals(bmat, objDocument.peekAtStatementAtLine(FIRST_LINE));
+    assertEquals(bmat, objDocument.peek(cursor));
   }
 
   @Test
-  public void Document_addOneStepToEmptyObjDocumentAtSpecifiedLine_OneStepIsAddedAtSpecifiedLine() {
+  public void Document_addOneStepToEmptyObjDocumentAtCursor_OneStepIsAddedAtCursor() {
     Document objDocument = Factory.createObjDocument();
+    Cursor cursor = objDocument.getCursor();
+    cursor.setTo(objDocument.getReadOnlyEofCursor());
 
     StepSize step = Factory.createStepSize("7", "33");
-    objDocument.insertStatementAtLine(step, FIRST_LINE);
+    objDocument.append(step, cursor);
 
-    assertEquals(step, objDocument.peekAtStatementAtLine(FIRST_LINE));
+    assertEquals(step, objDocument.peek(cursor));
   }
 
   @Test
-  public void Document_addOneCurveToEmptyObjDocumentAtSpecifiedLine_OneCurveIsAddedAtSpecifiedLine() {
+  public void Document_addOneCurveToEmptyObjDocumentAtCursor_OneCurveIsAddedAtCursor() {
     Document objDocument = Factory.createObjDocument();
+    Cursor cursor = objDocument.getCursor();
+    cursor.setTo(objDocument.getReadOnlyEofCursor());
 
     Curve curv = Factory.createCurve("1.23456", "9.5321");
     VertexReferenceGroup vertexReferenceGroup = Factory.createVertexReferenceGroup();
@@ -288,14 +301,16 @@ public class DocumentViewStatementCreationTests {
     vertexReferenceGroup
         .addVertexReference(Factory.createVertexReference(VertexReference.Type.GEOMETRIC, "4"));
     curv.appendControlPointVertexReferenceGroup(vertexReferenceGroup);
-    objDocument.insertStatementAtLine(curv, FIRST_LINE);
+    objDocument.append(curv, cursor);
 
-    assertEquals(curv, objDocument.peekAtStatementAtLine(FIRST_LINE));
+    assertEquals(curv, objDocument.peek(cursor));
   }
 
   @Test
-  public void Document_addOneCurve2DToEmptyObjDocumentAtSpecifiedLine_OneCurve2DIsAddedAtSpecifiedLine() {
+  public void Document_addOneCurve2DToEmptyObjDocumentAtCursor_OneCurve2DIsAddedAtCursor() {
     Document objDocument = Factory.createObjDocument();
+    Cursor cursor = objDocument.getCursor();
+    cursor.setTo(objDocument.getReadOnlyEofCursor());
 
     Curve2D curv2 = Factory.createCurve2D();
     VertexReferenceGroup vertexReferenceGroup = Factory.createVertexReferenceGroup();
@@ -314,14 +329,16 @@ public class DocumentViewStatementCreationTests {
     vertexReferenceGroup
         .addVertexReference(Factory.createVertexReference(VertexReference.Type.PARAMETER, "4"));
     curv2.appendControlPointVertexReferenceGroup(vertexReferenceGroup);
-    objDocument.insertStatementAtLine(curv2, FIRST_LINE);
+    objDocument.append(curv2, cursor);
 
-    assertEquals(curv2, objDocument.peekAtStatementAtLine(FIRST_LINE));
+    assertEquals(curv2, objDocument.peek(cursor));
   }
 
   @Test
-  public void Document_addOneSurfaceToEmptyObjDocumentAtSpecifiedLine_OneSurfaceIsAddedAtSpecifiedLine() {
+  public void Document_addOneSurfaceToEmptyObjDocumentAtCursor_OneSurfaceIsAddedAtCursor() {
     Document objDocument = Factory.createObjDocument();
+    Cursor cursor = objDocument.getCursor();
+    cursor.setTo(objDocument.getReadOnlyEofCursor());
 
     Surface surf = Factory.createSurface("1.2345", "-5.4321", "9.8765", "-5.6789");
     VertexReferenceGroup vertexReferenceGroup = Factory.createVertexReferenceGroup();
@@ -356,89 +373,103 @@ public class DocumentViewStatementCreationTests {
     vertexReferenceGroup
         .addVertexReference(Factory.createVertexReference(VertexReference.Type.NORMAL, "4"));
     surf.appendControlPointVertexReferenceGroup(vertexReferenceGroup);
-    objDocument.insertStatementAtLine(surf, FIRST_LINE);
+    objDocument.append(surf, cursor);
 
-    assertEquals(surf, objDocument.peekAtStatementAtLine(FIRST_LINE));
+    assertEquals(surf, objDocument.peek(cursor));
   }
 
   @Test
-  public void Document_addOneCallToEmptyObjDocumentAtSpecifiedLine_OneCallIsAddedAtSpecifiedLine() {
+  public void Document_addOneCallToEmptyObjDocumentAtCursor_OneCallIsAddedAtCursor() {
     Document objDocument = Factory.createObjDocument();
+    Cursor cursor = objDocument.getCursor();
+    cursor.setTo(objDocument.getReadOnlyEofCursor());
 
     Call call = Factory.createCall("filename.obj");
     call.appendArgument("3");
     call.appendArgument("5");
     call.appendArgument("78");
-    objDocument.insertStatementAtLine(call, FIRST_LINE);
+    objDocument.append(call, cursor);
 
-    assertEquals(call, objDocument.peekAtStatementAtLine(FIRST_LINE));
+    assertEquals(call, objDocument.peek(cursor));
   }
 
   @Test
-  public void Document_addOneCshToEmptyObjDocumentAtSpecifiedLine_OneCshIsAddedAtSpecifiedLine() {
+  public void Document_addOneCshToEmptyObjDocumentAtCursor_OneCshIsAddedAtCursor() {
     Document objDocument = Factory.createObjDocument();
+    Cursor cursor = objDocument.getCursor();
+    cursor.setTo(objDocument.getReadOnlyEofCursor());
 
     Csh csh = Factory.createCsh(true, "pwd");
-    objDocument.insertStatementAtLine(csh, FIRST_LINE);
+    objDocument.append(csh, cursor);
 
-    assertEquals(csh, objDocument.peekAtStatementAtLine(FIRST_LINE));
+    assertEquals(csh, objDocument.peek(cursor));
   }
 
   @Test
-  public void Document_addOneParmToEmptyObjDocumentAtSpecifiedLine_OneParmIsAddedAtSpecifiedLine() {
+  public void Document_addOneParmToEmptyObjDocumentAtCursor_OneParmIsAddedAtCursor() {
     Document objDocument = Factory.createObjDocument();
+    Cursor cursor = objDocument.getCursor();
+    cursor.setTo(objDocument.getReadOnlyEofCursor());
 
     Parm parm = Factory.createParm(Parm.Axis.U);
     parm.appendParameterValue("1.0000");
     parm.appendParameterValue("4.4444");
     parm.appendParameterValue("-9.22");
     parm.appendParameterValue("111.9876");
-    objDocument.insertStatementAtLine(parm, FIRST_LINE);
+    objDocument.append(parm, cursor);
 
-    assertEquals(parm, objDocument.peekAtStatementAtLine(FIRST_LINE));
+    assertEquals(parm, objDocument.peek(cursor));
   }
 
   @Test
-  public void Document_addOneTrimToEmptyObjDocumentAtSpecifiedLine_OneTrimIsAddedAtSpecifiedLine() {
+  public void Document_addOneTrimToEmptyObjDocumentAtCursor_OneTrimIsAddedAtCursor() {
     Document objDocument = Factory.createObjDocument();
+    Cursor cursor = objDocument.getCursor();
+    cursor.setTo(objDocument.getReadOnlyEofCursor());
 
     Trim trim = Factory.createTrim();
     trim.appendTrimmingCurve2DReference(Factory.createCurve2DReference("1.4567", "-99.5463", "1"));
     trim.appendTrimmingCurve2DReference(Factory.createCurve2DReference("1.111", "2.22", "5"));
     trim.appendTrimmingCurve2DReference(Factory.createCurve2DReference("6.789", "0.543", "77"));
-    objDocument.insertStatementAtLine(trim, FIRST_LINE);
+    objDocument.append(trim, cursor);
 
-    assertEquals(trim, objDocument.peekAtStatementAtLine(FIRST_LINE));
+    assertEquals(trim, objDocument.peek(cursor));
   }
 
   @Test
-  public void Document_addOneHoleToEmptyObjDocumentAtSpecifiedLine_OneHoleIsAddedAtSpecifiedLine() {
+  public void Document_addOneHoleToEmptyObjDocumentAtCursor_OneHoleIsAddedAtCursor() {
     Document objDocument = Factory.createObjDocument();
+    Cursor cursor = objDocument.getCursor();
+    cursor.setTo(objDocument.getReadOnlyEofCursor());
 
     Hole hole = Factory.createHole();
     hole.appendTrimmingCurve2DReference(Factory.createCurve2DReference("3.333", "4.444", "22"));
     hole.appendTrimmingCurve2DReference(Factory.createCurve2DReference("-1.111", "-2.232", "3"));
     hole.appendTrimmingCurve2DReference(Factory.createCurve2DReference("4.78", "99.99", "11"));
-    objDocument.insertStatementAtLine(hole, FIRST_LINE);
+    objDocument.append(hole, cursor);
 
-    assertEquals(hole, objDocument.peekAtStatementAtLine(FIRST_LINE));
+    assertEquals(hole, objDocument.peek(cursor));
   }
 
   @Test
-  public void Document_addOneSpecialCurveToEmptyObjDocumentAtSpecifiedLine_OneSpecialCurveIsAddedAtSpecifiedLine() {
+  public void Document_addOneSpecialCurveToEmptyObjDocumentAtCursor_OneSpecialCurveIsAddedAtCursor() {
     Document objDocument = Factory.createObjDocument();
+    Cursor cursor = objDocument.getCursor();
+    cursor.setTo(objDocument.getReadOnlyEofCursor());
 
     SpecialCurve scrv = Factory.createSpecialCurve();
     scrv.appendSpecialCurve2DReference(Factory.createCurve2DReference("3.333", "4.444", "22"));
     scrv.appendSpecialCurve2DReference(Factory.createCurve2DReference("3.333", "4.444", "22"));
-    objDocument.insertStatementAtLine(scrv, FIRST_LINE);
+    objDocument.append(scrv, cursor);
 
-    assertEquals(scrv, objDocument.peekAtStatementAtLine(FIRST_LINE));
+    assertEquals(scrv, objDocument.peek(cursor));
   }
 
   @Test
-  public void Document_addOneSpecialPointToEmptyObjDocumentAtSpecifiedLine_OneSpecialPointIsAddedAtSpecifiedLine() {
+  public void Document_addOneSpecialPointToEmptyObjDocumentAtCursor_OneSpecialPointIsAddedAtCursor() {
     Document objDocument = Factory.createObjDocument();
+    Cursor cursor = objDocument.getCursor();
+    cursor.setTo(objDocument.getReadOnlyEofCursor());
 
     SpecialPoint sp = Factory.createSpecialPoint();
     VertexReferenceGroup vertexReferenceGroup = Factory.createVertexReferenceGroup();
@@ -457,24 +488,28 @@ public class DocumentViewStatementCreationTests {
     vertexReferenceGroup
         .addVertexReference(Factory.createVertexReference(VertexReference.Type.PARAMETER, "88"));
     sp.appendSpecialPointVertexReferenceGroup(vertexReferenceGroup);
-    objDocument.insertStatementAtLine(sp, FIRST_LINE);
+    objDocument.append(sp, cursor);
 
-    assertEquals(sp, objDocument.peekAtStatementAtLine(FIRST_LINE));
+    assertEquals(sp, objDocument.peek(cursor));
   }
 
   @Test
-  public void Document_addOneEndToEmptyObjDocumentAtSpecifiedLine_OneEndIsAddedAtSpecifiedLine() {
+  public void Document_addOneEndToEmptyObjDocumentAtCursor_OneEndIsAddedAtCursor() {
     Document objDocument = Factory.createObjDocument();
+    Cursor cursor = objDocument.getCursor();
+    cursor.setTo(objDocument.getReadOnlyEofCursor());
 
     End end = Factory.createEnd();
-    objDocument.insertStatementAtLine(end, FIRST_LINE);
+    objDocument.append(end, cursor);
 
-    assertEquals(end, objDocument.peekAtStatementAtLine(FIRST_LINE));
+    assertEquals(end, objDocument.peek(cursor));
   }
 
   @Test
-  public void Document_addOneConnectToEmptyObjDocumentAtSpecifiedLine_OneConnectIsAddedAtSpecifiedLine() {
+  public void Document_addOneConnectToEmptyObjDocumentAtCursor_OneConnectIsAddedAtCursor() {
     Document objDocument = Factory.createObjDocument();
+    Cursor cursor = objDocument.getCursor();
+    cursor.setTo(objDocument.getReadOnlyEofCursor());
 
     Curve2DReference curve2dReferenceForSurface3 =
         Factory.createCurve2DReference("1.111", "2.222", "1");
@@ -482,283 +517,335 @@ public class DocumentViewStatementCreationTests {
         Factory.createCurve2DReference("3.333", "4.444", "2");
     Connect con =
         Factory.createConnect("3", curve2dReferenceForSurface3, "4", curve2dReferenceForSurface4);
-    objDocument.insertStatementAtLine(con, FIRST_LINE);
+    objDocument.append(con, cursor);
 
-    assertEquals(con, objDocument.peekAtStatementAtLine(FIRST_LINE));
+    assertEquals(con, objDocument.peek(cursor));
   }
 
   @Test
-  public void Document_addOneGroupNameToEmptyObjDocumentAtSpecifiedLine_OneGroupNameIsAddedAtSpecifiedLine() {
+  public void Document_addOneGroupNameToEmptyObjDocumentAtCursor_OneGroupNameIsAddedAtCursor() {
     Document objDocument = Factory.createObjDocument();
+    Cursor cursor = objDocument.getCursor();
+    cursor.setTo(objDocument.getReadOnlyEofCursor());
 
     GroupNameList g = Factory.createGroupName();
     g.appendGroupName("cube");
     g.appendGroupName("top");
-    objDocument.insertStatementAtLine(g, FIRST_LINE);
+    objDocument.append(g, cursor);
 
-    assertEquals(g, objDocument.peekAtStatementAtLine(FIRST_LINE));
+    assertEquals(g, objDocument.peek(cursor));
   }
 
   @Test
-  public void Document_addOneSmoothingGroupToEmptyObjDocumentAtSpecifiedLine_OneSmoothingGroupIsAddedAtSpecifiedLine() {
+  public void Document_addOneSmoothingGroupToEmptyObjDocumentAtCursor_OneSmoothingGroupIsAddedAtCursor() {
     Document objDocument = Factory.createObjDocument();
+    Cursor cursor = objDocument.getCursor();
+    cursor.setTo(objDocument.getReadOnlyEofCursor());
 
     SmoothingGroup s = Factory.createSmoothingGroup("3");
-    objDocument.insertStatementAtLine(s, FIRST_LINE);
+    objDocument.append(s, cursor);
 
-    assertEquals(s, objDocument.peekAtStatementAtLine(FIRST_LINE));
+    assertEquals(s, objDocument.peek(cursor));
   }
 
   @Test
-  public void Document_addMergingGroupToEmptyObjDocumentAtSpecifiedLine_OneMergingGroupIsAddedAtSpecifiedLine() {
+  public void Document_addMergingGroupToEmptyObjDocumentAtCursor_OneMergingGroupIsAddedAtCursor() {
     Document objDocument = Factory.createObjDocument();
+    Cursor cursor = objDocument.getCursor();
+    cursor.setTo(objDocument.getReadOnlyEofCursor());
 
     MergingGroup mg = Factory.createMergingGroup("3", "0.6");
-    objDocument.insertStatementAtLine(mg, FIRST_LINE);
+    objDocument.append(mg, cursor);
 
-    assertEquals(mg, objDocument.peekAtStatementAtLine(FIRST_LINE));
+    assertEquals(mg, objDocument.peek(cursor));
   }
 
   @Test
-  public void Document_addObjectNameToEmptyObjDocumentAtSpecifiedLine_OneObjectNameIsAddedAtSpecifiedLine() {
+  public void Document_addObjectNameToEmptyObjDocumentAtCursor_OneObjectNameIsAddedAtCursor() {
     Document objDocument = Factory.createObjDocument();
+    Cursor cursor = objDocument.getCursor();
+    cursor.setTo(objDocument.getReadOnlyEofCursor());
 
     ObjectName o = Factory.createObjectName("test_cube");
-    objDocument.insertStatementAtLine(o, FIRST_LINE);
+    objDocument.append(o, cursor);
 
-    assertEquals(o, objDocument.peekAtStatementAtLine(FIRST_LINE));
+    assertEquals(o, objDocument.peek(cursor));
   }
 
   @Test
-  public void Document_addOneBevelToEmptyObjDocumentAtSpecifiedLine_OneBevelIsAddedAtSpecifiedLine() {
+  public void Document_addOneBevelToEmptyObjDocumentAtCursor_OneBevelIsAddedAtCursor() {
     Document objDocument = Factory.createObjDocument();
+    Cursor cursor = objDocument.getCursor();
+    cursor.setTo(objDocument.getReadOnlyEofCursor());
 
     Bevel bevel = Factory.createBevel(true);
-    objDocument.insertStatementAtLine(bevel, FIRST_LINE);
+    objDocument.append(bevel, cursor);
 
-    assertEquals(bevel, objDocument.peekAtStatementAtLine(FIRST_LINE));
+    assertEquals(bevel, objDocument.peek(cursor));
   }
 
   @Test
-  public void Document_addOneColorInterpolationToEmptyObjDocumentAtSpecifiedLine_OneColorInterpolationIsAddedAtSpecifiedLine() {
+  public void Document_addOneColorInterpolationToEmptyObjDocumentAtCursor_OneColorInterpolationIsAddedAtCursor() {
     Document objDocument = Factory.createObjDocument();
+    Cursor cursor = objDocument.getCursor();
+    cursor.setTo(objDocument.getReadOnlyEofCursor());
 
     // TODO I don't think it is a good idea to use a boolean in ANY of the factory methods since the
     // primary user of this interface will be a parser.
     ColorInterpolation c_interp = Factory.createColorInterpolation(true);
-    objDocument.insertStatementAtLine(c_interp, FIRST_LINE);
+    objDocument.append(c_interp, cursor);
 
-    assertEquals(c_interp, objDocument.peekAtStatementAtLine(FIRST_LINE));
+    assertEquals(c_interp, objDocument.peek(cursor));
   }
-  
+
   @Test
-  public void Document_addOneDissolveInterpolationToEmptyObjDocumentAtSpecifiedLine_OneDissolveInterpolationIsAddedAtSpecifiedLine() {
+  public void Document_addOneDissolveInterpolationToEmptyObjDocumentAtCursor_OneDissolveInterpolationIsAddedAtCursor() {
     Document objDocument = Factory.createObjDocument();
-    
+    Cursor cursor = objDocument.getCursor();
+    cursor.setTo(objDocument.getReadOnlyEofCursor());
+
     DissolveInterpolation d_interp = Factory.createDissolveInterpolation(true);
-    objDocument.insertStatementAtLine(d_interp, FIRST_LINE);
-    
-    assertEquals(d_interp, objDocument.peekAtStatementAtLine(FIRST_LINE));
+    objDocument.append(d_interp, cursor);
+
+    assertEquals(d_interp, objDocument.peek(cursor));
   }
-  
+
   @Test
-  public void Document_addOneLevelOfDetailToEmptyObjDocumentAtSpecifiedLine_OneLevelOfDetailIsAddedAtSpecifiedLine() {
+  public void Document_addOneLevelOfDetailToEmptyObjDocumentAtCursor_OneLevelOfDetailIsAddedAtCursor() {
     Document objDocument = Factory.createObjDocument();
-    
+    Cursor cursor = objDocument.getCursor();
+    cursor.setTo(objDocument.getReadOnlyEofCursor());
+
     LevelOfDetail lod = Factory.createLevelOfDetail("55");
-    objDocument.insertStatementAtLine(lod, FIRST_LINE);
-    
-    assertEquals(lod, objDocument.peekAtStatementAtLine(FIRST_LINE));
+    objDocument.append(lod, cursor);
+
+    assertEquals(lod, objDocument.peek(cursor));
   }
-  
+
   @Test
-  public void Document_addOneMapLibToEmptyObjDocumentAtSpecifiedLine_OneMapLibIsAddedAtSpecifiedLine() {
+  public void Document_addOneMapLibToEmptyObjDocumentAtCursor_OneMapLibIsAddedAtCursor() {
     Document objDocument = Factory.createObjDocument();
-    
-    // TODO I have no idea if there is a file extension limitation or not.  It does not say in the specification.
+    Cursor cursor = objDocument.getCursor();
+    cursor.setTo(objDocument.getReadOnlyEofCursor());
+
+    // TODO I have no idea if there is a file extension limitation or not. It does not say in the
+    // specification.
     MapLib maplib = Factory.createMapLib();
     maplib.appendMapLibFileName("library1.textures");
     maplib.appendMapLibFileName("library2.textures");
-    objDocument.insertStatementAtLine(maplib, FIRST_LINE);
-    
-    assertEquals(maplib, objDocument.peekAtStatementAtLine(FIRST_LINE));
+    objDocument.append(maplib, cursor);
+
+    assertEquals(maplib, objDocument.peek(cursor));
   }
-  
+
   @Test
-  public void Document_addOneUseMapToEmptyObjDocumentAtSpecifiedLine_OneUseMapIsAddedAtSpecifiedLine() {
+  public void Document_addOneUseMapToEmptyObjDocumentAtCursor_OneUseMapIsAddedAtCursor() {
     Document objDocument = Factory.createObjDocument();
-    
+    Cursor cursor = objDocument.getCursor();
+    cursor.setTo(objDocument.getReadOnlyEofCursor());
+
     UseMap usemap = Factory.createUseMap("test_map_name");
-    objDocument.insertStatementAtLine(usemap, FIRST_LINE);
-    
-    assertEquals(usemap, FIRST_LINE);
+    objDocument.append(usemap, cursor);
+
+    assertEquals(usemap, cursor);
   }
-  
+
   @Test
-  public void Document_addOneUseMaterialToEmptyObjDocumentAtSpecifiedLine_OneUseMaterialIsAddedAtSpecifiedLine() {
+  public void Document_addOneUseMaterialToEmptyObjDocumentAtCursor_OneUseMaterialIsAddedAtCursor() {
     Document objDocument = Factory.createObjDocument();
-    
+    Cursor cursor = objDocument.getCursor();
+    cursor.setTo(objDocument.getReadOnlyEofCursor());
+
     UseMaterial usemtl = Factory.createUseMaterial("test_material");
-    objDocument.insertStatementAtLine(usemtl, FIRST_LINE);
-    
-    assertEquals(usemtl, objDocument.peekAtStatementAtLine(FIRST_LINE));
+    objDocument.append(usemtl, cursor);
+
+    assertEquals(usemtl, objDocument.peek(cursor));
   }
-  
-  
+
+
   @Test
-  public void Document_addOneMaterialLibToEmptyObjDocumentAtSpecifiedLine_OneMaterialLibIsAddedAtSpecifiedLine() {
+  public void Document_addOneMaterialLibToEmptyObjDocumentAtCursor_OneMaterialLibIsAddedAtCursor() {
     Document objDocument = Factory.createObjDocument();
-    
-    // TODO I have no idea if there is a file extension limitation or not.  It does not say in the specification.
+    Cursor cursor = objDocument.getCursor();
+    cursor.setTo(objDocument.getReadOnlyEofCursor());
+
+    // TODO I have no idea if there is a file extension limitation or not. It does not say in the
+    // specification.
     MaterialLib mtllib = Factory.createMaterialLib();
     mtllib.appendMaterialLibFileName("library1.materials");
     mtllib.appendMaterialLibFileName("library2.materials");
-    objDocument.insertStatementAtLine(mtllib, FIRST_LINE);
-    
-    assertEquals(mtllib, objDocument.peekAtStatementAtLine(FIRST_LINE));
+    objDocument.append(mtllib, cursor);
+
+    assertEquals(mtllib, objDocument.peek(cursor));
   }
-  
+
   @Test
-  public void Document_addOneShadowObjectToEmptyObjDocumentAtSpecifiedLine_OneShadowObjectIsAddedAtSpecifiedLine() {
+  public void Document_addOneShadowObjectToEmptyObjDocumentAtCursor_OneShadowObjectIsAddedAtCursor() {
     Document objDocument = Factory.createObjDocument();
-    
+    Cursor cursor = objDocument.getCursor();
+    cursor.setTo(objDocument.getReadOnlyEofCursor());
+
     ShadowObject shadow_obj = Factory.createShadowObject("shadow.obj");
-    objDocument.insertStatementAtLine(shadow_obj, FIRST_LINE);
-    
-    assertEquals(shadow_obj, objDocument.peekAtStatementAtLine(FIRST_LINE));
+    objDocument.append(shadow_obj, cursor);
+
+    assertEquals(shadow_obj, objDocument.peek(cursor));
   }
-  
+
   @Test
-  public void Document_addOneRayTracingObjectToEmptyObjDocumentAtSpecifiedLine_OneRayTracingObjectIsAddedAtSpecifiedLine() {
+  public void Document_addOneRayTracingObjectToEmptyObjDocumentAtCursor_OneRayTracingObjectIsAddedAtCursor() {
     Document objDocument = Factory.createObjDocument();
-    
+    Cursor cursor = objDocument.getCursor();
+    cursor.setTo(objDocument.getReadOnlyEofCursor());
+
     RayTracingObject trace_obj = Factory.createRayTracingObject("ray_tracing.obj");
-    objDocument.insertStatementAtLine(trace_obj, FIRST_LINE);
-    
-    assertEquals(trace_obj, objDocument.peekAtStatementAtLine(FIRST_LINE));
+    objDocument.append(trace_obj, cursor);
+
+    assertEquals(trace_obj, objDocument.peek(cursor));
   }
-  
+
   @Test
-  public void Document_addOneCparmCurveApproxToEmptyObjDocumentAtSpecifiedLine_OneCparmCurveApproxIsAddedAtSpecifiedLine() {
+  public void Document_addOneCparmCurveApproxToEmptyObjDocumentAtCursor_OneCparmCurveApproxIsAddedAtCursor() {
     Document objDocument = Factory.createObjDocument();
-    
+    Cursor cursor = objDocument.getCursor();
+    cursor.setTo(objDocument.getReadOnlyEofCursor());
+
     CparmCurveApprox ctech = Factory.createCparmCurveApprox("2.3333");
-    objDocument.insertStatementAtLine(ctech, FIRST_LINE);
-    
-    assertEquals(ctech, objDocument.peekAtStatementAtLine(FIRST_LINE));
+    objDocument.append(ctech, cursor);
+
+    assertEquals(ctech, objDocument.peek(cursor));
   }
-  
+
   @Test
-  public void Document_addOneCspaceCurveApproxToEmptyObjDocumentAtSpecifiedLine_OneCspaceCurveApproxIsAddedAtSpecifiedLine() {
+  public void Document_addOneCspaceCurveApproxToEmptyObjDocumentAtCursor_OneCspaceCurveApproxIsAddedAtCursor() {
     Document objDocument = Factory.createObjDocument();
-    
+    Cursor cursor = objDocument.getCursor();
+    cursor.setTo(objDocument.getReadOnlyEofCursor());
+
     CspaceCurveApprox ctech = Factory.createCspaceCurveApprox("1.56");
-    objDocument.insertStatementAtLine(ctech, FIRST_LINE);
-    
-    assertEquals(ctech, objDocument.peekAtStatementAtLine(FIRST_LINE));
+    objDocument.append(ctech, cursor);
+
+    assertEquals(ctech, objDocument.peek(cursor));
   }
-  
+
   @Test
-  public void Document_addOneCurvCurveApproxToEmptyObjDocumentAtSpecifiedLine_OneCurvCurveApproxIsAddedAtSpecifiedLine() {
+  public void Document_addOneCurvCurveApproxToEmptyObjDocumentAtCursor_OneCurvCurveApproxIsAddedAtCursor() {
     Document objDocument = Factory.createObjDocument();
-    
+    Cursor cursor = objDocument.getCursor();
+    cursor.setTo(objDocument.getReadOnlyEofCursor());
+
     CurvCurveApprox ctech = Factory.createCurvCurveAprox("1.1876", "93.45");
-    objDocument.insertStatementAtLine(ctech, FIRST_LINE);
-    
-    assertEquals(ctech, objDocument.peekAtStatementAtLine(FIRST_LINE));
+    objDocument.append(ctech, cursor);
+
+    assertEquals(ctech, objDocument.peek(cursor));
   }
-  
+
   @Test
-  public void Document_addOneCparmaSurfaceApproxToEmptyObjDocumentAtSpecifiedLine_OneCparmaSurfaceApproxIsAddedAtSpecifiedLine() {
+  public void Document_addOneCparmaSurfaceApproxToEmptyObjDocumentAtCursor_OneCparmaSurfaceApproxIsAddedAtCursor() {
     Document objDocument = Factory.createObjDocument();
-    
+    Cursor cursor = objDocument.getCursor();
+    cursor.setTo(objDocument.getReadOnlyEofCursor());
+
     CparmaSurfaceApprox stech = Factory.createCparmaSurfaceApprox("1.234", "3.333");
-    objDocument.insertStatementAtLine(stech, FIRST_LINE);
-    
-    assertEquals(stech, objDocument.peekAtStatementAtLine(FIRST_LINE));
+    objDocument.append(stech, cursor);
+
+    assertEquals(stech, objDocument.peek(cursor));
   }
-  
+
   @Test
-  public void Document_addOneCparmbSurfaceApproxToEmptyObjDocumentAtSpecifiedLine_OneCparmbSurfaceApproxIsAddedAtSpecifiedLine() {
+  public void Document_addOneCparmbSurfaceApproxToEmptyObjDocumentAtCursor_OneCparmbSurfaceApproxIsAddedAtCursor() {
     Document objDocument = Factory.createObjDocument();
-    
+    Cursor cursor = objDocument.getCursor();
+    cursor.setTo(objDocument.getReadOnlyEofCursor());
+
     CparmbSurfaceApprox stech = Factory.createCparmbSurfaceApprox("5.678");
-    objDocument.insertStatementAtLine(stech, FIRST_LINE);
-    
-    assertEquals(stech, objDocument.peekAtStatementAtLine(FIRST_LINE));
+    objDocument.append(stech, cursor);
+
+    assertEquals(stech, objDocument.peek(cursor));
   }
-  
+
   @Test
-  public void Document_addOneCspaceSurfaceApproxToEmptyObjDocumentAtSpecifiedLine_OneCspaceSurfaceApproxIsAddedAtSpecifiedLine() {
+  public void Document_addOneCspaceSurfaceApproxToEmptyObjDocumentAtCursor_OneCspaceSurfaceApproxIsAddedAtCursor() {
     Document objDocument = Factory.createObjDocument();
-    
+    Cursor cursor = objDocument.getCursor();
+    cursor.setTo(objDocument.getReadOnlyEofCursor());
+
     CspaceSurfaceApprox stech = Factory.createCspaceSurfaceApprox("1.11");
-    objDocument.insertStatementAtLine(stech, FIRST_LINE);
-    
-    assertEquals(stech, objDocument.peekAtStatementAtLine(FIRST_LINE));
+    objDocument.append(stech, cursor);
+
+    assertEquals(stech, objDocument.peek(cursor));
   }
-  
+
   @Test
-  public void Document_addOneCurvSurfaceApproxToEmptyObjDocumentAtSpecifiedLine_OneCurvSurfaceApproxIsAddedAtSpecifiedLine() {
+  public void Document_addOneCurvSurfaceApproxToEmptyObjDocumentAtCursor_OneCurvSurfaceApproxIsAddedAtCursor() {
     Document objDocument = Factory.createObjDocument();
-    
+    Cursor cursor = objDocument.getCursor();
+    cursor.setTo(objDocument.getReadOnlyEofCursor());
+
     CurvSurfaceApprox stech = Factory.createCurvSurfaceApprox("1.5678", "90.0");
-    objDocument.insertStatementAtLine(stech, FIRST_LINE);
-    
-    assertEquals(stech, objDocument.peekAtStatementAtLine(FIRST_LINE));
+    objDocument.append(stech, cursor);
+
+    assertEquals(stech, objDocument.peek(cursor));
   }
-    
+
   @Test
-  public void Document_addCommentedGeoVertexToEmptyObjDocumentAtSpecifiedLine_OneCommentedGeoVertexIsAddedAtSpecifiedLine() {
+  public void Document_addCommentedGeoVertexToEmptyObjDocumentAtCursor_OneCommentedGeoVertexIsAddedAtCursor() {
     Document objDocument = Factory.createObjDocument();
-    
+    Cursor cursor = objDocument.getCursor();
+    cursor.setTo(objDocument.getReadOnlyEofCursor());
+
     GeoVertex v = Factory.createGeoVertex("1.0000", "2.0000", "3.0000", "4.0000");
     if (v.canComment()) {
       Comment comment = Factory.createComment(" This is a comment.");
       v.setComment(comment);
     }
-    objDocument.insertStatementAtLine(v, FIRST_LINE);
-    
+    objDocument.append(v, cursor);
+
     assertTrue(v.canComment());
-    assertEquals(v, objDocument.peekAtStatementAtLine(FIRST_LINE));
-    assertEquals(v.getComment(), ((GeoVertex) objDocument.peekAtStatementAtLine(FIRST_LINE)).getComment());
+    assertEquals(v, objDocument.peek(cursor));
+    assertEquals(v.getComment(), ((GeoVertex) objDocument.peek(cursor)).getComment());
   }
-  
+
   @Test
-  public void Document_addCommmentedBlankToEmptyObjDocumentAtSpecifiedLine_OneCommentedBlankIsAddedATSpecifiedLine() {
+  public void Document_addCommmentedBlankToEmptyObjDocumentAtCursor_OneCommentedBlankIsAddedATCursor() {
     Document objDocument = Factory.createObjDocument();
-    
+    Cursor cursor = objDocument.getCursor();
+    cursor.setTo(objDocument.getReadOnlyEofCursor());
+
     Blank blank = Factory.createBlank();
     if (blank.canComment()) {
       Comment comment = Factory.createComment(" This is a comment on a blank line.");
       blank.setComment(comment);
     }
-    objDocument.insertStatementAtLine(blank, FIRST_LINE);
-    
+    objDocument.append(blank, cursor);
+
     assertTrue(blank.canComment());
-    assertEquals(blank, objDocument.peekAtStatementAtLine(FIRST_LINE));
-    assertEquals(blank.getComment(), ((Blank) objDocument.peekAtStatementAtLine(FIRST_LINE)).getComment());
+    assertEquals(blank, objDocument.peek(cursor));
+    assertEquals(blank.getComment(), ((Blank) objDocument.peek(cursor)).getComment());
   }
-  
+
   @Test
-  public void Document_addOneBlankToEmptyObjDocumentAtSpecifiedLine_OneBlankIsAddedAtSpecifiedLine() {
+  public void Document_addOneBlankToEmptyObjDocumentAtCursor_OneBlankIsAddedAtCursor() {
     Document objDocument = Factory.createObjDocument();
-    
+    Cursor cursor = objDocument.getCursor();
+    cursor.setTo(objDocument.getReadOnlyEofCursor());
+
     Blank blank = Factory.createBlank();
-    objDocument.insertStatementAtLine(blank, FIRST_LINE);
-    
-    assertEquals(blank, objDocument.peekAtStatementAtLine(FIRST_LINE));
+    objDocument.append(blank, cursor);
+
+    assertEquals(blank, objDocument.peek(cursor));
   }
-  
+
   @Test
-  public void Document_addUnknownToEmptyObjDocumentAtSpecifiedLine_OneUnknownIsAddedAtSpecifiedLine() {
+  public void Document_addUnknownToEmptyObjDocumentAtCursor_OneUnknownIsAddedAtCursor() {
     Document objDocument = Factory.createObjDocument();
-    
+    Cursor cursor = objDocument.getCursor();
+    cursor.setTo(objDocument.getReadOnlyEofCursor());
+
     List<String> tokens = Arrays.asList("some", "unknown", "tokens");
     Unknown unknown = Factory.createUnknown(tokens);
-    objDocument.insertStatementAtLine(unknown, FIRST_LINE);
-    
-    assertEquals(unknown, objDocument.peekAtStatementAtLine(FIRST_LINE));
+    objDocument.append(unknown, cursor);
+
+    assertEquals(unknown, objDocument.peek(cursor));
   }
 }
 

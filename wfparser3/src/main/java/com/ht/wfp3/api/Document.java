@@ -16,98 +16,103 @@ import com.ht.wfp3.api.acceptance.Unknown;
  *
  */
 public interface Document {
+  Cursor getReadOnlyEofCursor();
 
-  Statement peekAtStatementAtLine(int lineNumber);
+  Cursor getReadOnlyBofCursor();
 
-  void insertStatementAtLine(GeoVertex geoVertex, int lineNumber);
+  Cursor getCursor();
 
-  void insertStatementAtLine(TexVertex texVertex, int lineNumber);
+  Statement peek(Cursor cursor);
 
-  void insertStatementAtLine(NormalVertex normalVertex, int lineNumber);
+  void append(GeoVertex geoVertex, Cursor cursor);
 
-  void insertStatementAtLine(ParamVertex paramVertex, int lineNumber);
+  void append(TexVertex texVertex, Cursor cursor);
 
-  void insertStatementAtLine(Point point, int lineNumber);
+  void append(NormalVertex normalVertex, Cursor cursor);
 
-  void insertStatementAtLine(Line line, int lineNumber);
+  void append(ParamVertex paramVertex, Cursor cursor);
 
-  void insertStatementAtLine(Face face, int lineNumber);
+  void append(Point point, Cursor cursor);
 
-  void insertStatementAtLine(CurveOrSurface cstype, int lineNumber);
+  void append(Line line, Cursor cursor);
 
-  void insertStatementAtLine(Degree deg, int lineNumber);
+  void append(Face face, Cursor cursor);
 
-  void insertStatementAtLine(BasisMatrix bmat, int lineNumber);
+  void append(CurveOrSurface cstype, Cursor cursor);
 
-  void insertStatementAtLine(StepSize step, int lineNumber);
+  void append(Degree deg, Cursor cursor);
 
-  void insertStatementAtLine(Curve curv, int lineNumber);
+  void append(BasisMatrix bmat, Cursor cursor);
 
-  void insertStatementAtLine(Curve2D curv2, int lineNumber);
+  void append(StepSize step, Cursor cursor);
 
-  void insertStatementAtLine(Surface surf, int lineNumber);
+  void append(Curve curv, Cursor cursor);
 
-  void insertStatementAtLine(Call call, int lineNumber);
+  void append(Curve2D curv2, Cursor cursor);
 
-  void insertStatementAtLine(Csh csh, int lineNumber);
+  void append(Surface surf, Cursor cursor);
 
-  void insertStatementAtLine(Parm parm, int lineNumber);
+  void append(Call call, Cursor cursor);
 
-  void insertStatementAtLine(Trim trim, int lineNumber);
+  void append(Csh csh, Cursor cursor);
 
-  void insertStatementAtLine(Hole hole, int lineNumber);
+  void append(Parm parm, Cursor cursor);
 
-  void insertStatementAtLine(SpecialCurve scrv, int lineNumber);
+  void append(Trim trim, Cursor cursor);
 
-  void insertStatementAtLine(SpecialPoint sp, int lineNumber);
+  void append(Hole hole, Cursor cursor);
 
-  void insertStatementAtLine(End end, int lineNumber);
+  void append(SpecialCurve scrv, Cursor cursor);
 
-  void insertStatementAtLine(Connect con, int lineNumber);
+  void append(SpecialPoint sp, Cursor cursor);
 
-  void insertStatementAtLine(GroupNameList g, int lineNumber);
+  void append(End end, Cursor cursor);
 
-  void insertStatementAtLine(SmoothingGroup s, int lineNumber);
+  void append(Connect con, Cursor cursor);
 
-  void insertStatementAtLine(MergingGroup mg, int lineNumber);
+  void append(GroupNameList g, Cursor cursor);
 
-  void insertStatementAtLine(ObjectName o, int lineNumber);
+  void append(SmoothingGroup s, Cursor cursor);
 
-  void insertStatementAtLine(Bevel bevel, int lineNumber);
+  void append(MergingGroup mg, Cursor cursor);
 
-  void insertStatementAtLine(ColorInterpolation c_interp, int lineNumber);
+  void append(ObjectName o, Cursor cursor);
 
-  void insertStatementAtLine(DissolveInterpolation d_interp, int lineNumber);
+  void append(Bevel bevel, Cursor cursor);
 
-  void insertStatementAtLine(LevelOfDetail lod, int lineNumber);
+  void append(ColorInterpolation c_interp, Cursor cursor);
 
-  void insertStatementAtLine(MapLib maplib, int lineNumber);
+  void append(DissolveInterpolation d_interp, Cursor cursor);
 
-  void insertStatementAtLine(UseMaterial usemtl, int lineNumber);
+  void append(LevelOfDetail lod, Cursor cursor);
 
-  void insertStatementAtLine(UseMap usemap, int lineNumber);
+  void append(MapLib maplib, Cursor cursor);
 
-  void insertStatementAtLine(MaterialLib mtllib, int lineNumber);
+  void append(UseMaterial usemtl, Cursor cursor);
 
-  void insertStatementAtLine(ShadowObject shadow_obj, int lineNumber);
+  void append(UseMap usemap, Cursor cursor);
 
-  void insertStatementAtLine(RayTracingObject trace_obj, int lineNumber);
+  void append(MaterialLib mtllib, Cursor cursor);
 
-  void insertStatementAtLine(CparmCurveApprox ctech, int lineNumber);
+  void append(ShadowObject shadow_obj, Cursor cursor);
 
-  void insertStatementAtLine(CspaceCurveApprox ctech, int lineNumber);
+  void append(RayTracingObject trace_obj, Cursor cursor);
 
-  void insertStatementAtLine(CurvCurveApprox ctech, int lineNumber);
+  void append(CparmCurveApprox ctech, Cursor cursor);
 
-  void insertStatementAtLine(CparmaSurfaceApprox stech, int lineNumber);
+  void append(CspaceCurveApprox ctech, Cursor cursor);
 
-  void insertStatementAtLine(CparmbSurfaceApprox stech, int lineNumber);
+  void append(CurvCurveApprox ctech, Cursor cursor);
 
-  void insertStatementAtLine(CspaceSurfaceApprox stech, int lineNumber);
+  void append(CparmaSurfaceApprox stech, Cursor cursor);
 
-  void insertStatementAtLine(CurvSurfaceApprox stech, int lineNumber);
+  void append(CparmbSurfaceApprox stech, Cursor cursor);
 
-  void insertStatementAtLine(Blank blank, int lineNumber);
+  void append(CspaceSurfaceApprox stech, Cursor cursor);
 
-  void insertStatementAtLine(Unknown unknown, int lineNumber);
+  void append(CurvSurfaceApprox stech, Cursor cursor);
+
+  void append(Blank blank, Cursor cursor);
+
+  void append(Unknown unknown, Cursor cursor);
 }
