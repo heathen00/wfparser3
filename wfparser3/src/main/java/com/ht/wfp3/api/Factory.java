@@ -1,6 +1,7 @@
 package com.ht.wfp3.api;
 
 import com.ht.wfp3.api.BasisMatrix.Axis;
+import com.ht.wfp3.api.acceptance.Unknown;
 
 import java.util.List;
 
@@ -169,6 +170,101 @@ public interface Factory {
   }
 
   static ObjectName createObjectName(String objectName) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  static Bevel createBevel(boolean isEnabled) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  static ColorInterpolation createColorInterpolation(boolean isEnabled) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  static DissolveInterpolation createDissolveInterpolation(boolean isEnabled) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  static LevelOfDetail createLevelOfDetail(String levelOfDetail) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  static MapLib createMapLib() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  static UseMaterial createUseMaterial(String materialName) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  static UseMap createUseMap(String mapNameOrOff) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  static MaterialLib createMaterialLib() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  static ShadowObject createShadowObject(String shadowObjectFileName) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  static RayTracingObject createRayTracingObject(String rayTracingObjectFileName) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  static CparmCurveApprox createCparmCurveApprox(String resolution) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  static CspaceCurveApprox createCspaceCurveApprox(String maxLength) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  static CurvCurveApprox createCurvCurveAprox(String maxDist, String maxAngleInDegrees) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  static CparmaSurfaceApprox createCparmaSurfaceApprox(String resolutionForUAxis, String resolutionForVAxis) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  static CparmbSurfaceApprox createCparmbSurfaceApprox(String resolutionForUAndVAxes) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  static CspaceSurfaceApprox createCspaceSurfaceApprox(String maxLength) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  static CurvSurfaceApprox createCurvSurfaceApprox(String maxDist, String maxAngleInDegrees) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  static Blank createBlank() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  static Unknown createUnknown(List<String> tokens) {
     // TODO Auto-generated method stub
     return null;
   }

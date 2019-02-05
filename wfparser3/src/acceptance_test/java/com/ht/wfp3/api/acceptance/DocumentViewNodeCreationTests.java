@@ -1,16 +1,28 @@
 package com.ht.wfp3.api.acceptance;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import com.ht.wfp3.api.BasisMatrix;
+import com.ht.wfp3.api.Bevel;
+import com.ht.wfp3.api.Blank;
 import com.ht.wfp3.api.Call;
+import com.ht.wfp3.api.ColorInterpolation;
 import com.ht.wfp3.api.Connect;
+import com.ht.wfp3.api.CparmCurveApprox;
+import com.ht.wfp3.api.CparmaSurfaceApprox;
+import com.ht.wfp3.api.CparmbSurfaceApprox;
 import com.ht.wfp3.api.Csh;
+import com.ht.wfp3.api.CspaceCurveApprox;
+import com.ht.wfp3.api.CspaceSurfaceApprox;
+import com.ht.wfp3.api.CurvCurveApprox;
+import com.ht.wfp3.api.CurvSurfaceApprox;
 import com.ht.wfp3.api.Curve;
 import com.ht.wfp3.api.Curve2D;
 import com.ht.wfp3.api.Curve2DReference;
 import com.ht.wfp3.api.CurveOrSurface;
 import com.ht.wfp3.api.Degree;
+import com.ht.wfp3.api.DissolveInterpolation;
 import com.ht.wfp3.api.Document;
 import com.ht.wfp3.api.End;
 import com.ht.wfp3.api.Face;
@@ -18,13 +30,18 @@ import com.ht.wfp3.api.Factory;
 import com.ht.wfp3.api.GeoVertex;
 import com.ht.wfp3.api.GroupNameList;
 import com.ht.wfp3.api.Hole;
+import com.ht.wfp3.api.LevelOfDetail;
 import com.ht.wfp3.api.Line;
+import com.ht.wfp3.api.MapLib;
+import com.ht.wfp3.api.MaterialLib;
 import com.ht.wfp3.api.MergingGroup;
 import com.ht.wfp3.api.NormalVertex;
 import com.ht.wfp3.api.ObjectName;
 import com.ht.wfp3.api.ParamVertex;
 import com.ht.wfp3.api.Parm;
 import com.ht.wfp3.api.Point;
+import com.ht.wfp3.api.RayTracingObject;
+import com.ht.wfp3.api.ShadowObject;
 import com.ht.wfp3.api.SmoothingGroup;
 import com.ht.wfp3.api.SpecialCurve;
 import com.ht.wfp3.api.SpecialPoint;
@@ -32,10 +49,13 @@ import com.ht.wfp3.api.StepSize;
 import com.ht.wfp3.api.Surface;
 import com.ht.wfp3.api.TexVertex;
 import com.ht.wfp3.api.Trim;
+import com.ht.wfp3.api.UseMap;
+import com.ht.wfp3.api.UseMaterial;
 import com.ht.wfp3.api.VertexReference;
 import com.ht.wfp3.api.VertexReferenceGroup;
 
 import java.util.Arrays;
+import java.util.List;
 
 import org.junit.Test;
 
@@ -449,58 +469,264 @@ public class DocumentViewNodeCreationTests {
 
     assertEquals(end, objDocument.peekAtNodeAtLine(FIRST_LINE));
   }
-  
+
   @Test
   public void Document_addOneConnectToEmptyObjDocumentAtSpecifiedLine_OneConnectIsAddedAtSpecifiedLine() {
     Document objDocument = Factory.createObjDocument();
 
-    Curve2DReference curve2dReferenceForSurface3 = Factory.createCurve2DReference("1.111", "2.222", "1");
-    Curve2DReference curve2dReferenceForSurface4 = Factory.createCurve2DReference("3.333", "4.444", "2");
-    Connect con = Factory.createConnect("3", curve2dReferenceForSurface3, "4", curve2dReferenceForSurface4);
+    Curve2DReference curve2dReferenceForSurface3 =
+        Factory.createCurve2DReference("1.111", "2.222", "1");
+    Curve2DReference curve2dReferenceForSurface4 =
+        Factory.createCurve2DReference("3.333", "4.444", "2");
+    Connect con =
+        Factory.createConnect("3", curve2dReferenceForSurface3, "4", curve2dReferenceForSurface4);
     objDocument.insertNodeAtLine(con, FIRST_LINE);
-    
+
     assertEquals(con, objDocument.peekAtNodeAtLine(FIRST_LINE));
   }
-  
+
   @Test
   public void Document_addOneGroupNameToEmptyObjDocumentAtSpecifiedLine_OneGroupNameIsAddedAtSpecifiedLine() {
     Document objDocument = Factory.createObjDocument();
-    
+
     GroupNameList g = Factory.createGroupName();
     g.appendGroupName("cube");
     g.appendGroupName("top");
     objDocument.insertNodeAtLine(g, FIRST_LINE);
-    
+
     assertEquals(g, objDocument.peekAtNodeAtLine(FIRST_LINE));
   }
-  
+
   @Test
   public void Document_addOneSmoothingGroupToEmptyObjDocumentAtSpecifiedLine_OneSmoothingGroupIsAddedAtSpecifiedLine() {
     Document objDocument = Factory.createObjDocument();
-    
+
     SmoothingGroup s = Factory.createSmoothingGroup("3");
     objDocument.insertNodeAtLine(s, FIRST_LINE);
-    
+
     assertEquals(s, objDocument.peekAtNodeAtLine(FIRST_LINE));
   }
-  
+
   @Test
   public void Document_addMergingGroupToEmptyObjDocumentAtSpecifiedLine_OneMergingGroupIsAddedAtSpecifiedLine() {
     Document objDocument = Factory.createObjDocument();
-    
+
     MergingGroup mg = Factory.createMergingGroup("3", "0.6");
     objDocument.insertNodeAtLine(mg, FIRST_LINE);
-    
+
     assertEquals(mg, objDocument.peekAtNodeAtLine(FIRST_LINE));
   }
-  
+
   @Test
   public void Document_addObjectNameToEmptyObjDocumentAtSpecifiedLine_OneObjectNameIsAddedAtSpecifiedLine() {
     Document objDocument = Factory.createObjDocument();
-    
+
     ObjectName o = Factory.createObjectName("test_cube");
     objDocument.insertNodeAtLine(o, FIRST_LINE);
-    
+
     assertEquals(o, objDocument.peekAtNodeAtLine(FIRST_LINE));
   }
+
+  @Test
+  public void Document_addOneBevelToEmptyObjDocumentAtSpecifiedLine_OneBevelIsAddedAtSpecifiedLine() {
+    Document objDocument = Factory.createObjDocument();
+
+    Bevel bevel = Factory.createBevel(true);
+    objDocument.insertNodeAtLine(bevel, FIRST_LINE);
+
+    assertEquals(bevel, objDocument.peekAtNodeAtLine(FIRST_LINE));
+  }
+
+  @Test
+  public void Document_addOneColorInterpolationToEmptyObjDocumentAtSpecifiedLine_OneColorInterpolationIsAddedAtSpecifiedLine() {
+    Document objDocument = Factory.createObjDocument();
+
+    // TODO I don't think it is a good idea to use a boolean in ANY of the factory methods since the
+    // primary user of this interface will be a parser.
+    ColorInterpolation c_interp = Factory.createColorInterpolation(true);
+    objDocument.insertNodeAtLine(c_interp, FIRST_LINE);
+
+    assertEquals(c_interp, objDocument.peekAtNodeAtLine(FIRST_LINE));
+  }
+  
+  @Test
+  public void Document_addOneDissolveInterpolationToEmptyObjDocumentAtSpecifiedLine_OneDissolveInterpolationIsAddedAtSpecifiedLine() {
+    Document objDocument = Factory.createObjDocument();
+    
+    DissolveInterpolation d_interp = Factory.createDissolveInterpolation(true);
+    objDocument.insertNodeAtLine(d_interp, FIRST_LINE);
+    
+    assertEquals(d_interp, objDocument.peekAtNodeAtLine(FIRST_LINE));
+  }
+  
+  @Test
+  public void Document_addOneLevelOfDetailToEmptyObjDocumentAtSpecifiedLine_OneLevelOfDetailIsAddedAtSpecifiedLine() {
+    Document objDocument = Factory.createObjDocument();
+    
+    LevelOfDetail lod = Factory.createLevelOfDetail("55");
+    objDocument.insertNodeAtLine(lod, FIRST_LINE);
+    
+    assertEquals(lod, objDocument.peekAtNodeAtLine(FIRST_LINE));
+  }
+  
+  @Test
+  public void Document_addOneMapLibToEmptyObjDocumentAtSpecifiedLine_OneMapLibIsAddedAtSpecifiedLine() {
+    Document objDocument = Factory.createObjDocument();
+    
+    // TODO I have no idea if there is a file extension limitation or not.  It does not say in the specification.
+    MapLib maplib = Factory.createMapLib();
+    maplib.appendMapLibFileName("library1.textures");
+    maplib.appendMapLibFileName("library2.textures");
+    objDocument.insertNodeAtLine(maplib, FIRST_LINE);
+    
+    assertEquals(maplib, objDocument.peekAtNodeAtLine(FIRST_LINE));
+  }
+  
+  @Test
+  public void Document_addOneUseMapToEmptyObjDocumentAtSpecifiedLine_OneUseMapIsAddedAtSpecifiedLine() {
+    Document objDocument = Factory.createObjDocument();
+    
+    UseMap usemap = Factory.createUseMap("test_map_name");
+    objDocument.insertNodeAtLine(usemap, FIRST_LINE);
+    
+    assertEquals(usemap, FIRST_LINE);
+  }
+  
+  @Test
+  public void Document_addOneUseMaterialToEmptyObjDocumentAtSpecifiedLine_OneUseMaterialIsAddedAtSpecifiedLine() {
+    Document objDocument = Factory.createObjDocument();
+    
+    UseMaterial usemtl = Factory.createUseMaterial("test_material");
+    objDocument.insertNodeAtLine(usemtl, FIRST_LINE);
+    
+    assertEquals(usemtl, objDocument.peekAtNodeAtLine(FIRST_LINE));
+  }
+  
+  
+  @Test
+  public void Document_addOneMaterialLibToEmptyObjDocumentAtSpecifiedLine_OneMaterialLibIsAddedAtSpecifiedLine() {
+    Document objDocument = Factory.createObjDocument();
+    
+    // TODO I have no idea if there is a file extension limitation or not.  It does not say in the specification.
+    MaterialLib mtllib = Factory.createMaterialLib();
+    mtllib.appendMaterialLibFileName("library1.materials");
+    mtllib.appendMaterialLibFileName("library2.materials");
+    objDocument.insertNodeAtLine(mtllib, FIRST_LINE);
+    
+    assertEquals(mtllib, objDocument.peekAtNodeAtLine(FIRST_LINE));
+  }
+  
+  @Test
+  public void Document_addOneShadowObjectToEmptyObjDocumentAtSpecifiedLine_OneShadowObjectIsAddedAtSpecifiedLine() {
+    Document objDocument = Factory.createObjDocument();
+    
+    ShadowObject shadow_obj = Factory.createShadowObject("shadow.obj");
+    objDocument.insertNodeAtLine(shadow_obj, FIRST_LINE);
+    
+    assertEquals(shadow_obj, objDocument.peekAtNodeAtLine(FIRST_LINE));
+  }
+  
+  @Test
+  public void Document_addOneRayTracingObjectToEmptyObjDocumentAtSpecifiedLine_OneRayTracingObjectIsAddedAtSpecifiedLine() {
+    Document objDocument = Factory.createObjDocument();
+    
+    RayTracingObject trace_obj = Factory.createRayTracingObject("ray_tracing.obj");
+    objDocument.insertNodeAtLine(trace_obj, FIRST_LINE);
+    
+    assertEquals(trace_obj, objDocument.peekAtNodeAtLine(FIRST_LINE));
+  }
+  
+  @Test
+  public void Document_addOneCparmCurveApproxToEmptyObjDocumentAtSpecifiedLine_OneCparmCurveApproxIsAddedAtSpecifiedLine() {
+    Document objDocument = Factory.createObjDocument();
+    
+    CparmCurveApprox ctech = Factory.createCparmCurveApprox("2.3333");
+    objDocument.insertNodeAtLine(ctech, FIRST_LINE);
+    
+    assertEquals(ctech, objDocument.peekAtNodeAtLine(FIRST_LINE));
+  }
+  
+  @Test
+  public void Document_addOneCspaceCurveApproxToEmptyObjDocumentAtSpecifiedLine_OneCspaceCurveApproxIsAddedAtSpecifiedLine() {
+    Document objDocument = Factory.createObjDocument();
+    
+    CspaceCurveApprox ctech = Factory.createCspaceCurveApprox("1.56");
+    objDocument.insertNodeAtLine(ctech, FIRST_LINE);
+    
+    assertEquals(ctech, objDocument.peekAtNodeAtLine(FIRST_LINE));
+  }
+  
+  @Test
+  public void Document_addOneCurvCurveApproxToEmptyObjDocumentAtSpecifiedLine_OneCurvCurveApproxIsAddedAtSpecifiedLine() {
+    Document objDocument = Factory.createObjDocument();
+    
+    CurvCurveApprox ctech = Factory.createCurvCurveAprox("1.1876", "93.45");
+    objDocument.insertNodeAtLine(ctech, FIRST_LINE);
+    
+    assertEquals(ctech, objDocument.peekAtNodeAtLine(FIRST_LINE));
+  }
+  
+  @Test
+  public void Document_addOneCparmaSurfaceApproxToEmptyObjDocumentAtSpecifiedLine_OneCparmaSurfaceApproxIsAddedAtSpecifiedLine() {
+    Document objDocument = Factory.createObjDocument();
+    
+    CparmaSurfaceApprox stech = Factory.createCparmaSurfaceApprox("1.234", "3.333");
+    objDocument.insertNodeAtLine(stech, FIRST_LINE);
+    
+    assertEquals(stech, objDocument.peekAtNodeAtLine(FIRST_LINE));
+  }
+  
+  @Test
+  public void Document_addOneCparmbSurfaceApproxToEmptyObjDocumentAtSpecifiedLine_OneCparmbSurfaceApproxIsAddedAtSpecifiedLine() {
+    Document objDocument = Factory.createObjDocument();
+    
+    CparmbSurfaceApprox stech = Factory.createCparmbSurfaceApprox("5.678");
+    objDocument.insertNodeAtLine(stech, FIRST_LINE);
+    
+    assertEquals(stech, objDocument.peekAtNodeAtLine(FIRST_LINE));
+  }
+  
+  @Test
+  public void Document_addOneCspaceSurfaceApproxToEmptyObjDocumentAtSpecifiedLine_OneCspaceSurfaceApproxIsAddedAtSpecifiedLine() {
+    Document objDocument = Factory.createObjDocument();
+    
+    CspaceSurfaceApprox stech = Factory.createCspaceSurfaceApprox("1.11");
+    objDocument.insertNodeAtLine(stech, FIRST_LINE);
+    
+    assertEquals(stech, objDocument.peekAtNodeAtLine(FIRST_LINE));
+  }
+  
+  @Test
+  public void Document_addOneCurvSurfaceApproxToEmptyObjDocumentAtSpecifiedLine_OneCurvSurfaceApproxIsAddedAtSpecifiedLine() {
+    Document objDocument = Factory.createObjDocument();
+    
+    CurvSurfaceApprox stech = Factory.createCurvSurfaceApprox("1.5678", "90.0");
+    objDocument.insertNodeAtLine(stech, FIRST_LINE);
+    
+    assertEquals(stech, objDocument.peekAtNodeAtLine(FIRST_LINE));
+  }
+  
+  // TODO implement Comment here.  Need to refactor some code first.
+  
+  @Test
+  public void Document_addOneBlankToEmptyObjDocumentAtSpecifiedLine_OneBlankIsAddedAtSpecifiedLine() {
+    Document objDocument = Factory.createObjDocument();
+    
+    Blank blank = Factory.createBlank();
+    objDocument.insertNodeAtLine(blank, FIRST_LINE);
+    
+    assertEquals(blank, objDocument.peekAtNodeAtLine(FIRST_LINE));
+  }
+  
+  @Test
+  public void Document_addUnknownToEmptyObjDocumentAtSpecifiedLine_OneUnknownIsAddedAtSpecifiedLine() {
+    Document objDocument = Factory.createObjDocument();
+    
+    List<String> tokens = Arrays.asList("some", "unknown", "tokens");
+    Unknown unknown = Factory.createUnknown(tokens);
+    objDocument.insertNodeAtLine(unknown, FIRST_LINE);
+    
+    assertEquals(unknown, objDocument.peekAtNodeAtLine(FIRST_LINE));
+  }
 }
+

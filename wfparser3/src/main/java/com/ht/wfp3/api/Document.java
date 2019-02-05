@@ -1,5 +1,7 @@
 package com.ht.wfp3.api;
 
+import com.ht.wfp3.api.acceptance.Unknown;
+
 /**
  * The Document View of the OBJ file.
  * 
@@ -70,4 +72,42 @@ public interface Document {
   void insertNodeAtLine(MergingGroup mg, int lineNumber);
 
   void insertNodeAtLine(ObjectName o, int lineNumber);
+
+  void insertNodeAtLine(Bevel bevel, int lineNumber);
+
+  void insertNodeAtLine(ColorInterpolation c_interp, int lineNumber);
+
+  void insertNodeAtLine(DissolveInterpolation d_interp, int lineNumber);
+
+  void insertNodeAtLine(LevelOfDetail lod, int lineNumber);
+
+  void insertNodeAtLine(MapLib maplib, int lineNumber);
+
+  void insertNodeAtLine(UseMaterial usemtl, int lineNumber);
+
+  void insertNodeAtLine(UseMap usemap, int lineNumber);
+
+  void insertNodeAtLine(MaterialLib mtllib, int lineNumber);
+
+  void insertNodeAtLine(ShadowObject shadow_obj, int lineNumber);
+
+  void insertNodeAtLine(RayTracingObject trace_obj, int lineNumber);
+
+  void insertNodeAtLine(CparmCurveApprox ctech, int lineNumber);
+
+  void insertNodeAtLine(CspaceCurveApprox ctech, int lineNumber);
+
+  void insertNodeAtLine(CurvCurveApprox ctech, int lineNumber);
+
+  void insertNodeAtLine(CparmaSurfaceApprox stech, int lineNumber);
+
+  void insertNodeAtLine(CparmbSurfaceApprox stech, int lineNumber);
+
+  void insertNodeAtLine(CspaceSurfaceApprox stech, int lineNumber);
+
+  void insertNodeAtLine(CurvSurfaceApprox stech, int lineNumber);
+
+  void insertNodeAtLine(Blank blank, int lineNumber);
+
+  void insertNodeAtLine(Unknown unknown, int lineNumber);
 }
