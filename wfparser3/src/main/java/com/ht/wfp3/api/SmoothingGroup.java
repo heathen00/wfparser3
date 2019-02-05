@@ -26,7 +26,7 @@ package com.ht.wfp3.api;
  * @author nickl
  *
  */
-public interface SmoothingGroup extends Node, Commentable {
+public interface SmoothingGroup extends Statement, Commentable {
   boolean isEnabled();
 
   String getSmoothingGroupNumber();

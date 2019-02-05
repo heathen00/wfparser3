@@ -19,7 +19,7 @@ package com.ht.wfp3.api;
  * @author nickl
  *
  */
-public interface UseMap extends Node, Commentable {
+public interface UseMap extends Statement, Commentable {
   boolean isEnabled();
 
   String getMapName();

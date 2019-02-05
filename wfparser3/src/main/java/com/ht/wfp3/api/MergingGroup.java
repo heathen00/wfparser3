@@ -27,7 +27,7 @@ package com.ht.wfp3.api;
  * @author nickl
  *
  */
-public interface MergingGroup extends Node, Commentable {
+public interface MergingGroup extends Statement, Commentable {
   boolean isEnabled();
 
   String getMergingGroupNumber();

@@ -23,6 +23,6 @@ package com.ht.wfp3.api;
  * @author nickl
  *
  */
-public interface Comment extends Node {
+public interface Comment extends Statement {
 
 }

@@ -31,7 +31,7 @@ package com.ht.wfp3.api;
  * @author nickl
  *
  */
-public interface CurveOrSurface extends Node, Commentable {
+public interface CurveOrSurface extends Statement, Commentable {
   enum Type {
     BMATRIX,
     BEZIER,

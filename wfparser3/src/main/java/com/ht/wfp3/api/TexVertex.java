@@ -30,7 +30,7 @@ package com.ht.wfp3.api;
  * @author nickl
  *
  */
-public interface TexVertex extends Node, Commentable {
+public interface TexVertex extends Statement, Commentable {
   String getUCoord();
 
   String getVCoord();

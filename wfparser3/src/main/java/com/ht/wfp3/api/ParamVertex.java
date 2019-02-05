@@ -33,7 +33,7 @@ package com.ht.wfp3.api;
  * @author nickl
  *
  */
-public interface ParamVertex extends Node, Commentable {
+public interface ParamVertex extends Statement, Commentable {
   String getUCoord();
 
   String getVCoord();

@@ -1,6 +1,6 @@
 package com.ht.wfp3.api.acceptance;
 
-import com.ht.wfp3.api.Node;
+import com.ht.wfp3.api.Statement;
 
 import java.util.List;
 
@@ -12,6 +12,6 @@ import java.util.List;
  * @author nickl
  *
  */
-public interface Unknown extends Node {
+public interface Unknown extends Statement {
   List<String> getTokens();
 }

@@ -61,7 +61,7 @@ import java.util.List;
 
 import org.junit.Test;
 
-public class DocumentViewNodeCreationTests {
+public class DocumentViewStatementCreationTests {
 
   private static final int FIRST_LINE = 1;
 
@@ -87,9 +87,9 @@ public class DocumentViewNodeCreationTests {
     Document objDocument = Factory.createObjDocument();
 
     GeoVertex geoVertex = Factory.createGeoVertex("1.000", "2.000", "3.000", "4.000");
-    objDocument.insertNodeAtLine(geoVertex, FIRST_LINE);
+    objDocument.insertStatementAtLine(geoVertex, FIRST_LINE);
 
-    assertEquals(geoVertex, objDocument.peekAtNodeAtLine(FIRST_LINE));
+    assertEquals(geoVertex, objDocument.peekAtStatementAtLine(FIRST_LINE));
   }
 
   @Test
@@ -97,9 +97,9 @@ public class DocumentViewNodeCreationTests {
     Document objDocument = Factory.createObjDocument();
 
     TexVertex texVertex = Factory.createTexVertex("3.3", "2.2", "1.1");
-    objDocument.insertNodeAtLine(texVertex, FIRST_LINE);
+    objDocument.insertStatementAtLine(texVertex, FIRST_LINE);
 
-    assertEquals(texVertex, objDocument.peekAtNodeAtLine(FIRST_LINE));
+    assertEquals(texVertex, objDocument.peekAtStatementAtLine(FIRST_LINE));
   }
 
   @Test
@@ -107,9 +107,9 @@ public class DocumentViewNodeCreationTests {
     Document objDocument = Factory.createObjDocument();
 
     NormalVertex normalVertex = Factory.createNormalVertex("9.9", "8.8", "7.7");
-    objDocument.insertNodeAtLine(normalVertex, FIRST_LINE);
+    objDocument.insertStatementAtLine(normalVertex, FIRST_LINE);
 
-    assertEquals(normalVertex, objDocument.peekAtNodeAtLine(FIRST_LINE));
+    assertEquals(normalVertex, objDocument.peekAtStatementAtLine(FIRST_LINE));
   }
 
   @Test
@@ -117,9 +117,9 @@ public class DocumentViewNodeCreationTests {
     Document objDocument = Factory.createObjDocument();
 
     ParamVertex paramVertex = Factory.createParamVertex("3.13", "3.31", "1.33");
-    objDocument.insertNodeAtLine(paramVertex, FIRST_LINE);
+    objDocument.insertStatementAtLine(paramVertex, FIRST_LINE);
 
-    assertEquals(paramVertex, objDocument.peekAtNodeAtLine(FIRST_LINE));
+    assertEquals(paramVertex, objDocument.peekAtStatementAtLine(FIRST_LINE));
   }
 
   @Test
@@ -143,9 +143,9 @@ public class DocumentViewNodeCreationTests {
     vertexReferenceGroup
         .addVertexReference(Factory.createVertexReference(VertexReference.Type.GEOMETRIC, "4"));
     point.appendReferenceNumbers(vertexReferenceGroup);
-    objDocument.insertNodeAtLine(point, FIRST_LINE);
+    objDocument.insertStatementAtLine(point, FIRST_LINE);
 
-    assertEquals(point, objDocument.peekAtNodeAtLine(FIRST_LINE));
+    assertEquals(point, objDocument.peekAtStatementAtLine(FIRST_LINE));
   }
 
   @Test
@@ -177,9 +177,9 @@ public class DocumentViewNodeCreationTests {
     vertexReferenceGroup
         .addVertexReference(Factory.createVertexReference(VertexReference.Type.TEXTURE, "4"));
     line.appendReferenceNumbers(vertexReferenceGroup);
-    objDocument.insertNodeAtLine(line, FIRST_LINE);
+    objDocument.insertStatementAtLine(line, FIRST_LINE);
 
-    assertEquals(line, objDocument.peekAtNodeAtLine(FIRST_LINE));
+    assertEquals(line, objDocument.peekAtStatementAtLine(FIRST_LINE));
   }
 
   @Test
@@ -219,9 +219,9 @@ public class DocumentViewNodeCreationTests {
     vertexReferenceGroup
         .addVertexReference(Factory.createVertexReference(VertexReference.Type.NORMAL, "4"));
     face.appendReferenceNumbers(vertexReferenceGroup);
-    objDocument.insertNodeAtLine(face, FIRST_LINE);
+    objDocument.insertStatementAtLine(face, FIRST_LINE);
 
-    assertEquals(face, objDocument.peekAtNodeAtLine(FIRST_LINE));
+    assertEquals(face, objDocument.peekAtStatementAtLine(FIRST_LINE));
   }
 
   @Test
@@ -229,9 +229,9 @@ public class DocumentViewNodeCreationTests {
     Document objDocument = Factory.createObjDocument();
 
     CurveOrSurface cstype = Factory.createCurveOrSurfaceType(false, CurveOrSurface.Type.BMATRIX);
-    objDocument.insertNodeAtLine(cstype, FIRST_LINE);
+    objDocument.insertStatementAtLine(cstype, FIRST_LINE);
 
-    assertEquals(cstype, objDocument.peekAtNodeAtLine(FIRST_LINE));
+    assertEquals(cstype, objDocument.peekAtStatementAtLine(FIRST_LINE));
   }
 
   @Test
@@ -239,9 +239,9 @@ public class DocumentViewNodeCreationTests {
     Document objDocument = Factory.createObjDocument();
 
     Degree deg = Factory.createDegree("5", "6");
-    objDocument.insertNodeAtLine(deg, FIRST_LINE);
+    objDocument.insertStatementAtLine(deg, FIRST_LINE);
 
-    assertEquals(deg, objDocument.peekAtNodeAtLine(FIRST_LINE));
+    assertEquals(deg, objDocument.peekAtStatementAtLine(FIRST_LINE));
   }
 
   @Test
@@ -252,9 +252,9 @@ public class DocumentViewNodeCreationTests {
         { "1.234", "-1.234", "4.321", "-4.321", "9.876", "-9.876" };
     BasisMatrix bmat =
         Factory.createBasisMatrix(BasisMatrix.Axis.U, Arrays.asList(flattenedUAxisBasisMatrix));
-    objDocument.insertNodeAtLine(bmat, FIRST_LINE);
+    objDocument.insertStatementAtLine(bmat, FIRST_LINE);
 
-    assertEquals(bmat, objDocument.peekAtNodeAtLine(FIRST_LINE));
+    assertEquals(bmat, objDocument.peekAtStatementAtLine(FIRST_LINE));
   }
 
   @Test
@@ -262,9 +262,9 @@ public class DocumentViewNodeCreationTests {
     Document objDocument = Factory.createObjDocument();
 
     StepSize step = Factory.createStepSize("7", "33");
-    objDocument.insertNodeAtLine(step, FIRST_LINE);
+    objDocument.insertStatementAtLine(step, FIRST_LINE);
 
-    assertEquals(step, objDocument.peekAtNodeAtLine(FIRST_LINE));
+    assertEquals(step, objDocument.peekAtStatementAtLine(FIRST_LINE));
   }
 
   @Test
@@ -288,9 +288,9 @@ public class DocumentViewNodeCreationTests {
     vertexReferenceGroup
         .addVertexReference(Factory.createVertexReference(VertexReference.Type.GEOMETRIC, "4"));
     curv.appendControlPointVertexReferenceGroup(vertexReferenceGroup);
-    objDocument.insertNodeAtLine(curv, FIRST_LINE);
+    objDocument.insertStatementAtLine(curv, FIRST_LINE);
 
-    assertEquals(curv, objDocument.peekAtNodeAtLine(FIRST_LINE));
+    assertEquals(curv, objDocument.peekAtStatementAtLine(FIRST_LINE));
   }
 
   @Test
@@ -314,9 +314,9 @@ public class DocumentViewNodeCreationTests {
     vertexReferenceGroup
         .addVertexReference(Factory.createVertexReference(VertexReference.Type.PARAMETER, "4"));
     curv2.appendControlPointVertexReferenceGroup(vertexReferenceGroup);
-    objDocument.insertNodeAtLine(curv2, FIRST_LINE);
+    objDocument.insertStatementAtLine(curv2, FIRST_LINE);
 
-    assertEquals(curv2, objDocument.peekAtNodeAtLine(FIRST_LINE));
+    assertEquals(curv2, objDocument.peekAtStatementAtLine(FIRST_LINE));
   }
 
   @Test
@@ -356,9 +356,9 @@ public class DocumentViewNodeCreationTests {
     vertexReferenceGroup
         .addVertexReference(Factory.createVertexReference(VertexReference.Type.NORMAL, "4"));
     surf.appendControlPointVertexReferenceGroup(vertexReferenceGroup);
-    objDocument.insertNodeAtLine(surf, FIRST_LINE);
+    objDocument.insertStatementAtLine(surf, FIRST_LINE);
 
-    assertEquals(surf, objDocument.peekAtNodeAtLine(FIRST_LINE));
+    assertEquals(surf, objDocument.peekAtStatementAtLine(FIRST_LINE));
   }
 
   @Test
@@ -369,9 +369,9 @@ public class DocumentViewNodeCreationTests {
     call.appendArgument("3");
     call.appendArgument("5");
     call.appendArgument("78");
-    objDocument.insertNodeAtLine(call, FIRST_LINE);
+    objDocument.insertStatementAtLine(call, FIRST_LINE);
 
-    assertEquals(call, objDocument.peekAtNodeAtLine(FIRST_LINE));
+    assertEquals(call, objDocument.peekAtStatementAtLine(FIRST_LINE));
   }
 
   @Test
@@ -379,9 +379,9 @@ public class DocumentViewNodeCreationTests {
     Document objDocument = Factory.createObjDocument();
 
     Csh csh = Factory.createCsh(true, "pwd");
-    objDocument.insertNodeAtLine(csh, FIRST_LINE);
+    objDocument.insertStatementAtLine(csh, FIRST_LINE);
 
-    assertEquals(csh, objDocument.peekAtNodeAtLine(FIRST_LINE));
+    assertEquals(csh, objDocument.peekAtStatementAtLine(FIRST_LINE));
   }
 
   @Test
@@ -393,9 +393,9 @@ public class DocumentViewNodeCreationTests {
     parm.appendParameterValue("4.4444");
     parm.appendParameterValue("-9.22");
     parm.appendParameterValue("111.9876");
-    objDocument.insertNodeAtLine(parm, FIRST_LINE);
+    objDocument.insertStatementAtLine(parm, FIRST_LINE);
 
-    assertEquals(parm, objDocument.peekAtNodeAtLine(FIRST_LINE));
+    assertEquals(parm, objDocument.peekAtStatementAtLine(FIRST_LINE));
   }
 
   @Test
@@ -406,9 +406,9 @@ public class DocumentViewNodeCreationTests {
     trim.appendTrimmingCurve2DReference(Factory.createCurve2DReference("1.4567", "-99.5463", "1"));
     trim.appendTrimmingCurve2DReference(Factory.createCurve2DReference("1.111", "2.22", "5"));
     trim.appendTrimmingCurve2DReference(Factory.createCurve2DReference("6.789", "0.543", "77"));
-    objDocument.insertNodeAtLine(trim, FIRST_LINE);
+    objDocument.insertStatementAtLine(trim, FIRST_LINE);
 
-    assertEquals(trim, objDocument.peekAtNodeAtLine(FIRST_LINE));
+    assertEquals(trim, objDocument.peekAtStatementAtLine(FIRST_LINE));
   }
 
   @Test
@@ -419,9 +419,9 @@ public class DocumentViewNodeCreationTests {
     hole.appendTrimmingCurve2DReference(Factory.createCurve2DReference("3.333", "4.444", "22"));
     hole.appendTrimmingCurve2DReference(Factory.createCurve2DReference("-1.111", "-2.232", "3"));
     hole.appendTrimmingCurve2DReference(Factory.createCurve2DReference("4.78", "99.99", "11"));
-    objDocument.insertNodeAtLine(hole, FIRST_LINE);
+    objDocument.insertStatementAtLine(hole, FIRST_LINE);
 
-    assertEquals(hole, objDocument.peekAtNodeAtLine(FIRST_LINE));
+    assertEquals(hole, objDocument.peekAtStatementAtLine(FIRST_LINE));
   }
 
   @Test
@@ -431,9 +431,9 @@ public class DocumentViewNodeCreationTests {
     SpecialCurve scrv = Factory.createSpecialCurve();
     scrv.appendSpecialCurve2DReference(Factory.createCurve2DReference("3.333", "4.444", "22"));
     scrv.appendSpecialCurve2DReference(Factory.createCurve2DReference("3.333", "4.444", "22"));
-    objDocument.insertNodeAtLine(scrv, FIRST_LINE);
+    objDocument.insertStatementAtLine(scrv, FIRST_LINE);
 
-    assertEquals(scrv, objDocument.peekAtNodeAtLine(FIRST_LINE));
+    assertEquals(scrv, objDocument.peekAtStatementAtLine(FIRST_LINE));
   }
 
   @Test
@@ -457,9 +457,9 @@ public class DocumentViewNodeCreationTests {
     vertexReferenceGroup
         .addVertexReference(Factory.createVertexReference(VertexReference.Type.PARAMETER, "88"));
     sp.appendSpecialPointVertexReferenceGroup(vertexReferenceGroup);
-    objDocument.insertNodeAtLine(sp, FIRST_LINE);
+    objDocument.insertStatementAtLine(sp, FIRST_LINE);
 
-    assertEquals(sp, objDocument.peekAtNodeAtLine(FIRST_LINE));
+    assertEquals(sp, objDocument.peekAtStatementAtLine(FIRST_LINE));
   }
 
   @Test
@@ -467,9 +467,9 @@ public class DocumentViewNodeCreationTests {
     Document objDocument = Factory.createObjDocument();
 
     End end = Factory.createEnd();
-    objDocument.insertNodeAtLine(end, FIRST_LINE);
+    objDocument.insertStatementAtLine(end, FIRST_LINE);
 
-    assertEquals(end, objDocument.peekAtNodeAtLine(FIRST_LINE));
+    assertEquals(end, objDocument.peekAtStatementAtLine(FIRST_LINE));
   }
 
   @Test
@@ -482,9 +482,9 @@ public class DocumentViewNodeCreationTests {
         Factory.createCurve2DReference("3.333", "4.444", "2");
     Connect con =
         Factory.createConnect("3", curve2dReferenceForSurface3, "4", curve2dReferenceForSurface4);
-    objDocument.insertNodeAtLine(con, FIRST_LINE);
+    objDocument.insertStatementAtLine(con, FIRST_LINE);
 
-    assertEquals(con, objDocument.peekAtNodeAtLine(FIRST_LINE));
+    assertEquals(con, objDocument.peekAtStatementAtLine(FIRST_LINE));
   }
 
   @Test
@@ -494,9 +494,9 @@ public class DocumentViewNodeCreationTests {
     GroupNameList g = Factory.createGroupName();
     g.appendGroupName("cube");
     g.appendGroupName("top");
-    objDocument.insertNodeAtLine(g, FIRST_LINE);
+    objDocument.insertStatementAtLine(g, FIRST_LINE);
 
-    assertEquals(g, objDocument.peekAtNodeAtLine(FIRST_LINE));
+    assertEquals(g, objDocument.peekAtStatementAtLine(FIRST_LINE));
   }
 
   @Test
@@ -504,9 +504,9 @@ public class DocumentViewNodeCreationTests {
     Document objDocument = Factory.createObjDocument();
 
     SmoothingGroup s = Factory.createSmoothingGroup("3");
-    objDocument.insertNodeAtLine(s, FIRST_LINE);
+    objDocument.insertStatementAtLine(s, FIRST_LINE);
 
-    assertEquals(s, objDocument.peekAtNodeAtLine(FIRST_LINE));
+    assertEquals(s, objDocument.peekAtStatementAtLine(FIRST_LINE));
   }
 
   @Test
@@ -514,9 +514,9 @@ public class DocumentViewNodeCreationTests {
     Document objDocument = Factory.createObjDocument();
 
     MergingGroup mg = Factory.createMergingGroup("3", "0.6");
-    objDocument.insertNodeAtLine(mg, FIRST_LINE);
+    objDocument.insertStatementAtLine(mg, FIRST_LINE);
 
-    assertEquals(mg, objDocument.peekAtNodeAtLine(FIRST_LINE));
+    assertEquals(mg, objDocument.peekAtStatementAtLine(FIRST_LINE));
   }
 
   @Test
@@ -524,9 +524,9 @@ public class DocumentViewNodeCreationTests {
     Document objDocument = Factory.createObjDocument();
 
     ObjectName o = Factory.createObjectName("test_cube");
-    objDocument.insertNodeAtLine(o, FIRST_LINE);
+    objDocument.insertStatementAtLine(o, FIRST_LINE);
 
-    assertEquals(o, objDocument.peekAtNodeAtLine(FIRST_LINE));
+    assertEquals(o, objDocument.peekAtStatementAtLine(FIRST_LINE));
   }
 
   @Test
@@ -534,9 +534,9 @@ public class DocumentViewNodeCreationTests {
     Document objDocument = Factory.createObjDocument();
 
     Bevel bevel = Factory.createBevel(true);
-    objDocument.insertNodeAtLine(bevel, FIRST_LINE);
+    objDocument.insertStatementAtLine(bevel, FIRST_LINE);
 
-    assertEquals(bevel, objDocument.peekAtNodeAtLine(FIRST_LINE));
+    assertEquals(bevel, objDocument.peekAtStatementAtLine(FIRST_LINE));
   }
 
   @Test
@@ -546,9 +546,9 @@ public class DocumentViewNodeCreationTests {
     // TODO I don't think it is a good idea to use a boolean in ANY of the factory methods since the
     // primary user of this interface will be a parser.
     ColorInterpolation c_interp = Factory.createColorInterpolation(true);
-    objDocument.insertNodeAtLine(c_interp, FIRST_LINE);
+    objDocument.insertStatementAtLine(c_interp, FIRST_LINE);
 
-    assertEquals(c_interp, objDocument.peekAtNodeAtLine(FIRST_LINE));
+    assertEquals(c_interp, objDocument.peekAtStatementAtLine(FIRST_LINE));
   }
   
   @Test
@@ -556,9 +556,9 @@ public class DocumentViewNodeCreationTests {
     Document objDocument = Factory.createObjDocument();
     
     DissolveInterpolation d_interp = Factory.createDissolveInterpolation(true);
-    objDocument.insertNodeAtLine(d_interp, FIRST_LINE);
+    objDocument.insertStatementAtLine(d_interp, FIRST_LINE);
     
-    assertEquals(d_interp, objDocument.peekAtNodeAtLine(FIRST_LINE));
+    assertEquals(d_interp, objDocument.peekAtStatementAtLine(FIRST_LINE));
   }
   
   @Test
@@ -566,9 +566,9 @@ public class DocumentViewNodeCreationTests {
     Document objDocument = Factory.createObjDocument();
     
     LevelOfDetail lod = Factory.createLevelOfDetail("55");
-    objDocument.insertNodeAtLine(lod, FIRST_LINE);
+    objDocument.insertStatementAtLine(lod, FIRST_LINE);
     
-    assertEquals(lod, objDocument.peekAtNodeAtLine(FIRST_LINE));
+    assertEquals(lod, objDocument.peekAtStatementAtLine(FIRST_LINE));
   }
   
   @Test
@@ -579,9 +579,9 @@ public class DocumentViewNodeCreationTests {
     MapLib maplib = Factory.createMapLib();
     maplib.appendMapLibFileName("library1.textures");
     maplib.appendMapLibFileName("library2.textures");
-    objDocument.insertNodeAtLine(maplib, FIRST_LINE);
+    objDocument.insertStatementAtLine(maplib, FIRST_LINE);
     
-    assertEquals(maplib, objDocument.peekAtNodeAtLine(FIRST_LINE));
+    assertEquals(maplib, objDocument.peekAtStatementAtLine(FIRST_LINE));
   }
   
   @Test
@@ -589,7 +589,7 @@ public class DocumentViewNodeCreationTests {
     Document objDocument = Factory.createObjDocument();
     
     UseMap usemap = Factory.createUseMap("test_map_name");
-    objDocument.insertNodeAtLine(usemap, FIRST_LINE);
+    objDocument.insertStatementAtLine(usemap, FIRST_LINE);
     
     assertEquals(usemap, FIRST_LINE);
   }
@@ -599,9 +599,9 @@ public class DocumentViewNodeCreationTests {
     Document objDocument = Factory.createObjDocument();
     
     UseMaterial usemtl = Factory.createUseMaterial("test_material");
-    objDocument.insertNodeAtLine(usemtl, FIRST_LINE);
+    objDocument.insertStatementAtLine(usemtl, FIRST_LINE);
     
-    assertEquals(usemtl, objDocument.peekAtNodeAtLine(FIRST_LINE));
+    assertEquals(usemtl, objDocument.peekAtStatementAtLine(FIRST_LINE));
   }
   
   
@@ -613,9 +613,9 @@ public class DocumentViewNodeCreationTests {
     MaterialLib mtllib = Factory.createMaterialLib();
     mtllib.appendMaterialLibFileName("library1.materials");
     mtllib.appendMaterialLibFileName("library2.materials");
-    objDocument.insertNodeAtLine(mtllib, FIRST_LINE);
+    objDocument.insertStatementAtLine(mtllib, FIRST_LINE);
     
-    assertEquals(mtllib, objDocument.peekAtNodeAtLine(FIRST_LINE));
+    assertEquals(mtllib, objDocument.peekAtStatementAtLine(FIRST_LINE));
   }
   
   @Test
@@ -623,9 +623,9 @@ public class DocumentViewNodeCreationTests {
     Document objDocument = Factory.createObjDocument();
     
     ShadowObject shadow_obj = Factory.createShadowObject("shadow.obj");
-    objDocument.insertNodeAtLine(shadow_obj, FIRST_LINE);
+    objDocument.insertStatementAtLine(shadow_obj, FIRST_LINE);
     
-    assertEquals(shadow_obj, objDocument.peekAtNodeAtLine(FIRST_LINE));
+    assertEquals(shadow_obj, objDocument.peekAtStatementAtLine(FIRST_LINE));
   }
   
   @Test
@@ -633,9 +633,9 @@ public class DocumentViewNodeCreationTests {
     Document objDocument = Factory.createObjDocument();
     
     RayTracingObject trace_obj = Factory.createRayTracingObject("ray_tracing.obj");
-    objDocument.insertNodeAtLine(trace_obj, FIRST_LINE);
+    objDocument.insertStatementAtLine(trace_obj, FIRST_LINE);
     
-    assertEquals(trace_obj, objDocument.peekAtNodeAtLine(FIRST_LINE));
+    assertEquals(trace_obj, objDocument.peekAtStatementAtLine(FIRST_LINE));
   }
   
   @Test
@@ -643,9 +643,9 @@ public class DocumentViewNodeCreationTests {
     Document objDocument = Factory.createObjDocument();
     
     CparmCurveApprox ctech = Factory.createCparmCurveApprox("2.3333");
-    objDocument.insertNodeAtLine(ctech, FIRST_LINE);
+    objDocument.insertStatementAtLine(ctech, FIRST_LINE);
     
-    assertEquals(ctech, objDocument.peekAtNodeAtLine(FIRST_LINE));
+    assertEquals(ctech, objDocument.peekAtStatementAtLine(FIRST_LINE));
   }
   
   @Test
@@ -653,9 +653,9 @@ public class DocumentViewNodeCreationTests {
     Document objDocument = Factory.createObjDocument();
     
     CspaceCurveApprox ctech = Factory.createCspaceCurveApprox("1.56");
-    objDocument.insertNodeAtLine(ctech, FIRST_LINE);
+    objDocument.insertStatementAtLine(ctech, FIRST_LINE);
     
-    assertEquals(ctech, objDocument.peekAtNodeAtLine(FIRST_LINE));
+    assertEquals(ctech, objDocument.peekAtStatementAtLine(FIRST_LINE));
   }
   
   @Test
@@ -663,9 +663,9 @@ public class DocumentViewNodeCreationTests {
     Document objDocument = Factory.createObjDocument();
     
     CurvCurveApprox ctech = Factory.createCurvCurveAprox("1.1876", "93.45");
-    objDocument.insertNodeAtLine(ctech, FIRST_LINE);
+    objDocument.insertStatementAtLine(ctech, FIRST_LINE);
     
-    assertEquals(ctech, objDocument.peekAtNodeAtLine(FIRST_LINE));
+    assertEquals(ctech, objDocument.peekAtStatementAtLine(FIRST_LINE));
   }
   
   @Test
@@ -673,9 +673,9 @@ public class DocumentViewNodeCreationTests {
     Document objDocument = Factory.createObjDocument();
     
     CparmaSurfaceApprox stech = Factory.createCparmaSurfaceApprox("1.234", "3.333");
-    objDocument.insertNodeAtLine(stech, FIRST_LINE);
+    objDocument.insertStatementAtLine(stech, FIRST_LINE);
     
-    assertEquals(stech, objDocument.peekAtNodeAtLine(FIRST_LINE));
+    assertEquals(stech, objDocument.peekAtStatementAtLine(FIRST_LINE));
   }
   
   @Test
@@ -683,9 +683,9 @@ public class DocumentViewNodeCreationTests {
     Document objDocument = Factory.createObjDocument();
     
     CparmbSurfaceApprox stech = Factory.createCparmbSurfaceApprox("5.678");
-    objDocument.insertNodeAtLine(stech, FIRST_LINE);
+    objDocument.insertStatementAtLine(stech, FIRST_LINE);
     
-    assertEquals(stech, objDocument.peekAtNodeAtLine(FIRST_LINE));
+    assertEquals(stech, objDocument.peekAtStatementAtLine(FIRST_LINE));
   }
   
   @Test
@@ -693,9 +693,9 @@ public class DocumentViewNodeCreationTests {
     Document objDocument = Factory.createObjDocument();
     
     CspaceSurfaceApprox stech = Factory.createCspaceSurfaceApprox("1.11");
-    objDocument.insertNodeAtLine(stech, FIRST_LINE);
+    objDocument.insertStatementAtLine(stech, FIRST_LINE);
     
-    assertEquals(stech, objDocument.peekAtNodeAtLine(FIRST_LINE));
+    assertEquals(stech, objDocument.peekAtStatementAtLine(FIRST_LINE));
   }
   
   @Test
@@ -703,9 +703,9 @@ public class DocumentViewNodeCreationTests {
     Document objDocument = Factory.createObjDocument();
     
     CurvSurfaceApprox stech = Factory.createCurvSurfaceApprox("1.5678", "90.0");
-    objDocument.insertNodeAtLine(stech, FIRST_LINE);
+    objDocument.insertStatementAtLine(stech, FIRST_LINE);
     
-    assertEquals(stech, objDocument.peekAtNodeAtLine(FIRST_LINE));
+    assertEquals(stech, objDocument.peekAtStatementAtLine(FIRST_LINE));
   }
     
   @Test
@@ -717,11 +717,11 @@ public class DocumentViewNodeCreationTests {
       Comment comment = Factory.createComment(" This is a comment.");
       v.setComment(comment);
     }
-    objDocument.insertNodeAtLine(v, FIRST_LINE);
+    objDocument.insertStatementAtLine(v, FIRST_LINE);
     
     assertTrue(v.canComment());
-    assertEquals(v, objDocument.peekAtNodeAtLine(FIRST_LINE));
-    assertEquals(v.getComment(), ((GeoVertex) objDocument.peekAtNodeAtLine(FIRST_LINE)).getComment());
+    assertEquals(v, objDocument.peekAtStatementAtLine(FIRST_LINE));
+    assertEquals(v.getComment(), ((GeoVertex) objDocument.peekAtStatementAtLine(FIRST_LINE)).getComment());
   }
   
   @Test
@@ -733,11 +733,11 @@ public class DocumentViewNodeCreationTests {
       Comment comment = Factory.createComment(" This is a comment on a blank line.");
       blank.setComment(comment);
     }
-    objDocument.insertNodeAtLine(blank, FIRST_LINE);
+    objDocument.insertStatementAtLine(blank, FIRST_LINE);
     
     assertTrue(blank.canComment());
-    assertEquals(blank, objDocument.peekAtNodeAtLine(FIRST_LINE));
-    assertEquals(blank.getComment(), ((Blank) objDocument.peekAtNodeAtLine(FIRST_LINE)).getComment());
+    assertEquals(blank, objDocument.peekAtStatementAtLine(FIRST_LINE));
+    assertEquals(blank.getComment(), ((Blank) objDocument.peekAtStatementAtLine(FIRST_LINE)).getComment());
   }
   
   @Test
@@ -745,9 +745,9 @@ public class DocumentViewNodeCreationTests {
     Document objDocument = Factory.createObjDocument();
     
     Blank blank = Factory.createBlank();
-    objDocument.insertNodeAtLine(blank, FIRST_LINE);
+    objDocument.insertStatementAtLine(blank, FIRST_LINE);
     
-    assertEquals(blank, objDocument.peekAtNodeAtLine(FIRST_LINE));
+    assertEquals(blank, objDocument.peekAtStatementAtLine(FIRST_LINE));
   }
   
   @Test
@@ -756,9 +756,9 @@ public class DocumentViewNodeCreationTests {
     
     List<String> tokens = Arrays.asList("some", "unknown", "tokens");
     Unknown unknown = Factory.createUnknown(tokens);
-    objDocument.insertNodeAtLine(unknown, FIRST_LINE);
+    objDocument.insertStatementAtLine(unknown, FIRST_LINE);
     
-    assertEquals(unknown, objDocument.peekAtNodeAtLine(FIRST_LINE));
+    assertEquals(unknown, objDocument.peekAtStatementAtLine(FIRST_LINE));
   }
 }
 

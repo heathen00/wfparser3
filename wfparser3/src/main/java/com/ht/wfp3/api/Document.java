@@ -17,97 +17,97 @@ import com.ht.wfp3.api.acceptance.Unknown;
  */
 public interface Document {
 
-  Node peekAtNodeAtLine(int lineNumber);
+  Statement peekAtStatementAtLine(int lineNumber);
 
-  void insertNodeAtLine(GeoVertex geoVertex, int lineNumber);
+  void insertStatementAtLine(GeoVertex geoVertex, int lineNumber);
 
-  void insertNodeAtLine(TexVertex texVertex, int lineNumber);
+  void insertStatementAtLine(TexVertex texVertex, int lineNumber);
 
-  void insertNodeAtLine(NormalVertex normalVertex, int lineNumber);
+  void insertStatementAtLine(NormalVertex normalVertex, int lineNumber);
 
-  void insertNodeAtLine(ParamVertex paramVertex, int lineNumber);
+  void insertStatementAtLine(ParamVertex paramVertex, int lineNumber);
 
-  void insertNodeAtLine(Point point, int lineNumber);
+  void insertStatementAtLine(Point point, int lineNumber);
 
-  void insertNodeAtLine(Line line, int lineNumber);
+  void insertStatementAtLine(Line line, int lineNumber);
 
-  void insertNodeAtLine(Face face, int lineNumber);
+  void insertStatementAtLine(Face face, int lineNumber);
 
-  void insertNodeAtLine(CurveOrSurface cstype, int lineNumber);
+  void insertStatementAtLine(CurveOrSurface cstype, int lineNumber);
 
-  void insertNodeAtLine(Degree deg, int lineNumber);
+  void insertStatementAtLine(Degree deg, int lineNumber);
 
-  void insertNodeAtLine(BasisMatrix bmat, int lineNumber);
+  void insertStatementAtLine(BasisMatrix bmat, int lineNumber);
 
-  void insertNodeAtLine(StepSize step, int lineNumber);
+  void insertStatementAtLine(StepSize step, int lineNumber);
 
-  void insertNodeAtLine(Curve curv, int lineNumber);
+  void insertStatementAtLine(Curve curv, int lineNumber);
 
-  void insertNodeAtLine(Curve2D curv2, int lineNumber);
+  void insertStatementAtLine(Curve2D curv2, int lineNumber);
 
-  void insertNodeAtLine(Surface surf, int lineNumber);
+  void insertStatementAtLine(Surface surf, int lineNumber);
 
-  void insertNodeAtLine(Call call, int lineNumber);
+  void insertStatementAtLine(Call call, int lineNumber);
 
-  void insertNodeAtLine(Csh csh, int lineNumber);
+  void insertStatementAtLine(Csh csh, int lineNumber);
 
-  void insertNodeAtLine(Parm parm, int lineNumber);
+  void insertStatementAtLine(Parm parm, int lineNumber);
 
-  void insertNodeAtLine(Trim trim, int lineNumber);
+  void insertStatementAtLine(Trim trim, int lineNumber);
 
-  void insertNodeAtLine(Hole hole, int lineNumber);
+  void insertStatementAtLine(Hole hole, int lineNumber);
 
-  void insertNodeAtLine(SpecialCurve scrv, int lineNumber);
+  void insertStatementAtLine(SpecialCurve scrv, int lineNumber);
 
-  void insertNodeAtLine(SpecialPoint sp, int lineNumber);
+  void insertStatementAtLine(SpecialPoint sp, int lineNumber);
 
-  void insertNodeAtLine(End end, int lineNumber);
+  void insertStatementAtLine(End end, int lineNumber);
 
-  void insertNodeAtLine(Connect con, int lineNumber);
+  void insertStatementAtLine(Connect con, int lineNumber);
 
-  void insertNodeAtLine(GroupNameList g, int lineNumber);
+  void insertStatementAtLine(GroupNameList g, int lineNumber);
 
-  void insertNodeAtLine(SmoothingGroup s, int lineNumber);
+  void insertStatementAtLine(SmoothingGroup s, int lineNumber);
 
-  void insertNodeAtLine(MergingGroup mg, int lineNumber);
+  void insertStatementAtLine(MergingGroup mg, int lineNumber);
 
-  void insertNodeAtLine(ObjectName o, int lineNumber);
+  void insertStatementAtLine(ObjectName o, int lineNumber);
 
-  void insertNodeAtLine(Bevel bevel, int lineNumber);
+  void insertStatementAtLine(Bevel bevel, int lineNumber);
 
-  void insertNodeAtLine(ColorInterpolation c_interp, int lineNumber);
+  void insertStatementAtLine(ColorInterpolation c_interp, int lineNumber);
 
-  void insertNodeAtLine(DissolveInterpolation d_interp, int lineNumber);
+  void insertStatementAtLine(DissolveInterpolation d_interp, int lineNumber);
 
-  void insertNodeAtLine(LevelOfDetail lod, int lineNumber);
+  void insertStatementAtLine(LevelOfDetail lod, int lineNumber);
 
-  void insertNodeAtLine(MapLib maplib, int lineNumber);
+  void insertStatementAtLine(MapLib maplib, int lineNumber);
 
-  void insertNodeAtLine(UseMaterial usemtl, int lineNumber);
+  void insertStatementAtLine(UseMaterial usemtl, int lineNumber);
 
-  void insertNodeAtLine(UseMap usemap, int lineNumber);
+  void insertStatementAtLine(UseMap usemap, int lineNumber);
 
-  void insertNodeAtLine(MaterialLib mtllib, int lineNumber);
+  void insertStatementAtLine(MaterialLib mtllib, int lineNumber);
 
-  void insertNodeAtLine(ShadowObject shadow_obj, int lineNumber);
+  void insertStatementAtLine(ShadowObject shadow_obj, int lineNumber);
 
-  void insertNodeAtLine(RayTracingObject trace_obj, int lineNumber);
+  void insertStatementAtLine(RayTracingObject trace_obj, int lineNumber);
 
-  void insertNodeAtLine(CparmCurveApprox ctech, int lineNumber);
+  void insertStatementAtLine(CparmCurveApprox ctech, int lineNumber);
 
-  void insertNodeAtLine(CspaceCurveApprox ctech, int lineNumber);
+  void insertStatementAtLine(CspaceCurveApprox ctech, int lineNumber);
 
-  void insertNodeAtLine(CurvCurveApprox ctech, int lineNumber);
+  void insertStatementAtLine(CurvCurveApprox ctech, int lineNumber);
 
-  void insertNodeAtLine(CparmaSurfaceApprox stech, int lineNumber);
+  void insertStatementAtLine(CparmaSurfaceApprox stech, int lineNumber);
 
-  void insertNodeAtLine(CparmbSurfaceApprox stech, int lineNumber);
+  void insertStatementAtLine(CparmbSurfaceApprox stech, int lineNumber);
 
-  void insertNodeAtLine(CspaceSurfaceApprox stech, int lineNumber);
+  void insertStatementAtLine(CspaceSurfaceApprox stech, int lineNumber);
 
-  void insertNodeAtLine(CurvSurfaceApprox stech, int lineNumber);
+  void insertStatementAtLine(CurvSurfaceApprox stech, int lineNumber);
 
-  void insertNodeAtLine(Blank blank, int lineNumber);
+  void insertStatementAtLine(Blank blank, int lineNumber);
 
-  void insertNodeAtLine(Unknown unknown, int lineNumber);
+  void insertStatementAtLine(Unknown unknown, int lineNumber);
 }

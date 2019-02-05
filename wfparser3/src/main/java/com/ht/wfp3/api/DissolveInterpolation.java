@@ -25,6 +25,6 @@ package com.ht.wfp3.api;
  * @author nickl
  *
  */
-public interface DissolveInterpolation extends Node, Commentable {
+public interface DissolveInterpolation extends Statement, Commentable {
   boolean isEnabled();
 }

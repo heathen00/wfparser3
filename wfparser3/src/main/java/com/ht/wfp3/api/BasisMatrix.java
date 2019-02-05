@@ -34,7 +34,7 @@ import java.util.List;
  * @author nickl
  *
  */
-public interface BasisMatrix extends Node, Commentable {
+public interface BasisMatrix extends Statement, Commentable {
   enum Axis {
     U,
     V,

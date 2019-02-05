@@ -21,7 +21,7 @@ import java.util.List;
  * @author nickl
  *
  */
-public interface Hole extends Node, Commentable {
+public interface Hole extends Statement, Commentable {
   List<Curve2DReference> getTrimmingCurve2DReferences();
 
   void appendTrimmingCurve2DReference(Curve2DReference trimmingCurve);

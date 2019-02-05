@@ -66,7 +66,7 @@ package com.ht.wfp3.api;
  * @author nickl
  *
  */
-public interface SurfaceApprox extends Node, Commentable {
+public interface SurfaceApprox extends Statement, Commentable {
   enum Technique {
     CPARMA,
     CPARMB,
