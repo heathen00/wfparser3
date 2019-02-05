@@ -25,6 +25,6 @@ package com.ht.wfp3.api;
  * @author nickl
  *
  */
-public interface ShadowObject extends Node {
+public interface ShadowObject extends Node, Commentable {
   String getShadowObjectFileName();
 }

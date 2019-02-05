@@ -18,7 +18,7 @@ package com.ht.wfp3.api;
  * @author nickl
  *
  */
-public interface Degree extends Node {
+public interface Degree extends Node, Commentable {
   int getUAxisDegree();
 
   int getVAxisDegree();

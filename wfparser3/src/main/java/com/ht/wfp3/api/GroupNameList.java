@@ -20,10 +20,10 @@ import java.util.List;
  * @author nickl
  *
  */
-public interface GroupNameList extends Node {
+public interface GroupNameList extends Node, Commentable {
 
   void appendGroupName(String groupName);
-  
+
   List<String> getGroupNameList();
-  
+
 }

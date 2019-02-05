@@ -44,7 +44,7 @@ import java.util.List;
  * @author nickl
  *
  */
-public interface Call extends Node {
+public interface Call extends Node, Commentable {
   String getFileName();
 
   List<Integer> getArguments();

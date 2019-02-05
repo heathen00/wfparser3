@@ -36,7 +36,7 @@ package com.ht.wfp3.api;
  * @author nickl
  *
  */
-public interface StepSize extends Node {
+public interface StepSize extends Node, Commentable {
   int getStepSizeInUAxis();
 
   int getStepSizeInVAxis();

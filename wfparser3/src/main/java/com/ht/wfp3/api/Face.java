@@ -59,7 +59,7 @@ import java.util.List;
  * @author nickl
  *
  */
-public interface Face {
+public interface Face extends Node, Commentable {
 
   void appendReferenceNumbers(VertexReferenceGroup referenceNumbers);
 

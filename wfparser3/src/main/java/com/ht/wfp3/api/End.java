@@ -12,6 +12,6 @@ package com.ht.wfp3.api;
  * @author nickl
  *
  */
-public interface End extends Node {
+public interface End extends Node, Commentable {
 
 }

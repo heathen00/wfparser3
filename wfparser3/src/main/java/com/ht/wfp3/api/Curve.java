@@ -25,7 +25,7 @@ import java.util.List;
  * @author nickl
  *
  */
-public interface Curve extends Node {
+public interface Curve extends Node, Commentable {
 
   String getStartingParameterValue();
 

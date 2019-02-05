@@ -28,7 +28,7 @@ package com.ht.wfp3.api;
  * @author nickl
  *
  */
-public interface GeoVertex extends Node {
+public interface GeoVertex extends Node, Commentable {
   String getXCoord();
 
   String getYCoord();

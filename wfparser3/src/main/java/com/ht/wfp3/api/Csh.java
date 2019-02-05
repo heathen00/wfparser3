@@ -17,7 +17,7 @@ package com.ht.wfp3.api;
  * @author nickl
  *
  */
-public interface Csh extends Node {
+public interface Csh extends Node, Commentable {
   boolean shouldIgnoreError();
 
   String getCommand();

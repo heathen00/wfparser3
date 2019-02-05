@@ -9,4 +9,6 @@ package com.ht.wfp3.api;
  */
 public interface Node {
   String getKeyword();
+
+  boolean canComment();
 }

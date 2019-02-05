@@ -66,12 +66,13 @@ package com.ht.wfp3.api;
  * @author nickl
  *
  */
-public interface SurfaceApprox extends Node {
+public interface SurfaceApprox extends Node, Commentable {
   enum Technique {
     CPARMA,
     CPARMB,
     CSPACE,
     CURV
   }
+
   SurfaceApprox.Technique getSurfaceApproximationTechnique();
 }

@@ -1,7 +1,9 @@
 package com.ht.wfp3.api;
 
 /**
- * The dissolve interpolation polygonal geometry statement. d_interp on/off
+ * The dissolve interpolation polygonal geometry statement.
+ * 
+ * d_interp on/off
  * 
  * Polygonal geometry statement.
  * 
@@ -23,6 +25,6 @@ package com.ht.wfp3.api;
  * @author nickl
  *
  */
-public interface DissolveInterpolation extends Node {
+public interface DissolveInterpolation extends Node, Commentable {
   boolean isEnabled();
 }

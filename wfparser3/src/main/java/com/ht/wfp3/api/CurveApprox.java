@@ -54,7 +54,7 @@ package com.ht.wfp3.api;
  * @author nickl
  *
  */
-public interface CurveApprox extends Node {
+public interface CurveApprox extends Node, Commentable {
   enum Technique {
     CPARM,
     CSPACE,

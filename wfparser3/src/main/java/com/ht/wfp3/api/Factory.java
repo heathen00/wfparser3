@@ -239,7 +239,8 @@ public interface Factory {
     return null;
   }
 
-  static CparmaSurfaceApprox createCparmaSurfaceApprox(String resolutionForUAxis, String resolutionForVAxis) {
+  static CparmaSurfaceApprox createCparmaSurfaceApprox(String resolutionForUAxis,
+      String resolutionForVAxis) {
     // TODO Auto-generated method stub
     return null;
   }
@@ -265,6 +266,11 @@ public interface Factory {
   }
 
   static Unknown createUnknown(List<String> tokens) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  static Comment createComment(String commentString) {
     // TODO Auto-generated method stub
     return null;
   }

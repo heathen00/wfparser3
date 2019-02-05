@@ -27,7 +27,7 @@ import java.util.List;
  * @author nickl
  *
  */
-public interface Parm extends Node {
+public interface Parm extends Node, Commentable {
   enum Axis {
     U,
     V,

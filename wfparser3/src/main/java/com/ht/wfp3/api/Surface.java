@@ -43,7 +43,7 @@ import java.util.List;
  * @author nickl
  *
  */
-public interface Surface extends Node {
+public interface Surface extends Node, Commentable {
   String getStartingParameterValueUAxis();
 
   String getEndingParameterValueUAxis();

@@ -21,5 +21,6 @@ package com.ht.wfp3.api;
  */
 public interface CparmaSurfaceApprox extends SurfaceApprox {
   String getResolutionForUAxis();
+
   String getResolutionForVAxis();
 }

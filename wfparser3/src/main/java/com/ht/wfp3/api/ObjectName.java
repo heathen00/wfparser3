@@ -16,6 +16,6 @@ package com.ht.wfp3.api;
  * @author nickl
  *
  */
-public interface ObjectName extends Node {
+public interface ObjectName extends Node, Commentable {
   String getObjectName();
 }

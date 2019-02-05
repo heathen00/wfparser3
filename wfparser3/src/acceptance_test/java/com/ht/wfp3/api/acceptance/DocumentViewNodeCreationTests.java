@@ -2,12 +2,14 @@ package com.ht.wfp3.api.acceptance;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import com.ht.wfp3.api.BasisMatrix;
 import com.ht.wfp3.api.Bevel;
 import com.ht.wfp3.api.Blank;
 import com.ht.wfp3.api.Call;
 import com.ht.wfp3.api.ColorInterpolation;
+import com.ht.wfp3.api.Comment;
 import com.ht.wfp3.api.Connect;
 import com.ht.wfp3.api.CparmCurveApprox;
 import com.ht.wfp3.api.CparmaSurfaceApprox;
@@ -705,8 +707,38 @@ public class DocumentViewNodeCreationTests {
     
     assertEquals(stech, objDocument.peekAtNodeAtLine(FIRST_LINE));
   }
+    
+  @Test
+  public void Document_addCommentedGeoVertexToEmptyObjDocumentAtSpecifiedLine_OneCommentedGeoVertexIsAddedAtSpecifiedLine() {
+    Document objDocument = Factory.createObjDocument();
+    
+    GeoVertex v = Factory.createGeoVertex("1.0000", "2.0000", "3.0000", "4.0000");
+    if (v.canComment()) {
+      Comment comment = Factory.createComment(" This is a comment.");
+      v.setComment(comment);
+    }
+    objDocument.insertNodeAtLine(v, FIRST_LINE);
+    
+    assertTrue(v.canComment());
+    assertEquals(v, objDocument.peekAtNodeAtLine(FIRST_LINE));
+    assertEquals(v.getComment(), ((GeoVertex) objDocument.peekAtNodeAtLine(FIRST_LINE)).getComment());
+  }
   
-  // TODO implement Comment here.  Need to refactor some code first.
+  @Test
+  public void Document_addCommmentedBlankToEmptyObjDocumentAtSpecifiedLine_OneCommentedBlankIsAddedATSpecifiedLine() {
+    Document objDocument = Factory.createObjDocument();
+    
+    Blank blank = Factory.createBlank();
+    if (blank.canComment()) {
+      Comment comment = Factory.createComment(" This is a comment on a blank line.");
+      blank.setComment(comment);
+    }
+    objDocument.insertNodeAtLine(blank, FIRST_LINE);
+    
+    assertTrue(blank.canComment());
+    assertEquals(blank, objDocument.peekAtNodeAtLine(FIRST_LINE));
+    assertEquals(blank.getComment(), ((Blank) objDocument.peekAtNodeAtLine(FIRST_LINE)).getComment());
+  }
   
   @Test
   public void Document_addOneBlankToEmptyObjDocumentAtSpecifiedLine_OneBlankIsAddedAtSpecifiedLine() {

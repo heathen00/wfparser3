@@ -24,6 +24,6 @@ package com.ht.wfp3.api;
  * @author nickl
  *
  */
-public interface Bevel extends Node {
+public interface Bevel extends Node, Commentable {
   boolean isEnabled();
 }

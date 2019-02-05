@@ -24,6 +24,6 @@ package com.ht.wfp3.api;
  * @author nickl
  *
  */
-public interface ColorInterpolation extends Node {
+public interface ColorInterpolation extends Node, Commentable {
   boolean isEnabled();
 }
