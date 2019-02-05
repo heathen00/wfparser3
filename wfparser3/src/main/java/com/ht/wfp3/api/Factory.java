@@ -65,7 +65,7 @@ public interface Factory {
     return null;
   }
 
-  static CurveOrSurface createCurveOrSurfaceType(boolean isRational, CurveOrSurface.Type typeKey) {
+  static CurveOrSurface createCurveOrSurfaceType(String rational, CurveOrSurface.Type typeKey) {
     // TODO Auto-generated method stub
     return null;
   }
@@ -106,12 +106,12 @@ public interface Factory {
     return null;
   }
 
-  static Csh createCsh(boolean shouldIgnoreError, String command) {
+  static Csh createCsh(String ignoreError, String command) {
     // TODO Auto-generated method stub
     return null;
   }
 
-  static Parm createParm(Parm.Axis axis) {
+  static Parm createParm(String axis) {
     // TODO Auto-generated method stub
     return null;
   }
@@ -174,17 +174,17 @@ public interface Factory {
     return null;
   }
 
-  static Bevel createBevel(boolean isEnabled) {
+  static Bevel createBevel(String onOrOff) {
     // TODO Auto-generated method stub
     return null;
   }
 
-  static ColorInterpolation createColorInterpolation(boolean isEnabled) {
+  static ColorInterpolation createColorInterpolation(String onOrOff) {
     // TODO Auto-generated method stub
     return null;
   }
 
-  static DissolveInterpolation createDissolveInterpolation(boolean isEnabled) {
+  static DissolveInterpolation createDissolveInterpolation(String onOrOff) {
     // TODO Auto-generated method stub
     return null;
   }

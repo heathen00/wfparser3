@@ -34,6 +34,7 @@ public interface Parm extends Statement, Commentable {
   }
 
   List<String> getParameterValues();
+  Parm.Axis getAxis();
 
   void appendParameterValue(String parameterValue);
 }

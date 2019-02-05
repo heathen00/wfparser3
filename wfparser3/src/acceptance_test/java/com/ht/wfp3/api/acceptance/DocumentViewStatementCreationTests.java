@@ -233,7 +233,7 @@ public class DocumentViewStatementCreationTests {
     Cursor cursor = objDocument.getCursor();
     cursor.setTo(objDocument.getReadOnlyEofCursor());
 
-    CurveOrSurface cstype = Factory.createCurveOrSurfaceType(false, CurveOrSurface.Type.BMATRIX);
+    CurveOrSurface cstype = Factory.createCurveOrSurfaceType("rat", CurveOrSurface.Type.BMATRIX);
     objDocument.append(cstype, cursor);
 
     assertEquals(cstype, objDocument.peek(cursor));
@@ -399,7 +399,7 @@ public class DocumentViewStatementCreationTests {
     Cursor cursor = objDocument.getCursor();
     cursor.setTo(objDocument.getReadOnlyEofCursor());
 
-    Csh csh = Factory.createCsh(true, "pwd");
+    Csh csh = Factory.createCsh("-", "pwd");
     objDocument.append(csh, cursor);
 
     assertEquals(csh, objDocument.peek(cursor));
@@ -411,7 +411,7 @@ public class DocumentViewStatementCreationTests {
     Cursor cursor = objDocument.getCursor();
     cursor.setTo(objDocument.getReadOnlyEofCursor());
 
-    Parm parm = Factory.createParm(Parm.Axis.U);
+    Parm parm = Factory.createParm("u");
     parm.appendParameterValue("1.0000");
     parm.appendParameterValue("4.4444");
     parm.appendParameterValue("-9.22");
@@ -578,7 +578,7 @@ public class DocumentViewStatementCreationTests {
     Cursor cursor = objDocument.getCursor();
     cursor.setTo(objDocument.getReadOnlyEofCursor());
 
-    Bevel bevel = Factory.createBevel(true);
+    Bevel bevel = Factory.createBevel("on");
     objDocument.append(bevel, cursor);
 
     assertEquals(bevel, objDocument.peek(cursor));
@@ -589,10 +589,8 @@ public class DocumentViewStatementCreationTests {
     Document objDocument = Factory.createObjDocument();
     Cursor cursor = objDocument.getCursor();
     cursor.setTo(objDocument.getReadOnlyEofCursor());
-
-    // TODO I don't think it is a good idea to use a boolean in ANY of the factory methods since the
-    // primary user of this interface will be a parser.
-    ColorInterpolation c_interp = Factory.createColorInterpolation(true);
+    
+    ColorInterpolation c_interp = Factory.createColorInterpolation("ON");
     objDocument.append(c_interp, cursor);
 
     assertEquals(c_interp, objDocument.peek(cursor));
@@ -604,7 +602,7 @@ public class DocumentViewStatementCreationTests {
     Cursor cursor = objDocument.getCursor();
     cursor.setTo(objDocument.getReadOnlyEofCursor());
 
-    DissolveInterpolation d_interp = Factory.createDissolveInterpolation(true);
+    DissolveInterpolation d_interp = Factory.createDissolveInterpolation("Off");
     objDocument.append(d_interp, cursor);
 
     assertEquals(d_interp, objDocument.peek(cursor));
