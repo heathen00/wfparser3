@@ -10,7 +10,9 @@ package com.ht.wfp3.api;
  *
  */
 public interface Cursor {
+  void setToEof();
+  void setToBof();
   void setTo(Cursor cursor);
-
-  Cursor previousLine();
+  void setToLineNumber(int line);
+  void previousLine();
 }

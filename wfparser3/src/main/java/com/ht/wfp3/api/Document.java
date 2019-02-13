@@ -16,11 +16,13 @@ import com.ht.wfp3.api.acceptance.Unknown;
  *
  */
 public interface Document {
-  Cursor getReadOnlyEofCursor();
+  
+  static DocumentFactory getDocumentFactory() {
+    // TODO Auto-generated method stub
+    return null;
+  }
 
-  Cursor getReadOnlyBofCursor();
-
-  Cursor getCursor();
+  Cursor createCursor();
 
   Statement peek(Cursor cursor);
 
@@ -115,4 +117,5 @@ public interface Document {
   void append(Blank blank, Cursor cursor);
 
   void append(Unknown unknown, Cursor cursor);
+
 }
