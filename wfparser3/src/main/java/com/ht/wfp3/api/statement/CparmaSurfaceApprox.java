@@ -1,0 +1,26 @@
+package com.ht.wfp3.api.statement;
+
+/**
+ * The constant parametric subdivision type-A surface approximation technique.
+ * 
+ * stech cparma ures vres
+ * 
+ * Specifies a surface with constant parametric subdivision using separate resolution parameters for
+ * the u and v directions. Each patch of the surface is subdivided n times in parameter space, where
+ * n is the resolution parameter multiplied by the degree of the surface.
+ * 
+ * ures is the resolution parameter for the u direction.
+ * 
+ * vres is the resolution parameter for the v direction.
+ * 
+ * The larger the values for ures and vres, the finer the resolution. If you enter a value of 0 for
+ * both ures and vres, each patch is approximated by two triangles.
+ * 
+ * @author nickl
+ *
+ */
+public interface CparmaSurfaceApprox extends SurfaceApprox {
+  String getResolutionForUAxis();
+
+  String getResolutionForVAxis();
+}
