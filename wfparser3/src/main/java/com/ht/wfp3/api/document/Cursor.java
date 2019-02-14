@@ -10,13 +10,25 @@ package com.ht.wfp3.api.document;
  *
  */
 public interface Cursor {
-  void setToEof();
+  void toEof();
 
-  void setToBof();
+  void toBof();
 
-  void setTo(Cursor cursor);
+  void toCursor(Cursor cursor);
 
-  void setToLineNumber(int line);
+  void toLineNumber(Integer lineNumber);
+  
+  void toPreviousLine();
 
-  void previousLine();
+  void toNextLine();
+
+  Integer getLineNumber();
+
+  boolean hasNextLine();
+
+  boolean hasPreviousLine();
+  
+  boolean equals(Object obj);
+  
+  int hashCode();
 }
