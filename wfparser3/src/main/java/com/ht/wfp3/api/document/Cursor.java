@@ -16,11 +16,11 @@ public interface Cursor {
 
   void toCursor(Cursor cursor);
 
-  void toLineNumber(Integer lineNumber);
+  void toLineNumber(Integer lineNumber) throws NonExistentLineException;
   
-  void toPreviousLine();
+  void toPreviousLine() throws NonExistentLineException;
 
-  void toNextLine();
+  void toNextLine() throws NonExistentLineException;
 
   Integer getLineNumber();
 

@@ -66,7 +66,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-public class DocumentViewStatementCreationTests {
+public class DocumentViewStatementCreationAcceptanceTests {
 
   // TODO cursor from one document does not work with another document. ensure some exception is
   // thrown.
