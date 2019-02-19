@@ -41,14 +41,13 @@ public class CursorAcceptanceTests {
   }
 
   @Test
-  public void Cursor_createTestDocument_testDocumentNotNullAndNotEmpty() {
+  public void Cursor_createMockDocument_mockDocumentNotNullAndNotEmpty() {
     assertNotNull(mockDocument);
     assertEquals(Integer.valueOf(20), mockDocument.getNumberOfLines());
   }
 
   @Test
   public void Cursor_createCursorFromDocument_CursorIsCreatedAndAtBof() {
-
     assertNotNull(cursor);
     assertEquals(Integer.valueOf(1), cursor.getLineNumber());
   }

@@ -1,11 +1,16 @@
 package com.ht.wfp3.api.document;
 
+import com.google.common.annotations.VisibleForTesting;
+
 class CursorImp implements Cursor {
   private static final int FIRST_LINE = 1;
   private int currentLine;
   private DocumentImp document;
 
   CursorImp(DocumentImp document) {
+    if (null == document) {
+      throw new NullPointerException("document cannot be null.");
+    }
     this.currentLine = 1;
     this.document = document;
   }
@@ -40,7 +45,7 @@ class CursorImp implements Cursor {
     if (null == lineNumber) {
       throw new NullPointerException("lineNumber is null");
     }
-    if (lineNumber < FIRST_LINE || lineNumber > document.getLineNumberAtEof()) {
+    if (lineNumber.intValue() < FIRST_LINE || lineNumber.intValue() > document.getLineNumberAtEof()) {
       throw new NonExistentLineException("Line " + lineNumber + " is invalid.");
     }
     currentLine = lineNumber.intValue();
@@ -66,7 +71,8 @@ class CursorImp implements Cursor {
   public Integer getLineNumber() {
     return Integer.valueOf(currentLine);
   }
-  
+
+  @VisibleForTesting
   public DocumentImp getDocumentImp() {
     return document;
   }
