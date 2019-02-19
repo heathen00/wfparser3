@@ -5,12 +5,17 @@ class GeoVertexImp implements GeoVertex {
   private String yCoord;
   private String zCoord;
   private String wCoord;
-  
+
   GeoVertexImp(String xCoord, String yCoord, String zCoord, String wCoord) {
     this.xCoord = xCoord;
     this.yCoord = yCoord;
     this.zCoord = zCoord;
     this.wCoord = wCoord;
+  }
+
+  GeoVertexImp(GeoVertex geoVertex) {
+    this(geoVertex.getXCoord(), geoVertex.getYCoord(), geoVertex.getZCoord(),
+        geoVertex.getWCoord());
   }
 
   @Override
@@ -39,26 +44,22 @@ class GeoVertexImp implements GeoVertex {
 
   @Override
   public String getXCoord() {
-    // TODO Auto-generated method stub
-    return null;
+    return xCoord;
   }
 
   @Override
   public String getYCoord() {
-    // TODO Auto-generated method stub
-    return null;
+    return yCoord;
   }
 
   @Override
   public String getZCoord() {
-    // TODO Auto-generated method stub
-    return null;
+    return zCoord;
   }
 
   @Override
   public String getWCoord() {
-    // TODO Auto-generated method stub
-    return null;
+    return wCoord;
   }
 
   @Override
@@ -74,6 +75,7 @@ class GeoVertexImp implements GeoVertex {
 
   @Override
   public boolean equals(Object obj) {
+    System.out.println("here");
     if (this == obj) {
       return true;
     }

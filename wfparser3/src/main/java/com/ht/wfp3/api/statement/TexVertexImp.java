@@ -10,6 +10,10 @@ class TexVertexImp implements TexVertex {
     this.vCoord = vCoord;
     this.wCoord = wCoord;
   }
+  
+  TexVertexImp(TexVertex texVertex) {
+    this(texVertex.getUCoord(), texVertex.getVCoord(), texVertex.getWCoord());
+  }
 
   @Override
   public boolean canComment() {
@@ -37,20 +41,17 @@ class TexVertexImp implements TexVertex {
 
   @Override
   public String getUCoord() {
-    // TODO Auto-generated method stub
-    return null;
+    return uCoord;
   }
 
   @Override
   public String getVCoord() {
-    // TODO Auto-generated method stub
-    return null;
+    return vCoord;
   }
 
   @Override
   public String getWCoord() {
-    // TODO Auto-generated method stub
-    return null;
+    return wCoord;
   }
 
   @Override

@@ -11,6 +11,10 @@ class ParamVertexImp implements ParamVertex {
     this.wCoord = wCoord;
   }
 
+  ParamVertexImp(ParamVertex paramVertex) {
+    this(paramVertex.getUCoord(), paramVertex.getVCoord(), paramVertex.getWCoord());
+  }
+
   @Override
   public boolean canComment() {
     // TODO Auto-generated method stub
@@ -37,20 +41,17 @@ class ParamVertexImp implements ParamVertex {
 
   @Override
   public String getUCoord() {
-    // TODO Auto-generated method stub
-    return null;
+    return uCoord;
   }
 
   @Override
   public String getVCoord() {
-    // TODO Auto-generated method stub
-    return null;
+    return vCoord;
   }
 
   @Override
   public String getWCoord() {
-    // TODO Auto-generated method stub
-    return null;
+    return wCoord;
   }
 
   @Override

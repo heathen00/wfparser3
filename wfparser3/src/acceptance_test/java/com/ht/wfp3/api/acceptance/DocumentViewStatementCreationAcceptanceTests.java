@@ -6,6 +6,7 @@ import static org.junit.Assert.assertNotNull;
 import com.ht.wfp3.api.document.Cursor;
 import com.ht.wfp3.api.document.Document;
 import com.ht.wfp3.api.document.DocumentFactory;
+import com.ht.wfp3.api.document.EmptyDocumentException;
 import com.ht.wfp3.api.document.VisibleDocumentImp;
 import com.ht.wfp3.api.statement.GeoVertex;
 import com.ht.wfp3.api.statement.NormalVertex;
@@ -18,10 +19,8 @@ import org.junit.Test;
 
 public class DocumentViewStatementCreationAcceptanceTests {
 
-  // TODO cursor from one document does not work with another document. ensure some exception is
-  // thrown.
   // TODO all error scenarios.
-
+  
   private StatementFactory statementFactory;
 
   private VisibleDocumentImp objDocument;
@@ -57,6 +56,7 @@ public class DocumentViewStatementCreationAcceptanceTests {
     Cursor cursor = objDocument.createCursor();
 
     assertEquals(Integer.valueOf(1), cursor.getLineNumber());
+    assertEquals(Integer.valueOf(0), objDocument.getNumberOfLines());
   }
 
   @Test
@@ -64,40 +64,95 @@ public class DocumentViewStatementCreationAcceptanceTests {
     assertNotNull(statementFactory);
   }
 
+  // Error scenarios.
+
+  @Test(expected = NullPointerException.class)
+  public void Document_appendApiGuardIsPassedANullCursor_nullPointerExceptionIsThrown() {
+    GeoVertex geoVertex = statementFactory.createGeoVertex("5.555", "5.555", "5.555", "5.555");
+    objDocument.guardAppendApis(null, geoVertex);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void Document_appendApiGuardIsPassedCursorFromAnotherDocument_illegalArgumentExceptionIsThrown() {
+    VisibleDocumentImp otherDocument = new VisibleDocumentImp();
+    Cursor otherCursor = otherDocument.createCursor();
+    GeoVertex geoVertex = statementFactory.createGeoVertex("5.555", "5.555", "5.555", "5.555");
+
+    objDocument.guardAppendApis(otherCursor, geoVertex);
+  }
+
+  @Test(expected = NullPointerException.class)
+  public void Document_appendApiGuardIsPassedANullStatement_nullPointerExceptionIsThrown() {
+    objDocument.guardAppendApis(cursor, null);
+  }
+
+  @Test(expected = NullPointerException.class)
+  public void Document_peekAtDocumentLineWithNullCursor_nullPointerExceptionIsThrown()
+      throws Exception {
+    objDocument.peek(null);
+  }
+
+  @Test(expected = EmptyDocumentException.class)
+  public void Document_peekInEmptyDocument_emptyDocumentExceptionIsThrown() throws Exception {
+    objDocument.peek(cursor);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void Document_peekUsingCursorFromAnotherDocument_illegalArgumentExceptionIsThrown()
+      throws Exception {
+    VisibleDocumentImp otherDocument = new VisibleDocumentImp();
+    Cursor otherCursor = otherDocument.createCursor();
+    otherCursor.toEof();
+    GeoVertex geoVertex = statementFactory.createGeoVertex("5.555", "5.555", "5.555", "5.555");
+    objDocument.append(geoVertex, cursor);
+
+    objDocument.peek(otherCursor);
+  }
+  
+  // Valid scenarios.
+
   @Test
-  public void Document_addOneGeometricVertexToEmptyObjDocumentAtCursor_OneGeometricVertexIsAddedAtCursor() {
+  public void Document_addOneGeometricVertexToEmptyObjDocumentAtCursor_OneGeometricVertexIsAddedAtCursor()
+      throws Exception {
     GeoVertex geoVertex = statementFactory.createGeoVertex("1.000", "2.000", "3.000", "4.000");
     objDocument.append(geoVertex, cursor);
 
     assertNotNull(geoVertex);
-    assertEquals(geoVertex, objDocument.peek(cursor));
+    assertEquals(geoVertex, (GeoVertex) objDocument.peek(cursor));
+    assertEquals(Integer.valueOf(1), objDocument.getNumberOfLines());
   }
 
   @Test
-  public void Document_addOneTextureVertexToEmptyObjDocumentAtCursor_OneTextureVertexIsAddedAtCursor() {
+  public void Document_addOneTextureVertexToEmptyObjDocumentAtCursor_OneTextureVertexIsAddedAtCursor()
+      throws Exception {
     TexVertex texVertex = statementFactory.createTexVertex("3.3", "2.2", "1.1");
     objDocument.append(texVertex, cursor);
 
     assertNotNull(texVertex);
     assertEquals(texVertex, objDocument.peek(cursor));
+    assertEquals(Integer.valueOf(1), objDocument.getNumberOfLines());
   }
 
   @Test
-  public void Document_addOneNormalVertexToEmptyObjDocumentAtCursor_OneNormalVertexIsAddedAtCursor() {
+  public void Document_addOneNormalVertexToEmptyObjDocumentAtCursor_OneNormalVertexIsAddedAtCursor()
+      throws Exception {
     NormalVertex normalVertex = statementFactory.createNormalVertex("9.9", "8.8", "7.7");
     objDocument.append(normalVertex, cursor);
 
     assertNotNull(normalVertex);
     assertEquals(normalVertex, objDocument.peek(cursor));
+    assertEquals(Integer.valueOf(1), objDocument.getNumberOfLines());
   }
 
   @Test
-  public void Document_addOneParamVertexToEmptyObjDocumentAtCursor_OneParamVertexIsAddedAtCursor() {
+  public void Document_addOneParamVertexToEmptyObjDocumentAtCursor_OneParamVertexIsAddedAtCursor()
+      throws Exception {
     ParamVertex paramVertex = statementFactory.createParamVertex("3.13", "3.31", "1.33");
     objDocument.append(paramVertex, cursor);
 
     assertNotNull(paramVertex);
     assertEquals(paramVertex, objDocument.peek(cursor));
+    assertEquals(Integer.valueOf(1), objDocument.getNumberOfLines());
   }
 
   // @Test

@@ -65,7 +65,7 @@ public interface Document {
 
   Cursor createCursor();
 
-  Statement peek(Cursor cursor);
+  Statement peek(Cursor cursor) throws EmptyDocumentException;
 
   void append(GeoVertex geoVertex, Cursor cursor);
 

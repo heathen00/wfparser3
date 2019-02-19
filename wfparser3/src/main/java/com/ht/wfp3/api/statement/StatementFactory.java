@@ -22,17 +22,33 @@ public class StatementFactory {
   public GeoVertex createGeoVertex(String xCoord, String yCoord, String zCoord, String wCoord) {
     return new GeoVertexImp(xCoord, yCoord, zCoord, wCoord);
   }
+  
+  public GeoVertex copyGeoVertex(GeoVertex geoVertex) {
+    return new GeoVertexImp(geoVertex);
+  }
 
   public TexVertex createTexVertex(String uCoord, String vCoord, String wCoord) {
     return new TexVertexImp(uCoord, vCoord, wCoord);
+  }
+  
+  public TexVertex copyTexVertex(TexVertex texVertex) {
+    return new TexVertexImp(texVertex);
   }
 
   public NormalVertex createNormalVertex(String iCoord, String jCoord, String kCoord) {
     return new NormalVertexImp(iCoord, jCoord, kCoord);
   }
+  
+  public NormalVertex copyNormalVertex(NormalVertex normalVertex) {
+    return new NormalVertexImp(normalVertex);
+  }
 
   public ParamVertex createParamVertex(String uCoord, String vCoord, String wCoord) {
     return new ParamVertexImp(uCoord, vCoord, wCoord);
+  }
+  
+  public ParamVertex copyParamVertex(ParamVertex paramVertex) {
+    return new ParamVertexImp(paramVertex);
   }
 
   public VertexReferenceGroup createVertexReferenceGroup() {

@@ -41,6 +41,7 @@ import com.ht.wfp3.api.statement.SmoothingGroup;
 import com.ht.wfp3.api.statement.SpecialCurve;
 import com.ht.wfp3.api.statement.SpecialPoint;
 import com.ht.wfp3.api.statement.Statement;
+import com.ht.wfp3.api.statement.StatementFactory;
 import com.ht.wfp3.api.statement.StepSize;
 import com.ht.wfp3.api.statement.Surface;
 import com.ht.wfp3.api.statement.TexVertex;
@@ -49,314 +50,347 @@ import com.ht.wfp3.api.statement.Unknown;
 import com.ht.wfp3.api.statement.UseMap;
 import com.ht.wfp3.api.statement.UseMaterial;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 class DocumentImp implements Document {
+  private StatementFactory statementFactory;
+  private List<CursorImp> cursorImpList;
   private Map<Integer, Statement> linesMap;
-  
+
   DocumentImp() {
-    linesMap = new HashMap<Integer, Statement>();
+    statementFactory = StatementFactory.createStatementFactory();
+    cursorImpList = new ArrayList<>();
+    linesMap = new HashMap<>();
   }
-  
+
+  @VisibleForTesting
+  public void guardAppendApis(Cursor cursor, Statement statement) {
+    if (null == cursor) {
+      throw new NullPointerException("cursor cannot be null.");
+    }
+    if (null == statement) {
+      throw new NullPointerException("statement cannot be null");
+    }
+    if (!cursorImpList.contains(cursor)) {
+      throw new IllegalArgumentException("cursor not from this document.");
+    }
+  }
+
   private void addToDocumentStructure(Cursor cursor, Statement statement) {
     linesMap.put(cursor.getLineNumber(), statement);
   }
 
   @Override
   public Cursor createCursor() {
-    return new CursorImp(this);
+    CursorImp newCursorImp = new CursorImp(this);
+    cursorImpList.add(newCursorImp);
+    return newCursorImp;
   }
 
   @Override
-  public Statement peek(Cursor cursor) {
+  public Statement peek(Cursor cursor) throws EmptyDocumentException {
+    if (null == cursor) {
+      throw new NullPointerException("cursor cannot be null.");
+    }
+    if (!cursorImpList.contains(cursor)) {
+      throw new IllegalArgumentException("cursor not from this document.");
+    }
+    if (linesMap.size() == 0) {
+      throw new EmptyDocumentException("the document is empty");
+    }
     return linesMap.get(cursor.getLineNumber());
   }
 
   @Override
   public void append(GeoVertex geoVertex, Cursor cursor) {
-    addToDocumentStructure(cursor, geoVertex);
+    guardAppendApis(cursor, geoVertex);
+    addToDocumentStructure(cursor, statementFactory.copyGeoVertex(geoVertex));
   }
 
   @Override
   public void append(TexVertex texVertex, Cursor cursor) {
+    guardAppendApis(cursor, statementFactory.copyTexVertex(texVertex));
     addToDocumentStructure(cursor, texVertex);
   }
 
   @Override
   public void append(NormalVertex normalVertex, Cursor cursor) {
-    addToDocumentStructure(cursor, normalVertex);
+    guardAppendApis(cursor, normalVertex);
+    addToDocumentStructure(cursor, statementFactory.copyNormalVertex(normalVertex));
   }
 
   @Override
   public void append(ParamVertex paramVertex, Cursor cursor) {
-    addToDocumentStructure(cursor, paramVertex);
+    guardAppendApis(cursor, paramVertex);
+    addToDocumentStructure(cursor, statementFactory.copyParamVertex(paramVertex));
   }
 
   @Override
   public void append(Point point, Cursor cursor) {
     // TODO Auto-generated method stub
-    
+
   }
 
   @Override
   public void append(Line line, Cursor cursor) {
     // TODO Auto-generated method stub
-    
+
   }
 
   @Override
   public void append(Face face, Cursor cursor) {
     // TODO Auto-generated method stub
-    
+
   }
 
   @Override
   public void append(CurveOrSurface cstype, Cursor cursor) {
     // TODO Auto-generated method stub
-    
+
   }
 
   @Override
   public void append(Degree deg, Cursor cursor) {
     // TODO Auto-generated method stub
-    
+
   }
 
   @Override
   public void append(BasisMatrix bmat, Cursor cursor) {
     // TODO Auto-generated method stub
-    
+
   }
 
   @Override
   public void append(StepSize step, Cursor cursor) {
     // TODO Auto-generated method stub
-    
+
   }
 
   @Override
   public void append(Curve curv, Cursor cursor) {
     // TODO Auto-generated method stub
-    
+
   }
 
   @Override
   public void append(Curve2D curv2, Cursor cursor) {
     // TODO Auto-generated method stub
-    
+
   }
 
   @Override
   public void append(Surface surf, Cursor cursor) {
     // TODO Auto-generated method stub
-    
+
   }
 
   @Override
   public void append(Call call, Cursor cursor) {
     // TODO Auto-generated method stub
-    
+
   }
 
   @Override
   public void append(Csh csh, Cursor cursor) {
     // TODO Auto-generated method stub
-    
+
   }
 
   @Override
   public void append(Parm parm, Cursor cursor) {
     // TODO Auto-generated method stub
-    
+
   }
 
   @Override
   public void append(Trim trim, Cursor cursor) {
     // TODO Auto-generated method stub
-    
+
   }
 
   @Override
   public void append(Hole hole, Cursor cursor) {
     // TODO Auto-generated method stub
-    
+
   }
 
   @Override
   public void append(SpecialCurve scrv, Cursor cursor) {
     // TODO Auto-generated method stub
-    
+
   }
 
   @Override
   public void append(SpecialPoint sp, Cursor cursor) {
     // TODO Auto-generated method stub
-    
+
   }
 
   @Override
   public void append(End end, Cursor cursor) {
     // TODO Auto-generated method stub
-    
+
   }
 
   @Override
   public void append(Connect con, Cursor cursor) {
     // TODO Auto-generated method stub
-    
+
   }
 
   @Override
   public void append(GroupNameList g, Cursor cursor) {
     // TODO Auto-generated method stub
-    
+
   }
 
   @Override
   public void append(SmoothingGroup s, Cursor cursor) {
     // TODO Auto-generated method stub
-    
+
   }
 
   @Override
   public void append(MergingGroup mg, Cursor cursor) {
     // TODO Auto-generated method stub
-    
+
   }
 
   @Override
   public void append(ObjectName o, Cursor cursor) {
     // TODO Auto-generated method stub
-    
+
   }
 
   @Override
   public void append(Bevel bevel, Cursor cursor) {
     // TODO Auto-generated method stub
-    
+
   }
 
   @Override
   public void append(ColorInterpolation c_interp, Cursor cursor) {
     // TODO Auto-generated method stub
-    
+
   }
 
   @Override
   public void append(DissolveInterpolation d_interp, Cursor cursor) {
     // TODO Auto-generated method stub
-    
+
   }
 
   @Override
   public void append(LevelOfDetail lod, Cursor cursor) {
     // TODO Auto-generated method stub
-    
+
   }
 
   @Override
   public void append(MapLib maplib, Cursor cursor) {
     // TODO Auto-generated method stub
-    
+
   }
 
   @Override
   public void append(UseMaterial usemtl, Cursor cursor) {
     // TODO Auto-generated method stub
-    
+
   }
 
   @Override
   public void append(UseMap usemap, Cursor cursor) {
     // TODO Auto-generated method stub
-    
+
   }
 
   @Override
   public void append(MaterialLib mtllib, Cursor cursor) {
     // TODO Auto-generated method stub
-    
+
   }
 
   @Override
   public void append(ShadowObject shadow_obj, Cursor cursor) {
     // TODO Auto-generated method stub
-    
+
   }
 
   @Override
   public void append(RayTracingObject trace_obj, Cursor cursor) {
     // TODO Auto-generated method stub
-    
+
   }
 
   @Override
   public void append(CparmCurveApprox ctech, Cursor cursor) {
     // TODO Auto-generated method stub
-    
+
   }
 
   @Override
   public void append(CspaceCurveApprox ctech, Cursor cursor) {
     // TODO Auto-generated method stub
-    
+
   }
 
   @Override
   public void append(CurvCurveApprox ctech, Cursor cursor) {
     // TODO Auto-generated method stub
-    
+
   }
 
   @Override
   public void append(CparmaSurfaceApprox stech, Cursor cursor) {
     // TODO Auto-generated method stub
-    
+
   }
 
   @Override
   public void append(CparmbSurfaceApprox stech, Cursor cursor) {
     // TODO Auto-generated method stub
-    
+
   }
 
   @Override
   public void append(CspaceSurfaceApprox stech, Cursor cursor) {
     // TODO Auto-generated method stub
-    
+
   }
 
   @Override
   public void append(CurvSurfaceApprox stech, Cursor cursor) {
     // TODO Auto-generated method stub
-    
+
   }
 
   @Override
   public void append(Blank blank, Cursor cursor) {
     // TODO Auto-generated method stub
-    
+
   }
 
   @Override
   public void append(Unknown unknown, Cursor cursor) {
     // TODO Auto-generated method stub
-    
+
   }
-  
+
   @VisibleForTesting
   public int getLineNumberAtEof() {
     // TODO Auto-generated method stub
     return -1;
   }
-  
+
   @VisibleForTesting
   public Integer getNumberOfLines() {
-    // TODO Auto-generated method stub
-    return Integer.valueOf(-1);
+    return linesMap.size();
   }
-  
+
   public boolean equals(Object obj) {
     // TODO Auto-generated method stub
     return false;

@@ -10,6 +10,10 @@ class NormalVertexImp implements NormalVertex {
     this.jCoord = jCoord;
     this.kCoord = kCoord;
   }
+  
+  NormalVertexImp(NormalVertex normalVertex) {
+    this(normalVertex.getICoord(), normalVertex.getJCoord(), normalVertex.getKCoord());
+  }
 
   @Override
   public boolean canComment() {
@@ -37,20 +41,17 @@ class NormalVertexImp implements NormalVertex {
 
   @Override
   public String getICoord() {
-    // TODO Auto-generated method stub
-    return null;
+    return iCoord;
   }
 
   @Override
   public String getJCoord() {
-    // TODO Auto-generated method stub
-    return null;
+    return jCoord;
   }
 
   @Override
   public String getKCoord() {
-    // TODO Auto-generated method stub
-    return null;
+    return kCoord;
   }
 
   @Override
