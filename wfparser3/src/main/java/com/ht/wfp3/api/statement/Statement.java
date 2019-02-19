@@ -8,10 +8,10 @@ package com.ht.wfp3.api.statement;
  *
  */
 public interface Statement extends SubStatment, Commentable {
-  static StatementFactory createStatementFactory() {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
+  
   boolean canComment();
+  
+  boolean equals(Object object);
+  
+  public int hashCode();
 }

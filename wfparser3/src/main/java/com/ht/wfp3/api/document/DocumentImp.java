@@ -49,42 +49,48 @@ import com.ht.wfp3.api.statement.Unknown;
 import com.ht.wfp3.api.statement.UseMap;
 import com.ht.wfp3.api.statement.UseMaterial;
 
+import java.util.HashMap;
+import java.util.Map;
+
 class DocumentImp implements Document {
+  private Map<Integer, Statement> linesMap;
+  
+  DocumentImp() {
+    linesMap = new HashMap<Integer, Statement>();
+  }
+  
+  private void addToDocumentStructure(Cursor cursor, Statement statement) {
+    linesMap.put(cursor.getLineNumber(), statement);
+  }
 
   @Override
   public Cursor createCursor() {
-    // TODO Auto-generated method stub
-    return null;
+    return new CursorImp(this);
   }
 
   @Override
   public Statement peek(Cursor cursor) {
-    // TODO Auto-generated method stub
-    return null;
+    return linesMap.get(cursor.getLineNumber());
   }
 
   @Override
   public void append(GeoVertex geoVertex, Cursor cursor) {
-    // TODO Auto-generated method stub
-    
+    addToDocumentStructure(cursor, geoVertex);
   }
 
   @Override
   public void append(TexVertex texVertex, Cursor cursor) {
-    // TODO Auto-generated method stub
-    
+    addToDocumentStructure(cursor, texVertex);
   }
 
   @Override
   public void append(NormalVertex normalVertex, Cursor cursor) {
-    // TODO Auto-generated method stub
-    
+    addToDocumentStructure(cursor, normalVertex);
   }
 
   @Override
   public void append(ParamVertex paramVertex, Cursor cursor) {
-    // TODO Auto-generated method stub
-    
+    addToDocumentStructure(cursor, paramVertex);
   }
 
   @Override
@@ -347,7 +353,18 @@ class DocumentImp implements Document {
   
   @VisibleForTesting
   public Integer getNumberOfLines() {
+    // TODO Auto-generated method stub
     return Integer.valueOf(-1);
+  }
+  
+  public boolean equals(Object obj) {
+    // TODO Auto-generated method stub
+    return false;
+  }
+
+  public int hashCode() {
+    // TODO Auto-generated method stub
+    return -1;
   }
 
 }

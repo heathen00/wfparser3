@@ -63,11 +63,6 @@ import com.ht.wfp3.api.statement.UseMaterial;
  */
 public interface Document {
 
-  static DocumentFactory getDocumentFactory() {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
   Cursor createCursor();
 
   Statement peek(Cursor cursor);

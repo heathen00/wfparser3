@@ -47,6 +47,7 @@ public class CursorUnitTests {
 
   @Test(expected = NullPointerException.class)
   public void Cursor_createCursorImpWithNullDocument_NullPointerExceptionIsThrown() {
+    @SuppressWarnings("unused")
     VisibleCursorImp cursorToTest = new VisibleCursorImp(null);
   }
 }

@@ -12,108 +12,306 @@ import java.util.List;
  * @author nickl
  *
  */
-public interface StatementFactory {
-  GeoVertex createGeoVertex(String xCoord, String yCoord, String zCoord, String wCoord);
+public class StatementFactory {
+  private static final StatementFactory STATEMENT_FACTORY_SINGLETON = new StatementFactory();
+  
+  public static StatementFactory createStatementFactory() {
+    return STATEMENT_FACTORY_SINGLETON;
+  }
+  
+  public GeoVertex createGeoVertex(String xCoord, String yCoord, String zCoord, String wCoord) {
+    return new GeoVertexImp(xCoord, yCoord, zCoord, wCoord);
+  }
 
-  TexVertex createTexVertex(String uCoord, String vCoord, String wCoord);
+  public TexVertex createTexVertex(String uCoord, String vCoord, String wCoord) {
+    return new TexVertexImp(uCoord, vCoord, wCoord);
+  }
 
-  NormalVertex createNormalVertex(String iCoord, String jCoord, String kCoord);
+  public NormalVertex createNormalVertex(String iCoord, String jCoord, String kCoord) {
+    return new NormalVertexImp(iCoord, jCoord, kCoord);
+  }
 
-  ParamVertex createParamVertex(String uCoord, String vCoord, String wCoord);
+  public ParamVertex createParamVertex(String uCoord, String vCoord, String wCoord) {
+    return new ParamVertexImp(uCoord, vCoord, wCoord);
+  }
 
-  VertexReferenceGroup createVertexReferenceGroup();
+  public VertexReferenceGroup createVertexReferenceGroup() {
+    // TODO Auto-generated method stub
 
-  VertexReference createVertexReference(VertexReference.Type type, String vertexIndex);
+    return null;
+  }
 
-  Point createPoint();
+  public VertexReference createVertexReference(VertexReference.Type type, String vertexIndex) {
+    // TODO Auto-generated method stub
 
-  Line createLine();
+    return null;
+  }
 
-  Face createFace();
+  public Point createPoint() {
+    // TODO Auto-generated method stub
 
-  CurveOrSurface createCurveOrSurfaceType(String rational, CurveOrSurface.Type typeKey);
+    return null;
+  }
 
-  Degree createDegree(String uAxisDegree, String vAxisDegree);
+  public Line createLine() {
+    // TODO Auto-generated method stub
 
-  BasisMatrix createBasisMatrix(Axis axis, List<String> flattenedMatrix);
+    return null;
+  }
 
-  StepSize createStepSize(String stepSizeInUAxis, String stepSizeInVAxis);
+  public Face createFace() {
+    // TODO Auto-generated method stub
 
-  Curve createCurve(String startingParameterValue, String endingParameterValue);
+    return null;
+  }
 
-  Curve2D createCurve2D();
+  public CurveOrSurface createCurveOrSurfaceType(String rational, CurveOrSurface.Type typeKey) {
+    // TODO Auto-generated method stub
 
-  Surface createSurface(String startingParameterValueUAxis, String endingParameterValueUAxis,
-      String startingParameterValueVAxis, String endingParameterValueVAxis);
+    return null;
+  }
 
-  Call createCall(String fileName);
+  public Degree createDegree(String uAxisDegree, String vAxisDegree) {
+    // TODO Auto-generated method stub
 
-  Csh createCsh(String ignoreError, String command);
+    return null;
+  }
 
-  Parm createParm(String axis);
+  public BasisMatrix createBasisMatrix(Axis axis, List<String> flattenedMatrix) {
+    // TODO Auto-generated method stub
 
-  Trim createTrim();
+    return null;
+  }
 
-  Curve2DReference createCurve2DReference(String startingParameterValue,
-      String endingParameterValue, String curve2DIndex);
+  public StepSize createStepSize(String stepSizeInUAxis, String stepSizeInVAxis) {
+    // TODO Auto-generated method stub
 
-  Hole createHole();
+    return null;
+  }
 
-  SpecialCurve createSpecialCurve();
+  public Curve createCurve(String startingParameterValue, String endingParameterValue) {
+    // TODO Auto-generated method stub
 
-  SpecialPoint createSpecialPoint();
+    return null;
+  }
 
-  End createEnd();
+  public Curve2D createCurve2D() {
+    // TODO Auto-generated method stub
 
-  Connect createConnect(String firstSurfaceIndex, Curve2DReference curve2dReferenceForFirstSurface,
-      String secondSurfaceIndex, Curve2DReference curve2dReferenceForSecondSurface);
+    return null;
+  }
 
-  GroupNameList createGroupName();
+  public Surface createSurface(String startingParameterValueUAxis, String endingParameterValueUAxis,
+      String startingParameterValueVAxis, String endingParameterValueVAxis) {
+    // TODO Auto-generated method stub
 
-  SmoothingGroup createSmoothingGroup(String groupNumberOrOff);
+    return null;
+  }
 
-  MergingGroup createMergingGroup(String groupNumberOrOff, String resolution);
+  public Call createCall(String fileName) {
+    // TODO Auto-generated method stub
 
-  ObjectName createObjectName(String objectName);
+    return null;
+  }
 
-  Bevel createBevel(String onOrOff);
+  public Csh createCsh(String ignoreError, String command) {
+    // TODO Auto-generated method stub
 
-  ColorInterpolation createColorInterpolation(String onOrOff);
+    return null;
+  }
 
-  DissolveInterpolation createDissolveInterpolation(String onOrOff);
+  public Parm createParm(String axis) {
+    // TODO Auto-generated method stub
 
-  LevelOfDetail createLevelOfDetail(String levelOfDetail);
+    return null;
+  }
 
-  MapLib createMapLib();
+  public Trim createTrim() {
+    // TODO Auto-generated method stub
 
-  UseMaterial createUseMaterial(String materialName);
+    return null;
+  }
 
-  UseMap createUseMap(String mapNameOrOff);
+  public Curve2DReference createCurve2DReference(String startingParameterValue,
+      String endingParameterValue, String curve2DIndex) {
+    // TODO Auto-generated method stub
 
-  MaterialLib createMaterialLib();
+    return null;
+  }
 
-  ShadowObject createShadowObject(String shadowObjectFileName);
+  public Hole createHole() {
+    // TODO Auto-generated method stub
 
-  RayTracingObject createRayTracingObject(String rayTracingObjectFileName);
+    return null;    
+  }
 
-  CparmCurveApprox createCparmCurveApprox(String resolution);
+  public SpecialCurve createSpecialCurve() {
+    // TODO Auto-generated method stub
 
-  CspaceCurveApprox createCspaceCurveApprox(String maxLength);
+    return null;
+  }
 
-  CurvCurveApprox createCurvCurveAprox(String maxDist, String maxAngleInDegrees);
+  public SpecialPoint createSpecialPoint() {
+    // TODO Auto-generated method stub
 
-  CparmaSurfaceApprox createCparmaSurfaceApprox(String resolutionForUAxis,
-      String resolutionForVAxis);
+    return null;
+  }
 
-  CparmbSurfaceApprox createCparmbSurfaceApprox(String resolutionForUAndVAxes);
+  public End createEnd() {
+    // TODO Auto-generated method stub
 
-  CspaceSurfaceApprox createCspaceSurfaceApprox(String maxLength);
+    return null;
+  }
 
-  CurvSurfaceApprox createCurvSurfaceApprox(String maxDist, String maxAngleInDegrees);
+  public Connect createConnect(String firstSurfaceIndex, Curve2DReference curve2dReferenceForFirstSurface,
+      String secondSurfaceIndex, Curve2DReference curve2dReferenceForSecondSurface) {
+    // TODO Auto-generated method stub
 
-  Blank createBlank();
+    return null;
+  }
 
-  Unknown createUnknown(List<String> tokens);
+  public GroupNameList createGroupName() {
+    // TODO Auto-generated method stub
 
-  Comment createComment(String commentString);
+    return null;
+  }
+
+  public SmoothingGroup createSmoothingGroup(String groupNumberOrOff) {
+    // TODO Auto-generated method stub
+
+    return null;
+  }
+
+  public MergingGroup createMergingGroup(String groupNumberOrOff, String resolution) {
+    // TODO Auto-generated method stub
+
+    return null;
+  }
+
+  public ObjectName createObjectName(String objectName) {
+    // TODO Auto-generated method stub
+
+    return null;
+  }
+
+  public Bevel createBevel(String onOrOff) {
+    // TODO Auto-generated method stub
+
+    return null;
+  }
+
+  public ColorInterpolation createColorInterpolation(String onOrOff) {
+    // TODO Auto-generated method stub
+
+    return null;
+  }
+
+  public DissolveInterpolation createDissolveInterpolation(String onOrOff) {
+    // TODO Auto-generated method stub
+
+    return null;
+  }
+
+  public LevelOfDetail createLevelOfDetail(String levelOfDetail) {
+    // TODO Auto-generated method stub
+
+    return null;
+  }
+
+  public MapLib createMapLib() {
+    // TODO Auto-generated method stub
+
+    return null;
+  }
+
+  public UseMaterial createUseMaterial(String materialName) {
+    // TODO Auto-generated method stub
+
+    return null;
+  }
+
+  public UseMap createUseMap(String mapNameOrOff) {
+    // TODO Auto-generated method stub
+
+    return null;
+  }
+
+  public MaterialLib createMaterialLib() {
+    // TODO Auto-generated method stub
+
+    return null;
+  }
+
+  public ShadowObject createShadowObject(String shadowObjectFileName) {
+    // TODO Auto-generated method stub
+
+    return null;
+  }
+
+  public RayTracingObject createRayTracingObject(String rayTracingObjectFileName) {
+    // TODO Auto-generated method stub
+
+    return null;
+  }
+
+  public CparmCurveApprox createCparmCurveApprox(String resolution) {
+    // TODO Auto-generated method stub
+
+    return null;
+  }
+
+  public CspaceCurveApprox createCspaceCurveApprox(String maxLength) {
+    // TODO Auto-generated method stub
+
+    return null;
+  }
+
+  public CurvCurveApprox createCurvCurveAprox(String maxDist, String maxAngleInDegrees) {
+    // TODO Auto-generated method stub
+
+    return null;
+  }
+
+  public CparmaSurfaceApprox createCparmaSurfaceApprox(String resolutionForUAxis,
+      String resolutionForVAxis) {
+    // TODO Auto-generated method stub
+
+    return null;
+  }
+
+  public CparmbSurfaceApprox createCparmbSurfaceApprox(String resolutionForUAndVAxes) {
+    // TODO Auto-generated method stub
+
+    return null;
+  }
+
+  public CspaceSurfaceApprox createCspaceSurfaceApprox(String maxLength) {
+    // TODO Auto-generated method stub
+
+    return null;
+  }
+
+  public CurvSurfaceApprox createCurvSurfaceApprox(String maxDist, String maxAngleInDegrees) {
+    // TODO Auto-generated method stub
+
+    return null;
+  }
+
+  public Blank createBlank() {
+    // TODO Auto-generated method stub
+
+    return null;
+  }
+
+  public Unknown createUnknown(List<String> tokens) {
+    // TODO Auto-generated method stub
+
+    return null;
+  }
+
+  public Comment createComment(String commentString) {
+    // TODO Auto-generated method stub
+
+    return null;
+  }
 }
