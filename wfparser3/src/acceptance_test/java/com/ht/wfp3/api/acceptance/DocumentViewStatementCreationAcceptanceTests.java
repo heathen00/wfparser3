@@ -8,11 +8,16 @@ import com.ht.wfp3.api.document.Document;
 import com.ht.wfp3.api.document.DocumentFactory;
 import com.ht.wfp3.api.document.EmptyDocumentException;
 import com.ht.wfp3.api.document.VisibleDocumentImp;
+import com.ht.wfp3.api.statement.Face;
 import com.ht.wfp3.api.statement.GeoVertex;
+import com.ht.wfp3.api.statement.Line;
 import com.ht.wfp3.api.statement.NormalVertex;
 import com.ht.wfp3.api.statement.ParamVertex;
+import com.ht.wfp3.api.statement.Point;
 import com.ht.wfp3.api.statement.StatementFactory;
 import com.ht.wfp3.api.statement.TexVertex;
+import com.ht.wfp3.api.statement.VertexReference;
+import com.ht.wfp3.api.statement.VertexReferenceGroup;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -20,7 +25,7 @@ import org.junit.Test;
 public class DocumentViewStatementCreationAcceptanceTests {
 
   // TODO all error scenarios.
-  
+
   private StatementFactory statementFactory;
 
   private VisibleDocumentImp objDocument;
@@ -108,7 +113,7 @@ public class DocumentViewStatementCreationAcceptanceTests {
 
     objDocument.peek(otherCursor);
   }
-  
+
   // Valid scenarios.
 
   @Test
@@ -155,101 +160,104 @@ public class DocumentViewStatementCreationAcceptanceTests {
     assertEquals(Integer.valueOf(1), objDocument.getNumberOfLines());
   }
 
-  // @Test
-  // public void Document_addOnePointToEmptyObjDocumentAtCursor_OnePointIsAddedAtCursor() {
-  // Point point = statementFactory.createPoint();
-  // VertexReferenceGroup vertexReferenceGroup = statementFactory.createVertexReferenceGroup();
-  // vertexReferenceGroup.addVertexReference(
-  // statementFactory.createVertexReference(VertexReference.Type.GEOMETRIC, "1"));
-  // point.appendReferenceNumbers(vertexReferenceGroup);
-  // vertexReferenceGroup = statementFactory.createVertexReferenceGroup();
-  // vertexReferenceGroup.addVertexReference(
-  // statementFactory.createVertexReference(VertexReference.Type.GEOMETRIC, "2"));
-  // point.appendReferenceNumbers(vertexReferenceGroup);
-  // vertexReferenceGroup = statementFactory.createVertexReferenceGroup();
-  // vertexReferenceGroup.addVertexReference(
-  // statementFactory.createVertexReference(VertexReference.Type.GEOMETRIC, "3"));
-  // point.appendReferenceNumbers(vertexReferenceGroup);
-  // vertexReferenceGroup = statementFactory.createVertexReferenceGroup();
-  // vertexReferenceGroup.addVertexReference(
-  // statementFactory.createVertexReference(VertexReference.Type.GEOMETRIC, "4"));
-  // point.appendReferenceNumbers(vertexReferenceGroup);
-  // objDocument.append(point, cursor);
-  //
-  // assertEquals(point, objDocument.peek(cursor));
-  // }
-  //
-  // @Test
-  // public void Document_addOneLineToEmptyObjDocumentAtCursor_OneLineIsAddedAtCursor() {
-  // Line line = statementFactory.createLine();
-  // VertexReferenceGroup vertexReferenceGroup = statementFactory.createVertexReferenceGroup();
-  // vertexReferenceGroup.addVertexReference(
-  // statementFactory.createVertexReference(VertexReference.Type.GEOMETRIC, "1"));
-  // vertexReferenceGroup.addVertexReference(
-  // statementFactory.createVertexReference(VertexReference.Type.TEXTURE, "1"));
-  // line.appendReferenceNumbers(vertexReferenceGroup);
-  // vertexReferenceGroup = statementFactory.createVertexReferenceGroup();
-  // vertexReferenceGroup.addVertexReference(
-  // statementFactory.createVertexReference(VertexReference.Type.GEOMETRIC, "2"));
-  // vertexReferenceGroup.addVertexReference(
-  // statementFactory.createVertexReference(VertexReference.Type.TEXTURE, "2"));
-  // line.appendReferenceNumbers(vertexReferenceGroup);
-  // vertexReferenceGroup = statementFactory.createVertexReferenceGroup();
-  // vertexReferenceGroup.addVertexReference(
-  // statementFactory.createVertexReference(VertexReference.Type.GEOMETRIC, "3"));
-  // vertexReferenceGroup.addVertexReference(
-  // statementFactory.createVertexReference(VertexReference.Type.TEXTURE, "3"));
-  // line.appendReferenceNumbers(vertexReferenceGroup);
-  // vertexReferenceGroup = statementFactory.createVertexReferenceGroup();
-  // vertexReferenceGroup.addVertexReference(
-  // statementFactory.createVertexReference(VertexReference.Type.GEOMETRIC, "4"));
-  // vertexReferenceGroup.addVertexReference(
-  // statementFactory.createVertexReference(VertexReference.Type.TEXTURE, "4"));
-  // line.appendReferenceNumbers(vertexReferenceGroup);
-  // objDocument.append(line, cursor);
-  //
-  // assertEquals(line, objDocument.peek(cursor));
-  // }
-  //
-  // @Test
-  // public void Document_addOneFaceToEmptyObjDocumentAtCursor_OneFaceIsAddedAtCursor() {
-  // Face face = statementFactory.createFace();
-  // VertexReferenceGroup vertexReferenceGroup = statementFactory.createVertexReferenceGroup();
-  // vertexReferenceGroup.addVertexReference(
-  // statementFactory.createVertexReference(VertexReference.Type.GEOMETRIC, "1"));
-  // vertexReferenceGroup.addVertexReference(
-  // statementFactory.createVertexReference(VertexReference.Type.TEXTURE, "1"));
-  // vertexReferenceGroup.addVertexReference(
-  // statementFactory.createVertexReference(VertexReference.Type.NORMAL, "1"));
-  // face.appendReferenceNumbers(vertexReferenceGroup);
-  // vertexReferenceGroup = statementFactory.createVertexReferenceGroup();
-  // vertexReferenceGroup.addVertexReference(
-  // statementFactory.createVertexReference(VertexReference.Type.GEOMETRIC, "2"));
-  // vertexReferenceGroup.addVertexReference(
-  // statementFactory.createVertexReference(VertexReference.Type.TEXTURE, "2"));
-  // vertexReferenceGroup.addVertexReference(
-  // statementFactory.createVertexReference(VertexReference.Type.NORMAL, "2"));
-  // face.appendReferenceNumbers(vertexReferenceGroup);
-  // vertexReferenceGroup = statementFactory.createVertexReferenceGroup();
-  // vertexReferenceGroup.addVertexReference(
-  // statementFactory.createVertexReference(VertexReference.Type.GEOMETRIC, "3"));
-  // vertexReferenceGroup.addVertexReference(
-  // statementFactory.createVertexReference(VertexReference.Type.TEXTURE, "3"));
-  // vertexReferenceGroup.addVertexReference(
-  // statementFactory.createVertexReference(VertexReference.Type.NORMAL, "3"));
-  // face.appendReferenceNumbers(vertexReferenceGroup);
-  // vertexReferenceGroup = statementFactory.createVertexReferenceGroup();
-  // vertexReferenceGroup.addVertexReference(
-  // statementFactory.createVertexReference(VertexReference.Type.GEOMETRIC, "4"));
-  // vertexReferenceGroup.addVertexReference(
-  // statementFactory.createVertexReference(VertexReference.Type.TEXTURE, "4"));
-  // vertexReferenceGroup.addVertexReference(
-  // statementFactory.createVertexReference(VertexReference.Type.NORMAL, "4"));
-  // face.appendReferenceNumbers(vertexReferenceGroup);
-  // objDocument.append(face, cursor);
-  //
-  // assertEquals(face, objDocument.peek(cursor));
-  // }
+  @Test
+  public void Document_addOnePointToEmptyObjDocumentAtCursor_OnePointIsAddedAtCursor()
+      throws Exception {
+    Point point = statementFactory.createPoint();
+    VertexReferenceGroup vertexReferenceGroup = statementFactory.createVertexReferenceGroup();
+    vertexReferenceGroup.addVertexReference(
+        statementFactory.createVertexReference(VertexReference.Type.GEOMETRIC, "1"));
+    point.appendReferenceNumbers(vertexReferenceGroup);
+    vertexReferenceGroup = statementFactory.createVertexReferenceGroup();
+    vertexReferenceGroup.addVertexReference(
+        statementFactory.createVertexReference(VertexReference.Type.GEOMETRIC, "2"));
+    point.appendReferenceNumbers(vertexReferenceGroup);
+    vertexReferenceGroup = statementFactory.createVertexReferenceGroup();
+    vertexReferenceGroup.addVertexReference(
+        statementFactory.createVertexReference(VertexReference.Type.GEOMETRIC, "3"));
+    point.appendReferenceNumbers(vertexReferenceGroup);
+    vertexReferenceGroup = statementFactory.createVertexReferenceGroup();
+    vertexReferenceGroup.addVertexReference(
+        statementFactory.createVertexReference(VertexReference.Type.GEOMETRIC, "4"));
+    point.appendReferenceNumbers(vertexReferenceGroup);
+    objDocument.append(point, cursor);
+
+    assertEquals(point, objDocument.peek(cursor));
+  }
+
+  @Test
+  public void Document_addOneLineToEmptyObjDocumentAtCursor_OneLineIsAddedAtCursor()
+      throws Exception {
+    Line line = statementFactory.createLine();
+    VertexReferenceGroup vertexReferenceGroup = statementFactory.createVertexReferenceGroup();
+    vertexReferenceGroup.addVertexReference(
+        statementFactory.createVertexReference(VertexReference.Type.GEOMETRIC, "1"));
+    vertexReferenceGroup.addVertexReference(
+        statementFactory.createVertexReference(VertexReference.Type.TEXTURE, "1"));
+    line.appendReferenceNumbers(vertexReferenceGroup);
+    vertexReferenceGroup = statementFactory.createVertexReferenceGroup();
+    vertexReferenceGroup.addVertexReference(
+        statementFactory.createVertexReference(VertexReference.Type.GEOMETRIC, "2"));
+    vertexReferenceGroup.addVertexReference(
+        statementFactory.createVertexReference(VertexReference.Type.TEXTURE, "2"));
+    line.appendReferenceNumbers(vertexReferenceGroup);
+    vertexReferenceGroup = statementFactory.createVertexReferenceGroup();
+    vertexReferenceGroup.addVertexReference(
+        statementFactory.createVertexReference(VertexReference.Type.GEOMETRIC, "3"));
+    vertexReferenceGroup.addVertexReference(
+        statementFactory.createVertexReference(VertexReference.Type.TEXTURE, "3"));
+    line.appendReferenceNumbers(vertexReferenceGroup);
+    vertexReferenceGroup = statementFactory.createVertexReferenceGroup();
+    vertexReferenceGroup.addVertexReference(
+        statementFactory.createVertexReference(VertexReference.Type.GEOMETRIC, "4"));
+    vertexReferenceGroup.addVertexReference(
+        statementFactory.createVertexReference(VertexReference.Type.TEXTURE, "4"));
+    line.appendReferenceNumbers(vertexReferenceGroup);
+    objDocument.append(line, cursor);
+
+    assertEquals(line, objDocument.peek(cursor));
+  }
+
+  @Test
+  public void Document_addOneFaceToEmptyObjDocumentAtCursor_OneFaceIsAddedAtCursor()
+      throws Exception {
+    Face face = statementFactory.createFace();
+    VertexReferenceGroup vertexReferenceGroup = statementFactory.createVertexReferenceGroup();
+    vertexReferenceGroup.addVertexReference(
+        statementFactory.createVertexReference(VertexReference.Type.GEOMETRIC, "1"));
+    vertexReferenceGroup.addVertexReference(
+        statementFactory.createVertexReference(VertexReference.Type.TEXTURE, "1"));
+    vertexReferenceGroup.addVertexReference(
+        statementFactory.createVertexReference(VertexReference.Type.NORMAL, "1"));
+    face.appendReferenceNumbers(vertexReferenceGroup);
+    vertexReferenceGroup = statementFactory.createVertexReferenceGroup();
+    vertexReferenceGroup.addVertexReference(
+        statementFactory.createVertexReference(VertexReference.Type.GEOMETRIC, "2"));
+    vertexReferenceGroup.addVertexReference(
+        statementFactory.createVertexReference(VertexReference.Type.TEXTURE, "2"));
+    vertexReferenceGroup.addVertexReference(
+        statementFactory.createVertexReference(VertexReference.Type.NORMAL, "2"));
+    face.appendReferenceNumbers(vertexReferenceGroup);
+    vertexReferenceGroup = statementFactory.createVertexReferenceGroup();
+    vertexReferenceGroup.addVertexReference(
+        statementFactory.createVertexReference(VertexReference.Type.GEOMETRIC, "3"));
+    vertexReferenceGroup.addVertexReference(
+        statementFactory.createVertexReference(VertexReference.Type.TEXTURE, "3"));
+    vertexReferenceGroup.addVertexReference(
+        statementFactory.createVertexReference(VertexReference.Type.NORMAL, "3"));
+    face.appendReferenceNumbers(vertexReferenceGroup);
+    vertexReferenceGroup = statementFactory.createVertexReferenceGroup();
+    vertexReferenceGroup.addVertexReference(
+        statementFactory.createVertexReference(VertexReference.Type.GEOMETRIC, "4"));
+    vertexReferenceGroup.addVertexReference(
+        statementFactory.createVertexReference(VertexReference.Type.TEXTURE, "4"));
+    vertexReferenceGroup.addVertexReference(
+        statementFactory.createVertexReference(VertexReference.Type.NORMAL, "4"));
+    face.appendReferenceNumbers(vertexReferenceGroup);
+    objDocument.append(face, cursor);
+
+    assertEquals(face, objDocument.peek(cursor));
+  }
   //
   // @Test
   // public void Document_addOneCSTypeToEmptyObjDocumentAtCursor_OneCSTypeIsAddedAtCursor() {

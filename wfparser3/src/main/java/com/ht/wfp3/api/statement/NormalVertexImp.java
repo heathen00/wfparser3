@@ -99,4 +99,9 @@ class NormalVertexImp implements NormalVertex {
     }
     return true;
   }
+
+  @Override
+  public String toString() {
+    return "NormalVertexImp [iCoord=" + iCoord + ", jCoord=" + jCoord + ", kCoord=" + kCoord + "]";
+  }
 }

@@ -130,20 +130,20 @@ class DocumentImp implements Document {
 
   @Override
   public void append(Point point, Cursor cursor) {
-    // TODO Auto-generated method stub
-
+    guardAppendApis(cursor, point);
+    addToDocumentStructure(cursor, statementFactory.copyPoint(point));
   }
 
   @Override
   public void append(Line line, Cursor cursor) {
-    // TODO Auto-generated method stub
-
+    guardAppendApis(cursor, line);
+    addToDocumentStructure(cursor, statementFactory.copyLine(line));
   }
 
   @Override
   public void append(Face face, Cursor cursor) {
-    // TODO Auto-generated method stub
-
+    guardAppendApis(cursor, face);
+    addToDocumentStructure(cursor, statementFactory.copyFace(face));
   }
 
   @Override

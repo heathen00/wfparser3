@@ -1,5 +1,9 @@
 package com.ht.wfp3.api.statement;
 
+import com.ht.wfp3.api.statement.VertexReference.Type;
+
+import java.util.Map;
+
 /**
  * The Vertex Reference Numbers. Not an element but a component of elements such as Point, Line,
  * Face, ...

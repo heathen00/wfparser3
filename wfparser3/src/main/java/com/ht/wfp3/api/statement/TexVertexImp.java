@@ -99,4 +99,9 @@ class TexVertexImp implements TexVertex {
     }
     return true;
   }
+
+  @Override
+  public String toString() {
+    return "TexVertexImp [uCoord=" + uCoord + ", vCoord=" + vCoord + ", wCoord=" + wCoord + "]";
+  }
 }

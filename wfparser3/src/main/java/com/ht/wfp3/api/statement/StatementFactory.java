@@ -52,33 +52,43 @@ public class StatementFactory {
   }
 
   public VertexReferenceGroup createVertexReferenceGroup() {
-    // TODO Auto-generated method stub
-
-    return null;
+    return new VertexReferenceGroupImp();
+  }
+  
+  public VertexReferenceGroup copyVertexReferenceGroup(VertexReferenceGroup referenceNumbers) {
+    return new VertexReferenceGroupImp(referenceNumbers);
   }
 
   public VertexReference createVertexReference(VertexReference.Type type, String vertexIndex) {
-    // TODO Auto-generated method stub
-
-    return null;
+    return new VertexReferenceImp(type, vertexIndex);
+  }
+  
+  public VertexReference copyVertexReference(VertexReference vertexReference) {
+    return new VertexReferenceImp(vertexReference);
   }
 
   public Point createPoint() {
-    // TODO Auto-generated method stub
-
-    return null;
+    return new PointImp();
+  }
+  
+  public Point copyPoint(Point point) {
+    return new PointImp(point);
   }
 
   public Line createLine() {
-    // TODO Auto-generated method stub
-
-    return null;
+    return new LineImp();
+  }
+  
+  public Line copyLine(Line line) {
+    return new LineImp(line);
   }
 
   public Face createFace() {
-    // TODO Auto-generated method stub
-
-    return null;
+    return new FaceImp();
+  }
+  
+  public Face copyFace(Face face) {
+    return new FaceImp(face);
   }
 
   public CurveOrSurface createCurveOrSurfaceType(String rational, CurveOrSurface.Type typeKey) {
@@ -169,7 +179,6 @@ public class StatementFactory {
 
   public SpecialPoint createSpecialPoint() {
     // TODO Auto-generated method stub
-
     return null;
   }
 
@@ -330,4 +339,5 @@ public class StatementFactory {
 
     return null;
   }
+
 }

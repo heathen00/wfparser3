@@ -99,4 +99,9 @@ class ParamVertexImp implements ParamVertex {
     }
     return true;
   }
+
+  @Override
+  public String toString() {
+    return "ParamVertexImp [uCoord=" + uCoord + ", vCoord=" + vCoord + ", wCoord=" + wCoord + "]";
+  }
 }

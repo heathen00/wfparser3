@@ -75,7 +75,6 @@ class GeoVertexImp implements GeoVertex {
 
   @Override
   public boolean equals(Object obj) {
-    System.out.println("here");
     if (this == obj) {
       return true;
     }
@@ -115,5 +114,11 @@ class GeoVertexImp implements GeoVertex {
       return false;
     }
     return true;
+  }
+
+  @Override
+  public String toString() {
+    return "GeoVertexImp [xCoord=" + xCoord + ", yCoord=" + yCoord + ", zCoord=" + zCoord
+        + ", wCoord=" + wCoord + "]";
   }
 }
