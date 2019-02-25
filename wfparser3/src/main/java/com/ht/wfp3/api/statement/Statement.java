@@ -7,7 +7,7 @@ package com.ht.wfp3.api.statement;
  * @author nickl
  *
  */
-public interface Statement extends SubStatment, Commentable {
+public interface Statement extends SubStatement, Commentable {
   
   boolean canComment();
   

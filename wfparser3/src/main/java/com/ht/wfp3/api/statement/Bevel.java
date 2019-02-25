@@ -24,6 +24,6 @@ package com.ht.wfp3.api.statement;
  * @author nickl
  *
  */
-public interface Bevel extends Statement, Commentable {
+public interface Bevel extends Statement {
   boolean isEnabled();
 }

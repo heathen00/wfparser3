@@ -22,7 +22,7 @@ import java.util.List;
  * @author nickl
  *
  */
-public interface Curve2D extends Statement, Commentable {
+public interface Curve2D extends Statement {
 
   void appendControlPointVertexReferenceGroup(VertexReferenceGroup referenceNumbers);
 

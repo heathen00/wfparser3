@@ -25,6 +25,6 @@ package com.ht.wfp3.api.statement;
  * @author nickl
  *
  */
-public interface ShadowObject extends Statement, Commentable {
+public interface ShadowObject extends Statement {
   String getShadowObjectFileName();
 }

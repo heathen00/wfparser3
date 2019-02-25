@@ -24,7 +24,7 @@ package com.ht.wfp3.api.statement;
  * @author nickl
  *
  */
-public interface NormalVertex extends Statement, Commentable {
+public interface NormalVertex extends Statement {
   String getICoord();
 
   String getJCoord();

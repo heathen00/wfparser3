@@ -43,7 +43,7 @@ import java.util.List;
  * @author nickl
  *
  */
-public interface Line extends Statement, Commentable {
+public interface Line extends Statement {
 
   void appendReferenceNumbers(VertexReferenceGroup referenceNumbers);
 

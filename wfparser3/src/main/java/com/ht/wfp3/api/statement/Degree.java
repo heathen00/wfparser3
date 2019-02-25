@@ -18,7 +18,7 @@ package com.ht.wfp3.api.statement;
  * @author nickl
  *
  */
-public interface Degree extends Statement, Commentable {
+public interface Degree extends Statement {
   int getUAxisDegree();
 
   int getVAxisDegree();

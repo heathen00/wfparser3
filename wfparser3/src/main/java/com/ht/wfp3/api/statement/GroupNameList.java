@@ -20,7 +20,7 @@ import java.util.List;
  * @author nickl
  *
  */
-public interface GroupNameList extends Statement, Commentable {
+public interface GroupNameList extends Statement {
 
   void appendGroupName(String groupName);
 

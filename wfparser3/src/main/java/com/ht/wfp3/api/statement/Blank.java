@@ -9,6 +9,6 @@ package com.ht.wfp3.api.statement;
  * @author nickl
  *
  */
-public interface Blank extends Statement, Commentable {
+public interface Blank extends Statement {
 
 }

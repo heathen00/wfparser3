@@ -26,6 +26,6 @@ package com.ht.wfp3.api.statement;
  * @author nickl
  *
  */
-public interface RayTracingObject extends Statement, Commentable {
+public interface RayTracingObject extends Statement {
   String getRayTracingObjectFileName();
 }

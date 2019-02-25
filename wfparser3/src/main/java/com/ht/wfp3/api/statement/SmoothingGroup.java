@@ -26,7 +26,7 @@ package com.ht.wfp3.api.statement;
  * @author nickl
  *
  */
-public interface SmoothingGroup extends Statement, Commentable {
+public interface SmoothingGroup extends Statement {
   boolean isEnabled();
 
   String getSmoothingGroupNumber();

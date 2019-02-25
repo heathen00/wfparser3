@@ -4,11 +4,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-abstract class StatementsUsingVertexReferencesImp {
+abstract class StatementsUsingVertexReferencesImp extends StatementImp {
   private StatementFactory statementFactory;
   private List<VertexReferenceGroup> vertexReferenceGroupList;
-
-  public StatementsUsingVertexReferencesImp() {
+  
+  StatementsUsingVertexReferencesImp(String keyword, boolean canComment) {
+    super(keyword, canComment);
     statementFactory = StatementFactory.createStatementFactory();
     vertexReferenceGroupList = new ArrayList<>();
   }
@@ -30,7 +31,7 @@ abstract class StatementsUsingVertexReferencesImp {
   @Override
   public int hashCode() {
     final int prime = 31;
-    int result = 1;
+    int result = super.hashCode();
     result = prime * result
         + ((vertexReferenceGroupList == null) ? 0 : vertexReferenceGroupList.hashCode());
     return result;
@@ -41,7 +42,7 @@ abstract class StatementsUsingVertexReferencesImp {
     if (this == obj) {
       return true;
     }
-    if (obj == null) {
+    if (!super.equals(obj)) {
       return false;
     }
     if (getClass() != obj.getClass()) {
@@ -60,7 +61,8 @@ abstract class StatementsUsingVertexReferencesImp {
 
   @Override
   public String toString() {
-    return "CommonUsesVertexReferencesImp [vertexReferenceGroupList=" + vertexReferenceGroupList
-        + "]";
+    return "StatementsUsingVertexReferencesImp [statementFactory=" + statementFactory
+        + ", vertexReferenceGroupList=" + vertexReferenceGroupList + ", super.toString()="
+        + super.toString() + "]";
   }
 }

@@ -12,6 +12,6 @@ package com.ht.wfp3.api.statement;
  * @author nickl
  *
  */
-public interface End extends Statement, Commentable {
+public interface End extends Statement {
 
 }

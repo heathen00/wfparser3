@@ -31,7 +31,7 @@ package com.ht.wfp3.api.statement;
  * @author nickl
  *
  */
-public interface Connect extends Statement, Commentable {
+public interface Connect extends Statement {
   int getFirstSurfaceIndex();
 
   Curve2DReference getCurve2DReferenceForFirstSurface();

@@ -17,6 +17,6 @@ package com.ht.wfp3.api.statement;
  * @author nickl
  *
  */
-public interface LevelOfDetail extends Statement, Commentable {
+public interface LevelOfDetail extends Statement {
   int getLevelOfDetail();
 }

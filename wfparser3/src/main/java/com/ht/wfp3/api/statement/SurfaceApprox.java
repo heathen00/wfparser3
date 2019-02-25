@@ -66,7 +66,7 @@ package com.ht.wfp3.api.statement;
  * @author nickl
  *
  */
-public interface SurfaceApprox extends Statement, Commentable {
+public interface SurfaceApprox extends Statement {
   enum Technique {
     CPARMA,
     CPARMB,

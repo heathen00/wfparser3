@@ -17,7 +17,7 @@ package com.ht.wfp3.api.statement;
  * @author nickl
  *
  */
-public interface Csh extends Statement, Commentable {
+public interface Csh extends Statement {
   boolean shouldIgnoreError();
 
   String getCommand();

@@ -16,6 +16,6 @@ package com.ht.wfp3.api.statement;
  * @author nickl
  *
  */
-public interface UseMaterial extends Statement, Commentable {
+public interface UseMaterial extends Statement {
 
 }

@@ -23,6 +23,6 @@ package com.ht.wfp3.api.statement;
  * @author nickl
  *
  */
-public interface Comment extends Statement {
-
+public interface Comment extends SubStatement {
+  String getCommentString();
 }

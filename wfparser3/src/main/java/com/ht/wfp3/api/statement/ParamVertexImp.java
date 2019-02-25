@@ -1,11 +1,15 @@
 package com.ht.wfp3.api.statement;
 
-class ParamVertexImp implements ParamVertex {
+class ParamVertexImp extends StatementImp implements ParamVertex {
+  private static final String KEYWORD = "vp";
+  private static final boolean CAN_COMMENT = true;
+  
   private String uCoord;
   private String vCoord;
   private String wCoord;
 
   ParamVertexImp(String uCoord, String vCoord, String wCoord) {
+    super(KEYWORD, CAN_COMMENT);
     this.uCoord = uCoord;
     this.vCoord = vCoord;
     this.wCoord = wCoord;
@@ -13,30 +17,6 @@ class ParamVertexImp implements ParamVertex {
 
   ParamVertexImp(ParamVertex paramVertex) {
     this(paramVertex.getUCoord(), paramVertex.getVCoord(), paramVertex.getWCoord());
-  }
-
-  @Override
-  public boolean canComment() {
-    // TODO Auto-generated method stub
-    return false;
-  }
-
-  @Override
-  public String getKeyword() {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-  @Override
-  public void setComment(Comment comment) {
-    // TODO Auto-generated method stub
-
-  }
-
-  @Override
-  public String getComment() {
-    // TODO Auto-generated method stub
-    return null;
   }
 
   @Override
@@ -57,7 +37,7 @@ class ParamVertexImp implements ParamVertex {
   @Override
   public int hashCode() {
     final int prime = 31;
-    int result = 1;
+    int result = super.hashCode();
     result = prime * result + ((uCoord == null) ? 0 : uCoord.hashCode());
     result = prime * result + ((vCoord == null) ? 0 : vCoord.hashCode());
     result = prime * result + ((wCoord == null) ? 0 : wCoord.hashCode());
@@ -69,7 +49,7 @@ class ParamVertexImp implements ParamVertex {
     if (this == obj) {
       return true;
     }
-    if (obj == null) {
+    if (!super.equals(obj)) {
       return false;
     }
     if (getClass() != obj.getClass()) {
@@ -102,6 +82,7 @@ class ParamVertexImp implements ParamVertex {
 
   @Override
   public String toString() {
-    return "ParamVertexImp [uCoord=" + uCoord + ", vCoord=" + vCoord + ", wCoord=" + wCoord + "]";
+    return "ParamVertexImp [uCoord=" + uCoord + ", vCoord=" + vCoord + ", wCoord=" + wCoord
+        + ", super.toString()=" + super.toString() + "]";
   }
 }

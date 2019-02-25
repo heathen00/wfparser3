@@ -24,6 +24,6 @@ package com.ht.wfp3.api.statement;
  * @author nickl
  *
  */
-public interface ColorInterpolation extends Statement, Commentable {
+public interface ColorInterpolation extends Statement {
   boolean isEnabled();
 }

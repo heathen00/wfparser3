@@ -1,12 +1,16 @@
 package com.ht.wfp3.api.statement;
 
-class GeoVertexImp implements GeoVertex {
+class GeoVertexImp extends StatementImp implements GeoVertex {
+  private static final String KEYWORD = "v";
+  private static final boolean CAN_COMMENT = true;
+  
   private String xCoord;
   private String yCoord;
   private String zCoord;
   private String wCoord;
 
   GeoVertexImp(String xCoord, String yCoord, String zCoord, String wCoord) {
+    super(KEYWORD, CAN_COMMENT);
     this.xCoord = xCoord;
     this.yCoord = yCoord;
     this.zCoord = zCoord;
@@ -16,30 +20,6 @@ class GeoVertexImp implements GeoVertex {
   GeoVertexImp(GeoVertex geoVertex) {
     this(geoVertex.getXCoord(), geoVertex.getYCoord(), geoVertex.getZCoord(),
         geoVertex.getWCoord());
-  }
-
-  @Override
-  public boolean canComment() {
-    // TODO Auto-generated method stub
-    return false;
-  }
-
-  @Override
-  public String getKeyword() {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-  @Override
-  public void setComment(Comment comment) {
-    // TODO Auto-generated method stub
-
-  }
-
-  @Override
-  public String getComment() {
-    // TODO Auto-generated method stub
-    return null;
   }
 
   @Override
@@ -65,7 +45,7 @@ class GeoVertexImp implements GeoVertex {
   @Override
   public int hashCode() {
     final int prime = 31;
-    int result = 1;
+    int result = super.hashCode();
     result = prime * result + ((wCoord == null) ? 0 : wCoord.hashCode());
     result = prime * result + ((xCoord == null) ? 0 : xCoord.hashCode());
     result = prime * result + ((yCoord == null) ? 0 : yCoord.hashCode());
@@ -78,7 +58,7 @@ class GeoVertexImp implements GeoVertex {
     if (this == obj) {
       return true;
     }
-    if (obj == null) {
+    if (!super.equals(obj)) {
       return false;
     }
     if (getClass() != obj.getClass()) {
@@ -119,6 +99,6 @@ class GeoVertexImp implements GeoVertex {
   @Override
   public String toString() {
     return "GeoVertexImp [xCoord=" + xCoord + ", yCoord=" + yCoord + ", zCoord=" + zCoord
-        + ", wCoord=" + wCoord + "]";
+        + ", wCoord=" + wCoord + ", super.toString()=" + super.toString() + "]";
   }
 }

@@ -36,7 +36,7 @@ import java.util.List;
  * @author nickl
  *
  */
-public interface Point extends Statement, Commentable {
+public interface Point extends Statement {
 
   void appendReferenceNumbers(VertexReferenceGroup referenceNumbers);
 

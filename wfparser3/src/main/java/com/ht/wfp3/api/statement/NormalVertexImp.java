@@ -1,11 +1,15 @@
 package com.ht.wfp3.api.statement;
 
-class NormalVertexImp implements NormalVertex {
+class NormalVertexImp extends StatementImp implements NormalVertex {
+  private static final String KEYWORD = "vn";
+  private static final boolean CAN_COMMENT = true;
+  
   private String iCoord;
   private String jCoord;
   private String kCoord;
 
   NormalVertexImp(String iCoord, String jCoord, String kCoord) {
+    super(KEYWORD, CAN_COMMENT);
     this.iCoord = iCoord;
     this.jCoord = jCoord;
     this.kCoord = kCoord;
@@ -13,30 +17,6 @@ class NormalVertexImp implements NormalVertex {
   
   NormalVertexImp(NormalVertex normalVertex) {
     this(normalVertex.getICoord(), normalVertex.getJCoord(), normalVertex.getKCoord());
-  }
-
-  @Override
-  public boolean canComment() {
-    // TODO Auto-generated method stub
-    return false;
-  }
-
-  @Override
-  public String getKeyword() {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-  @Override
-  public void setComment(Comment comment) {
-    // TODO Auto-generated method stub
-
-  }
-
-  @Override
-  public String getComment() {
-    // TODO Auto-generated method stub
-    return null;
   }
 
   @Override
@@ -57,7 +37,7 @@ class NormalVertexImp implements NormalVertex {
   @Override
   public int hashCode() {
     final int prime = 31;
-    int result = 1;
+    int result = super.hashCode();
     result = prime * result + ((iCoord == null) ? 0 : iCoord.hashCode());
     result = prime * result + ((jCoord == null) ? 0 : jCoord.hashCode());
     result = prime * result + ((kCoord == null) ? 0 : kCoord.hashCode());
@@ -69,7 +49,7 @@ class NormalVertexImp implements NormalVertex {
     if (this == obj) {
       return true;
     }
-    if (obj == null) {
+    if (!super.equals(obj)) {
       return false;
     }
     if (getClass() != obj.getClass()) {
@@ -102,6 +82,7 @@ class NormalVertexImp implements NormalVertex {
 
   @Override
   public String toString() {
-    return "NormalVertexImp [iCoord=" + iCoord + ", jCoord=" + jCoord + ", kCoord=" + kCoord + "]";
+    return "NormalVertexImp [iCoord=" + iCoord + ", jCoord=" + jCoord + ", kCoord=" + kCoord
+        + ", super.toString()=" + super.toString() + "]";
   }
 }

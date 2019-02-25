@@ -1,11 +1,15 @@
 package com.ht.wfp3.api.statement;
 
-class TexVertexImp implements TexVertex {
+class TexVertexImp extends StatementImp implements TexVertex {
+  private static final String KEYWORD = "v";
+  private static final boolean CAN_COMMENT = true;
+  
   private String uCoord;
   private String vCoord;
   private String wCoord;
   
   TexVertexImp(String uCoord, String vCoord, String wCoord) {
+    super(KEYWORD, CAN_COMMENT);
     this.uCoord = uCoord;
     this.vCoord = vCoord;
     this.wCoord = wCoord;
@@ -14,31 +18,7 @@ class TexVertexImp implements TexVertex {
   TexVertexImp(TexVertex texVertex) {
     this(texVertex.getUCoord(), texVertex.getVCoord(), texVertex.getWCoord());
   }
-
-  @Override
-  public boolean canComment() {
-    // TODO Auto-generated method stub
-    return false;
-  }
-
-  @Override
-  public String getKeyword() {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-  @Override
-  public void setComment(Comment comment) {
-    // TODO Auto-generated method stub
-
-  }
-
-  @Override
-  public String getComment() {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
+  
   @Override
   public String getUCoord() {
     return uCoord;
@@ -57,7 +37,7 @@ class TexVertexImp implements TexVertex {
   @Override
   public int hashCode() {
     final int prime = 31;
-    int result = 1;
+    int result = super.hashCode();
     result = prime * result + ((uCoord == null) ? 0 : uCoord.hashCode());
     result = prime * result + ((vCoord == null) ? 0 : vCoord.hashCode());
     result = prime * result + ((wCoord == null) ? 0 : wCoord.hashCode());
@@ -69,7 +49,7 @@ class TexVertexImp implements TexVertex {
     if (this == obj) {
       return true;
     }
-    if (obj == null) {
+    if (!super.equals(obj)) {
       return false;
     }
     if (getClass() != obj.getClass()) {
@@ -102,6 +82,7 @@ class TexVertexImp implements TexVertex {
 
   @Override
   public String toString() {
-    return "TexVertexImp [uCoord=" + uCoord + ", vCoord=" + vCoord + ", wCoord=" + wCoord + "]";
+    return "TexVertexImp [uCoord=" + uCoord + ", vCoord=" + vCoord + ", wCoord=" + wCoord
+        + ", super.toString()=" + super.toString() + "]";
   }
 }

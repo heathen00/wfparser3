@@ -21,7 +21,7 @@ import java.util.List;
  * @author nickl
  *
  */
-public interface SpecialCurve extends Statement, Commentable {
+public interface SpecialCurve extends Statement {
   List<Curve2DReference> getSpecialCurve2DReferences();
 
   void appendSpecialCurve2DReference(Curve2DReference trimmingCurve);

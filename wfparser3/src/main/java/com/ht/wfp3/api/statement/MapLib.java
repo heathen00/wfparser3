@@ -22,7 +22,7 @@ import java.util.List;
  * @author nickl
  *
  */
-public interface MapLib extends Statement, Commentable {
+public interface MapLib extends Statement {
   List<String> getMapLibFileNameList();
 
   void appendMapLibFileName(String string);

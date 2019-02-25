@@ -19,7 +19,7 @@ import java.util.List;
  * @author nickl
  *
  */
-public interface SpecialPoint extends Statement, Commentable {
+public interface SpecialPoint extends Statement {
   void appendSpecialPointVertexReferenceGroup(
       VertexReferenceGroup specialPointVertexReferenceGroup);
 

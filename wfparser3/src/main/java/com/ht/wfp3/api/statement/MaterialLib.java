@@ -22,7 +22,7 @@ import java.util.List;
  * @author nickl
  *
  */
-public interface MaterialLib extends Statement, Commentable {
+public interface MaterialLib extends Statement {
 
   void appendMaterialLibFileName(String materialLibraryFileName);
 
