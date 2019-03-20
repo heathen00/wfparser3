@@ -12,7 +12,7 @@ class LineImp extends StatementsUsingVertexReferencesImp implements Line {
     this();
     copyVertexReferenceGroupsInConstructor(line.getReferenceNumbers());
   }
-  
+
   @Override
   public String toString() {
     return "LineImp [super.toString()=" + super.toString() + "]";

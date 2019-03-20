@@ -3,22 +3,22 @@ package com.ht.wfp3.api.statement;
 class TexVertexImp extends StatementImp implements TexVertex {
   private static final String KEYWORD = "v";
   private static final boolean CAN_COMMENT = true;
-  
+
   private String uCoord;
   private String vCoord;
   private String wCoord;
-  
+
   TexVertexImp(String uCoord, String vCoord, String wCoord) {
     super(KEYWORD, CAN_COMMENT);
     this.uCoord = uCoord;
     this.vCoord = vCoord;
     this.wCoord = wCoord;
   }
-  
+
   TexVertexImp(TexVertex texVertex) {
     this(texVertex.getUCoord(), texVertex.getVCoord(), texVertex.getWCoord());
   }
-  
+
   @Override
   public String getUCoord() {
     return uCoord;

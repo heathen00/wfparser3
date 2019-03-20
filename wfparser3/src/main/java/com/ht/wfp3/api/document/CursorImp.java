@@ -18,7 +18,6 @@ class CursorImp implements Cursor {
   @SuppressWarnings("unused")
   private CursorImp() {}
 
-
   @Override
   public void toEof() {
     currentLine = document.getLineNumberAtEof();
@@ -45,7 +44,8 @@ class CursorImp implements Cursor {
     if (null == lineNumber) {
       throw new NullPointerException("lineNumber is null");
     }
-    if (lineNumber.intValue() < FIRST_LINE || lineNumber.intValue() > document.getLineNumberAtEof()) {
+    if (lineNumber.intValue() < FIRST_LINE
+        || lineNumber.intValue() > document.getLineNumberAtEof()) {
       throw new NonExistentLineException("Line " + lineNumber + " is invalid.");
     }
     currentLine = lineNumber.intValue();

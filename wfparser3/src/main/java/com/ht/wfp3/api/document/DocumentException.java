@@ -6,7 +6,7 @@ public abstract class DocumentException extends Exception {
   DocumentException(String message) {
     super(message);
   }
-  
+
   DocumentException() {
     super();
   }

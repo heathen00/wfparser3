@@ -2,12 +2,12 @@ package com.ht.wfp3.api.statement;
 
 abstract class StatementImp extends SubStatementImp implements Statement {
   private final boolean canComment;
-  
+
   public StatementImp(String keyword, boolean canComment) {
     super(keyword);
     this.canComment = canComment;
   }
-  
+
   @Override
   public boolean canComment() {
     return this.canComment;
@@ -23,8 +23,9 @@ abstract class StatementImp extends SubStatementImp implements Statement {
     // TODO Auto-generated method stub
     return null;
   }
-  
-  // TODO: will need to update equals, hashCode, and toString after implementing Comment.
+
+  // TODO: will need to update equals, hashCode, and toString after implementing
+  // Comment.
 
   @Override
   public int hashCode() {
@@ -54,6 +55,7 @@ abstract class StatementImp extends SubStatementImp implements Statement {
 
   @Override
   public String toString() {
-    return "StatementImp [canComment=" + canComment + ", super.toString()=" + super.toString() + "]";
+    return "StatementImp [canComment=" + canComment + ", super.toString()=" + super.toString()
+        + "]";
   }
 }

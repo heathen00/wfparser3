@@ -1,6 +1,5 @@
 package com.ht.wfp3.api.statement;
 
-
 /**
  * The Parameter Vertex data.
  * 

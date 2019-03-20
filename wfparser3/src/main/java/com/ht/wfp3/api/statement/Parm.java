@@ -29,11 +29,11 @@ import java.util.List;
  */
 public interface Parm extends Statement {
   enum Axis {
-    U,
-    V,
+    U, V,
   }
 
   List<String> getParameterValues();
+
   Parm.Axis getAxis();
 
   void appendParameterValue(String parameterValue);

@@ -36,12 +36,10 @@ import java.util.List;
  */
 public interface BasisMatrix extends Statement {
   enum Axis {
-    U,
-    V,
+    U, V,
   }
 
   BasisMatrix.Axis getBasisMatrixAxis();
 
   List<String> getFlattenedBasisMatrix();
 }
-

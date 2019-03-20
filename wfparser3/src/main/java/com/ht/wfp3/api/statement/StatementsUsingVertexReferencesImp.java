@@ -7,7 +7,7 @@ import java.util.List;
 abstract class StatementsUsingVertexReferencesImp extends StatementImp {
   private StatementFactory statementFactory;
   private List<VertexReferenceGroup> vertexReferenceGroupList;
-  
+
   StatementsUsingVertexReferencesImp(String keyword, boolean canComment) {
     super(keyword, canComment);
     statementFactory = StatementFactory.createStatementFactory();

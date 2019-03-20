@@ -3,7 +3,7 @@ package com.ht.wfp3.api.statement;
 class GeoVertexImp extends StatementImp implements GeoVertex {
   private static final String KEYWORD = "v";
   private static final boolean CAN_COMMENT = true;
-  
+
   private String xCoord;
   private String yCoord;
   private String zCoord;

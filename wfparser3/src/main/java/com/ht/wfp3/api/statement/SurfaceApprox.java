@@ -68,10 +68,7 @@ package com.ht.wfp3.api.statement;
  */
 public interface SurfaceApprox extends Statement {
   enum Technique {
-    CPARMA,
-    CPARMB,
-    CSPACE,
-    CURV
+    CPARMA, CPARMB, CSPACE, CURV
   }
 
   SurfaceApprox.Technique getSurfaceApproximationTechnique();

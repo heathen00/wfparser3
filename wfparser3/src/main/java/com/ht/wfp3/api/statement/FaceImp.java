@@ -12,7 +12,7 @@ class FaceImp extends StatementsUsingVertexReferencesImp implements Face {
     this();
     copyVertexReferenceGroupsInConstructor(face.getReferenceNumbers());
   }
-  
+
   @Override
   public String toString() {
     return "FaceImp [super.toString()=" + super.toString() + "]";

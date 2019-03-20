@@ -3,7 +3,7 @@ package com.ht.wfp3.api.statement;
 class ParamVertexImp extends StatementImp implements ParamVertex {
   private static final String KEYWORD = "vp";
   private static final boolean CAN_COMMENT = true;
-  
+
   private String uCoord;
   private String vCoord;
   private String wCoord;

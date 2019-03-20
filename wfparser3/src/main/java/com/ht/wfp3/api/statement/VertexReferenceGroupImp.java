@@ -1,19 +1,18 @@
 package com.ht.wfp3.api.statement;
 
 import com.ht.wfp3.api.statement.VertexReference.Type;
-
 import java.util.HashMap;
 import java.util.Map;
 
 class VertexReferenceGroupImp implements VertexReferenceGroup {
   private StatementFactory statementFactory;
   private Map<VertexReference.Type, VertexReference> vertexReferenceMap;
-  
+
   VertexReferenceGroupImp() {
     statementFactory = StatementFactory.createStatementFactory();
     vertexReferenceMap = new HashMap<>();
   }
-  
+
   VertexReferenceGroupImp(VertexReferenceGroup vertexReferenceGroup) {
     this();
     for (VertexReference vertexReference : vertexReferenceMap.values()) {
@@ -23,7 +22,8 @@ class VertexReferenceGroupImp implements VertexReferenceGroup {
 
   @Override
   public void addVertexReference(VertexReference vertexReference) {
-    vertexReferenceMap.put(vertexReference.getVertex(), statementFactory.copyVertexReference(vertexReference));
+    vertexReferenceMap.put(vertexReference.getVertex(),
+        statementFactory.copyVertexReference(vertexReference));
   }
 
   @Override

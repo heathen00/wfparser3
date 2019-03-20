@@ -1,6 +1,5 @@
 package com.ht.wfp3.api.statement;
 
-
 /**
  * Free-form geometry statement to connect two surfaces including their trimming curves.
  * 

@@ -3,7 +3,7 @@ package com.ht.wfp3.api.statement;
 class NormalVertexImp extends StatementImp implements NormalVertex {
   private static final String KEYWORD = "vn";
   private static final boolean CAN_COMMENT = true;
-  
+
   private String iCoord;
   private String jCoord;
   private String kCoord;
@@ -14,7 +14,7 @@ class NormalVertexImp extends StatementImp implements NormalVertex {
     this.jCoord = jCoord;
     this.kCoord = kCoord;
   }
-  
+
   NormalVertexImp(NormalVertex normalVertex) {
     this(normalVertex.getICoord(), normalVertex.getJCoord(), normalVertex.getKCoord());
   }

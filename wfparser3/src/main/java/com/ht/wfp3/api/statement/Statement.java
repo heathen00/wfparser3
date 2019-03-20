@@ -8,10 +8,10 @@ package com.ht.wfp3.api.statement;
  *
  */
 public interface Statement extends SubStatement, Commentable {
-  
+
   boolean canComment();
-  
+
   boolean equals(Object object);
-  
+
   public int hashCode();
 }

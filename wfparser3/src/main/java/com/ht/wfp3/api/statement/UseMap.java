@@ -1,6 +1,5 @@
 package com.ht.wfp3.api.statement;
 
-
 /**
  * The use map polygonal and free-form geometry statement.
  * 

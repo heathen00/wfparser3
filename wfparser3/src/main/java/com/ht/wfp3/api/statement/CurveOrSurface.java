@@ -33,11 +33,7 @@ package com.ht.wfp3.api.statement;
  */
 public interface CurveOrSurface extends Statement {
   enum Type {
-    BMATRIX,
-    BEZIER,
-    BSPLINE,
-    CARDINAL,
-    TAYLOR,
+    BMATRIX, BEZIER, BSPLINE, CARDINAL, TAYLOR,
   }
 
   boolean isRational();

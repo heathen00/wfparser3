@@ -17,7 +17,7 @@ public interface Cursor {
   void toCursor(Cursor cursor);
 
   void toLineNumber(Integer lineNumber) throws NonExistentLineException;
-  
+
   void toPreviousLine() throws NonExistentLineException;
 
   void toNextLine() throws NonExistentLineException;
@@ -27,8 +27,8 @@ public interface Cursor {
   boolean hasNextLine();
 
   boolean hasPreviousLine();
-  
+
   boolean equals(Object obj);
-  
+
   int hashCode();
 }

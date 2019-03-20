@@ -7,12 +7,10 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-
 import com.ht.wfp3.api.document.Cursor;
 import com.ht.wfp3.api.document.NonExistentLineException;
 import com.ht.wfp3.api.document.VisibleCursorImp;
 import com.ht.wfp3.api.document.VisibleDocumentImp;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -6,7 +6,7 @@ public class EmptyDocumentException extends DocumentException {
   EmptyDocumentException(String message) {
     super(message);
   }
-  
+
   EmptyDocumentException() {
     super();
   }

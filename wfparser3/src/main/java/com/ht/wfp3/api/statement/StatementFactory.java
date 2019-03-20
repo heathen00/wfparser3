@@ -1,7 +1,6 @@
 package com.ht.wfp3.api.statement;
 
 import com.ht.wfp3.api.statement.BasisMatrix.Axis;
-
 import java.util.List;
 
 /**
@@ -14,15 +13,15 @@ import java.util.List;
  */
 public class StatementFactory {
   private static final StatementFactory STATEMENT_FACTORY_SINGLETON = new StatementFactory();
-  
+
   public static StatementFactory createStatementFactory() {
     return STATEMENT_FACTORY_SINGLETON;
   }
-  
+
   public GeoVertex createGeoVertex(String xCoord, String yCoord, String zCoord, String wCoord) {
     return new GeoVertexImp(xCoord, yCoord, zCoord, wCoord);
   }
-  
+
   public GeoVertex copyGeoVertex(GeoVertex geoVertex) {
     return new GeoVertexImp(geoVertex);
   }
@@ -30,7 +29,7 @@ public class StatementFactory {
   public TexVertex createTexVertex(String uCoord, String vCoord, String wCoord) {
     return new TexVertexImp(uCoord, vCoord, wCoord);
   }
-  
+
   public TexVertex copyTexVertex(TexVertex texVertex) {
     return new TexVertexImp(texVertex);
   }
@@ -38,7 +37,7 @@ public class StatementFactory {
   public NormalVertex createNormalVertex(String iCoord, String jCoord, String kCoord) {
     return new NormalVertexImp(iCoord, jCoord, kCoord);
   }
-  
+
   public NormalVertex copyNormalVertex(NormalVertex normalVertex) {
     return new NormalVertexImp(normalVertex);
   }
@@ -46,7 +45,7 @@ public class StatementFactory {
   public ParamVertex createParamVertex(String uCoord, String vCoord, String wCoord) {
     return new ParamVertexImp(uCoord, vCoord, wCoord);
   }
-  
+
   public ParamVertex copyParamVertex(ParamVertex paramVertex) {
     return new ParamVertexImp(paramVertex);
   }
@@ -54,7 +53,7 @@ public class StatementFactory {
   public VertexReferenceGroup createVertexReferenceGroup() {
     return new VertexReferenceGroupImp();
   }
-  
+
   public VertexReferenceGroup copyVertexReferenceGroup(VertexReferenceGroup referenceNumbers) {
     return new VertexReferenceGroupImp(referenceNumbers);
   }
@@ -62,7 +61,7 @@ public class StatementFactory {
   public VertexReference createVertexReference(VertexReference.Type type, String vertexIndex) {
     return new VertexReferenceImp(type, vertexIndex);
   }
-  
+
   public VertexReference copyVertexReference(VertexReference vertexReference) {
     return new VertexReferenceImp(vertexReference);
   }
@@ -70,7 +69,7 @@ public class StatementFactory {
   public Point createPoint() {
     return new PointImp();
   }
-  
+
   public Point copyPoint(Point point) {
     return new PointImp(point);
   }
@@ -78,7 +77,7 @@ public class StatementFactory {
   public Line createLine() {
     return new LineImp();
   }
-  
+
   public Line copyLine(Line line) {
     return new LineImp(line);
   }
@@ -86,7 +85,7 @@ public class StatementFactory {
   public Face createFace() {
     return new FaceImp();
   }
-  
+
   public Face copyFace(Face face) {
     return new FaceImp(face);
   }
@@ -168,7 +167,7 @@ public class StatementFactory {
   public Hole createHole() {
     // TODO Auto-generated method stub
 
-    return null;    
+    return null;
   }
 
   public SpecialCurve createSpecialCurve() {
@@ -188,8 +187,9 @@ public class StatementFactory {
     return null;
   }
 
-  public Connect createConnect(String firstSurfaceIndex, Curve2DReference curve2dReferenceForFirstSurface,
-      String secondSurfaceIndex, Curve2DReference curve2dReferenceForSecondSurface) {
+  public Connect createConnect(String firstSurfaceIndex,
+      Curve2DReference curve2dReferenceForFirstSurface, String secondSurfaceIndex,
+      Curve2DReference curve2dReferenceForSecondSurface) {
     // TODO Auto-generated method stub
 
     return null;

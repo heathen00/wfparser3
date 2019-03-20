@@ -28,4 +28,3 @@ public interface MaterialLib extends Statement {
 
   List<String> getMaterialLibFileNameList();
 }
-
