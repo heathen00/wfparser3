@@ -3,6 +3,11 @@ package com.ht.wfp3.api.acceptance;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import java.util.Arrays;
+import java.util.List;
+import org.junit.Before;
+import org.junit.Ignore;
+import org.junit.Test;
 import com.ht.wfp3.api.document.Cursor;
 import com.ht.wfp3.api.document.Document;
 import com.ht.wfp3.api.document.DocumentFactory;
@@ -26,7 +31,7 @@ import com.ht.wfp3.api.statement.CurvSurfaceApprox;
 import com.ht.wfp3.api.statement.Curve;
 import com.ht.wfp3.api.statement.Curve2D;
 import com.ht.wfp3.api.statement.Curve2DReference;
-import com.ht.wfp3.api.statement.CurveOrSurface;
+import com.ht.wfp3.api.statement.CurveOrSurfaceType;
 import com.ht.wfp3.api.statement.Degree;
 import com.ht.wfp3.api.statement.DissolveInterpolation;
 import com.ht.wfp3.api.statement.End;
@@ -55,15 +60,11 @@ import com.ht.wfp3.api.statement.Surface;
 import com.ht.wfp3.api.statement.TexVertex;
 import com.ht.wfp3.api.statement.Trim;
 import com.ht.wfp3.api.statement.Unknown;
+import com.ht.wfp3.api.statement.UnknownStatementStub;
 import com.ht.wfp3.api.statement.UseMap;
 import com.ht.wfp3.api.statement.UseMaterial;
 import com.ht.wfp3.api.statement.VertexReference;
 import com.ht.wfp3.api.statement.VertexReferenceGroup;
-import java.util.Arrays;
-import java.util.List;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
 
 public class DocumentViewStatementCreationAcceptanceTests {
 
@@ -117,7 +118,7 @@ public class DocumentViewStatementCreationAcceptanceTests {
   @Test(expected = NullPointerException.class)
   public void Document_appendApiGuardIsPassedANullCursor_nullPointerExceptionIsThrown() {
     GeoVertex geoVertex = statementFactory.createGeoVertex("5.555", "5.555", "5.555", "5.555");
-    objDocument.guardAppendApis(null, geoVertex);
+    objDocument.guardAppendApis(geoVertex, null);
   }
 
   @Test(expected = IllegalArgumentException.class)
@@ -126,12 +127,19 @@ public class DocumentViewStatementCreationAcceptanceTests {
     Cursor otherCursor = otherDocument.createCursor();
     GeoVertex geoVertex = statementFactory.createGeoVertex("5.555", "5.555", "5.555", "5.555");
 
-    objDocument.guardAppendApis(otherCursor, geoVertex);
+    objDocument.guardAppendApis(geoVertex, otherCursor);
   }
 
   @Test(expected = NullPointerException.class)
   public void Document_appendApiGuardIsPassedANullStatement_nullPointerExceptionIsThrown() {
-    objDocument.guardAppendApis(cursor, null);
+    objDocument.guardAppendApis(null, cursor);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void Document_appendApiGuardIsPassedAnUnknownStatement_illegalArgumentExceptionIsThrown() {
+    UnknownStatementStub unknownStatement = new UnknownStatementStub();
+
+    objDocument.guardAppendApis(unknownStatement, cursor);
   }
 
   @Test(expected = NullPointerException.class)
@@ -303,11 +311,10 @@ public class DocumentViewStatementCreationAcceptanceTests {
   }
 
   @Test
-  @Ignore("not implemented")
   public void Document_addOneCSTypeToEmptyObjDocumentAtCursor_OneCSTypeIsAddedAtCursor()
       throws Exception {
-    CurveOrSurface cstype =
-        statementFactory.createCurveOrSurfaceType("rat", CurveOrSurface.Type.BMATRIX);
+    CurveOrSurfaceType cstype =
+        statementFactory.createCurveOrSurface("rat", CurveOrSurfaceType.Key.BMATRIX);
     objDocument.append(cstype, cursor);
 
     assertEquals(cstype, objDocument.peek(cursor));

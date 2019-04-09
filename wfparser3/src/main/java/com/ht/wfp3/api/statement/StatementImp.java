@@ -3,7 +3,7 @@ package com.ht.wfp3.api.statement;
 abstract class StatementImp extends SubStatementImp implements Statement {
   private final boolean canComment;
 
-  public StatementImp(String keyword, boolean canComment) {
+  StatementImp(String keyword, boolean canComment) {
     super(keyword);
     this.canComment = canComment;
   }

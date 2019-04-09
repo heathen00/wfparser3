@@ -1,7 +1,7 @@
 package com.ht.wfp3.api.statement;
 
-import com.ht.wfp3.api.statement.BasisMatrix.Axis;
 import java.util.List;
+import com.ht.wfp3.api.statement.BasisMatrix.Axis;
 
 /**
  * The OBJ element factory.
@@ -11,7 +11,7 @@ import java.util.List;
  * @author nickl
  *
  */
-public class StatementFactory {
+public final class StatementFactory {
   private static final StatementFactory STATEMENT_FACTORY_SINGLETON = new StatementFactory();
 
   public static StatementFactory createStatementFactory() {
@@ -90,10 +90,12 @@ public class StatementFactory {
     return new FaceImp(face);
   }
 
-  public CurveOrSurface createCurveOrSurfaceType(String rational, CurveOrSurface.Type typeKey) {
-    // TODO Auto-generated method stub
-
-    return null;
+  public CurveOrSurfaceType createCurveOrSurface(String rational, CurveOrSurfaceType.Key typeKey) {
+    return new CurveOrSurfaceTypeImp(rational, typeKey);
+  }
+  
+  public Statement copyCurveOrSurfaceType(CurveOrSurfaceType cstype) {
+    return new CurveOrSurfaceTypeImp(cstype);
   }
 
   public Degree createDegree(String uAxisDegree, String vAxisDegree) {
@@ -340,4 +342,7 @@ public class StatementFactory {
     return null;
   }
 
+  public boolean isSupportedStatement(Statement statement) {
+    return statement instanceof StatementImp;
+  }
 }

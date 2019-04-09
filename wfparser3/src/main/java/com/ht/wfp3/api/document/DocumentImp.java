@@ -17,7 +17,7 @@ import com.ht.wfp3.api.statement.CurvCurveApprox;
 import com.ht.wfp3.api.statement.CurvSurfaceApprox;
 import com.ht.wfp3.api.statement.Curve;
 import com.ht.wfp3.api.statement.Curve2D;
-import com.ht.wfp3.api.statement.CurveOrSurface;
+import com.ht.wfp3.api.statement.CurveOrSurfaceType;
 import com.ht.wfp3.api.statement.Degree;
 import com.ht.wfp3.api.statement.DissolveInterpolation;
 import com.ht.wfp3.api.statement.End;
@@ -66,7 +66,7 @@ class DocumentImp implements Document {
   }
 
   @VisibleForTesting
-  public void guardAppendApis(Cursor cursor, Statement statement) {
+  public void guardAppendApis(Statement statement, Cursor cursor) {
     if (null == cursor) {
       throw new NullPointerException("cursor cannot be null.");
     }
@@ -76,9 +76,12 @@ class DocumentImp implements Document {
     if (!cursorImpList.contains(cursor)) {
       throw new IllegalArgumentException("cursor not from this document.");
     }
+    if (!statementFactory.isSupportedStatement(statement)) {
+      throw new IllegalArgumentException("unsupported statement.");
+    }
   }
 
-  private void addToDocumentStructure(Cursor cursor, Statement statement) {
+  private void addToDocumentStructure(Statement statement, Cursor cursor) {
     linesMap.put(cursor.getLineNumber(), statement);
   }
 
@@ -105,50 +108,50 @@ class DocumentImp implements Document {
 
   @Override
   public void append(GeoVertex geoVertex, Cursor cursor) {
-    guardAppendApis(cursor, geoVertex);
-    addToDocumentStructure(cursor, statementFactory.copyGeoVertex(geoVertex));
+    guardAppendApis(geoVertex, cursor);
+    addToDocumentStructure(statementFactory.copyGeoVertex(geoVertex), cursor);
   }
 
   @Override
   public void append(TexVertex texVertex, Cursor cursor) {
-    guardAppendApis(cursor, statementFactory.copyTexVertex(texVertex));
-    addToDocumentStructure(cursor, texVertex);
+    guardAppendApis(texVertex, cursor);
+    addToDocumentStructure(statementFactory.copyTexVertex(texVertex), cursor);
   }
 
   @Override
   public void append(NormalVertex normalVertex, Cursor cursor) {
-    guardAppendApis(cursor, normalVertex);
-    addToDocumentStructure(cursor, statementFactory.copyNormalVertex(normalVertex));
+    guardAppendApis(normalVertex, cursor);
+    addToDocumentStructure(statementFactory.copyNormalVertex(normalVertex), cursor);
   }
 
   @Override
   public void append(ParamVertex paramVertex, Cursor cursor) {
-    guardAppendApis(cursor, paramVertex);
-    addToDocumentStructure(cursor, statementFactory.copyParamVertex(paramVertex));
+    guardAppendApis(paramVertex, cursor);
+    addToDocumentStructure(statementFactory.copyParamVertex(paramVertex), cursor);
   }
 
   @Override
   public void append(Point point, Cursor cursor) {
-    guardAppendApis(cursor, point);
-    addToDocumentStructure(cursor, statementFactory.copyPoint(point));
+    guardAppendApis(point, cursor);
+    addToDocumentStructure(statementFactory.copyPoint(point), cursor);
   }
 
   @Override
   public void append(Line line, Cursor cursor) {
-    guardAppendApis(cursor, line);
-    addToDocumentStructure(cursor, statementFactory.copyLine(line));
+    guardAppendApis(line, cursor);
+    addToDocumentStructure(statementFactory.copyLine(line), cursor);
   }
 
   @Override
   public void append(Face face, Cursor cursor) {
-    guardAppendApis(cursor, face);
-    addToDocumentStructure(cursor, statementFactory.copyFace(face));
+    guardAppendApis(face, cursor);
+    addToDocumentStructure(statementFactory.copyFace(face), cursor);
   }
 
   @Override
-  public void append(CurveOrSurface cstype, Cursor cursor) {
-    // TODO Auto-generated method stub
-
+  public void append(CurveOrSurfaceType cstype, Cursor cursor) {
+    guardAppendApis(cstype, cursor);
+    addToDocumentStructure(statementFactory.copyCurveOrSurfaceType(cstype), cursor);
   }
 
   @Override

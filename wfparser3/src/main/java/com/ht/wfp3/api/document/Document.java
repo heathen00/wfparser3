@@ -16,7 +16,7 @@ import com.ht.wfp3.api.statement.CurvCurveApprox;
 import com.ht.wfp3.api.statement.CurvSurfaceApprox;
 import com.ht.wfp3.api.statement.Curve;
 import com.ht.wfp3.api.statement.Curve2D;
-import com.ht.wfp3.api.statement.CurveOrSurface;
+import com.ht.wfp3.api.statement.CurveOrSurfaceType;
 import com.ht.wfp3.api.statement.Degree;
 import com.ht.wfp3.api.statement.DissolveInterpolation;
 import com.ht.wfp3.api.statement.End;
@@ -81,7 +81,7 @@ public interface Document {
 
   void append(Face face, Cursor cursor);
 
-  void append(CurveOrSurface cstype, Cursor cursor);
+  void append(CurveOrSurfaceType cstype, Cursor cursor);
 
   void append(Degree deg, Cursor cursor);
 
