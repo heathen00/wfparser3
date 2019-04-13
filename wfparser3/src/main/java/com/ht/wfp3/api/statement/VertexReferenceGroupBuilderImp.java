@@ -1,6 +1,6 @@
 package com.ht.wfp3.api.statement;
 
-import com.ht.wfp3.api.statement.VertexReferenceImp.Type;
+import com.ht.wfp3.api.statement.VertexReference.Type;
 
 public final class VertexReferenceGroupBuilderImp implements VertexReferenceGroupBuilder {
   private StatementFactory statementFactory;

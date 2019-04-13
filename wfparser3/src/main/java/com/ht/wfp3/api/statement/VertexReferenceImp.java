@@ -1,10 +1,6 @@
 package com.ht.wfp3.api.statement;
 
-class VertexReferenceImp {
-  enum Type {
-    GEOMETRIC, TEXTURE, NORMAL, PARAMETER,
-  }
-  static final int INDEX_NOT_SET_VALUE = 0;
+final class VertexReferenceImp implements VertexReference {
 
   private final Type type;
   private final Integer vertexIndex;

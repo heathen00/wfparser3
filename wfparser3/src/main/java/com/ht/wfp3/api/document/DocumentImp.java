@@ -1,5 +1,9 @@
 package com.ht.wfp3.api.document;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import com.google.common.annotations.VisibleForTesting;
 import com.ht.wfp3.api.statement.BasisMatrix;
 import com.ht.wfp3.api.statement.Bevel;
@@ -49,10 +53,6 @@ import com.ht.wfp3.api.statement.Trim;
 import com.ht.wfp3.api.statement.Unknown;
 import com.ht.wfp3.api.statement.UseMap;
 import com.ht.wfp3.api.statement.UseMaterial;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 class DocumentImp implements Document {
   private StatementFactory statementFactory;

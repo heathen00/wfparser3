@@ -49,20 +49,21 @@ public final class StatementFactory {
   public ParamVertex copyParamVertex(ParamVertex paramVertex) {
     return new ParamVertexImp(paramVertex);
   }
-  
+
   public VertexReferenceGroupBuilder createVertexReferenceGroupBuilder() {
     return new VertexReferenceGroupBuilderImp();
   }
-  
+
   public VertexReferenceGroup copyVertexReferenceGroup(VertexReferenceGroup vertexReferenceGroup) {
     return new VertexReferenceGroupImp((VertexReferenceGroupImp) vertexReferenceGroup);
   }
-  
+
   // Not published.
-  VertexReferenceImp createVertexReference(VertexReferenceImp.Type type, Integer vertexIndex, boolean isSet) {
+  VertexReferenceImp createVertexReference(VertexReferenceImp.Type type, Integer vertexIndex,
+      boolean isSet) {
     return new VertexReferenceImp(type, vertexIndex, isSet);
   }
-  
+
   // Not published.
   VertexReferenceImp copyVertexReference(VertexReferenceImp vertexReference) {
     return new VertexReferenceImp(vertexReference);
@@ -95,7 +96,7 @@ public final class StatementFactory {
   public CurveOrSurfaceType createCurveOrSurface(String rational, CurveOrSurfaceType.Key typeKey) {
     return new CurveOrSurfaceTypeImp(rational, typeKey);
   }
-  
+
   public Statement copyCurveOrSurfaceType(CurveOrSurfaceType cstype) {
     return new CurveOrSurfaceTypeImp(cstype);
   }
@@ -105,7 +106,7 @@ public final class StatementFactory {
 
     return null;
   }
-  
+
   public MatrixBuilder createMatrixBuilder() {
     // TODO Auto-generated method stub
     return null;

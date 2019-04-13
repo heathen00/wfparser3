@@ -6,13 +6,13 @@ class CurveOrSurfaceTypeImp extends StatementImp implements CurveOrSurfaceType {
 
   private final String rational;
   private final Key key;
-  
+
   CurveOrSurfaceTypeImp(String rational, Key key) {
     super(KEYWORD, CAN_COMMENT);
     this.rational = rational;
     this.key = key;
   }
-  
+
   CurveOrSurfaceTypeImp(CurveOrSurfaceType curveOrSurfaceType) {
     this(curveOrSurfaceType.getRational(), curveOrSurfaceType.getTypeKey());
   }
