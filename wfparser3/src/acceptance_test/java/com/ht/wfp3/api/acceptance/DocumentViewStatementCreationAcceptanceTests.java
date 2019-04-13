@@ -43,6 +43,7 @@ import com.ht.wfp3.api.statement.LevelOfDetail;
 import com.ht.wfp3.api.statement.Line;
 import com.ht.wfp3.api.statement.MapLib;
 import com.ht.wfp3.api.statement.MaterialLib;
+import com.ht.wfp3.api.statement.MatrixBuilder;
 import com.ht.wfp3.api.statement.MergingGroup;
 import com.ht.wfp3.api.statement.NormalVertex;
 import com.ht.wfp3.api.statement.ObjectName;
@@ -63,8 +64,7 @@ import com.ht.wfp3.api.statement.Unknown;
 import com.ht.wfp3.api.statement.UnknownStatementStub;
 import com.ht.wfp3.api.statement.UseMap;
 import com.ht.wfp3.api.statement.UseMaterial;
-import com.ht.wfp3.api.statement.VertexReference;
-import com.ht.wfp3.api.statement.VertexReferenceGroup;
+import com.ht.wfp3.api.statement.VertexReferenceGroupBuilder;
 
 public class DocumentViewStatementCreationAcceptanceTests {
 
@@ -173,7 +173,6 @@ public class DocumentViewStatementCreationAcceptanceTests {
     GeoVertex geoVertex = statementFactory.createGeoVertex("1.000", "2.000", "3.000", "4.000");
     objDocument.append(geoVertex, cursor);
 
-    assertNotNull(geoVertex);
     assertEquals(geoVertex, objDocument.peek(cursor));
     assertEquals(Integer.valueOf(1), objDocument.getNumberOfLines());
   }
@@ -184,7 +183,6 @@ public class DocumentViewStatementCreationAcceptanceTests {
     TexVertex texVertex = statementFactory.createTexVertex("3.3", "2.2", "1.1");
     objDocument.append(texVertex, cursor);
 
-    assertNotNull(texVertex);
     assertEquals(texVertex, objDocument.peek(cursor));
     assertEquals(Integer.valueOf(1), objDocument.getNumberOfLines());
   }
@@ -195,7 +193,6 @@ public class DocumentViewStatementCreationAcceptanceTests {
     NormalVertex normalVertex = statementFactory.createNormalVertex("9.9", "8.8", "7.7");
     objDocument.append(normalVertex, cursor);
 
-    assertNotNull(normalVertex);
     assertEquals(normalVertex, objDocument.peek(cursor));
     assertEquals(Integer.valueOf(1), objDocument.getNumberOfLines());
   }
@@ -206,7 +203,6 @@ public class DocumentViewStatementCreationAcceptanceTests {
     ParamVertex paramVertex = statementFactory.createParamVertex("3.13", "3.31", "1.33");
     objDocument.append(paramVertex, cursor);
 
-    assertNotNull(paramVertex);
     assertEquals(paramVertex, objDocument.peek(cursor));
     assertEquals(Integer.valueOf(1), objDocument.getNumberOfLines());
   }
@@ -215,22 +211,13 @@ public class DocumentViewStatementCreationAcceptanceTests {
   public void Document_addOnePointToEmptyObjDocumentAtCursor_OnePointIsAddedAtCursor()
       throws Exception {
     Point point = statementFactory.createPoint();
-    VertexReferenceGroup vertexReferenceGroup = statementFactory.createVertexReferenceGroup();
-    vertexReferenceGroup.addVertexReference(
-        statementFactory.createVertexReference(VertexReference.Type.GEOMETRIC, "1"));
-    point.appendReferenceNumbers(vertexReferenceGroup);
-    vertexReferenceGroup = statementFactory.createVertexReferenceGroup();
-    vertexReferenceGroup.addVertexReference(
-        statementFactory.createVertexReference(VertexReference.Type.GEOMETRIC, "2"));
-    point.appendReferenceNumbers(vertexReferenceGroup);
-    vertexReferenceGroup = statementFactory.createVertexReferenceGroup();
-    vertexReferenceGroup.addVertexReference(
-        statementFactory.createVertexReference(VertexReference.Type.GEOMETRIC, "3"));
-    point.appendReferenceNumbers(vertexReferenceGroup);
-    vertexReferenceGroup = statementFactory.createVertexReferenceGroup();
-    vertexReferenceGroup.addVertexReference(
-        statementFactory.createVertexReference(VertexReference.Type.GEOMETRIC, "4"));
-    point.appendReferenceNumbers(vertexReferenceGroup);
+    VertexReferenceGroupBuilder vertexReferenceGroupBuilder =
+        statementFactory.createVertexReferenceGroupBuilder();
+    point.appendReferenceNumbers(vertexReferenceGroupBuilder.clear().geoVertexRef(1).build());
+    point.appendReferenceNumbers(vertexReferenceGroupBuilder.clear().geoVertexRef(2).build());
+    point.appendReferenceNumbers(vertexReferenceGroupBuilder.clear().geoVertexRef(3).build());
+    point.appendReferenceNumbers(vertexReferenceGroupBuilder.clear().geoVertexRef(4).build());
+
     objDocument.append(point, cursor);
 
     assertEquals(point, objDocument.peek(cursor));
@@ -240,30 +227,17 @@ public class DocumentViewStatementCreationAcceptanceTests {
   public void Document_addOneLineToEmptyObjDocumentAtCursor_OneLineIsAddedAtCursor()
       throws Exception {
     Line line = statementFactory.createLine();
-    VertexReferenceGroup vertexReferenceGroup = statementFactory.createVertexReferenceGroup();
-    vertexReferenceGroup.addVertexReference(
-        statementFactory.createVertexReference(VertexReference.Type.GEOMETRIC, "1"));
-    vertexReferenceGroup.addVertexReference(
-        statementFactory.createVertexReference(VertexReference.Type.TEXTURE, "1"));
-    line.appendReferenceNumbers(vertexReferenceGroup);
-    vertexReferenceGroup = statementFactory.createVertexReferenceGroup();
-    vertexReferenceGroup.addVertexReference(
-        statementFactory.createVertexReference(VertexReference.Type.GEOMETRIC, "2"));
-    vertexReferenceGroup.addVertexReference(
-        statementFactory.createVertexReference(VertexReference.Type.TEXTURE, "2"));
-    line.appendReferenceNumbers(vertexReferenceGroup);
-    vertexReferenceGroup = statementFactory.createVertexReferenceGroup();
-    vertexReferenceGroup.addVertexReference(
-        statementFactory.createVertexReference(VertexReference.Type.GEOMETRIC, "3"));
-    vertexReferenceGroup.addVertexReference(
-        statementFactory.createVertexReference(VertexReference.Type.TEXTURE, "3"));
-    line.appendReferenceNumbers(vertexReferenceGroup);
-    vertexReferenceGroup = statementFactory.createVertexReferenceGroup();
-    vertexReferenceGroup.addVertexReference(
-        statementFactory.createVertexReference(VertexReference.Type.GEOMETRIC, "4"));
-    vertexReferenceGroup.addVertexReference(
-        statementFactory.createVertexReference(VertexReference.Type.TEXTURE, "4"));
-    line.appendReferenceNumbers(vertexReferenceGroup);
+    VertexReferenceGroupBuilder vertexReferenceGroupBuilder =
+        statementFactory.createVertexReferenceGroupBuilder();
+    line.appendReferenceNumbers(
+        vertexReferenceGroupBuilder.clear().geoVertexRef(1).texVertexRef(1).build());
+    line.appendReferenceNumbers(
+        vertexReferenceGroupBuilder.clear().geoVertexRef(2).texVertexRef(2).build());
+    line.appendReferenceNumbers(
+        vertexReferenceGroupBuilder.clear().geoVertexRef(3).texVertexRef(3).build());
+    line.appendReferenceNumbers(
+        vertexReferenceGroupBuilder.clear().geoVertexRef(4).texVertexRef(4).build());
+
     objDocument.append(line, cursor);
 
     assertEquals(line, objDocument.peek(cursor));
@@ -273,38 +247,21 @@ public class DocumentViewStatementCreationAcceptanceTests {
   public void Document_addOneFaceToEmptyObjDocumentAtCursor_OneFaceIsAddedAtCursor()
       throws Exception {
     Face face = statementFactory.createFace();
-    VertexReferenceGroup vertexReferenceGroup = statementFactory.createVertexReferenceGroup();
-    vertexReferenceGroup.addVertexReference(
-        statementFactory.createVertexReference(VertexReference.Type.GEOMETRIC, "1"));
-    vertexReferenceGroup.addVertexReference(
-        statementFactory.createVertexReference(VertexReference.Type.TEXTURE, "1"));
-    vertexReferenceGroup.addVertexReference(
-        statementFactory.createVertexReference(VertexReference.Type.NORMAL, "1"));
-    face.appendReferenceNumbers(vertexReferenceGroup);
-    vertexReferenceGroup = statementFactory.createVertexReferenceGroup();
-    vertexReferenceGroup.addVertexReference(
-        statementFactory.createVertexReference(VertexReference.Type.GEOMETRIC, "2"));
-    vertexReferenceGroup.addVertexReference(
-        statementFactory.createVertexReference(VertexReference.Type.TEXTURE, "2"));
-    vertexReferenceGroup.addVertexReference(
-        statementFactory.createVertexReference(VertexReference.Type.NORMAL, "2"));
-    face.appendReferenceNumbers(vertexReferenceGroup);
-    vertexReferenceGroup = statementFactory.createVertexReferenceGroup();
-    vertexReferenceGroup.addVertexReference(
-        statementFactory.createVertexReference(VertexReference.Type.GEOMETRIC, "3"));
-    vertexReferenceGroup.addVertexReference(
-        statementFactory.createVertexReference(VertexReference.Type.TEXTURE, "3"));
-    vertexReferenceGroup.addVertexReference(
-        statementFactory.createVertexReference(VertexReference.Type.NORMAL, "3"));
-    face.appendReferenceNumbers(vertexReferenceGroup);
-    vertexReferenceGroup = statementFactory.createVertexReferenceGroup();
-    vertexReferenceGroup.addVertexReference(
-        statementFactory.createVertexReference(VertexReference.Type.GEOMETRIC, "4"));
-    vertexReferenceGroup.addVertexReference(
-        statementFactory.createVertexReference(VertexReference.Type.TEXTURE, "4"));
-    vertexReferenceGroup.addVertexReference(
-        statementFactory.createVertexReference(VertexReference.Type.NORMAL, "4"));
-    face.appendReferenceNumbers(vertexReferenceGroup);
+    VertexReferenceGroupBuilder vertexReferenceGroupBuilder =
+        statementFactory.createVertexReferenceGroupBuilder();
+
+    vertexReferenceGroupBuilder.clear().geoVertexRef(1).texVertexRef(1).normalVertexRef(1);
+    face.appendReferenceNumbers(vertexReferenceGroupBuilder.build());
+
+    vertexReferenceGroupBuilder.clear().geoVertexRef(2).texVertexRef(2).normalVertexRef(2);
+    face.appendReferenceNumbers(vertexReferenceGroupBuilder.build());
+
+    vertexReferenceGroupBuilder.clear().geoVertexRef(3).texVertexRef(3).normalVertexRef(3);
+    face.appendReferenceNumbers(vertexReferenceGroupBuilder.build());
+
+    vertexReferenceGroupBuilder.clear().geoVertexRef(4).texVertexRef(4).normalVertexRef(4);
+    face.appendReferenceNumbers(vertexReferenceGroupBuilder.build());
+
     objDocument.append(face, cursor);
 
     assertEquals(face, objDocument.peek(cursor));
@@ -324,7 +281,7 @@ public class DocumentViewStatementCreationAcceptanceTests {
   @Ignore("not implemented")
   public void Document_addOneDegreeToEmptyObjDocumentAtCursor_OneDegreeIsAddedAtCursor()
       throws Exception {
-    Degree deg = statementFactory.createDegree("5", "6");
+    Degree deg = statementFactory.createDegree(5, 6);
     objDocument.append(deg, cursor);
 
     assertEquals(deg, objDocument.peek(cursor));
@@ -334,9 +291,20 @@ public class DocumentViewStatementCreationAcceptanceTests {
   @Ignore("not implemented")
   public void Document_addOneBasisMatrixToEmptyObjDocumentAtCursor_OneBasisMatrixIsAddedAtCursor()
       throws Exception {
-    String[] flattenedUAxisBasisMatrix = {"1.234", "-1.234", "4.321", "-4.321", "9.876", "-9.876"};
-    BasisMatrix bmat = statementFactory.createBasisMatrix(BasisMatrix.Axis.U,
-        Arrays.asList(flattenedUAxisBasisMatrix));
+
+    // ROUGH THOUGHTS: Handling matrices is awkward. The idea I have right now is to use a
+    // MatrixBuilder class. The MatrixBuilder builds the matrix row by row.
+    // The data can be strings, floats, doubles, big decimals or a mixture of these values. They'll
+    // be converted to the common internal format (BigDecimal) when the bmat statement is created.
+
+    MatrixBuilder matrixBuilder = statementFactory.createMatrixBuilder();
+    matrixBuilder.clear().buildRowByRow() //
+        .append("1.234").append("-1.234").append("4.321").endRow() //
+        .append("-4.321").append("9.876").append("-9.876").endRow() //
+        .append("4.545").append("5.454").append("1.111").endRow();
+
+    BasisMatrix bmat =
+        statementFactory.createBasisMatrix(BasisMatrix.Axis.U, matrixBuilder.build());
     objDocument.append(bmat, cursor);
 
     assertEquals(bmat, objDocument.peek(cursor));
@@ -357,22 +325,17 @@ public class DocumentViewStatementCreationAcceptanceTests {
   public void Document_addOneCurveToEmptyObjDocumentAtCursor_OneCurveIsAddedAtCursor()
       throws Exception {
     Curve curv = statementFactory.createCurve("1.23456", "9.5321");
-    VertexReferenceGroup vertexReferenceGroup = statementFactory.createVertexReferenceGroup();
-    vertexReferenceGroup.addVertexReference(
-        statementFactory.createVertexReference(VertexReference.Type.GEOMETRIC, "1"));
-    curv.appendControlPointVertexReferenceGroup(vertexReferenceGroup);
-    vertexReferenceGroup = statementFactory.createVertexReferenceGroup();
-    vertexReferenceGroup.addVertexReference(
-        statementFactory.createVertexReference(VertexReference.Type.GEOMETRIC, "2"));
-    curv.appendControlPointVertexReferenceGroup(vertexReferenceGroup);
-    vertexReferenceGroup = statementFactory.createVertexReferenceGroup();
-    vertexReferenceGroup.addVertexReference(
-        statementFactory.createVertexReference(VertexReference.Type.GEOMETRIC, "3"));
-    curv.appendControlPointVertexReferenceGroup(vertexReferenceGroup);
-    vertexReferenceGroup = statementFactory.createVertexReferenceGroup();
-    vertexReferenceGroup.addVertexReference(
-        statementFactory.createVertexReference(VertexReference.Type.GEOMETRIC, "4"));
-    curv.appendControlPointVertexReferenceGroup(vertexReferenceGroup);
+    VertexReferenceGroupBuilder vertexReferenceGroupBuilder =
+        statementFactory.createVertexReferenceGroupBuilder();
+    curv.appendControlPointVertexReferenceGroup(
+        vertexReferenceGroupBuilder.clear().geoVertexRef(1).build());
+    curv.appendControlPointVertexReferenceGroup(
+        vertexReferenceGroupBuilder.clear().geoVertexRef(2).build());
+    curv.appendControlPointVertexReferenceGroup(
+        vertexReferenceGroupBuilder.clear().geoVertexRef(3).build());
+    curv.appendControlPointVertexReferenceGroup(
+        vertexReferenceGroupBuilder.clear().geoVertexRef(4).build());
+
     objDocument.append(curv, cursor);
 
     assertEquals(curv, objDocument.peek(cursor));
@@ -383,22 +346,18 @@ public class DocumentViewStatementCreationAcceptanceTests {
   public void Document_addOneCurve2DToEmptyObjDocumentAtCursor_OneCurve2DIsAddedAtCursor()
       throws Exception {
     Curve2D curv2 = statementFactory.createCurve2D();
-    VertexReferenceGroup vertexReferenceGroup = statementFactory.createVertexReferenceGroup();
-    vertexReferenceGroup.addVertexReference(
-        statementFactory.createVertexReference(VertexReference.Type.PARAMETER, "1"));
-    curv2.appendControlPointVertexReferenceGroup(vertexReferenceGroup);
-    vertexReferenceGroup = statementFactory.createVertexReferenceGroup();
-    vertexReferenceGroup.addVertexReference(
-        statementFactory.createVertexReference(VertexReference.Type.PARAMETER, "2"));
-    curv2.appendControlPointVertexReferenceGroup(vertexReferenceGroup);
-    vertexReferenceGroup = statementFactory.createVertexReferenceGroup();
-    vertexReferenceGroup.addVertexReference(
-        statementFactory.createVertexReference(VertexReference.Type.PARAMETER, "3"));
-    curv2.appendControlPointVertexReferenceGroup(vertexReferenceGroup);
-    vertexReferenceGroup = statementFactory.createVertexReferenceGroup();
-    vertexReferenceGroup.addVertexReference(
-        statementFactory.createVertexReference(VertexReference.Type.PARAMETER, "4"));
-    curv2.appendControlPointVertexReferenceGroup(vertexReferenceGroup);
+    VertexReferenceGroupBuilder vertexReferenceGroupBuilder =
+        statementFactory.createVertexReferenceGroupBuilder();
+
+    curv2.appendControlPointVertexReferenceGroup(
+        vertexReferenceGroupBuilder.clear().paramVertexRef(1).build());
+    curv2.appendControlPointVertexReferenceGroup(
+        vertexReferenceGroupBuilder.clear().paramVertexRef(2).build());
+    curv2.appendControlPointVertexReferenceGroup(
+        vertexReferenceGroupBuilder.clear().paramVertexRef(3).build());
+    curv2.appendControlPointVertexReferenceGroup(
+        vertexReferenceGroupBuilder.clear().paramVertexRef(4).build());
+
     objDocument.append(curv2, cursor);
 
     assertEquals(curv2, objDocument.peek(cursor));
@@ -409,38 +368,21 @@ public class DocumentViewStatementCreationAcceptanceTests {
   public void Document_addOneSurfaceToEmptyObjDocumentAtCursor_OneSurfaceIsAddedAtCursor()
       throws Exception {
     Surface surf = statementFactory.createSurface("1.2345", "-5.4321", "9.8765", "-5.6789");
-    VertexReferenceGroup vertexReferenceGroup = statementFactory.createVertexReferenceGroup();
-    vertexReferenceGroup.addVertexReference(
-        statementFactory.createVertexReference(VertexReference.Type.GEOMETRIC, "1"));
-    vertexReferenceGroup.addVertexReference(
-        statementFactory.createVertexReference(VertexReference.Type.TEXTURE, "1"));
-    vertexReferenceGroup.addVertexReference(
-        statementFactory.createVertexReference(VertexReference.Type.NORMAL, "1"));
-    surf.appendControlPointVertexReferenceGroup(vertexReferenceGroup);
-    vertexReferenceGroup = statementFactory.createVertexReferenceGroup();
-    vertexReferenceGroup.addVertexReference(
-        statementFactory.createVertexReference(VertexReference.Type.GEOMETRIC, "2"));
-    vertexReferenceGroup.addVertexReference(
-        statementFactory.createVertexReference(VertexReference.Type.TEXTURE, "2"));
-    vertexReferenceGroup.addVertexReference(
-        statementFactory.createVertexReference(VertexReference.Type.NORMAL, "2"));
-    surf.appendControlPointVertexReferenceGroup(vertexReferenceGroup);
-    vertexReferenceGroup = statementFactory.createVertexReferenceGroup();
-    vertexReferenceGroup.addVertexReference(
-        statementFactory.createVertexReference(VertexReference.Type.GEOMETRIC, "3"));
-    vertexReferenceGroup.addVertexReference(
-        statementFactory.createVertexReference(VertexReference.Type.TEXTURE, "3"));
-    vertexReferenceGroup.addVertexReference(
-        statementFactory.createVertexReference(VertexReference.Type.NORMAL, "3"));
-    surf.appendControlPointVertexReferenceGroup(vertexReferenceGroup);
-    vertexReferenceGroup = statementFactory.createVertexReferenceGroup();
-    vertexReferenceGroup.addVertexReference(
-        statementFactory.createVertexReference(VertexReference.Type.GEOMETRIC, "4"));
-    vertexReferenceGroup.addVertexReference(
-        statementFactory.createVertexReference(VertexReference.Type.TEXTURE, "4"));
-    vertexReferenceGroup.addVertexReference(
-        statementFactory.createVertexReference(VertexReference.Type.NORMAL, "4"));
-    surf.appendControlPointVertexReferenceGroup(vertexReferenceGroup);
+    VertexReferenceGroupBuilder vertexReferenceGroupBuilder =
+        statementFactory.createVertexReferenceGroupBuilder();
+
+    vertexReferenceGroupBuilder.clear().geoVertexRef(1).texVertexRef(1).normalVertexRef(1);
+    surf.appendControlPointVertexReferenceGroup(vertexReferenceGroupBuilder.build());
+
+    vertexReferenceGroupBuilder.clear().geoVertexRef(2).texVertexRef(2).normalVertexRef(2);
+    surf.appendControlPointVertexReferenceGroup(vertexReferenceGroupBuilder.build());
+
+    vertexReferenceGroupBuilder.clear().geoVertexRef(3).texVertexRef(3).normalVertexRef(3);
+    surf.appendControlPointVertexReferenceGroup(vertexReferenceGroupBuilder.build());
+
+    vertexReferenceGroupBuilder.clear().geoVertexRef(4).texVertexRef(4).normalVertexRef(4);
+    surf.appendControlPointVertexReferenceGroup(vertexReferenceGroupBuilder.build());
+
     objDocument.append(surf, cursor);
 
     assertEquals(surf, objDocument.peek(cursor));
@@ -534,22 +476,18 @@ public class DocumentViewStatementCreationAcceptanceTests {
   public void Document_addOneSpecialPointToEmptyObjDocumentAtCursor_OneSpecialPointIsAddedAtCursor()
       throws Exception {
     SpecialPoint sp = statementFactory.createSpecialPoint();
-    VertexReferenceGroup vertexReferenceGroup = statementFactory.createVertexReferenceGroup();
-    vertexReferenceGroup.addVertexReference(
-        statementFactory.createVertexReference(VertexReference.Type.PARAMETER, "1"));
-    sp.appendSpecialPointVertexReferenceGroup(vertexReferenceGroup);
-    vertexReferenceGroup = statementFactory.createVertexReferenceGroup();
-    vertexReferenceGroup.addVertexReference(
-        statementFactory.createVertexReference(VertexReference.Type.PARAMETER, "300"));
-    sp.appendSpecialPointVertexReferenceGroup(vertexReferenceGroup);
-    vertexReferenceGroup = statementFactory.createVertexReferenceGroup();
-    vertexReferenceGroup.addVertexReference(
-        statementFactory.createVertexReference(VertexReference.Type.PARAMETER, "6"));
-    sp.appendSpecialPointVertexReferenceGroup(vertexReferenceGroup);
-    vertexReferenceGroup = statementFactory.createVertexReferenceGroup();
-    vertexReferenceGroup.addVertexReference(
-        statementFactory.createVertexReference(VertexReference.Type.PARAMETER, "88"));
-    sp.appendSpecialPointVertexReferenceGroup(vertexReferenceGroup);
+    VertexReferenceGroupBuilder vertexReferenceGroupBuilder =
+        statementFactory.createVertexReferenceGroupBuilder();
+
+    sp.appendSpecialPointVertexReferenceGroup(
+        vertexReferenceGroupBuilder.clear().paramVertexRef(1).build());
+    sp.appendSpecialPointVertexReferenceGroup(
+        vertexReferenceGroupBuilder.clear().paramVertexRef(300).build());
+    sp.appendSpecialPointVertexReferenceGroup(
+        vertexReferenceGroupBuilder.clear().paramVertexRef(6).build());
+    sp.appendSpecialPointVertexReferenceGroup(
+        vertexReferenceGroupBuilder.clear().paramVertexRef(88).build());
+
     objDocument.append(sp, cursor);
 
     assertEquals(sp, objDocument.peek(cursor));

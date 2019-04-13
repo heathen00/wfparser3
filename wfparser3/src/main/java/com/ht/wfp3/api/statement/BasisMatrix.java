@@ -1,7 +1,5 @@
 package com.ht.wfp3.api.statement;
 
-import java.util.List;
-
 /**
  * Basis Matrix in U and V Axes for Basis Matrix Free Form Curves and Surfaces.
  * 
@@ -41,5 +39,5 @@ public interface BasisMatrix extends Statement {
 
   BasisMatrix.Axis getBasisMatrixAxis();
 
-  List<String> getFlattenedBasisMatrix();
+  Matrix getMatrix();
 }

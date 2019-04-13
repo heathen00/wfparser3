@@ -19,7 +19,7 @@ package com.ht.wfp3.api.statement;
  *
  */
 public interface Degree extends Statement {
-  int getUAxisDegree();
+  Integer getUAxisDegree();
 
-  int getVAxisDegree();
+  Integer getVAxisDegree();
 }

@@ -14,3 +14,7 @@
 /.project
 /.settings
 
+
+# JVM sometimes creates these file.
+.attach_pid*
+

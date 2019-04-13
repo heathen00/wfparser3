@@ -49,20 +49,22 @@ public final class StatementFactory {
   public ParamVertex copyParamVertex(ParamVertex paramVertex) {
     return new ParamVertexImp(paramVertex);
   }
-
-  public VertexReferenceGroup createVertexReferenceGroup() {
-    return new VertexReferenceGroupImp();
+  
+  public VertexReferenceGroupBuilder createVertexReferenceGroupBuilder() {
+    return new VertexReferenceGroupBuilderImp();
   }
-
-  public VertexReferenceGroup copyVertexReferenceGroup(VertexReferenceGroup referenceNumbers) {
-    return new VertexReferenceGroupImp(referenceNumbers);
+  
+  public VertexReferenceGroup copyVertexReferenceGroup(VertexReferenceGroup vertexReferenceGroup) {
+    return new VertexReferenceGroupImp((VertexReferenceGroupImp) vertexReferenceGroup);
   }
-
-  public VertexReference createVertexReference(VertexReference.Type type, String vertexIndex) {
-    return new VertexReferenceImp(type, vertexIndex);
+  
+  // Not published.
+  VertexReferenceImp createVertexReference(VertexReferenceImp.Type type, Integer vertexIndex, boolean isSet) {
+    return new VertexReferenceImp(type, vertexIndex, isSet);
   }
-
-  public VertexReference copyVertexReference(VertexReference vertexReference) {
+  
+  // Not published.
+  VertexReferenceImp copyVertexReference(VertexReferenceImp vertexReference) {
     return new VertexReferenceImp(vertexReference);
   }
 
@@ -98,13 +100,18 @@ public final class StatementFactory {
     return new CurveOrSurfaceTypeImp(cstype);
   }
 
-  public Degree createDegree(String uAxisDegree, String vAxisDegree) {
+  public Degree createDegree(Integer uAxisDegree, Integer vAxisDegree) {
     // TODO Auto-generated method stub
 
     return null;
   }
+  
+  public MatrixBuilder createMatrixBuilder() {
+    // TODO Auto-generated method stub
+    return null;
+  }
 
-  public BasisMatrix createBasisMatrix(Axis axis, List<String> flattenedMatrix) {
+  public BasisMatrix createBasisMatrix(Axis axis, Matrix matrix) {
     // TODO Auto-generated method stub
 
     return null;

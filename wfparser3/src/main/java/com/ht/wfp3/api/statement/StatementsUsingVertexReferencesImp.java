@@ -61,8 +61,7 @@ abstract class StatementsUsingVertexReferencesImp extends StatementImp {
 
   @Override
   public String toString() {
-    return "StatementsUsingVertexReferencesImp [statementFactory=" + statementFactory
-        + ", vertexReferenceGroupList=" + vertexReferenceGroupList + ", super.toString()="
-        + super.toString() + "]";
+    return "StatementsUsingVertexReferencesImp [vertexReferenceGroupList="
+        + vertexReferenceGroupList + ", super.toString()=" + super.toString() + "]";
   }
 }

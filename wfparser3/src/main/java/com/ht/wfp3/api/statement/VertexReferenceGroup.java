@@ -40,7 +40,11 @@ package com.ht.wfp3.api.statement;
  *
  */
 public interface VertexReferenceGroup {
-  void addVertexReference(VertexReference vertexReference);
+  Integer getGeoVertexRef();
 
-  VertexReference getVertexReference(VertexReference.Type vertexReferenceType);
+  Integer getTexVertexRef();
+
+  Integer getNormalVertexRef();
+
+  Integer getParamVertexRef();
 }
