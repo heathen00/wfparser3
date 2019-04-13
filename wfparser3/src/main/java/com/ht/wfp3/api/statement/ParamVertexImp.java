@@ -1,14 +1,16 @@
 package com.ht.wfp3.api.statement;
 
+import java.math.BigDecimal;
+
 class ParamVertexImp extends StatementImp implements ParamVertex {
   private static final String KEYWORD = "vp";
   private static final boolean CAN_COMMENT = true;
 
-  private String uCoord;
-  private String vCoord;
-  private String wCoord;
+  private BigDecimal uCoord;
+  private BigDecimal vCoord;
+  private BigDecimal wCoord;
 
-  ParamVertexImp(String uCoord, String vCoord, String wCoord) {
+  ParamVertexImp(BigDecimal uCoord, BigDecimal vCoord, BigDecimal wCoord) {
     super(KEYWORD, CAN_COMMENT);
     this.uCoord = uCoord;
     this.vCoord = vCoord;
@@ -20,17 +22,17 @@ class ParamVertexImp extends StatementImp implements ParamVertex {
   }
 
   @Override
-  public String getUCoord() {
+  public BigDecimal getUCoord() {
     return uCoord;
   }
 
   @Override
-  public String getVCoord() {
+  public BigDecimal getVCoord() {
     return vCoord;
   }
 
   @Override
-  public String getWCoord() {
+  public BigDecimal getWCoord() {
     return wCoord;
   }
 

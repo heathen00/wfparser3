@@ -54,7 +54,7 @@ package com.ht.wfp3.api.statement;
  * @author nickl
  *
  */
-public interface CurveApprox extends Statement {
+interface CurveApprox extends Statement {
   enum Technique {
     CPARM, CSPACE, CURV
   }

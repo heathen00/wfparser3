@@ -1,14 +1,16 @@
 package com.ht.wfp3.api.statement;
 
+import java.math.BigDecimal;
+
 class NormalVertexImp extends StatementImp implements NormalVertex {
   private static final String KEYWORD = "vn";
   private static final boolean CAN_COMMENT = true;
 
-  private String iCoord;
-  private String jCoord;
-  private String kCoord;
+  private BigDecimal iCoord;
+  private BigDecimal jCoord;
+  private BigDecimal kCoord;
 
-  NormalVertexImp(String iCoord, String jCoord, String kCoord) {
+  NormalVertexImp(BigDecimal iCoord, BigDecimal jCoord, BigDecimal kCoord) {
     super(KEYWORD, CAN_COMMENT);
     this.iCoord = iCoord;
     this.jCoord = jCoord;
@@ -20,17 +22,17 @@ class NormalVertexImp extends StatementImp implements NormalVertex {
   }
 
   @Override
-  public String getICoord() {
+  public BigDecimal getICoord() {
     return iCoord;
   }
 
   @Override
-  public String getJCoord() {
+  public BigDecimal getJCoord() {
     return jCoord;
   }
 
   @Override
-  public String getKCoord() {
+  public BigDecimal getKCoord() {
     return kCoord;
   }
 

@@ -1,5 +1,7 @@
 package com.ht.wfp3.api.statement;
 
+import java.math.BigDecimal;
+
 /**
  * The Geometric Vertex data.
  * 
@@ -29,11 +31,11 @@ package com.ht.wfp3.api.statement;
  *
  */
 public interface GeoVertex extends Statement {
-  String getXCoord();
+  BigDecimal getXCoord();
 
-  String getYCoord();
+  BigDecimal getYCoord();
 
-  String getZCoord();
+  BigDecimal getZCoord();
 
-  String getWCoord();
+  BigDecimal getWCoord();
 }

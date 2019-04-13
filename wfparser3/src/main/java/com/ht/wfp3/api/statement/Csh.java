@@ -18,7 +18,7 @@ package com.ht.wfp3.api.statement;
  *
  */
 public interface Csh extends Statement {
-  boolean shouldIgnoreError();
+  boolean shouldIgnoreErrors();
 
   String getCommand();
 }

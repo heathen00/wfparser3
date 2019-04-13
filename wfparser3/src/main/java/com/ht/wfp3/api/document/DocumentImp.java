@@ -11,14 +11,14 @@ import com.ht.wfp3.api.statement.Blank;
 import com.ht.wfp3.api.statement.Call;
 import com.ht.wfp3.api.statement.ColorInterpolation;
 import com.ht.wfp3.api.statement.Connect;
-import com.ht.wfp3.api.statement.CparmCurveApprox;
-import com.ht.wfp3.api.statement.CparmaSurfaceApprox;
-import com.ht.wfp3.api.statement.CparmbSurfaceApprox;
+import com.ht.wfp3.api.statement.CurveApproxCparmTechnique;
+import com.ht.wfp3.api.statement.SurfaceApproxCparmaTechnique;
+import com.ht.wfp3.api.statement.SurfaceApproxCparmbTechnique;
 import com.ht.wfp3.api.statement.Csh;
-import com.ht.wfp3.api.statement.CspaceCurveApprox;
-import com.ht.wfp3.api.statement.CspaceSurfaceApprox;
-import com.ht.wfp3.api.statement.CurvCurveApprox;
-import com.ht.wfp3.api.statement.CurvSurfaceApprox;
+import com.ht.wfp3.api.statement.CurveApproxCspaceTechnique;
+import com.ht.wfp3.api.statement.SurfaceApproxCspaceTechnique;
+import com.ht.wfp3.api.statement.CurveApproxCurvTechnique;
+import com.ht.wfp3.api.statement.SurfaceApproxCurvTechnique;
 import com.ht.wfp3.api.statement.Curve;
 import com.ht.wfp3.api.statement.Curve2D;
 import com.ht.wfp3.api.statement.CurveOrSurfaceType;
@@ -329,43 +329,43 @@ class DocumentImp implements Document {
   }
 
   @Override
-  public void append(CparmCurveApprox ctech, Cursor cursor) {
+  public void append(CurveApproxCparmTechnique ctech, Cursor cursor) {
     // TODO Auto-generated method stub
 
   }
 
   @Override
-  public void append(CspaceCurveApprox ctech, Cursor cursor) {
+  public void append(CurveApproxCspaceTechnique ctech, Cursor cursor) {
     // TODO Auto-generated method stub
 
   }
 
   @Override
-  public void append(CurvCurveApprox ctech, Cursor cursor) {
+  public void append(CurveApproxCurvTechnique ctech, Cursor cursor) {
     // TODO Auto-generated method stub
 
   }
 
   @Override
-  public void append(CparmaSurfaceApprox stech, Cursor cursor) {
+  public void append(SurfaceApproxCparmaTechnique stech, Cursor cursor) {
     // TODO Auto-generated method stub
 
   }
 
   @Override
-  public void append(CparmbSurfaceApprox stech, Cursor cursor) {
+  public void append(SurfaceApproxCparmbTechnique stech, Cursor cursor) {
     // TODO Auto-generated method stub
 
   }
 
   @Override
-  public void append(CspaceSurfaceApprox stech, Cursor cursor) {
+  public void append(SurfaceApproxCspaceTechnique stech, Cursor cursor) {
     // TODO Auto-generated method stub
 
   }
 
   @Override
-  public void append(CurvSurfaceApprox stech, Cursor cursor) {
+  public void append(SurfaceApproxCurvTechnique stech, Cursor cursor) {
     // TODO Auto-generated method stub
 
   }

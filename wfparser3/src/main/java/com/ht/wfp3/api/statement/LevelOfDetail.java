@@ -18,5 +18,8 @@ package com.ht.wfp3.api.statement;
  *
  */
 public interface LevelOfDetail extends Statement {
-  int getLevelOfDetail();
+  static final Integer MAX = Integer.valueOf(100);
+  static final Integer MIN = Integer.valueOf(1);
+
+  Integer getLevelOfDetail();
 }

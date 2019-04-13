@@ -48,5 +48,4 @@ public interface Line extends Statement {
   void appendReferenceNumbers(VertexReferenceGroup referenceNumbers);
 
   List<VertexReferenceGroup> getReferenceNumbers();
-
 }

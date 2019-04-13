@@ -29,5 +29,5 @@ package com.ht.wfp3.api.statement;
 public interface SmoothingGroup extends Statement {
   boolean isEnabled();
 
-  String getSmoothingGroupNumber();
+  Integer getSmoothingGroupNumber();
 }

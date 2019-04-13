@@ -45,9 +45,11 @@ import java.util.List;
  *
  */
 public interface Call extends Statement {
+  boolean isFrameNumberRequired();
+
   String getFileName();
 
   List<Integer> getArguments();
 
-  void appendArgument(String arg);
+  void appendArgument(Integer arg);
 }

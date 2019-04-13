@@ -1,5 +1,6 @@
 package com.ht.wfp3.api.statement;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -44,13 +45,13 @@ import java.util.List;
  *
  */
 public interface Surface extends Statement {
-  String getStartingParameterValueUAxis();
+  BigDecimal getStartingParameterValueUAxis();
 
-  String getEndingParameterValueUAxis();
+  BigDecimal getEndingParameterValueUAxis();
 
-  String getStartingParameterValueVAxis();
+  BigDecimal getStartingParameterValueVAxis();
 
-  String getEndingParameterValueVAxis();
+  BigDecimal getEndingParameterValueVAxis();
 
   void appendControlPointVertexReferenceGroup(VertexReferenceGroup createReferenceNumbers);
 

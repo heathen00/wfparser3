@@ -1,5 +1,6 @@
 package com.ht.wfp3.api.statement;
 
+import java.math.BigDecimal;
 import java.util.List;
 import com.ht.wfp3.api.statement.BasisMatrix.Axis;
 
@@ -18,7 +19,7 @@ public final class StatementFactory {
     return STATEMENT_FACTORY_SINGLETON;
   }
 
-  public GeoVertex createGeoVertex(String xCoord, String yCoord, String zCoord, String wCoord) {
+  public GeoVertex createGeoVertex(BigDecimal xCoord, BigDecimal yCoord, BigDecimal zCoord, BigDecimal wCoord) {
     return new GeoVertexImp(xCoord, yCoord, zCoord, wCoord);
   }
 
@@ -26,7 +27,7 @@ public final class StatementFactory {
     return new GeoVertexImp(geoVertex);
   }
 
-  public TexVertex createTexVertex(String uCoord, String vCoord, String wCoord) {
+  public TexVertex createTexVertex(BigDecimal uCoord, BigDecimal vCoord, BigDecimal wCoord) {
     return new TexVertexImp(uCoord, vCoord, wCoord);
   }
 
@@ -34,7 +35,7 @@ public final class StatementFactory {
     return new TexVertexImp(texVertex);
   }
 
-  public NormalVertex createNormalVertex(String iCoord, String jCoord, String kCoord) {
+  public NormalVertex createNormalVertex(BigDecimal iCoord, BigDecimal jCoord, BigDecimal kCoord) {
     return new NormalVertexImp(iCoord, jCoord, kCoord);
   }
 
@@ -42,7 +43,7 @@ public final class StatementFactory {
     return new NormalVertexImp(normalVertex);
   }
 
-  public ParamVertex createParamVertex(String uCoord, String vCoord, String wCoord) {
+  public ParamVertex createParamVertex(BigDecimal uCoord, BigDecimal vCoord, BigDecimal wCoord) {
     return new ParamVertexImp(uCoord, vCoord, wCoord);
   }
 
@@ -93,8 +94,8 @@ public final class StatementFactory {
     return new FaceImp(face);
   }
 
-  public CurveOrSurfaceType createCurveOrSurface(String rational, CurveOrSurfaceType.Key typeKey) {
-    return new CurveOrSurfaceTypeImp(rational, typeKey);
+  public CurveOrSurfaceType createCurveOrSurface(boolean isRational, CurveOrSurfaceType.Key typeKey) {
+    return new CurveOrSurfaceTypeImp(isRational, typeKey);
   }
 
   public Statement copyCurveOrSurfaceType(CurveOrSurfaceType cstype) {
@@ -143,7 +144,7 @@ public final class StatementFactory {
     return null;
   }
 
-  public Call createCall(String fileName) {
+  public Call createCall(String fileName, boolean isFrameNumberRequired) {
     // TODO Auto-generated method stub
 
     return null;
@@ -289,44 +290,44 @@ public final class StatementFactory {
     return null;
   }
 
-  public CparmCurveApprox createCparmCurveApprox(String resolution) {
+  public CurveApproxCparmTechnique createCparmCurveApprox(String resolution) {
     // TODO Auto-generated method stub
 
     return null;
   }
 
-  public CspaceCurveApprox createCspaceCurveApprox(String maxLength) {
+  public CurveApproxCspaceTechnique createCspaceCurveApprox(String maxLength) {
     // TODO Auto-generated method stub
 
     return null;
   }
 
-  public CurvCurveApprox createCurvCurveAprox(String maxDist, String maxAngleInDegrees) {
+  public CurveApproxCurvTechnique createCurvCurveAprox(String maxDist, String maxAngleInDegrees) {
     // TODO Auto-generated method stub
 
     return null;
   }
 
-  public CparmaSurfaceApprox createCparmaSurfaceApprox(String resolutionForUAxis,
+  public SurfaceApproxCparmaTechnique createCparmaSurfaceApprox(String resolutionForUAxis,
       String resolutionForVAxis) {
     // TODO Auto-generated method stub
 
     return null;
   }
 
-  public CparmbSurfaceApprox createCparmbSurfaceApprox(String resolutionForUAndVAxes) {
+  public SurfaceApproxCparmbTechnique createCparmbSurfaceApprox(String resolutionForUAndVAxes) {
     // TODO Auto-generated method stub
 
     return null;
   }
 
-  public CspaceSurfaceApprox createCspaceSurfaceApprox(String maxLength) {
+  public SurfaceApproxCspaceTechnique createCspaceSurfaceApprox(String maxLength) {
     // TODO Auto-generated method stub
 
     return null;
   }
 
-  public CurvSurfaceApprox createCurvSurfaceApprox(String maxDist, String maxAngleInDegrees) {
+  public SurfaceApproxCurvTechnique createCurvSurfaceApprox(String maxDist, String maxAngleInDegrees) {
     // TODO Auto-generated method stub
 
     return null;

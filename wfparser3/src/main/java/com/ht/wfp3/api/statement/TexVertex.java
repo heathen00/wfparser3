@@ -1,5 +1,7 @@
 package com.ht.wfp3.api.statement;
 
+import java.math.BigDecimal;
+
 /**
  * The Texture Vertex data.
  * 
@@ -31,9 +33,9 @@ package com.ht.wfp3.api.statement;
  *
  */
 public interface TexVertex extends Statement {
-  String getUCoord();
+  BigDecimal getUCoord();
 
-  String getVCoord();
+  BigDecimal getVCoord();
 
-  String getWCoord();
+  BigDecimal getWCoord();
 }

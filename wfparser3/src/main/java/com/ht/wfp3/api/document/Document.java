@@ -6,14 +6,14 @@ import com.ht.wfp3.api.statement.Blank;
 import com.ht.wfp3.api.statement.Call;
 import com.ht.wfp3.api.statement.ColorInterpolation;
 import com.ht.wfp3.api.statement.Connect;
-import com.ht.wfp3.api.statement.CparmCurveApprox;
-import com.ht.wfp3.api.statement.CparmaSurfaceApprox;
-import com.ht.wfp3.api.statement.CparmbSurfaceApprox;
+import com.ht.wfp3.api.statement.CurveApproxCparmTechnique;
+import com.ht.wfp3.api.statement.SurfaceApproxCparmaTechnique;
+import com.ht.wfp3.api.statement.SurfaceApproxCparmbTechnique;
 import com.ht.wfp3.api.statement.Csh;
-import com.ht.wfp3.api.statement.CspaceCurveApprox;
-import com.ht.wfp3.api.statement.CspaceSurfaceApprox;
-import com.ht.wfp3.api.statement.CurvCurveApprox;
-import com.ht.wfp3.api.statement.CurvSurfaceApprox;
+import com.ht.wfp3.api.statement.CurveApproxCspaceTechnique;
+import com.ht.wfp3.api.statement.SurfaceApproxCspaceTechnique;
+import com.ht.wfp3.api.statement.CurveApproxCurvTechnique;
+import com.ht.wfp3.api.statement.SurfaceApproxCurvTechnique;
 import com.ht.wfp3.api.statement.Curve;
 import com.ht.wfp3.api.statement.Curve2D;
 import com.ht.wfp3.api.statement.CurveOrSurfaceType;
@@ -141,19 +141,19 @@ public interface Document {
 
   void append(RayTracingObject trace_obj, Cursor cursor);
 
-  void append(CparmCurveApprox ctech, Cursor cursor);
+  void append(CurveApproxCparmTechnique ctech, Cursor cursor);
 
-  void append(CspaceCurveApprox ctech, Cursor cursor);
+  void append(CurveApproxCspaceTechnique ctech, Cursor cursor);
 
-  void append(CurvCurveApprox ctech, Cursor cursor);
+  void append(CurveApproxCurvTechnique ctech, Cursor cursor);
 
-  void append(CparmaSurfaceApprox stech, Cursor cursor);
+  void append(SurfaceApproxCparmaTechnique stech, Cursor cursor);
 
-  void append(CparmbSurfaceApprox stech, Cursor cursor);
+  void append(SurfaceApproxCparmbTechnique stech, Cursor cursor);
 
-  void append(CspaceSurfaceApprox stech, Cursor cursor);
+  void append(SurfaceApproxCspaceTechnique stech, Cursor cursor);
 
-  void append(CurvSurfaceApprox stech, Cursor cursor);
+  void append(SurfaceApproxCurvTechnique stech, Cursor cursor);
 
   void append(Blank blank, Cursor cursor);
 

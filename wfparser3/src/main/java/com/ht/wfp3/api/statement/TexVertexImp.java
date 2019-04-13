@@ -1,14 +1,16 @@
 package com.ht.wfp3.api.statement;
 
+import java.math.BigDecimal;
+
 class TexVertexImp extends StatementImp implements TexVertex {
-  private static final String KEYWORD = "v";
+  private static final String KEYWORD = "vt";
   private static final boolean CAN_COMMENT = true;
 
-  private String uCoord;
-  private String vCoord;
-  private String wCoord;
+  private BigDecimal uCoord;
+  private BigDecimal vCoord;
+  private BigDecimal wCoord;
 
-  TexVertexImp(String uCoord, String vCoord, String wCoord) {
+  TexVertexImp(BigDecimal uCoord, BigDecimal vCoord, BigDecimal wCoord) {
     super(KEYWORD, CAN_COMMENT);
     this.uCoord = uCoord;
     this.vCoord = vCoord;
@@ -20,17 +22,17 @@ class TexVertexImp extends StatementImp implements TexVertex {
   }
 
   @Override
-  public String getUCoord() {
+  public BigDecimal getUCoord() {
     return uCoord;
   }
 
   @Override
-  public String getVCoord() {
+  public BigDecimal getVCoord() {
     return vCoord;
   }
 
   @Override
-  public String getWCoord() {
+  public BigDecimal getWCoord() {
     return wCoord;
   }
 

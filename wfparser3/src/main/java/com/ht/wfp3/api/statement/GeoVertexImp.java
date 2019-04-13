@@ -1,15 +1,17 @@
 package com.ht.wfp3.api.statement;
 
+import java.math.BigDecimal;
+
 class GeoVertexImp extends StatementImp implements GeoVertex {
   private static final String KEYWORD = "v";
   private static final boolean CAN_COMMENT = true;
 
-  private String xCoord;
-  private String yCoord;
-  private String zCoord;
-  private String wCoord;
+  private BigDecimal xCoord;
+  private BigDecimal yCoord;
+  private BigDecimal zCoord;
+  private BigDecimal wCoord;
 
-  GeoVertexImp(String xCoord, String yCoord, String zCoord, String wCoord) {
+  GeoVertexImp(BigDecimal xCoord, BigDecimal yCoord, BigDecimal zCoord, BigDecimal wCoord) {
     super(KEYWORD, CAN_COMMENT);
     this.xCoord = xCoord;
     this.yCoord = yCoord;
@@ -23,22 +25,22 @@ class GeoVertexImp extends StatementImp implements GeoVertex {
   }
 
   @Override
-  public String getXCoord() {
+  public BigDecimal getXCoord() {
     return xCoord;
   }
 
   @Override
-  public String getYCoord() {
+  public BigDecimal getYCoord() {
     return yCoord;
   }
 
   @Override
-  public String getZCoord() {
+  public BigDecimal getZCoord() {
     return zCoord;
   }
 
   @Override
-  public String getWCoord() {
+  public BigDecimal getWCoord() {
     return wCoord;
   }
 

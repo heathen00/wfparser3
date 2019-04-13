@@ -1,5 +1,7 @@
 package com.ht.wfp3.api.statement;
 
+import java.math.BigDecimal;
+
 /**
  * The constant parametric subdivision curve approximation technique.
  * 
@@ -16,6 +18,6 @@ package com.ht.wfp3.api.statement;
  * @author nickl
  *
  */
-public interface CparmCurveApprox extends CurveApprox {
-  String getResolution();
+public interface CurveApproxCparmTechnique extends CurveApprox {
+  BigDecimal getResolution();
 }

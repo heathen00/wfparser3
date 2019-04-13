@@ -1,5 +1,7 @@
 package com.ht.wfp3.api.statement;
 
+import java.math.BigDecimal;
+
 /**
  * The constant parametric subdivision type-B surface approximation technique.
  * 
@@ -18,6 +20,6 @@ package com.ht.wfp3.api.statement;
  * @author nickl
  *
  */
-public interface CparmbSurfaceApprox extends SurfaceApprox {
-  String getResolutionForUAndVAxes();
+public interface SurfaceApproxCparmbTechnique extends SurfaceApprox {
+  BigDecimal getResolutionForUAndVAxes();
 }

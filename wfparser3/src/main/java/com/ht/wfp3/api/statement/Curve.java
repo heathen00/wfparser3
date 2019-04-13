@@ -1,5 +1,6 @@
 package com.ht.wfp3.api.statement;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -27,12 +28,11 @@ import java.util.List;
  */
 public interface Curve extends Statement {
 
-  String getStartingParameterValue();
+  BigDecimal getStartingParameterValue();
 
-  String getEndingParameterValue();
+  BigDecimal getEndingParameterValue();
 
   void appendControlPointVertexReferenceGroup(VertexReferenceGroup referenceNumbers);
 
   List<VertexReferenceGroup> getControlPointVertexReferenceGroup();
-
 }

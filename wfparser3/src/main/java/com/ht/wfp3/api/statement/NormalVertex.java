@@ -1,5 +1,7 @@
 package com.ht.wfp3.api.statement;
 
+import java.math.BigDecimal;
+
 /**
  * The Normal Vertex data.
  * 
@@ -25,9 +27,9 @@ package com.ht.wfp3.api.statement;
  *
  */
 public interface NormalVertex extends Statement {
-  String getICoord();
+  BigDecimal getICoord();
 
-  String getJCoord();
+  BigDecimal getJCoord();
 
-  String getKCoord();
+  BigDecimal getKCoord();
 }

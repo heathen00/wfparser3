@@ -1,5 +1,7 @@
 package com.ht.wfp3.api.statement;
 
+import java.math.BigDecimal;
+
 /**
  * The constant spatial division surface approximation technique.
  * 
@@ -16,6 +18,6 @@ package com.ht.wfp3.api.statement;
  * @author nickl
  *
  */
-public interface CspaceSurfaceApprox extends SurfaceApprox {
-  String getMaxLength();
+public interface SurfaceApproxCspaceTechnique extends SurfaceApprox {
+  BigDecimal getMaxLength();
 }

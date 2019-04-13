@@ -1,5 +1,7 @@
 package com.ht.wfp3.api.statement;
 
+import java.math.BigDecimal;
+
 /**
  * The curvature-dependent subdivision curve approximation technique.
  * 
@@ -22,8 +24,8 @@ package com.ht.wfp3.api.statement;
  * @author nickl
  *
  */
-public interface CurvCurveApprox extends CurveApprox {
-  String getMaximumDistance();
+public interface CurveApproxCurvTechnique extends CurveApprox {
+  BigDecimal getMaximumDistance();
 
-  String getMaximumAngleInDegrees();
+  BigDecimal getMaximumAngleInDegrees();
 }

@@ -3,6 +3,7 @@ package com.ht.wfp3.api.acceptance;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 import org.junit.Before;
@@ -20,17 +21,13 @@ import com.ht.wfp3.api.statement.Call;
 import com.ht.wfp3.api.statement.ColorInterpolation;
 import com.ht.wfp3.api.statement.Comment;
 import com.ht.wfp3.api.statement.Connect;
-import com.ht.wfp3.api.statement.CparmCurveApprox;
-import com.ht.wfp3.api.statement.CparmaSurfaceApprox;
-import com.ht.wfp3.api.statement.CparmbSurfaceApprox;
 import com.ht.wfp3.api.statement.Csh;
-import com.ht.wfp3.api.statement.CspaceCurveApprox;
-import com.ht.wfp3.api.statement.CspaceSurfaceApprox;
-import com.ht.wfp3.api.statement.CurvCurveApprox;
-import com.ht.wfp3.api.statement.CurvSurfaceApprox;
 import com.ht.wfp3.api.statement.Curve;
 import com.ht.wfp3.api.statement.Curve2D;
 import com.ht.wfp3.api.statement.Curve2DReference;
+import com.ht.wfp3.api.statement.CurveApproxCparmTechnique;
+import com.ht.wfp3.api.statement.CurveApproxCspaceTechnique;
+import com.ht.wfp3.api.statement.CurveApproxCurvTechnique;
 import com.ht.wfp3.api.statement.CurveOrSurfaceType;
 import com.ht.wfp3.api.statement.Degree;
 import com.ht.wfp3.api.statement.DissolveInterpolation;
@@ -58,6 +55,10 @@ import com.ht.wfp3.api.statement.SpecialPoint;
 import com.ht.wfp3.api.statement.StatementFactory;
 import com.ht.wfp3.api.statement.StepSize;
 import com.ht.wfp3.api.statement.Surface;
+import com.ht.wfp3.api.statement.SurfaceApproxCparmaTechnique;
+import com.ht.wfp3.api.statement.SurfaceApproxCparmbTechnique;
+import com.ht.wfp3.api.statement.SurfaceApproxCspaceTechnique;
+import com.ht.wfp3.api.statement.SurfaceApproxCurvTechnique;
 import com.ht.wfp3.api.statement.TexVertex;
 import com.ht.wfp3.api.statement.Trim;
 import com.ht.wfp3.api.statement.Unknown;
@@ -117,7 +118,9 @@ public class DocumentViewStatementCreationAcceptanceTests {
 
   @Test(expected = NullPointerException.class)
   public void Document_appendApiGuardIsPassedANullCursor_nullPointerExceptionIsThrown() {
-    GeoVertex geoVertex = statementFactory.createGeoVertex("5.555", "5.555", "5.555", "5.555");
+    GeoVertex geoVertex = statementFactory.createGeoVertex(BigDecimal.valueOf(5.555),
+        BigDecimal.valueOf(5.555), BigDecimal.valueOf(5.555), BigDecimal.valueOf(5.555));
+
     objDocument.guardAppendApis(geoVertex, null);
   }
 
@@ -125,7 +128,8 @@ public class DocumentViewStatementCreationAcceptanceTests {
   public void Document_appendApiGuardIsPassedCursorFromAnotherDocument_illegalArgumentExceptionIsThrown() {
     VisibleDocumentImp otherDocument = new VisibleDocumentImp();
     Cursor otherCursor = otherDocument.createCursor();
-    GeoVertex geoVertex = statementFactory.createGeoVertex("5.555", "5.555", "5.555", "5.555");
+    GeoVertex geoVertex = statementFactory.createGeoVertex(BigDecimal.valueOf(5.555),
+        BigDecimal.valueOf(5.555), BigDecimal.valueOf(5.555), BigDecimal.valueOf(5.555));
 
     objDocument.guardAppendApis(geoVertex, otherCursor);
   }
@@ -159,7 +163,8 @@ public class DocumentViewStatementCreationAcceptanceTests {
     VisibleDocumentImp otherDocument = new VisibleDocumentImp();
     Cursor otherCursor = otherDocument.createCursor();
     otherCursor.toEof();
-    GeoVertex geoVertex = statementFactory.createGeoVertex("5.555", "5.555", "5.555", "5.555");
+    GeoVertex geoVertex = statementFactory.createGeoVertex(BigDecimal.valueOf(5.555),
+        BigDecimal.valueOf(5.555), BigDecimal.valueOf(5.555), BigDecimal.valueOf(5.555));
     objDocument.append(geoVertex, cursor);
 
     objDocument.peek(otherCursor);
@@ -170,7 +175,8 @@ public class DocumentViewStatementCreationAcceptanceTests {
   @Test
   public void Document_addOneGeometricVertexToEmptyObjDocumentAtCursor_OneGeometricVertexIsAddedAtCursor()
       throws Exception {
-    GeoVertex geoVertex = statementFactory.createGeoVertex("1.000", "2.000", "3.000", "4.000");
+    GeoVertex geoVertex = statementFactory.createGeoVertex(BigDecimal.valueOf(1.000),
+        BigDecimal.valueOf(2.000), BigDecimal.valueOf(3.000), BigDecimal.valueOf(4.000));
     objDocument.append(geoVertex, cursor);
 
     assertEquals(geoVertex, objDocument.peek(cursor));
@@ -180,7 +186,9 @@ public class DocumentViewStatementCreationAcceptanceTests {
   @Test
   public void Document_addOneTextureVertexToEmptyObjDocumentAtCursor_OneTextureVertexIsAddedAtCursor()
       throws Exception {
-    TexVertex texVertex = statementFactory.createTexVertex("3.3", "2.2", "1.1");
+    TexVertex texVertex = statementFactory.createTexVertex(BigDecimal.valueOf(3.3),
+        BigDecimal.valueOf(2.2), BigDecimal.valueOf(1.1));
+
     objDocument.append(texVertex, cursor);
 
     assertEquals(texVertex, objDocument.peek(cursor));
@@ -190,7 +198,9 @@ public class DocumentViewStatementCreationAcceptanceTests {
   @Test
   public void Document_addOneNormalVertexToEmptyObjDocumentAtCursor_OneNormalVertexIsAddedAtCursor()
       throws Exception {
-    NormalVertex normalVertex = statementFactory.createNormalVertex("9.9", "8.8", "7.7");
+    NormalVertex normalVertex = statementFactory.createNormalVertex(BigDecimal.valueOf(9.9),
+        BigDecimal.valueOf(8.8), BigDecimal.valueOf(7.7));
+
     objDocument.append(normalVertex, cursor);
 
     assertEquals(normalVertex, objDocument.peek(cursor));
@@ -200,7 +210,9 @@ public class DocumentViewStatementCreationAcceptanceTests {
   @Test
   public void Document_addOneParamVertexToEmptyObjDocumentAtCursor_OneParamVertexIsAddedAtCursor()
       throws Exception {
-    ParamVertex paramVertex = statementFactory.createParamVertex("3.13", "3.31", "1.33");
+    ParamVertex paramVertex = statementFactory.createParamVertex(BigDecimal.valueOf(3.13),
+        BigDecimal.valueOf(3.31), BigDecimal.valueOf(1.33));
+
     objDocument.append(paramVertex, cursor);
 
     assertEquals(paramVertex, objDocument.peek(cursor));
@@ -271,7 +283,7 @@ public class DocumentViewStatementCreationAcceptanceTests {
   public void Document_addOneCSTypeToEmptyObjDocumentAtCursor_OneCSTypeIsAddedAtCursor()
       throws Exception {
     CurveOrSurfaceType cstype =
-        statementFactory.createCurveOrSurface("rat", CurveOrSurfaceType.Key.BMATRIX);
+        statementFactory.createCurveOrSurface(true, CurveOrSurfaceType.Key.BMATRIX);
     objDocument.append(cstype, cursor);
 
     assertEquals(cstype, objDocument.peek(cursor));
@@ -392,10 +404,10 @@ public class DocumentViewStatementCreationAcceptanceTests {
   @Ignore("not implemented")
   public void Document_addOneCallToEmptyObjDocumentAtCursor_OneCallIsAddedAtCursor()
       throws Exception {
-    Call call = statementFactory.createCall("filename.obj");
-    call.appendArgument("3");
-    call.appendArgument("5");
-    call.appendArgument("78");
+    Call call = statementFactory.createCall("filename.obj", true);
+    call.appendArgument(3);
+    call.appendArgument(4);
+    call.appendArgument(78);
     objDocument.append(call, cursor);
 
     assertEquals(call, objDocument.peek(cursor));
@@ -416,10 +428,11 @@ public class DocumentViewStatementCreationAcceptanceTests {
   public void Document_addOneParmToEmptyObjDocumentAtCursor_OneParmIsAddedAtCursor()
       throws Exception {
     Parm parm = statementFactory.createParm("u");
-    parm.appendParameterValue("1.0000");
-    parm.appendParameterValue("4.4444");
-    parm.appendParameterValue("-9.22");
-    parm.appendParameterValue("111.9876");
+    parm.appendParameterValue(BigDecimal.valueOf(1.0000));
+    parm.appendParameterValue(BigDecimal.valueOf(4.4444));
+    parm.appendParameterValue(BigDecimal.valueOf(-9.22));
+    parm.appendParameterValue(BigDecimal.valueOf(111.9876));
+
     objDocument.append(parm, cursor);
 
     assertEquals(parm, objDocument.peek(cursor));
@@ -675,7 +688,7 @@ public class DocumentViewStatementCreationAcceptanceTests {
   @Ignore("not implemented")
   public void Document_addOneCparmCurveApproxToEmptyObjDocumentAtCursor_OneCparmCurveApproxIsAddedAtCursor()
       throws Exception {
-    CparmCurveApprox ctech = statementFactory.createCparmCurveApprox("2.3333");
+    CurveApproxCparmTechnique ctech = statementFactory.createCparmCurveApprox("2.3333");
     objDocument.append(ctech, cursor);
 
     assertEquals(ctech, objDocument.peek(cursor));
@@ -685,7 +698,7 @@ public class DocumentViewStatementCreationAcceptanceTests {
   @Ignore("not implemented")
   public void Document_addOneCspaceCurveApproxToEmptyObjDocumentAtCursor_OneCspaceCurveApproxIsAddedAtCursor()
       throws Exception {
-    CspaceCurveApprox ctech = statementFactory.createCspaceCurveApprox("1.56");
+    CurveApproxCspaceTechnique ctech = statementFactory.createCspaceCurveApprox("1.56");
     objDocument.append(ctech, cursor);
 
     assertEquals(ctech, objDocument.peek(cursor));
@@ -695,7 +708,7 @@ public class DocumentViewStatementCreationAcceptanceTests {
   @Ignore("not implemented")
   public void Document_addOneCurvCurveApproxToEmptyObjDocumentAtCursor_OneCurvCurveApproxIsAddedAtCursor()
       throws Exception {
-    CurvCurveApprox ctech = statementFactory.createCurvCurveAprox("1.1876", "93.45");
+    CurveApproxCurvTechnique ctech = statementFactory.createCurvCurveAprox("1.1876", "93.45");
     objDocument.append(ctech, cursor);
 
     assertEquals(ctech, objDocument.peek(cursor));
@@ -705,7 +718,8 @@ public class DocumentViewStatementCreationAcceptanceTests {
   @Ignore("not implemented")
   public void Document_addOneCparmaSurfaceApproxToEmptyObjDocumentAtCursor_OneCparmaSurfaceApproxIsAddedAtCursor()
       throws Exception {
-    CparmaSurfaceApprox stech = statementFactory.createCparmaSurfaceApprox("1.234", "3.333");
+    SurfaceApproxCparmaTechnique stech =
+        statementFactory.createCparmaSurfaceApprox("1.234", "3.333");
     objDocument.append(stech, cursor);
 
     assertEquals(stech, objDocument.peek(cursor));
@@ -715,7 +729,7 @@ public class DocumentViewStatementCreationAcceptanceTests {
   @Ignore("not implemented")
   public void Document_addOneCparmbSurfaceApproxToEmptyObjDocumentAtCursor_OneCparmbSurfaceApproxIsAddedAtCursor()
       throws Exception {
-    CparmbSurfaceApprox stech = statementFactory.createCparmbSurfaceApprox("5.678");
+    SurfaceApproxCparmbTechnique stech = statementFactory.createCparmbSurfaceApprox("5.678");
     objDocument.append(stech, cursor);
 
     assertEquals(stech, objDocument.peek(cursor));
@@ -725,7 +739,7 @@ public class DocumentViewStatementCreationAcceptanceTests {
   @Ignore("not implemented")
   public void Document_addOneCspaceSurfaceApproxToEmptyObjDocumentAtCursor_OneCspaceSurfaceApproxIsAddedAtCursor()
       throws Exception {
-    CspaceSurfaceApprox stech = statementFactory.createCspaceSurfaceApprox("1.11");
+    SurfaceApproxCspaceTechnique stech = statementFactory.createCspaceSurfaceApprox("1.11");
     objDocument.append(stech, cursor);
 
     assertEquals(stech, objDocument.peek(cursor));
@@ -735,7 +749,7 @@ public class DocumentViewStatementCreationAcceptanceTests {
   @Ignore("not implemented")
   public void Document_addOneCurvSurfaceApproxToEmptyObjDocumentAtCursor_OneCurvSurfaceApproxIsAddedAtCursor()
       throws Exception {
-    CurvSurfaceApprox stech = statementFactory.createCurvSurfaceApprox("1.5678", "90.0");
+    SurfaceApproxCurvTechnique stech = statementFactory.createCurvSurfaceApprox("1.5678", "90.0");
     objDocument.append(stech, cursor);
 
     assertEquals(stech, objDocument.peek(cursor));
@@ -745,7 +759,8 @@ public class DocumentViewStatementCreationAcceptanceTests {
   @Ignore("not implemented")
   public void Document_addCommentedGeoVertexToEmptyObjDocumentAtCursor_OneCommentedGeoVertexIsAddedAtCursor()
       throws Exception {
-    GeoVertex v = statementFactory.createGeoVertex("1.0000", "2.0000", "3.0000", "4.0000");
+    GeoVertex v = statementFactory.createGeoVertex(BigDecimal.valueOf(1.0000),
+        BigDecimal.valueOf(2.0000), BigDecimal.valueOf(3.0000), BigDecimal.valueOf(4.0000));
     if (v.canComment()) {
       Comment comment = statementFactory.createComment(" This is a comment.");
       v.setComment(comment);

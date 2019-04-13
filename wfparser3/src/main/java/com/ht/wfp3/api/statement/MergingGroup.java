@@ -1,5 +1,7 @@
 package com.ht.wfp3.api.statement;
 
+import java.math.BigDecimal;
+
 /**
  * A free-form-geometry statement to specify the merging group that the following elements belong
  * to.
@@ -30,7 +32,7 @@ package com.ht.wfp3.api.statement;
 public interface MergingGroup extends Statement {
   boolean isEnabled();
 
-  String getMergingGroupNumber();
+  Integer getMergingGroupNumber();
 
-  String getMergingResolution();
+  BigDecimal getMergingResolution();
 }

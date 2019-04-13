@@ -1,5 +1,6 @@
 package com.ht.wfp3.api.statement;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -32,9 +33,9 @@ public interface Parm extends Statement {
     U, V,
   }
 
-  List<String> getParameterValues();
+  List<BigDecimal> getParameterValues();
 
   Parm.Axis getAxis();
 
-  void appendParameterValue(String parameterValue);
+  void appendParameterValue(BigDecimal parameterValue);
 }

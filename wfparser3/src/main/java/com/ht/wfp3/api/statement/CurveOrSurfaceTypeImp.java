@@ -1,25 +1,25 @@
 package com.ht.wfp3.api.statement;
 
 class CurveOrSurfaceTypeImp extends StatementImp implements CurveOrSurfaceType {
-  private static final String KEYWORD = "v";
+  private static final String KEYWORD = "cstype";
   private static final boolean CAN_COMMENT = true;
 
-  private final String rational;
+  private final boolean isRational;
   private final Key key;
 
-  CurveOrSurfaceTypeImp(String rational, Key key) {
+  CurveOrSurfaceTypeImp(boolean isRational, Key key) {
     super(KEYWORD, CAN_COMMENT);
-    this.rational = rational;
+    this.isRational = isRational;
     this.key = key;
   }
 
   CurveOrSurfaceTypeImp(CurveOrSurfaceType curveOrSurfaceType) {
-    this(curveOrSurfaceType.getRational(), curveOrSurfaceType.getTypeKey());
+    this(curveOrSurfaceType.isRational(), curveOrSurfaceType.getTypeKey());
   }
 
   @Override
-  public String getRational() {
-    return rational;
+  public boolean isRational() {
+    return isRational;
   }
 
   @Override

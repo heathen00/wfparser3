@@ -37,7 +37,7 @@ package com.ht.wfp3.api.statement;
  *
  */
 public interface StepSize extends Statement {
-  int getStepSizeInUAxis();
+  Integer getStepSizeInUAxis();
 
-  int getStepSizeInVAxis();
+  Integer getStepSizeInVAxis();
 }

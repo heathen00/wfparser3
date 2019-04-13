@@ -36,7 +36,7 @@ public interface CurveOrSurfaceType extends Statement {
     BMATRIX, BEZIER, BSPLINE, CARDINAL, TAYLOR,
   }
 
-  String getRational();
+  boolean isRational();
 
   CurveOrSurfaceType.Key getTypeKey();
 }

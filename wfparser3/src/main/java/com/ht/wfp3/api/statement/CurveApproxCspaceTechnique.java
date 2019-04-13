@@ -1,5 +1,7 @@
 package com.ht.wfp3.api.statement;
 
+import java.math.BigDecimal;
+
 /**
  * The constant spatial subdivision curve approxmation technique.
  * 
@@ -14,6 +16,6 @@ package com.ht.wfp3.api.statement;
  * @author nickl
  *
  */
-public interface CspaceCurveApprox extends CurveApprox {
-  String getMaxLength();
+public interface CurveApproxCspaceTechnique extends CurveApprox {
+  BigDecimal getMaxLength();
 }

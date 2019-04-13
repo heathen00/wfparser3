@@ -1,5 +1,7 @@
 package com.ht.wfp3.api.statement;
 
+import java.math.BigDecimal;
+
 /**
  * The Parameter Vertex data.
  * 
@@ -33,9 +35,9 @@ package com.ht.wfp3.api.statement;
  *
  */
 public interface ParamVertex extends Statement {
-  String getUCoord();
+  BigDecimal getUCoord();
 
-  String getVCoord();
+  BigDecimal getVCoord();
 
-  String getWCoord();
+  BigDecimal getWCoord();
 }

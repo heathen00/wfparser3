@@ -31,11 +31,11 @@ package com.ht.wfp3.api.statement;
  *
  */
 public interface Connect extends Statement {
-  int getFirstSurfaceIndex();
+  Integer getFirstSurfaceIndex();
 
   Curve2DReference getCurve2DReferenceForFirstSurface();
 
-  int getSecondSurfaceIndex();
+  Integer getSecondSurfaceIndex();
 
   Curve2DReference getCurve2DReferenceForSecondSurface();
 }
