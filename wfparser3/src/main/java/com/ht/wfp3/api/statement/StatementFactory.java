@@ -122,13 +122,13 @@ public final class StatementFactory {
     return null;
   }
 
-  public StepSize createStepSize(String stepSizeInUAxis, String stepSizeInVAxis) {
+  public StepSize createStepSize(Integer stepSizeInUAxis, Integer stepSizeInVAxis) {
     // TODO Auto-generated method stub
 
     return null;
   }
 
-  public Curve createCurve(String startingParameterValue, String endingParameterValue,
+  public Curve createCurve(BigDecimal startingParameterValue, BigDecimal endingParameterValue,
       List<VertexReferenceGroup> vertexReferenceGroupList) {
     // TODO Auto-generated method stub
 
@@ -173,8 +173,8 @@ public final class StatementFactory {
     return null;
   }
 
-  public Curve2DReference createCurve2DReference(String startingParameterValue,
-      String endingParameterValue, String curve2DIndex) {
+  public Curve2DReference createCurve2DReference(BigDecimal startingParameterValue,
+      BigDecimal endingParameterValue, Integer curve2DIndex) {
     // TODO Auto-generated method stub
 
     return null;
@@ -203,8 +203,8 @@ public final class StatementFactory {
     return null;
   }
 
-  public Connect createConnect(String firstSurfaceIndex,
-      Curve2DReference curve2dReferenceForFirstSurface, String secondSurfaceIndex,
+  public Connect createConnect(Integer firstSurfaceIndex,
+      Curve2DReference curve2dReferenceForFirstSurface, Integer secondSurfaceIndex,
       Curve2DReference curve2dReferenceForSecondSurface) {
     // TODO Auto-generated method stub
 
@@ -217,13 +217,13 @@ public final class StatementFactory {
     return null;
   }
 
-  public SmoothingGroup createSmoothingGroup(String groupNumberOrOff) {
+  public SmoothingGroup createSmoothingGroup(Integer groupNumberOrOff) {
     // TODO Auto-generated method stub
 
     return null;
   }
 
-  public MergingGroup createMergingGroup(String groupNumberOrOff, String resolution) {
+  public MergingGroup createMergingGroup(Integer groupNumberOrOff, BigDecimal resolution) {
     // TODO Auto-generated method stub
 
     return null;
@@ -235,25 +235,25 @@ public final class StatementFactory {
     return null;
   }
 
-  public Bevel createBevel(String onOrOff) {
+  public Bevel createBevel(boolean isEnabled) {
     // TODO Auto-generated method stub
 
     return null;
   }
 
-  public ColorInterpolation createColorInterpolation(String onOrOff) {
+  public ColorInterpolation createColorInterpolation(boolean isEnabled) {
     // TODO Auto-generated method stub
 
     return null;
   }
 
-  public DissolveInterpolation createDissolveInterpolation(String onOrOff) {
+  public DissolveInterpolation createDissolveInterpolation(boolean isEnabled) {
     // TODO Auto-generated method stub
 
     return null;
   }
 
-  public LevelOfDetail createLevelOfDetail(String levelOfDetail) {
+  public LevelOfDetail createLevelOfDetail(Integer levelOfDetail) {
     // TODO Auto-generated method stub
 
     return null;
@@ -295,45 +295,45 @@ public final class StatementFactory {
     return null;
   }
 
-  public CurveApproxCparmTechnique createCparmCurveApprox(String resolution) {
+  public CurveApproxCparmTechnique createCparmCurveApprox(BigDecimal resolution) {
     // TODO Auto-generated method stub
 
     return null;
   }
 
-  public CurveApproxCspaceTechnique createCspaceCurveApprox(String maxLength) {
+  public CurveApproxCspaceTechnique createCspaceCurveApprox(BigDecimal maxLength) {
     // TODO Auto-generated method stub
 
     return null;
   }
 
-  public CurveApproxCurvTechnique createCurvCurveAprox(String maxDist, String maxAngleInDegrees) {
+  public CurveApproxCurvTechnique createCurvCurveAprox(BigDecimal maxDist, BigDecimal maxAngleInDegrees) {
     // TODO Auto-generated method stub
 
     return null;
   }
 
-  public SurfaceApproxCparmaTechnique createCparmaSurfaceApprox(String resolutionForUAxis,
-      String resolutionForVAxis) {
+  public SurfaceApproxCparmaTechnique createCparmaSurfaceApprox(BigDecimal resolutionForUAxis,
+      BigDecimal resolutionForVAxis) {
     // TODO Auto-generated method stub
 
     return null;
   }
 
-  public SurfaceApproxCparmbTechnique createCparmbSurfaceApprox(String resolutionForUAndVAxes) {
+  public SurfaceApproxCparmbTechnique createCparmbSurfaceApprox(BigDecimal resolutionForUAndVAxes) {
     // TODO Auto-generated method stub
 
     return null;
   }
 
-  public SurfaceApproxCspaceTechnique createCspaceSurfaceApprox(String maxLength) {
+  public SurfaceApproxCspaceTechnique createCspaceSurfaceApprox(BigDecimal maxLength) {
     // TODO Auto-generated method stub
 
     return null;
   }
 
-  public SurfaceApproxCurvTechnique createCurvSurfaceApprox(String maxDist,
-      String maxAngleInDegrees) {
+  public SurfaceApproxCurvTechnique createCurvSurfaceApprox(BigDecimal maxDist,
+      BigDecimal maxAngleInDegrees) {
     // TODO Auto-generated method stub
 
     return null;

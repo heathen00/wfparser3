@@ -327,7 +327,7 @@ public class DocumentViewStatementCreationAcceptanceTests {
   @Ignore("not implemented")
   public void Document_addOneStepToEmptyObjDocumentAtCursor_OneStepIsAddedAtCursor()
       throws Exception {
-    StepSize step = statementFactory.createStepSize("7", "33");
+    StepSize step = statementFactory.createStepSize(7, 33);
     objDocument.append(step, cursor);
 
     assertEquals(step, objDocument.peek(cursor));
@@ -344,7 +344,8 @@ public class DocumentViewStatementCreationAcceptanceTests {
     vertexReferenceGroupList.add(vertexReferenceGroupBuilder.clear().geoVertexRef(2).build());
     vertexReferenceGroupList.add(vertexReferenceGroupBuilder.clear().geoVertexRef(3).build());
     vertexReferenceGroupList.add(vertexReferenceGroupBuilder.clear().geoVertexRef(4).build());
-    Curve curv = statementFactory.createCurve("1.23456", "9.5321", vertexReferenceGroupList);
+    Curve curv = statementFactory.createCurve(BigDecimal.valueOf(1.23456),
+        BigDecimal.valueOf(9.5321), vertexReferenceGroupList);
 
     objDocument.append(curv, cursor);
 
@@ -441,9 +442,12 @@ public class DocumentViewStatementCreationAcceptanceTests {
   public void Document_addOneTrimToEmptyObjDocumentAtCursor_OneTrimIsAddedAtCursor()
       throws Exception {
     List<Curve2DReference> curve2DReferenceList = new ArrayList<>();
-    curve2DReferenceList.add(statementFactory.createCurve2DReference("1.4567", "-99.5463", "1"));
-    curve2DReferenceList.add(statementFactory.createCurve2DReference("1.111", "2.22", "5"));
-    curve2DReferenceList.add(statementFactory.createCurve2DReference("6.789", "0.543", "77"));
+    curve2DReferenceList.add(statementFactory.createCurve2DReference(BigDecimal.valueOf(1.4567),
+        BigDecimal.valueOf(-99.5463), 1));
+    curve2DReferenceList.add(statementFactory.createCurve2DReference(BigDecimal.valueOf(1.111),
+        BigDecimal.valueOf(2.22), 5));
+    curve2DReferenceList.add(statementFactory.createCurve2DReference(BigDecimal.valueOf(6.789),
+        BigDecimal.valueOf(0.543), 77));
     Trim trim = statementFactory.createTrim(curve2DReferenceList);
 
     objDocument.append(trim, cursor);
@@ -456,9 +460,12 @@ public class DocumentViewStatementCreationAcceptanceTests {
   public void Document_addOneHoleToEmptyObjDocumentAtCursor_OneHoleIsAddedAtCursor()
       throws Exception {
     List<Curve2DReference> curve2DReferenceList = new ArrayList<>();
-    curve2DReferenceList.add(statementFactory.createCurve2DReference("3.333", "4.444", "22"));
-    curve2DReferenceList.add(statementFactory.createCurve2DReference("-1.111", "-2.232", "3"));
-    curve2DReferenceList.add(statementFactory.createCurve2DReference("4.78", "99.99", "11"));
+    curve2DReferenceList.add(statementFactory.createCurve2DReference(BigDecimal.valueOf(3.333),
+        BigDecimal.valueOf(4.444), 22));
+    curve2DReferenceList.add(statementFactory.createCurve2DReference(BigDecimal.valueOf(-1.111),
+        BigDecimal.valueOf(-2.232), 3));
+    curve2DReferenceList.add(statementFactory.createCurve2DReference(BigDecimal.valueOf(4.78),
+        BigDecimal.valueOf(99.99), 11));
     Hole hole = statementFactory.createHole(curve2DReferenceList);
 
     objDocument.append(hole, cursor);
@@ -472,8 +479,10 @@ public class DocumentViewStatementCreationAcceptanceTests {
       throws Exception {
 
     List<Curve2DReference> curve2DReferenceList = new ArrayList<>();
-    curve2DReferenceList.add(statementFactory.createCurve2DReference("3.333", "4.444", "22"));
-    curve2DReferenceList.add(statementFactory.createCurve2DReference("2.222", "1.111", "33"));
+    curve2DReferenceList.add(statementFactory.createCurve2DReference(BigDecimal.valueOf(3.333),
+        BigDecimal.valueOf(4.444), 22));
+    curve2DReferenceList.add(statementFactory.createCurve2DReference(BigDecimal.valueOf(2.222),
+        BigDecimal.valueOf(1.111), 33));
     SpecialCurve scrv = statementFactory.createSpecialCurve(curve2DReferenceList);
 
     objDocument.append(scrv, cursor);
@@ -514,11 +523,11 @@ public class DocumentViewStatementCreationAcceptanceTests {
   @Ignore("not implemented")
   public void Document_addOneConnectToEmptyObjDocumentAtCursor_OneConnectIsAddedAtCursor()
       throws Exception {
-    Curve2DReference curve2dReferenceForSurface3 =
-        statementFactory.createCurve2DReference("1.111", "2.222", "1");
-    Curve2DReference curve2dReferenceForSurface4 =
-        statementFactory.createCurve2DReference("3.333", "4.444", "2");
-    Connect con = statementFactory.createConnect("3", curve2dReferenceForSurface3, "4",
+    Curve2DReference curve2dReferenceForSurface3 = statementFactory
+        .createCurve2DReference(BigDecimal.valueOf(1.111), BigDecimal.valueOf(2.222), 1);
+    Curve2DReference curve2dReferenceForSurface4 = statementFactory
+        .createCurve2DReference(BigDecimal.valueOf(3.333), BigDecimal.valueOf(4.444), 2);
+    Connect con = statementFactory.createConnect(3, curve2dReferenceForSurface3, 4,
         curve2dReferenceForSurface4);
     objDocument.append(con, cursor);
 
@@ -543,7 +552,7 @@ public class DocumentViewStatementCreationAcceptanceTests {
   @Ignore("not implemented")
   public void Document_addOneSmoothingGroupToEmptyObjDocumentAtCursor_OneSmoothingGroupIsAddedAtCursor()
       throws Exception {
-    SmoothingGroup s = statementFactory.createSmoothingGroup("3");
+    SmoothingGroup s = statementFactory.createSmoothingGroup(3);
     objDocument.append(s, cursor);
 
     assertEquals(s, objDocument.peek(cursor));
@@ -553,7 +562,7 @@ public class DocumentViewStatementCreationAcceptanceTests {
   @Ignore("not implemented")
   public void Document_addMergingGroupToEmptyObjDocumentAtCursor_OneMergingGroupIsAddedAtCursor()
       throws Exception {
-    MergingGroup mg = statementFactory.createMergingGroup("3", "0.6");
+    MergingGroup mg = statementFactory.createMergingGroup(3, BigDecimal.valueOf(0.6));
     objDocument.append(mg, cursor);
 
     assertEquals(mg, objDocument.peek(cursor));
@@ -573,7 +582,7 @@ public class DocumentViewStatementCreationAcceptanceTests {
   @Ignore("not implemented")
   public void Document_addOneBevelToEmptyObjDocumentAtCursor_OneBevelIsAddedAtCursor()
       throws Exception {
-    Bevel bevel = statementFactory.createBevel("on");
+    Bevel bevel = statementFactory.createBevel(true);
     objDocument.append(bevel, cursor);
 
     assertEquals(bevel, objDocument.peek(cursor));
@@ -583,7 +592,7 @@ public class DocumentViewStatementCreationAcceptanceTests {
   @Ignore("not implemented")
   public void Document_addOneColorInterpolationToEmptyObjDocumentAtCursor_OneColorInterpolationIsAddedAtCursor()
       throws Exception {
-    ColorInterpolation c_interp = statementFactory.createColorInterpolation("ON");
+    ColorInterpolation c_interp = statementFactory.createColorInterpolation(true);
     objDocument.append(c_interp, cursor);
 
     assertEquals(c_interp, objDocument.peek(cursor));
@@ -593,7 +602,7 @@ public class DocumentViewStatementCreationAcceptanceTests {
   @Ignore("not implemented")
   public void Document_addOneDissolveInterpolationToEmptyObjDocumentAtCursor_OneDissolveInterpolationIsAddedAtCursor()
       throws Exception {
-    DissolveInterpolation d_interp = statementFactory.createDissolveInterpolation("Off");
+    DissolveInterpolation d_interp = statementFactory.createDissolveInterpolation(false);
     objDocument.append(d_interp, cursor);
 
     assertEquals(d_interp, objDocument.peek(cursor));
@@ -603,7 +612,7 @@ public class DocumentViewStatementCreationAcceptanceTests {
   @Ignore("not implemented")
   public void Document_addOneLevelOfDetailToEmptyObjDocumentAtCursor_OneLevelOfDetailIsAddedAtCursor()
       throws Exception {
-    LevelOfDetail lod = statementFactory.createLevelOfDetail("55");
+    LevelOfDetail lod = statementFactory.createLevelOfDetail(55);
     objDocument.append(lod, cursor);
 
     assertEquals(lod, objDocument.peek(cursor));
@@ -678,7 +687,8 @@ public class DocumentViewStatementCreationAcceptanceTests {
   @Ignore("not implemented")
   public void Document_addOneRayTracingObjectToEmptyObjDocumentAtCursor_OneRayTracingObjectIsAddedAtCursor()
       throws Exception {
-    RayTracingObject trace_obj = statementFactory.createRayTracingObject(Paths.get("ray_tracing.obj"));
+    RayTracingObject trace_obj =
+        statementFactory.createRayTracingObject(Paths.get("ray_tracing.obj"));
     objDocument.append(trace_obj, cursor);
 
     assertEquals(trace_obj, objDocument.peek(cursor));
@@ -688,7 +698,8 @@ public class DocumentViewStatementCreationAcceptanceTests {
   @Ignore("not implemented")
   public void Document_addOneCparmCurveApproxToEmptyObjDocumentAtCursor_OneCparmCurveApproxIsAddedAtCursor()
       throws Exception {
-    CurveApproxCparmTechnique ctech = statementFactory.createCparmCurveApprox("2.3333");
+    CurveApproxCparmTechnique ctech =
+        statementFactory.createCparmCurveApprox(BigDecimal.valueOf(2.3333));
     objDocument.append(ctech, cursor);
 
     assertEquals(ctech, objDocument.peek(cursor));
@@ -698,7 +709,8 @@ public class DocumentViewStatementCreationAcceptanceTests {
   @Ignore("not implemented")
   public void Document_addOneCspaceCurveApproxToEmptyObjDocumentAtCursor_OneCspaceCurveApproxIsAddedAtCursor()
       throws Exception {
-    CurveApproxCspaceTechnique ctech = statementFactory.createCspaceCurveApprox("1.56");
+    CurveApproxCspaceTechnique ctech =
+        statementFactory.createCspaceCurveApprox(BigDecimal.valueOf(1.56));
     objDocument.append(ctech, cursor);
 
     assertEquals(ctech, objDocument.peek(cursor));
@@ -708,7 +720,8 @@ public class DocumentViewStatementCreationAcceptanceTests {
   @Ignore("not implemented")
   public void Document_addOneCurvCurveApproxToEmptyObjDocumentAtCursor_OneCurvCurveApproxIsAddedAtCursor()
       throws Exception {
-    CurveApproxCurvTechnique ctech = statementFactory.createCurvCurveAprox("1.1876", "93.45");
+    CurveApproxCurvTechnique ctech = statementFactory
+        .createCurvCurveAprox(BigDecimal.valueOf(1.1876), BigDecimal.valueOf(93.45));
     objDocument.append(ctech, cursor);
 
     assertEquals(ctech, objDocument.peek(cursor));
@@ -718,8 +731,8 @@ public class DocumentViewStatementCreationAcceptanceTests {
   @Ignore("not implemented")
   public void Document_addOneCparmaSurfaceApproxToEmptyObjDocumentAtCursor_OneCparmaSurfaceApproxIsAddedAtCursor()
       throws Exception {
-    SurfaceApproxCparmaTechnique stech =
-        statementFactory.createCparmaSurfaceApprox("1.234", "3.333");
+    SurfaceApproxCparmaTechnique stech = statementFactory
+        .createCparmaSurfaceApprox(BigDecimal.valueOf(1.234), BigDecimal.valueOf(3.333));
     objDocument.append(stech, cursor);
 
     assertEquals(stech, objDocument.peek(cursor));
@@ -729,7 +742,8 @@ public class DocumentViewStatementCreationAcceptanceTests {
   @Ignore("not implemented")
   public void Document_addOneCparmbSurfaceApproxToEmptyObjDocumentAtCursor_OneCparmbSurfaceApproxIsAddedAtCursor()
       throws Exception {
-    SurfaceApproxCparmbTechnique stech = statementFactory.createCparmbSurfaceApprox("5.678");
+    SurfaceApproxCparmbTechnique stech =
+        statementFactory.createCparmbSurfaceApprox(BigDecimal.valueOf(5.678));
     objDocument.append(stech, cursor);
 
     assertEquals(stech, objDocument.peek(cursor));
@@ -739,7 +753,8 @@ public class DocumentViewStatementCreationAcceptanceTests {
   @Ignore("not implemented")
   public void Document_addOneCspaceSurfaceApproxToEmptyObjDocumentAtCursor_OneCspaceSurfaceApproxIsAddedAtCursor()
       throws Exception {
-    SurfaceApproxCspaceTechnique stech = statementFactory.createCspaceSurfaceApprox("1.11");
+    SurfaceApproxCspaceTechnique stech =
+        statementFactory.createCspaceSurfaceApprox(BigDecimal.valueOf(1.11));
     objDocument.append(stech, cursor);
 
     assertEquals(stech, objDocument.peek(cursor));
@@ -749,7 +764,8 @@ public class DocumentViewStatementCreationAcceptanceTests {
   @Ignore("not implemented")
   public void Document_addOneCurvSurfaceApproxToEmptyObjDocumentAtCursor_OneCurvSurfaceApproxIsAddedAtCursor()
       throws Exception {
-    SurfaceApproxCurvTechnique stech = statementFactory.createCurvSurfaceApprox("1.5678", "90.0");
+    SurfaceApproxCurvTechnique stech = statementFactory
+        .createCurvSurfaceApprox(BigDecimal.valueOf(1.5678), BigDecimal.valueOf(90.0));
     objDocument.append(stech, cursor);
 
     assertEquals(stech, objDocument.peek(cursor));
