@@ -1,5 +1,7 @@
 package com.ht.wfp3.api.statement;
 
+import java.nio.file.Path;
+
 /**
  * The shadow object polygonal and free-form geometry statement.
  * 
@@ -26,5 +28,5 @@ package com.ht.wfp3.api.statement;
  *
  */
 public interface ShadowObject extends Statement {
-  String getShadowObjectFileName();
+  Path getShadowObjectFileName();
 }

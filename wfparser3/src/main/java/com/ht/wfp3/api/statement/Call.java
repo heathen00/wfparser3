@@ -1,5 +1,6 @@
 package com.ht.wfp3.api.statement;
 
+import java.nio.file.Path;
 import java.util.List;
 
 /**
@@ -47,7 +48,7 @@ import java.util.List;
 public interface Call extends Statement {
   boolean isFrameNumberRequired();
 
-  String getFileName();
+  Path getFileName();
 
   List<Integer> getArguments();
 }

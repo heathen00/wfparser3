@@ -4,6 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import java.math.BigDecimal;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -400,7 +402,7 @@ public class DocumentViewStatementCreationAcceptanceTests {
     arguments.add(Integer.valueOf(3));
     arguments.add(Integer.valueOf(4));
     arguments.add(Integer.valueOf(78));
-    Call call = statementFactory.createCall("filename.obj", true, arguments);
+    Call call = statementFactory.createCall(Paths.get("filename.obj"), true, arguments);
 
     objDocument.append(call, cursor);
 
@@ -615,9 +617,9 @@ public class DocumentViewStatementCreationAcceptanceTests {
     // TODO I have no idea if there is a file extension limitation or not. It does
     // not say in the
     // specification.
-    List<String> mapLibFileNameList = new ArrayList<>();
-    mapLibFileNameList.add("library1.textures");
-    mapLibFileNameList.add("library2.textures");
+    List<Path> mapLibFileNameList = new ArrayList<>();
+    mapLibFileNameList.add(Paths.get("library1.textures"));
+    mapLibFileNameList.add(Paths.get("library2.textures"));
     MapLib maplib = statementFactory.createMapLib(mapLibFileNameList);
 
     objDocument.append(maplib, cursor);
@@ -652,9 +654,9 @@ public class DocumentViewStatementCreationAcceptanceTests {
     // TODO I have no idea if there is a file extension limitation or not. It does
     // not say in the
     // specification.
-    List<String> materialLibFileNameList = new ArrayList<>();
-    materialLibFileNameList.add("library1.materials");
-    materialLibFileNameList.add("library2.materials");
+    List<Path> materialLibFileNameList = new ArrayList<>();
+    materialLibFileNameList.add(Paths.get("library1.materials"));
+    materialLibFileNameList.add(Paths.get("library2.materials"));
     MaterialLib mtllib = statementFactory.createMaterialLib(materialLibFileNameList);
 
     objDocument.append(mtllib, cursor);
@@ -666,7 +668,7 @@ public class DocumentViewStatementCreationAcceptanceTests {
   @Ignore("not implemented")
   public void Document_addOneShadowObjectToEmptyObjDocumentAtCursor_OneShadowObjectIsAddedAtCursor()
       throws Exception {
-    ShadowObject shadow_obj = statementFactory.createShadowObject("shadow.obj");
+    ShadowObject shadow_obj = statementFactory.createShadowObject(Paths.get("shadow.obj"));
     objDocument.append(shadow_obj, cursor);
 
     assertEquals(shadow_obj, objDocument.peek(cursor));
@@ -676,7 +678,7 @@ public class DocumentViewStatementCreationAcceptanceTests {
   @Ignore("not implemented")
   public void Document_addOneRayTracingObjectToEmptyObjDocumentAtCursor_OneRayTracingObjectIsAddedAtCursor()
       throws Exception {
-    RayTracingObject trace_obj = statementFactory.createRayTracingObject("ray_tracing.obj");
+    RayTracingObject trace_obj = statementFactory.createRayTracingObject(Paths.get("ray_tracing.obj"));
     objDocument.append(trace_obj, cursor);
 
     assertEquals(trace_obj, objDocument.peek(cursor));

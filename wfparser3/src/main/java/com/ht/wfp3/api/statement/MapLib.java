@@ -1,5 +1,6 @@
 package com.ht.wfp3.api.statement;
 
+import java.nio.file.Path;
 import java.util.List;
 
 /**
@@ -23,5 +24,5 @@ import java.util.List;
  *
  */
 public interface MapLib extends Statement {
-  List<String> getMapLibFileNameList();
+  List<Path> getMapLibFileNameList();
 }

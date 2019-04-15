@@ -1,6 +1,7 @@
 package com.ht.wfp3.api.statement;
 
 import java.math.BigDecimal;
+import java.nio.file.Path;
 import java.util.List;
 import com.ht.wfp3.api.statement.BasisMatrix.Axis;
 
@@ -148,7 +149,7 @@ public final class StatementFactory {
     return null;
   }
 
-  public Call createCall(String fileName, boolean isFrameNumberRequired, List<Integer> arguments) {
+  public Call createCall(Path fileName, boolean isFrameNumberRequired, List<Integer> arguments) {
     // TODO Auto-generated method stub
 
     return null;
@@ -258,7 +259,7 @@ public final class StatementFactory {
     return null;
   }
 
-  public MapLib createMapLib(List<String> mapLibFileNameList) {
+  public MapLib createMapLib(List<Path> mapLibFileNameList) {
     // TODO Auto-generated method stub
 
     return null;
@@ -276,19 +277,19 @@ public final class StatementFactory {
     return null;
   }
 
-  public MaterialLib createMaterialLib(List<String> materialLibFileNameList) {
+  public MaterialLib createMaterialLib(List<Path> materialLibFileNameList) {
     // TODO Auto-generated method stub
 
     return null;
   }
 
-  public ShadowObject createShadowObject(String shadowObjectFileName) {
+  public ShadowObject createShadowObject(Path shadowObjectFileName) {
     // TODO Auto-generated method stub
 
     return null;
   }
 
-  public RayTracingObject createRayTracingObject(String rayTracingObjectFileName) {
+  public RayTracingObject createRayTracingObject(Path rayTracingObjectFileName) {
     // TODO Auto-generated method stub
 
     return null;

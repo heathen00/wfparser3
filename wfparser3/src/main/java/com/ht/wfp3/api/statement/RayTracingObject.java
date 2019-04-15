@@ -1,5 +1,7 @@
 package com.ht.wfp3.api.statement;
 
+import java.nio.file.Path;
+
 /**
  * The ray tracing polygonal and free-form geometry statement.
  * 
@@ -27,5 +29,5 @@ package com.ht.wfp3.api.statement;
  *
  */
 public interface RayTracingObject extends Statement {
-  String getRayTracingObjectFileName();
+  Path getRayTracingObjectFileName();
 }
