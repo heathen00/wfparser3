@@ -23,8 +23,5 @@ import java.util.List;
  *
  */
 public interface MaterialLib extends Statement {
-
-  void appendMaterialLibFileName(String materialLibraryFileName);
-
   List<String> getMaterialLibFileNameList();
 }

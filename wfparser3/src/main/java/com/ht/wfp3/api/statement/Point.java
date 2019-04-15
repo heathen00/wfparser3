@@ -37,9 +37,5 @@ import java.util.List;
  *
  */
 public interface Point extends Statement {
-
-  void appendReferenceNumbers(VertexReferenceGroup referenceNumbers);
-
   List<VertexReferenceGroup> getReferenceNumbers();
-
 }

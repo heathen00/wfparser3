@@ -53,7 +53,5 @@ public interface Surface extends Statement {
 
   BigDecimal getEndingParameterValueVAxis();
 
-  void appendControlPointVertexReferenceGroup(VertexReferenceGroup createReferenceNumbers);
-
   List<VertexReferenceGroup> getControlPointVertexReferenceGroup();
 }

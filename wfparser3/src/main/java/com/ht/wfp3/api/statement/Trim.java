@@ -23,6 +23,4 @@ import java.util.List;
  */
 public interface Trim extends Statement {
   List<Curve2DReference> getTrimmingCurve2DReferences();
-
-  void appendTrimmingCurve2DReference(Curve2DReference trimmingCurve);
 }

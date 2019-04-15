@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import org.junit.Before;
@@ -65,6 +66,7 @@ import com.ht.wfp3.api.statement.Unknown;
 import com.ht.wfp3.api.statement.UnknownStatementStub;
 import com.ht.wfp3.api.statement.UseMap;
 import com.ht.wfp3.api.statement.UseMaterial;
+import com.ht.wfp3.api.statement.VertexReferenceGroup;
 import com.ht.wfp3.api.statement.VertexReferenceGroupBuilder;
 
 public class DocumentViewStatementCreationAcceptanceTests {
@@ -222,13 +224,14 @@ public class DocumentViewStatementCreationAcceptanceTests {
   @Test
   public void Document_addOnePointToEmptyObjDocumentAtCursor_OnePointIsAddedAtCursor()
       throws Exception {
-    Point point = statementFactory.createPoint();
     VertexReferenceGroupBuilder vertexReferenceGroupBuilder =
         statementFactory.createVertexReferenceGroupBuilder();
-    point.appendReferenceNumbers(vertexReferenceGroupBuilder.clear().geoVertexRef(1).build());
-    point.appendReferenceNumbers(vertexReferenceGroupBuilder.clear().geoVertexRef(2).build());
-    point.appendReferenceNumbers(vertexReferenceGroupBuilder.clear().geoVertexRef(3).build());
-    point.appendReferenceNumbers(vertexReferenceGroupBuilder.clear().geoVertexRef(4).build());
+    List<VertexReferenceGroup> vertexReferenceGroupList = new ArrayList<>();
+    vertexReferenceGroupList.add(vertexReferenceGroupBuilder.clear().geoVertexRef(1).build());
+    vertexReferenceGroupList.add(vertexReferenceGroupBuilder.clear().geoVertexRef(2).build());
+    vertexReferenceGroupList.add(vertexReferenceGroupBuilder.clear().geoVertexRef(3).build());
+    vertexReferenceGroupList.add(vertexReferenceGroupBuilder.clear().geoVertexRef(4).build());
+    Point point = statementFactory.createPoint(vertexReferenceGroupList);
 
     objDocument.append(point, cursor);
 
@@ -238,17 +241,18 @@ public class DocumentViewStatementCreationAcceptanceTests {
   @Test
   public void Document_addOneLineToEmptyObjDocumentAtCursor_OneLineIsAddedAtCursor()
       throws Exception {
-    Line line = statementFactory.createLine();
     VertexReferenceGroupBuilder vertexReferenceGroupBuilder =
         statementFactory.createVertexReferenceGroupBuilder();
-    line.appendReferenceNumbers(
-        vertexReferenceGroupBuilder.clear().geoVertexRef(1).texVertexRef(1).build());
-    line.appendReferenceNumbers(
-        vertexReferenceGroupBuilder.clear().geoVertexRef(2).texVertexRef(2).build());
-    line.appendReferenceNumbers(
-        vertexReferenceGroupBuilder.clear().geoVertexRef(3).texVertexRef(3).build());
-    line.appendReferenceNumbers(
-        vertexReferenceGroupBuilder.clear().geoVertexRef(4).texVertexRef(4).build());
+    List<VertexReferenceGroup> vertexReferenceGroupList = new ArrayList<>();
+    vertexReferenceGroupList
+        .add(vertexReferenceGroupBuilder.clear().geoVertexRef(1).texVertexRef(1).build());
+    vertexReferenceGroupList
+        .add(vertexReferenceGroupBuilder.clear().geoVertexRef(2).texVertexRef(2).build());
+    vertexReferenceGroupList
+        .add(vertexReferenceGroupBuilder.clear().geoVertexRef(3).texVertexRef(3).build());
+    vertexReferenceGroupList
+        .add(vertexReferenceGroupBuilder.clear().geoVertexRef(4).texVertexRef(4).build());
+    Line line = statementFactory.createLine(vertexReferenceGroupList);
 
     objDocument.append(line, cursor);
 
@@ -258,21 +262,18 @@ public class DocumentViewStatementCreationAcceptanceTests {
   @Test
   public void Document_addOneFaceToEmptyObjDocumentAtCursor_OneFaceIsAddedAtCursor()
       throws Exception {
-    Face face = statementFactory.createFace();
     VertexReferenceGroupBuilder vertexReferenceGroupBuilder =
         statementFactory.createVertexReferenceGroupBuilder();
-
-    vertexReferenceGroupBuilder.clear().geoVertexRef(1).texVertexRef(1).normalVertexRef(1);
-    face.appendReferenceNumbers(vertexReferenceGroupBuilder.build());
-
-    vertexReferenceGroupBuilder.clear().geoVertexRef(2).texVertexRef(2).normalVertexRef(2);
-    face.appendReferenceNumbers(vertexReferenceGroupBuilder.build());
-
-    vertexReferenceGroupBuilder.clear().geoVertexRef(3).texVertexRef(3).normalVertexRef(3);
-    face.appendReferenceNumbers(vertexReferenceGroupBuilder.build());
-
-    vertexReferenceGroupBuilder.clear().geoVertexRef(4).texVertexRef(4).normalVertexRef(4);
-    face.appendReferenceNumbers(vertexReferenceGroupBuilder.build());
+    List<VertexReferenceGroup> vertexReferenceGroupList = new ArrayList<>();
+    vertexReferenceGroupList.add(vertexReferenceGroupBuilder.clear().geoVertexRef(1).texVertexRef(1)
+        .normalVertexRef(1).build());
+    vertexReferenceGroupList.add(vertexReferenceGroupBuilder.clear().geoVertexRef(2).texVertexRef(2)
+        .normalVertexRef(2).build());
+    vertexReferenceGroupList.add(vertexReferenceGroupBuilder.clear().geoVertexRef(3).texVertexRef(3)
+        .normalVertexRef(3).build());
+    vertexReferenceGroupList.add(vertexReferenceGroupBuilder.clear().geoVertexRef(4).texVertexRef(4)
+        .normalVertexRef(4).build());
+    Face face = statementFactory.createFace(vertexReferenceGroupList);
 
     objDocument.append(face, cursor);
 
@@ -304,16 +305,14 @@ public class DocumentViewStatementCreationAcceptanceTests {
   public void Document_addOneBasisMatrixToEmptyObjDocumentAtCursor_OneBasisMatrixIsAddedAtCursor()
       throws Exception {
 
-    // ROUGH THOUGHTS: Handling matrices is awkward. The idea I have right now is to use a
-    // MatrixBuilder class. The MatrixBuilder builds the matrix row by row.
-    // The data can be strings, floats, doubles, big decimals or a mixture of these values. They'll
-    // be converted to the common internal format (BigDecimal) when the bmat statement is created.
-
     MatrixBuilder matrixBuilder = statementFactory.createMatrixBuilder();
     matrixBuilder.clear().buildRowByRow() //
-        .append("1.234").append("-1.234").append("4.321").endRow() //
-        .append("-4.321").append("9.876").append("-9.876").endRow() //
-        .append("4.545").append("5.454").append("1.111").endRow();
+        .append(BigDecimal.valueOf(1.234)).append(BigDecimal.valueOf(-1.234))
+        .append(BigDecimal.valueOf(4.321)).endRow() //
+        .append(BigDecimal.valueOf(-4.321)).append(BigDecimal.valueOf(9.876))
+        .append(BigDecimal.valueOf(-9.876)).endRow() //
+        .append(BigDecimal.valueOf(4.545)).append(BigDecimal.valueOf(5.454))
+        .append(BigDecimal.valueOf(1.111)).endRow();
 
     BasisMatrix bmat =
         statementFactory.createBasisMatrix(BasisMatrix.Axis.U, matrixBuilder.build());
@@ -336,17 +335,14 @@ public class DocumentViewStatementCreationAcceptanceTests {
   @Ignore("not implemented")
   public void Document_addOneCurveToEmptyObjDocumentAtCursor_OneCurveIsAddedAtCursor()
       throws Exception {
-    Curve curv = statementFactory.createCurve("1.23456", "9.5321");
     VertexReferenceGroupBuilder vertexReferenceGroupBuilder =
         statementFactory.createVertexReferenceGroupBuilder();
-    curv.appendControlPointVertexReferenceGroup(
-        vertexReferenceGroupBuilder.clear().geoVertexRef(1).build());
-    curv.appendControlPointVertexReferenceGroup(
-        vertexReferenceGroupBuilder.clear().geoVertexRef(2).build());
-    curv.appendControlPointVertexReferenceGroup(
-        vertexReferenceGroupBuilder.clear().geoVertexRef(3).build());
-    curv.appendControlPointVertexReferenceGroup(
-        vertexReferenceGroupBuilder.clear().geoVertexRef(4).build());
+    List<VertexReferenceGroup> vertexReferenceGroupList = new ArrayList<>();
+    vertexReferenceGroupList.add(vertexReferenceGroupBuilder.clear().geoVertexRef(1).build());
+    vertexReferenceGroupList.add(vertexReferenceGroupBuilder.clear().geoVertexRef(2).build());
+    vertexReferenceGroupList.add(vertexReferenceGroupBuilder.clear().geoVertexRef(3).build());
+    vertexReferenceGroupList.add(vertexReferenceGroupBuilder.clear().geoVertexRef(4).build());
+    Curve curv = statementFactory.createCurve("1.23456", "9.5321", vertexReferenceGroupList);
 
     objDocument.append(curv, cursor);
 
@@ -357,18 +353,15 @@ public class DocumentViewStatementCreationAcceptanceTests {
   @Ignore("not implemented")
   public void Document_addOneCurve2DToEmptyObjDocumentAtCursor_OneCurve2DIsAddedAtCursor()
       throws Exception {
-    Curve2D curv2 = statementFactory.createCurve2D();
     VertexReferenceGroupBuilder vertexReferenceGroupBuilder =
         statementFactory.createVertexReferenceGroupBuilder();
 
-    curv2.appendControlPointVertexReferenceGroup(
-        vertexReferenceGroupBuilder.clear().paramVertexRef(1).build());
-    curv2.appendControlPointVertexReferenceGroup(
-        vertexReferenceGroupBuilder.clear().paramVertexRef(2).build());
-    curv2.appendControlPointVertexReferenceGroup(
-        vertexReferenceGroupBuilder.clear().paramVertexRef(3).build());
-    curv2.appendControlPointVertexReferenceGroup(
-        vertexReferenceGroupBuilder.clear().paramVertexRef(4).build());
+    List<VertexReferenceGroup> vertexReferenceGroupList = new ArrayList<>();
+    vertexReferenceGroupList.add(vertexReferenceGroupBuilder.clear().paramVertexRef(1).build());
+    vertexReferenceGroupList.add(vertexReferenceGroupBuilder.clear().paramVertexRef(2).build());
+    vertexReferenceGroupList.add(vertexReferenceGroupBuilder.clear().paramVertexRef(3).build());
+    vertexReferenceGroupList.add(vertexReferenceGroupBuilder.clear().paramVertexRef(4).build());
+    Curve2D curv2 = statementFactory.createCurve2D(vertexReferenceGroupList);
 
     objDocument.append(curv2, cursor);
 
@@ -379,21 +372,20 @@ public class DocumentViewStatementCreationAcceptanceTests {
   @Ignore("not implemented")
   public void Document_addOneSurfaceToEmptyObjDocumentAtCursor_OneSurfaceIsAddedAtCursor()
       throws Exception {
-    Surface surf = statementFactory.createSurface("1.2345", "-5.4321", "9.8765", "-5.6789");
     VertexReferenceGroupBuilder vertexReferenceGroupBuilder =
         statementFactory.createVertexReferenceGroupBuilder();
-
-    vertexReferenceGroupBuilder.clear().geoVertexRef(1).texVertexRef(1).normalVertexRef(1);
-    surf.appendControlPointVertexReferenceGroup(vertexReferenceGroupBuilder.build());
-
-    vertexReferenceGroupBuilder.clear().geoVertexRef(2).texVertexRef(2).normalVertexRef(2);
-    surf.appendControlPointVertexReferenceGroup(vertexReferenceGroupBuilder.build());
-
-    vertexReferenceGroupBuilder.clear().geoVertexRef(3).texVertexRef(3).normalVertexRef(3);
-    surf.appendControlPointVertexReferenceGroup(vertexReferenceGroupBuilder.build());
-
-    vertexReferenceGroupBuilder.clear().geoVertexRef(4).texVertexRef(4).normalVertexRef(4);
-    surf.appendControlPointVertexReferenceGroup(vertexReferenceGroupBuilder.build());
+    List<VertexReferenceGroup> vertexReferenceGroupList = new ArrayList<>();
+    vertexReferenceGroupList.add(vertexReferenceGroupBuilder.clear().geoVertexRef(1).texVertexRef(1)
+        .normalVertexRef(1).build());
+    vertexReferenceGroupList.add(vertexReferenceGroupBuilder.clear().geoVertexRef(2).texVertexRef(2)
+        .normalVertexRef(2).build());
+    vertexReferenceGroupList.add(vertexReferenceGroupBuilder.clear().geoVertexRef(3).texVertexRef(3)
+        .normalVertexRef(3).build());
+    vertexReferenceGroupList.add(vertexReferenceGroupBuilder.clear().geoVertexRef(4).texVertexRef(4)
+        .normalVertexRef(4).build());
+    Surface surf =
+        statementFactory.createSurface(BigDecimal.valueOf(1.2345), BigDecimal.valueOf(-5.4321),
+            BigDecimal.valueOf(9.8765), BigDecimal.valueOf(-5.6789), vertexReferenceGroupList);
 
     objDocument.append(surf, cursor);
 
@@ -404,10 +396,12 @@ public class DocumentViewStatementCreationAcceptanceTests {
   @Ignore("not implemented")
   public void Document_addOneCallToEmptyObjDocumentAtCursor_OneCallIsAddedAtCursor()
       throws Exception {
-    Call call = statementFactory.createCall("filename.obj", true);
-    call.appendArgument(3);
-    call.appendArgument(4);
-    call.appendArgument(78);
+    List<Integer> arguments = new ArrayList<>();
+    arguments.add(Integer.valueOf(3));
+    arguments.add(Integer.valueOf(4));
+    arguments.add(Integer.valueOf(78));
+    Call call = statementFactory.createCall("filename.obj", true, arguments);
+
     objDocument.append(call, cursor);
 
     assertEquals(call, objDocument.peek(cursor));
@@ -427,11 +421,13 @@ public class DocumentViewStatementCreationAcceptanceTests {
   @Ignore("not implemented")
   public void Document_addOneParmToEmptyObjDocumentAtCursor_OneParmIsAddedAtCursor()
       throws Exception {
-    Parm parm = statementFactory.createParm("u");
-    parm.appendParameterValue(BigDecimal.valueOf(1.0000));
-    parm.appendParameterValue(BigDecimal.valueOf(4.4444));
-    parm.appendParameterValue(BigDecimal.valueOf(-9.22));
-    parm.appendParameterValue(BigDecimal.valueOf(111.9876));
+
+    List<BigDecimal> parameterList = new ArrayList<>();
+    parameterList.add(BigDecimal.valueOf(1.0000));
+    parameterList.add(BigDecimal.valueOf(4.4444));
+    parameterList.add(BigDecimal.valueOf(-9.22));
+    parameterList.add(BigDecimal.valueOf(111.9876));
+    Parm parm = statementFactory.createParm(Parm.Axis.U, parameterList);
 
     objDocument.append(parm, cursor);
 
@@ -442,13 +438,12 @@ public class DocumentViewStatementCreationAcceptanceTests {
   @Ignore("not implemented")
   public void Document_addOneTrimToEmptyObjDocumentAtCursor_OneTrimIsAddedAtCursor()
       throws Exception {
-    Trim trim = statementFactory.createTrim();
-    trim.appendTrimmingCurve2DReference(
-        statementFactory.createCurve2DReference("1.4567", "-99.5463", "1"));
-    trim.appendTrimmingCurve2DReference(
-        statementFactory.createCurve2DReference("1.111", "2.22", "5"));
-    trim.appendTrimmingCurve2DReference(
-        statementFactory.createCurve2DReference("6.789", "0.543", "77"));
+    List<Curve2DReference> curve2DReferenceList = new ArrayList<>();
+    curve2DReferenceList.add(statementFactory.createCurve2DReference("1.4567", "-99.5463", "1"));
+    curve2DReferenceList.add(statementFactory.createCurve2DReference("1.111", "2.22", "5"));
+    curve2DReferenceList.add(statementFactory.createCurve2DReference("6.789", "0.543", "77"));
+    Trim trim = statementFactory.createTrim(curve2DReferenceList);
+
     objDocument.append(trim, cursor);
 
     assertEquals(trim, objDocument.peek(cursor));
@@ -458,13 +453,12 @@ public class DocumentViewStatementCreationAcceptanceTests {
   @Ignore("not implemented")
   public void Document_addOneHoleToEmptyObjDocumentAtCursor_OneHoleIsAddedAtCursor()
       throws Exception {
-    Hole hole = statementFactory.createHole();
-    hole.appendTrimmingCurve2DReference(
-        statementFactory.createCurve2DReference("3.333", "4.444", "22"));
-    hole.appendTrimmingCurve2DReference(
-        statementFactory.createCurve2DReference("-1.111", "-2.232", "3"));
-    hole.appendTrimmingCurve2DReference(
-        statementFactory.createCurve2DReference("4.78", "99.99", "11"));
+    List<Curve2DReference> curve2DReferenceList = new ArrayList<>();
+    curve2DReferenceList.add(statementFactory.createCurve2DReference("3.333", "4.444", "22"));
+    curve2DReferenceList.add(statementFactory.createCurve2DReference("-1.111", "-2.232", "3"));
+    curve2DReferenceList.add(statementFactory.createCurve2DReference("4.78", "99.99", "11"));
+    Hole hole = statementFactory.createHole(curve2DReferenceList);
+
     objDocument.append(hole, cursor);
 
     assertEquals(hole, objDocument.peek(cursor));
@@ -474,11 +468,12 @@ public class DocumentViewStatementCreationAcceptanceTests {
   @Ignore("not implemented")
   public void Document_addOneSpecialCurveToEmptyObjDocumentAtCursor_OneSpecialCurveIsAddedAtCursor()
       throws Exception {
-    SpecialCurve scrv = statementFactory.createSpecialCurve();
-    scrv.appendSpecialCurve2DReference(
-        statementFactory.createCurve2DReference("3.333", "4.444", "22"));
-    scrv.appendSpecialCurve2DReference(
-        statementFactory.createCurve2DReference("3.333", "4.444", "22"));
+
+    List<Curve2DReference> curve2DReferenceList = new ArrayList<>();
+    curve2DReferenceList.add(statementFactory.createCurve2DReference("3.333", "4.444", "22"));
+    curve2DReferenceList.add(statementFactory.createCurve2DReference("2.222", "1.111", "33"));
+    SpecialCurve scrv = statementFactory.createSpecialCurve(curve2DReferenceList);
+
     objDocument.append(scrv, cursor);
 
     assertEquals(scrv, objDocument.peek(cursor));
@@ -488,18 +483,15 @@ public class DocumentViewStatementCreationAcceptanceTests {
   @Ignore("not implemented")
   public void Document_addOneSpecialPointToEmptyObjDocumentAtCursor_OneSpecialPointIsAddedAtCursor()
       throws Exception {
-    SpecialPoint sp = statementFactory.createSpecialPoint();
     VertexReferenceGroupBuilder vertexReferenceGroupBuilder =
         statementFactory.createVertexReferenceGroupBuilder();
+    List<VertexReferenceGroup> vertexReferenceGroupList = new ArrayList<>();
+    vertexReferenceGroupList.add(vertexReferenceGroupBuilder.clear().paramVertexRef(1).build());
+    vertexReferenceGroupList.add(vertexReferenceGroupBuilder.clear().paramVertexRef(300).build());
+    vertexReferenceGroupList.add(vertexReferenceGroupBuilder.clear().paramVertexRef(6).build());
+    vertexReferenceGroupList.add(vertexReferenceGroupBuilder.clear().paramVertexRef(88).build());
+    SpecialPoint sp = statementFactory.createSpecialPoint(vertexReferenceGroupList);
 
-    sp.appendSpecialPointVertexReferenceGroup(
-        vertexReferenceGroupBuilder.clear().paramVertexRef(1).build());
-    sp.appendSpecialPointVertexReferenceGroup(
-        vertexReferenceGroupBuilder.clear().paramVertexRef(300).build());
-    sp.appendSpecialPointVertexReferenceGroup(
-        vertexReferenceGroupBuilder.clear().paramVertexRef(6).build());
-    sp.appendSpecialPointVertexReferenceGroup(
-        vertexReferenceGroupBuilder.clear().paramVertexRef(88).build());
 
     objDocument.append(sp, cursor);
 
@@ -535,9 +527,11 @@ public class DocumentViewStatementCreationAcceptanceTests {
   @Ignore("not implemented")
   public void Document_addOneGroupNameToEmptyObjDocumentAtCursor_OneGroupNameIsAddedAtCursor()
       throws Exception {
-    GroupNameList g = statementFactory.createGroupName();
-    g.appendGroupName("cube");
-    g.appendGroupName("top");
+    List<String> groupNameList = new ArrayList<>();
+    groupNameList.add("cube");
+    groupNameList.add("top");
+    GroupNameList g = statementFactory.createGroupName(groupNameList);
+
     objDocument.append(g, cursor);
 
     assertEquals(g, objDocument.peek(cursor));
@@ -621,9 +615,11 @@ public class DocumentViewStatementCreationAcceptanceTests {
     // TODO I have no idea if there is a file extension limitation or not. It does
     // not say in the
     // specification.
-    MapLib maplib = statementFactory.createMapLib();
-    maplib.appendMapLibFileName("library1.textures");
-    maplib.appendMapLibFileName("library2.textures");
+    List<String> mapLibFileNameList = new ArrayList<>();
+    mapLibFileNameList.add("library1.textures");
+    mapLibFileNameList.add("library2.textures");
+    MapLib maplib = statementFactory.createMapLib(mapLibFileNameList);
+
     objDocument.append(maplib, cursor);
 
     assertEquals(maplib, objDocument.peek(cursor));
@@ -656,9 +652,11 @@ public class DocumentViewStatementCreationAcceptanceTests {
     // TODO I have no idea if there is a file extension limitation or not. It does
     // not say in the
     // specification.
-    MaterialLib mtllib = statementFactory.createMaterialLib();
-    mtllib.appendMaterialLibFileName("library1.materials");
-    mtllib.appendMaterialLibFileName("library2.materials");
+    List<String> materialLibFileNameList = new ArrayList<>();
+    materialLibFileNameList.add("library1.materials");
+    materialLibFileNameList.add("library2.materials");
+    MaterialLib mtllib = statementFactory.createMaterialLib(materialLibFileNameList);
+
     objDocument.append(mtllib, cursor);
 
     assertEquals(mtllib, objDocument.peek(cursor));

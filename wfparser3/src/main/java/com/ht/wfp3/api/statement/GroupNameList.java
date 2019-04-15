@@ -21,9 +21,5 @@ import java.util.List;
  *
  */
 public interface GroupNameList extends Statement {
-
-  void appendGroupName(String groupName);
-
   List<String> getGroupNameList();
-
 }

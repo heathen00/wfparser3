@@ -23,8 +23,5 @@ import java.util.List;
  *
  */
 public interface Curve2D extends Statement {
-
-  void appendControlPointVertexReferenceGroup(VertexReferenceGroup referenceNumbers);
-
   List<VertexReferenceGroup> getControlPointVertexReferenceGroup();
 }

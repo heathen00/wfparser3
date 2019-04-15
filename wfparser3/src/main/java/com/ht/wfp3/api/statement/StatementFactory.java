@@ -19,7 +19,8 @@ public final class StatementFactory {
     return STATEMENT_FACTORY_SINGLETON;
   }
 
-  public GeoVertex createGeoVertex(BigDecimal xCoord, BigDecimal yCoord, BigDecimal zCoord, BigDecimal wCoord) {
+  public GeoVertex createGeoVertex(BigDecimal xCoord, BigDecimal yCoord, BigDecimal zCoord,
+      BigDecimal wCoord) {
     return new GeoVertexImp(xCoord, yCoord, zCoord, wCoord);
   }
 
@@ -70,7 +71,7 @@ public final class StatementFactory {
     return new VertexReferenceImp(vertexReference);
   }
 
-  public Point createPoint() {
+  public Point createPoint(List<VertexReferenceGroup> vertexReferenceGroupList) {
     return new PointImp();
   }
 
@@ -78,7 +79,7 @@ public final class StatementFactory {
     return new PointImp(point);
   }
 
-  public Line createLine() {
+  public Line createLine(List<VertexReferenceGroup> vertexReferenceGroupList) {
     return new LineImp();
   }
 
@@ -86,7 +87,7 @@ public final class StatementFactory {
     return new LineImp(line);
   }
 
-  public Face createFace() {
+  public Face createFace(List<VertexReferenceGroup> vertexReferenceGroupList) {
     return new FaceImp();
   }
 
@@ -94,7 +95,8 @@ public final class StatementFactory {
     return new FaceImp(face);
   }
 
-  public CurveOrSurfaceType createCurveOrSurface(boolean isRational, CurveOrSurfaceType.Key typeKey) {
+  public CurveOrSurfaceType createCurveOrSurface(boolean isRational,
+      CurveOrSurfaceType.Key typeKey) {
     return new CurveOrSurfaceTypeImp(isRational, typeKey);
   }
 
@@ -125,26 +127,28 @@ public final class StatementFactory {
     return null;
   }
 
-  public Curve createCurve(String startingParameterValue, String endingParameterValue) {
+  public Curve createCurve(String startingParameterValue, String endingParameterValue,
+      List<VertexReferenceGroup> vertexReferenceGroupList) {
     // TODO Auto-generated method stub
 
     return null;
   }
 
-  public Curve2D createCurve2D() {
+  public Curve2D createCurve2D(List<VertexReferenceGroup> vertexReferenceGroupList) {
     // TODO Auto-generated method stub
 
     return null;
   }
 
-  public Surface createSurface(String startingParameterValueUAxis, String endingParameterValueUAxis,
-      String startingParameterValueVAxis, String endingParameterValueVAxis) {
+  public Surface createSurface(BigDecimal startingParameterValueUAxis,
+      BigDecimal endingParameterValueUAxis, BigDecimal startingParameterValueVAxis,
+      BigDecimal endingParameterValueVAxis, List<VertexReferenceGroup> vertexReferenceGroupList) {
     // TODO Auto-generated method stub
 
     return null;
   }
 
-  public Call createCall(String fileName, boolean isFrameNumberRequired) {
+  public Call createCall(String fileName, boolean isFrameNumberRequired, List<Integer> arguments) {
     // TODO Auto-generated method stub
 
     return null;
@@ -156,13 +160,13 @@ public final class StatementFactory {
     return null;
   }
 
-  public Parm createParm(String axis) {
+  public Parm createParm(Parm.Axis axis, List<BigDecimal> parameterList) {
     // TODO Auto-generated method stub
 
     return null;
   }
 
-  public Trim createTrim() {
+  public Trim createTrim(List<Curve2DReference> curve2DReferenceList) {
     // TODO Auto-generated method stub
 
     return null;
@@ -175,19 +179,19 @@ public final class StatementFactory {
     return null;
   }
 
-  public Hole createHole() {
+  public Hole createHole(List<Curve2DReference> curve2DReferenceList) {
     // TODO Auto-generated method stub
 
     return null;
   }
 
-  public SpecialCurve createSpecialCurve() {
+  public SpecialCurve createSpecialCurve(List<Curve2DReference> curve2DReferenceList) {
     // TODO Auto-generated method stub
 
     return null;
   }
 
-  public SpecialPoint createSpecialPoint() {
+  public SpecialPoint createSpecialPoint(List<VertexReferenceGroup> vertexReferenceGroupList) {
     // TODO Auto-generated method stub
     return null;
   }
@@ -206,7 +210,7 @@ public final class StatementFactory {
     return null;
   }
 
-  public GroupNameList createGroupName() {
+  public GroupNameList createGroupName(List<String> groupNameList) {
     // TODO Auto-generated method stub
 
     return null;
@@ -254,7 +258,7 @@ public final class StatementFactory {
     return null;
   }
 
-  public MapLib createMapLib() {
+  public MapLib createMapLib(List<String> mapLibFileNameList) {
     // TODO Auto-generated method stub
 
     return null;
@@ -272,7 +276,7 @@ public final class StatementFactory {
     return null;
   }
 
-  public MaterialLib createMaterialLib() {
+  public MaterialLib createMaterialLib(List<String> materialLibFileNameList) {
     // TODO Auto-generated method stub
 
     return null;
@@ -327,7 +331,8 @@ public final class StatementFactory {
     return null;
   }
 
-  public SurfaceApproxCurvTechnique createCurvSurfaceApprox(String maxDist, String maxAngleInDegrees) {
+  public SurfaceApproxCurvTechnique createCurvSurfaceApprox(String maxDist,
+      String maxAngleInDegrees) {
     // TODO Auto-generated method stub
 
     return null;

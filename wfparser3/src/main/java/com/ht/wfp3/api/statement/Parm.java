@@ -33,9 +33,7 @@ public interface Parm extends Statement {
     U, V,
   }
 
-  List<BigDecimal> getParameterValues();
-
   Parm.Axis getAxis();
 
-  void appendParameterValue(BigDecimal parameterValue);
+  List<BigDecimal> getParameterValues();
 }

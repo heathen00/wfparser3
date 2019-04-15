@@ -2,9 +2,6 @@
 
 
 Rough list:
- * Fix API Definition: Replace non type safe String data members with type safe data members, as appropriate.
- * Fix API Definition: All Statement classes must be value objects, thus interfaces that have "append...()" type
-   methods must be replaced with an implementation that does not allow the Statement to be modified once instantiated.
  * Fix API Definition: Should any statements that use a file name use File instead of just a String?  Probably.
  * Fix API Definition: Similar to "IsCommentable", should there be a common interface for all interfaces that use
    VertexReferenceGroups?  It would help ensure that all the interfaces uses the same method definitions, if appropriate.
@@ -18,7 +15,7 @@ Rough list:
    conversion IF AND ONLY IF they provide some value such as handling conversion errors in a manner consistent with
    the rest of the system.
  * Fix API Definition: How to handle comments AND keep statements as value objects (i.e., unmodifiable??).
- * Fix API Definition: Ensure that VertexReference handling is consistent with things like CurvReference.
+ * Fix API Definition: Ensure that VertexReference handling is consistent with things like CurvReference and Comment.
  * Automated Testing: Complete the Document view creation acceptance tests.
  * Automated Testing: Complete the StatementFactory creation acceptance tests.
  * Automated Testing: Complete the Statement unit tests.  This might be difficult since you already have partial

@@ -20,8 +20,5 @@ import java.util.List;
  *
  */
 public interface SpecialPoint extends Statement {
-  void appendSpecialPointVertexReferenceGroup(
-      VertexReferenceGroup specialPointVertexReferenceGroup);
-
   List<VertexReferenceGroup> getSpecialPointsVertexReferenceGroup();
 }

@@ -50,6 +50,4 @@ public interface Call extends Statement {
   String getFileName();
 
   List<Integer> getArguments();
-
-  void appendArgument(Integer arg);
 }

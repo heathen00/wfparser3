@@ -32,7 +32,5 @@ public interface Curve extends Statement {
 
   BigDecimal getEndingParameterValue();
 
-  void appendControlPointVertexReferenceGroup(VertexReferenceGroup referenceNumbers);
-
   List<VertexReferenceGroup> getControlPointVertexReferenceGroup();
 }

@@ -14,10 +14,6 @@ abstract class StatementsUsingVertexReferencesImp extends StatementImp {
     vertexReferenceGroupList = new ArrayList<>();
   }
 
-  public void appendReferenceNumbers(VertexReferenceGroup referenceNumbers) {
-    vertexReferenceGroupList.add(statementFactory.copyVertexReferenceGroup(referenceNumbers));
-  }
-
   public List<VertexReferenceGroup> getReferenceNumbers() {
     return Collections.unmodifiableList(vertexReferenceGroupList);
   }

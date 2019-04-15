@@ -24,6 +24,4 @@ import java.util.List;
  */
 public interface MapLib extends Statement {
   List<String> getMapLibFileNameList();
-
-  void appendMapLibFileName(String string);
 }
