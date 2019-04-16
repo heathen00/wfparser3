@@ -1,7 +1,5 @@
 package com.ht.wfp3.api.statement;
 
-import java.util.List;
-
 /**
  * The Point Polygon element.
  * 
@@ -36,6 +34,6 @@ import java.util.List;
  * @author nickl
  *
  */
-public interface Point extends Statement {
-  List<VertexReferenceGroup> getReferenceNumbers();
+public interface Point extends Statement, UsesVertexReferenceGroups {
+
 }

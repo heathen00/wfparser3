@@ -1,7 +1,6 @@
 package com.ht.wfp3.api.statement;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 /**
  * The surface element free-form geometry.
@@ -44,7 +43,7 @@ import java.util.List;
  * @author nickl
  *
  */
-public interface Surface extends Statement {
+public interface Surface extends Statement, UsesVertexReferenceGroups {
   BigDecimal getStartingParameterValueUAxis();
 
   BigDecimal getEndingParameterValueUAxis();
@@ -52,6 +51,4 @@ public interface Surface extends Statement {
   BigDecimal getStartingParameterValueVAxis();
 
   BigDecimal getEndingParameterValueVAxis();
-
-  List<VertexReferenceGroup> getControlPointVertexReferenceGroup();
 }

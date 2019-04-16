@@ -1,7 +1,5 @@
 package com.ht.wfp3.api.statement;
 
-import java.util.List;
-
 /**
  * Special Curve free-form geometry body statement.
  * 
@@ -21,6 +19,5 @@ import java.util.List;
  * @author nickl
  *
  */
-public interface SpecialCurve extends Statement {
-  List<Curve2DReference> getSpecialCurve2DReferences();
+public interface SpecialCurve extends Statement, UsesCurv2DReferenceList {
 }

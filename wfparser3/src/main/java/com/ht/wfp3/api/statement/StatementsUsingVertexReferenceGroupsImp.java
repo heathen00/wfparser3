@@ -4,17 +4,18 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-abstract class StatementsUsingVertexReferencesImp extends StatementImp {
+abstract class StatementsUsingVertexReferenceGroupsImp extends StatementImp implements UsesVertexReferenceGroups {
   private StatementFactory statementFactory;
   private List<VertexReferenceGroup> vertexReferenceGroupList;
 
-  StatementsUsingVertexReferencesImp(String keyword, boolean canComment) {
+  StatementsUsingVertexReferenceGroupsImp(String keyword, boolean canComment) {
     super(keyword, canComment);
     statementFactory = StatementFactory.createStatementFactory();
     vertexReferenceGroupList = new ArrayList<>();
   }
-
-  public List<VertexReferenceGroup> getReferenceNumbers() {
+  
+  @Override
+  public List<VertexReferenceGroup> getVertexReferenceGroupList() {
     return Collections.unmodifiableList(vertexReferenceGroupList);
   }
 
@@ -44,7 +45,7 @@ abstract class StatementsUsingVertexReferencesImp extends StatementImp {
     if (getClass() != obj.getClass()) {
       return false;
     }
-    StatementsUsingVertexReferencesImp other = (StatementsUsingVertexReferencesImp) obj;
+    StatementsUsingVertexReferenceGroupsImp other = (StatementsUsingVertexReferenceGroupsImp) obj;
     if (vertexReferenceGroupList == null) {
       if (other.vertexReferenceGroupList != null) {
         return false;

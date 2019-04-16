@@ -1,7 +1,5 @@
 package com.ht.wfp3.api.statement;
 
-import java.util.List;
-
 /**
  * The hole free-form geometry body statement.
  * 
@@ -21,6 +19,6 @@ import java.util.List;
  * @author nickl
  *
  */
-public interface Hole extends Statement {
-  List<Curve2DReference> getTrimmingCurve2DReferences();
+public interface Hole extends Statement, UsesCurv2DReferenceList {
+
 }

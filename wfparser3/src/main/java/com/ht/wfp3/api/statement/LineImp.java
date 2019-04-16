@@ -1,6 +1,6 @@
 package com.ht.wfp3.api.statement;
 
-class LineImp extends StatementsUsingVertexReferencesImp implements Line {
+class LineImp extends StatementsUsingVertexReferenceGroupsImp implements Line {
   private static final String KEYWORD = "l";
   private static final boolean CAN_COMMENT = true;
 
@@ -10,7 +10,7 @@ class LineImp extends StatementsUsingVertexReferencesImp implements Line {
 
   LineImp(Line line) {
     this();
-    copyVertexReferenceGroupsInConstructor(line.getReferenceNumbers());
+    copyVertexReferenceGroupsInConstructor(line.getVertexReferenceGroupList());
   }
 
   @Override

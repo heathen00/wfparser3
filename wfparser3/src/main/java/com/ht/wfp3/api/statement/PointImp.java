@@ -1,6 +1,6 @@
 package com.ht.wfp3.api.statement;
 
-class PointImp extends StatementsUsingVertexReferencesImp implements Point {
+class PointImp extends StatementsUsingVertexReferenceGroupsImp implements Point {
   private static final String KEYWORD = "p";
   private static final boolean CAN_COMMENT = true;
 
@@ -10,7 +10,7 @@ class PointImp extends StatementsUsingVertexReferencesImp implements Point {
 
   PointImp(Point point) {
     this();
-    copyVertexReferenceGroupsInConstructor(point.getReferenceNumbers());
+    copyVertexReferenceGroupsInConstructor(point.getVertexReferenceGroupList());
   }
 
   @Override

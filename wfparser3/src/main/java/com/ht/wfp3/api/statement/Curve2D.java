@@ -1,7 +1,5 @@
 package com.ht.wfp3.api.statement;
 
-import java.util.List;
-
 /**
  * A Two Dimensional free form curve or surface.
  * 
@@ -22,6 +20,6 @@ import java.util.List;
  * @author nickl
  *
  */
-public interface Curve2D extends Statement {
-  List<VertexReferenceGroup> getControlPointVertexReferenceGroup();
+public interface Curve2D extends Statement, UsesVertexReferenceGroups {
+  
 }

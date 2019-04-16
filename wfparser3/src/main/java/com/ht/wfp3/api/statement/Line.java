@@ -1,7 +1,5 @@
 package com.ht.wfp3.api.statement;
 
-import java.util.List;
-
 /**
  * The Line Polygon element.
  * 
@@ -43,6 +41,6 @@ import java.util.List;
  * @author nickl
  *
  */
-public interface Line extends Statement {
-  List<VertexReferenceGroup> getReferenceNumbers();
+public interface Line extends Statement, UsesVertexReferenceGroups {
+
 }

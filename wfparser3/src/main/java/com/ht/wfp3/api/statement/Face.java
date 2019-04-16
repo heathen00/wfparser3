@@ -1,7 +1,5 @@
 package com.ht.wfp3.api.statement;
 
-import java.util.List;
-
 /**
  * The Face Polygon element.
  * 
@@ -59,6 +57,6 @@ import java.util.List;
  * @author nickl
  *
  */
-public interface Face extends Statement {
-  List<VertexReferenceGroup> getReferenceNumbers();
+public interface Face extends Statement, UsesVertexReferenceGroups {
+  
 }

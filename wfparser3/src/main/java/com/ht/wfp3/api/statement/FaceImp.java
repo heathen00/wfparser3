@@ -1,6 +1,6 @@
 package com.ht.wfp3.api.statement;
 
-class FaceImp extends StatementsUsingVertexReferencesImp implements Face {
+class FaceImp extends StatementsUsingVertexReferenceGroupsImp implements Face {
   private static final String KEYWORD = "f";
   private static final boolean CAN_COMMENT = true;
 
@@ -10,7 +10,7 @@ class FaceImp extends StatementsUsingVertexReferencesImp implements Face {
 
   FaceImp(Face face) {
     this();
-    copyVertexReferenceGroupsInConstructor(face.getReferenceNumbers());
+    copyVertexReferenceGroupsInConstructor(face.getVertexReferenceGroupList());
   }
 
   @Override

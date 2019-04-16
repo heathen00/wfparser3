@@ -2,11 +2,12 @@
 
 
 Rough list:
- * Fix API Definition:  All related to consistent handling of Comment/VertexReferenceGroup/Curve2DReference.
-     * Similar to "IsCommentable", should there be a common interface for all interfaces that use
-       VertexReferenceGroups?  It would help ensure that all the interfaces uses the same method definitions, if appropriate.
-     * How to handle comments AND keep statements as value objects (i.e., unmodifiable??).
-     * Ensure that VertexReference handling is consistent with things like CurvReference and Comment.
+ * Fix API Definition: After giving it some thought, it does not really make any sense for the Statement
+   objects to be commented themselves.  The comments make sense in the context of the document, but they
+   do not provide any additional semantic meaning to the statements that they comment from the perspective
+   of the machine.  The comments are solely for the consumption of the human readers.  So, from that
+   perspective, having comments as an attribute of statements makes no sense.  The comments are more of
+   an aspect of the document than the OBJ statements.
  * Fix API Definition: For the Curve and Surface Approx classes, it might make more sense to have the approximation
    technique as a "fully owned" (I forget the OO term) class of the *Approx parent classes and also remove the type
    parameter as it would be expressed in the owned class.  This implementation would likely require a cast unless

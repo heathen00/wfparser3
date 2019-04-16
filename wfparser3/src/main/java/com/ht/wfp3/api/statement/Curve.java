@@ -1,7 +1,6 @@
 package com.ht.wfp3.api.statement;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 /**
  * A 3D free-form curve.
@@ -26,11 +25,9 @@ import java.util.List;
  * @author nickl
  *
  */
-public interface Curve extends Statement {
+public interface Curve extends Statement, UsesVertexReferenceGroups {
 
   BigDecimal getStartingParameterValue();
 
   BigDecimal getEndingParameterValue();
-
-  List<VertexReferenceGroup> getControlPointVertexReferenceGroup();
 }
