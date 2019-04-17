@@ -11,16 +11,12 @@ import com.ht.wfp3.api.statement.Blank;
 import com.ht.wfp3.api.statement.Call;
 import com.ht.wfp3.api.statement.ColorInterpolation;
 import com.ht.wfp3.api.statement.Connect;
-import com.ht.wfp3.api.statement.CurveApproxCparmTechnique;
-import com.ht.wfp3.api.statement.SurfaceApproxCparmaTechnique;
-import com.ht.wfp3.api.statement.SurfaceApproxCparmbTechnique;
 import com.ht.wfp3.api.statement.Csh;
-import com.ht.wfp3.api.statement.CurveApproxCspaceTechnique;
-import com.ht.wfp3.api.statement.SurfaceApproxCspaceTechnique;
-import com.ht.wfp3.api.statement.CurveApproxCurvTechnique;
-import com.ht.wfp3.api.statement.SurfaceApproxCurvTechnique;
 import com.ht.wfp3.api.statement.Curve;
 import com.ht.wfp3.api.statement.Curve2D;
+import com.ht.wfp3.api.statement.CurveApproxCparmTechnique;
+import com.ht.wfp3.api.statement.CurveApproxCspaceTechnique;
+import com.ht.wfp3.api.statement.CurveApproxCurvTechnique;
 import com.ht.wfp3.api.statement.CurveOrSurfaceType;
 import com.ht.wfp3.api.statement.Degree;
 import com.ht.wfp3.api.statement.DissolveInterpolation;
@@ -48,6 +44,10 @@ import com.ht.wfp3.api.statement.Statement;
 import com.ht.wfp3.api.statement.StatementFactory;
 import com.ht.wfp3.api.statement.StepSize;
 import com.ht.wfp3.api.statement.Surface;
+import com.ht.wfp3.api.statement.SurfaceApproxCparmaTechnique;
+import com.ht.wfp3.api.statement.SurfaceApproxCparmbTechnique;
+import com.ht.wfp3.api.statement.SurfaceApproxCspaceTechnique;
+import com.ht.wfp3.api.statement.SurfaceApproxCurvTechnique;
 import com.ht.wfp3.api.statement.TexVertex;
 import com.ht.wfp3.api.statement.Trim;
 import com.ht.wfp3.api.statement.Unknown;
@@ -84,7 +84,8 @@ class DocumentImp implements Document {
   }
 
   private void addToDocumentStructure(Statement statement, Cursor cursor) {
-    DocumentLine documentLine = documentFactory.createObjDocumentLine(statement, documentFactory.createComment(null));
+    DocumentLine documentLine =
+        documentFactory.createObjDocumentLine(statement, documentFactory.createComment(null));
     linesMap.put(cursor.getLineNumber(), documentLine);
   }
 
@@ -114,11 +115,11 @@ class DocumentImp implements Document {
     guardAppendApis(geoVertex, cursor);
     addToDocumentStructure(statementFactory.copyGeoVertex(geoVertex), cursor);
   }
-  
+
   @Override
   public void append(GeoVertex geoVertex, String commentString, Cursor cursor) {
     // TODO Auto-generated method stub
-    
+
   }
 
   @Override
@@ -165,86 +166,86 @@ class DocumentImp implements Document {
 
   @Override
   public void append(Degree deg, Cursor cursor) {
-    // TODO Auto-generated method stub
-
+    guardAppendApis(deg, cursor);
+    addToDocumentStructure(statementFactory.copyDegree(deg), cursor);
   }
 
   @Override
   public void append(BasisMatrix bmat, Cursor cursor) {
-    // TODO Auto-generated method stub
-
+    guardAppendApis(bmat, cursor);
+    addToDocumentStructure(statementFactory.copyBasisMatrix(bmat), cursor);
   }
 
   @Override
   public void append(StepSize step, Cursor cursor) {
-    // TODO Auto-generated method stub
-
+    guardAppendApis(step, cursor);
+    addToDocumentStructure(statementFactory.copyStepSize(step), cursor);
   }
 
   @Override
   public void append(Curve curv, Cursor cursor) {
-    // TODO Auto-generated method stub
-
+    guardAppendApis(curv, cursor);
+    addToDocumentStructure(statementFactory.copyCurve(curv), cursor);
   }
 
   @Override
   public void append(Curve2D curv2, Cursor cursor) {
-    // TODO Auto-generated method stub
-
+    guardAppendApis(curv2, cursor);
+    addToDocumentStructure(statementFactory.copyCurve2D(curv2), cursor);
   }
 
   @Override
   public void append(Surface surf, Cursor cursor) {
-    // TODO Auto-generated method stub
-
+    guardAppendApis(surf, cursor);
+    addToDocumentStructure(statementFactory.copySurface(surf), cursor);
   }
 
   @Override
   public void append(Call call, Cursor cursor) {
-    // TODO Auto-generated method stub
-
+    guardAppendApis(call, cursor);
+    addToDocumentStructure(statementFactory.copyCall(call), cursor);
   }
 
   @Override
   public void append(Csh csh, Cursor cursor) {
-    // TODO Auto-generated method stub
-
+    guardAppendApis(csh, cursor);
+    addToDocumentStructure(statementFactory.copyCsh(csh), cursor);
   }
 
   @Override
   public void append(Parm parm, Cursor cursor) {
-    // TODO Auto-generated method stub
-
+    guardAppendApis(parm, cursor);
+    addToDocumentStructure(statementFactory.copyParm(parm), cursor);
   }
 
   @Override
   public void append(Trim trim, Cursor cursor) {
-    // TODO Auto-generated method stub
-
+    guardAppendApis(trim, cursor);
+    addToDocumentStructure(statementFactory.copyTrim(trim), cursor);
   }
 
   @Override
   public void append(Hole hole, Cursor cursor) {
-    // TODO Auto-generated method stub
-
+    guardAppendApis(hole, cursor);
+    addToDocumentStructure(statementFactory.copyHole(hole), cursor);
   }
 
   @Override
   public void append(SpecialCurve scrv, Cursor cursor) {
-    // TODO Auto-generated method stub
-
+    guardAppendApis(scrv, cursor);
+    addToDocumentStructure(statementFactory.copySpecialCurve(scrv), cursor);
   }
 
   @Override
   public void append(SpecialPoint sp, Cursor cursor) {
-    // TODO Auto-generated method stub
-
+    guardAppendApis(sp, cursor);
+    addToDocumentStructure(statementFactory.copySpecialPoint(sp), cursor);
   }
 
   @Override
   public void append(End end, Cursor cursor) {
-    // TODO Auto-generated method stub
-
+    guardAppendApis(end, cursor);
+    addToDocumentStructure(statementFactory.copyEnd(end), cursor);
   }
 
   @Override

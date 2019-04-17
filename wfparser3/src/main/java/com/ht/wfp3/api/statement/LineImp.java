@@ -1,15 +1,16 @@
 package com.ht.wfp3.api.statement;
 
+import java.util.List;
+
 class LineImp extends StatementsUsingVertexReferenceGroupsImp implements Line {
   private static final String KEYWORD = "l";
 
-  LineImp() {
-    super(KEYWORD);
+  LineImp(List<VertexReferenceGroup> vertexReferenceGroupList) {
+    super(KEYWORD, vertexReferenceGroupList);
   }
 
   LineImp(Line line) {
-    this();
-    copyVertexReferenceGroupsInConstructor(line.getVertexReferenceGroupList());
+    this(line.getVertexReferenceGroupList());
   }
 
   @Override

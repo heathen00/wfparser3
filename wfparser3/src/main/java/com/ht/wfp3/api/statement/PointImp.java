@@ -1,15 +1,16 @@
 package com.ht.wfp3.api.statement;
 
+import java.util.List;
+
 class PointImp extends StatementsUsingVertexReferenceGroupsImp implements Point {
   private static final String KEYWORD = "p";
 
-  PointImp() {
-    super(KEYWORD);
+  PointImp(List<VertexReferenceGroup> vertexReferenceGroupList) {
+    super(KEYWORD, vertexReferenceGroupList);
   }
 
   PointImp(Point point) {
-    this();
-    copyVertexReferenceGroupsInConstructor(point.getVertexReferenceGroupList());
+    this(point.getVertexReferenceGroupList());
   }
 
   @Override

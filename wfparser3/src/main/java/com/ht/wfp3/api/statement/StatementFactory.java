@@ -73,7 +73,7 @@ public final class StatementFactory {
   }
 
   public Point createPoint(List<VertexReferenceGroup> vertexReferenceGroupList) {
-    return new PointImp();
+    return new PointImp(vertexReferenceGroupList);
   }
 
   public Point copyPoint(Point point) {
@@ -81,7 +81,7 @@ public final class StatementFactory {
   }
 
   public Line createLine(List<VertexReferenceGroup> vertexReferenceGroupList) {
-    return new LineImp();
+    return new LineImp(vertexReferenceGroupList);
   }
 
   public Line copyLine(Line line) {
@@ -89,7 +89,7 @@ public final class StatementFactory {
   }
 
   public Face createFace(List<VertexReferenceGroup> vertexReferenceGroupList) {
-    return new FaceImp();
+    return new FaceImp(vertexReferenceGroupList);
   }
 
   public Face copyFace(Face face) {
@@ -101,106 +101,138 @@ public final class StatementFactory {
     return new CurveOrSurfaceTypeImp(isRational, typeKey);
   }
 
-  public Statement copyCurveOrSurfaceType(CurveOrSurfaceType cstype) {
+  public CurveOrSurfaceType copyCurveOrSurfaceType(CurveOrSurfaceType cstype) {
     return new CurveOrSurfaceTypeImp(cstype);
   }
 
   public Degree createDegree(Integer uAxisDegree, Integer vAxisDegree) {
-    // TODO Auto-generated method stub
+    return new DegreeImp(uAxisDegree, vAxisDegree);
+  }
 
-    return null;
+
+  public Degree copyDegree(Degree deg) {
+    return new DegreeImp(deg);
   }
 
   public MatrixBuilder createMatrixBuilder() {
-    // TODO Auto-generated method stub
-    return null;
+    return new MatrixBuilderImp();
   }
 
   public BasisMatrix createBasisMatrix(Axis axis, Matrix matrix) {
-    // TODO Auto-generated method stub
+    return new BasisMatrixImp(axis, matrix);
+  }
 
-    return null;
+  public BasisMatrix copyBasisMatrix(BasisMatrix bmat) {
+    return new BasisMatrixImp(bmat);
   }
 
   public StepSize createStepSize(Integer stepSizeInUAxis, Integer stepSizeInVAxis) {
-    // TODO Auto-generated method stub
+    return new StepSizeImp(stepSizeInUAxis, stepSizeInVAxis);
+  }
 
-    return null;
+  public StepSize copyStepSize(StepSize step) {
+    return new StepSizeImp(step);
   }
 
   public Curve createCurve(BigDecimal startingParameterValue, BigDecimal endingParameterValue,
       List<VertexReferenceGroup> vertexReferenceGroupList) {
-    // TODO Auto-generated method stub
+    return new CurveImp(startingParameterValue, endingParameterValue, vertexReferenceGroupList);
+  }
 
-    return null;
+  public Curve copyCurve(Curve curv) {
+    return new CurveImp(curv);
   }
 
   public Curve2D createCurve2D(List<VertexReferenceGroup> vertexReferenceGroupList) {
-    // TODO Auto-generated method stub
+    return new Curve2DImp(vertexReferenceGroupList);
+  }
 
-    return null;
+  public Curve2D copyCurve2D(Curve2D curv2) {
+    return new Curve2DImp(curv2);
   }
 
   public Surface createSurface(BigDecimal startingParameterValueUAxis,
       BigDecimal endingParameterValueUAxis, BigDecimal startingParameterValueVAxis,
       BigDecimal endingParameterValueVAxis, List<VertexReferenceGroup> vertexReferenceGroupList) {
-    // TODO Auto-generated method stub
-
-    return null;
+    return new SurfaceImp(startingParameterValueUAxis, endingParameterValueUAxis,
+        startingParameterValueVAxis, endingParameterValueVAxis, vertexReferenceGroupList);
   }
 
-  public Call createCall(Path fileName, boolean isFrameNumberRequired, List<Integer> arguments) {
-    // TODO Auto-generated method stub
-
-    return null;
+  public Surface copySurface(Surface surf) {
+    return new SurfaceImp(surf);
   }
 
-  public Csh createCsh(String ignoreError, String command) {
-    // TODO Auto-generated method stub
+  public Call createCall(boolean isFrameNumberRequired, Path fileName, List<Integer> arguments) {
+    return new CallImp(isFrameNumberRequired, fileName, arguments);
+  }
 
-    return null;
+  public Call copyCall(Call call) {
+    return new CallImp(call);
+  }
+
+  public Csh createCsh(boolean shouldIgnoreError, String command) {
+    return new CshImp(shouldIgnoreError, command);
+  }
+
+  public Csh copyCsh(Csh csh) {
+    return new CshImp(csh);
   }
 
   public Parm createParm(Parm.Axis axis, List<BigDecimal> parameterList) {
-    // TODO Auto-generated method stub
-
-    return null;
+    return new ParmImp(axis, parameterList);
   }
 
-  public Trim createTrim(List<Curve2DReference> curve2DReferenceList) {
-    // TODO Auto-generated method stub
-
-    return null;
+  public Parm copyParm(Parm parm) {
+    return new ParmImp(parm);
   }
 
   public Curve2DReference createCurve2DReference(BigDecimal startingParameterValue,
       BigDecimal endingParameterValue, Integer curve2DIndex) {
-    // TODO Auto-generated method stub
+    return new Curve2DReferenceImp(startingParameterValue, endingParameterValue, curve2DIndex);
+  }
 
-    return null;
+  public Curve2DReference copyCurve2DReference(Curve2DReference curve2DReference) {
+    return new Curve2DReferenceImp(curve2DReference);
+  }
+  
+  public Trim createTrim(List<Curve2DReference> curve2DReferenceList) {
+    return new TrimImp(curve2DReferenceList);
+  }
+  
+  public Trim copyTrim(Trim trim) {
+    return new TrimImp(trim);
   }
 
   public Hole createHole(List<Curve2DReference> curve2DReferenceList) {
-    // TODO Auto-generated method stub
-
-    return null;
+    return new HoleImp(curve2DReferenceList);
+  }
+  
+  public Hole copyHole(Hole hole) {
+    return new HoleImp(hole);
   }
 
   public SpecialCurve createSpecialCurve(List<Curve2DReference> curve2DReferenceList) {
-    // TODO Auto-generated method stub
-
-    return null;
+    return new SpecialCurveImp(curve2DReferenceList);
+  }
+  
+  public SpecialCurve copySpecialCurve(SpecialCurve scrv) {
+    return new SpecialCurveImp(scrv);
   }
 
   public SpecialPoint createSpecialPoint(List<VertexReferenceGroup> vertexReferenceGroupList) {
-    // TODO Auto-generated method stub
-    return null;
+    return new SpecialPointImp(vertexReferenceGroupList);
+  }
+  
+  public SpecialPoint copySpecialPoint(SpecialPoint sp) {
+    return new SpecialPointImp(sp);
   }
 
   public End createEnd() {
-    // TODO Auto-generated method stub
-
-    return null;
+    return EndImp.createEndImp();
+  }
+  
+  public End copyEnd(End end) {
+    return EndImp.createEndImp();
   }
 
   public Connect createConnect(Integer firstSurfaceIndex,
@@ -307,7 +339,8 @@ public final class StatementFactory {
     return null;
   }
 
-  public CurveApproxCurvTechnique createCurvCurveAprox(BigDecimal maxDist, BigDecimal maxAngleInDegrees) {
+  public CurveApproxCurvTechnique createCurvCurveAprox(BigDecimal maxDist,
+      BigDecimal maxAngleInDegrees) {
     // TODO Auto-generated method stub
 
     return null;

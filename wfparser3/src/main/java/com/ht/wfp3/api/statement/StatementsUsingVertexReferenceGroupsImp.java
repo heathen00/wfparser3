@@ -5,13 +5,14 @@ import java.util.Collections;
 import java.util.List;
 
 abstract class StatementsUsingVertexReferenceGroupsImp extends StatementImp implements UsesVertexReferenceGroups {
-  private StatementFactory statementFactory;
-  private List<VertexReferenceGroup> vertexReferenceGroupList;
+  private final StatementFactory statementFactory;
+  private final List<VertexReferenceGroup> vertexReferenceGroupList;
 
-  StatementsUsingVertexReferenceGroupsImp(String keyword) {
+  StatementsUsingVertexReferenceGroupsImp(String keyword, List<VertexReferenceGroup> vertexReferenceGroupList) {
     super(keyword);
     statementFactory = StatementFactory.createStatementFactory();
-    vertexReferenceGroupList = new ArrayList<>();
+    this.vertexReferenceGroupList = new ArrayList<>();
+    copyVertexReferenceGroupsInConstructor(vertexReferenceGroupList);
   }
   
   @Override
@@ -19,7 +20,7 @@ abstract class StatementsUsingVertexReferenceGroupsImp extends StatementImp impl
     return Collections.unmodifiableList(vertexReferenceGroupList);
   }
 
-  final void copyVertexReferenceGroupsInConstructor(List<VertexReferenceGroup> referenceNumbers) {
+  private void copyVertexReferenceGroupsInConstructor(List<VertexReferenceGroup> referenceNumbers) {
     for (VertexReferenceGroup vertexReferenceGroup : referenceNumbers) {
       vertexReferenceGroupList.add(statementFactory.copyVertexReferenceGroup(vertexReferenceGroup));
     }

@@ -1,15 +1,16 @@
 package com.ht.wfp3.api.statement;
 
+import java.util.List;
+
 class FaceImp extends StatementsUsingVertexReferenceGroupsImp implements Face {
   private static final String KEYWORD = "f";
 
-  FaceImp() {
-    super(KEYWORD);
+  FaceImp(List<VertexReferenceGroup> vertexReferenceGroupList) {
+    super(KEYWORD, vertexReferenceGroupList);
   }
 
   FaceImp(Face face) {
-    this();
-    copyVertexReferenceGroupsInConstructor(face.getVertexReferenceGroupList());
+    this(face.getVertexReferenceGroupList());
   }
 
   @Override

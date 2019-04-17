@@ -288,17 +288,15 @@ public class DocumentViewStatementCreationAcceptanceTests {
   }
 
   @Test
-  @Ignore("not implemented")
   public void Document_addOneDegreeToEmptyObjDocumentAtCursor_OneDegreeIsAddedAtCursor()
       throws Exception {
     Degree deg = statementFactory.createDegree(5, 6);
     objDocument.append(deg, cursor);
 
-    assertEquals(deg, objDocument.peek(cursor));
+    assertEquals(deg, objDocument.peek(cursor).getStatement());
   }
 
   @Test
-  @Ignore("not implemented")
   public void Document_addOneBasisMatrixToEmptyObjDocumentAtCursor_OneBasisMatrixIsAddedAtCursor()
       throws Exception {
 
@@ -315,21 +313,19 @@ public class DocumentViewStatementCreationAcceptanceTests {
         statementFactory.createBasisMatrix(BasisMatrix.Axis.U, matrixBuilder.build());
     objDocument.append(bmat, cursor);
 
-    assertEquals(bmat, objDocument.peek(cursor));
+    assertEquals(bmat, objDocument.peek(cursor).getStatement());
   }
 
   @Test
-  @Ignore("not implemented")
   public void Document_addOneStepToEmptyObjDocumentAtCursor_OneStepIsAddedAtCursor()
       throws Exception {
     StepSize step = statementFactory.createStepSize(7, 33);
     objDocument.append(step, cursor);
 
-    assertEquals(step, objDocument.peek(cursor));
+    assertEquals(step, objDocument.peek(cursor).getStatement());
   }
 
   @Test
-  @Ignore("not implemented")
   public void Document_addOneCurveToEmptyObjDocumentAtCursor_OneCurveIsAddedAtCursor()
       throws Exception {
     VertexReferenceGroupBuilder vertexReferenceGroupBuilder =
@@ -344,11 +340,10 @@ public class DocumentViewStatementCreationAcceptanceTests {
 
     objDocument.append(curv, cursor);
 
-    assertEquals(curv, objDocument.peek(cursor));
+    assertEquals(curv, objDocument.peek(cursor).getStatement());
   }
 
   @Test
-  @Ignore("not implemented")
   public void Document_addOneCurve2DToEmptyObjDocumentAtCursor_OneCurve2DIsAddedAtCursor()
       throws Exception {
     VertexReferenceGroupBuilder vertexReferenceGroupBuilder =
@@ -363,11 +358,10 @@ public class DocumentViewStatementCreationAcceptanceTests {
 
     objDocument.append(curv2, cursor);
 
-    assertEquals(curv2, objDocument.peek(cursor));
+    assertEquals(curv2, objDocument.peek(cursor).getStatement());
   }
 
   @Test
-  @Ignore("not implemented")
   public void Document_addOneSurfaceToEmptyObjDocumentAtCursor_OneSurfaceIsAddedAtCursor()
       throws Exception {
     VertexReferenceGroupBuilder vertexReferenceGroupBuilder =
@@ -387,36 +381,33 @@ public class DocumentViewStatementCreationAcceptanceTests {
 
     objDocument.append(surf, cursor);
 
-    assertEquals(surf, objDocument.peek(cursor));
+    assertEquals(surf, objDocument.peek(cursor).getStatement());
   }
 
   @Test
-  @Ignore("not implemented")
   public void Document_addOneCallToEmptyObjDocumentAtCursor_OneCallIsAddedAtCursor()
       throws Exception {
     List<Integer> arguments = new ArrayList<>();
     arguments.add(Integer.valueOf(3));
     arguments.add(Integer.valueOf(4));
     arguments.add(Integer.valueOf(78));
-    Call call = statementFactory.createCall(Paths.get("filename.obj"), true, arguments);
+    Call call = statementFactory.createCall(true, Paths.get("filename.obj"), arguments);
 
     objDocument.append(call, cursor);
 
-    assertEquals(call, objDocument.peek(cursor));
+    assertEquals(call, objDocument.peek(cursor).getStatement());
   }
 
   @Test
-  @Ignore("not implemented")
   public void Document_addOneCshToEmptyObjDocumentAtCursor_OneCshIsAddedAtCursor()
       throws Exception {
-    Csh csh = statementFactory.createCsh("-", "pwd");
+    Csh csh = statementFactory.createCsh(true, "pwd");
     objDocument.append(csh, cursor);
 
-    assertEquals(csh, objDocument.peek(cursor));
+    assertEquals(csh, objDocument.peek(cursor).getStatement());
   }
 
   @Test
-  @Ignore("not implemented")
   public void Document_addOneParmToEmptyObjDocumentAtCursor_OneParmIsAddedAtCursor()
       throws Exception {
 
@@ -429,11 +420,10 @@ public class DocumentViewStatementCreationAcceptanceTests {
 
     objDocument.append(parm, cursor);
 
-    assertEquals(parm, objDocument.peek(cursor));
+    assertEquals(parm, objDocument.peek(cursor).getStatement());
   }
 
   @Test
-  @Ignore("not implemented")
   public void Document_addOneTrimToEmptyObjDocumentAtCursor_OneTrimIsAddedAtCursor()
       throws Exception {
     List<Curve2DReference> curve2DReferenceList = new ArrayList<>();
@@ -447,11 +437,10 @@ public class DocumentViewStatementCreationAcceptanceTests {
 
     objDocument.append(trim, cursor);
 
-    assertEquals(trim, objDocument.peek(cursor));
+    assertEquals(trim, objDocument.peek(cursor).getStatement());
   }
 
   @Test
-  @Ignore("not implemented")
   public void Document_addOneHoleToEmptyObjDocumentAtCursor_OneHoleIsAddedAtCursor()
       throws Exception {
     List<Curve2DReference> curve2DReferenceList = new ArrayList<>();
@@ -465,11 +454,10 @@ public class DocumentViewStatementCreationAcceptanceTests {
 
     objDocument.append(hole, cursor);
 
-    assertEquals(hole, objDocument.peek(cursor));
+    assertEquals(hole, objDocument.peek(cursor).getStatement());
   }
 
   @Test
-  @Ignore("not implemented")
   public void Document_addOneSpecialCurveToEmptyObjDocumentAtCursor_OneSpecialCurveIsAddedAtCursor()
       throws Exception {
 
@@ -482,11 +470,10 @@ public class DocumentViewStatementCreationAcceptanceTests {
 
     objDocument.append(scrv, cursor);
 
-    assertEquals(scrv, objDocument.peek(cursor));
+    assertEquals(scrv, objDocument.peek(cursor).getStatement());
   }
 
   @Test
-  @Ignore("not implemented")
   public void Document_addOneSpecialPointToEmptyObjDocumentAtCursor_OneSpecialPointIsAddedAtCursor()
       throws Exception {
     VertexReferenceGroupBuilder vertexReferenceGroupBuilder =
@@ -498,20 +485,18 @@ public class DocumentViewStatementCreationAcceptanceTests {
     vertexReferenceGroupList.add(vertexReferenceGroupBuilder.clear().paramVertexRef(88).build());
     SpecialPoint sp = statementFactory.createSpecialPoint(vertexReferenceGroupList);
 
-
     objDocument.append(sp, cursor);
 
-    assertEquals(sp, objDocument.peek(cursor));
+    assertEquals(sp, objDocument.peek(cursor).getStatement());
   }
 
   @Test
-  @Ignore("not implemented")
   public void Document_addOneEndToEmptyObjDocumentAtCursor_OneEndIsAddedAtCursor()
       throws Exception {
     End end = statementFactory.createEnd();
     objDocument.append(end, cursor);
 
-    assertEquals(end, objDocument.peek(cursor));
+    assertEquals(end, objDocument.peek(cursor).getStatement());
   }
 
   @Test
