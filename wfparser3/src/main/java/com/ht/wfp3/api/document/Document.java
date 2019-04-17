@@ -6,16 +6,12 @@ import com.ht.wfp3.api.statement.Blank;
 import com.ht.wfp3.api.statement.Call;
 import com.ht.wfp3.api.statement.ColorInterpolation;
 import com.ht.wfp3.api.statement.Connect;
-import com.ht.wfp3.api.statement.CurveApproxCparmTechnique;
-import com.ht.wfp3.api.statement.SurfaceApproxCparmaTechnique;
-import com.ht.wfp3.api.statement.SurfaceApproxCparmbTechnique;
 import com.ht.wfp3.api.statement.Csh;
-import com.ht.wfp3.api.statement.CurveApproxCspaceTechnique;
-import com.ht.wfp3.api.statement.SurfaceApproxCspaceTechnique;
-import com.ht.wfp3.api.statement.CurveApproxCurvTechnique;
-import com.ht.wfp3.api.statement.SurfaceApproxCurvTechnique;
 import com.ht.wfp3.api.statement.Curve;
 import com.ht.wfp3.api.statement.Curve2D;
+import com.ht.wfp3.api.statement.CurveApproxCparmTechnique;
+import com.ht.wfp3.api.statement.CurveApproxCspaceTechnique;
+import com.ht.wfp3.api.statement.CurveApproxCurvTechnique;
 import com.ht.wfp3.api.statement.CurveOrSurfaceType;
 import com.ht.wfp3.api.statement.Degree;
 import com.ht.wfp3.api.statement.DissolveInterpolation;
@@ -39,9 +35,12 @@ import com.ht.wfp3.api.statement.ShadowObject;
 import com.ht.wfp3.api.statement.SmoothingGroup;
 import com.ht.wfp3.api.statement.SpecialCurve;
 import com.ht.wfp3.api.statement.SpecialPoint;
-import com.ht.wfp3.api.statement.Statement;
 import com.ht.wfp3.api.statement.StepSize;
 import com.ht.wfp3.api.statement.Surface;
+import com.ht.wfp3.api.statement.SurfaceApproxCparmaTechnique;
+import com.ht.wfp3.api.statement.SurfaceApproxCparmbTechnique;
+import com.ht.wfp3.api.statement.SurfaceApproxCspaceTechnique;
+import com.ht.wfp3.api.statement.SurfaceApproxCurvTechnique;
 import com.ht.wfp3.api.statement.TexVertex;
 import com.ht.wfp3.api.statement.Trim;
 import com.ht.wfp3.api.statement.Unknown;
@@ -65,9 +64,11 @@ public interface Document {
 
   Cursor createCursor();
 
-  Statement peek(Cursor cursor) throws EmptyDocumentException;
+  DocumentLine peek(Cursor cursor) throws EmptyDocumentException;
 
   void append(GeoVertex geoVertex, Cursor cursor);
+
+  void append(GeoVertex geoVertex, String commentString, Cursor cursor);
 
   void append(TexVertex texVertex, Cursor cursor);
 

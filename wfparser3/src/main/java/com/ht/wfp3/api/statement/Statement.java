@@ -7,9 +7,8 @@ package com.ht.wfp3.api.statement;
  * @author nickl
  *
  */
-public interface Statement extends SubStatement, Commentable {
-
-  boolean canComment();
+public interface Statement {
+  String getKeyword();
 
   boolean equals(Object object);
 

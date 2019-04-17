@@ -4,14 +4,13 @@ import java.math.BigDecimal;
 
 class ParamVertexImp extends StatementImp implements ParamVertex {
   private static final String KEYWORD = "vp";
-  private static final boolean CAN_COMMENT = true;
 
   private BigDecimal uCoord;
   private BigDecimal vCoord;
   private BigDecimal wCoord;
 
   ParamVertexImp(BigDecimal uCoord, BigDecimal vCoord, BigDecimal wCoord) {
-    super(KEYWORD, CAN_COMMENT);
+    super(KEYWORD);
     this.uCoord = uCoord;
     this.vCoord = vCoord;
     this.wCoord = wCoord;

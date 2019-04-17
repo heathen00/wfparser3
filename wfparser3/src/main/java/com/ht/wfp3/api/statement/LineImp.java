@@ -2,10 +2,9 @@ package com.ht.wfp3.api.statement;
 
 class LineImp extends StatementsUsingVertexReferenceGroupsImp implements Line {
   private static final String KEYWORD = "l";
-  private static final boolean CAN_COMMENT = true;
 
   LineImp() {
-    super(KEYWORD, CAN_COMMENT);
+    super(KEYWORD);
   }
 
   LineImp(Line line) {

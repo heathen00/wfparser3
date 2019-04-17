@@ -1,7 +1,7 @@
-package com.ht.wfp3.api.statement;
+package com.ht.wfp3.api.document;
 
 /**
- * The comment statement. Although the specification is somewhat ambiguous, it is assumed that
+ * The comment. Although the specification is somewhat ambiguous, it is assumed that
  * comments can actually appear anywhere, including trailing after any statement in the OBJ file or
  * alone on a blank line.
  * 
@@ -23,6 +23,6 @@ package com.ht.wfp3.api.statement;
  * @author nickl
  *
  */
-public interface Comment extends SubStatement {
+public interface Comment {
   String getCommentString();
 }

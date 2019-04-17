@@ -351,12 +351,6 @@ public final class StatementFactory {
     return null;
   }
 
-  public Comment createComment(String commentString) {
-    // TODO Auto-generated method stub
-
-    return null;
-  }
-
   public boolean isSupportedStatement(Statement statement) {
     return statement instanceof StatementImp;
   }

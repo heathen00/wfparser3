@@ -8,8 +8,8 @@ abstract class StatementsUsingVertexReferenceGroupsImp extends StatementImp impl
   private StatementFactory statementFactory;
   private List<VertexReferenceGroup> vertexReferenceGroupList;
 
-  StatementsUsingVertexReferenceGroupsImp(String keyword, boolean canComment) {
-    super(keyword, canComment);
+  StatementsUsingVertexReferenceGroupsImp(String keyword) {
+    super(keyword);
     statementFactory = StatementFactory.createStatementFactory();
     vertexReferenceGroupList = new ArrayList<>();
   }

@@ -4,14 +4,13 @@ import java.math.BigDecimal;
 
 class NormalVertexImp extends StatementImp implements NormalVertex {
   private static final String KEYWORD = "vn";
-  private static final boolean CAN_COMMENT = true;
 
   private BigDecimal iCoord;
   private BigDecimal jCoord;
   private BigDecimal kCoord;
 
   NormalVertexImp(BigDecimal iCoord, BigDecimal jCoord, BigDecimal kCoord) {
-    super(KEYWORD, CAN_COMMENT);
+    super(KEYWORD);
     this.iCoord = iCoord;
     this.jCoord = jCoord;
     this.kCoord = kCoord;

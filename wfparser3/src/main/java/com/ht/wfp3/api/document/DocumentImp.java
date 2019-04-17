@@ -55,12 +55,14 @@ import com.ht.wfp3.api.statement.UseMap;
 import com.ht.wfp3.api.statement.UseMaterial;
 
 class DocumentImp implements Document {
-  private StatementFactory statementFactory;
-  private List<CursorImp> cursorImpList;
-  private Map<Integer, Statement> linesMap;
+  private final StatementFactory statementFactory;
+  private final DocumentFactory documentFactory;
+  private final List<CursorImp> cursorImpList;
+  private final Map<Integer, DocumentLine> linesMap;
 
   DocumentImp() {
     statementFactory = StatementFactory.createStatementFactory();
+    documentFactory = DocumentFactory.createDocumentFactory();
     cursorImpList = new ArrayList<>();
     linesMap = new HashMap<>();
   }
@@ -82,7 +84,8 @@ class DocumentImp implements Document {
   }
 
   private void addToDocumentStructure(Statement statement, Cursor cursor) {
-    linesMap.put(cursor.getLineNumber(), statement);
+    DocumentLine documentLine = documentFactory.createObjDocumentLine(statement, documentFactory.createComment(null));
+    linesMap.put(cursor.getLineNumber(), documentLine);
   }
 
   @Override
@@ -93,7 +96,7 @@ class DocumentImp implements Document {
   }
 
   @Override
-  public Statement peek(Cursor cursor) throws EmptyDocumentException {
+  public DocumentLine peek(Cursor cursor) throws EmptyDocumentException {
     if (null == cursor) {
       throw new NullPointerException("cursor cannot be null.");
     }
@@ -110,6 +113,12 @@ class DocumentImp implements Document {
   public void append(GeoVertex geoVertex, Cursor cursor) {
     guardAppendApis(geoVertex, cursor);
     addToDocumentStructure(statementFactory.copyGeoVertex(geoVertex), cursor);
+  }
+  
+  @Override
+  public void append(GeoVertex geoVertex, String commentString, Cursor cursor) {
+    // TODO Auto-generated method stub
+    
   }
 
   @Override
@@ -402,5 +411,4 @@ class DocumentImp implements Document {
     // TODO Auto-generated method stub
     return -1;
   }
-
 }

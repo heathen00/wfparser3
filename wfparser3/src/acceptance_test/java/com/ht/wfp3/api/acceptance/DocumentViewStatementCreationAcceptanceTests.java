@@ -2,7 +2,6 @@ package com.ht.wfp3.api.acceptance;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 import java.math.BigDecimal;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -22,7 +21,6 @@ import com.ht.wfp3.api.statement.Bevel;
 import com.ht.wfp3.api.statement.Blank;
 import com.ht.wfp3.api.statement.Call;
 import com.ht.wfp3.api.statement.ColorInterpolation;
-import com.ht.wfp3.api.statement.Comment;
 import com.ht.wfp3.api.statement.Connect;
 import com.ht.wfp3.api.statement.Csh;
 import com.ht.wfp3.api.statement.Curve;
@@ -72,9 +70,6 @@ import com.ht.wfp3.api.statement.VertexReferenceGroup;
 import com.ht.wfp3.api.statement.VertexReferenceGroupBuilder;
 
 public class DocumentViewStatementCreationAcceptanceTests {
-
-  // TODO all error scenarios. Work on them as you work on success scenarios.
-
   private StatementFactory statementFactory;
 
   private VisibleDocumentImp objDocument;
@@ -183,7 +178,7 @@ public class DocumentViewStatementCreationAcceptanceTests {
         BigDecimal.valueOf(2.000), BigDecimal.valueOf(3.000), BigDecimal.valueOf(4.000));
     objDocument.append(geoVertex, cursor);
 
-    assertEquals(geoVertex, objDocument.peek(cursor));
+    assertEquals(geoVertex, objDocument.peek(cursor).getStatement());
     assertEquals(Integer.valueOf(1), objDocument.getNumberOfLines());
   }
 
@@ -195,7 +190,7 @@ public class DocumentViewStatementCreationAcceptanceTests {
 
     objDocument.append(texVertex, cursor);
 
-    assertEquals(texVertex, objDocument.peek(cursor));
+    assertEquals(texVertex, objDocument.peek(cursor).getStatement());
     assertEquals(Integer.valueOf(1), objDocument.getNumberOfLines());
   }
 
@@ -207,7 +202,7 @@ public class DocumentViewStatementCreationAcceptanceTests {
 
     objDocument.append(normalVertex, cursor);
 
-    assertEquals(normalVertex, objDocument.peek(cursor));
+    assertEquals(normalVertex, objDocument.peek(cursor).getStatement());
     assertEquals(Integer.valueOf(1), objDocument.getNumberOfLines());
   }
 
@@ -219,7 +214,7 @@ public class DocumentViewStatementCreationAcceptanceTests {
 
     objDocument.append(paramVertex, cursor);
 
-    assertEquals(paramVertex, objDocument.peek(cursor));
+    assertEquals(paramVertex, objDocument.peek(cursor).getStatement());
     assertEquals(Integer.valueOf(1), objDocument.getNumberOfLines());
   }
 
@@ -237,7 +232,7 @@ public class DocumentViewStatementCreationAcceptanceTests {
 
     objDocument.append(point, cursor);
 
-    assertEquals(point, objDocument.peek(cursor));
+    assertEquals(point, objDocument.peek(cursor).getStatement());
   }
 
   @Test
@@ -258,7 +253,7 @@ public class DocumentViewStatementCreationAcceptanceTests {
 
     objDocument.append(line, cursor);
 
-    assertEquals(line, objDocument.peek(cursor));
+    assertEquals(line, objDocument.peek(cursor).getStatement());
   }
 
   @Test
@@ -279,7 +274,7 @@ public class DocumentViewStatementCreationAcceptanceTests {
 
     objDocument.append(face, cursor);
 
-    assertEquals(face, objDocument.peek(cursor));
+    assertEquals(face, objDocument.peek(cursor).getStatement());
   }
 
   @Test
@@ -289,7 +284,7 @@ public class DocumentViewStatementCreationAcceptanceTests {
         statementFactory.createCurveOrSurface(true, CurveOrSurfaceType.Key.BMATRIX);
     objDocument.append(cstype, cursor);
 
-    assertEquals(cstype, objDocument.peek(cursor));
+    assertEquals(cstype, objDocument.peek(cursor).getStatement());
   }
 
   @Test
@@ -775,33 +770,21 @@ public class DocumentViewStatementCreationAcceptanceTests {
   @Ignore("not implemented")
   public void Document_addCommentedGeoVertexToEmptyObjDocumentAtCursor_OneCommentedGeoVertexIsAddedAtCursor()
       throws Exception {
-    GeoVertex v = statementFactory.createGeoVertex(BigDecimal.valueOf(1.0000),
-        BigDecimal.valueOf(2.0000), BigDecimal.valueOf(3.0000), BigDecimal.valueOf(4.0000));
-    if (v.canComment()) {
-      Comment comment = statementFactory.createComment(" This is a comment.");
-      v.setComment(comment);
-    }
-    objDocument.append(v, cursor);
+    GeoVertex geoVertex = statementFactory.createGeoVertex(BigDecimal.valueOf(1.234),
+        BigDecimal.valueOf(4321), BigDecimal.valueOf(567.89d), BigDecimal.valueOf(-123.45e23));
+    String commentString = "test comment string";
+    objDocument.append(geoVertex, commentString, cursor);
 
-    assertTrue(v.canComment());
-    assertEquals(v, objDocument.peek(cursor));
-    assertEquals(v.getComment(), ((GeoVertex) objDocument.peek(cursor)).getComment());
+    assertEquals(geoVertex, objDocument.peek(cursor).getStatement());
+    assertEquals(commentString, objDocument.peek(cursor).getComment().getCommentString());
   }
 
   @Test
   @Ignore("not implemented")
   public void Document_addCommmentedBlankToEmptyObjDocumentAtCursor_OneCommentedBlankIsAddedATCursor()
       throws Exception {
-    Blank blank = statementFactory.createBlank();
-    if (blank.canComment()) {
-      Comment comment = statementFactory.createComment(" This is a comment on a blank line.");
-      blank.setComment(comment);
-    }
-    objDocument.append(blank, cursor);
 
-    assertTrue(blank.canComment());
-    assertEquals(blank, objDocument.peek(cursor));
-    assertEquals(blank.getComment(), ((Blank) objDocument.peek(cursor)).getComment());
+
   }
 
   @Test

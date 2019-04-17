@@ -2,10 +2,9 @@ package com.ht.wfp3.api.statement;
 
 class FaceImp extends StatementsUsingVertexReferenceGroupsImp implements Face {
   private static final String KEYWORD = "f";
-  private static final boolean CAN_COMMENT = true;
 
   FaceImp() {
-    super(KEYWORD, CAN_COMMENT);
+    super(KEYWORD);
   }
 
   FaceImp(Face face) {

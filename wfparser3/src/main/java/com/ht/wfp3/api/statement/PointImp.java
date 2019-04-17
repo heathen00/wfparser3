@@ -2,10 +2,9 @@ package com.ht.wfp3.api.statement;
 
 class PointImp extends StatementsUsingVertexReferenceGroupsImp implements Point {
   private static final String KEYWORD = "p";
-  private static final boolean CAN_COMMENT = true;
 
   PointImp() {
-    super(KEYWORD, CAN_COMMENT);
+    super(KEYWORD);
   }
 
   PointImp(Point point) {
