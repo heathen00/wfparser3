@@ -500,7 +500,6 @@ public class DocumentViewStatementCreationAcceptanceTests {
   }
 
   @Test
-  @Ignore("not implemented")
   public void Document_addOneConnectToEmptyObjDocumentAtCursor_OneConnectIsAddedAtCursor()
       throws Exception {
     Curve2DReference curve2dReferenceForSurface3 = statementFactory
@@ -511,95 +510,86 @@ public class DocumentViewStatementCreationAcceptanceTests {
         curve2dReferenceForSurface4);
     objDocument.append(con, cursor);
 
-    assertEquals(con, objDocument.peek(cursor));
+    assertEquals(con, objDocument.peek(cursor).getStatement());
   }
 
   @Test
-  @Ignore("not implemented")
   public void Document_addOneGroupNameToEmptyObjDocumentAtCursor_OneGroupNameIsAddedAtCursor()
       throws Exception {
     List<String> groupNameList = new ArrayList<>();
     groupNameList.add("cube");
     groupNameList.add("top");
-    GroupNameList g = statementFactory.createGroupName(groupNameList);
+    GroupNameList g = statementFactory.createGroupNameList(groupNameList);
 
     objDocument.append(g, cursor);
 
-    assertEquals(g, objDocument.peek(cursor));
+    assertEquals(g, objDocument.peek(cursor).getStatement());
   }
 
   @Test
-  @Ignore("not implemented")
   public void Document_addOneSmoothingGroupToEmptyObjDocumentAtCursor_OneSmoothingGroupIsAddedAtCursor()
       throws Exception {
     SmoothingGroup s = statementFactory.createSmoothingGroup(3);
     objDocument.append(s, cursor);
 
-    assertEquals(s, objDocument.peek(cursor));
+    assertEquals(s, objDocument.peek(cursor).getStatement());
   }
 
   @Test
-  @Ignore("not implemented")
   public void Document_addMergingGroupToEmptyObjDocumentAtCursor_OneMergingGroupIsAddedAtCursor()
       throws Exception {
     MergingGroup mg = statementFactory.createMergingGroup(3, BigDecimal.valueOf(0.6));
     objDocument.append(mg, cursor);
 
-    assertEquals(mg, objDocument.peek(cursor));
+    assertEquals(mg, objDocument.peek(cursor).getStatement());
   }
 
   @Test
-  @Ignore("not implemented")
   public void Document_addObjectNameToEmptyObjDocumentAtCursor_OneObjectNameIsAddedAtCursor()
       throws Exception {
     ObjectName o = statementFactory.createObjectName("test_cube");
     objDocument.append(o, cursor);
 
-    assertEquals(o, objDocument.peek(cursor));
+    assertEquals(o, objDocument.peek(cursor).getStatement());
   }
 
   @Test
-  @Ignore("not implemented")
   public void Document_addOneBevelToEmptyObjDocumentAtCursor_OneBevelIsAddedAtCursor()
       throws Exception {
     Bevel bevel = statementFactory.createBevel(true);
     objDocument.append(bevel, cursor);
 
-    assertEquals(bevel, objDocument.peek(cursor));
+    assertEquals(bevel, objDocument.peek(cursor).getStatement());
   }
 
   @Test
-  @Ignore("not implemented")
   public void Document_addOneColorInterpolationToEmptyObjDocumentAtCursor_OneColorInterpolationIsAddedAtCursor()
       throws Exception {
     ColorInterpolation c_interp = statementFactory.createColorInterpolation(true);
     objDocument.append(c_interp, cursor);
 
-    assertEquals(c_interp, objDocument.peek(cursor));
+    assertEquals(c_interp, objDocument.peek(cursor).getStatement());
   }
 
   @Test
-  @Ignore("not implemented")
   public void Document_addOneDissolveInterpolationToEmptyObjDocumentAtCursor_OneDissolveInterpolationIsAddedAtCursor()
       throws Exception {
     DissolveInterpolation d_interp = statementFactory.createDissolveInterpolation(false);
     objDocument.append(d_interp, cursor);
 
-    assertEquals(d_interp, objDocument.peek(cursor));
+    assertEquals(d_interp, objDocument.peek(cursor).getStatement());
   }
 
   @Test
-  @Ignore("not implemented")
   public void Document_addOneLevelOfDetailToEmptyObjDocumentAtCursor_OneLevelOfDetailIsAddedAtCursor()
       throws Exception {
     LevelOfDetail lod = statementFactory.createLevelOfDetail(55);
     objDocument.append(lod, cursor);
 
-    assertEquals(lod, objDocument.peek(cursor));
+    assertEquals(lod, objDocument.peek(cursor).getStatement());
   }
 
   @Test
-  @Ignore("not implemented")
   public void Document_addOneMapLibToEmptyObjDocumentAtCursor_OneMapLibIsAddedAtCursor()
       throws Exception {
 
@@ -613,30 +603,28 @@ public class DocumentViewStatementCreationAcceptanceTests {
 
     objDocument.append(maplib, cursor);
 
-    assertEquals(maplib, objDocument.peek(cursor));
+    assertEquals(maplib, objDocument.peek(cursor).getStatement());
   }
 
   @Test
-  @Ignore("not implemented")
-  public void Document_addOneUseMapToEmptyObjDocumentAtCursor_OneUseMapIsAddedAtCursor() {
+  public void Document_addOneUseMapToEmptyObjDocumentAtCursor_OneUseMapIsAddedAtCursor()
+      throws Exception {
     UseMap usemap = statementFactory.createUseMap("test_map_name");
     objDocument.append(usemap, cursor);
 
-    assertEquals(usemap, cursor);
+    assertEquals(usemap, objDocument.peek(cursor).getStatement());
   }
 
   @Test
-  @Ignore("not implemented")
   public void Document_addOneUseMaterialToEmptyObjDocumentAtCursor_OneUseMaterialIsAddedAtCursor()
       throws Exception {
     UseMaterial usemtl = statementFactory.createUseMaterial("test_material");
     objDocument.append(usemtl, cursor);
 
-    assertEquals(usemtl, objDocument.peek(cursor));
+    assertEquals(usemtl, objDocument.peek(cursor).getStatement());
   }
 
   @Test
-  @Ignore("not implemented")
   public void Document_addOneMaterialLibToEmptyObjDocumentAtCursor_OneMaterialLibIsAddedAtCursor()
       throws Exception {
 
@@ -650,77 +638,71 @@ public class DocumentViewStatementCreationAcceptanceTests {
 
     objDocument.append(mtllib, cursor);
 
-    assertEquals(mtllib, objDocument.peek(cursor));
+    assertEquals(mtllib, objDocument.peek(cursor).getStatement());
   }
 
   @Test
-  @Ignore("not implemented")
   public void Document_addOneShadowObjectToEmptyObjDocumentAtCursor_OneShadowObjectIsAddedAtCursor()
       throws Exception {
     ShadowObject shadow_obj = statementFactory.createShadowObject(Paths.get("shadow.obj"));
     objDocument.append(shadow_obj, cursor);
 
-    assertEquals(shadow_obj, objDocument.peek(cursor));
+    assertEquals(shadow_obj, objDocument.peek(cursor).getStatement());
   }
 
   @Test
-  @Ignore("not implemented")
   public void Document_addOneRayTracingObjectToEmptyObjDocumentAtCursor_OneRayTracingObjectIsAddedAtCursor()
       throws Exception {
     RayTracingObject trace_obj =
         statementFactory.createRayTracingObject(Paths.get("ray_tracing.obj"));
     objDocument.append(trace_obj, cursor);
 
-    assertEquals(trace_obj, objDocument.peek(cursor));
+    assertEquals(trace_obj, objDocument.peek(cursor).getStatement());
   }
 
   @Test
-  @Ignore("not implemented")
-  public void Document_addOneCparmCurveApproxToEmptyObjDocumentAtCursor_OneCparmCurveApproxIsAddedAtCursor()
+  public void Document_addOneCurveApproxCparmTechniqueToEmptyObjDocumentAtCursor_OneCparmCurveApproxIsAddedAtCursor()
       throws Exception {
     CurveApproxCparmTechnique ctech =
         statementFactory.createCparmCurveApprox(BigDecimal.valueOf(2.3333));
     objDocument.append(ctech, cursor);
 
-    assertEquals(ctech, objDocument.peek(cursor));
+    assertEquals(ctech, objDocument.peek(cursor).getStatement());
   }
 
   @Test
-  @Ignore("not implemented")
-  public void Document_addOneCspaceCurveApproxToEmptyObjDocumentAtCursor_OneCspaceCurveApproxIsAddedAtCursor()
+  public void Document_addOneCurveApproxCspaceTechniqueToEmptyObjDocumentAtCursor_OneCspaceCurveApproxIsAddedAtCursor()
       throws Exception {
     CurveApproxCspaceTechnique ctech =
         statementFactory.createCspaceCurveApprox(BigDecimal.valueOf(1.56));
     objDocument.append(ctech, cursor);
 
-    assertEquals(ctech, objDocument.peek(cursor));
+    assertEquals(ctech, objDocument.peek(cursor).getStatement());
   }
 
   @Test
-  @Ignore("not implemented")
-  public void Document_addOneCurvCurveApproxToEmptyObjDocumentAtCursor_OneCurvCurveApproxIsAddedAtCursor()
+  public void Document_addOneCurveApproxCurvTechniqueToEmptyObjDocumentAtCursor_OneCurvCurveApproxIsAddedAtCursor()
       throws Exception {
     CurveApproxCurvTechnique ctech = statementFactory
         .createCurvCurveAprox(BigDecimal.valueOf(1.1876), BigDecimal.valueOf(93.45));
     objDocument.append(ctech, cursor);
 
-    assertEquals(ctech, objDocument.peek(cursor));
+    assertEquals(ctech, objDocument.peek(cursor).getStatement());
   }
 
   @Test
-  @Ignore("not implemented")
-  public void Document_addOneCparmaSurfaceApproxToEmptyObjDocumentAtCursor_OneCparmaSurfaceApproxIsAddedAtCursor()
+  public void Document_addOneSurfaceApproxCparmaTechniqueToEmptyObjDocumentAtCursor_OneCparmaSurfaceApproxIsAddedAtCursor()
       throws Exception {
     SurfaceApproxCparmaTechnique stech = statementFactory
         .createCparmaSurfaceApprox(BigDecimal.valueOf(1.234), BigDecimal.valueOf(3.333));
     objDocument.append(stech, cursor);
 
-    assertEquals(stech, objDocument.peek(cursor));
+    assertEquals(stech, objDocument.peek(cursor).getStatement());
   }
 
   @Test
   @Ignore("not implemented")
-  public void Document_addOneCparmbSurfaceApproxToEmptyObjDocumentAtCursor_OneCparmbSurfaceApproxIsAddedAtCursor()
+  public void Document_addOneSurfaceApproxCparmbTechniqueToEmptyObjDocumentAtCursor_OneCparmbSurfaceApproxIsAddedAtCursor()
       throws Exception {
     SurfaceApproxCparmbTechnique stech =
         statementFactory.createCparmbSurfaceApprox(BigDecimal.valueOf(5.678));
@@ -731,7 +713,7 @@ public class DocumentViewStatementCreationAcceptanceTests {
 
   @Test
   @Ignore("not implemented")
-  public void Document_addOneCspaceSurfaceApproxToEmptyObjDocumentAtCursor_OneCspaceSurfaceApproxIsAddedAtCursor()
+  public void Document_addOneSurfaceApproxCspaceTechniqueToEmptyObjDocumentAtCursor_OneCspaceSurfaceApproxIsAddedAtCursor()
       throws Exception {
     SurfaceApproxCspaceTechnique stech =
         statementFactory.createCspaceSurfaceApprox(BigDecimal.valueOf(1.11));
@@ -742,13 +724,34 @@ public class DocumentViewStatementCreationAcceptanceTests {
 
   @Test
   @Ignore("not implemented")
-  public void Document_addOneCurvSurfaceApproxToEmptyObjDocumentAtCursor_OneCurvSurfaceApproxIsAddedAtCursor()
+  public void Document_addOneSurfaceApproxCurvTechniqueToEmptyObjDocumentAtCursor_OneCurvSurfaceApproxIsAddedAtCursor()
       throws Exception {
     SurfaceApproxCurvTechnique stech = statementFactory
         .createCurvSurfaceApprox(BigDecimal.valueOf(1.5678), BigDecimal.valueOf(90.0));
     objDocument.append(stech, cursor);
 
     assertEquals(stech, objDocument.peek(cursor));
+  }
+  
+  @Test
+  @Ignore("not implemented")
+  public void Document_addOneBlankToEmptyObjDocumentAtCursor_OneBlankIsAddedAtCursor()
+      throws Exception {
+    Blank blank = statementFactory.createBlank();
+    objDocument.append(blank, cursor);
+
+    assertEquals(blank, objDocument.peek(cursor));
+  }
+
+  @Test
+  @Ignore("not implemented")
+  public void Document_addUnknownToEmptyObjDocumentAtCursor_OneUnknownIsAddedAtCursor()
+      throws Exception {
+    List<String> tokens = Arrays.asList("some", "unknown", "tokens");
+    Unknown unknown = statementFactory.createUnknown(tokens);
+    objDocument.append(unknown, cursor);
+
+    assertEquals(unknown, objDocument.peek(cursor));
   }
 
   @Test
@@ -770,26 +773,5 @@ public class DocumentViewStatementCreationAcceptanceTests {
       throws Exception {
 
 
-  }
-
-  @Test
-  @Ignore("not implemented")
-  public void Document_addOneBlankToEmptyObjDocumentAtCursor_OneBlankIsAddedAtCursor()
-      throws Exception {
-    Blank blank = statementFactory.createBlank();
-    objDocument.append(blank, cursor);
-
-    assertEquals(blank, objDocument.peek(cursor));
-  }
-
-  @Test
-  @Ignore("not implemented")
-  public void Document_addUnknownToEmptyObjDocumentAtCursor_OneUnknownIsAddedAtCursor()
-      throws Exception {
-    List<String> tokens = Arrays.asList("some", "unknown", "tokens");
-    Unknown unknown = statementFactory.createUnknown(tokens);
-    objDocument.append(unknown, cursor);
-
-    assertEquals(unknown, objDocument.peek(cursor));
   }
 }

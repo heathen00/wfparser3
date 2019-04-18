@@ -250,116 +250,116 @@ class DocumentImp implements Document {
 
   @Override
   public void append(Connect con, Cursor cursor) {
-    // TODO Auto-generated method stub
-
+    guardAppendApis(con, cursor);
+    addToDocumentStructure(statementFactory.copyConnect(con), cursor);
   }
 
   @Override
   public void append(GroupNameList g, Cursor cursor) {
-    // TODO Auto-generated method stub
-
+    guardAppendApis(g, cursor);
+    addToDocumentStructure(statementFactory.copyGroupNameList(g), cursor);
   }
 
   @Override
   public void append(SmoothingGroup s, Cursor cursor) {
-    // TODO Auto-generated method stub
-
+    guardAppendApis(s, cursor);
+    addToDocumentStructure(statementFactory.copySmoothingGroup(s), cursor);
   }
 
   @Override
   public void append(MergingGroup mg, Cursor cursor) {
-    // TODO Auto-generated method stub
-
+    guardAppendApis(mg, cursor);
+    addToDocumentStructure(statementFactory.copyMergingGroup(mg), cursor);
   }
 
   @Override
   public void append(ObjectName o, Cursor cursor) {
-    // TODO Auto-generated method stub
-
+    guardAppendApis(o, cursor);
+    addToDocumentStructure(statementFactory.copyObjectName(o), cursor);
   }
 
   @Override
   public void append(Bevel bevel, Cursor cursor) {
-    // TODO Auto-generated method stub
-
+    guardAppendApis(bevel, cursor);
+    addToDocumentStructure(statementFactory.copyBevel(bevel), cursor);
   }
 
   @Override
   public void append(ColorInterpolation c_interp, Cursor cursor) {
-    // TODO Auto-generated method stub
-
+    guardAppendApis(c_interp, cursor);
+    addToDocumentStructure(statementFactory.copyColorInterpolation(c_interp), cursor);
   }
 
   @Override
   public void append(DissolveInterpolation d_interp, Cursor cursor) {
-    // TODO Auto-generated method stub
-
+    guardAppendApis(d_interp, cursor);
+    addToDocumentStructure(statementFactory.copyDissolveInterpolation(d_interp), cursor);
   }
 
   @Override
   public void append(LevelOfDetail lod, Cursor cursor) {
-    // TODO Auto-generated method stub
-
+    guardAppendApis(lod, cursor);
+    addToDocumentStructure(statementFactory.copyLevelOfDetail(lod), cursor);
   }
 
   @Override
   public void append(MapLib maplib, Cursor cursor) {
-    // TODO Auto-generated method stub
-
+    guardAppendApis(maplib, cursor);
+    addToDocumentStructure(statementFactory.copyMapLib(maplib), cursor);
+  }
+  
+  @Override
+  public void append(UseMap usemap, Cursor cursor) {
+    guardAppendApis(usemap, cursor);
+    addToDocumentStructure(statementFactory.copyUseMap(usemap), cursor);
   }
 
   @Override
   public void append(UseMaterial usemtl, Cursor cursor) {
-    // TODO Auto-generated method stub
-
-  }
-
-  @Override
-  public void append(UseMap usemap, Cursor cursor) {
-    // TODO Auto-generated method stub
-
+    guardAppendApis(usemtl, cursor);
+    addToDocumentStructure(statementFactory.copyUseMaterial(usemtl), cursor);
   }
 
   @Override
   public void append(MaterialLib mtllib, Cursor cursor) {
-    // TODO Auto-generated method stub
-
+    guardAppendApis(mtllib, cursor);
+    addToDocumentStructure(statementFactory.copyMaterialLib(mtllib), cursor);
   }
 
   @Override
   public void append(ShadowObject shadow_obj, Cursor cursor) {
-    // TODO Auto-generated method stub
-
+    guardAppendApis(shadow_obj, cursor);
+    addToDocumentStructure(statementFactory.copyShadowObject(shadow_obj), cursor);
   }
 
   @Override
   public void append(RayTracingObject trace_obj, Cursor cursor) {
-    // TODO Auto-generated method stub
-
+    guardAppendApis(trace_obj, cursor);
+    addToDocumentStructure(statementFactory.copyRayTracingObject(trace_obj), cursor);
   }
 
   @Override
   public void append(CurveApproxCparmTechnique ctech, Cursor cursor) {
-    // TODO Auto-generated method stub
-
+    guardAppendApis(ctech, cursor);
+    addToDocumentStructure(statementFactory.copyCurveApproxCparmTechnique(ctech), cursor);
   }
 
   @Override
   public void append(CurveApproxCspaceTechnique ctech, Cursor cursor) {
-    // TODO Auto-generated method stub
-
+    guardAppendApis(ctech, cursor);
+    addToDocumentStructure(statementFactory.copyCurveApproxCspaceTechnique(ctech), cursor);
   }
 
   @Override
   public void append(CurveApproxCurvTechnique ctech, Cursor cursor) {
-    // TODO Auto-generated method stub
-
+    guardAppendApis(ctech, cursor);
+    addToDocumentStructure(statementFactory.copyCurveApproxCurvTechnique(ctech), cursor);
   }
 
   @Override
   public void append(SurfaceApproxCparmaTechnique stech, Cursor cursor) {
-    // TODO Auto-generated method stub
-
+    guardAppendApis(stech, cursor);
+    addToDocumentStructure(statementFactory.copySurfaceApproxCparmaTechnique(stech), cursor);
   }
 
   @Override

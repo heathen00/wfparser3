@@ -33,9 +33,9 @@ package com.ht.wfp3.api.statement;
 public interface Connect extends Statement {
   Integer getFirstSurfaceIndex();
 
-  Curve2DReference getCurve2DReferenceForFirstSurface();
+  Curve2DReference getFirstSurfaceCurve2DReference();
 
   Integer getSecondSurfaceIndex();
 
-  Curve2DReference getCurve2DReferenceForSecondSurface();
+  Curve2DReference getSecondSurfaceCurve2DReference();
 }

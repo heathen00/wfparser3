@@ -194,11 +194,11 @@ public final class StatementFactory {
   public Curve2DReference copyCurve2DReference(Curve2DReference curve2DReference) {
     return new Curve2DReferenceImp(curve2DReference);
   }
-  
+
   public Trim createTrim(List<Curve2DReference> curve2DReferenceList) {
     return new TrimImp(curve2DReferenceList);
   }
-  
+
   public Trim copyTrim(Trim trim) {
     return new TrimImp(trim);
   }
@@ -206,7 +206,7 @@ public final class StatementFactory {
   public Hole createHole(List<Curve2DReference> curve2DReferenceList) {
     return new HoleImp(curve2DReferenceList);
   }
-  
+
   public Hole copyHole(Hole hole) {
     return new HoleImp(hole);
   }
@@ -214,7 +214,7 @@ public final class StatementFactory {
   public SpecialCurve createSpecialCurve(List<Curve2DReference> curve2DReferenceList) {
     return new SpecialCurveImp(curve2DReferenceList);
   }
-  
+
   public SpecialCurve copySpecialCurve(SpecialCurve scrv) {
     return new SpecialCurveImp(scrv);
   }
@@ -222,7 +222,7 @@ public final class StatementFactory {
   public SpecialPoint createSpecialPoint(List<VertexReferenceGroup> vertexReferenceGroupList) {
     return new SpecialPointImp(vertexReferenceGroupList);
   }
-  
+
   public SpecialPoint copySpecialPoint(SpecialPoint sp) {
     return new SpecialPointImp(sp);
   }
@@ -230,127 +230,171 @@ public final class StatementFactory {
   public End createEnd() {
     return EndImp.createEndImp();
   }
-  
+
   public End copyEnd(End end) {
     return EndImp.createEndImp();
   }
 
   public Connect createConnect(Integer firstSurfaceIndex,
-      Curve2DReference curve2dReferenceForFirstSurface, Integer secondSurfaceIndex,
-      Curve2DReference curve2dReferenceForSecondSurface) {
-    // TODO Auto-generated method stub
-
-    return null;
+      Curve2DReference firstSurfaceCurve2dReference, Integer secondSurfaceIndex,
+      Curve2DReference secondSurfaceCurve2dReference) {
+    return new ConnectImp(firstSurfaceIndex, firstSurfaceCurve2dReference, secondSurfaceIndex,
+        secondSurfaceCurve2dReference);
   }
 
-  public GroupNameList createGroupName(List<String> groupNameList) {
-    // TODO Auto-generated method stub
+  public Connect copyConnect(Connect con) {
+    return new ConnectImp(con);
+  }
 
-    return null;
+  public GroupNameList createGroupNameList(List<String> groupNameList) {
+    return new GroupNameListImp(groupNameList);
+  }
+
+  public GroupNameList copyGroupNameList(GroupNameList g) {
+    return new GroupNameListImp(g);
   }
 
   public SmoothingGroup createSmoothingGroup(Integer groupNumberOrOff) {
-    // TODO Auto-generated method stub
+    boolean isEnabled = (groupNumberOrOff == 0 ? false : true);
+    return new SmoothingGroupImp(groupNumberOrOff);
+  }
 
-    return null;
+  public SmoothingGroup copySmoothingGroup(SmoothingGroup s) {
+    return new SmoothingGroupImp(s);
   }
 
   public MergingGroup createMergingGroup(Integer groupNumberOrOff, BigDecimal resolution) {
-    // TODO Auto-generated method stub
+    return new MergingGroupImp(groupNumberOrOff, resolution);
+  }
 
-    return null;
+  public MergingGroup copyMergingGroup(MergingGroup mg) {
+    return new MergingGroupImp(mg);
   }
 
   public ObjectName createObjectName(String objectName) {
-    // TODO Auto-generated method stub
+    return new ObjectNameImp(objectName);
+  }
 
-    return null;
+  public ObjectName copyObjectName(ObjectName o) {
+    return new ObjectNameImp(o);
   }
 
   public Bevel createBevel(boolean isEnabled) {
-    // TODO Auto-generated method stub
+    return new BevelImp(isEnabled);
+  }
 
-    return null;
+  public Bevel copyBevel(Bevel bevel) {
+    return new BevelImp(bevel);
   }
 
   public ColorInterpolation createColorInterpolation(boolean isEnabled) {
-    // TODO Auto-generated method stub
+    return new ColorInterpolationImp(isEnabled);
+  }
 
-    return null;
+  public ColorInterpolation copyColorInterpolation(ColorInterpolation c_interp) {
+    return new ColorInterpolationImp(c_interp);
   }
 
   public DissolveInterpolation createDissolveInterpolation(boolean isEnabled) {
-    // TODO Auto-generated method stub
+    return new DissolveInterpolationImp(isEnabled);
+  }
 
-    return null;
+  public DissolveInterpolation copyDissolveInterpolation(DissolveInterpolation d_interp) {
+    return new DissolveInterpolationImp(d_interp);
   }
 
   public LevelOfDetail createLevelOfDetail(Integer levelOfDetail) {
-    // TODO Auto-generated method stub
+    return new LevelOfDetailImp(levelOfDetail);
+  }
 
-    return null;
+  public LevelOfDetail copyLevelOfDetail(LevelOfDetail lod) {
+    return new LevelOfDetailImp(lod);
   }
 
   public MapLib createMapLib(List<Path> mapLibFileNameList) {
-    // TODO Auto-generated method stub
-
-    return null;
+    return new MapLibImp(mapLibFileNameList);
   }
 
-  public UseMaterial createUseMaterial(String materialName) {
-    // TODO Auto-generated method stub
-
-    return null;
+  public MapLib copyMapLib(MapLib maplib) {
+    return new MapLibImp(maplib);
   }
 
   public UseMap createUseMap(String mapNameOrOff) {
-    // TODO Auto-generated method stub
+    return new UseMapImp(mapNameOrOff);
+  }
 
-    return null;
+  public UseMap copyUseMap(UseMap usemap) {
+    return new UseMapImp(usemap);
+  }
+
+  public UseMaterial createUseMaterial(String materialName) {
+    return new UseMaterialImp(materialName);
+  }
+
+  public UseMaterial copyUseMaterial(UseMaterial usemtl) {
+    return new UseMaterialImp(usemtl);
   }
 
   public MaterialLib createMaterialLib(List<Path> materialLibFileNameList) {
-    // TODO Auto-generated method stub
+    return new MaterialLibImp(materialLibFileNameList);
+  }
 
-    return null;
+  public MaterialLib copyMaterialLib(MaterialLib mtllib) {
+    return new MaterialLibImp(mtllib);
   }
 
   public ShadowObject createShadowObject(Path shadowObjectFileName) {
-    // TODO Auto-generated method stub
+    return new ShadowObjectImp(shadowObjectFileName);
+  }
 
-    return null;
+  public ShadowObject copyShadowObject(ShadowObject shadow_obj) {
+    return new ShadowObjectImp(shadow_obj);
   }
 
   public RayTracingObject createRayTracingObject(Path rayTracingObjectFileName) {
-    // TODO Auto-generated method stub
+    return new RayTracingObjectImp(rayTracingObjectFileName);
+  }
 
-    return null;
+  public RayTracingObject copyRayTracingObject(RayTracingObject trace_obj) {
+    return new RayTracingObjectImp(trace_obj);
   }
 
   public CurveApproxCparmTechnique createCparmCurveApprox(BigDecimal resolution) {
-    // TODO Auto-generated method stub
+    return new CurveApproxCparmTechniqueImp(resolution);
+  }
 
-    return null;
+  public CurveApproxCparmTechnique copyCurveApproxCparmTechnique(
+      CurveApproxCparmTechnique curveApproxCparmTechnique) {
+    return new CurveApproxCparmTechniqueImp(curveApproxCparmTechnique);
   }
 
   public CurveApproxCspaceTechnique createCspaceCurveApprox(BigDecimal maxLength) {
-    // TODO Auto-generated method stub
-
-    return null;
+    return new CurveApproxCspaceTechniqueImp(maxLength);
   }
 
-  public CurveApproxCurvTechnique createCurvCurveAprox(BigDecimal maxDist,
-      BigDecimal maxAngleInDegrees) {
-    // TODO Auto-generated method stub
+  public CurveApproxCspaceTechnique copyCurveApproxCspaceTechnique(
+      CurveApproxCspaceTechnique curveApproxCspaceTechnique) {
+    return new CurveApproxCspaceTechniqueImp(curveApproxCspaceTechnique);
+  }
 
-    return null;
+  public CurveApproxCurvTechnique createCurvCurveAprox(BigDecimal maximumDististance,
+      BigDecimal maximumAngleInDegrees) {
+    return new CurveApproxCurvTechniqueImp(maximumDististance, maximumAngleInDegrees);
+  }
+
+  public CurveApproxCurvTechnique copyCurveApproxCurvTechnique(
+      CurveApproxCurvTechnique curveApproxCurvTechnique) {
+    return new CurveApproxCurvTechniqueImp(curveApproxCurvTechnique);
   }
 
   public SurfaceApproxCparmaTechnique createCparmaSurfaceApprox(BigDecimal resolutionForUAxis,
       BigDecimal resolutionForVAxis) {
-    // TODO Auto-generated method stub
+    return new SurfaceApproxCparmaTechniqueImp(resolutionForUAxis, resolutionForVAxis);
+  }
 
-    return null;
+  public SurfaceApproxCparmaTechnique copySurfaceApproxCparmaTechnique(
+      SurfaceApproxCparmaTechnique surfaceApproxCparmaTechnique) {
+    return new SurfaceApproxCparmaTechniqueImp(surfaceApproxCparmaTechnique);
   }
 
   public SurfaceApproxCparmbTechnique createCparmbSurfaceApprox(BigDecimal resolutionForUAndVAxes) {

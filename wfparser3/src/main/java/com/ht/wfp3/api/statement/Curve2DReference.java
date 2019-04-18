@@ -14,4 +14,8 @@ public interface Curve2DReference {
   BigDecimal getEndingParameterValue();
 
   Integer getCurve2DIndex();
+  
+  int hashCode();
+
+  boolean equals(Object obj);
 }
