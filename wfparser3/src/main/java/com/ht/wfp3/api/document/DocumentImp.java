@@ -307,7 +307,7 @@ class DocumentImp implements Document {
     guardAppendApis(maplib, cursor);
     addToDocumentStructure(statementFactory.copyMapLib(maplib), cursor);
   }
-  
+
   @Override
   public void append(UseMap usemap, Cursor cursor) {
     guardAppendApis(usemap, cursor);
@@ -364,20 +364,20 @@ class DocumentImp implements Document {
 
   @Override
   public void append(SurfaceApproxCparmbTechnique stech, Cursor cursor) {
-    // TODO Auto-generated method stub
-
+    guardAppendApis(stech, cursor);
+    addToDocumentStructure(statementFactory.copySurfaceApproxCparmbTechnique(stech), cursor);
   }
 
   @Override
   public void append(SurfaceApproxCspaceTechnique stech, Cursor cursor) {
-    // TODO Auto-generated method stub
-
+    guardAppendApis(stech, cursor);
+    addToDocumentStructure(statementFactory.copySurfaceApproxCspaceTechnique(stech), cursor);
   }
 
   @Override
   public void append(SurfaceApproxCurvTechnique stech, Cursor cursor) {
-    // TODO Auto-generated method stub
-
+    guardAppendApis(stech, cursor);
+    addToDocumentStructure(statementFactory.copySurfaceApproxCurvTechnique(stech), cursor);
   }
 
   @Override

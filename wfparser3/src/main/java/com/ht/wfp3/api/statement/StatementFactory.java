@@ -359,7 +359,7 @@ public final class StatementFactory {
     return new RayTracingObjectImp(trace_obj);
   }
 
-  public CurveApproxCparmTechnique createCparmCurveApprox(BigDecimal resolution) {
+  public CurveApproxCparmTechnique createCurveApproxCparmTechnique(BigDecimal resolution) {
     return new CurveApproxCparmTechniqueImp(resolution);
   }
 
@@ -368,7 +368,7 @@ public final class StatementFactory {
     return new CurveApproxCparmTechniqueImp(curveApproxCparmTechnique);
   }
 
-  public CurveApproxCspaceTechnique createCspaceCurveApprox(BigDecimal maxLength) {
+  public CurveApproxCspaceTechnique createCurveApproxCspaceTechnique(BigDecimal maxLength) {
     return new CurveApproxCspaceTechniqueImp(maxLength);
   }
 
@@ -377,7 +377,7 @@ public final class StatementFactory {
     return new CurveApproxCspaceTechniqueImp(curveApproxCspaceTechnique);
   }
 
-  public CurveApproxCurvTechnique createCurvCurveAprox(BigDecimal maximumDististance,
+  public CurveApproxCurvTechnique createCurveAproxCurvTechnique(BigDecimal maximumDististance,
       BigDecimal maximumAngleInDegrees) {
     return new CurveApproxCurvTechniqueImp(maximumDististance, maximumAngleInDegrees);
   }
@@ -387,8 +387,8 @@ public final class StatementFactory {
     return new CurveApproxCurvTechniqueImp(curveApproxCurvTechnique);
   }
 
-  public SurfaceApproxCparmaTechnique createCparmaSurfaceApprox(BigDecimal resolutionForUAxis,
-      BigDecimal resolutionForVAxis) {
+  public SurfaceApproxCparmaTechnique createSurfaceApproxCparmaTechnique(
+      BigDecimal resolutionForUAxis, BigDecimal resolutionForVAxis) {
     return new SurfaceApproxCparmaTechniqueImp(resolutionForUAxis, resolutionForVAxis);
   }
 
@@ -397,23 +397,31 @@ public final class StatementFactory {
     return new SurfaceApproxCparmaTechniqueImp(surfaceApproxCparmaTechnique);
   }
 
-  public SurfaceApproxCparmbTechnique createCparmbSurfaceApprox(BigDecimal resolutionForUAndVAxes) {
-    // TODO Auto-generated method stub
-
-    return null;
+  public SurfaceApproxCparmbTechnique createSurfaceApproxCparmbTechnique(
+      BigDecimal resolutionForUAndVAxes) {
+    return new SurfaceApproxCparmbTechniqueImp(resolutionForUAndVAxes);
   }
 
-  public SurfaceApproxCspaceTechnique createCspaceSurfaceApprox(BigDecimal maxLength) {
-    // TODO Auto-generated method stub
-
-    return null;
+  public SurfaceApproxCparmbTechnique copySurfaceApproxCparmbTechnique(
+      SurfaceApproxCparmbTechnique surfaceApproxCparmbTechnique) {
+    return new SurfaceApproxCparmbTechniqueImp(surfaceApproxCparmbTechnique);
   }
 
-  public SurfaceApproxCurvTechnique createCurvSurfaceApprox(BigDecimal maxDist,
+  public SurfaceApproxCspaceTechnique createSurfaceApproxCspaceTechnique(BigDecimal maxLength) {
+    return new SurfaceApproxCspaceTechniqueImp(maxLength);
+  }
+  
+  public SurfaceApproxCspaceTechnique copySurfaceApproxCspaceTechnique(SurfaceApproxCspaceTechnique surfaceApproxCspaceTechnique) {
+    return new SurfaceApproxCspaceTechniqueImp(surfaceApproxCspaceTechnique);
+  }
+
+  public SurfaceApproxCurvTechnique createSurfaceApproxCurvTechnique(BigDecimal maxDistance,
       BigDecimal maxAngleInDegrees) {
-    // TODO Auto-generated method stub
-
-    return null;
+    return new SurfaceApproxCurvTechniqueImp(maxDistance, maxAngleInDegrees);
+  }
+  
+  public SurfaceApproxCurvTechnique copySurfaceApproxCurvTechnique(SurfaceApproxCurvTechnique surfaceApproxCurvTechnique) {
+    return new SurfaceApproxCurvTechniqueImp(surfaceApproxCurvTechnique);
   }
 
   public Blank createBlank() {

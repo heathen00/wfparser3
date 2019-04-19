@@ -664,7 +664,7 @@ public class DocumentViewStatementCreationAcceptanceTests {
   public void Document_addOneCurveApproxCparmTechniqueToEmptyObjDocumentAtCursor_OneCparmCurveApproxIsAddedAtCursor()
       throws Exception {
     CurveApproxCparmTechnique ctech =
-        statementFactory.createCparmCurveApprox(BigDecimal.valueOf(2.3333));
+        statementFactory.createCurveApproxCparmTechnique(BigDecimal.valueOf(2.3333));
     objDocument.append(ctech, cursor);
 
     assertEquals(ctech, objDocument.peek(cursor).getStatement());
@@ -674,7 +674,7 @@ public class DocumentViewStatementCreationAcceptanceTests {
   public void Document_addOneCurveApproxCspaceTechniqueToEmptyObjDocumentAtCursor_OneCspaceCurveApproxIsAddedAtCursor()
       throws Exception {
     CurveApproxCspaceTechnique ctech =
-        statementFactory.createCspaceCurveApprox(BigDecimal.valueOf(1.56));
+        statementFactory.createCurveApproxCspaceTechnique(BigDecimal.valueOf(1.56));
     objDocument.append(ctech, cursor);
 
     assertEquals(ctech, objDocument.peek(cursor).getStatement());
@@ -684,7 +684,7 @@ public class DocumentViewStatementCreationAcceptanceTests {
   public void Document_addOneCurveApproxCurvTechniqueToEmptyObjDocumentAtCursor_OneCurvCurveApproxIsAddedAtCursor()
       throws Exception {
     CurveApproxCurvTechnique ctech = statementFactory
-        .createCurvCurveAprox(BigDecimal.valueOf(1.1876), BigDecimal.valueOf(93.45));
+        .createCurveAproxCurvTechnique(BigDecimal.valueOf(1.1876), BigDecimal.valueOf(93.45));
     objDocument.append(ctech, cursor);
 
     assertEquals(ctech, objDocument.peek(cursor).getStatement());
@@ -694,43 +694,40 @@ public class DocumentViewStatementCreationAcceptanceTests {
   public void Document_addOneSurfaceApproxCparmaTechniqueToEmptyObjDocumentAtCursor_OneCparmaSurfaceApproxIsAddedAtCursor()
       throws Exception {
     SurfaceApproxCparmaTechnique stech = statementFactory
-        .createCparmaSurfaceApprox(BigDecimal.valueOf(1.234), BigDecimal.valueOf(3.333));
+        .createSurfaceApproxCparmaTechnique(BigDecimal.valueOf(1.234), BigDecimal.valueOf(3.333));
     objDocument.append(stech, cursor);
 
     assertEquals(stech, objDocument.peek(cursor).getStatement());
   }
 
   @Test
-  @Ignore("not implemented")
   public void Document_addOneSurfaceApproxCparmbTechniqueToEmptyObjDocumentAtCursor_OneCparmbSurfaceApproxIsAddedAtCursor()
       throws Exception {
     SurfaceApproxCparmbTechnique stech =
-        statementFactory.createCparmbSurfaceApprox(BigDecimal.valueOf(5.678));
+        statementFactory.createSurfaceApproxCparmbTechnique(BigDecimal.valueOf(5.678));
     objDocument.append(stech, cursor);
 
-    assertEquals(stech, objDocument.peek(cursor));
+    assertEquals(stech, objDocument.peek(cursor).getStatement());
   }
 
   @Test
-  @Ignore("not implemented")
   public void Document_addOneSurfaceApproxCspaceTechniqueToEmptyObjDocumentAtCursor_OneCspaceSurfaceApproxIsAddedAtCursor()
       throws Exception {
     SurfaceApproxCspaceTechnique stech =
-        statementFactory.createCspaceSurfaceApprox(BigDecimal.valueOf(1.11));
+        statementFactory.createSurfaceApproxCspaceTechnique(BigDecimal.valueOf(1.11));
     objDocument.append(stech, cursor);
 
-    assertEquals(stech, objDocument.peek(cursor));
+    assertEquals(stech, objDocument.peek(cursor).getStatement());
   }
 
   @Test
-  @Ignore("not implemented")
   public void Document_addOneSurfaceApproxCurvTechniqueToEmptyObjDocumentAtCursor_OneCurvSurfaceApproxIsAddedAtCursor()
       throws Exception {
     SurfaceApproxCurvTechnique stech = statementFactory
-        .createCurvSurfaceApprox(BigDecimal.valueOf(1.5678), BigDecimal.valueOf(90.0));
+        .createSurfaceApproxCurvTechnique(BigDecimal.valueOf(1.5678), BigDecimal.valueOf(90.0));
     objDocument.append(stech, cursor);
 
-    assertEquals(stech, objDocument.peek(cursor));
+    assertEquals(stech, objDocument.peek(cursor).getStatement());
   }
   
   @Test

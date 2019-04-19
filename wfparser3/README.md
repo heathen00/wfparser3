@@ -3,7 +3,7 @@
 
 Rough list:
  * Automated Testing: Complete the Document view creation acceptance tests.
- * Automated Testing: Review the completed view creatoin acceptance tests since some refactoring is required.
+ * Automated Testing: Review the completed view creation acceptance tests since some refactoring is required.
  * Automated Testing: Complete the StatementFactory creation acceptance tests.
  * Automated Testing: Complete the Statement unit tests.  This might be difficult since you already have partial
    solutions in place due to defining the API which are likely incorrect since they have no unit tests associated
