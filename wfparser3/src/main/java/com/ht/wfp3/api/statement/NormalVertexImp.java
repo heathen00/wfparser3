@@ -5,9 +5,9 @@ import java.math.BigDecimal;
 class NormalVertexImp extends StatementImp implements NormalVertex {
   private static final String KEYWORD = "vn";
 
-  private BigDecimal iCoord;
-  private BigDecimal jCoord;
-  private BigDecimal kCoord;
+  private final BigDecimal iCoord;
+  private final BigDecimal jCoord;
+  private final BigDecimal kCoord;
 
   NormalVertexImp(BigDecimal iCoord, BigDecimal jCoord, BigDecimal kCoord) {
     super(KEYWORD);

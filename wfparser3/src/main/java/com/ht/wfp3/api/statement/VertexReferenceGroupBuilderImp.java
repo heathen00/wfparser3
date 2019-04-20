@@ -2,7 +2,7 @@ package com.ht.wfp3.api.statement;
 
 import com.ht.wfp3.api.statement.VertexReference.Type;
 
-public final class VertexReferenceGroupBuilderImp implements VertexReferenceGroupBuilder {
+class VertexReferenceGroupBuilderImp implements VertexReferenceGroupBuilder {
   private StatementFactory statementFactory;
   private Integer geometricVertexReferenceNumber;
   private Integer textureVertexReferenceNumber;

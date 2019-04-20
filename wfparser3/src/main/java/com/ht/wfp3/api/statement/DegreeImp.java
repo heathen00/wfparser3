@@ -2,9 +2,10 @@ package com.ht.wfp3.api.statement;
 
 class DegreeImp extends StatementImp implements Degree {
   private static final String KEYWORD = "deg";
+
   private final Integer uAxisDegree;
   private final Integer vAxisDegree;
-  
+
   DegreeImp(Integer uAxisDegree, Integer vAxisDegree) {
     super(KEYWORD);
     this.uAxisDegree = uAxisDegree;

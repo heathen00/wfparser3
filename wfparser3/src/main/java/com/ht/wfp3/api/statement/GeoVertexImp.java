@@ -5,10 +5,10 @@ import java.math.BigDecimal;
 class GeoVertexImp extends StatementImp implements GeoVertex {
   private static final String KEYWORD = "v";
 
-  private BigDecimal xCoord;
-  private BigDecimal yCoord;
-  private BigDecimal zCoord;
-  private BigDecimal wCoord;
+  private final BigDecimal xCoord;
+  private final BigDecimal yCoord;
+  private final BigDecimal zCoord;
+  private final BigDecimal wCoord;
 
   GeoVertexImp(BigDecimal xCoord, BigDecimal yCoord, BigDecimal zCoord, BigDecimal wCoord) {
     super(KEYWORD);

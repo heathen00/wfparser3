@@ -9,7 +9,7 @@ class SpecialCurveImp extends StatementsUsingCurve2DReferenceListImp implements 
     super(KEYWORD, curve2DReferenceList);
   }
   
-  public SpecialCurveImp(SpecialCurve scrv) {
+  SpecialCurveImp(SpecialCurve scrv) {
     this(scrv.getCurve2DReferenceList());
   }
 }

@@ -64,6 +64,6 @@ class SurfaceApproxCparmaTechniqueImp extends SurfaceApproxImp
   @Override
   public String toString() {
     return "SurfaceApproxCparmaTechniqueImp [resolutionForUAxis=" + resolutionForUAxis
-        + ", resolutionForVAxis=" + resolutionForVAxis + ", toString()=" + super.toString() + "]";
+        + ", resolutionForVAxis=" + resolutionForVAxis + ", super.toString()=" + super.toString() + "]";
   }
 }

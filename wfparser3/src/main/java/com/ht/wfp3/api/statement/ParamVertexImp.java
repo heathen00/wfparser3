@@ -5,9 +5,9 @@ import java.math.BigDecimal;
 class ParamVertexImp extends StatementImp implements ParamVertex {
   private static final String KEYWORD = "vp";
 
-  private BigDecimal uCoord;
-  private BigDecimal vCoord;
-  private BigDecimal wCoord;
+  private final BigDecimal uCoord;
+  private final BigDecimal vCoord;
+  private final BigDecimal wCoord;
 
   ParamVertexImp(BigDecimal uCoord, BigDecimal vCoord, BigDecimal wCoord) {
     super(KEYWORD);

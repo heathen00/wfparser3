@@ -3,7 +3,7 @@ package com.ht.wfp3.api.statement;
 abstract class SurfaceApproxImp extends StatementImp implements SurfaceApprox {
   private static final String KEYWORD = "stech";
   
-  private SurfaceApprox.Technique surfaceApproxmationTechnique;
+  private final SurfaceApprox.Technique surfaceApproxmationTechnique;
   
   SurfaceApproxImp(SurfaceApprox.Technique surfaceApproximationTechnique) {
     super(KEYWORD);

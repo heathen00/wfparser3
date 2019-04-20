@@ -8,7 +8,7 @@ import java.util.List;
 class MapLibImp extends StatementImp implements MapLib {
   private static final String KEYWORD = "maplib";
 
-  private List<Path> mapLibFileNameList;
+  private final List<Path> mapLibFileNameList;
 
   MapLibImp(List<Path> mapLibFileNameList) {
     super(KEYWORD);

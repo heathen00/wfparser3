@@ -5,9 +5,9 @@ import java.math.BigDecimal;
 class TexVertexImp extends StatementImp implements TexVertex {
   private static final String KEYWORD = "vt";
 
-  private BigDecimal uCoord;
-  private BigDecimal vCoord;
-  private BigDecimal wCoord;
+  private final BigDecimal uCoord;
+  private final BigDecimal vCoord;
+  private final BigDecimal wCoord;
 
   TexVertexImp(BigDecimal uCoord, BigDecimal vCoord, BigDecimal wCoord) {
     super(KEYWORD);

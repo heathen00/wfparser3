@@ -1,10 +1,10 @@
 package com.ht.wfp3.api.statement;
 
 class VertexReferenceGroupImp implements VertexReferenceGroup {
-  private VertexReferenceImp geometricVertexReference;
-  private VertexReferenceImp textureVertexReference;
-  private VertexReferenceImp normalVervexReference;
-  private VertexReferenceImp parameterVertexReference;
+  private final VertexReferenceImp geometricVertexReference;
+  private final VertexReferenceImp textureVertexReference;
+  private final VertexReferenceImp normalVervexReference;
+  private final VertexReferenceImp parameterVertexReference;
 
   VertexReferenceGroupImp(VertexReferenceImp geometricVertexReference,
       VertexReferenceImp textureVertexReference, VertexReferenceImp normalVertexReference,

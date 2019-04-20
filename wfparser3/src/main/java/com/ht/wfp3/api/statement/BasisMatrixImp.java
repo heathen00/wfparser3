@@ -6,7 +6,7 @@ class BasisMatrixImp extends StatementImp implements BasisMatrix {
   private final Axis axis;
   private final Matrix matrix;
   
-  public BasisMatrixImp(Axis axis, Matrix matrix) {
+  BasisMatrixImp(Axis axis, Matrix matrix) {
     super(KEYWORD);
     this.axis = axis;
     this.matrix = matrix;
@@ -23,7 +23,6 @@ class BasisMatrixImp extends StatementImp implements BasisMatrix {
 
   @Override
   public Matrix getMatrix() {
-    // TODO Make copy
     return matrix;
   }
 

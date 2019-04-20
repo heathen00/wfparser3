@@ -5,25 +5,16 @@ import java.util.Collections;
 import java.util.List;
 
 abstract class StatementsUsingVertexReferenceGroupsImp extends StatementImp implements UsesVertexReferenceGroups {
-  private final StatementFactory statementFactory;
   private final List<VertexReferenceGroup> vertexReferenceGroupList;
 
   StatementsUsingVertexReferenceGroupsImp(String keyword, List<VertexReferenceGroup> vertexReferenceGroupList) {
     super(keyword);
-    statementFactory = StatementFactory.createStatementFactory();
-    this.vertexReferenceGroupList = new ArrayList<>();
-    copyVertexReferenceGroupsInConstructor(vertexReferenceGroupList);
+    this.vertexReferenceGroupList = new ArrayList<>(vertexReferenceGroupList);
   }
   
   @Override
   public List<VertexReferenceGroup> getVertexReferenceGroupList() {
     return Collections.unmodifiableList(vertexReferenceGroupList);
-  }
-
-  private void copyVertexReferenceGroupsInConstructor(List<VertexReferenceGroup> referenceNumbers) {
-    for (VertexReferenceGroup vertexReferenceGroup : referenceNumbers) {
-      vertexReferenceGroupList.add(statementFactory.copyVertexReferenceGroup(vertexReferenceGroup));
-    }
   }
 
   @Override

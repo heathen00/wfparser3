@@ -1,6 +1,6 @@
 package com.ht.wfp3.api.statement;
 
-public class StepSizeImp extends StatementImp implements StepSize {
+class StepSizeImp extends StatementImp implements StepSize {
   private static final String KEYWORD = "step";
   private final Integer stepSizeInUAxis;
   private final Integer stepSizeInVAxis;

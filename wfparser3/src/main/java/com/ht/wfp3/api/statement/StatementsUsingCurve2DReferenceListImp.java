@@ -14,7 +14,7 @@ abstract class StatementsUsingCurve2DReferenceListImp extends StatementImp
     this.curve2DReferenceList = new ArrayList<Curve2DReference>(curve2DReferenceList);
   }
 
-  public StatementsUsingCurve2DReferenceListImp(
+  StatementsUsingCurve2DReferenceListImp(
       StatementsUsingCurve2DReferenceListImp statementsUsingCurve2DReferenceList) {
     this(statementsUsingCurve2DReferenceList.getKeyword(),
         statementsUsingCurve2DReferenceList.getCurve2DReferenceList());
