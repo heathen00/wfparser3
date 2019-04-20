@@ -4,13 +4,13 @@ import java.math.BigDecimal;
 
 class SurfaceApproxCparmaTechniqueImp extends SurfaceApproxImp
     implements SurfaceApproxCparmaTechnique {
-  private static final SurfaceApprox.Technique TECHNIQUE = SurfaceApprox.Technique.CPARMA;
+  private static final String TECHNIQUE_KEYWORD = "cparma";
 
   private final BigDecimal resolutionForUAxis;
   private final BigDecimal resolutionForVAxis;
 
   SurfaceApproxCparmaTechniqueImp(BigDecimal resolutionForUAxis, BigDecimal resolutionForVAxis) {
-    super(TECHNIQUE);
+    super(TECHNIQUE_KEYWORD);
     this.resolutionForUAxis = resolutionForUAxis;
     this.resolutionForVAxis = resolutionForVAxis;
   }
@@ -64,6 +64,7 @@ class SurfaceApproxCparmaTechniqueImp extends SurfaceApproxImp
   @Override
   public String toString() {
     return "SurfaceApproxCparmaTechniqueImp [resolutionForUAxis=" + resolutionForUAxis
-        + ", resolutionForVAxis=" + resolutionForVAxis + ", super.toString()=" + super.toString() + "]";
+        + ", resolutionForVAxis=" + resolutionForVAxis + ", super.toString()=" + super.toString()
+        + "]";
   }
 }

@@ -33,7 +33,18 @@ package com.ht.wfp3.api.statement;
  */
 public interface CurveOrSurfaceType extends Statement {
   enum Key {
-    BMATRIX, BEZIER, BSPLINE, CARDINAL, TAYLOR,
+    BMATRIX("bmatrix"), BEZIER("bezier"), BSPLINE("bspline"), CARDINAL("cardinal"), TAYLOR(
+        "taylor");
+
+    private final String keyword;
+
+    Key(String keyword) {
+      this.keyword = keyword;
+    }
+
+    public String getKeyword() {
+      return keyword;
+    }
   }
 
   boolean isRational();

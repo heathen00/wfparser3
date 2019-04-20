@@ -2,29 +2,24 @@ package com.ht.wfp3.api.statement;
 
 abstract class SurfaceApproxImp extends StatementImp implements SurfaceApprox {
   private static final String KEYWORD = "stech";
-  
-  private final SurfaceApprox.Technique surfaceApproxmationTechnique;
-  
-  SurfaceApproxImp(SurfaceApprox.Technique surfaceApproximationTechnique) {
-    super(KEYWORD);
-    this.surfaceApproxmationTechnique = surfaceApproximationTechnique;
-  }
-  
-  SurfaceApproxImp(SurfaceApprox surfaceApprox) {
-    this(surfaceApprox.getSurfaceApproximationTechnique());
-  }
 
+  private final String techniqueKeyword;
+
+  SurfaceApproxImp(String techniqueKeyword) {
+    super(KEYWORD);
+    this.techniqueKeyword = techniqueKeyword;
+  }
+  
   @Override
-  public Technique getSurfaceApproximationTechnique() {
-    return surfaceApproxmationTechnique;
+  public String getTechniqueKeyword() {
+    return techniqueKeyword;
   }
 
   @Override
   public int hashCode() {
     final int prime = 31;
     int result = super.hashCode();
-    result = prime * result
-        + ((surfaceApproxmationTechnique == null) ? 0 : surfaceApproxmationTechnique.hashCode());
+    result = prime * result + ((techniqueKeyword == null) ? 0 : techniqueKeyword.hashCode());
     return result;
   }
 
@@ -37,14 +32,17 @@ abstract class SurfaceApproxImp extends StatementImp implements SurfaceApprox {
     if (getClass() != obj.getClass())
       return false;
     SurfaceApproxImp other = (SurfaceApproxImp) obj;
-    if (surfaceApproxmationTechnique != other.surfaceApproxmationTechnique)
+    if (techniqueKeyword == null) {
+      if (other.techniqueKeyword != null)
+        return false;
+    } else if (!techniqueKeyword.equals(other.techniqueKeyword))
       return false;
     return true;
   }
 
   @Override
   public String toString() {
-    return "SurfaceApproxImp [surfaceApproxmationTechnique=" + surfaceApproxmationTechnique
-        + ", super.toString()=" + super.toString() + "]";
+    return "SurfaceApproxImp [techniqueKeyword=" + techniqueKeyword + ", super.toString()="
+        + super.toString() + "]";
   }
 }

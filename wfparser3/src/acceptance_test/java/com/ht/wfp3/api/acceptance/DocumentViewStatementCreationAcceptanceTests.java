@@ -6,19 +6,17 @@ import java.math.BigDecimal;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import com.ht.wfp3.api.document.Cursor;
 import com.ht.wfp3.api.document.Document;
 import com.ht.wfp3.api.document.DocumentFactory;
 import com.ht.wfp3.api.document.EmptyDocumentException;
 import com.ht.wfp3.api.document.VisibleDocumentImp;
+import com.ht.wfp3.api.statement.Axis;
 import com.ht.wfp3.api.statement.BasisMatrix;
 import com.ht.wfp3.api.statement.Bevel;
-import com.ht.wfp3.api.statement.Blank;
 import com.ht.wfp3.api.statement.Call;
 import com.ht.wfp3.api.statement.ColorInterpolation;
 import com.ht.wfp3.api.statement.Connect;
@@ -62,7 +60,6 @@ import com.ht.wfp3.api.statement.SurfaceApproxCspaceTechnique;
 import com.ht.wfp3.api.statement.SurfaceApproxCurvTechnique;
 import com.ht.wfp3.api.statement.TexVertex;
 import com.ht.wfp3.api.statement.Trim;
-import com.ht.wfp3.api.statement.Unknown;
 import com.ht.wfp3.api.statement.UnknownStatementStub;
 import com.ht.wfp3.api.statement.UseMap;
 import com.ht.wfp3.api.statement.UseMaterial;
@@ -310,7 +307,7 @@ public class DocumentViewStatementCreationAcceptanceTests {
         .append(BigDecimal.valueOf(1.111)).endRow();
 
     BasisMatrix bmat =
-        statementFactory.createBasisMatrix(BasisMatrix.Axis.U, matrixBuilder.build());
+        statementFactory.createBasisMatrix(Axis.U, matrixBuilder.build());
     objDocument.append(bmat, cursor);
 
     assertEquals(bmat, objDocument.peek(cursor).getStatement());
@@ -416,7 +413,7 @@ public class DocumentViewStatementCreationAcceptanceTests {
     parameterList.add(BigDecimal.valueOf(4.4444));
     parameterList.add(BigDecimal.valueOf(-9.22));
     parameterList.add(BigDecimal.valueOf(111.9876));
-    Parm parm = statementFactory.createParm(Parm.Axis.U, parameterList);
+    Parm parm = statementFactory.createParm(Axis.U, parameterList);
 
     objDocument.append(parm, cursor);
 
@@ -728,47 +725,5 @@ public class DocumentViewStatementCreationAcceptanceTests {
     objDocument.append(stech, cursor);
 
     assertEquals(stech, objDocument.peek(cursor).getStatement());
-  }
-  
-  @Test
-  @Ignore("not implemented")
-  public void Document_addOneBlankToEmptyObjDocumentAtCursor_OneBlankIsAddedAtCursor()
-      throws Exception {
-    Blank blank = statementFactory.createBlank();
-    objDocument.append(blank, cursor);
-
-    assertEquals(blank, objDocument.peek(cursor));
-  }
-
-  @Test
-  @Ignore("not implemented")
-  public void Document_addUnknownToEmptyObjDocumentAtCursor_OneUnknownIsAddedAtCursor()
-      throws Exception {
-    List<String> tokens = Arrays.asList("some", "unknown", "tokens");
-    Unknown unknown = statementFactory.createUnknown(tokens);
-    objDocument.append(unknown, cursor);
-
-    assertEquals(unknown, objDocument.peek(cursor));
-  }
-
-  @Test
-  @Ignore("not implemented")
-  public void Document_addCommentedGeoVertexToEmptyObjDocumentAtCursor_OneCommentedGeoVertexIsAddedAtCursor()
-      throws Exception {
-    GeoVertex geoVertex = statementFactory.createGeoVertex(BigDecimal.valueOf(1.234),
-        BigDecimal.valueOf(4321), BigDecimal.valueOf(567.89d), BigDecimal.valueOf(-123.45e23));
-    String commentString = "test comment string";
-    objDocument.append(geoVertex, commentString, cursor);
-
-    assertEquals(geoVertex, objDocument.peek(cursor).getStatement());
-    assertEquals(commentString, objDocument.peek(cursor).getComment().getCommentString());
-  }
-
-  @Test
-  @Ignore("not implemented")
-  public void Document_addCommmentedBlankToEmptyObjDocumentAtCursor_OneCommentedBlankIsAddedATCursor()
-      throws Exception {
-
-
   }
 }

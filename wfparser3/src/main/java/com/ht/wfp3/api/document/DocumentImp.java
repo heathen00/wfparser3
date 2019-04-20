@@ -7,7 +7,6 @@ import java.util.Map;
 import com.google.common.annotations.VisibleForTesting;
 import com.ht.wfp3.api.statement.BasisMatrix;
 import com.ht.wfp3.api.statement.Bevel;
-import com.ht.wfp3.api.statement.Blank;
 import com.ht.wfp3.api.statement.Call;
 import com.ht.wfp3.api.statement.ColorInterpolation;
 import com.ht.wfp3.api.statement.Connect;
@@ -50,7 +49,6 @@ import com.ht.wfp3.api.statement.SurfaceApproxCspaceTechnique;
 import com.ht.wfp3.api.statement.SurfaceApproxCurvTechnique;
 import com.ht.wfp3.api.statement.TexVertex;
 import com.ht.wfp3.api.statement.Trim;
-import com.ht.wfp3.api.statement.Unknown;
 import com.ht.wfp3.api.statement.UseMap;
 import com.ht.wfp3.api.statement.UseMaterial;
 
@@ -114,12 +112,6 @@ class DocumentImp implements Document {
   public void append(GeoVertex geoVertex, Cursor cursor) {
     guardAppendApis(geoVertex, cursor);
     addToDocumentStructure(statementFactory.copyGeoVertex(geoVertex), cursor);
-  }
-
-  @Override
-  public void append(GeoVertex geoVertex, String commentString, Cursor cursor) {
-    // TODO Auto-generated method stub
-
   }
 
   @Override
@@ -378,18 +370,6 @@ class DocumentImp implements Document {
   public void append(SurfaceApproxCurvTechnique stech, Cursor cursor) {
     guardAppendApis(stech, cursor);
     addToDocumentStructure(statementFactory.copySurfaceApproxCurvTechnique(stech), cursor);
-  }
-
-  @Override
-  public void append(Blank blank, Cursor cursor) {
-    // TODO Auto-generated method stub
-
-  }
-
-  @Override
-  public void append(Unknown unknown, Cursor cursor) {
-    // TODO Auto-generated method stub
-
   }
 
   @VisibleForTesting

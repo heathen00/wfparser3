@@ -4,14 +4,16 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-abstract class StatementsUsingVertexReferenceGroupsImp extends StatementImp implements UsesVertexReferenceGroups {
+abstract class StatementsUsingVertexReferenceGroupsImp extends StatementImp
+    implements UsesVertexReferenceGroups {
   private final List<VertexReferenceGroup> vertexReferenceGroupList;
 
-  StatementsUsingVertexReferenceGroupsImp(String keyword, List<VertexReferenceGroup> vertexReferenceGroupList) {
+  StatementsUsingVertexReferenceGroupsImp(String keyword,
+      List<VertexReferenceGroup> vertexReferenceGroupList) {
     super(keyword);
     this.vertexReferenceGroupList = new ArrayList<>(vertexReferenceGroupList);
   }
-  
+
   @Override
   public List<VertexReferenceGroup> getVertexReferenceGroupList() {
     return Collections.unmodifiableList(vertexReferenceGroupList);

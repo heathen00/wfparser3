@@ -4,11 +4,11 @@ import java.util.List;
 
 class SpecialCurveImp extends StatementsUsingCurve2DReferenceListImp implements SpecialCurve {
   private static final String KEYWORD = "scrv";
-  
+
   SpecialCurveImp(List<Curve2DReference> curve2DReferenceList) {
     super(KEYWORD, curve2DReferenceList);
   }
-  
+
   SpecialCurveImp(SpecialCurve scrv) {
     this(scrv.getCurve2DReferenceList());
   }

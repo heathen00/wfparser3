@@ -55,9 +55,5 @@ package com.ht.wfp3.api.statement;
  *
  */
 interface CurveApprox extends Statement {
-  enum Technique {
-    CPARM, CSPACE, CURV
-  }
-
-  CurveApprox.Technique getCurveApproximationTechnique();
+  String getTechniqueKeyword();
 }

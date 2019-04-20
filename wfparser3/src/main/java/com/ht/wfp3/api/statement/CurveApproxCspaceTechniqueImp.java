@@ -3,12 +3,12 @@ package com.ht.wfp3.api.statement;
 import java.math.BigDecimal;
 
 class CurveApproxCspaceTechniqueImp extends CurveApproxImp implements CurveApproxCspaceTechnique {
-  private static final CurveApprox.Technique TECHNIQUE = CurveApprox.Technique.CSPACE;
+  private static final String TECHNIQUE_KEYWORD = "cspace";
 
   private final BigDecimal maxLength;
 
   CurveApproxCspaceTechniqueImp(BigDecimal maxLength) {
-    super(TECHNIQUE);
+    super(TECHNIQUE_KEYWORD);
     this.maxLength = maxLength;
   }
 

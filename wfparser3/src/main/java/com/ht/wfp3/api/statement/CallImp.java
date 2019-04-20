@@ -7,7 +7,7 @@ import java.util.List;
 
 class CallImp extends StatementImp implements Call {
   private static final String KEYWORD = "call";
-  
+
   private final boolean isFrameNumberRequired;
   private final Path fileName;
   private final List<Integer> arguments;

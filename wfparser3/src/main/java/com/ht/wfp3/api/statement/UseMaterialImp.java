@@ -2,14 +2,14 @@ package com.ht.wfp3.api.statement;
 
 class UseMaterialImp extends StatementImp implements UseMaterial {
   private static final String KEYWORD = "usemtl";
-  
+
   private final String materialName;
-  
+
   UseMaterialImp(String materialName) {
     super(KEYWORD);
     this.materialName = materialName;
   }
-  
+
   UseMaterialImp(UseMaterial usemtl) {
     this(usemtl.getMaterialName());
   }

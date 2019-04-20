@@ -58,5 +58,5 @@ package com.ht.wfp3.api.statement;
  *
  */
 public interface Face extends Statement, UsesVertexReferenceGroups {
-  
+
 }

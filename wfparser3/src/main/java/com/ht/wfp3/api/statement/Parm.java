@@ -29,11 +29,7 @@ import java.util.List;
  *
  */
 public interface Parm extends Statement {
-  enum Axis {
-    U, V,
-  }
-
-  Parm.Axis getAxis();
+  Axis getAxis();
 
   List<BigDecimal> getParameterValues();
 }

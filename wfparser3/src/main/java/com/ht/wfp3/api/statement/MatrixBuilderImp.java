@@ -7,6 +7,7 @@ import java.util.List;
 
 final class MatrixBuilderImp implements MatrixBuilder {
   private static final BigDecimal DEFAULT_ELEMENT = BigDecimal.ZERO;
+
   private enum Method {
     NOT_SET, // Not set
     ROW_BY_ROW, // Row-major
@@ -17,7 +18,7 @@ final class MatrixBuilderImp implements MatrixBuilder {
   private List<List<BigDecimal>> major;
   private int majorIndex;
   private int longestMinor;
-  
+
   public MatrixBuilderImp() {
     internalClear();
   }
@@ -68,12 +69,10 @@ final class MatrixBuilderImp implements MatrixBuilder {
         }
       }
       matrix = new MatrixImp(matrixAs2DArray);
-    }
-    else if (buildMethod.equals(Method.COL_BY_COL)) {
+    } else if (buildMethod.equals(Method.COL_BY_COL)) {
       // TODO not implemented.
       matrix = null;
-    }
-    else {
+    } else {
       // TODO not implemented.
     }
     return matrix;

@@ -3,15 +3,15 @@ package com.ht.wfp3.api.statement;
 import java.math.BigDecimal;
 
 class CurveApproxCparmTechniqueImp extends CurveApproxImp implements CurveApproxCparmTechnique {
-  private static final CurveApprox.Technique TECHNIQUE = CurveApprox.Technique.CPARM;
-  
+  private static final String TECHNIQUE_KEYWORD = "cparm";
+
   private final BigDecimal resolution;
-  
+
   CurveApproxCparmTechniqueImp(BigDecimal resolution) {
-    super(TECHNIQUE);
+    super(TECHNIQUE_KEYWORD);
     this.resolution = resolution;
   }
-  
+
   CurveApproxCparmTechniqueImp(CurveApproxCparmTechnique curveApproxCparmTechnique) {
     this(curveApproxCparmTechnique.getResolution());
   }

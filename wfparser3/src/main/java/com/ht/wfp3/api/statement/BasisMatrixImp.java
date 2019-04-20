@@ -2,10 +2,10 @@ package com.ht.wfp3.api.statement;
 
 class BasisMatrixImp extends StatementImp implements BasisMatrix {
   private static final String KEYWORD = "bmat";
-  
+
   private final Axis axis;
   private final Matrix matrix;
-  
+
   BasisMatrixImp(Axis axis, Matrix matrix) {
     super(KEYWORD);
     this.axis = axis;

@@ -8,7 +8,7 @@ class Curve2DImp extends StatementsUsingVertexReferenceGroupsImp implements Curv
   Curve2DImp(List<VertexReferenceGroup> vertexReferenceGroupList) {
     super(KEYWORD, vertexReferenceGroupList);
   }
-  
+
   Curve2DImp(Curve2D curv2) {
     this(curv2.getVertexReferenceGroupList());
   }

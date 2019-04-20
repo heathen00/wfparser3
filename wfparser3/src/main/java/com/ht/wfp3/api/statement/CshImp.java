@@ -2,16 +2,16 @@ package com.ht.wfp3.api.statement;
 
 class CshImp extends StatementImp implements Csh {
   private static final String KEYWORD = "csh";
-  
+
   private final boolean shouldIgnoreErrors;
   private final String command;
-  
+
   CshImp(boolean shouldIgnoreErrors, String command) {
     super(KEYWORD);
     this.shouldIgnoreErrors = shouldIgnoreErrors;
     this.command = command;
   }
-  
+
   CshImp(Csh csh) {
     this(csh.shouldIgnoreErrors(), csh.getCommand());
   }

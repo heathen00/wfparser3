@@ -4,12 +4,12 @@ import java.math.BigDecimal;
 
 class SurfaceApproxCspaceTechniqueImp extends SurfaceApproxImp
     implements SurfaceApproxCspaceTechnique {
-  private static final SurfaceApprox.Technique TECHNIQUE = SurfaceApprox.Technique.CSPACE;
+  private static final String TECHNIQUE_KEYWORD = "cspace";
 
   private final BigDecimal maxLength;
 
   SurfaceApproxCspaceTechniqueImp(BigDecimal maxLength) {
-    super(TECHNIQUE);
+    super(TECHNIQUE_KEYWORD);
     this.maxLength = maxLength;
   }
 

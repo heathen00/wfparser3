@@ -4,12 +4,12 @@ import java.math.BigDecimal;
 
 class SurfaceApproxCparmbTechniqueImp extends SurfaceApproxImp
     implements SurfaceApproxCparmbTechnique {
-  private static final SurfaceApprox.Technique TECHNIQUE = SurfaceApprox.Technique.CPARMB;
+  private static final String TECHNIQUE_KEYWORD = "cparmb";
 
   private final BigDecimal resolutionForUAndVAxes;
 
   SurfaceApproxCparmbTechniqueImp(BigDecimal resolutionForUAndVAxes) {
-    super(TECHNIQUE);
+    super(TECHNIQUE_KEYWORD);
     this.resolutionForUAndVAxes = resolutionForUAndVAxes;
   }
 

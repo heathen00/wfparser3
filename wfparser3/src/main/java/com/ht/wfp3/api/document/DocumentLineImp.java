@@ -5,7 +5,7 @@ import com.ht.wfp3.api.statement.Statement;
 class DocumentLineImp implements DocumentLine {
   private final Statement statement;
   private final Comment comment;
-  
+
   DocumentLineImp(Statement statement, Comment comment) {
     super();
     this.statement = statement;

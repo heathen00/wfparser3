@@ -3,7 +3,8 @@ package com.ht.wfp3.api.statement;
 import java.math.BigDecimal;
 import java.nio.file.Path;
 import java.util.List;
-import com.ht.wfp3.api.statement.BasisMatrix.Axis;
+import com.ht.wfp3.api.document.Blank;
+import com.ht.wfp3.api.document.Unknown;
 
 /**
  * The OBJ element factory.
@@ -178,7 +179,7 @@ public final class StatementFactory {
     return new CshImp(csh);
   }
 
-  public Parm createParm(Parm.Axis axis, List<BigDecimal> parameterList) {
+  public Parm createParm(Axis axis, List<BigDecimal> parameterList) {
     return new ParmImp(axis, parameterList);
   }
 
@@ -255,7 +256,6 @@ public final class StatementFactory {
   }
 
   public SmoothingGroup createSmoothingGroup(Integer groupNumberOrOff) {
-    boolean isEnabled = (groupNumberOrOff == 0 ? false : true);
     return new SmoothingGroupImp(groupNumberOrOff);
   }
 
@@ -410,8 +410,9 @@ public final class StatementFactory {
   public SurfaceApproxCspaceTechnique createSurfaceApproxCspaceTechnique(BigDecimal maxLength) {
     return new SurfaceApproxCspaceTechniqueImp(maxLength);
   }
-  
-  public SurfaceApproxCspaceTechnique copySurfaceApproxCspaceTechnique(SurfaceApproxCspaceTechnique surfaceApproxCspaceTechnique) {
+
+  public SurfaceApproxCspaceTechnique copySurfaceApproxCspaceTechnique(
+      SurfaceApproxCspaceTechnique surfaceApproxCspaceTechnique) {
     return new SurfaceApproxCspaceTechniqueImp(surfaceApproxCspaceTechnique);
   }
 
@@ -419,8 +420,9 @@ public final class StatementFactory {
       BigDecimal maxAngleInDegrees) {
     return new SurfaceApproxCurvTechniqueImp(maxDistance, maxAngleInDegrees);
   }
-  
-  public SurfaceApproxCurvTechnique copySurfaceApproxCurvTechnique(SurfaceApproxCurvTechnique surfaceApproxCurvTechnique) {
+
+  public SurfaceApproxCurvTechnique copySurfaceApproxCurvTechnique(
+      SurfaceApproxCurvTechnique surfaceApproxCurvTechnique) {
     return new SurfaceApproxCurvTechniqueImp(surfaceApproxCurvTechnique);
   }
 

@@ -3,13 +3,13 @@ package com.ht.wfp3.api.statement;
 import java.math.BigDecimal;
 
 class CurveApproxCurvTechniqueImp extends CurveApproxImp implements CurveApproxCurvTechnique {
-  private static final CurveApprox.Technique TECHNIQUE = CurveApprox.Technique.CURV;
+  private static final String TECHNIQUE_TECHNIQUE = "curv";
 
   private final BigDecimal maximumDistance;
   private final BigDecimal maximumAngleInDegrees;
 
   CurveApproxCurvTechniqueImp(BigDecimal maximumDistance, BigDecimal maximumAngleInDegrees) {
-    super(TECHNIQUE);
+    super(TECHNIQUE_TECHNIQUE);
     this.maximumDistance = maximumDistance;
     this.maximumAngleInDegrees = maximumAngleInDegrees;
   }

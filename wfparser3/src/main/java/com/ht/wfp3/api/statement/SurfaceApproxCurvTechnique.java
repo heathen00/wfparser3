@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 /**
  * The curvature-dependent subdivision surface approximation technique.
  * 
- *  stech curv maxdist maxangle
+ * stech curv maxdist maxangle
  * 
  * Specifies a surface with curvature-dependent subdivision using separate resolution parameters for
  * the maximum distance and the maximum angle.
@@ -20,6 +20,7 @@ import java.math.BigDecimal;
  * maxangle is the angle in degrees between surface normals at the corners of the rectangle.
  * 
  * The smaller the values for maxdist and maxangle, the finer the resolution.
+ * 
  * @author nickl
  *
  */

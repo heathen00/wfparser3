@@ -10,7 +10,7 @@ class StepSizeImp extends StatementImp implements StepSize {
     this.stepSizeInUAxis = stepSizeInUAxis;
     this.stepSizeInVAxis = stepSizeInVAxis;
   }
-  
+
   StepSizeImp(StepSize step) {
     this(step.getStepSizeInUAxis(), step.getStepSizeInVAxis());
   }

@@ -3,19 +3,20 @@ package com.ht.wfp3.api.statement;
 import java.math.BigDecimal;
 
 class SurfaceApproxCurvTechniqueImp extends SurfaceApproxImp implements SurfaceApproxCurvTechnique {
-  private static final SurfaceApprox.Technique TECHNIQUE = SurfaceApprox.Technique.CURV;
+  private static final String TECHNIQUE_KEYWORD = "curv";
 
   private final BigDecimal maxDistance;
   private final BigDecimal maxAngleInDegrees;
 
   SurfaceApproxCurvTechniqueImp(BigDecimal maxDistance, BigDecimal maxAngleInDegrees) {
-    super(TECHNIQUE);
+    super(TECHNIQUE_KEYWORD);
     this.maxDistance = maxDistance;
     this.maxAngleInDegrees = maxAngleInDegrees;
   }
-  
+
   SurfaceApproxCurvTechniqueImp(SurfaceApproxCurvTechnique surfaceApproxCurvTechnique) {
-    this(surfaceApproxCurvTechnique.getMaxDistance(), surfaceApproxCurvTechnique.getMaxAngleInDegrees());
+    this(surfaceApproxCurvTechnique.getMaxDistance(),
+        surfaceApproxCurvTechnique.getMaxAngleInDegrees());
   }
 
   @Override

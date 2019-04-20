@@ -33,11 +33,7 @@ package com.ht.wfp3.api.statement;
  *
  */
 public interface BasisMatrix extends Statement {
-  enum Axis {
-    U, V,
-  }
-
-  BasisMatrix.Axis getBasisMatrixAxis();
+  Axis getBasisMatrixAxis();
 
   Matrix getMatrix();
 }
