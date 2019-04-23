@@ -11,7 +11,10 @@ abstract class StatementsUsingVertexReferenceGroupsImp extends StatementImp
   StatementsUsingVertexReferenceGroupsImp(String keyword,
       List<VertexReferenceGroup> vertexReferenceGroupList) {
     super(keyword);
-    this.vertexReferenceGroupList = new ArrayList<>(vertexReferenceGroupList);
+    this.vertexReferenceGroupList = new ArrayList<>();
+    for (VertexReferenceGroup vertexReferenceGroup : vertexReferenceGroupList) {
+      this.vertexReferenceGroupList.add(new VertexReferenceGroupImp(vertexReferenceGroup));
+    }
   }
 
   @Override

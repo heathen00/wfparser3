@@ -7,13 +7,12 @@ class VertexReferenceGroupImp implements VertexReferenceGroup {
 
   VertexReferenceGroupImp(VertexReference geometricVertexReference,
       VertexReference textureVertexReference, VertexReference normalVertexReference) {
-    super();
     this.geometricVertexReference = geometricVertexReference;
     this.textureVertexReference = textureVertexReference;
     this.normalVervexReference = normalVertexReference;
   }
 
-  VertexReferenceGroupImp(VertexReferenceGroupImp vertexReferenceGroup) {
+  VertexReferenceGroupImp(VertexReferenceGroup vertexReferenceGroup) {
     this(vertexReferenceGroup.getGeoVertexRef(), vertexReferenceGroup.getTexVertexRef(),
         vertexReferenceGroup.getNormalVertexRef());
   }
