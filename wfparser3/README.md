@@ -3,14 +3,11 @@
 
 Rough list:
  * Automated Testing: Review the completed view creation acceptance tests since some refactoring is required.
-    * some interfaces are not intended to be published.  Should you rename them with the "Imp" suffix
-      to reflect that?
     * Could you use generics for the VertexReference so that it is known at compile time what subtype
       of VertexReference is being accessed?  The only other option is to create subclasses, as in
       VertexReferenceForGeometricVertex, etc.
-    * review the names of all the statement classes.
-    * review the method names in StatementFactory since you renamed some classes and their
-      create/copy methods may still use the old name.
+    * For consistency with VertexReference, you could use generics with CurveApprox and SurfaceApprox,
+      too.  But maybe wait until after you have the VertexReference solution implemented successfully.
  * Automated Testing: Complete the Statement unit tests.  This might be difficult since you already have partial
    solutions in place due to defining the API which are likely incorrect since they have no unit tests associated
    with them.  Thus, there might be some re-implementation necessary.  Are they unit tests?  Probably not.  Since
