@@ -4,64 +4,33 @@ class VertexReferenceGroupImp implements VertexReferenceGroup {
   private final VertexReference geometricVertexReference;
   private final VertexReference textureVertexReference;
   private final VertexReference normalVervexReference;
-  private final VertexReference parameterVertexReference;
 
   VertexReferenceGroupImp(VertexReference geometricVertexReference,
-      VertexReference textureVertexReference, VertexReference normalVertexReference,
-      VertexReference parameterVertexReference) {
+      VertexReference textureVertexReference, VertexReference normalVertexReference) {
     super();
     this.geometricVertexReference = geometricVertexReference;
     this.textureVertexReference = textureVertexReference;
     this.normalVervexReference = normalVertexReference;
-    this.parameterVertexReference = parameterVertexReference;
   }
 
   VertexReferenceGroupImp(VertexReferenceGroupImp vertexReferenceGroup) {
-    this(vertexReferenceGroup.getGeoVertexRefObj(), vertexReferenceGroup.getTexVertexRefObj(),
-        vertexReferenceGroup.getNormalVertexRefObj(), vertexReferenceGroup.getParamVertexRefObj());
-  }
-
-  // TODO What to return on published API when not set? Throw exception? For now, just assume the
-  // values are all set. An exception is likely correct.
-  // TODO you should probably have some checks to ensure that the vertexReference types are what is
-  // expected. Although it is an internal interface. I would just be future proofing the
-  // implementation
-  // against that dastardly SOB, Future-Nick!
-
-  @Override
-  public Integer getGeoVertexRef() {
-    return geometricVertexReference.getVertexIndex();
+    this(vertexReferenceGroup.getGeoVertexRef(), vertexReferenceGroup.getTexVertexRef(),
+        vertexReferenceGroup.getNormalVertexRef());
   }
 
   @Override
-  public Integer getTexVertexRef() {
-    return textureVertexReference.getVertexIndex();
-  }
-
-  @Override
-  public Integer getNormalVertexRef() {
-    return normalVervexReference.getVertexIndex();
-  }
-
-  @Override
-  public Integer getParamVertexRef() {
-    return parameterVertexReference.getVertexIndex();
-  }
-
-  VertexReference getGeoVertexRefObj() {
+  public VertexReference getGeoVertexRef() {
     return geometricVertexReference;
   }
 
-  VertexReference getTexVertexRefObj() {
+  @Override
+  public VertexReference getTexVertexRef() {
     return textureVertexReference;
   }
 
-  VertexReference getNormalVertexRefObj() {
+  @Override
+  public VertexReference getNormalVertexRef() {
     return normalVervexReference;
-  }
-
-  VertexReference getParamVertexRefObj() {
-    return parameterVertexReference;
   }
 
   @Override
@@ -72,8 +41,6 @@ class VertexReferenceGroupImp implements VertexReferenceGroup {
         + ((geometricVertexReference == null) ? 0 : geometricVertexReference.hashCode());
     result =
         prime * result + ((normalVervexReference == null) ? 0 : normalVervexReference.hashCode());
-    result = prime * result
-        + ((parameterVertexReference == null) ? 0 : parameterVertexReference.hashCode());
     result =
         prime * result + ((textureVertexReference == null) ? 0 : textureVertexReference.hashCode());
     return result;
@@ -98,11 +65,6 @@ class VertexReferenceGroupImp implements VertexReferenceGroup {
         return false;
     } else if (!normalVervexReference.equals(other.normalVervexReference))
       return false;
-    if (parameterVertexReference == null) {
-      if (other.parameterVertexReference != null)
-        return false;
-    } else if (!parameterVertexReference.equals(other.parameterVertexReference))
-      return false;
     if (textureVertexReference == null) {
       if (other.textureVertexReference != null)
         return false;
@@ -115,6 +77,6 @@ class VertexReferenceGroupImp implements VertexReferenceGroup {
   public String toString() {
     return "VertexReferenceGroupImp [geometricVertexReference=" + geometricVertexReference
         + ", textureVertexReference=" + textureVertexReference + ", normalVervexReference="
-        + normalVervexReference + ", parameterVertexReference=" + parameterVertexReference + "]";
+        + normalVervexReference + "]";
   }
 }

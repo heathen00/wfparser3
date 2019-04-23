@@ -3,12 +3,8 @@
 
 Rough list:
  * Automated Testing: Review the completed view creation acceptance tests since some refactoring is required.
-    * review the implementation of the VertexReference / VertexReferenceGroup classes with regards
-      to how the lists are handled since it is unnecessarily complex for immutable value objects.
     * some interfaces are not intended to be published.  Should you rename them with the "Imp" suffix
       to reflect that?
-    * Remove "isSet" from the VertexReference constructors.  Handle it the same way as for those
-      groups that can be disabled.
     * Could you use generics for the VertexReference so that it is known at compile time what subtype
       of VertexReference is being accessed?  The only other option is to create subclasses, as in
       VertexReferenceForGeometricVertex, etc.

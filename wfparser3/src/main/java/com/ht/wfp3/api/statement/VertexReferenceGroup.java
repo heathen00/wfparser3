@@ -40,11 +40,13 @@ package com.ht.wfp3.api.statement;
  *
  */
 public interface VertexReferenceGroup {
-  Integer getGeoVertexRef();
+  VertexReference getGeoVertexRef();
 
-  Integer getTexVertexRef();
+  VertexReference getTexVertexRef();
 
-  Integer getNormalVertexRef();
+  VertexReference getNormalVertexRef();
+  
+  boolean equals(Object object);
 
-  Integer getParamVertexRef();
+  public int hashCode();
 }

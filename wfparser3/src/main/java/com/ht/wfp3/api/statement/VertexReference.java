@@ -12,4 +12,8 @@ public interface VertexReference {
   Integer getVertexIndex();
 
   Type getVertexType();
+  
+  boolean equals(Object object);
+
+  public int hashCode();
 }

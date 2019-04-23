@@ -3,11 +3,10 @@ package com.ht.wfp3.api.statement;
 import com.ht.wfp3.api.statement.VertexReference.Type;
 
 class VertexReferenceGroupBuilderImp implements VertexReferenceGroupBuilder {
-  private StatementFactory statementFactory;
+  private final StatementFactory statementFactory;
   private Integer geometricVertexReferenceNumber;
   private Integer textureVertexReferenceNumber;
   private Integer normalVertexReferenceNumber;
-  private Integer parameterVertexReferenceNumber;
 
   VertexReferenceGroupBuilderImp() {
     super();
@@ -20,7 +19,6 @@ class VertexReferenceGroupBuilderImp implements VertexReferenceGroupBuilder {
     geometricVertexReferenceNumber = null;
     textureVertexReferenceNumber = null;
     normalVertexReferenceNumber = null;
-    parameterVertexReferenceNumber = null;
     return this;
   }
 
@@ -43,33 +41,21 @@ class VertexReferenceGroupBuilderImp implements VertexReferenceGroupBuilder {
   }
 
   @Override
-  public VertexReferenceGroupBuilder paramVertexRef(Integer parameterVertexReferenceNumber) {
-    this.parameterVertexReferenceNumber = parameterVertexReferenceNumber;
-    return this;
-  }
-
-  @Override
   public VertexReferenceGroup build() {
     VertexReference geometricVertexReference = (geometricVertexReferenceNumber != null
-        ? statementFactory.createVertexReference(Type.GEOMETRIC, geometricVertexReferenceNumber,
-            true)
+        ? statementFactory.createVertexReference(Type.GEOMETRIC, geometricVertexReferenceNumber)
         : statementFactory.createVertexReference(Type.GEOMETRIC,
-            VertexReferenceImp.INDEX_NOT_SET_VALUE, false));
+            VertexReferenceImp.INDEX_NOT_SET_VALUE));
     VertexReference textureVertexReference = (textureVertexReferenceNumber != null
-        ? statementFactory.createVertexReference(Type.TEXTURE, textureVertexReferenceNumber, true)
+        ? statementFactory.createVertexReference(Type.TEXTURE, textureVertexReferenceNumber)
         : statementFactory.createVertexReference(Type.TEXTURE,
-            VertexReferenceImp.INDEX_NOT_SET_VALUE, false));
+            VertexReferenceImp.INDEX_NOT_SET_VALUE));
     VertexReference normalVertexReference = (normalVertexReferenceNumber != null
-        ? statementFactory.createVertexReference(Type.NORMAL, normalVertexReferenceNumber, true)
+        ? statementFactory.createVertexReference(Type.NORMAL, normalVertexReferenceNumber)
         : statementFactory.createVertexReference(Type.NORMAL,
-            VertexReferenceImp.INDEX_NOT_SET_VALUE, false));
-    VertexReference parameterVertexReference = (parameterVertexReferenceNumber != null
-        ? statementFactory.createVertexReference(Type.PARAMETER, parameterVertexReferenceNumber,
-            true)
-        : statementFactory.createVertexReference(Type.PARAMETER,
-            VertexReferenceImp.INDEX_NOT_SET_VALUE, false));
+            VertexReferenceImp.INDEX_NOT_SET_VALUE));
     return new VertexReferenceGroupImp(geometricVertexReference, textureVertexReference,
-        normalVertexReference, parameterVertexReference);
+        normalVertexReference);
   }
 
 }

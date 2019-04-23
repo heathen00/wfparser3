@@ -6,16 +6,15 @@ final class VertexReferenceImp implements VertexReference {
   private final Integer vertexIndex;
   private final boolean isSet;
 
-  VertexReferenceImp(VertexReferenceImp.Type type, Integer vertexIndex, boolean isSet) {
+  VertexReferenceImp(VertexReferenceImp.Type type, Integer vertexIndex) {
     super();
     this.type = type;
     this.vertexIndex = vertexIndex;
-    this.isSet = isSet;
+    this.isSet = (vertexIndex.equals(INDEX_NOT_SET_VALUE) ? false : true);
   }
 
   VertexReferenceImp(VertexReference vertexReference) {
-    this(vertexReference.getVertexType(), vertexReference.getVertexIndex(),
-        vertexReference.isSet());
+    this(vertexReference.getVertexType(), vertexReference.getVertexIndex());
   }
 
   public boolean isSet() {

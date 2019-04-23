@@ -327,14 +327,10 @@ public class DocumentViewStatementCreationAcceptanceTests {
   public void Document_addOneCurveToEmptyObjDocumentAtCursor_OneCurveIsAddedAtCursor()
       throws Exception {
     List<VertexReference> controlPointVertexReferenceList = new ArrayList<>();
-    controlPointVertexReferenceList
-        .add(statementFactory.createVertexReference(Type.GEOMETRIC, 1, true));
-    controlPointVertexReferenceList
-        .add(statementFactory.createVertexReference(Type.GEOMETRIC, 2, true));
-    controlPointVertexReferenceList
-        .add(statementFactory.createVertexReference(Type.GEOMETRIC, 3, true));
-    controlPointVertexReferenceList
-        .add(statementFactory.createVertexReference(Type.GEOMETRIC, 4, true));
+    controlPointVertexReferenceList.add(statementFactory.createVertexReference(Type.GEOMETRIC, 1));
+    controlPointVertexReferenceList.add(statementFactory.createVertexReference(Type.GEOMETRIC, 2));
+    controlPointVertexReferenceList.add(statementFactory.createVertexReference(Type.GEOMETRIC, 3));
+    controlPointVertexReferenceList.add(statementFactory.createVertexReference(Type.GEOMETRIC, 4));
     Curve curv = statementFactory.createCurve(BigDecimal.valueOf(1.23456),
         BigDecimal.valueOf(9.5321), controlPointVertexReferenceList);
 
@@ -347,14 +343,10 @@ public class DocumentViewStatementCreationAcceptanceTests {
   public void Document_addOneCurve2DToEmptyObjDocumentAtCursor_OneCurve2DIsAddedAtCursor()
       throws Exception {
     List<VertexReference> controlPointVertexReferenceList = new ArrayList<>();
-    controlPointVertexReferenceList
-        .add(statementFactory.createVertexReference(Type.PARAMETER, 1, true));
-    controlPointVertexReferenceList
-        .add(statementFactory.createVertexReference(Type.PARAMETER, 2, true));
-    controlPointVertexReferenceList
-        .add(statementFactory.createVertexReference(Type.PARAMETER, 3, true));
-    controlPointVertexReferenceList
-        .add(statementFactory.createVertexReference(Type.PARAMETER, 4, true));
+    controlPointVertexReferenceList.add(statementFactory.createVertexReference(Type.PARAMETER, 1));
+    controlPointVertexReferenceList.add(statementFactory.createVertexReference(Type.PARAMETER, 2));
+    controlPointVertexReferenceList.add(statementFactory.createVertexReference(Type.PARAMETER, 3));
+    controlPointVertexReferenceList.add(statementFactory.createVertexReference(Type.PARAMETER, 4));
     Curve2D curv2 = statementFactory.createCurve2D(controlPointVertexReferenceList);
 
     objDocument.append(curv2, cursor);
@@ -478,11 +470,11 @@ public class DocumentViewStatementCreationAcceptanceTests {
   public void Document_addOneSpecialPointToEmptyObjDocumentAtCursor_OneSpecialPointIsAddedAtCursor()
       throws Exception {
     List<VertexReference> vertexReferenceGroupList = new ArrayList<>();
-    vertexReferenceGroupList.add(statementFactory.createVertexReference(Type.PARAMETER, 1, true));
-    vertexReferenceGroupList.add(statementFactory.createVertexReference(Type.PARAMETER, 300, true));
-    vertexReferenceGroupList.add(statementFactory.createVertexReference(Type.PARAMETER, 6, true));
-    vertexReferenceGroupList.add(statementFactory.createVertexReference(Type.PARAMETER, 88, true));
-    
+    vertexReferenceGroupList.add(statementFactory.createVertexReference(Type.PARAMETER, 1));
+    vertexReferenceGroupList.add(statementFactory.createVertexReference(Type.PARAMETER, 300));
+    vertexReferenceGroupList.add(statementFactory.createVertexReference(Type.PARAMETER, 6));
+    vertexReferenceGroupList.add(statementFactory.createVertexReference(Type.PARAMETER, 88));
+
     SpecialPoint sp = statementFactory.createSpecialPoint(vertexReferenceGroupList);
 
     objDocument.append(sp, cursor);

@@ -3,8 +3,6 @@ package com.ht.wfp3.api.statement;
 import java.math.BigDecimal;
 import java.nio.file.Path;
 import java.util.List;
-import com.ht.wfp3.api.document.Blank;
-import com.ht.wfp3.api.document.Unknown;
 
 /**
  * The OBJ element factory.
@@ -62,8 +60,8 @@ public final class StatementFactory {
     return new VertexReferenceGroupImp((VertexReferenceGroupImp) vertexReferenceGroup);
   }
 
-  public VertexReference createVertexReference(VertexReference.Type type, Integer vertexIndex, boolean isSet) {
-    return new VertexReferenceImp(type, vertexIndex, isSet);
+  public VertexReference createVertexReference(VertexReference.Type type, Integer vertexIndex) {
+    return new VertexReferenceImp(type, vertexIndex);
   }
 
   public VertexReference copyVertexReference(VertexReference vertexReference) {
@@ -421,18 +419,6 @@ public final class StatementFactory {
   public SurfaceApproxCurvTechnique copySurfaceApproxCurvTechnique(
       SurfaceApproxCurvTechnique surfaceApproxCurvTechnique) {
     return new SurfaceApproxCurvTechniqueImp(surfaceApproxCurvTechnique);
-  }
-
-  public Blank createBlank() {
-    // TODO Auto-generated method stub
-
-    return null;
-  }
-
-  public Unknown createUnknown(List<String> tokens) {
-    // TODO Auto-generated method stub
-
-    return null;
   }
 
   public boolean isSupportedStatement(Statement statement) {

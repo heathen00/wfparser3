@@ -10,7 +10,5 @@ public interface VertexReferenceGroupBuilder {
 
   VertexReferenceGroupBuilder normalVertexRef(Integer normalVertexReferenceNumber);
 
-  VertexReferenceGroupBuilder paramVertexRef(Integer parameterVertexReferenceNumber);
-
   VertexReferenceGroup build();
 }
