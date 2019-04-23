@@ -1,5 +1,7 @@
 package com.ht.wfp3.api.statement;
 
+import java.util.List;
+
 /**
  * The special point free-form geometry body statement.
  * 
@@ -17,5 +19,6 @@ package com.ht.wfp3.api.statement;
  * @author nickl
  *
  */
-public interface SpecialPoint extends Statement, UsesVertexReferenceGroups {
+public interface SpecialPoint extends Statement {
+  List<VertexReference> getVertexReferenceList();
 }

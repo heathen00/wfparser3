@@ -1,14 +1,14 @@
 package com.ht.wfp3.api.statement;
 
 class VertexReferenceGroupImp implements VertexReferenceGroup {
-  private final VertexReferenceImp geometricVertexReference;
-  private final VertexReferenceImp textureVertexReference;
-  private final VertexReferenceImp normalVervexReference;
-  private final VertexReferenceImp parameterVertexReference;
+  private final VertexReference geometricVertexReference;
+  private final VertexReference textureVertexReference;
+  private final VertexReference normalVervexReference;
+  private final VertexReference parameterVertexReference;
 
-  VertexReferenceGroupImp(VertexReferenceImp geometricVertexReference,
-      VertexReferenceImp textureVertexReference, VertexReferenceImp normalVertexReference,
-      VertexReferenceImp parameterVertexReference) {
+  VertexReferenceGroupImp(VertexReference geometricVertexReference,
+      VertexReference textureVertexReference, VertexReference normalVertexReference,
+      VertexReference parameterVertexReference) {
     super();
     this.geometricVertexReference = geometricVertexReference;
     this.textureVertexReference = textureVertexReference;
@@ -48,19 +48,19 @@ class VertexReferenceGroupImp implements VertexReferenceGroup {
     return parameterVertexReference.getVertexIndex();
   }
 
-  VertexReferenceImp getGeoVertexRefObj() {
+  VertexReference getGeoVertexRefObj() {
     return geometricVertexReference;
   }
 
-  VertexReferenceImp getTexVertexRefObj() {
+  VertexReference getTexVertexRefObj() {
     return textureVertexReference;
   }
 
-  VertexReferenceImp getNormalVertexRefObj() {
+  VertexReference getNormalVertexRefObj() {
     return normalVervexReference;
   }
 
-  VertexReferenceImp getParamVertexRefObj() {
+  VertexReference getParamVertexRefObj() {
     return parameterVertexReference;
   }
 

@@ -3,17 +3,15 @@
 
 Rough list:
  * Automated Testing: Review the completed view creation acceptance tests since some refactoring is required.
-    * There are statement implementations that are currently using VertexReferenceGroups, but only actually
-      support one vertex type.  A related issue is whether ANY geometric objects use the parameter vertex
-      in a vertex group with the other vertex types.  If not, you should remove it from the vertex reference
-      group:
-        * Curv: Only supports geometric vertices.
-        * SpecialPoint: Only supports parameter vertices.
-        * Check for others.
     * review the implementation of the VertexReference / VertexReferenceGroup classes with regards
       to how the lists are handled since it is unnecessarily complex for immutable value objects.
     * some interfaces are not intended to be published.  Should you rename them with the "Imp" suffix
       to reflect that?
+    * Remove "isSet" from the VertexReference constructors.  Handle it the same way as for those
+      groups that can be disabled.
+    * Could you use generics for the VertexReference so that it is known at compile time what subtype
+      of VertexReference is being accessed?  The only other option is to create subclasses, as in
+      VertexReferenceForGeometricVertex, etc.
     * review the names of all the statement classes.
     * review the method names in StatementFactory since you renamed some classes and their
       create/copy methods may still use the old name.

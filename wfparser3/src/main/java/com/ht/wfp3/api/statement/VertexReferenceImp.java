@@ -13,7 +13,7 @@ final class VertexReferenceImp implements VertexReference {
     this.isSet = isSet;
   }
 
-  VertexReferenceImp(VertexReferenceImp vertexReference) {
+  VertexReferenceImp(VertexReference vertexReference) {
     this(vertexReference.getVertexType(), vertexReference.getVertexIndex(),
         vertexReference.isSet());
   }

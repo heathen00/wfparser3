@@ -62,14 +62,11 @@ public final class StatementFactory {
     return new VertexReferenceGroupImp((VertexReferenceGroupImp) vertexReferenceGroup);
   }
 
-  // Not published.
-  VertexReferenceImp createVertexReference(VertexReferenceImp.Type type, Integer vertexIndex,
-      boolean isSet) {
+  public VertexReference createVertexReference(VertexReference.Type type, Integer vertexIndex, boolean isSet) {
     return new VertexReferenceImp(type, vertexIndex, isSet);
   }
 
-  // Not published.
-  VertexReferenceImp copyVertexReference(VertexReferenceImp vertexReference) {
+  public VertexReference copyVertexReference(VertexReference vertexReference) {
     return new VertexReferenceImp(vertexReference);
   }
 
@@ -136,7 +133,7 @@ public final class StatementFactory {
   }
 
   public Curve createCurve(BigDecimal startingParameterValue, BigDecimal endingParameterValue,
-      List<VertexReferenceGroup> vertexReferenceGroupList) {
+      List<VertexReference> vertexReferenceGroupList) {
     return new CurveImp(startingParameterValue, endingParameterValue, vertexReferenceGroupList);
   }
 
@@ -144,8 +141,8 @@ public final class StatementFactory {
     return new CurveImp(curv);
   }
 
-  public Curve2D createCurve2D(List<VertexReferenceGroup> vertexReferenceGroupList) {
-    return new Curve2DImp(vertexReferenceGroupList);
+  public Curve2D createCurve2D(List<VertexReference> controlPointvertexReferenceList) {
+    return new Curve2DImp(controlPointvertexReferenceList);
   }
 
   public Curve2D copyCurve2D(Curve2D curv2) {
@@ -220,8 +217,8 @@ public final class StatementFactory {
     return new SpecialCurveImp(scrv);
   }
 
-  public SpecialPoint createSpecialPoint(List<VertexReferenceGroup> vertexReferenceGroupList) {
-    return new SpecialPointImp(vertexReferenceGroupList);
+  public SpecialPoint createSpecialPoint(List<VertexReference> vertexReferenceList) {
+    return new SpecialPointImp(vertexReferenceList);
   }
 
   public SpecialPoint copySpecialPoint(SpecialPoint sp) {

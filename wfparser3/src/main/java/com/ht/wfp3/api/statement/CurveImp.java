@@ -1,24 +1,29 @@
 package com.ht.wfp3.api.statement;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-class CurveImp extends StatementsUsingVertexReferenceGroupsImp implements Curve {
+class CurveImp extends StatementImp implements Curve {
   private static final String KEYWORD = "curv";
 
   private final BigDecimal startingParameterValue;
   private final BigDecimal endingParameterValue;
+  private final List<VertexReference> controlPointVertexReferenceList;
 
   CurveImp(BigDecimal startingParameterValue, BigDecimal endingParameterValue,
-      List<VertexReferenceGroup> vertexReferenceGroupList) {
-    super(KEYWORD, vertexReferenceGroupList);
+      List<VertexReference> controlPointVertexReferenceList) {
+    super(KEYWORD);
     this.startingParameterValue = startingParameterValue;
     this.endingParameterValue = endingParameterValue;
+    this.controlPointVertexReferenceList =
+        new ArrayList<VertexReference>(controlPointVertexReferenceList);
   }
 
   CurveImp(Curve curv) {
     this(curv.getStartingParameterValue(), curv.getEndingParameterValue(),
-        curv.getVertexReferenceGroupList());
+        curv.getControlPointVertexReferenceList());
   }
 
   @Override
@@ -32,9 +37,16 @@ class CurveImp extends StatementsUsingVertexReferenceGroupsImp implements Curve 
   }
 
   @Override
+  public List<VertexReference> getControlPointVertexReferenceList() {
+    return Collections.unmodifiableList(controlPointVertexReferenceList);
+  }
+
+  @Override
   public int hashCode() {
     final int prime = 31;
     int result = super.hashCode();
+    result = prime * result + ((controlPointVertexReferenceList == null) ? 0
+        : controlPointVertexReferenceList.hashCode());
     result =
         prime * result + ((endingParameterValue == null) ? 0 : endingParameterValue.hashCode());
     result =
@@ -51,6 +63,11 @@ class CurveImp extends StatementsUsingVertexReferenceGroupsImp implements Curve 
     if (getClass() != obj.getClass())
       return false;
     CurveImp other = (CurveImp) obj;
+    if (controlPointVertexReferenceList == null) {
+      if (other.controlPointVertexReferenceList != null)
+        return false;
+    } else if (!controlPointVertexReferenceList.equals(other.controlPointVertexReferenceList))
+      return false;
     if (endingParameterValue == null) {
       if (other.endingParameterValue != null)
         return false;
@@ -67,6 +84,7 @@ class CurveImp extends StatementsUsingVertexReferenceGroupsImp implements Curve 
   @Override
   public String toString() {
     return "CurveImp [startingParameterValue=" + startingParameterValue + ", endingParameterValue="
-        + endingParameterValue + ", super.toString()=" + super.toString() + "]";
+        + endingParameterValue + ", controlPointVertexReferenceList="
+        + controlPointVertexReferenceList + ", super.toString()=" + super.toString() + "]";
   }
 }

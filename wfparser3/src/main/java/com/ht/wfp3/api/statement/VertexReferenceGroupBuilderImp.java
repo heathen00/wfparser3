@@ -50,20 +50,20 @@ class VertexReferenceGroupBuilderImp implements VertexReferenceGroupBuilder {
 
   @Override
   public VertexReferenceGroup build() {
-    VertexReferenceImp geometricVertexReference = (geometricVertexReferenceNumber != null
+    VertexReference geometricVertexReference = (geometricVertexReferenceNumber != null
         ? statementFactory.createVertexReference(Type.GEOMETRIC, geometricVertexReferenceNumber,
             true)
         : statementFactory.createVertexReference(Type.GEOMETRIC,
             VertexReferenceImp.INDEX_NOT_SET_VALUE, false));
-    VertexReferenceImp textureVertexReference = (textureVertexReferenceNumber != null
+    VertexReference textureVertexReference = (textureVertexReferenceNumber != null
         ? statementFactory.createVertexReference(Type.TEXTURE, textureVertexReferenceNumber, true)
         : statementFactory.createVertexReference(Type.TEXTURE,
             VertexReferenceImp.INDEX_NOT_SET_VALUE, false));
-    VertexReferenceImp normalVertexReference = (normalVertexReferenceNumber != null
+    VertexReference normalVertexReference = (normalVertexReferenceNumber != null
         ? statementFactory.createVertexReference(Type.NORMAL, normalVertexReferenceNumber, true)
         : statementFactory.createVertexReference(Type.NORMAL,
             VertexReferenceImp.INDEX_NOT_SET_VALUE, false));
-    VertexReferenceImp parameterVertexReference = (parameterVertexReferenceNumber != null
+    VertexReference parameterVertexReference = (parameterVertexReferenceNumber != null
         ? statementFactory.createVertexReference(Type.PARAMETER, parameterVertexReferenceNumber,
             true)
         : statementFactory.createVertexReference(Type.PARAMETER,

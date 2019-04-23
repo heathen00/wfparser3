@@ -1,6 +1,6 @@
 package com.ht.wfp3.api.statement;
 
-interface VertexReference {
+public interface VertexReference {
   enum Type {
     GEOMETRIC, TEXTURE, NORMAL, PARAMETER,
   }
