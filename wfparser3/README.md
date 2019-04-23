@@ -2,12 +2,6 @@
 
 
 Rough list:
- * Automated Testing: Review the completed view creation acceptance tests since some refactoring is required.
-    * Could you use generics for the VertexReference so that it is known at compile time what subtype
-      of VertexReference is being accessed?  The only other option is to create subclasses, as in
-      VertexReferenceForGeometricVertex, etc.
-    * For consistency with VertexReference, you could use generics with CurveApprox and SurfaceApprox,
-      too.  But maybe wait until after you have the VertexReference solution implemented successfully.
  * Automated Testing: Complete the Statement unit tests.  This might be difficult since you already have partial
    solutions in place due to defining the API which are likely incorrect since they have no unit tests associated
    with them.  Thus, there might be some re-implementation necessary.  Are they unit tests?  Probably not.  Since
