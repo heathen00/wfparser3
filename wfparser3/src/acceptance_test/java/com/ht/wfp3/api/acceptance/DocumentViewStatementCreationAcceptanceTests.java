@@ -533,7 +533,7 @@ public class DocumentViewStatementCreationAcceptanceTests {
   }
 
   @Test
-  public void Document_addMergingGroupToEmptyObjDocumentAtCursor_OneMergingGroupIsAddedAtCursor()
+  public void Document_addOneMergingGroupToEmptyObjDocumentAtCursor_OneMergingGroupIsAddedAtCursor()
       throws Exception {
     MergingGroup mg = statementFactory.createMergingGroup(3, BigDecimal.valueOf(0.6));
     objDocument.append(mg, cursor);

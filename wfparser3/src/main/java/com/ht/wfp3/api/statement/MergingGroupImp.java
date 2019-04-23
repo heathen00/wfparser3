@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 
 class MergingGroupImp extends StatementImp implements MergingGroup {
   private static final String KEYWORD = "mg";
+  static final Integer OFF = Integer.valueOf(0);
 
   private final boolean isEnabled;
   private final Integer mergingGroupNumber;
@@ -11,7 +12,7 @@ class MergingGroupImp extends StatementImp implements MergingGroup {
 
   MergingGroupImp(Integer mergingGroupNumber, BigDecimal mergingGroupResolution) {
     super(KEYWORD);
-    this.isEnabled = (mergingGroupNumber == 0 ? false : true);
+    this.isEnabled = (mergingGroupNumber == OFF ? false : true);
     this.mergingGroupNumber = mergingGroupNumber;
     this.mergingGroupResolution = mergingGroupResolution;
   }

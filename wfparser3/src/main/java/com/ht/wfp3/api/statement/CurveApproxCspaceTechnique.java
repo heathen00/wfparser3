@@ -3,7 +3,7 @@ package com.ht.wfp3.api.statement;
 import java.math.BigDecimal;
 
 /**
- * The constant spatial subdivision curve approxmation technique.
+ * The constant spatial subdivision curve approximation technique.
  * 
  * ctech cspace maxlength
  * 

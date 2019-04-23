@@ -2,13 +2,14 @@ package com.ht.wfp3.api.statement;
 
 class SmoothingGroupImp extends StatementImp implements SmoothingGroup {
   private static final String KEYWORD = "s";
+  static final Integer OFF = Integer.valueOf(0);
 
   private final boolean isEnabled;
   private final Integer smoothingGroupNumber;
 
   SmoothingGroupImp(Integer smoothingGroupNumber) {
     super(KEYWORD);
-    this.isEnabled = (smoothingGroupNumber == 0 ? false : true);
+    this.isEnabled = (smoothingGroupNumber == OFF ? false : true);
     this.smoothingGroupNumber = smoothingGroupNumber;
   }
 
