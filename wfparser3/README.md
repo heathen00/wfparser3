@@ -9,7 +9,3 @@ Rough list:
    API classes are visible, then any behaviour that is associated with a published class is required to be defined
    by the acceptance tests, even if the user stories do not explicitly state the behaviour in their acceptance
    criteria.  How will you deal with optional data members?  It seems to be a common problem for many statements.
- * Design Error: If all statements are implemented as immutable value objects, what is the purpose in copying them
-   when populating the document?  It only makes sense to do so IF the statements are mutable objects!  But right now,
-   this is not causing any problems and having the ability to copy the statements may be useful.
-
