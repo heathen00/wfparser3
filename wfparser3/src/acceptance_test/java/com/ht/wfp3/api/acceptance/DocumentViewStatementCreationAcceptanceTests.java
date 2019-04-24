@@ -10,7 +10,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import com.ht.wfp3.api.document.Cursor;
-import com.ht.wfp3.api.document.Document;
+import com.ht.wfp3.api.document.DocumentView;
 import com.ht.wfp3.api.document.DocumentFactory;
 import com.ht.wfp3.api.document.EmptyDocumentException;
 import com.ht.wfp3.api.document.VisibleDocumentImp;
@@ -93,14 +93,14 @@ public class DocumentViewStatementCreationAcceptanceTests {
   }
 
   @Test
-  public void Document_createEmptyObjDocument_EmptyDocumentIsCreated() {
+  public void DocumentView_createEmptyObjDocumentView_EmptyDocumentIsCreated() {
     DocumentFactory documentFactory = DocumentFactory.createDocumentFactory();
-    Document objDocumentToTest = documentFactory.createObjDocument();
+    DocumentView objDocumentToTest = documentFactory.createObjDocumentView();
     assertNotNull(objDocumentToTest);
   }
 
   @Test
-  public void Document_createCursor_defaultCursorIsCreated() {
+  public void DocumentView_createCursor_defaultCursorIsCreated() {
     Cursor cursor = objDocument.createCursor();
 
     assertEquals(Integer.valueOf(1), cursor.getLineNumber());
@@ -108,14 +108,14 @@ public class DocumentViewStatementCreationAcceptanceTests {
   }
 
   @Test
-  public void Document_createStatementFactory_statementFactoryIsCreated() {
+  public void DocumentView_createStatementFactory_statementFactoryIsCreated() {
     assertNotNull(statementFactory);
   }
 
   // Error scenarios.
 
   @Test(expected = NullPointerException.class)
-  public void Document_appendApiGuardIsPassedANullCursor_nullPointerExceptionIsThrown() {
+  public void DocumentView_appendApiGuardIsPassedANullCursor_nullPointerExceptionIsThrown() {
     GeoVertex geoVertex = statementFactory.createGeoVertex(BigDecimal.valueOf(5.555),
         BigDecimal.valueOf(5.555), BigDecimal.valueOf(5.555), BigDecimal.valueOf(5.555));
 
@@ -123,7 +123,7 @@ public class DocumentViewStatementCreationAcceptanceTests {
   }
 
   @Test(expected = IllegalArgumentException.class)
-  public void Document_appendApiGuardIsPassedCursorFromAnotherDocument_illegalArgumentExceptionIsThrown() {
+  public void DocumentView_appendApiGuardIsPassedCursorFromAnotherDocumentView_illegalArgumentExceptionIsThrown() {
     VisibleDocumentImp otherDocument = new VisibleDocumentImp();
     Cursor otherCursor = otherDocument.createCursor();
     GeoVertex geoVertex = statementFactory.createGeoVertex(BigDecimal.valueOf(5.555),
@@ -133,30 +133,30 @@ public class DocumentViewStatementCreationAcceptanceTests {
   }
 
   @Test(expected = NullPointerException.class)
-  public void Document_appendApiGuardIsPassedANullStatement_nullPointerExceptionIsThrown() {
+  public void DocumentView_appendApiGuardIsPassedANullStatement_nullPointerExceptionIsThrown() {
     objDocument.guardAppendApis(null, cursor);
   }
 
   @Test(expected = IllegalArgumentException.class)
-  public void Document_appendApiGuardIsPassedAnUnknownStatement_illegalArgumentExceptionIsThrown() {
+  public void DocumentView_appendApiGuardIsPassedAnUnknownStatement_illegalArgumentExceptionIsThrown() {
     UnknownStatementStub unknownStatement = new UnknownStatementStub();
 
     objDocument.guardAppendApis(unknownStatement, cursor);
   }
 
   @Test(expected = NullPointerException.class)
-  public void Document_peekAtDocumentLineWithNullCursor_nullPointerExceptionIsThrown()
+  public void DocumentView_peekAtDocumentLineWithNullCursor_nullPointerExceptionIsThrown()
       throws Exception {
     objDocument.peek(null);
   }
 
   @Test(expected = EmptyDocumentException.class)
-  public void Document_peekInEmptyDocument_emptyDocumentExceptionIsThrown() throws Exception {
+  public void DocumentView_peekInEmptyDocumentView_emptyDocumentExceptionIsThrown() throws Exception {
     objDocument.peek(cursor);
   }
 
   @Test(expected = IllegalArgumentException.class)
-  public void Document_peekUsingCursorFromAnotherDocument_illegalArgumentExceptionIsThrown()
+  public void DocumentView_peekUsingCursorFromAnotherDocumentView_illegalArgumentExceptionIsThrown()
       throws Exception {
     VisibleDocumentImp otherDocument = new VisibleDocumentImp();
     Cursor otherCursor = otherDocument.createCursor();
@@ -171,7 +171,7 @@ public class DocumentViewStatementCreationAcceptanceTests {
   // Valid scenarios.
 
   @Test
-  public void Document_addOneGeometricVertexToEmptyObjDocumentAtCursor_OneGeometricVertexIsAddedAtCursor()
+  public void DocumentView_addOneGeometricVertexToEmptyObjDocumentAtCursor_OneGeometricVertexIsAddedAtCursor()
       throws Exception {
     GeoVertex geoVertex = statementFactory.createGeoVertex(BigDecimal.valueOf(1.000),
         BigDecimal.valueOf(2.000), BigDecimal.valueOf(3.000), BigDecimal.valueOf(4.000));
@@ -182,7 +182,7 @@ public class DocumentViewStatementCreationAcceptanceTests {
   }
 
   @Test
-  public void Document_addOneTextureVertexToEmptyObjDocumentAtCursor_OneTextureVertexIsAddedAtCursor()
+  public void DocumentView_addOneTextureVertexToEmptyObjDocumentAtCursor_OneTextureVertexIsAddedAtCursor()
       throws Exception {
     TexVertex texVertex = statementFactory.createTexVertex(BigDecimal.valueOf(3.3),
         BigDecimal.valueOf(2.2), BigDecimal.valueOf(1.1));
@@ -194,7 +194,7 @@ public class DocumentViewStatementCreationAcceptanceTests {
   }
 
   @Test
-  public void Document_addOneNormalVertexToEmptyObjDocumentAtCursor_OneNormalVertexIsAddedAtCursor()
+  public void DocumentView_addOneNormalVertexToEmptyObjDocumentAtCursor_OneNormalVertexIsAddedAtCursor()
       throws Exception {
     NormalVertex normalVertex = statementFactory.createNormalVertex(BigDecimal.valueOf(9.9),
         BigDecimal.valueOf(8.8), BigDecimal.valueOf(7.7));
@@ -206,7 +206,7 @@ public class DocumentViewStatementCreationAcceptanceTests {
   }
 
   @Test
-  public void Document_addOneParamVertexToEmptyObjDocumentAtCursor_OneParamVertexIsAddedAtCursor()
+  public void DocumentView_addOneParamVertexToEmptyObjDocumentAtCursor_OneParamVertexIsAddedAtCursor()
       throws Exception {
     ParamVertex paramVertex = statementFactory.createParamVertex(BigDecimal.valueOf(3.13),
         BigDecimal.valueOf(3.31), BigDecimal.valueOf(1.33));
@@ -218,7 +218,7 @@ public class DocumentViewStatementCreationAcceptanceTests {
   }
 
   @Test
-  public void Document_addOnePointToEmptyObjDocumentAtCursor_OnePointIsAddedAtCursor()
+  public void DocumentView_addOnePointToEmptyObjDocumentAtCursor_OnePointIsAddedAtCursor()
       throws Exception {
     VertexReferenceGroupBuilder vertexReferenceGroupBuilder =
         statementFactory.createVertexReferenceGroupBuilder();
@@ -235,7 +235,7 @@ public class DocumentViewStatementCreationAcceptanceTests {
   }
 
   @Test
-  public void Document_addOneLineToEmptyObjDocumentAtCursor_OneLineIsAddedAtCursor()
+  public void DocumentView_addOneLineToEmptyObjDocumentAtCursor_OneLineIsAddedAtCursor()
       throws Exception {
     VertexReferenceGroupBuilder vertexReferenceGroupBuilder =
         statementFactory.createVertexReferenceGroupBuilder();
@@ -256,7 +256,7 @@ public class DocumentViewStatementCreationAcceptanceTests {
   }
 
   @Test
-  public void Document_addOneFaceToEmptyObjDocumentAtCursor_OneFaceIsAddedAtCursor()
+  public void DocumentView_addOneFaceToEmptyObjDocumentAtCursor_OneFaceIsAddedAtCursor()
       throws Exception {
     VertexReferenceGroupBuilder vertexReferenceGroupBuilder =
         statementFactory.createVertexReferenceGroupBuilder();
@@ -277,7 +277,7 @@ public class DocumentViewStatementCreationAcceptanceTests {
   }
 
   @Test
-  public void Document_addOneCSTypeToEmptyObjDocumentAtCursor_OneCSTypeIsAddedAtCursor()
+  public void DocumentView_addOneCSTypeToEmptyObjDocumentAtCursor_OneCSTypeIsAddedAtCursor()
       throws Exception {
     CurveOrSurfaceType cstype =
         statementFactory.createCurveOrSurface(true, CurveOrSurfaceType.Key.BMATRIX);
@@ -287,7 +287,7 @@ public class DocumentViewStatementCreationAcceptanceTests {
   }
 
   @Test
-  public void Document_addOneDegreeToEmptyObjDocumentAtCursor_OneDegreeIsAddedAtCursor()
+  public void DocumentView_addOneDegreeToEmptyObjDocumentAtCursor_OneDegreeIsAddedAtCursor()
       throws Exception {
     Degree deg = statementFactory.createDegree(5, 6);
     objDocument.append(deg, cursor);
@@ -296,7 +296,7 @@ public class DocumentViewStatementCreationAcceptanceTests {
   }
 
   @Test
-  public void Document_addOneBasisMatrixToEmptyObjDocumentAtCursor_OneBasisMatrixIsAddedAtCursor()
+  public void DocumentView_addOneBasisMatrixToEmptyObjDocumentAtCursor_OneBasisMatrixIsAddedAtCursor()
       throws Exception {
 
     MatrixBuilder matrixBuilder = statementFactory.createMatrixBuilder();
@@ -315,7 +315,7 @@ public class DocumentViewStatementCreationAcceptanceTests {
   }
 
   @Test
-  public void Document_addOneStepToEmptyObjDocumentAtCursor_OneStepIsAddedAtCursor()
+  public void DocumentView_addOneStepToEmptyObjDocumentAtCursor_OneStepIsAddedAtCursor()
       throws Exception {
     StepSize step = statementFactory.createStepSize(7, 33);
     objDocument.append(step, cursor);
@@ -324,7 +324,7 @@ public class DocumentViewStatementCreationAcceptanceTests {
   }
 
   @Test
-  public void Document_addOneCurveToEmptyObjDocumentAtCursor_OneCurveIsAddedAtCursor()
+  public void DocumentView_addOneCurveToEmptyObjDocumentAtCursor_OneCurveIsAddedAtCursor()
       throws Exception {
     List<VertexReference> controlPointVertexReferenceList = new ArrayList<>();
     controlPointVertexReferenceList.add(statementFactory.createVertexReference(Type.GEOMETRIC, 1));
@@ -340,7 +340,7 @@ public class DocumentViewStatementCreationAcceptanceTests {
   }
 
   @Test
-  public void Document_addOneCurve2DToEmptyObjDocumentAtCursor_OneCurve2DIsAddedAtCursor()
+  public void DocumentView_addOneCurve2DToEmptyObjDocumentAtCursor_OneCurve2DIsAddedAtCursor()
       throws Exception {
     List<VertexReference> controlPointVertexReferenceList = new ArrayList<>();
     controlPointVertexReferenceList.add(statementFactory.createVertexReference(Type.PARAMETER, 1));
@@ -355,7 +355,7 @@ public class DocumentViewStatementCreationAcceptanceTests {
   }
 
   @Test
-  public void Document_addOneSurfaceToEmptyObjDocumentAtCursor_OneSurfaceIsAddedAtCursor()
+  public void DocumentView_addOneSurfaceToEmptyObjDocumentAtCursor_OneSurfaceIsAddedAtCursor()
       throws Exception {
     VertexReferenceGroupBuilder vertexReferenceGroupBuilder =
         statementFactory.createVertexReferenceGroupBuilder();
@@ -378,7 +378,7 @@ public class DocumentViewStatementCreationAcceptanceTests {
   }
 
   @Test
-  public void Document_addOneCallToEmptyObjDocumentAtCursor_OneCallIsAddedAtCursor()
+  public void DocumentView_addOneCallToEmptyObjDocumentAtCursor_OneCallIsAddedAtCursor()
       throws Exception {
     List<Integer> arguments = new ArrayList<>();
     arguments.add(Integer.valueOf(3));
@@ -392,7 +392,7 @@ public class DocumentViewStatementCreationAcceptanceTests {
   }
 
   @Test
-  public void Document_addOneCshToEmptyObjDocumentAtCursor_OneCshIsAddedAtCursor()
+  public void DocumentView_addOneCshToEmptyObjDocumentAtCursor_OneCshIsAddedAtCursor()
       throws Exception {
     Csh csh = statementFactory.createCsh(true, "pwd");
     objDocument.append(csh, cursor);
@@ -401,7 +401,7 @@ public class DocumentViewStatementCreationAcceptanceTests {
   }
 
   @Test
-  public void Document_addOneParmToEmptyObjDocumentAtCursor_OneParmIsAddedAtCursor()
+  public void DocumentView_addOneParmToEmptyObjDocumentAtCursor_OneParmIsAddedAtCursor()
       throws Exception {
 
     List<BigDecimal> parameterList = new ArrayList<>();
@@ -417,7 +417,7 @@ public class DocumentViewStatementCreationAcceptanceTests {
   }
 
   @Test
-  public void Document_addOneTrimToEmptyObjDocumentAtCursor_OneTrimIsAddedAtCursor()
+  public void DocumentView_addOneTrimToEmptyObjDocumentAtCursor_OneTrimIsAddedAtCursor()
       throws Exception {
     List<Curve2DReference> curve2DReferenceList = new ArrayList<>();
     curve2DReferenceList.add(statementFactory.createCurve2DReference(BigDecimal.valueOf(1.4567),
@@ -434,7 +434,7 @@ public class DocumentViewStatementCreationAcceptanceTests {
   }
 
   @Test
-  public void Document_addOneHoleToEmptyObjDocumentAtCursor_OneHoleIsAddedAtCursor()
+  public void DocumentView_addOneHoleToEmptyObjDocumentAtCursor_OneHoleIsAddedAtCursor()
       throws Exception {
     List<Curve2DReference> curve2DReferenceList = new ArrayList<>();
     curve2DReferenceList.add(statementFactory.createCurve2DReference(BigDecimal.valueOf(3.333),
@@ -451,7 +451,7 @@ public class DocumentViewStatementCreationAcceptanceTests {
   }
 
   @Test
-  public void Document_addOneSpecialCurveToEmptyObjDocumentAtCursor_OneSpecialCurveIsAddedAtCursor()
+  public void DocumentView_addOneSpecialCurveToEmptyObjDocumentAtCursor_OneSpecialCurveIsAddedAtCursor()
       throws Exception {
 
     List<Curve2DReference> curve2DReferenceList = new ArrayList<>();
@@ -467,7 +467,7 @@ public class DocumentViewStatementCreationAcceptanceTests {
   }
 
   @Test
-  public void Document_addOneSpecialPointToEmptyObjDocumentAtCursor_OneSpecialPointIsAddedAtCursor()
+  public void DocumentView_addOneSpecialPointToEmptyObjDocumentAtCursor_OneSpecialPointIsAddedAtCursor()
       throws Exception {
     List<VertexReference> vertexReferenceGroupList = new ArrayList<>();
     vertexReferenceGroupList.add(statementFactory.createVertexReference(Type.PARAMETER, 1));
@@ -483,7 +483,7 @@ public class DocumentViewStatementCreationAcceptanceTests {
   }
 
   @Test
-  public void Document_addOneEndToEmptyObjDocumentAtCursor_OneEndIsAddedAtCursor()
+  public void DocumentView_addOneEndToEmptyObjDocumentAtCursor_OneEndIsAddedAtCursor()
       throws Exception {
     End end = statementFactory.createEnd();
     objDocument.append(end, cursor);
@@ -492,7 +492,7 @@ public class DocumentViewStatementCreationAcceptanceTests {
   }
 
   @Test
-  public void Document_addOneConnectToEmptyObjDocumentAtCursor_OneConnectIsAddedAtCursor()
+  public void DocumentView_addOneConnectToEmptyObjDocumentAtCursor_OneConnectIsAddedAtCursor()
       throws Exception {
     Curve2DReference curve2dReferenceForSurface3 = statementFactory
         .createCurve2DReference(BigDecimal.valueOf(1.111), BigDecimal.valueOf(2.222), 1);
@@ -506,7 +506,7 @@ public class DocumentViewStatementCreationAcceptanceTests {
   }
 
   @Test
-  public void Document_addOneGroupNameToEmptyObjDocumentAtCursor_OneGroupNameIsAddedAtCursor()
+  public void DocumentView_addOneGroupNameToEmptyObjDocumentAtCursor_OneGroupNameIsAddedAtCursor()
       throws Exception {
     List<String> groupNameList = new ArrayList<>();
     groupNameList.add("cube");
@@ -519,7 +519,7 @@ public class DocumentViewStatementCreationAcceptanceTests {
   }
 
   @Test
-  public void Document_addOneSmoothingGroupToEmptyObjDocumentAtCursor_OneSmoothingGroupIsAddedAtCursor()
+  public void DocumentView_addOneSmoothingGroupToEmptyObjDocumentAtCursor_OneSmoothingGroupIsAddedAtCursor()
       throws Exception {
     SmoothingGroup s = statementFactory.createSmoothingGroup(3);
     objDocument.append(s, cursor);
@@ -528,7 +528,7 @@ public class DocumentViewStatementCreationAcceptanceTests {
   }
 
   @Test
-  public void Document_addOneMergingGroupToEmptyObjDocumentAtCursor_OneMergingGroupIsAddedAtCursor()
+  public void DocumentView_addOneMergingGroupToEmptyObjDocumentAtCursor_OneMergingGroupIsAddedAtCursor()
       throws Exception {
     MergingGroup mg = statementFactory.createMergingGroup(3, BigDecimal.valueOf(0.6));
     objDocument.append(mg, cursor);
@@ -537,7 +537,7 @@ public class DocumentViewStatementCreationAcceptanceTests {
   }
 
   @Test
-  public void Document_addObjectNameToEmptyObjDocumentAtCursor_OneObjectNameIsAddedAtCursor()
+  public void DocumentView_addObjectNameToEmptyObjDocumentAtCursor_OneObjectNameIsAddedAtCursor()
       throws Exception {
     ObjectName o = statementFactory.createObjectName("test_cube");
     objDocument.append(o, cursor);
@@ -546,7 +546,7 @@ public class DocumentViewStatementCreationAcceptanceTests {
   }
 
   @Test
-  public void Document_addOneBevelToEmptyObjDocumentAtCursor_OneBevelIsAddedAtCursor()
+  public void DocumentView_addOneBevelToEmptyObjDocumentAtCursor_OneBevelIsAddedAtCursor()
       throws Exception {
     Bevel bevel = statementFactory.createBevel(true);
     objDocument.append(bevel, cursor);
@@ -555,7 +555,7 @@ public class DocumentViewStatementCreationAcceptanceTests {
   }
 
   @Test
-  public void Document_addOneColorInterpolationToEmptyObjDocumentAtCursor_OneColorInterpolationIsAddedAtCursor()
+  public void DocumentView_addOneColorInterpolationToEmptyObjDocumentAtCursor_OneColorInterpolationIsAddedAtCursor()
       throws Exception {
     ColorInterpolation c_interp = statementFactory.createColorInterpolation(true);
     objDocument.append(c_interp, cursor);
@@ -564,7 +564,7 @@ public class DocumentViewStatementCreationAcceptanceTests {
   }
 
   @Test
-  public void Document_addOneDissolveInterpolationToEmptyObjDocumentAtCursor_OneDissolveInterpolationIsAddedAtCursor()
+  public void DocumentView_addOneDissolveInterpolationToEmptyObjDocumentAtCursor_OneDissolveInterpolationIsAddedAtCursor()
       throws Exception {
     DissolveInterpolation d_interp = statementFactory.createDissolveInterpolation(false);
     objDocument.append(d_interp, cursor);
@@ -573,7 +573,7 @@ public class DocumentViewStatementCreationAcceptanceTests {
   }
 
   @Test
-  public void Document_addOneLevelOfDetailToEmptyObjDocumentAtCursor_OneLevelOfDetailIsAddedAtCursor()
+  public void DocumentView_addOneLevelOfDetailToEmptyObjDocumentAtCursor_OneLevelOfDetailIsAddedAtCursor()
       throws Exception {
     LevelOfDetail lod = statementFactory.createLevelOfDetail(55);
     objDocument.append(lod, cursor);
@@ -582,7 +582,7 @@ public class DocumentViewStatementCreationAcceptanceTests {
   }
 
   @Test
-  public void Document_addOneMapLibToEmptyObjDocumentAtCursor_OneMapLibIsAddedAtCursor()
+  public void DocumentView_addOneMapLibToEmptyObjDocumentAtCursor_OneMapLibIsAddedAtCursor()
       throws Exception {
 
     // TODO I have no idea if there is a file extension limitation or not. It does
@@ -599,7 +599,7 @@ public class DocumentViewStatementCreationAcceptanceTests {
   }
 
   @Test
-  public void Document_addOneUseMapToEmptyObjDocumentAtCursor_OneUseMapIsAddedAtCursor()
+  public void DocumentView_addOneUseMapToEmptyObjDocumentAtCursor_OneUseMapIsAddedAtCursor()
       throws Exception {
     UseMap usemap = statementFactory.createUseMap("test_map_name");
     objDocument.append(usemap, cursor);
@@ -608,7 +608,7 @@ public class DocumentViewStatementCreationAcceptanceTests {
   }
 
   @Test
-  public void Document_addOneUseMaterialToEmptyObjDocumentAtCursor_OneUseMaterialIsAddedAtCursor()
+  public void DocumentView_addOneUseMaterialToEmptyObjDocumentAtCursor_OneUseMaterialIsAddedAtCursor()
       throws Exception {
     UseMaterial usemtl = statementFactory.createUseMaterial("test_material");
     objDocument.append(usemtl, cursor);
@@ -617,7 +617,7 @@ public class DocumentViewStatementCreationAcceptanceTests {
   }
 
   @Test
-  public void Document_addOneMaterialLibToEmptyObjDocumentAtCursor_OneMaterialLibIsAddedAtCursor()
+  public void DocumentView_addOneMaterialLibToEmptyObjDocumentAtCursor_OneMaterialLibIsAddedAtCursor()
       throws Exception {
 
     // TODO I have no idea if there is a file extension limitation or not. It does
@@ -634,7 +634,7 @@ public class DocumentViewStatementCreationAcceptanceTests {
   }
 
   @Test
-  public void Document_addOneShadowObjectToEmptyObjDocumentAtCursor_OneShadowObjectIsAddedAtCursor()
+  public void DocumentView_addOneShadowObjectToEmptyObjDocumentAtCursor_OneShadowObjectIsAddedAtCursor()
       throws Exception {
     ShadowObject shadow_obj = statementFactory.createShadowObject(Paths.get("shadow.obj"));
     objDocument.append(shadow_obj, cursor);
@@ -643,7 +643,7 @@ public class DocumentViewStatementCreationAcceptanceTests {
   }
 
   @Test
-  public void Document_addOneRayTracingObjectToEmptyObjDocumentAtCursor_OneRayTracingObjectIsAddedAtCursor()
+  public void DocumentView_addOneRayTracingObjectToEmptyObjDocumentAtCursor_OneRayTracingObjectIsAddedAtCursor()
       throws Exception {
     RayTracingObject trace_obj =
         statementFactory.createRayTracingObject(Paths.get("ray_tracing.obj"));
@@ -653,7 +653,7 @@ public class DocumentViewStatementCreationAcceptanceTests {
   }
 
   @Test
-  public void Document_addOneCurveApproxCparmTechniqueToEmptyObjDocumentAtCursor_OneCparmCurveApproxIsAddedAtCursor()
+  public void DocumentView_addOneCurveApproxCparmTechniqueToEmptyObjDocumentAtCursor_OneCparmCurveApproxIsAddedAtCursor()
       throws Exception {
     CurveApproxCparmTechnique ctech =
         statementFactory.createCurveApproxCparmTechnique(BigDecimal.valueOf(2.3333));
@@ -663,7 +663,7 @@ public class DocumentViewStatementCreationAcceptanceTests {
   }
 
   @Test
-  public void Document_addOneCurveApproxCspaceTechniqueToEmptyObjDocumentAtCursor_OneCspaceCurveApproxIsAddedAtCursor()
+  public void DocumentView_addOneCurveApproxCspaceTechniqueToEmptyObjDocumentAtCursor_OneCspaceCurveApproxIsAddedAtCursor()
       throws Exception {
     CurveApproxCspaceTechnique ctech =
         statementFactory.createCurveApproxCspaceTechnique(BigDecimal.valueOf(1.56));
@@ -673,7 +673,7 @@ public class DocumentViewStatementCreationAcceptanceTests {
   }
 
   @Test
-  public void Document_addOneCurveApproxCurvTechniqueToEmptyObjDocumentAtCursor_OneCurvCurveApproxIsAddedAtCursor()
+  public void DocumentView_addOneCurveApproxCurvTechniqueToEmptyObjDocumentAtCursor_OneCurvCurveApproxIsAddedAtCursor()
       throws Exception {
     CurveApproxCurvTechnique ctech = statementFactory
         .createCurveAproxCurvTechnique(BigDecimal.valueOf(1.1876), BigDecimal.valueOf(93.45));
@@ -683,7 +683,7 @@ public class DocumentViewStatementCreationAcceptanceTests {
   }
 
   @Test
-  public void Document_addOneSurfaceApproxCparmaTechniqueToEmptyObjDocumentAtCursor_OneCparmaSurfaceApproxIsAddedAtCursor()
+  public void DocumentView_addOneSurfaceApproxCparmaTechniqueToEmptyObjDocumentAtCursor_OneCparmaSurfaceApproxIsAddedAtCursor()
       throws Exception {
     SurfaceApproxCparmaTechnique stech = statementFactory
         .createSurfaceApproxCparmaTechnique(BigDecimal.valueOf(1.234), BigDecimal.valueOf(3.333));
@@ -693,7 +693,7 @@ public class DocumentViewStatementCreationAcceptanceTests {
   }
 
   @Test
-  public void Document_addOneSurfaceApproxCparmbTechniqueToEmptyObjDocumentAtCursor_OneCparmbSurfaceApproxIsAddedAtCursor()
+  public void DocumentView_addOneSurfaceApproxCparmbTechniqueToEmptyObjDocumentAtCursor_OneCparmbSurfaceApproxIsAddedAtCursor()
       throws Exception {
     SurfaceApproxCparmbTechnique stech =
         statementFactory.createSurfaceApproxCparmbTechnique(BigDecimal.valueOf(5.678));
@@ -703,7 +703,7 @@ public class DocumentViewStatementCreationAcceptanceTests {
   }
 
   @Test
-  public void Document_addOneSurfaceApproxCspaceTechniqueToEmptyObjDocumentAtCursor_OneCspaceSurfaceApproxIsAddedAtCursor()
+  public void DocumentView_addOneSurfaceApproxCspaceTechniqueToEmptyObjDocumentAtCursor_OneCspaceSurfaceApproxIsAddedAtCursor()
       throws Exception {
     SurfaceApproxCspaceTechnique stech =
         statementFactory.createSurfaceApproxCspaceTechnique(BigDecimal.valueOf(1.11));
@@ -713,7 +713,7 @@ public class DocumentViewStatementCreationAcceptanceTests {
   }
 
   @Test
-  public void Document_addOneSurfaceApproxCurvTechniqueToEmptyObjDocumentAtCursor_OneCurvSurfaceApproxIsAddedAtCursor()
+  public void DocumentView_addOneSurfaceApproxCurvTechniqueToEmptyObjDocumentAtCursor_OneCurvSurfaceApproxIsAddedAtCursor()
       throws Exception {
     SurfaceApproxCurvTechnique stech = statementFactory
         .createSurfaceApproxCurvTechnique(BigDecimal.valueOf(1.5678), BigDecimal.valueOf(90.0));

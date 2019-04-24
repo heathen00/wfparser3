@@ -9,11 +9,11 @@ public class DocumentFactory {
     return DOCUMENT_FACTORY_SINGLETON;
   }
 
-  public Document createObjDocument() {
-    return new DocumentImp();
+  public DocumentView createObjDocumentView() {
+    return new DocumentViewImp();
   }
 
-  DocumentLine createObjDocumentLine(Statement statement, Comment comment) {
+  DocumentLine createDocumentLine(Statement statement, Comment comment) {
     return new DocumentLineImp(statement, comment);
   }
 

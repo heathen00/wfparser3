@@ -58,7 +58,7 @@ import com.ht.wfp3.api.statement.UseMaterial;
  * @author nickl
  *
  */
-public interface Document {
+public interface DocumentView {
 
   Cursor createCursor();
 

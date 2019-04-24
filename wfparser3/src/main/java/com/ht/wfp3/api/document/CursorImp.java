@@ -5,14 +5,14 @@ import com.google.common.annotations.VisibleForTesting;
 class CursorImp implements Cursor {
   private static final int FIRST_LINE = 1;
   private int currentLine;
-  private DocumentImp document;
+  private DocumentViewImp documentView;
 
-  CursorImp(DocumentImp document) {
-    if (null == document) {
+  CursorImp(DocumentViewImp documentView) {
+    if (null == documentView) {
       throw new NullPointerException("document cannot be null.");
     }
     this.currentLine = 1;
-    this.document = document;
+    this.documentView = documentView;
   }
 
   @SuppressWarnings("unused")
@@ -20,7 +20,7 @@ class CursorImp implements Cursor {
 
   @Override
   public void toEof() {
-    currentLine = document.getLineNumberAtEof();
+    currentLine = documentView.getLineNumberAtEof();
   }
 
   @Override
@@ -33,7 +33,7 @@ class CursorImp implements Cursor {
     if (null == cursor) {
       throw new NullPointerException("cursor is null");
     }
-    if (!document.equals(((CursorImp) cursor).getDocumentImp())) {
+    if (!documentView.equals(((CursorImp) cursor).getDocumentImp())) {
       throw new IllegalArgumentException("Cursor " + cursor + " is from another document.");
     }
     currentLine = cursor.getLineNumber().intValue();
@@ -45,7 +45,7 @@ class CursorImp implements Cursor {
       throw new NullPointerException("lineNumber is null");
     }
     if (lineNumber.intValue() < FIRST_LINE
-        || lineNumber.intValue() > document.getLineNumberAtEof()) {
+        || lineNumber.intValue() > documentView.getLineNumberAtEof()) {
       throw new NonExistentLineException("Line " + lineNumber + " is invalid.");
     }
     currentLine = lineNumber.intValue();
@@ -73,13 +73,13 @@ class CursorImp implements Cursor {
   }
 
   @VisibleForTesting
-  public DocumentImp getDocumentImp() {
-    return document;
+  public DocumentViewImp getDocumentImp() {
+    return documentView;
   }
 
   @Override
   public boolean hasNextLine() {
-    return currentLine < document.getNumberOfLines();
+    return currentLine < documentView.getNumberOfLines();
   }
 
   @Override
@@ -92,7 +92,7 @@ class CursorImp implements Cursor {
     final int prime = 31;
     int result = 1;
     result = prime * result + currentLine;
-    result = prime * result + ((document == null) ? 0 : document.hashCode());
+    result = prime * result + ((documentView == null) ? 0 : documentView.hashCode());
     return result;
   }
 
@@ -111,11 +111,11 @@ class CursorImp implements Cursor {
     if (currentLine != other.currentLine) {
       return false;
     }
-    if (document == null) {
-      if (other.document != null) {
+    if (documentView == null) {
+      if (other.documentView != null) {
         return false;
       }
-    } else if (!document.equals(other.document)) {
+    } else if (!documentView.equals(other.documentView)) {
       return false;
     }
     return true;
