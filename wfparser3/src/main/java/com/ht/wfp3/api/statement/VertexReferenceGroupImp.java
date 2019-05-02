@@ -1,12 +1,12 @@
 package com.ht.wfp3.api.statement;
 
 class VertexReferenceGroupImp implements VertexReferenceGroup {
-  private final VertexReference geometricVertexReference;
-  private final VertexReference textureVertexReference;
-  private final VertexReference normalVervexReference;
+  private final GeoVertexReference geometricVertexReference;
+  private final TexVertexReference textureVertexReference;
+  private final NormalVertexReference normalVervexReference;
 
-  VertexReferenceGroupImp(VertexReference geometricVertexReference,
-      VertexReference textureVertexReference, VertexReference normalVertexReference) {
+  VertexReferenceGroupImp(GeoVertexReference geometricVertexReference,
+      TexVertexReference textureVertexReference, NormalVertexReference normalVertexReference) {
     this.geometricVertexReference = geometricVertexReference;
     this.textureVertexReference = textureVertexReference;
     this.normalVervexReference = normalVertexReference;
@@ -18,17 +18,17 @@ class VertexReferenceGroupImp implements VertexReferenceGroup {
   }
 
   @Override
-  public VertexReference getGeoVertexRef() {
+  public GeoVertexReference getGeoVertexRef() {
     return geometricVertexReference;
   }
 
   @Override
-  public VertexReference getTexVertexRef() {
+  public TexVertexReference getTexVertexRef() {
     return textureVertexReference;
   }
 
   @Override
-  public VertexReference getNormalVertexRef() {
+  public NormalVertexReference getNormalVertexRef() {
     return normalVervexReference;
   }
 

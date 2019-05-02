@@ -1,7 +1,5 @@
 package com.ht.wfp3.api.statement;
 
-import com.ht.wfp3.api.statement.VertexReference.Type;
-
 class VertexReferenceGroupBuilderImp implements VertexReferenceGroupBuilder {
   private final StatementFactory statementFactory;
   private Integer geometricVertexReferenceNumber;
@@ -42,20 +40,16 @@ class VertexReferenceGroupBuilderImp implements VertexReferenceGroupBuilder {
 
   @Override
   public VertexReferenceGroup build() {
-    VertexReference geometricVertexReference = (geometricVertexReferenceNumber != null
-        ? statementFactory.createVertexReference(Type.GEOMETRIC, geometricVertexReferenceNumber)
-        : statementFactory.createVertexReference(Type.GEOMETRIC,
-            VertexReferenceImp.INDEX_NOT_SET_VALUE));
-    VertexReference textureVertexReference = (textureVertexReferenceNumber != null
-        ? statementFactory.createVertexReference(Type.TEXTURE, textureVertexReferenceNumber)
-        : statementFactory.createVertexReference(Type.TEXTURE,
-            VertexReferenceImp.INDEX_NOT_SET_VALUE));
-    VertexReference normalVertexReference = (normalVertexReferenceNumber != null
-        ? statementFactory.createVertexReference(Type.NORMAL, normalVertexReferenceNumber)
-        : statementFactory.createVertexReference(Type.NORMAL,
-            VertexReferenceImp.INDEX_NOT_SET_VALUE));
+    GeoVertexReference geometricVertexReference = (geometricVertexReferenceNumber != null
+        ? statementFactory.createGeoVertexReference(geometricVertexReferenceNumber)
+        : statementFactory.createGeoVertexReference(VertexReferenceImp.INDEX_NOT_SET_VALUE));
+    TexVertexReference textureVertexReference = (textureVertexReferenceNumber != null
+        ? statementFactory.createTexVertexReference(textureVertexReferenceNumber)
+        : statementFactory.createTexVertexReference(VertexReferenceImp.INDEX_NOT_SET_VALUE));
+    NormalVertexReference normalVertexReference = (normalVertexReferenceNumber != null
+        ? statementFactory.createNormalVertexReference(normalVertexReferenceNumber)
+        : statementFactory.createNormalVertexReference(VertexReferenceImp.INDEX_NOT_SET_VALUE));
     return new VertexReferenceGroupImp(geometricVertexReference, textureVertexReference,
         normalVertexReference);
   }
-
 }

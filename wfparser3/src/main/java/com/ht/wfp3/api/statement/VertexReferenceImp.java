@@ -1,32 +1,28 @@
 package com.ht.wfp3.api.statement;
 
-final class VertexReferenceImp implements VertexReference {
+class VertexReferenceImp implements VertexReference {
 
-  private final Type type;
   private final Integer vertexIndex;
   private final boolean isSet;
 
-  VertexReferenceImp(VertexReferenceImp.Type type, Integer vertexIndex) {
+  VertexReferenceImp(Integer vertexIndex) {
     super();
-    this.type = type;
     this.vertexIndex = vertexIndex;
     this.isSet = (vertexIndex.equals(INDEX_NOT_SET_VALUE) ? false : true);
   }
 
   VertexReferenceImp(VertexReference vertexReference) {
-    this(vertexReference.getVertexType(), vertexReference.getVertexIndex());
+    this(vertexReference.getVertexIndex());
   }
 
+  @Override
   public boolean isSet() {
     return isSet;
   }
 
+  @Override
   public Integer getVertexIndex() {
     return vertexIndex;
-  }
-
-  public Type getVertexType() {
-    return type;
   }
 
   @Override
@@ -34,7 +30,6 @@ final class VertexReferenceImp implements VertexReference {
     final int prime = 31;
     int result = 1;
     result = prime * result + (isSet ? 1231 : 1237);
-    result = prime * result + ((type == null) ? 0 : type.hashCode());
     result = prime * result + ((vertexIndex == null) ? 0 : vertexIndex.hashCode());
     return result;
   }
@@ -50,8 +45,6 @@ final class VertexReferenceImp implements VertexReference {
     VertexReferenceImp other = (VertexReferenceImp) obj;
     if (isSet != other.isSet)
       return false;
-    if (type != other.type)
-      return false;
     if (vertexIndex == null) {
       if (other.vertexIndex != null)
         return false;
@@ -62,7 +55,7 @@ final class VertexReferenceImp implements VertexReference {
 
   @Override
   public String toString() {
-    return "VertexReferenceImp [type=" + type + ", vertexIndex=" + vertexIndex + ", isSet=" + isSet
-        + "]";
+    return "VertexReferenceImp [vertexIndex=" + vertexIndex + ", isSet=" + isSet
+        + ", super.toString()=" + super.toString() + "]";
   }
 }

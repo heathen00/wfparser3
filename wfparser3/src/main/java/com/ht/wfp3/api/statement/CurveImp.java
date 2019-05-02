@@ -10,15 +10,14 @@ class CurveImp extends StatementImp implements Curve {
 
   private final BigDecimal startingParameterValue;
   private final BigDecimal endingParameterValue;
-  private final List<VertexReference> controlPointVertexReferenceList;
+  private final List<GeoVertexReference> controlPointVertexReferenceList;
 
   CurveImp(BigDecimal startingParameterValue, BigDecimal endingParameterValue,
-      List<VertexReference> controlPointVertexReferenceList) {
+      List<GeoVertexReference> controlPointVertexReferenceList) {
     super(KEYWORD);
     this.startingParameterValue = startingParameterValue;
     this.endingParameterValue = endingParameterValue;
-    this.controlPointVertexReferenceList =
-        new ArrayList<VertexReference>(controlPointVertexReferenceList);
+    this.controlPointVertexReferenceList = new ArrayList<>(controlPointVertexReferenceList);
   }
 
   CurveImp(Curve curv) {
@@ -37,7 +36,7 @@ class CurveImp extends StatementImp implements Curve {
   }
 
   @Override
-  public List<VertexReference> getControlPointVertexReferenceList() {
+  public List<GeoVertexReference> getControlPointVertexReferenceList() {
     return Collections.unmodifiableList(controlPointVertexReferenceList);
   }
 

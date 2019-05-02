@@ -6,9 +6,9 @@ import java.util.List;
 class SpecialPointImp extends StatementImp implements SpecialPoint {
   private static final String KEYWORD = "sp";
 
-  private final List<VertexReference> vertexReferenceList;
+  private final List<ParamVertexReference> vertexReferenceList;
 
-  SpecialPointImp(List<VertexReference> vertexReferenceList) {
+  SpecialPointImp(List<ParamVertexReference> vertexReferenceList) {
     super(KEYWORD);
     this.vertexReferenceList = new ArrayList<>(vertexReferenceList);
   }
@@ -18,7 +18,7 @@ class SpecialPointImp extends StatementImp implements SpecialPoint {
   }
 
   @Override
-  public List<VertexReference> getVertexReferenceList() {
+  public List<ParamVertexReference> getVertexReferenceList() {
     return vertexReferenceList;
   }
 

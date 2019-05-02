@@ -33,6 +33,7 @@ import com.ht.wfp3.api.statement.DissolveInterpolation;
 import com.ht.wfp3.api.statement.End;
 import com.ht.wfp3.api.statement.Face;
 import com.ht.wfp3.api.statement.GeoVertex;
+import com.ht.wfp3.api.statement.GeoVertexReference;
 import com.ht.wfp3.api.statement.GroupNameList;
 import com.ht.wfp3.api.statement.Hole;
 import com.ht.wfp3.api.statement.LevelOfDetail;
@@ -44,6 +45,7 @@ import com.ht.wfp3.api.statement.MergingGroup;
 import com.ht.wfp3.api.statement.NormalVertex;
 import com.ht.wfp3.api.statement.ObjectName;
 import com.ht.wfp3.api.statement.ParamVertex;
+import com.ht.wfp3.api.statement.ParamVertexReference;
 import com.ht.wfp3.api.statement.Parm;
 import com.ht.wfp3.api.statement.Point;
 import com.ht.wfp3.api.statement.RayTracingObject;
@@ -63,8 +65,6 @@ import com.ht.wfp3.api.statement.Trim;
 import com.ht.wfp3.api.statement.UnknownStatementStub;
 import com.ht.wfp3.api.statement.UseMap;
 import com.ht.wfp3.api.statement.UseMaterial;
-import com.ht.wfp3.api.statement.VertexReference;
-import com.ht.wfp3.api.statement.VertexReference.Type;
 import com.ht.wfp3.api.statement.VertexReferenceGroup;
 import com.ht.wfp3.api.statement.VertexReferenceGroupBuilder;
 
@@ -326,11 +326,11 @@ public class DocumentViewStatementCreationAcceptanceTests {
   @Test
   public void DocumentView_addOneCurveToEmptyObjDocumentAtCursor_OneCurveIsAddedAtCursor()
       throws Exception {
-    List<VertexReference> controlPointVertexReferenceList = new ArrayList<>();
-    controlPointVertexReferenceList.add(statementFactory.createVertexReference(Type.GEOMETRIC, 1));
-    controlPointVertexReferenceList.add(statementFactory.createVertexReference(Type.GEOMETRIC, 2));
-    controlPointVertexReferenceList.add(statementFactory.createVertexReference(Type.GEOMETRIC, 3));
-    controlPointVertexReferenceList.add(statementFactory.createVertexReference(Type.GEOMETRIC, 4));
+    List<GeoVertexReference> controlPointVertexReferenceList = new ArrayList<>();
+    controlPointVertexReferenceList.add(statementFactory.createGeoVertexReference(1));
+    controlPointVertexReferenceList.add(statementFactory.createGeoVertexReference(2));
+    controlPointVertexReferenceList.add(statementFactory.createGeoVertexReference(3));
+    controlPointVertexReferenceList.add(statementFactory.createGeoVertexReference(4));
     Curve curv = statementFactory.createCurve(BigDecimal.valueOf(1.23456),
         BigDecimal.valueOf(9.5321), controlPointVertexReferenceList);
 
@@ -342,11 +342,11 @@ public class DocumentViewStatementCreationAcceptanceTests {
   @Test
   public void DocumentView_addOneCurve2DToEmptyObjDocumentAtCursor_OneCurve2DIsAddedAtCursor()
       throws Exception {
-    List<VertexReference> controlPointVertexReferenceList = new ArrayList<>();
-    controlPointVertexReferenceList.add(statementFactory.createVertexReference(Type.PARAMETER, 1));
-    controlPointVertexReferenceList.add(statementFactory.createVertexReference(Type.PARAMETER, 2));
-    controlPointVertexReferenceList.add(statementFactory.createVertexReference(Type.PARAMETER, 3));
-    controlPointVertexReferenceList.add(statementFactory.createVertexReference(Type.PARAMETER, 4));
+    List<ParamVertexReference> controlPointVertexReferenceList = new ArrayList<>();
+    controlPointVertexReferenceList.add(statementFactory.createParamVertexReference(1));
+    controlPointVertexReferenceList.add(statementFactory.createParamVertexReference(2));
+    controlPointVertexReferenceList.add(statementFactory.createParamVertexReference(3));
+    controlPointVertexReferenceList.add(statementFactory.createParamVertexReference(4));
     Curve2D curv2 = statementFactory.createCurve2D(controlPointVertexReferenceList);
 
     objDocument.append(curv2, cursor);
@@ -469,11 +469,11 @@ public class DocumentViewStatementCreationAcceptanceTests {
   @Test
   public void DocumentView_addOneSpecialPointToEmptyObjDocumentAtCursor_OneSpecialPointIsAddedAtCursor()
       throws Exception {
-    List<VertexReference> vertexReferenceGroupList = new ArrayList<>();
-    vertexReferenceGroupList.add(statementFactory.createVertexReference(Type.PARAMETER, 1));
-    vertexReferenceGroupList.add(statementFactory.createVertexReference(Type.PARAMETER, 300));
-    vertexReferenceGroupList.add(statementFactory.createVertexReference(Type.PARAMETER, 6));
-    vertexReferenceGroupList.add(statementFactory.createVertexReference(Type.PARAMETER, 88));
+    List<ParamVertexReference> vertexReferenceGroupList = new ArrayList<>();
+    vertexReferenceGroupList.add(statementFactory.createParamVertexReference(1));
+    vertexReferenceGroupList.add(statementFactory.createParamVertexReference(300));
+    vertexReferenceGroupList.add(statementFactory.createParamVertexReference(6));
+    vertexReferenceGroupList.add(statementFactory.createParamVertexReference(88));
 
     SpecialPoint sp = statementFactory.createSpecialPoint(vertexReferenceGroupList);
 

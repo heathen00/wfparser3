@@ -6,9 +6,9 @@ import java.util.List;
 class Curve2DImp extends StatementImp implements Curve2D {
   private static final String KEYWORD = "curv2";
 
-  private final List<VertexReference> controlPointVertexReferenceList;
+  private final List<ParamVertexReference> controlPointVertexReferenceList;
 
-  Curve2DImp(List<VertexReference> controlPointVertexReferenceList) {
+  Curve2DImp(List<ParamVertexReference> controlPointVertexReferenceList) {
     super(KEYWORD);
     this.controlPointVertexReferenceList = new ArrayList<>(controlPointVertexReferenceList);
   }
@@ -18,7 +18,7 @@ class Curve2DImp extends StatementImp implements Curve2D {
   }
 
   @Override
-  public List<VertexReference> getControlPointVertexReferences() {
+  public List<ParamVertexReference> getControlPointVertexReferences() {
     return controlPointVertexReferenceList;
   }
 

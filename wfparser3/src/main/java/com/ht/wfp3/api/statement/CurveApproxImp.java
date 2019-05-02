@@ -2,14 +2,14 @@ package com.ht.wfp3.api.statement;
 
 abstract class CurveApproxImp extends StatementImp implements CurveApprox {
   private static final String KEYWORD = "ctech";
-  
+
   private final String techniqueKeyword;
-  
+
   CurveApproxImp(String techniqueKeyword) {
     super(KEYWORD);
     this.techniqueKeyword = techniqueKeyword;
   }
-  
+
   @Override
   public String getTechniqueKeyword() {
     return techniqueKeyword;

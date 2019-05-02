@@ -23,5 +23,5 @@ import java.util.List;
  *
  */
 public interface Curve2D extends Statement {
-  List<VertexReference> getControlPointVertexReferences();
+  List<ParamVertexReference> getControlPointVertexReferences();
 }

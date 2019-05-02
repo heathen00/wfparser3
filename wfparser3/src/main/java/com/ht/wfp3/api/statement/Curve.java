@@ -32,5 +32,5 @@ public interface Curve extends Statement {
 
   BigDecimal getEndingParameterValue();
 
-  List<VertexReference> getControlPointVertexReferenceList();
+  List<GeoVertexReference> getControlPointVertexReferenceList();
 }

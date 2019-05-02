@@ -1,9 +1,6 @@
 package com.ht.wfp3.api.statement;
 
-public interface VertexReference {
-  enum Type {
-    GEOMETRIC, TEXTURE, NORMAL, PARAMETER,
-  }
+interface VertexReference {
 
   static final int INDEX_NOT_SET_VALUE = 0;
 
@@ -11,8 +8,6 @@ public interface VertexReference {
 
   Integer getVertexIndex();
 
-  Type getVertexType();
-  
   boolean equals(Object object);
 
   public int hashCode();

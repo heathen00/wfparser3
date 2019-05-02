@@ -9,7 +9,7 @@ abstract class SurfaceApproxImp extends StatementImp implements SurfaceApprox {
     super(KEYWORD);
     this.techniqueKeyword = techniqueKeyword;
   }
-  
+
   @Override
   public String getTechniqueKeyword() {
     return techniqueKeyword;

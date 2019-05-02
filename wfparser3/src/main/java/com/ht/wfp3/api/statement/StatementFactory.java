@@ -60,12 +60,37 @@ public final class StatementFactory {
     return new VertexReferenceGroupImp((VertexReferenceGroupImp) vertexReferenceGroup);
   }
 
-  public VertexReference createVertexReference(VertexReference.Type type, Integer vertexIndex) {
-    return new VertexReferenceImp(type, vertexIndex);
+  public GeoVertexReference createGeoVertexReference(Integer vertexIndex) {
+    return new GeoVertexReferenceImp(vertexIndex);
   }
 
-  public VertexReference copyVertexReference(VertexReference vertexReference) {
-    return new VertexReferenceImp(vertexReference);
+  public GeoVertexReference copyGeoVertexReference(GeoVertexReference geoVertexReference) {
+    return new GeoVertexReferenceImp(geoVertexReference);
+  }
+
+  public TexVertexReference createTexVertexReference(Integer vertexIndex) {
+    return new TexVertexReferenceImp(vertexIndex);
+  }
+
+  public TexVertexReference copyTexVertexReference(TexVertexReference texVertexReference) {
+    return new TexVertexReferenceImp(texVertexReference);
+  }
+
+  public NormalVertexReference createNormalVertexReference(Integer vertexIndex) {
+    return new NormalVertexReferenceImp(vertexIndex);
+  }
+
+  public NormalVertexReference copyNormalVertexReference(
+      NormalVertexReference normalVertexReference) {
+    return new NormalVertexReferenceImp(normalVertexReference);
+  }
+
+  public ParamVertexReference createParamVertexReference(Integer vertexIndex) {
+    return new ParamVertexReferenceImp(vertexIndex);
+  }
+
+  public ParamVertexReference copyParamVertexReference(ParamVertexReference paramVertexReference) {
+    return new ParamVertexReferenceImp(paramVertexReference);
   }
 
   public Point createPoint(List<VertexReferenceGroup> vertexReferenceGroupList) {
@@ -131,7 +156,7 @@ public final class StatementFactory {
   }
 
   public Curve createCurve(BigDecimal startingParameterValue, BigDecimal endingParameterValue,
-      List<VertexReference> vertexReferenceGroupList) {
+      List<GeoVertexReference> vertexReferenceGroupList) {
     return new CurveImp(startingParameterValue, endingParameterValue, vertexReferenceGroupList);
   }
 
@@ -139,7 +164,7 @@ public final class StatementFactory {
     return new CurveImp(curv);
   }
 
-  public Curve2D createCurve2D(List<VertexReference> controlPointvertexReferenceList) {
+  public Curve2D createCurve2D(List<ParamVertexReference> controlPointvertexReferenceList) {
     return new Curve2DImp(controlPointvertexReferenceList);
   }
 
@@ -215,7 +240,7 @@ public final class StatementFactory {
     return new SpecialCurveImp(scrv);
   }
 
-  public SpecialPoint createSpecialPoint(List<VertexReference> vertexReferenceList) {
+  public SpecialPoint createSpecialPoint(List<ParamVertexReference> vertexReferenceList) {
     return new SpecialPointImp(vertexReferenceList);
   }
 

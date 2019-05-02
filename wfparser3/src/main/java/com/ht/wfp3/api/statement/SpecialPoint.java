@@ -20,5 +20,5 @@ import java.util.List;
  *
  */
 public interface SpecialPoint extends Statement {
-  List<VertexReference> getVertexReferenceList();
+  List<ParamVertexReference> getVertexReferenceList();
 }
