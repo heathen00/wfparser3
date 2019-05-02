@@ -9,3 +9,11 @@ Rough list:
    API classes are visible, then any behaviour that is associated with a published class is required to be defined
    by the acceptance tests, even if the user stories do not explicitly state the behaviour in their acceptance
    criteria.  How will you deal with optional data members?  It seems to be a common problem for many statements.
+   To consider:
+    * creation: validate parameters: null
+    * creation: validate parameters: supported value ranges.
+    * creation: validate parameters: optional parameters: How to handle?
+    * equals and hashcode.
+    * comparable?
+    * defined methods: access to required parameters.
+    * defined methods: access to optional parameters.

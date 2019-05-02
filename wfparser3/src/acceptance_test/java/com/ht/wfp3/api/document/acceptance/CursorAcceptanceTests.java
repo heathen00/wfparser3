@@ -1,4 +1,4 @@
-package com.ht.wfp3.api.acceptance;
+package com.ht.wfp3.api.document.acceptance;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;

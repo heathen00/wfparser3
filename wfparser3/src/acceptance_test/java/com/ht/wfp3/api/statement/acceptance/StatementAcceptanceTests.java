@@ -1,4 +1,4 @@
-package com.ht.wfp3.api.acceptance;
+package com.ht.wfp3.api.statement.acceptance;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
@@ -7,7 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 import com.ht.wfp3.api.statement.VisibleStatementImp;
 
-public class CommonStatementAcceptanceTests {
+public class StatementAcceptanceTests {
 
   @Before
   public void setUp() throws Exception {}
