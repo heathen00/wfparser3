@@ -307,6 +307,9 @@ public final class StatementFactory {
   }
 
   public Bevel copyBevel(Bevel bevel) {
+    if (null == bevel) {
+      throw new NullPointerException("bevel copy constructor parameter cannot be null");
+    }
     return new BevelImp(bevel);
   }
 

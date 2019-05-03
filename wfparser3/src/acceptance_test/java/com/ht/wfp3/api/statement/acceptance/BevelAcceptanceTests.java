@@ -1,56 +1,83 @@
 package com.ht.wfp3.api.statement.acceptance;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.fail;
+import org.junit.Before;
 import org.junit.Test;
+import com.ht.wfp3.api.statement.Bevel;
+import com.ht.wfp3.api.statement.StatementFactory;
 
 public class BevelAcceptanceTests {
+  private static final String BEVEL_KEYWORD = "bevel";
+
+  private StatementFactory statementFactory;
 
   // TODO Implementation note: There are really only ever going to be two Bevel instances. You could
   // use singleton / flyweight pattern.
 
+  @Before
+  public void setup() {
+    statementFactory = StatementFactory.createStatementFactory();
+  }
+
   @Test
   public void Bevel_createEnabledBevel_validEnabledBevelIsCreated() {
-    fail("Not yet implemented");
+    Bevel bevel = statementFactory.createBevel(true);
+
+    assertNotNull(bevel);
+    assertEquals(BEVEL_KEYWORD, bevel.getKeyword());
+    assertTrue(bevel.isEnabled());
   }
 
   @Test
   public void Bevel_createDisableBevel_validDisabledBevelIsCreated() {
-    fail("Not yet implemented");
+    Bevel bevel = statementFactory.createBevel(false);
+
+    assertNotNull(bevel);
+    assertEquals(BEVEL_KEYWORD, bevel.getKeyword());
+    assertFalse(bevel.isEnabled());
   }
 
-  @Test
+  @Test(expected = NullPointerException.class)
   public void Bevel_copyBevelWithNullParameter_nullPointerExceptionIsThrown() {
-    fail("Not yet implemented");
+    statementFactory.copyBevel(null);
   }
 
   @Test
-  public void Bevel_createTwoEnabledBevels_equalAndHashCodeIsEqual() {
-    fail("Not yet implemented");
-  }
+  public void Bevel_exerciseAllEqualsHashCodeAndCompareToVariants_equalsHashCodeAndCompareToContractsRespected() {
+    Bevel first;
+    Bevel second;
 
-  @Test
-  public void Bevel_createOneEnabledAndOneDisabledBevel_notEqualAndHashCodeNotEqual() {
-    fail("Not yet implemented");
-  }
+    // Equal
+    first = statementFactory.createBevel(true);
+    second = statementFactory.createBevel(true);
 
-  @Test
-  public void Bevel_compareToTwoEnabledBevels_zeroIsReturned() {
-    fail("Not yet implemented");
-  }
+    assertTrue(first.equals(second));
+    assertTrue(second.equals(first));
+    assertFalse(first == second);
+    assertTrue(first.hashCode() == second.hashCode());
+    assertTrue(first.compareTo(second) == 0);
+    assertTrue(second.compareTo(first) == 0);
 
-  @Test
-  public void Bevel_compareToTwoDisabledBevels_zeroIsReturned() {
-    fail("Not yet implemented");
-  }
+    assertTrue(first.equals(first));
+    assertTrue(first.compareTo(first) == 0);
 
-  @Test
-  public void Bevel_compareToEnabledBevelAndDisabledBevel_oneIsReturned() {
-    fail("Not yet implemented");
-  }
+    // Not equal
+    first = statementFactory.createBevel(false);
+    second = statementFactory.createBevel(true);
 
-  @Test
-  public void Bevel_compareToDisabledBevelAndEnabledBevel_negativeOneIsReturned() {
-    fail("Not yet implemented");
+    assertFalse(first.equals(second));
+    assertFalse(second.equals(first));
+    assertFalse(first.hashCode() == second.hashCode());
+    assertTrue(first.compareTo(second) < 0);
+    assertTrue(second.compareTo(first) > 0);
+
+    // Null
+    first = statementFactory.createBevel(true);
+    assertFalse(first.equals(null));
   }
 
   @Test
