@@ -191,6 +191,9 @@ public final class StatementFactory {
   }
 
   public Call copyCall(Call call) {
+    if (null == call) {
+      throw new NullPointerException("call copy constructor parameter cannot be null");
+    }
     return new CallImp(call);
   }
 

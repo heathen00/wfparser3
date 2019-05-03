@@ -46,6 +46,9 @@ import java.util.List;
  *
  */
 public interface Call extends Statement {
+  public static final String OBJ_EXT = "obj";
+  public static final String MOD_EXT = "mod";
+
   boolean isFrameNumberRequired();
 
   Path getFileName();
