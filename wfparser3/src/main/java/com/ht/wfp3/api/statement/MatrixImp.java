@@ -48,7 +48,26 @@ class MatrixImp implements Matrix {
   }
 
   @Override
+  public int compareTo(Matrix o) {
+    int compareTo = Integer.compare(getNumRows(), o.getNumRows());
+    if (0 == compareTo) {
+      compareTo = Integer.compare(getNumColumns(), o.getNumColumns());
+      if (0 == compareTo) {
+        for (int row = 0; row < matrix.length; row++) {
+          for (int column = 0; column < matrix[row].length; column++) {
+            compareTo = matrix[row][column].compareTo(o.getElementAt(row, column));
+            if (0 != compareTo) {
+              break;
+            }
+          }
+        }
+      }
+    }
+    return compareTo;
+  }
+
+  @Override
   public String toString() {
-    return "MatrixImp [matrix=" + Arrays.toString(matrix) + "]";
+    return "MatrixImp [matrix=" + Arrays.deepToString(matrix) + "]";
   }
 }

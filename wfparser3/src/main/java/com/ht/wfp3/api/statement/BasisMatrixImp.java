@@ -8,6 +8,12 @@ class BasisMatrixImp extends StatementImp implements BasisMatrix {
 
   BasisMatrixImp(Axis axis, Matrix matrix) {
     super(KEYWORD);
+    if (null == axis) {
+      throw new NullPointerException("axis constructor parameter cannot be null");
+    }
+    if (null == matrix) {
+      throw new NullPointerException("matrix constructor parameter cannot be null");
+    }
     this.axis = axis;
     this.matrix = matrix;
   }
@@ -52,6 +58,19 @@ class BasisMatrixImp extends StatementImp implements BasisMatrix {
     } else if (!matrix.equals(other.matrix))
       return false;
     return true;
+  }
+
+  @Override
+  public int compareTo(Statement o) {
+    int compareTo = super.compareTo(o);
+    if (0 == compareTo) {
+      BasisMatrix basisMatrix = (BasisMatrix) o;
+      compareTo = axis.compareTo(basisMatrix.getBasisMatrixAxis());
+      if (0 == compareTo) {
+        compareTo = matrix.compareTo(basisMatrix.getMatrix());
+      }
+    }
+    return compareTo;
   }
 
   @Override

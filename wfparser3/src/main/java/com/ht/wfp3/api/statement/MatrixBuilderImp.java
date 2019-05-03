@@ -64,7 +64,7 @@ final class MatrixBuilderImp implements MatrixBuilder {
       BigDecimal[][] matrixAs2DArray = new BigDecimal[majorIndex][longestMinor];
       for (int i = 0; i < matrixAs2DArray.length; i++) {
         Arrays.fill(matrixAs2DArray[i], 0, matrixAs2DArray[i].length, DEFAULT_ELEMENT);
-        for (int j = 0; j < major.get(majorIndex).size(); j++) {
+        for (int j = 0; j < major.get(i).size(); j++) {
           matrixAs2DArray[i][j] = major.get(i).get(j);
         }
       }

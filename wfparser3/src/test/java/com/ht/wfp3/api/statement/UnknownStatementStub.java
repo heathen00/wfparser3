@@ -7,4 +7,8 @@ public class UnknownStatementStub implements Statement {
     return null;
   }
 
+  @Override
+  public int compareTo(Statement o) {
+    return 0;
+  }
 }

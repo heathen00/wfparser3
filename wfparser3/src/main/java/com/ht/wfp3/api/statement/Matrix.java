@@ -9,7 +9,7 @@ import java.math.BigDecimal;
  * @author nickl
  *
  */
-public interface Matrix {
+public interface Matrix extends Comparable<Matrix> {
   BigDecimal getElementAt(int row, int column);
 
   int getNumRows();

@@ -17,3 +17,7 @@ Rough list:
     * comparable?
     * defined methods: access to required parameters.
     * defined methods: access to optional parameters.
+    
+ I think my Matrix implementation is wrong.  It does not appear to create full rows with multiple values.  The
+ implementation will likely clear itself up when I write its acceptance tests.  It is a published interface,
+ after all.

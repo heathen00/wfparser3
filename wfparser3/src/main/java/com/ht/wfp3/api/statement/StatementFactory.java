@@ -144,6 +144,9 @@ public final class StatementFactory {
   }
 
   public BasisMatrix copyBasisMatrix(BasisMatrix bmat) {
+    if (null == bmat) {
+      throw new NullPointerException("bmat copy constructor parameter cannot be null");
+    }
     return new BasisMatrixImp(bmat);
   }
 
