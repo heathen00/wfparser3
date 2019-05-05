@@ -166,10 +166,6 @@ public class CallAcceptanceTests {
     second = statementFactory.createCall(false, Paths.get("home", "same.mod"),
         Arrays.asList(55, 56, 57, 58));
 
-    System.out.println("first: " + first);
-    System.out.println("second: " + second);
-    System.out.println("first.compareTo(second): " + first.compareTo(second));
-
     assertFalse(first.equals(second));
     assertFalse(first.hashCode() == second.hashCode());
     assertTrue(first.compareTo(second) < 0);

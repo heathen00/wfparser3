@@ -321,6 +321,9 @@ public final class StatementFactory {
   }
 
   public ColorInterpolation copyColorInterpolation(ColorInterpolation c_interp) {
+    if (null == c_interp) {
+      throw new NullPointerException("c_interp copy constructor parameter cannot be null");
+    }
     return new ColorInterpolationImp(c_interp);
   }
 
