@@ -202,6 +202,9 @@ public final class StatementFactory {
   }
 
   public Csh copyCsh(Csh csh) {
+    if (null == csh) {
+      throw new NullPointerException("csh copy constructor parameter cannot be null");
+    }
     return new CshImp(csh);
   }
 

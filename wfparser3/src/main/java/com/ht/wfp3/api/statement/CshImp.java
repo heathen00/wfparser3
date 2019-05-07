@@ -8,6 +8,12 @@ class CshImp extends StatementImp implements Csh {
 
   CshImp(boolean shouldIgnoreErrors, String command) {
     super(KEYWORD);
+    if (null == command) {
+      throw new NullPointerException("command constructor parameter cannot be null");
+    }
+    if (command.matches("^\\s*$")) {
+      throw new IllegalArgumentException("command constructor parameter cannot be empty or whitespace only");
+    }
     this.shouldIgnoreErrors = shouldIgnoreErrors;
     this.command = command;
   }
