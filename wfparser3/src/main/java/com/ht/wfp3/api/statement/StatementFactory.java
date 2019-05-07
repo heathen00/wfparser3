@@ -412,6 +412,9 @@ public final class StatementFactory {
 
   public CurveApproxCparmTechnique copyCurveApproxCparmTechnique(
       CurveApproxCparmTechnique curveApproxCparmTechnique) {
+    if (null == curveApproxCparmTechnique) {
+      throw new NullPointerException("curveApproxCparmTechnique copy constructor parameter cannot be null");
+    }
     return new CurveApproxCparmTechniqueImp(curveApproxCparmTechnique);
   }
 
