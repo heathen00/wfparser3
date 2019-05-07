@@ -19,6 +19,10 @@ package com.ht.wfp3.api.statement;
  *
  */
 public interface Degree extends Statement {
+  public static final Integer MINIMUM_DEGREE = 1;
+  
+  boolean isVAxisDegreeSet();
+
   Integer getUAxisDegree();
 
   Integer getVAxisDegree();

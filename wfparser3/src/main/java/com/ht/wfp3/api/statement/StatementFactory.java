@@ -133,8 +133,14 @@ public final class StatementFactory {
     return new DegreeImp(uAxisDegree, vAxisDegree);
   }
 
+  public Degree createDegree(Integer uAxisDegree) {
+    return new DegreeImp(uAxisDegree);
+  }
 
   public Degree copyDegree(Degree deg) {
+    if (null == deg) {
+      throw new NullPointerException("deg copy constructor parameter cannot be null");
+    }
     return new DegreeImp(deg);
   }
 
@@ -416,7 +422,8 @@ public final class StatementFactory {
   public CurveApproxCparmTechnique copyCurveApproxCparmTechnique(
       CurveApproxCparmTechnique curveApproxCparmTechnique) {
     if (null == curveApproxCparmTechnique) {
-      throw new NullPointerException("curveApproxCparmTechnique copy constructor parameter cannot be null");
+      throw new NullPointerException(
+          "curveApproxCparmTechnique copy constructor parameter cannot be null");
     }
     return new CurveApproxCparmTechniqueImp(curveApproxCparmTechnique);
   }
@@ -428,7 +435,8 @@ public final class StatementFactory {
   public CurveApproxCspaceTechnique copyCurveApproxCspaceTechnique(
       CurveApproxCspaceTechnique curveApproxCspaceTechnique) {
     if (null == curveApproxCspaceTechnique) {
-      throw new NullPointerException("curveApproxCspaceTechnique copy constructor parameter cannot be null");
+      throw new NullPointerException(
+          "curveApproxCspaceTechnique copy constructor parameter cannot be null");
     }
     return new CurveApproxCspaceTechniqueImp(curveApproxCspaceTechnique);
   }
@@ -441,7 +449,8 @@ public final class StatementFactory {
   public CurveApproxCurvTechnique copyCurveApproxCurvTechnique(
       CurveApproxCurvTechnique curveApproxCurvTechnique) {
     if (null == curveApproxCurvTechnique) {
-      throw new NullPointerException("curveApproxCurvTechnique copy constructor parameter cannot be null");
+      throw new NullPointerException(
+          "curveApproxCurvTechnique copy constructor parameter cannot be null");
     }
     return new CurveApproxCurvTechniqueImp(curveApproxCurvTechnique);
   }

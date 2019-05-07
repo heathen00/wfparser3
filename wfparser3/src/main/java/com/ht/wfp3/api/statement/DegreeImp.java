@@ -3,17 +3,35 @@ package com.ht.wfp3.api.statement;
 class DegreeImp extends StatementImp implements Degree {
   private static final String KEYWORD = "deg";
 
+  private static final Integer V_AXIS_NOT_SET = Integer.MIN_VALUE;
+
   private final Integer uAxisDegree;
   private final Integer vAxisDegree;
 
   DegreeImp(Integer uAxisDegree, Integer vAxisDegree) {
     super(KEYWORD);
+    if (null == uAxisDegree) {
+      throw new NullPointerException("uAxisDegree constructor parameter cannot be null");
+    }
+    if (null == vAxisDegree) {
+      throw new NullPointerException("vAxisDegree constructor parameter cannot be null");
+    }
+    if (MINIMUM_DEGREE.compareTo(uAxisDegree) > 0) {
+      throw new IllegalArgumentException("uAxisDegree constructor parameter must be greater than " + MINIMUM_DEGREE);
+    }
+    if (MINIMUM_DEGREE.compareTo(vAxisDegree) > 0 && !V_AXIS_NOT_SET.equals(vAxisDegree)) {
+      throw new IllegalArgumentException("vAxisDegree constructor parameter must be greater than " + MINIMUM_DEGREE);
+    }
     this.uAxisDegree = uAxisDegree;
     this.vAxisDegree = vAxisDegree;
   }
+  
+  DegreeImp(Integer uAxisDegree) {
+    this(uAxisDegree, V_AXIS_NOT_SET);
+  }
 
   DegreeImp(Degree deg) {
-    this(deg.getUAxisDegree(), deg.getVAxisDegree());
+    this(deg.getUAxisDegree(), deg.isVAxisDegreeSet() ? deg.getVAxisDegree() : V_AXIS_NOT_SET);
   }
 
   @Override
@@ -23,6 +41,9 @@ class DegreeImp extends StatementImp implements Degree {
 
   @Override
   public Integer getVAxisDegree() {
+    if (V_AXIS_NOT_SET.equals(vAxisDegree)) {
+      throw new UnsupportedOperationException("v axis degree is not set");
+    }
     return vAxisDegree;
   }
 
@@ -61,5 +82,10 @@ class DegreeImp extends StatementImp implements Degree {
   public String toString() {
     return "DegreeImp [uAxisDegree=" + uAxisDegree + ", vAxisDegree=" + vAxisDegree
         + ", super.toString()=" + super.toString() + "]";
+  }
+
+  @Override
+  public boolean isVAxisDegreeSet() {
+    return !V_AXIS_NOT_SET.equals(vAxisDegree);
   }
 }
