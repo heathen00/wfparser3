@@ -4,6 +4,10 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 public class SurfaceApproxCurvTechniqueAcceptanceTests {
+  
+  // TODO create, copy
+  // TODO equals, hashCode, compareTo
+  // TODO copy malicious mutable statement.
 
   @Test
   public void test() {
