@@ -23,5 +23,7 @@ import java.util.List;
  *
  */
 public interface Curve2D extends Statement {
+  public static final int MINIMUM_CONTROL_POINTS = 2;
+  
   List<ParamVertexReference> getControlPointVertexReferences();
 }
