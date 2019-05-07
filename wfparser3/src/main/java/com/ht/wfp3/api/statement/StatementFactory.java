@@ -123,6 +123,9 @@ public final class StatementFactory {
   }
 
   public CurveOrSurfaceType copyCurveOrSurfaceType(CurveOrSurfaceType cstype) {
+    if (null == cstype) {
+      throw new NullPointerException("cstype copy constructor parameter cannot be null");
+    }
     return new CurveOrSurfaceTypeImp(cstype);
   }
 
