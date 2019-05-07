@@ -17,5 +17,7 @@ import java.math.BigDecimal;
  *
  */
 public interface CurveApproxCspaceTechnique extends CurveApprox {
+  public static final BigDecimal MINIMUM_MAX_LENGTH = BigDecimal.ZERO;
+
   BigDecimal getMaxLength();
 }

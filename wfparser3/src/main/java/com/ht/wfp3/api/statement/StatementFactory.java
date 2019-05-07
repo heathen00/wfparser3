@@ -424,6 +424,9 @@ public final class StatementFactory {
 
   public CurveApproxCspaceTechnique copyCurveApproxCspaceTechnique(
       CurveApproxCspaceTechnique curveApproxCspaceTechnique) {
+    if (null == curveApproxCspaceTechnique) {
+      throw new NullPointerException("curveApproxCspaceTechnique copy constructor parameter cannot be null");
+    }
     return new CurveApproxCspaceTechniqueImp(curveApproxCspaceTechnique);
   }
 

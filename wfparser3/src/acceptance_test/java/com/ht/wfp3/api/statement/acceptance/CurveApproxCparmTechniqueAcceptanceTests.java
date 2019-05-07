@@ -29,9 +29,22 @@ public class CurveApproxCparmTechniqueAcceptanceTests {
   public void CurveApproxCparmTechnique_createCurveApproxCparmTechniqueWithResolutionLessThanZero_illegalArguementExceptionIsThrown() {
     statementFactory.createCurveApproxCparmTechnique(BigDecimal.valueOf(-0.000000001d));
   }
+  
+  @Test
+  public void CurveApprocCparmTechnique_createCurveApproxCparmTechniqueWithResolutionEqualToZero_validCurveApproxCparmTechniqueIsCreated() {
+    BigDecimal resolution = BigDecimal.ZERO;
+
+    CurveApproxCparmTechnique curveApproxCparmTechnique =
+        statementFactory.createCurveApproxCparmTechnique(resolution);
+
+    assertNotNull(curveApproxCparmTechnique);
+    assertEquals(CTECH_KEYWORD, curveApproxCparmTechnique.getKeyword());
+    assertEquals(CTECH_CPARM_KEYWORD, curveApproxCparmTechnique.getTechniqueKeyword());
+    assertEquals(resolution, curveApproxCparmTechnique.getResolution());
+  }
 
   @Test
-  public void CurveApproxCparmTechnique_createCurveApproxCparmTechniqueWithResolutionGreaterorEqualToZero_validCurveApproxCparmTechniqueIsCreated() {
+  public void CurveApproxCparmTechnique_createCurveApproxCparmTechniqueWithResolutionGreaterorThanZero_validCurveApproxCparmTechniqueIsCreated() {
     BigDecimal resolution = BigDecimal.valueOf(0.0000000000001d);
 
     CurveApproxCparmTechnique curveApproxCparmTechnique =

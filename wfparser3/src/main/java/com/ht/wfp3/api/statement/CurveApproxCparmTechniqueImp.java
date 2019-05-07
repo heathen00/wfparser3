@@ -12,8 +12,8 @@ class CurveApproxCparmTechniqueImp extends CurveApproxImp implements CurveApprox
     if (null == resolution) {
       throw new NullPointerException("resolution constructor parameter cannot be null");
     }
-    if (BigDecimal.ZERO.compareTo(resolution) > 0) {
-      throw new IllegalArgumentException("resolution constructor parameter must be greater than zero");
+    if (MINIMUM_RESOLUTION.compareTo(resolution) > 0) {
+      throw new IllegalArgumentException("resolution constructor parameter must be greater or equal to " + MINIMUM_RESOLUTION.doubleValue());
     }
     this.resolution = resolution;
   }
