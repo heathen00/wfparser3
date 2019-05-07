@@ -225,6 +225,9 @@ public final class StatementFactory {
   }
 
   public Curve2DReference copyCurve2DReference(Curve2DReference curve2DReference) {
+    if (null == curve2DReference) {
+      throw new NullPointerException("curev2DReference copy constructor parameter cannot be null");
+    }
     return new Curve2DReferenceImp(curve2DReference);
   }
 
