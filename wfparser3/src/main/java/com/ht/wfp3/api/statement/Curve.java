@@ -27,6 +27,7 @@ import java.util.List;
  *
  */
 public interface Curve extends Statement {
+  public static int MINIMUM_CONTROL_POINTS = 2;
 
   BigDecimal getStartingParameterValue();
 

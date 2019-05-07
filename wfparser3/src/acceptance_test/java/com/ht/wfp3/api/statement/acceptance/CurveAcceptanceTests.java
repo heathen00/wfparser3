@@ -1,55 +1,131 @@
 package com.ht.wfp3.api.statement.acceptance;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import org.junit.Before;
 import org.junit.Test;
+import com.ht.wfp3.api.statement.Curve;
+import com.ht.wfp3.api.statement.GeoVertexReference;
+import com.ht.wfp3.api.statement.StatementFactory;
 
 public class CurveAcceptanceTests {
 
-  @Test
+  private static final String CURVE_KEYWORD = "curv";
+  private StatementFactory statementFactory;
+
+  private List<GeoVertexReference> createGeoVertexReferenceList(Integer... geoVertexReferences) {
+    if (geoVertexReferences.length == 0) {
+      throw new IllegalArgumentException();
+    }
+    List<GeoVertexReference> geoVertexReferenceList = new ArrayList<>();
+    for (Integer integer : geoVertexReferences) {
+      geoVertexReferenceList.add(statementFactory.createGeoVertexReference(integer));
+    }
+    return geoVertexReferenceList;
+  }
+
+  @Before
+  public void setup() {
+    statementFactory = StatementFactory.createStatementFactory();
+  }
+
+  @Test(expected = NullPointerException.class)
   public void Curve_createCurveWithNullStartingParameterValue_nullPointerExceptionIsThrown() {
-    fail("Not yet implemented");
+    statementFactory.createCurve(null, BigDecimal.valueOf(5.5d),
+        createGeoVertexReferenceList(1, 2, 3));
   }
 
-  @Test
+  @Test(expected = NullPointerException.class)
   public void Curve_createCurveWithNullEndingParameterValue_nullPointerExceptionIsThrown() {
-    fail("Not yet implemented");
+    statementFactory.createCurve(BigDecimal.valueOf(4.44444d), null,
+        createGeoVertexReferenceList(1, 2, 3));
   }
 
-  @Test
+  @Test(expected = NullPointerException.class)
   public void Curve_createCurveWithNullVertexReferenceGroupList_nullPointerExceptionIsThrown() {
-    fail("Not yet implemented");
+    statementFactory.createCurve(BigDecimal.valueOf(5.678d), BigDecimal.valueOf(6789.1234d), null);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void Curve_createCurveWithEmptyVertexReferenceGroupList_illegalArgumentExceptionIsThrown() {
+    statementFactory.createCurve(BigDecimal.valueOf(5.678d), BigDecimal.valueOf(3.3333d),
+        Collections.emptyList());
+  }
+
+  // TODO what about a list containing null values?
+
+  @Test(expected = IllegalArgumentException.class)
+  public void Curve_createCurveWithOneControlPointInVertexReferenceGroupList_illegalArgumentExceptionIsThrown() {
+    statementFactory.createCurve(BigDecimal.valueOf(3.456d), BigDecimal.valueOf(4.678d),
+        createGeoVertexReferenceList(67));
+  }
+
+  @Test(expected = NullPointerException.class)
+  public void Curve_copyCurveWithNullParameter_nullPointerExceptionIsThrown() {
+    statementFactory.copyCurve(null);
   }
 
   @Test
-  public void Curve_createCurveWithEmptyVertexReferenceGroupList_illegalArgumentExceptionIsThrown() {
-    fail("Not yet implemented");
+  public void Curve_createCurveWithTwoControlPointsInVertexReferenceGroupList_validCurveIsCreated() {
+    BigDecimal startingParameterValue = BigDecimal.valueOf(3.3d);
+    BigDecimal endingParameterValue = BigDecimal.valueOf(4.4d);
+    List<GeoVertexReference> vertexReferenceGroupList = createGeoVertexReferenceList(1, 2);
+
+    Curve curve = statementFactory.createCurve(startingParameterValue, endingParameterValue,
+        vertexReferenceGroupList);
+
+    assertNotNull(curve);
+    assertEquals(CURVE_KEYWORD, curve.getKeyword());
+    assertEquals(startingParameterValue, curve.getStartingParameterValue());
+    assertEquals(endingParameterValue, curve.getEndingParameterValue());
+    assertEquals(vertexReferenceGroupList, curve.getControlPointVertexReferenceList());
+  }
+
+  @Test
+  public void Curve_createCurveWithMoreThanTwoControlPointsInVertexReferenceGroupList_validCurveIsCreated() {
+    BigDecimal startingParameterValue = BigDecimal.valueOf(3.3d);
+    BigDecimal endingParameterValue = BigDecimal.valueOf(4.4d);
+    List<GeoVertexReference> vertexReferenceGroupList =
+        createGeoVertexReferenceList(1, 2, 4, 6, 8, 2323, 78, 5);
+
+    Curve curve = statementFactory.createCurve(startingParameterValue, endingParameterValue,
+        vertexReferenceGroupList);
+
+    assertNotNull(curve);
+    assertEquals(CURVE_KEYWORD, curve.getKeyword());
+    assertEquals(startingParameterValue, curve.getStartingParameterValue());
+    assertEquals(endingParameterValue, curve.getEndingParameterValue());
+    assertEquals(vertexReferenceGroupList, curve.getControlPointVertexReferenceList());
   }
   
   @Test
-  public void Curve_copyCurveWithNullParameter_nullPointerExceptionIsThrown() {
-    fail("Not yet implemented");
+  public void Curve_copyValidCurve_validCurveIsCopied() {
+    BigDecimal startingParameterValue = BigDecimal.valueOf(3.3d);
+    BigDecimal endingParameterValue = BigDecimal.valueOf(4.4d);
+    List<GeoVertexReference> vertexReferenceGroupList =
+        createGeoVertexReferenceList(1, 2, 4, 6, 8, 2323, 78, 5);
+    Curve originalCurve = statementFactory.createCurve(startingParameterValue, endingParameterValue,
+        vertexReferenceGroupList);
+    
+    Curve copiedCurve = statementFactory.copyCurve(originalCurve);
+
+    assertNotNull(copiedCurve);
+    assertEquals(CURVE_KEYWORD, copiedCurve.getKeyword());
+    assertEquals(startingParameterValue, copiedCurve.getStartingParameterValue());
+    assertEquals(endingParameterValue, copiedCurve.getEndingParameterValue());
+    assertEquals(vertexReferenceGroupList, copiedCurve.getControlPointVertexReferenceList());
   }
-  
+
   @Test
-  public void Curve_createCurveWithOneVertexRefereenceInVertexReferenceGroupList_validCurveIsCreated() {
+  public void Curve_exerciseAllVariantsOfEqualsHashCodeAndCompareTo_equalsHashCodeAndCompareToContractsAreRespected() {
     fail("Not yet implemented");
   }
-  
-  @Test
-  public void Curve_createCurveWithMultipleVertexReferencesInVertexReferenceGroupLIst_validCurveIsCreated() {
-    fail("Not yet implemented");
-  }
-  
-  @Test
-  public void Curve_exerciseAllVariantsOfEqualsAndHashCode_equalsAndHashCodeContractsAreRespected() {
-    fail("Not yet implemented");
-  }
-  
-  @Test
-  public void Curve_exerciseAllVariantsOfCompareTo_compareToContractIsRespected() {
-    fail("Not yet implemented");
-  }
-  
+
   @Test
   public void Curve_copyCurveWithMaliciousMutableCurve_validImmutableCurveIsCreated() {
     fail("Not yet implemented");

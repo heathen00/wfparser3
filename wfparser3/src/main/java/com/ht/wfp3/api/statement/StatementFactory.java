@@ -164,6 +164,9 @@ public final class StatementFactory {
   }
 
   public Curve copyCurve(Curve curv) {
+    if (null == curv) {
+      throw new NullPointerException("curv copy constructor parameter cannot be null");
+    }
     return new CurveImp(curv);
   }
 
@@ -173,7 +176,7 @@ public final class StatementFactory {
 
   public Curve2D copyCurve2D(Curve2D curv2) {
     if (null == curv2) {
-      throw new NullPointerException("curv2 copy constructor paremeter cannot be null");
+      throw new NullPointerException("curv2 copy constructor parameter cannot be null");
     }
     return new Curve2DImp(curv2);
   }
