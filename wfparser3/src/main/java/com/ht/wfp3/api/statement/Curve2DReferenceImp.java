@@ -74,6 +74,18 @@ class Curve2DReferenceImp implements Curve2DReference {
   }
 
   @Override
+  public int compareTo(Curve2DReference o) {
+    int compareTo = startingParameterValue.compareTo(o.getStartingParameterValue());
+    if (0 == compareTo) {
+      compareTo = endingParameterValue.compareTo(o.getEndingParameterValue());
+      if (0 == compareTo) {
+        compareTo = Integer.compare(curve2DIndex, o.getCurve2DIndex());
+      }
+    }
+    return compareTo;
+  }  
+
+  @Override
   public String toString() {
     return "Curve2DReferenceImp [startingParameterValue=" + startingParameterValue
         + ", endingParameterValue=" + endingParameterValue + ", curve2DIndex=" + curve2DIndex + "]";

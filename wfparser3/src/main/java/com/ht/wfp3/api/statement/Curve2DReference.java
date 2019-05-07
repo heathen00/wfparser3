@@ -10,7 +10,7 @@ import java.math.BigDecimal;
  * @author nickl
  *
  */
-public interface Curve2DReference {
+public interface Curve2DReference  extends Comparable<Curve2DReference> {
   BigDecimal getStartingParameterValue();
 
   BigDecimal getEndingParameterValue();

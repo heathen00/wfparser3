@@ -270,6 +270,9 @@ public final class StatementFactory {
   }
 
   public Connect copyConnect(Connect con) {
+    if (null == con) {
+      throw new NullPointerException("con copy consctructor parameter cannot be null");
+    }
     return new ConnectImp(con);
   }
 

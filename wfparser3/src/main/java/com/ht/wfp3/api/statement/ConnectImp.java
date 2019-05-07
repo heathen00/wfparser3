@@ -15,19 +15,23 @@ class ConnectImp extends StatementImp implements Connect {
       throw new NullPointerException("firstSurfaceIndex constructor parameter cannot be null");
     }
     if (null == firstSurfaceCurve2DReference) {
-      throw new NullPointerException("firstSurfaceCurve2DReference constructor paramter cannot be null");
+      throw new NullPointerException(
+          "firstSurfaceCurve2DReference constructor paramter cannot be null");
     }
     if (null == secondSurfaceIndex) {
       throw new NullPointerException("secondSurfaceIndex constructor parameter cannot be null");
     }
     if (null == secondSurfaceCurve2DReference) {
-      throw new NullPointerException("secondSurfaceCurve2Dreference constructor parameter cannot be null");
+      throw new NullPointerException(
+          "secondSurfaceCurve2Dreference constructor parameter cannot be null");
     }
     if (Integer.valueOf(0).equals(firstSurfaceIndex)) {
-      throw new IllegalArgumentException("firstSurfaceIndex constructor parameter cannot equal zero");
+      throw new IllegalArgumentException(
+          "firstSurfaceIndex constructor parameter cannot equal zero");
     }
     if (Integer.valueOf(0).equals(secondSurfaceIndex)) {
-      throw new IllegalArgumentException("secondSurfaceIndex constructor parameter cannot equal zero");
+      throw new IllegalArgumentException(
+          "secondSurfaceIndex constructor parameter cannot equal zero");
     }
     this.firstSurfaceIndex = firstSurfaceIndex;
     this.firstSurfaceCurve2DReference = firstSurfaceCurve2DReference;
@@ -103,6 +107,29 @@ class ConnectImp extends StatementImp implements Connect {
     } else if (!secondSurfaceIndex.equals(other.secondSurfaceIndex))
       return false;
     return true;
+  }
+
+  @Override
+  public int compareTo(Statement o) {
+    int compareTo = super.compareTo(o);
+    if (0 == compareTo) {
+      Connect connect = (Connect) o;
+      compareTo =
+          Integer.compare(firstSurfaceIndex.intValue(), connect.getFirstSurfaceIndex().intValue());
+      if (0 == compareTo) {
+        compareTo =
+            getFirstSurfaceCurve2DReference().compareTo(connect.getFirstSurfaceCurve2DReference());
+        if (0 == compareTo) {
+          compareTo = Integer.compare(secondSurfaceIndex.intValue(),
+              connect.getSecondSurfaceIndex().intValue());
+          if (0 == compareTo) {
+            compareTo =
+                secondSurfaceCurve2DReference.compareTo(connect.getSecondSurfaceCurve2DReference());
+          }
+        }
+      }
+    }
+    return compareTo;
   }
 
   @Override
