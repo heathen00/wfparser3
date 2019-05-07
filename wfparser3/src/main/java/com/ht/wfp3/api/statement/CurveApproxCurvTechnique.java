@@ -25,6 +25,9 @@ import java.math.BigDecimal;
  *
  */
 public interface CurveApproxCurvTechnique extends CurveApprox {
+  public static final BigDecimal MINIMUM_MAXIMUM_DISTANCE = BigDecimal.ZERO;
+  public static final BigDecimal MINIMUM_MAXIMUM_ANGLE = BigDecimal.ZERO;
+
   BigDecimal getMaximumDistance();
 
   BigDecimal getMaximumAngleInDegrees();

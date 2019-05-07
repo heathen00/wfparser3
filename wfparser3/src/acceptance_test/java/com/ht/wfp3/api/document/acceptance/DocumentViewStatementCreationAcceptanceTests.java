@@ -676,7 +676,7 @@ public class DocumentViewStatementCreationAcceptanceTests {
   public void DocumentView_addOneCurveApproxCurvTechniqueToEmptyObjDocumentAtCursor_OneCurvCurveApproxIsAddedAtCursor()
       throws Exception {
     CurveApproxCurvTechnique ctech = statementFactory
-        .createCurveAproxCurvTechnique(BigDecimal.valueOf(1.1876), BigDecimal.valueOf(93.45));
+        .createCurveApproxCurvTechnique(BigDecimal.valueOf(1.1876), BigDecimal.valueOf(93.45));
     objDocument.append(ctech, cursor);
 
     assertEquals(ctech, objDocument.peek(cursor).getStatement());

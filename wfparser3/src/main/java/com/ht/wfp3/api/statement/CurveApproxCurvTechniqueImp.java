@@ -10,6 +10,18 @@ class CurveApproxCurvTechniqueImp extends CurveApproxImp implements CurveApproxC
 
   CurveApproxCurvTechniqueImp(BigDecimal maximumDistance, BigDecimal maximumAngleInDegrees) {
     super(TECHNIQUE_TECHNIQUE);
+    if (null == maximumDistance) {
+      throw new NullPointerException("maximumDistance constructor parameter cannot be null");
+    }
+    if (null == maximumAngleInDegrees) {
+      throw new NullPointerException("maximumAngleInDegrees constructor parameter cannot be null");
+    }
+    if (MINIMUM_MAXIMUM_DISTANCE.compareTo(maximumDistance) >= 0) {
+      throw new IllegalArgumentException("maximumDistance constructor parameter must be greater than " + MINIMUM_MAXIMUM_DISTANCE);
+    }
+    if (MINIMUM_MAXIMUM_ANGLE.compareTo(maximumAngleInDegrees) >= 0) {
+      throw new IllegalArgumentException("maximumAngleInDegrees constructor parameter must be greater than " + MINIMUM_MAXIMUM_ANGLE);
+    }
     this.maximumDistance = maximumDistance;
     this.maximumAngleInDegrees = maximumAngleInDegrees;
   }

@@ -430,13 +430,16 @@ public final class StatementFactory {
     return new CurveApproxCspaceTechniqueImp(curveApproxCspaceTechnique);
   }
 
-  public CurveApproxCurvTechnique createCurveAproxCurvTechnique(BigDecimal maximumDististance,
+  public CurveApproxCurvTechnique createCurveApproxCurvTechnique(BigDecimal maximumDistance,
       BigDecimal maximumAngleInDegrees) {
-    return new CurveApproxCurvTechniqueImp(maximumDististance, maximumAngleInDegrees);
+    return new CurveApproxCurvTechniqueImp(maximumDistance, maximumAngleInDegrees);
   }
 
   public CurveApproxCurvTechnique copyCurveApproxCurvTechnique(
       CurveApproxCurvTechnique curveApproxCurvTechnique) {
+    if (null == curveApproxCurvTechnique) {
+      throw new NullPointerException("curveApproxCurvTechnique copy constructor parameter cannot be null");
+    }
     return new CurveApproxCurvTechniqueImp(curveApproxCurvTechnique);
   }
 
