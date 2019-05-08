@@ -356,6 +356,9 @@ public final class StatementFactory {
   }
 
   public DissolveInterpolation copyDissolveInterpolation(DissolveInterpolation d_interp) {
+    if (null == d_interp) {
+      throw new NullPointerException("d_interp copy constructor parameter cannot be null");
+    }
     return new DissolveInterpolationImp(d_interp);
   }
 
