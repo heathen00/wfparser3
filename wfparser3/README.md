@@ -21,3 +21,10 @@ Rough list:
 I think my Matrix implementation is wrong.  It does not appear to create full rows with multiple values.  The
 implementation will likely clear itself up when I write its acceptance tests.  It is a published interface,
 after all.
+
+If you start using singleton, and fly weight patterns in the implementation, it would make more sense to do so
+on a StatementFactory by StatementFactory basis, since eventually you want to be able to start setting different
+policies changing behaviours when creating the statementfactory.
+
+Might need unit tests for classes like: StatementsUsingVertexReferenceGroupsImp.  See what remains after the
+acceptance tests are done.

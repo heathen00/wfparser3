@@ -114,6 +114,9 @@ public final class StatementFactory {
   }
 
   public Face copyFace(Face face) {
+    if (null == face) {
+      throw new NullPointerException("face copy constructor parameter cannot be null");
+    }
     return new FaceImp(face);
   }
 
@@ -280,6 +283,9 @@ public final class StatementFactory {
   }
 
   public End copyEnd(End end) {
+    if (null == end) {
+      throw new NullPointerException("end copy constructor parameter cannot be null");
+    }
     return EndImp.createEndImp();
   }
 

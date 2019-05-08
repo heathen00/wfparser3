@@ -11,6 +11,9 @@ abstract class StatementsUsingVertexReferenceGroupsImp extends StatementImp
   StatementsUsingVertexReferenceGroupsImp(String keyword,
       List<VertexReferenceGroup> vertexReferenceGroupList) {
     super(keyword);
+    if (null == vertexReferenceGroupList) {
+      throw new NullPointerException("vertexReferenceGroupList constructor parameter cannot be null");
+    }
     this.vertexReferenceGroupList = new ArrayList<>();
     for (VertexReferenceGroup vertexReferenceGroup : vertexReferenceGroupList) {
       this.vertexReferenceGroupList.add(new VertexReferenceGroupImp(vertexReferenceGroup));
