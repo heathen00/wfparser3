@@ -31,6 +31,8 @@ import java.math.BigDecimal;
  *
  */
 public interface GeoVertex extends Statement {
+  public static final BigDecimal DEFAULT_W_COORD = BigDecimal.ONE;
+
   BigDecimal getXCoord();
 
   BigDecimal getYCoord();

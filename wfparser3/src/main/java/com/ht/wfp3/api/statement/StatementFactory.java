@@ -23,8 +23,15 @@ public final class StatementFactory {
       BigDecimal wCoord) {
     return new GeoVertexImp(xCoord, yCoord, zCoord, wCoord);
   }
+  
+  public GeoVertex createGeoVertex(BigDecimal xCoord, BigDecimal yCoord, BigDecimal zCoord) {
+    return new GeoVertexImp(xCoord, yCoord, zCoord);
+  }
 
   public GeoVertex copyGeoVertex(GeoVertex geoVertex) {
+    if (null == geoVertex) {
+      throw new NullPointerException("geoVertex copy constructor parameter cannot be null");
+    }
     return new GeoVertexImp(geoVertex);
   }
 

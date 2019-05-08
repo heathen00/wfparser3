@@ -12,10 +12,26 @@ class GeoVertexImp extends StatementImp implements GeoVertex {
 
   GeoVertexImp(BigDecimal xCoord, BigDecimal yCoord, BigDecimal zCoord, BigDecimal wCoord) {
     super(KEYWORD);
+    if (null == xCoord) {
+      throw new NullPointerException("xCoord constructor parameter cannot be null");
+    }
+    if (null == yCoord) {
+      throw new NullPointerException("yCoord constructor parameter cannot be null");
+    }
+    if (null == zCoord) {
+      throw new NullPointerException("zCoord constructor parameter cannot be null");
+    }
+    if (null == wCoord) {
+      throw new NullPointerException("wCoord constructor parameter cannot be null");
+    }
     this.xCoord = xCoord;
     this.yCoord = yCoord;
     this.zCoord = zCoord;
     this.wCoord = wCoord;
+  }
+
+  GeoVertexImp(BigDecimal xCoord, BigDecimal yCoord, BigDecimal zCoord) {
+    this(xCoord, yCoord, zCoord, DEFAULT_W_COORD);
   }
 
   GeoVertexImp(GeoVertex geoVertex) {
