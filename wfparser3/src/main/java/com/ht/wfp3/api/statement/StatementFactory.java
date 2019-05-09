@@ -269,6 +269,9 @@ public final class StatementFactory {
   }
 
   public Hole copyHole(Hole hole) {
+    if (null == hole) {
+      throw new NullPointerException("hole copy constructor parameter cannot be null");
+    }
     return new HoleImp(hole);
   }
 

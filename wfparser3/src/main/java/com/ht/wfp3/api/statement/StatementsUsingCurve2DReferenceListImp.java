@@ -11,6 +11,12 @@ abstract class StatementsUsingCurve2DReferenceListImp extends StatementImp
   StatementsUsingCurve2DReferenceListImp(String keyword,
       List<Curve2DReference> curve2DReferenceList) {
     super(keyword);
+    if (null == curve2DReferenceList) {
+      throw new NullPointerException("curve2DReferenceList constructor parameter cannot be null");
+    }
+    if (curve2DReferenceList.isEmpty()) {
+      throw new IllegalArgumentException("curve2DReference constructor parameter must contain at least one curve2DReference");
+    }
     this.curve2DReferenceList = new ArrayList<Curve2DReference>(curve2DReferenceList);
   }
 
