@@ -9,10 +9,15 @@ abstract class StatementsUsingVertexReferenceGroupsImp extends StatementImp
   private final List<VertexReferenceGroup> vertexReferenceGroupList;
 
   StatementsUsingVertexReferenceGroupsImp(String keyword,
-      List<VertexReferenceGroup> vertexReferenceGroupList) {
+      List<VertexReferenceGroup> vertexReferenceGroupList, int minimumNumberOfVertexReferenceGroups) {
     super(keyword);
     if (null == vertexReferenceGroupList) {
       throw new NullPointerException("vertexReferenceGroupList constructor parameter cannot be null");
+    }
+    if (vertexReferenceGroupList.size() < minimumNumberOfVertexReferenceGroups) {
+      throw new IllegalArgumentException(
+          "vertexReferenceGroupList constructor parameter must have more than "
+              + minimumNumberOfVertexReferenceGroups + " vertex reference groups");
     }
     this.vertexReferenceGroupList = new ArrayList<>();
     for (VertexReferenceGroup vertexReferenceGroup : vertexReferenceGroupList) {

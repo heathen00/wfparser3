@@ -6,7 +6,7 @@ class PointImp extends StatementsUsingVertexReferenceGroupsImp implements Point 
   private static final String KEYWORD = "p";
 
   PointImp(List<VertexReferenceGroup> vertexReferenceGroupList) {
-    super(KEYWORD, vertexReferenceGroupList);
+    super(KEYWORD, vertexReferenceGroupList, MINIMUM_VERTEX_REFERENCE_GROUPS);
   }
 
   PointImp(Point point) {

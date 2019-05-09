@@ -13,7 +13,7 @@ class SurfaceImp extends StatementsUsingVertexReferenceGroupsImp implements Surf
   SurfaceImp(BigDecimal startingParameterValueUAxis, BigDecimal endingParameterValueUAxis,
       BigDecimal startingParameterValueVAxis, BigDecimal endingParameterValueVAxis,
       List<VertexReferenceGroup> vertexReferenceGroupList) {
-    super(KEYWORD, vertexReferenceGroupList);
+    super(KEYWORD, vertexReferenceGroupList, MINIMUM_VERTEX_REFERENCE_GROUPS);
     this.startingParameterValueUAxis = startingParameterValueUAxis;
     this.endingParameterValueUAxis = endingParameterValueUAxis;
     this.startingParameterValueVAxis = startingParameterValueVAxis;

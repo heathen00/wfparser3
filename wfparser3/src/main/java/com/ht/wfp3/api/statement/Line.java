@@ -42,5 +42,6 @@ package com.ht.wfp3.api.statement;
  *
  */
 public interface Line extends Statement, UsesVertexReferenceGroups {
+  public static final Integer MINIMUM_VERTEX_REFERENCE_GROUPS = 2;
 
 }

@@ -116,6 +116,9 @@ public final class StatementFactory {
   }
 
   public Line copyLine(Line line) {
+    if (null == line) {
+      throw new NullPointerException("line copy constructor parameter cannot be null");
+    }
     return new LineImp(line);
   }
 

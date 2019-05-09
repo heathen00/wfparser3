@@ -6,11 +6,7 @@ class FaceImp extends StatementsUsingVertexReferenceGroupsImp implements Face {
   private static final String KEYWORD = "f";
 
   FaceImp(List<VertexReferenceGroup> vertexReferenceGroupList) {
-    super(KEYWORD, vertexReferenceGroupList);
-    if (getVertexReferenceGroupList().size() < MINIMUM_VERTEX_REFERENCE_GROUPS) {
-      throw new IllegalArgumentException("vertexReferenceGroupList must contain at least "
-          + MINIMUM_VERTEX_REFERENCE_GROUPS + " vertex reference groups");
-    }
+    super(KEYWORD, vertexReferenceGroupList, MINIMUM_VERTEX_REFERENCE_GROUPS);
   }
 
   FaceImp(Face face) {

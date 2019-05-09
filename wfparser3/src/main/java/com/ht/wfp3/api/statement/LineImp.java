@@ -6,7 +6,7 @@ class LineImp extends StatementsUsingVertexReferenceGroupsImp implements Line {
   private static final String KEYWORD = "l";
 
   LineImp(List<VertexReferenceGroup> vertexReferenceGroupList) {
-    super(KEYWORD, vertexReferenceGroupList);
+    super(KEYWORD, vertexReferenceGroupList, MINIMUM_VERTEX_REFERENCE_GROUPS);
   }
 
   LineImp(Line line) {
