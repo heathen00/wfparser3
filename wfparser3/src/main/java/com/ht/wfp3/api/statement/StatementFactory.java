@@ -430,6 +430,9 @@ public final class StatementFactory {
   }
 
   public MaterialLib copyMaterialLib(MaterialLib mtllib) {
+    if (null == mtllib) {
+      throw new NullPointerException("mtllib copy constructor parameter cannot be null");
+    }
     return new MaterialLibImp(mtllib);
   }
 
