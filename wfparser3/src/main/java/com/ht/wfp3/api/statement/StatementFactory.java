@@ -403,6 +403,9 @@ public final class StatementFactory {
   }
 
   public MapLib copyMapLib(MapLib maplib) {
+    if (null == maplib) {
+      throw new NullPointerException("maplib copy constructor parameter cannot be null");
+    }
     return new MapLibImp(maplib);
   }
 
