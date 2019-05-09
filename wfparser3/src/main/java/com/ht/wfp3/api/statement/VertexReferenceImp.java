@@ -7,6 +7,9 @@ class VertexReferenceImp implements VertexReference {
 
   VertexReferenceImp(Integer vertexIndex) {
     super();
+    if (null == vertexIndex) {
+      throw new NullPointerException("vertexIndex constructor parameter cannot be null");
+    }
     this.vertexIndex = vertexIndex;
     this.isSet = (vertexIndex.equals(INDEX_NOT_SET_VALUE) ? false : true);
   }

@@ -28,3 +28,7 @@ policies changing behaviours when creating the statementfactory.
 
 Might need unit tests for classes like: StatementsUsingVertexReferenceGroupsImp.  See what remains after the
 acceptance tests are done.
+
+Need to test for when the *VertexReference classes are "not set".  This might require some code refactoring to
+get it to work properly.
+

@@ -72,6 +72,9 @@ public final class StatementFactory {
   }
 
   public GeoVertexReference copyGeoVertexReference(GeoVertexReference geoVertexReference) {
+    if (null == geoVertexReference) {
+      throw new NullPointerException("geoVertexReference copy constructor parameter cannot be null");
+    }
     return new GeoVertexReferenceImp(geoVertexReference);
   }
 
