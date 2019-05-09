@@ -7,6 +7,15 @@ class LevelOfDetailImp extends StatementImp implements LevelOfDetail {
 
   LevelOfDetailImp(Integer levelOfDetail) {
     super(KEYWORD);
+    if (null == levelOfDetail) {
+      throw new NullPointerException("levelOfDetail constructor parameter cannot be null");
+    }
+    if (OFF.compareTo(levelOfDetail) > 0) {
+      throw new IllegalArgumentException("levelOfDetail constructor parameter cannot be less than " + OFF);
+    }
+    if (MAX.compareTo(levelOfDetail) < 0) {
+      throw new IllegalArgumentException("levelOfDetail constructor parameter cannt be greater than " + MAX);
+    }
     this.levelOfDetail = levelOfDetail;
   }
 

@@ -389,6 +389,9 @@ public final class StatementFactory {
   }
 
   public LevelOfDetail copyLevelOfDetail(LevelOfDetail lod) {
+    if (null == lod) {
+      throw new NullPointerException("lod copy constructor parameter cannot be null");
+    }
     return new LevelOfDetailImp(lod);
   }
 
