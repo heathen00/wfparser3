@@ -11,6 +11,13 @@ class GroupNameListImp extends StatementImp implements GroupNameList {
 
   GroupNameListImp(List<String> groupNameList) {
     super(KEYWORD);
+    if (null == groupNameList) {
+      throw new NullPointerException("groupNameList constructor parameter cannot be null");
+    }
+    if (groupNameList.isEmpty()) {
+      throw new IllegalArgumentException(
+          "groupNameList constructor parameter must contain at least one group name");
+    }
     this.groupNameList = new ArrayList<>(groupNameList);
   }
 
