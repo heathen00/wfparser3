@@ -28,8 +28,8 @@ public class BasisMatrixAcceptanceTests {
   }
 
   private Matrix buildDefaultMatrix() {
-    Matrix matrix = matrixBuilder.clear().buildRowByRow() //
-        .append(BigDecimal.valueOf(1.1d)).append(BigDecimal.valueOf(2.2d)).endRow().build();
+    Matrix matrix = matrixBuilder.clear().rowByRow() //
+        .append(BigDecimal.valueOf(1.1d)).append(BigDecimal.valueOf(2.2d)).end().build();
     return matrix;
   }
 
@@ -104,12 +104,12 @@ public class BasisMatrixAcceptanceTests {
     assertFalse(first.hashCode() == second.hashCode());
 
     // same axes, different matrix.
-    Matrix firstMatrix = matrixBuilder.clear().buildRowByRow() //
+    Matrix firstMatrix = matrixBuilder.clear().rowByRow() //
         .append(BigDecimal.valueOf(1.1d)).append(BigDecimal.valueOf(1.1d))
-        .append(BigDecimal.valueOf(1.1d)).endRow().build();
-    Matrix secondMatrix = matrixBuilder.clear().buildRowByRow() //
+        .append(BigDecimal.valueOf(1.1d)).end().build();
+    Matrix secondMatrix = matrixBuilder.clear().rowByRow() //
         .append(BigDecimal.valueOf(2.2d)).append(BigDecimal.valueOf(2.2d))
-        .append(BigDecimal.valueOf(2.2d)).endRow().build();
+        .append(BigDecimal.valueOf(2.2d)).end().build();
     first = statementFactory.createBasisMatrix(Axis.V, firstMatrix);
     second = statementFactory.createBasisMatrix(Axis.V, secondMatrix);
 

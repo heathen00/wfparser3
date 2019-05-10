@@ -10,6 +10,8 @@ import java.math.BigDecimal;
  *
  */
 public interface Matrix extends Comparable<Matrix> {
+  public static final BigDecimal DEFAULT_ELEMENT = BigDecimal.valueOf(0.0d);
+
   BigDecimal getElementAt(int row, int column);
 
   int getNumRows();

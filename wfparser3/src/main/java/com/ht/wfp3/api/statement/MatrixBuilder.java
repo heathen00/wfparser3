@@ -4,11 +4,13 @@ import java.math.BigDecimal;
 
 public interface MatrixBuilder {
 
-  MatrixBuilder buildRowByRow();
+  MatrixBuilder rowByRow();
+
+  MatrixBuilder colByCol();
 
   MatrixBuilder append(BigDecimal element);
 
-  MatrixBuilder endRow();
+  MatrixBuilder end();
 
   Matrix build();
 

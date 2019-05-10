@@ -300,13 +300,13 @@ public class DocumentViewStatementCreationAcceptanceTests {
       throws Exception {
 
     MatrixBuilder matrixBuilder = statementFactory.createMatrixBuilder();
-    matrixBuilder.clear().buildRowByRow() //
+    matrixBuilder.clear().rowByRow() //
         .append(BigDecimal.valueOf(1.234)).append(BigDecimal.valueOf(-1.234))
-        .append(BigDecimal.valueOf(4.321)).endRow() //
+        .append(BigDecimal.valueOf(4.321)).end() //
         .append(BigDecimal.valueOf(-4.321)).append(BigDecimal.valueOf(9.876))
-        .append(BigDecimal.valueOf(-9.876)).endRow() //
+        .append(BigDecimal.valueOf(-9.876)).end() //
         .append(BigDecimal.valueOf(4.545)).append(BigDecimal.valueOf(5.454))
-        .append(BigDecimal.valueOf(1.111)).endRow();
+        .append(BigDecimal.valueOf(1.111)).end();
 
     BasisMatrix bmat = statementFactory.createBasisMatrix(Axis.U, matrixBuilder.build());
     objDocument.append(bmat, cursor);

@@ -12,6 +12,10 @@ class MatrixImp implements Matrix {
 
   @Override
   public BigDecimal getElementAt(int row, int column) {
+    if (row >= getNumRows() || column >= getNumColumns()) {
+      throw new IllegalArgumentException("cannot access element (" + row + ", " + column
+          + ") in matrix of size (" + getNumRows() + ", " + getNumColumns() + ")");
+    }
     return matrix[row][column];
   }
 
@@ -22,7 +26,7 @@ class MatrixImp implements Matrix {
 
   @Override
   public int getNumColumns() {
-    return matrix[0].length;
+    return (matrix.length == 0 ? 0 : matrix[0].length);
   }
 
   @Override

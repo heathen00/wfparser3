@@ -2,14 +2,10 @@ package com.ht.wfp3.api.statement;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 final class MatrixBuilderImp implements MatrixBuilder {
-  private static final BigDecimal DEFAULT_ELEMENT = BigDecimal.ZERO;
-
   private enum Method {
-    NOT_SET, // Not set
     ROW_BY_ROW, // Row-major
     COL_BY_COL, // Column-major
   }
@@ -31,17 +27,30 @@ final class MatrixBuilderImp implements MatrixBuilder {
   }
 
   private void internalClear() {
-    buildMethod = Method.NOT_SET;
+    buildMethod = Method.ROW_BY_ROW;
     major = new ArrayList<>();
     majorIndex = 0;
     major.add(new ArrayList<>());
     longestMinor = 0;
   }
 
+  private void setConsistentMinorListLengths() {
+    for (int i = 0; i < majorIndex; i++) {
+      while (major.get(i).size() < longestMinor) {
+        major.get(i).add(Matrix.DEFAULT_ELEMENT);
+      }
+    }
+  }
 
   @Override
-  public MatrixBuilder buildRowByRow() {
+  public MatrixBuilder rowByRow() {
     buildMethod = Method.ROW_BY_ROW;
+    return this;
+  }
+
+  @Override
+  public MatrixBuilder colByCol() {
+    buildMethod = Method.COL_BY_COL;
     return this;
   }
 
@@ -52,7 +61,7 @@ final class MatrixBuilderImp implements MatrixBuilder {
   }
 
   @Override
-  public MatrixBuilder endRow() {
+  public MatrixBuilder end() {
     internalEnd();
     return this;
   }
@@ -60,20 +69,23 @@ final class MatrixBuilderImp implements MatrixBuilder {
   @Override
   public Matrix build() {
     MatrixImp matrix = null;
+    setConsistentMinorListLengths();
     if (buildMethod.equals(Method.ROW_BY_ROW)) {
       BigDecimal[][] matrixAs2DArray = new BigDecimal[majorIndex][longestMinor];
       for (int i = 0; i < matrixAs2DArray.length; i++) {
-        Arrays.fill(matrixAs2DArray[i], 0, matrixAs2DArray[i].length, DEFAULT_ELEMENT);
         for (int j = 0; j < major.get(i).size(); j++) {
           matrixAs2DArray[i][j] = major.get(i).get(j);
         }
       }
       matrix = new MatrixImp(matrixAs2DArray);
     } else if (buildMethod.equals(Method.COL_BY_COL)) {
-      // TODO not implemented.
-      matrix = null;
-    } else {
-      // TODO not implemented.
+      BigDecimal[][] matrixAs2DArray = new BigDecimal[longestMinor][majorIndex];
+      for (int i = 0; i < major.size(); i++) {
+        for (int j = 0; j < major.get(i).size(); j++) {
+          matrixAs2DArray[j][i] = major.get(i).get(j);
+        }
+      }
+      matrix = new MatrixImp(matrixAs2DArray);
     }
     return matrix;
   }
