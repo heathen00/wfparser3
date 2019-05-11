@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 
 class MergingGroupImp extends StatementImp implements MergingGroup {
   private static final String KEYWORD = "mg";
-  static final Integer OFF = Integer.valueOf(0);
 
   private final boolean isEnabled;
   private final Integer mergingGroupNumber;
@@ -12,6 +11,21 @@ class MergingGroupImp extends StatementImp implements MergingGroup {
 
   MergingGroupImp(Integer mergingGroupNumber, BigDecimal mergingGroupResolution) {
     super(KEYWORD);
+    if (null == mergingGroupNumber) {
+      throw new NullPointerException("mergingGroupNumber constructor parameter cannot be null");
+    }
+    if (null == mergingGroupResolution) {
+      throw new NullPointerException("mergingGroupResolution constructor parameter cannot be null");
+    }
+    if (OFF.compareTo(mergingGroupNumber) > 0) {
+      throw new IllegalArgumentException(
+          "mergingGroupNumber constructor parameter must be greater or equal to " + OFF);
+    }
+    if (MINIMUM_RESOLUTION.compareTo(mergingGroupResolution) >= 0) {
+      throw new IllegalArgumentException(
+          "mergingGroupResolution constructor parameter mube be greater than "
+              + MINIMUM_RESOLUTION);
+    }
     this.isEnabled = (mergingGroupNumber == OFF ? false : true);
     this.mergingGroupNumber = mergingGroupNumber;
     this.mergingGroupResolution = mergingGroupResolution;

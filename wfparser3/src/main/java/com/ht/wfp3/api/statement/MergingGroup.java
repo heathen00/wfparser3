@@ -30,6 +30,9 @@ import java.math.BigDecimal;
  *
  */
 public interface MergingGroup extends Statement {
+  static final Integer OFF = Integer.valueOf(0);
+  static final BigDecimal MINIMUM_RESOLUTION = BigDecimal.ZERO;
+
   boolean isEnabled();
 
   Integer getMergingGroupNumber();

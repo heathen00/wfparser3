@@ -343,6 +343,9 @@ public final class StatementFactory {
   }
 
   public MergingGroup copyMergingGroup(MergingGroup mg) {
+    if (null == mg) {
+      throw new NullPointerException("mg copy constructor parameter cannot be null");
+    }
     return new MergingGroupImp(mg);
   }
 
