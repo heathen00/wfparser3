@@ -48,6 +48,9 @@ public final class StatementFactory {
   }
 
   public NormalVertex copyNormalVertex(NormalVertex normalVertex) {
+    if (null == normalVertex) {
+      throw new NullPointerException("normalVertex copy constructor parameter cannot be null");
+    }
     return new NormalVertexImp(normalVertex);
   }
 

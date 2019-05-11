@@ -11,6 +11,15 @@ class NormalVertexImp extends StatementImp implements NormalVertex {
 
   NormalVertexImp(BigDecimal iCoord, BigDecimal jCoord, BigDecimal kCoord) {
     super(KEYWORD);
+    if (null == iCoord) {
+      throw new NullPointerException("iCoord constructor parameter cannot be null");
+    }
+    if (null == jCoord) {
+      throw new NullPointerException("jCoord constructor parameter cannot be null");
+    }
+    if (null == kCoord) {
+      throw new NullPointerException("kCoord constructor parameter cannot be null");
+    }
     this.iCoord = iCoord;
     this.jCoord = jCoord;
     this.kCoord = kCoord;
