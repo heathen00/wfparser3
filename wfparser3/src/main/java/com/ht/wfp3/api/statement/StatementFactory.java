@@ -514,6 +514,9 @@ public final class StatementFactory {
   }
 
   public RayTracingObject copyRayTracingObject(RayTracingObject trace_obj) {
+    if (null == trace_obj) {
+      throw new NullPointerException("trace_obj copy constructor parameter cannot be null");
+    }
     return new RayTracingObjectImp(trace_obj);
   }
 

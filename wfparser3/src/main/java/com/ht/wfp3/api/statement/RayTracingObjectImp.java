@@ -1,6 +1,8 @@
 package com.ht.wfp3.api.statement;
 
+import java.nio.file.FileSystems;
 import java.nio.file.Path;
+import java.nio.file.PathMatcher;
 
 class RayTracingObjectImp extends StatementImp implements RayTracingObject {
   private static final String KEYWORD = "trace_obj";
@@ -9,6 +11,20 @@ class RayTracingObjectImp extends StatementImp implements RayTracingObject {
 
   RayTracingObjectImp(Path rayTracingObjectFileName) {
     super(KEYWORD);
+    if (null == rayTracingObjectFileName) {
+      throw new NullPointerException(
+          "rayTracingObjectFileName constructor parameter cannot be null");
+    }
+    if (!rayTracingObjectFileName.getFileName().toFile().getName().contains(".")) {
+      rayTracingObjectFileName =
+          rayTracingObjectFileName.resolveSibling(rayTracingObjectFileName.getFileName() + ".obj");
+    }
+    PathMatcher supportedExtensionsMatcher =
+        FileSystems.getDefault().getPathMatcher("glob:*.{" + OBJ_EXT + "," + MOD_EXT + "}");
+    if (!supportedExtensionsMatcher.matches(rayTracingObjectFileName.getFileName())) {
+      throw new IllegalArgumentException(
+          "fileName must have extension '" + OBJ_EXT + "' or '" + MOD_EXT + "'");
+    }
     this.rayTracingObjectFileName = rayTracingObjectFileName;
   }
 
