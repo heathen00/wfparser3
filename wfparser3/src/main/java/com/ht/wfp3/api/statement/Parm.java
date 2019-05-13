@@ -29,6 +29,8 @@ import java.util.List;
  *
  */
 public interface Parm extends Statement {
+  public static final Integer MINIMUM_PARAMETERS = Integer.valueOf(2);
+
   Axis getAxis();
 
   List<BigDecimal> getParameterValues();

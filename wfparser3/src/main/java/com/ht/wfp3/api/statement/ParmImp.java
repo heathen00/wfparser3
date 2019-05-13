@@ -13,6 +13,20 @@ class ParmImp extends StatementImp implements Parm {
 
   ParmImp(Axis axis, List<BigDecimal> parameterList) {
     super(KEYWORD);
+    if (null == axis) {
+      throw new NullPointerException("axis constructor parameter cannot be null");
+    }
+    if (null == parameterList) {
+      throw new NullPointerException("parameterList constructor parameter cannot be null");
+    }
+    if (MINIMUM_PARAMETERS.compareTo(Integer.valueOf(parameterList.size())) > 0) {
+      throw new IllegalArgumentException(
+          "parameterList constructor parameter must contain at least 2 parameters");
+    }
+    if (parameterList.contains(null)) {
+      throw new IllegalArgumentException(
+          "parameterList constructor parameter cannot contain null members");
+    }
     this.axis = axis;
     this.parameterList = new ArrayList<BigDecimal>(parameterList);
   }

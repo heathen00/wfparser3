@@ -293,6 +293,9 @@ public final class StatementFactory {
   }
 
   public Parm copyParm(Parm parm) {
+    if (null == parm) {
+      throw new NullPointerException("parm copy constructor parameter cannot be null");
+    }
     return new ParmImp(parm);
   }
 
