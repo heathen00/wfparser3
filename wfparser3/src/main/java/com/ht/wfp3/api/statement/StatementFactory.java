@@ -127,6 +127,10 @@ public final class StatementFactory {
     return new NormalVertexReferenceImp(vertexIndex);
   }
 
+  NormalVertexReference createDisabledNormalVertexReference() {
+    return new NormalVertexReferenceImp(VertexReference.INDEX_NOT_SET_VALUE);
+  }
+
   public NormalVertexReference copyNormalVertexReference(
       NormalVertexReference normalVertexReference) {
     if (null == normalVertexReference) {
@@ -157,6 +161,9 @@ public final class StatementFactory {
   }
 
   public Point copyPoint(Point point) {
+    if (null == point) {
+      throw new NullPointerException("point copy constructor parameter cannot be null");
+    }
     return new PointImp(point);
   }
 

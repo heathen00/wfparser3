@@ -19,6 +19,9 @@ abstract class StatementsUsingVertexReferenceGroupsImp extends StatementImp
           "vertexReferenceGroupList constructor parameter must have more than "
               + minimumNumberOfVertexReferenceGroups + " vertex reference groups");
     }
+    if (vertexReferenceGroupList.contains(null)) {
+      throw new IllegalArgumentException("vertexReferenceGroupList constructor parameter cannot contain null members");
+    }
     this.vertexReferenceGroupList = new ArrayList<>();
     for (VertexReferenceGroup vertexReferenceGroup : vertexReferenceGroupList) {
       this.vertexReferenceGroupList.add(new VertexReferenceGroupImp(vertexReferenceGroup));
