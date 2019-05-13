@@ -30,12 +30,10 @@ public class GeoVertexReferenceAcceptanceTests {
     statementFactory.createGeoVertexReference(null);
   }
 
-  // @Test(expected = IllegalArgumentException.class)
-  // public void
-  // GeoVertexReference_createGeoVertexReferenceWithZeroValueVertexIndex_illegalArgumentExceptionIsThrown()
-  // {
-  // statementFactory.createGeoVertexReference(Integer.valueOf(0));
-  // }
+  @Test(expected = IllegalArgumentException.class)
+  public void GeoVertexReference_createGeoVertexReferenceWithZeroValueVertexIndex_illegalArgumentExceptionIsThrown() {
+    statementFactory.createGeoVertexReference(Integer.valueOf(0));
+  }
 
   @Test
   public void GeoVertexReference_createGeoVertexReferenceWithVertexIndexLessThanZero_geoVertexReferenceIsCreated() {

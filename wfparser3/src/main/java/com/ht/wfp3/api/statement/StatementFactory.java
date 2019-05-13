@@ -23,7 +23,7 @@ public final class StatementFactory {
       BigDecimal wCoord) {
     return new GeoVertexImp(xCoord, yCoord, zCoord, wCoord);
   }
-  
+
   public GeoVertex createGeoVertex(BigDecimal xCoord, BigDecimal yCoord, BigDecimal zCoord) {
     return new GeoVertexImp(xCoord, yCoord, zCoord);
   }
@@ -71,12 +71,16 @@ public final class StatementFactory {
   }
 
   public GeoVertexReference createGeoVertexReference(Integer vertexIndex) {
+    if (Integer.valueOf(VertexReference.INDEX_NOT_SET_VALUE).equals(vertexIndex)) {
+      throw new IllegalArgumentException("vertexIndex constructor parameter cannot equal " + VertexReference.INDEX_NOT_SET_VALUE);
+    }
     return new GeoVertexReferenceImp(vertexIndex);
   }
 
   public GeoVertexReference copyGeoVertexReference(GeoVertexReference geoVertexReference) {
     if (null == geoVertexReference) {
-      throw new NullPointerException("geoVertexReference copy constructor parameter cannot be null");
+      throw new NullPointerException(
+          "geoVertexReference copy constructor parameter cannot be null");
     }
     return new GeoVertexReferenceImp(geoVertexReference);
   }
@@ -90,11 +94,18 @@ public final class StatementFactory {
   }
 
   public NormalVertexReference createNormalVertexReference(Integer vertexIndex) {
+    if (Integer.valueOf(VertexReference.INDEX_NOT_SET_VALUE).equals(vertexIndex)) {
+      throw new IllegalArgumentException(
+          "vertexIndex constructor parameter cannot equal " + VertexReference.INDEX_NOT_SET_VALUE);
+    }
     return new NormalVertexReferenceImp(vertexIndex);
   }
 
   public NormalVertexReference copyNormalVertexReference(
       NormalVertexReference normalVertexReference) {
+    if (null == normalVertexReference) {
+      throw new NullPointerException("normalVertexReference copy constructor parameter cannot be null");
+    }
     return new NormalVertexReferenceImp(normalVertexReference);
   }
 
