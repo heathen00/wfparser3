@@ -35,9 +35,15 @@ import java.math.BigDecimal;
  *
  */
 public interface ParamVertex extends Statement {
+  BigDecimal DEFAULT_W_COORD = BigDecimal.valueOf(1.0d);
+
   BigDecimal getUCoord();
 
   BigDecimal getVCoord();
 
   BigDecimal getWCoord();
+
+  boolean isVCoordSet();
+
+  boolean isWCoordSet();
 }

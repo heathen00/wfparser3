@@ -4,20 +4,45 @@ import java.math.BigDecimal;
 
 class ParamVertexImp extends StatementImp implements ParamVertex {
   private static final String KEYWORD = "vp";
+  private static final BigDecimal COORD_NOT_USED_VALUE = BigDecimal.valueOf(Double.MIN_VALUE);
 
   private final BigDecimal uCoord;
   private final BigDecimal vCoord;
   private final BigDecimal wCoord;
 
-  ParamVertexImp(BigDecimal uCoord, BigDecimal vCoord, BigDecimal wCoord) {
+  private final boolean isVCoordSet;
+  private final boolean isWCoordSet;
+
+  private ParamVertexImp(BigDecimal uCoord, BigDecimal vCoord, BigDecimal wCoord,
+      boolean vCoordIsSet, boolean wCoordIsSet) {
     super(KEYWORD);
+    if (null == uCoord) {
+      throw new NullPointerException("uCoord constructor parameter cannot be null");
+    }
+    if (null == vCoord) {
+      throw new NullPointerException("vCoord constructor parameter cannot be null");
+    }
+    if (null == wCoord) {
+      throw new NullPointerException("wCoord constructor parameter cannot be null");
+    }
     this.uCoord = uCoord;
     this.vCoord = vCoord;
     this.wCoord = wCoord;
+
+    this.isVCoordSet = vCoordIsSet;
+    this.isWCoordSet = wCoordIsSet;
   }
 
-  ParamVertexImp(ParamVertex paramVertex) {
-    this(paramVertex.getUCoord(), paramVertex.getVCoord(), paramVertex.getWCoord());
+  ParamVertexImp(BigDecimal uCoord, BigDecimal vCoord, BigDecimal wCoord) {
+    this(uCoord, vCoord, wCoord, true, true);
+  }
+
+  ParamVertexImp(BigDecimal uCoord) {
+    this(uCoord, COORD_NOT_USED_VALUE, COORD_NOT_USED_VALUE, false, false);
+  }
+
+  ParamVertexImp(BigDecimal uCoord, BigDecimal vCoord) {
+    this(uCoord, vCoord, COORD_NOT_USED_VALUE, true, false);
   }
 
   @Override
@@ -27,12 +52,28 @@ class ParamVertexImp extends StatementImp implements ParamVertex {
 
   @Override
   public BigDecimal getVCoord() {
+    if (!isVCoordSet) {
+      throw new UnsupportedOperationException("cannot access v coordinate when it is not set");
+    }
     return vCoord;
   }
 
   @Override
   public BigDecimal getWCoord() {
+    if (!isWCoordSet) {
+      throw new UnsupportedOperationException("cannot access w coordinate when it is not set");
+    }
     return wCoord;
+  }
+
+  @Override
+  public boolean isVCoordSet() {
+    return isVCoordSet;
+  }
+
+  @Override
+  public boolean isWCoordSet() {
+    return isWCoordSet;
   }
 
   @Override
@@ -84,6 +125,7 @@ class ParamVertexImp extends StatementImp implements ParamVertex {
   @Override
   public String toString() {
     return "ParamVertexImp [uCoord=" + uCoord + ", vCoord=" + vCoord + ", wCoord=" + wCoord
-        + ", super.toString()=" + super.toString() + "]";
+        + ", isVCoordSet=" + isVCoordSet + ", isWCoordSet=" + isWCoordSet + ", super.toString()="
+        + super.toString() + "]";
   }
 }

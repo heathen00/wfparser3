@@ -54,12 +54,37 @@ public final class StatementFactory {
     return new NormalVertexImp(normalVertex);
   }
 
+  public ParamVertex createParamVertex(BigDecimal uCoord) {
+    return new ParamVertexImp(uCoord);
+  }
+
+  public ParamVertex createParamVertex(BigDecimal uCoord, BigDecimal vCoord) {
+    return new ParamVertexImp(uCoord, vCoord);
+  }
+
+  public ParamVertex createParamVertexWithDefaultWCoord(BigDecimal uCoord, BigDecimal vCoord) {
+    return new ParamVertexImp(uCoord, vCoord, ParamVertex.DEFAULT_W_COORD);
+  }
+
   public ParamVertex createParamVertex(BigDecimal uCoord, BigDecimal vCoord, BigDecimal wCoord) {
     return new ParamVertexImp(uCoord, vCoord, wCoord);
   }
 
   public ParamVertex copyParamVertex(ParamVertex paramVertex) {
-    return new ParamVertexImp(paramVertex);
+    ParamVertex copiedParamVertex;
+    if (null == paramVertex) {
+      throw new NullPointerException("paramVertex copy constructor parameter cannot be null");
+    }
+    if (!paramVertex.isVCoordSet()) {
+      copiedParamVertex = new ParamVertexImp(paramVertex.getUCoord());
+    } else if (!paramVertex.isWCoordSet()) {
+      copiedParamVertex = new ParamVertexImp(paramVertex.getUCoord(), paramVertex.getVCoord());
+    } else {
+      copiedParamVertex = new ParamVertexImp(paramVertex.getUCoord(), paramVertex.getVCoord(),
+          paramVertex.getWCoord());
+    }
+
+    return copiedParamVertex;
   }
 
   public VertexReferenceGroupBuilder createVertexReferenceGroupBuilder() {
@@ -72,7 +97,8 @@ public final class StatementFactory {
 
   public GeoVertexReference createGeoVertexReference(Integer vertexIndex) {
     if (Integer.valueOf(VertexReference.INDEX_NOT_SET_VALUE).equals(vertexIndex)) {
-      throw new IllegalArgumentException("vertexIndex constructor parameter cannot equal " + VertexReference.INDEX_NOT_SET_VALUE);
+      throw new IllegalArgumentException(
+          "vertexIndex constructor parameter cannot equal " + VertexReference.INDEX_NOT_SET_VALUE);
     }
     return new GeoVertexReferenceImp(vertexIndex);
   }
@@ -104,7 +130,8 @@ public final class StatementFactory {
   public NormalVertexReference copyNormalVertexReference(
       NormalVertexReference normalVertexReference) {
     if (null == normalVertexReference) {
-      throw new NullPointerException("normalVertexReference copy constructor parameter cannot be null");
+      throw new NullPointerException(
+          "normalVertexReference copy constructor parameter cannot be null");
     }
     return new NormalVertexReferenceImp(normalVertexReference);
   }
