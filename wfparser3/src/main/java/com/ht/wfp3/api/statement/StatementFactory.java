@@ -137,10 +137,18 @@ public final class StatementFactory {
   }
 
   public ParamVertexReference createParamVertexReference(Integer vertexIndex) {
+    if (Integer.valueOf(VertexReference.INDEX_NOT_SET_VALUE).equals(vertexIndex)) {
+      throw new IllegalArgumentException(
+          "vertexIndex constructor parameter cannot equal " + VertexReference.INDEX_NOT_SET_VALUE);
+    }
     return new ParamVertexReferenceImp(vertexIndex);
   }
 
   public ParamVertexReference copyParamVertexReference(ParamVertexReference paramVertexReference) {
+    if (null == paramVertexReference) {
+      throw new NullPointerException(
+          "paramVertexReference copy constructor parameter cannot be null");
+    }
     return new ParamVertexReferenceImp(paramVertexReference);
   }
 

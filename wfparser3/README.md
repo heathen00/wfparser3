@@ -32,3 +32,6 @@ acceptance tests are done.
 Need to test for when the *VertexReference classes are "not set".  This might require some code refactoring to
 get it to work properly.
 
+You should probably review and clean up the Javadoc for the published APIs.  For example, you should move the
+discussion about the vertex references from the vertex implementations into the vertex reference implementations.
+
