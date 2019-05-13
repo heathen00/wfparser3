@@ -368,6 +368,9 @@ public final class StatementFactory {
   }
 
   public ObjectName copyObjectName(ObjectName o) {
+    if (null == o) {
+      throw new NullPointerException("o copy constructor parameter cannot be null");
+    }
     return new ObjectNameImp(o);
   }
 
