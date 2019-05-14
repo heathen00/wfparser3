@@ -19,5 +19,7 @@ import java.math.BigDecimal;
  *
  */
 public interface SurfaceApproxCspaceTechnique extends SurfaceApprox {
+  static final BigDecimal MINIMUM_MAX_LENGTH = BigDecimal.ZERO;
+
   BigDecimal getMaxLength();
 }

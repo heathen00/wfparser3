@@ -10,6 +10,13 @@ class SurfaceApproxCspaceTechniqueImp extends SurfaceApproxImp
 
   SurfaceApproxCspaceTechniqueImp(BigDecimal maxLength) {
     super(TECHNIQUE_KEYWORD);
+    if (null == maxLength) {
+      throw new NullPointerException("maxLength constructor parameter cannot be null");
+    }
+    if (MINIMUM_MAX_LENGTH.compareTo(maxLength) >= 0) {
+      throw new IllegalArgumentException(
+          "maxLength constructor parameter must be greater than " + MINIMUM_MAX_LENGTH);
+    }
     this.maxLength = maxLength;
   }
 
