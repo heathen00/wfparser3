@@ -14,6 +14,22 @@ class SurfaceImp extends StatementsUsingVertexReferenceGroupsImp implements Surf
       BigDecimal startingParameterValueVAxis, BigDecimal endingParameterValueVAxis,
       List<VertexReferenceGroup> vertexReferenceGroupList) {
     super(KEYWORD, vertexReferenceGroupList, MINIMUM_VERTEX_REFERENCE_GROUPS);
+    if (null == startingParameterValueUAxis) {
+      throw new NullPointerException(
+          "startingParameterValueUAxis constructor parameter cannot be null");
+    }
+    if (null == endingParameterValueUAxis) {
+      throw new NullPointerException(
+          "endingParameterValueUAxis constructor parameter cannot be null");
+    }
+    if (null == startingParameterValueVAxis) {
+      throw new NullPointerException(
+          "startingParameterValueVAxis constructor parameter cannot be null");
+    }
+    if (null == endingParameterValueVAxis) {
+      throw new NullPointerException(
+          "endingParameterValueVAxis constructor parameter cannot be null");
+    }
     this.startingParameterValueUAxis = startingParameterValueUAxis;
     this.endingParameterValueUAxis = endingParameterValueUAxis;
     this.startingParameterValueVAxis = startingParameterValueVAxis;

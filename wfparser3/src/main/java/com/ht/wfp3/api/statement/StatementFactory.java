@@ -283,6 +283,9 @@ public final class StatementFactory {
   }
 
   public Surface copySurface(Surface surf) {
+    if (null == surf) {
+      throw new NullPointerException("surf copy constructor parameter cannot be null");
+    }
     return new SurfaceImp(surf);
   }
 
