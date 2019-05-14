@@ -41,3 +41,5 @@ statements that contain lists of things.  You should probably check for null mem
 One of the first steps in the review would be to retest all statements and see if you broke anything since you've
 only been testing individual statements at this point.  I'm sure I broke some tests.
 
+Check for consistency between implementations/behaviours, especially what is published.
+

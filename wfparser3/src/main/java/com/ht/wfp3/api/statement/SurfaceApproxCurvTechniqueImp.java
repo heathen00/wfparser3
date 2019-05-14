@@ -10,6 +10,20 @@ class SurfaceApproxCurvTechniqueImp extends SurfaceApproxImp implements SurfaceA
 
   SurfaceApproxCurvTechniqueImp(BigDecimal maxDistance, BigDecimal maxAngleInDegrees) {
     super(TECHNIQUE_KEYWORD);
+    if (null == maxDistance) {
+      throw new NullPointerException("maxDistance constructor parameter cannot be null");
+    }
+    if (null == maxAngleInDegrees) {
+      throw new NullPointerException("maxAngleInDegrees constructor parameter cannot be null");
+    }
+    if (MINIMUM_MAX_DISTANCE.compareTo(maxDistance) >= 0) {
+      throw new IllegalArgumentException(
+          "maxDistance constructor parameter must be greater than " + MINIMUM_MAX_DISTANCE);
+    }
+    if (MINIMUM_MAX_ANGLE.compareTo(maxAngleInDegrees) >= 0) {
+      throw new IllegalArgumentException(
+          "maxAngleInDegrees constructor parameter must be greater than " + MINIMUM_MAX_ANGLE);
+    }
     this.maxDistance = maxDistance;
     this.maxAngleInDegrees = maxAngleInDegrees;
   }

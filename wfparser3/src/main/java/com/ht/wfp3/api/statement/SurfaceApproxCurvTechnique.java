@@ -25,6 +25,9 @@ import java.math.BigDecimal;
  *
  */
 public interface SurfaceApproxCurvTechnique extends SurfaceApprox {
+  static final BigDecimal MINIMUM_MAX_DISTANCE = BigDecimal.ZERO;
+  static final BigDecimal MINIMUM_MAX_ANGLE = BigDecimal.ZERO;
+
   BigDecimal getMaxDistance();
 
   BigDecimal getMaxAngleInDegrees();
