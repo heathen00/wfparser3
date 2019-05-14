@@ -20,5 +20,7 @@ import java.util.List;
  *
  */
 public interface SpecialPoint extends Statement {
+  static final Integer MINIMUM_VERTEX_REFERENCES = Integer.valueOf(1);
+
   List<ParamVertexReference> getVertexReferenceList();
 }

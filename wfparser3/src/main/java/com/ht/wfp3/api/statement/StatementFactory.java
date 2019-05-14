@@ -353,6 +353,9 @@ public final class StatementFactory {
   }
 
   public SpecialPoint copySpecialPoint(SpecialPoint sp) {
+    if (null == sp) {
+      throw new NullPointerException("sp copy constructor parameter cannot be null");
+    }
     return new SpecialPointImp(sp);
   }
 

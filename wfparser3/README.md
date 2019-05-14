@@ -38,3 +38,6 @@ discussion about the vertex references from the vertex implementations into the 
 You may want to review the order for when checking for null members and checking the number of members for those
 statements that contain lists of things.  You should probably check for null members first.
 
+One of the first steps in the review would be to retest all statements and see if you broke anything since you've
+only been testing individual statements at this point.  I'm sure I broke some tests.
+
