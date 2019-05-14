@@ -1,6 +1,8 @@
 package com.ht.wfp3.api.statement;
 
+import java.nio.file.FileSystems;
 import java.nio.file.Path;
+import java.nio.file.PathMatcher;
 
 class ShadowObjectImp extends StatementImp implements ShadowObject {
   private static final String KEYWORD = "shadow_obj";
@@ -9,6 +11,19 @@ class ShadowObjectImp extends StatementImp implements ShadowObject {
 
   ShadowObjectImp(Path shadowObjectFileName) {
     super(KEYWORD);
+    if (null == shadowObjectFileName) {
+      throw new NullPointerException("shadowObjectFileName constructor parameter cannot be null");
+    }
+    if (!shadowObjectFileName.getFileName().toFile().getName().contains(".")) {
+      shadowObjectFileName =
+          shadowObjectFileName.resolveSibling(shadowObjectFileName.getFileName() + ".obj");
+    }
+    PathMatcher supportedExtensionsMatcher =
+        FileSystems.getDefault().getPathMatcher("glob:*.{" + OBJ_EXT + "," + MOD_EXT + "}");
+    if (!supportedExtensionsMatcher.matches(shadowObjectFileName.getFileName())) {
+      throw new IllegalArgumentException(
+          "fileName must have extension '" + OBJ_EXT + "' or '" + MOD_EXT + "'");
+    }
     this.shadowObjectFileName = shadowObjectFileName;
   }
 

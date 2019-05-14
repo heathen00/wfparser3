@@ -506,6 +506,9 @@ public final class StatementFactory {
   }
 
   public ShadowObject copyShadowObject(ShadowObject shadow_obj) {
+    if (null == shadow_obj) {
+      throw new NullPointerException("shadow_obj copy constructor parameter cannot be null");
+    }
     return new ShadowObjectImp(shadow_obj);
   }
 

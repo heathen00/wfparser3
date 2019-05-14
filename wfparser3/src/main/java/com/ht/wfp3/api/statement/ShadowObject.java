@@ -28,5 +28,8 @@ import java.nio.file.Path;
  *
  */
 public interface ShadowObject extends Statement {
+  public static final String OBJ_EXT = "obj";
+  public static final String MOD_EXT = "mod";
+
   Path getShadowObjectFileName();
 }
