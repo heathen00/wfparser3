@@ -10,6 +10,14 @@ class SurfaceApproxCparmbTechniqueImp extends SurfaceApproxImp
 
   SurfaceApproxCparmbTechniqueImp(BigDecimal resolutionForUAndVAxes) {
     super(TECHNIQUE_KEYWORD);
+    if (null == resolutionForUAndVAxes) {
+      throw new NullPointerException("resolutionForUAndVAxes constructor parameter cannot be null");
+    }
+    if (MINIMUM_RESOLUTION.compareTo(resolutionForUAndVAxes) > 0) {
+      throw new IllegalArgumentException(
+          "resolutionForUAndVAxis constructor parameter must be greater or equal to "
+              + MINIMUM_RESOLUTION);
+    }
     this.resolutionForUAndVAxes = resolutionForUAndVAxes;
   }
 
