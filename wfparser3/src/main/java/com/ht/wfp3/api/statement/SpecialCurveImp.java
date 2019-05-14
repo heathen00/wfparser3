@@ -6,7 +6,7 @@ class SpecialCurveImp extends StatementsUsingCurve2DReferenceListImp implements 
   private static final String KEYWORD = "scrv";
 
   SpecialCurveImp(List<Curve2DReference> curve2DReferenceList) {
-    super(KEYWORD, curve2DReferenceList);
+    super(KEYWORD, MINIMUM_CURVE2D_REFERENCES, curve2DReferenceList);
   }
 
   SpecialCurveImp(SpecialCurve scrv) {

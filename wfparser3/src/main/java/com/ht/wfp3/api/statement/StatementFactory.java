@@ -342,6 +342,9 @@ public final class StatementFactory {
   }
 
   public SpecialCurve copySpecialCurve(SpecialCurve scrv) {
+    if (null == scrv) {
+      throw new NullPointerException("scrv copy constructor parameter cannot be null");
+    }
     return new SpecialCurveImp(scrv);
   }
 

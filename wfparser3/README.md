@@ -35,3 +35,6 @@ get it to work properly.
 You should probably review and clean up the Javadoc for the published APIs.  For example, you should move the
 discussion about the vertex references from the vertex implementations into the vertex reference implementations.
 
+You may want to review the order for when checking for null members and checking the number of members for those
+statements that contain lists of things.  You should probably check for null members first.
+

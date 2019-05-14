@@ -20,4 +20,5 @@ package com.ht.wfp3.api.statement;
  *
  */
 public interface SpecialCurve extends Statement, UsesCurv2DReferenceList {
+  public static final Integer MINIMUM_CURVE2D_REFERENCES = Integer.valueOf(1);
 }
