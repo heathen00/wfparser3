@@ -595,6 +595,10 @@ public final class StatementFactory {
 
   public SurfaceApproxCparmaTechnique copySurfaceApproxCparmaTechnique(
       SurfaceApproxCparmaTechnique surfaceApproxCparmaTechnique) {
+    if (null == surfaceApproxCparmaTechnique) {
+      throw new NullPointerException(
+          "surfaceApproxCparmaTechnique copy constructor parameter cannot be null");
+    }
     return new SurfaceApproxCparmaTechniqueImp(surfaceApproxCparmaTechnique);
   }
 

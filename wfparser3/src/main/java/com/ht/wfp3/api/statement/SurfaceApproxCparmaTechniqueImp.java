@@ -11,6 +11,22 @@ class SurfaceApproxCparmaTechniqueImp extends SurfaceApproxImp
 
   SurfaceApproxCparmaTechniqueImp(BigDecimal resolutionForUAxis, BigDecimal resolutionForVAxis) {
     super(TECHNIQUE_KEYWORD);
+    if (null == resolutionForUAxis) {
+      throw new NullPointerException("resolutionForUAxis constructor parameter cannot be null");
+    }
+    if (null == resolutionForVAxis) {
+      throw new NullPointerException("resolutionForVAxis constructor parameter cannot be null");
+    }
+    if (MINIMUM_RESOLUTION_FOR_U_AXIS.compareTo(resolutionForUAxis) > 0) {
+      throw new IllegalArgumentException(
+          "resolutionForUAxis constructor parameter must be greater or equal to "
+              + MINIMUM_RESOLUTION_FOR_U_AXIS);
+    }
+    if (MINIMUM_RESOLUTION_FOR_V_AXIS.compareTo(resolutionForVAxis) > 0) {
+      throw new IllegalArgumentException(
+          "resolutionForVAxis constructor parameter must be greater or equal to "
+              + MINIMUM_RESOLUTION_FOR_V_AXIS);
+    }
     this.resolutionForUAxis = resolutionForUAxis;
     this.resolutionForVAxis = resolutionForVAxis;
   }
