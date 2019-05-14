@@ -231,12 +231,25 @@ public final class StatementFactory {
     return new BasisMatrixImp(bmat);
   }
 
+  public StepSize createStepSize(Integer stepSizeInUAxis) {
+    return new StepSizeImp(stepSizeInUAxis);
+  }
+
   public StepSize createStepSize(Integer stepSizeInUAxis, Integer stepSizeInVAxis) {
     return new StepSizeImp(stepSizeInUAxis, stepSizeInVAxis);
   }
 
   public StepSize copyStepSize(StepSize step) {
-    return new StepSizeImp(step);
+    if (null == step) {
+      throw new NullPointerException("step copy constructor parameter cannot be null");
+    }
+    StepSize copiedStepSize;
+    if (step.isStepSizeInVAxisSet()) {
+      copiedStepSize = new StepSizeImp(step.getStepSizeInUAxis(), step.getStepSizeInVAxis());
+    } else {
+      copiedStepSize = new StepSizeImp(step.getStepSizeInUAxis());
+    }
+    return copiedStepSize;
   }
 
   public Curve createCurve(BigDecimal startingParameterValue, BigDecimal endingParameterValue,

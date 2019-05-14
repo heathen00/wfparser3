@@ -2,17 +2,42 @@ package com.ht.wfp3.api.statement;
 
 class StepSizeImp extends StatementImp implements StepSize {
   private static final String KEYWORD = "step";
+  static final Integer STEP_SIZE_IN_V_AXIS_NOT_USED_VALUE = Integer.MIN_VALUE;
+
   private final Integer stepSizeInUAxis;
   private final Integer stepSizeInVAxis;
+  private final boolean isStepSizeInVAxisUsed;
 
-  StepSizeImp(Integer stepSizeInUAxis, Integer stepSizeInVAxis) {
+  private StepSizeImp(Integer stepSizeInUAxis, Integer stepSizeInVAxis,
+      boolean isStepSizeInVAxisUsed) {
     super(KEYWORD);
+    this.isStepSizeInVAxisUsed = isStepSizeInVAxisUsed;
+    if (null == stepSizeInUAxis) {
+      throw new NullPointerException("stepSizeInUAxis constructor parameter cannot be null");
+    }
+    if (null == stepSizeInVAxis) {
+      throw new NullPointerException("stepSizeInVAxis constructor parameter cannot be null");
+    }
+    if (MINIMUM_STEP_SIZE_IN_U_AXIS.compareTo(stepSizeInUAxis) > 0) {
+      throw new IllegalArgumentException(
+          "stepSizeInUAxis constructor parameter must be greater than "
+              + MINIMUM_STEP_SIZE_IN_U_AXIS);
+    }
+    if (this.isStepSizeInVAxisUsed && MINIMUM_STEP_SIZE_IN_V_AXIS.compareTo(stepSizeInVAxis) > 0) {
+      throw new IllegalArgumentException(
+          "stepSizeInVAxis constructor parameter must be greater than "
+              + MINIMUM_STEP_SIZE_IN_V_AXIS);
+    }
     this.stepSizeInUAxis = stepSizeInUAxis;
     this.stepSizeInVAxis = stepSizeInVAxis;
   }
 
-  StepSizeImp(StepSize step) {
-    this(step.getStepSizeInUAxis(), step.getStepSizeInVAxis());
+  StepSizeImp(Integer stepSizeInUAxis, Integer stepSizeInVAxis) {
+    this(stepSizeInUAxis, stepSizeInVAxis, true);
+  }
+
+  StepSizeImp(Integer stepSizeInUAxis) {
+    this(stepSizeInUAxis, STEP_SIZE_IN_V_AXIS_NOT_USED_VALUE, false);
   }
 
   @Override
@@ -22,7 +47,15 @@ class StepSizeImp extends StatementImp implements StepSize {
 
   @Override
   public Integer getStepSizeInVAxis() {
+    if (!isStepSizeInVAxisUsed) {
+      throw new UnsupportedOperationException("cannot access steSizeInVAxis when it is not set");
+    }
     return stepSizeInVAxis;
+  }
+
+  @Override
+  public boolean isStepSizeInVAxisSet() {
+    return isStepSizeInVAxisUsed;
   }
 
   @Override

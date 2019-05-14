@@ -37,7 +37,12 @@ package com.ht.wfp3.api.statement;
  *
  */
 public interface StepSize extends Statement {
+  static final Integer MINIMUM_STEP_SIZE_IN_U_AXIS = Integer.valueOf(1);
+  static final Integer MINIMUM_STEP_SIZE_IN_V_AXIS = Integer.valueOf(1);
+
   Integer getStepSizeInUAxis();
 
   Integer getStepSizeInVAxis();
+  
+  boolean isStepSizeInVAxisSet();
 }
