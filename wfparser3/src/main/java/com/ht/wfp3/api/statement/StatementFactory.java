@@ -394,6 +394,9 @@ public final class StatementFactory {
   }
 
   public SmoothingGroup copySmoothingGroup(SmoothingGroup s) {
+    if (null == s) {
+      throw new NullPointerException("s copy constructor parameter cannot be null");
+    }
     return new SmoothingGroupImp(s);
   }
 
