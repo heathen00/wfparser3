@@ -107,9 +107,9 @@ public final class StatementFactory {
   }
 
   public GeoVertexReference createGeoVertexReference(Integer vertexIndex) {
-    if (Integer.valueOf(VertexReference.INDEX_NOT_SET_VALUE).equals(vertexIndex)) {
-      throw new IllegalArgumentException(
-          "vertexIndex constructor parameter cannot equal " + VertexReference.INDEX_NOT_SET_VALUE);
+    if (GeoVertexReference.INDEX_NOT_SET_VALUE.equals(vertexIndex)) {
+      throw new IllegalArgumentException("vertexIndex constructor parameter cannot equal "
+          + GeoVertexReference.INDEX_NOT_SET_VALUE);
     }
     return new GeoVertexReferenceImp(vertexIndex);
   }
@@ -123,17 +123,25 @@ public final class StatementFactory {
   }
 
   public TexVertexReference createTexVertexReference(Integer vertexIndex) {
+    if (TexVertexReference.INDEX_NOT_SET_VALUE.equals(vertexIndex)) {
+      throw new IllegalArgumentException("vertexIndex constructor parameter cannot equal "
+          + TexVertexReference.INDEX_NOT_SET_VALUE);
+    }
     return new TexVertexReferenceImp(vertexIndex);
   }
 
   public TexVertexReference copyTexVertexReference(TexVertexReference texVertexReference) {
+    if (null == texVertexReference) {
+      throw new NullPointerException(
+          "texVertexReference copy constructor parameter cannot be null");
+    }
     return new TexVertexReferenceImp(texVertexReference);
   }
 
   public NormalVertexReference createNormalVertexReference(Integer vertexIndex) {
-    if (Integer.valueOf(VertexReference.INDEX_NOT_SET_VALUE).equals(vertexIndex)) {
-      throw new IllegalArgumentException(
-          "vertexIndex constructor parameter cannot equal " + VertexReference.INDEX_NOT_SET_VALUE);
+    if (NormalVertexReference.INDEX_NOT_SET_VALUE.equals(vertexIndex)) {
+      throw new IllegalArgumentException("vertexIndex constructor parameter cannot equal "
+          + NormalVertexReference.INDEX_NOT_SET_VALUE);
     }
     return new NormalVertexReferenceImp(vertexIndex);
   }
@@ -152,9 +160,9 @@ public final class StatementFactory {
   }
 
   public ParamVertexReference createParamVertexReference(Integer vertexIndex) {
-    if (Integer.valueOf(VertexReference.INDEX_NOT_SET_VALUE).equals(vertexIndex)) {
-      throw new IllegalArgumentException(
-          "vertexIndex constructor parameter cannot equal " + VertexReference.INDEX_NOT_SET_VALUE);
+    if (ParamVertexReference.INDEX_NOT_SET_VALUE.equals(vertexIndex)) {
+      throw new IllegalArgumentException("vertexIndex constructor parameter cannot equal "
+          + ParamVertexReference.INDEX_NOT_SET_VALUE);
     }
     return new ParamVertexReferenceImp(vertexIndex);
   }
