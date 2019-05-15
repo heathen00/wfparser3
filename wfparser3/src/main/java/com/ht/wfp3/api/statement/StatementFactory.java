@@ -358,6 +358,9 @@ public final class StatementFactory {
   }
 
   public Trim copyTrim(Trim trim) {
+    if (null == trim) {
+      throw new NullPointerException("trim copy constructor parameter cannot be null");
+    }
     return new TrimImp(trim);
   }
 
