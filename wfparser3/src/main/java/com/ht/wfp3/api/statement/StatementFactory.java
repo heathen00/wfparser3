@@ -537,6 +537,9 @@ public final class StatementFactory {
   }
 
   public UseMaterial copyUseMaterial(UseMaterial usemtl) {
+    if (null == usemtl) {
+      throw new NullPointerException("usemtl copy constructor parameter cannot be null");
+    }
     return new UseMaterialImp(usemtl);
   }
 
