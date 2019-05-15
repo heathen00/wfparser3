@@ -19,13 +19,13 @@ public final class StatementFactory {
     return STATEMENT_FACTORY_SINGLETON;
   }
 
+  public GeoVertex createGeoVertex(BigDecimal xCoord, BigDecimal yCoord, BigDecimal zCoord) {
+    return new GeoVertexImp(xCoord, yCoord, zCoord);
+  }
+
   public GeoVertex createGeoVertex(BigDecimal xCoord, BigDecimal yCoord, BigDecimal zCoord,
       BigDecimal wCoord) {
     return new GeoVertexImp(xCoord, yCoord, zCoord, wCoord);
-  }
-
-  public GeoVertex createGeoVertex(BigDecimal xCoord, BigDecimal yCoord, BigDecimal zCoord) {
-    return new GeoVertexImp(xCoord, yCoord, zCoord);
   }
 
   public GeoVertex copyGeoVertex(GeoVertex geoVertex) {
@@ -35,11 +35,22 @@ public final class StatementFactory {
     return new GeoVertexImp(geoVertex);
   }
 
+  public TexVertex createTexVertexWithDefaultVAndWCoords(BigDecimal uCoord) {
+    return new TexVertexImp(uCoord);
+  }
+
+  public TexVertex createTexVertexWithDefaultWCoord(BigDecimal uCoord, BigDecimal vCoord) {
+    return new TexVertexImp(uCoord, vCoord);
+  }
+
   public TexVertex createTexVertex(BigDecimal uCoord, BigDecimal vCoord, BigDecimal wCoord) {
     return new TexVertexImp(uCoord, vCoord, wCoord);
   }
 
   public TexVertex copyTexVertex(TexVertex texVertex) {
+    if (null == texVertex) {
+      throw new NullPointerException("texVertex copy constructor parameter cannot be null");
+    }
     return new TexVertexImp(texVertex);
   }
 

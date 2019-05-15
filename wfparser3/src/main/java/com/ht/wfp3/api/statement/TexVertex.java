@@ -33,6 +33,9 @@ import java.math.BigDecimal;
  *
  */
 public interface TexVertex extends Statement {
+  static final BigDecimal DEFAULT_W_COORD = BigDecimal.ZERO;
+  static final BigDecimal DEFAULT_V_COORD = BigDecimal.ZERO;
+
   BigDecimal getUCoord();
 
   BigDecimal getVCoord();
