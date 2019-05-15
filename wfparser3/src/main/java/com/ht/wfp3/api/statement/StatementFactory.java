@@ -526,6 +526,9 @@ public final class StatementFactory {
   }
 
   public UseMap copyUseMap(UseMap usemap) {
+    if (null == usemap) {
+      throw new NullPointerException("usemap copy constructor parameter cannot be null");
+    }
     return new UseMapImp(usemap);
   }
 
