@@ -46,6 +46,12 @@ public class HoleAcceptanceTests {
     statementFactory.createHole(Collections.emptyList());
   }
 
+  @Test(expected = IllegalArgumentException.class)
+  public void Hole_createHoleWithCurve2DReferenceListContainingNullMembers_illegalArgumentExceptionIsThrown() {
+    statementFactory.createHole(Arrays.asList(createCurve2DReference(1.1d, 2.2d, 1), null,
+        createCurve2DReference(3.3d, 4.4d, 2)));
+  }
+
   @Test
   public void Hole_createHoleWithOneOrMoreCurve2DReferencesInCurve2DReferenceList_holeIsCreated() {
     List<Curve2DReference> curve2DReferenceList = Arrays
@@ -72,10 +78,8 @@ public class HoleAcceptanceTests {
     assertValidHole(curve2DReferenceList, copiedHole);
   }
 
-
   // TODO equals, hashCode, compareTo
   // TODO copy malicious mutable statement.
-  // TODO what about when the curve2DReferenceList contains null members?
 
   @Test
   public void test() {

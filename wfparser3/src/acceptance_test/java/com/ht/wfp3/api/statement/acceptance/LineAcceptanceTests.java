@@ -48,6 +48,12 @@ public class LineAcceptanceTests {
     statementFactory.createLine(vertexReferenceGroupList);
   }
 
+  @Test(expected = IllegalArgumentException.class)
+  public void Line_createLineWithVertexReferenceGroupListContainingNullMembers_illegalArgumentExceptionIsThrown() {
+    statementFactory.createLine(
+        Arrays.asList(createVertexReferenceGroup(1, 1), null, createVertexReferenceGroup(3, 3)));
+  }
+
   @Test
   public void Line_createLineWithTwoVertexReferenceGroupsInVertexReferenceGroupList_lineIsCreated() {
     List<VertexReferenceGroup> vertexReferenceGroupList =
@@ -80,7 +86,7 @@ public class LineAcceptanceTests {
         Arrays.asList(createVertexReferenceGroup(1, 1), createVertexReferenceGroup(2, 2),
             createVertexReferenceGroup(3, 3));
     Line originalLine = statementFactory.createLine(vertexReferenceGroupList);
-    
+
     Line copiedLine = statementFactory.copyLine(originalLine);
 
     assertValidLine(vertexReferenceGroupList, copiedLine);

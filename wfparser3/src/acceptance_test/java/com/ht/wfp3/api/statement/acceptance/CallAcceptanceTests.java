@@ -50,6 +50,12 @@ public class CallAcceptanceTests {
     statementFactory.copyCall(null);
   }
 
+  @Test(expected = IllegalArgumentException.class)
+  public void Call_createCallWithArgumentsListContainingNulls_illegalArgumentExceptionIsThrown() {
+    statementFactory.createCall(true, Paths.get("Downloads", "foo.obj"),
+        Arrays.asList(Integer.valueOf(1), null, Integer.valueOf(45)));
+  }
+
   @Test
   public void Call_createCallWithValidParametersAndOneIntegerArgument_validCallIsCreated() {
     boolean isFrameNumberRequired = false;
@@ -176,15 +182,16 @@ public class CallAcceptanceTests {
         statementFactory.createCall(false, Paths.get("home", "same.mod"), Arrays.asList(55, 56));
     second =
         statementFactory.createCall(false, Paths.get("home", "same.mod"), Arrays.asList(28, 77));
-    
+
     assertFalse(first.equals(second));
     assertFalse(first.hashCode() == second.hashCode());
     assertTrue(first.compareTo(second) > 0);
     assertTrue(second.compareTo(first) < 0);
-    
+
     // Not equals: null
-    first = statementFactory.createCall(false, Paths.get("home", "test.obj"), Arrays.asList(56, 90));
-    
+    first =
+        statementFactory.createCall(false, Paths.get("home", "test.obj"), Arrays.asList(56, 90));
+
     assertFalse(first.equals(null));
   }
 

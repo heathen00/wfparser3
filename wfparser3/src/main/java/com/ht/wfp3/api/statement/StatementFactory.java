@@ -103,6 +103,10 @@ public final class StatementFactory {
   }
 
   public VertexReferenceGroup copyVertexReferenceGroup(VertexReferenceGroup vertexReferenceGroup) {
+    if (null == vertexReferenceGroup) {
+      throw new NullPointerException(
+          "vertexReferenceGroup copy constructor parameter cannot be null");
+    }
     return new VertexReferenceGroupImp((VertexReferenceGroupImp) vertexReferenceGroup);
   }
 
@@ -128,6 +132,10 @@ public final class StatementFactory {
           + TexVertexReference.INDEX_NOT_SET_VALUE);
     }
     return new TexVertexReferenceImp(vertexIndex);
+  }
+
+  TexVertexReference createDisabledTexVertexReference() {
+    return new TexVertexReferenceImp(TexVertexReference.INDEX_NOT_SET_VALUE);
   }
 
   public TexVertexReference copyTexVertexReference(TexVertexReference texVertexReference) {

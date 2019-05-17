@@ -9,8 +9,8 @@ abstract class StatementsUsingVertexReferenceGroupsImp extends StatementImp
   private final List<VertexReferenceGroup> vertexReferenceGroupList;
 
   StatementsUsingVertexReferenceGroupsImp(String keyword,
-      List<VertexReferenceGroup> vertexReferenceGroupList,
-      int minimumNumberOfVertexReferenceGroups) {
+      int minimumNumberOfVertexReferenceGroups,
+      List<VertexReferenceGroup> vertexReferenceGroupList) {
     super(keyword);
     if (null == vertexReferenceGroupList) {
       throw new NullPointerException(

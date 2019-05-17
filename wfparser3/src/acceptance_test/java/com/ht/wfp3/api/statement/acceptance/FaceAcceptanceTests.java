@@ -51,6 +51,12 @@ public class FaceAcceptanceTests {
         createTestVertexReferenceGroup(2, 2, 2)));
   }
 
+  @Test(expected = IllegalArgumentException.class)
+  public void Face_createFaceWithVertexReferenceGroupsListContainingNullMembers_illegalArgumentExceptionIsThrown() {
+    statementFactory.createFace(Arrays.asList(createTestVertexReferenceGroup(1, 1, 1), null,
+        createTestVertexReferenceGroup(3, 3, 3)));
+  }
+
   @Test
   public void Face_createFaceWithThreeVertexReferenceGroupsInList_faceIsCreated() {
     List<VertexReferenceGroup> vertexReferenceGroupList =
@@ -85,7 +91,7 @@ public class FaceAcceptanceTests {
         Arrays.asList(createTestVertexReferenceGroup(1, 1, 1),
             createTestVertexReferenceGroup(2, 2, 2), createTestVertexReferenceGroup(3, 3, 3));
     Face originalFace = statementFactory.createFace(vertexReferenceGroupList);
-    
+
     Face copiedFace = statementFactory.copyFace(originalFace);
 
     assertValidFace(vertexReferenceGroupList, copiedFace);
@@ -93,7 +99,6 @@ public class FaceAcceptanceTests {
 
   // TODO equals, hashCode, compareTo
   // TODO copy malicious mutable statement.
-  // TODO what about lists with null members?
 
   @Test
   public void test() {

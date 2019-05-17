@@ -20,5 +20,5 @@ package com.ht.wfp3.api.statement;
  *
  */
 public interface Hole extends Statement, UsesCurv2DReferenceList {
-  public static final Integer MINIMUM_CURVE2D_REFERENCES = Integer.valueOf(1);
+  static final Integer MINIMUM_CURVE2D_REFERENCES = Integer.valueOf(1);
 }

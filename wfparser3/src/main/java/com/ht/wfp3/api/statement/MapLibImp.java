@@ -15,8 +15,13 @@ class MapLibImp extends StatementImp implements MapLib {
     if (null == mapLibFileNameList) {
       throw new NullPointerException("mapLibFileNameList constructor parameter cannot be null");
     }
-    if (mapLibFileNameList.isEmpty()) {
-      throw new IllegalArgumentException("mapLibFileNameList constructor paramter must contain at least one map lib file name");
+    if (MINIMUM_FILE_NAMES.compareTo(mapLibFileNameList.size()) > 0) {
+      throw new IllegalArgumentException(
+          "mapLibFileNameList constructor parameter must contain at least one map lib file name");
+    }
+    if (mapLibFileNameList.contains(null)) {
+      throw new IllegalArgumentException(
+          "mapLibFileNameList constructor parameter cannot contain null members");
     }
     this.mapLibFileNameList = new ArrayList<>(mapLibFileNameList);
   }

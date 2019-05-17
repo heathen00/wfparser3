@@ -37,6 +37,12 @@ public class Curve2DAcceptanceTests {
     statementFactory.createCurve2D(Arrays.asList(statementFactory.createParamVertexReference(1)));
   }
 
+  @Test(expected = IllegalArgumentException.class)
+  public void Curve2D_createCurve2DWithVertexReferenceListContainingNullMembers_illegalArgumentExceptionIsThrown() {
+    statementFactory.createCurve2D(Arrays.asList(statementFactory.createParamVertexReference(1),
+        null, statementFactory.createParamVertexReference(3)));
+  }
+
   @Test
   public void Curve2D_createCurve2DWithTwoControlPointsInVertexReferenceListParameter_validCurve2DIsCreated() {
     List<ParamVertexReference> controlPointerVertexReferenceList =
@@ -61,12 +67,13 @@ public class Curve2DAcceptanceTests {
         Arrays.asList(statementFactory.createParamVertexReference(1),
             statementFactory.createParamVertexReference(2));
     Curve2D originalCurve2D = statementFactory.createCurve2D(controlPointerVertexReferenceList);
-    
+
     Curve2D copiedCurve2D = statementFactory.copyCurve2D(originalCurve2D);
 
     assertNotNull(copiedCurve2D);
     assertEquals(CURVE2D_KEYWORD, copiedCurve2D.getKeyword());
-    assertEquals(controlPointerVertexReferenceList, copiedCurve2D.getControlPointVertexReferences());
+    assertEquals(controlPointerVertexReferenceList,
+        copiedCurve2D.getControlPointVertexReferences());
   }
 
   @Test

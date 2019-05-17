@@ -35,5 +35,5 @@ package com.ht.wfp3.api.statement;
  *
  */
 public interface Point extends Statement, UsesVertexReferenceGroups {
-  public static final Integer MINIMUM_VERTEX_REFERENCE_GROUPS = Integer.valueOf(1);
+  static final Integer MINIMUM_VERTEX_REFERENCE_GROUPS = Integer.valueOf(1);
 }

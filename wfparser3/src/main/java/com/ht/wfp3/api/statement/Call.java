@@ -46,8 +46,9 @@ import java.util.List;
  *
  */
 public interface Call extends Statement {
-  public static final String OBJ_EXT = "obj";
-  public static final String MOD_EXT = "mod";
+  static final String OBJ_EXT = "obj";
+  static final String MOD_EXT = "mod";
+  static final Integer MINIMUM_ARGUMENTS = Integer.valueOf(0);
 
   boolean isFrameNumberRequired();
 

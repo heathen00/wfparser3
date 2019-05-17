@@ -13,7 +13,7 @@ class SurfaceImp extends StatementsUsingVertexReferenceGroupsImp implements Surf
   SurfaceImp(BigDecimal startingParameterValueUAxis, BigDecimal endingParameterValueUAxis,
       BigDecimal startingParameterValueVAxis, BigDecimal endingParameterValueVAxis,
       List<VertexReferenceGroup> vertexReferenceGroupList) {
-    super(KEYWORD, vertexReferenceGroupList, MINIMUM_VERTEX_REFERENCE_GROUPS);
+    super(KEYWORD, MINIMUM_VERTEX_REFERENCE_GROUPS, vertexReferenceGroupList);
     if (null == startingParameterValueUAxis) {
       throw new NullPointerException(
           "startingParameterValueUAxis constructor parameter cannot be null");

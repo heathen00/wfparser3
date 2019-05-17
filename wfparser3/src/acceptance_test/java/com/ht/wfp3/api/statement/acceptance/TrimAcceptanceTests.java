@@ -22,7 +22,6 @@ public class TrimAcceptanceTests {
   private void assertValidTrim(List<Curve2DReference> curve2dReferenceList, Trim trim) {
     assertNotNull(trim);
     assertEquals(TRIM_KEYWORD, trim.getKeyword());
-    assertEquals(Trim.MINIMUM_CURVE2D_REFERENCES, trim.getMinimumNumberOfCurve2DReferences());
     assertEquals(curve2dReferenceList, trim.getCurve2DReferenceList());
   }
 

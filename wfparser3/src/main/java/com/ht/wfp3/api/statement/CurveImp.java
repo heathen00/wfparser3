@@ -25,6 +25,10 @@ class CurveImp extends StatementImp implements Curve {
       throw new NullPointerException(
           "controlPointVertexReferenceList constructor parameter cannot be null");
     }
+    if (controlPointVertexReferenceList.contains(null)) {
+      throw new IllegalArgumentException(
+          "controlPointVertexReferenceList constructor parameter cannot contain null members");
+    }
     if (controlPointVertexReferenceList.size() < MINIMUM_CONTROL_POINTS) {
       throw new IllegalArgumentException(
           "controlPointVretexReferenceList constructor parameter requires at least "

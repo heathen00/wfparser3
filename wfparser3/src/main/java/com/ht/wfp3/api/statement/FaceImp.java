@@ -6,7 +6,7 @@ class FaceImp extends StatementsUsingVertexReferenceGroupsImp implements Face {
   private static final String KEYWORD = "f";
 
   FaceImp(List<VertexReferenceGroup> vertexReferenceGroupList) {
-    super(KEYWORD, vertexReferenceGroupList, MINIMUM_VERTEX_REFERENCE_GROUPS);
+    super(KEYWORD, MINIMUM_VERTEX_REFERENCE_GROUPS, vertexReferenceGroupList);
   }
 
   FaceImp(Face face) {

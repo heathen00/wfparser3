@@ -58,5 +58,5 @@ package com.ht.wfp3.api.statement;
  *
  */
 public interface Face extends Statement, UsesVertexReferenceGroups {
-  public static final Integer MINIMUM_VERTEX_REFERENCE_GROUPS = Integer.valueOf(3);
+  static final Integer MINIMUM_VERTEX_REFERENCE_GROUPS = Integer.valueOf(3);
 }

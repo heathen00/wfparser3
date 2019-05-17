@@ -174,7 +174,35 @@ public class VertexReferenceGroupAcceptanceTests {
 
   @Test(expected = UnsupportedOperationException.class)
   public void VertexReferenceGroup_setTexVertexAndNormalVertexAndBuild_unsupportedOperationExceptionIsThrown() {
-    vertexReferenceGroupBuilder.clear().texVertexRef(Integer.valueOf(22)).normalVertexRef(Integer.valueOf(33)).build();
+    vertexReferenceGroupBuilder.clear().texVertexRef(Integer.valueOf(22))
+        .normalVertexRef(Integer.valueOf(33)).build();
+  }
+
+  @Test(expected = NullPointerException.class)
+  public void VertexReferenceGroup_copyVertexReferenceGroupWithNullParameter_nullPointerExceptionIsThrown() {
+    statementFactory.copyVertexReferenceGroup(null);
+  }
+
+  @Test
+  public void VertexReferenceGroup_copyVertexReferenceGroup_vertexReferenceGroupIsCopied() {
+    Integer geoVertexIndex = Integer.valueOf(1);
+    Integer texVertexIndex = Integer.valueOf(-99);
+    Integer normalVertexIndex = Integer.valueOf(56);
+    GeoVertexReference geoVertexReference =
+        statementFactory.createGeoVertexReference(geoVertexIndex);
+    TexVertexReference texVertexReference =
+        statementFactory.createTexVertexReference(texVertexIndex);
+    NormalVertexReference normalVertexReference =
+        statementFactory.createNormalVertexReference(normalVertexIndex);
+    VertexReferenceGroup originalVertexReferenceGroup =
+        vertexReferenceGroupBuilder.clear().geoVertexRef(geoVertexIndex)
+            .texVertexRef(texVertexIndex).normalVertexRef(normalVertexIndex).build();
+
+    VertexReferenceGroup copiedVertexReferenceGroup =
+        statementFactory.copyVertexReferenceGroup(originalVertexReferenceGroup);
+
+    assertValidVertexReferenceGroup(geoVertexReference, texVertexReference, normalVertexReference,
+        copiedVertexReferenceGroup);
   }
 
   // TODO equals, hashCode, compareTo

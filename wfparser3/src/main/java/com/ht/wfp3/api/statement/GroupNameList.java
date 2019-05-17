@@ -21,5 +21,7 @@ import java.util.List;
  *
  */
 public interface GroupNameList extends Statement {
+  static final Integer MINIMUM_GROUP_NAMES = Integer.valueOf(1);
+
   List<String> getGroupNameList();
 }

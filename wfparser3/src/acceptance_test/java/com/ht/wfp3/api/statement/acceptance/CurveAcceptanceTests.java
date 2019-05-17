@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import org.junit.Before;
@@ -57,7 +58,12 @@ public class CurveAcceptanceTests {
         Collections.emptyList());
   }
 
-  // TODO what about a list containing null values?
+  @Test(expected = IllegalArgumentException.class)
+  public void Curve_createCurveWithGeoVertexReferenceListContainingNullMembers_illegalArgumentExceptionIsThrown() {
+    statementFactory.createCurve(BigDecimal.valueOf(4.567d), BigDecimal.valueOf(3.1235d),
+        Arrays.asList(statementFactory.createGeoVertexReference(1), null,
+            statementFactory.createGeoVertexReference(56)));
+  }
 
   @Test(expected = IllegalArgumentException.class)
   public void Curve_createCurveWithOneControlPointInVertexReferenceGroupList_illegalArgumentExceptionIsThrown() {
@@ -102,7 +108,7 @@ public class CurveAcceptanceTests {
     assertEquals(endingParameterValue, curve.getEndingParameterValue());
     assertEquals(vertexReferenceGroupList, curve.getControlPointVertexReferenceList());
   }
-  
+
   @Test
   public void Curve_copyValidCurve_validCurveIsCopied() {
     BigDecimal startingParameterValue = BigDecimal.valueOf(3.3d);
@@ -111,7 +117,7 @@ public class CurveAcceptanceTests {
         createGeoVertexReferenceList(1, 2, 4, 6, 8, 2323, 78, 5);
     Curve originalCurve = statementFactory.createCurve(startingParameterValue, endingParameterValue,
         vertexReferenceGroupList);
-    
+
     Curve copiedCurve = statementFactory.copyCurve(originalCurve);
 
     assertNotNull(copiedCurve);

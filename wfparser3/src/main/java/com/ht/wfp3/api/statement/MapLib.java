@@ -24,5 +24,7 @@ import java.util.List;
  *
  */
 public interface MapLib extends Statement {
+  static final Integer MINIMUM_FILE_NAMES = Integer.valueOf(1);
+
   List<Path> getMapLibFileNameList();
 }

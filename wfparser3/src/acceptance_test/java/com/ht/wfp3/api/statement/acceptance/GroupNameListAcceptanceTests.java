@@ -39,6 +39,11 @@ public class GroupNameListAcceptanceTests {
     statementFactory.createGroupNameList(Collections.emptyList());
   }
 
+  @Test(expected = IllegalArgumentException.class)
+  public void GroupNameList_createGroupNameListWithNameListContainingNullMembers_illegalArgumentExceptionIsThrown() {
+    statementFactory.createGroupNameList(Arrays.asList("group_00", null, "group_02"));
+  }
+
   @Test
   public void GroupNameList_createGroupNameListWithOneGroupNameInGroupNameList_groupNameListCreated() {
     List<String> groupNameListParameter = Arrays.asList("test_group");
@@ -67,7 +72,8 @@ public class GroupNameListAcceptanceTests {
   public void GroupNameList_copyGroupNameList_groupNameListIsCopied() {
     List<String> groupNameListParameter =
         Arrays.asList("test_group_00", "test_group_01", "test_group_02");
-    GroupNameList originalGroupNameList = statementFactory.createGroupNameList(groupNameListParameter);
+    GroupNameList originalGroupNameList =
+        statementFactory.createGroupNameList(groupNameListParameter);
 
     GroupNameList copiedGroupNameList = statementFactory.copyGroupNameList(originalGroupNameList);
 
@@ -76,7 +82,6 @@ public class GroupNameListAcceptanceTests {
 
   // TODO equals, hashCode, compareTo
   // TODO copy malicious mutable statement.
-  // TODO what about creating GroupNameList when groupNameList parameter has null members?
   // TODO what happens if you specify the same group name twice?
 
   @Test

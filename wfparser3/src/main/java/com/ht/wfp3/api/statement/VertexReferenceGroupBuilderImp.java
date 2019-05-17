@@ -59,17 +59,18 @@ class VertexReferenceGroupBuilderImp implements VertexReferenceGroupBuilder {
   @Override
   public VertexReferenceGroup build() {
     if (!isGeoRefSet) {
-      throw new UnsupportedOperationException("geometricVertexReferenceNumber must be set at least");
+      throw new UnsupportedOperationException(
+          "geometricVertexReferenceNumber must be set at least");
     }
-    GeoVertexReference geometricVertexReference = (isGeoRefSet
-        ? statementFactory.createGeoVertexReference(geometricVertexReferenceNumber)
-        : statementFactory.createGeoVertexReference(VertexReferenceImp.INDEX_NOT_SET_VALUE));
-    TexVertexReference textureVertexReference = (isTexRefSet
-        ? statementFactory.createTexVertexReference(textureVertexReferenceNumber)
-        : statementFactory.createTexVertexReference(VertexReferenceImp.INDEX_NOT_SET_VALUE));
-    NormalVertexReference normalVertexReference = (isNormalRefSet
-        ? statementFactory.createNormalVertexReference(normalVertexReferenceNumber)
-        : statementFactory.createDisabledNormalVertexReference());
+    GeoVertexReference geometricVertexReference =
+        (isGeoRefSet ? statementFactory.createGeoVertexReference(geometricVertexReferenceNumber)
+            : statementFactory.createGeoVertexReference(VertexReferenceImp.INDEX_NOT_SET_VALUE));
+    TexVertexReference textureVertexReference =
+        (isTexRefSet ? statementFactory.createTexVertexReference(textureVertexReferenceNumber)
+            : statementFactory.createDisabledTexVertexReference());
+    NormalVertexReference normalVertexReference =
+        (isNormalRefSet ? statementFactory.createNormalVertexReference(normalVertexReferenceNumber)
+            : statementFactory.createDisabledNormalVertexReference());
     return new VertexReferenceGroupImp(geometricVertexReference, textureVertexReference,
         normalVertexReference);
   }

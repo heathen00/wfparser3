@@ -40,6 +40,12 @@ public class MaterialLibAcceptanceTests {
     statementFactory.createMaterialLib(Collections.emptyList());
   }
 
+  @Test(expected = IllegalArgumentException.class)
+  public void MaterialLib_createMaterialLibWithMaterialLibFileNameListContainingNullMembers_illegalArgumentExceptionIsThrown() {
+    statementFactory.createMaterialLib(
+        Arrays.asList(Paths.get("home", "foo.mtl"), null, Paths.get("home", "bar.mtl")));
+  }
+
   @Test
   public void MaterialLib_createMaterialLibWithOneMaterialLibFileNameInList_materialLibIsCreated() {
     List<Path> materialLibFileNameList = Arrays.asList(Paths.get("home", "foo.mtl"));
@@ -52,7 +58,7 @@ public class MaterialLibAcceptanceTests {
   @Test
   public void MaterialLib_createMaterialLibWithMoreThanOneMaterialLibFileNameInLIst_materialLibIsCreated() {
     List<Path> materialLibFileNameList =
-        Arrays.asList(Paths.get("home", "foo.mtl"), Paths.get("home", "bar.mlt"));
+        Arrays.asList(Paths.get("home", "foo.mtl"), Paths.get("home", "bar.mtl"));
 
     MaterialLib materialLib = statementFactory.createMaterialLib(materialLibFileNameList);
 

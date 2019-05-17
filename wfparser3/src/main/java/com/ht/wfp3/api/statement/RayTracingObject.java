@@ -29,8 +29,8 @@ import java.nio.file.Path;
  *
  */
 public interface RayTracingObject extends Statement {
-  public static final String OBJ_EXT = "obj";
-  public static final String MOD_EXT = "mod";
+  static final String OBJ_EXT = "obj";
+  static final String MOD_EXT = "mod";
 
   Path getRayTracingObjectFileName();
 }

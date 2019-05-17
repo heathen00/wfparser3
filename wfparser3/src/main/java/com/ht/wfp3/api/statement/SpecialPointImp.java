@@ -15,7 +15,8 @@ class SpecialPointImp extends StatementImp implements SpecialPoint {
     }
     if (MINIMUM_VERTEX_REFERENCES.compareTo(vertexReferenceList.size()) > 0) {
       throw new IllegalArgumentException(
-          "vertexReferenceList must contain at least " + MINIMUM_VERTEX_REFERENCES + " members");
+          "vertexReferenceList constructor parameter must contain at least "
+              + MINIMUM_VERTEX_REFERENCES + " members");
     }
     if (vertexReferenceList.contains(null)) {
       throw new IllegalArgumentException("vertexReferenceList cannot contain null members");

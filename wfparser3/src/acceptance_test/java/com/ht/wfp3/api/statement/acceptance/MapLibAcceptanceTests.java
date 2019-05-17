@@ -40,6 +40,12 @@ public class MapLibAcceptanceTests {
     statementFactory.createMapLib(Collections.emptyList());
   }
 
+  @Test(expected = IllegalArgumentException.class)
+  public void MapLib_createMapLibWithMapLibFileNameListContainingNullMembers_illegalArgumentExceptionIsThrown() {
+    statementFactory.createMapLib(
+        Arrays.asList(Paths.get("home", "tex_map.lib"), null, Paths.get("foo", "bar.lib")));
+  }
+
   @Test
   public void MapLib_createMapLibWithSingleMapLibFileNameInList_mapLibCreated() {
     List<Path> mapLibFileNameList = Arrays.asList(Paths.get("home", "texture_map.lib"));

@@ -43,12 +43,15 @@ class CallImp extends StatementImp implements Call {
     if (null == arguments) {
       throw new NullPointerException("arguments constructor parameter cannot be null");
     }
-
     PathMatcher matcher =
         FileSystems.getDefault().getPathMatcher("glob:*.{" + OBJ_EXT + "," + MOD_EXT + "}");
     if (!matcher.matches(fileName.getFileName())) {
       throw new IllegalArgumentException(
           "fileName must have extension '" + OBJ_EXT + "' or '" + MOD_EXT + "'");
+    }
+    if (arguments.contains(null)) {
+      throw new IllegalArgumentException(
+          "arguments constructor parameter cannot contain null members");
     }
     this.isFrameNumberRequired = isFrameNumberRequired;
     this.fileName = fileName;
