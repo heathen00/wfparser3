@@ -18,10 +18,6 @@ Notes:
 When implementing the copying of malicious, mutable ensure you also handle those statements that contain complex
 member data, such as VertexReferenceGroup containing VertexReferences.
 
-As a matter of consistency, should the VertexReferenceGroup be implemented similar to the ParamVertex where the
-check for if the optional parameters is set is in the VertexReferenceGroup and NOT in the VertexReference?  Then,
-similar to ParamVertex, you can throw an exception when trying to access data that is not set.
-
 After completing the acceptance tests, check testing coverage to find where supplemental unit testing is required.
 
 You should probably review and clean up the Javadoc for the published APIs.  For example, you should move the
