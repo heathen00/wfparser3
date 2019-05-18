@@ -12,7 +12,8 @@ class CshImp extends StatementImp implements Csh {
       throw new NullPointerException("command constructor parameter cannot be null");
     }
     if (command.matches("^\\s*$")) {
-      throw new IllegalArgumentException("command constructor parameter cannot be empty or whitespace only");
+      throw new IllegalArgumentException(
+          "command constructor parameter cannot be empty or whitespace only");
     }
     this.shouldIgnoreErrors = shouldIgnoreErrors;
     this.command = command;
@@ -58,6 +59,19 @@ class CshImp extends StatementImp implements Csh {
     if (shouldIgnoreErrors != other.shouldIgnoreErrors)
       return false;
     return true;
+  }
+
+  @Override
+  public int compareTo(Statement o) {
+    int compareTo = super.compareTo(o);
+    if (0 == compareTo) {
+      Csh csh = (Csh) o;
+      compareTo = Boolean.compare(shouldIgnoreErrors, csh.shouldIgnoreErrors());
+      if (0 == compareTo) {
+        compareTo = command.compareTo(csh.getCommand());
+      }
+    }
+    return compareTo;
   }
 
   @Override
