@@ -20,8 +20,8 @@ public class VertexReferenceGroupAcceptanceTests {
   private void assertExpectedIsSetValues(boolean expectedIsGeoRefSet, boolean expectedIsTexRefSet,
       boolean expectedIsNormalRefSet, VertexReferenceGroup vertexReferenceGroup) {
     assertEquals(expectedIsGeoRefSet, vertexReferenceGroup.getGeoVertexRef().isSet());
-    assertEquals(expectedIsTexRefSet, vertexReferenceGroup.getTexVertexRef().isSet());
-    assertEquals(expectedIsNormalRefSet, vertexReferenceGroup.getNormalVertexRef().isSet());
+    assertEquals(expectedIsTexRefSet, vertexReferenceGroup.isTexVertexRefSet());
+    assertEquals(expectedIsNormalRefSet, vertexReferenceGroup.isNormalVertexRefSet());
   }
 
   private void assertValidVertexReferenceGroup(GeoVertexReference geoVertexReference,
@@ -43,7 +43,6 @@ public class VertexReferenceGroupAcceptanceTests {
 
   }
 
-
   private void assertValidVertexReferenceGroup(GeoVertexReference geoVertexReference,
       TexVertexReference texVertexReference, NormalVertexReference normalVertexReference,
       VertexReferenceGroup vertexReferenceGroup) {
@@ -56,7 +55,6 @@ public class VertexReferenceGroupAcceptanceTests {
         vertexReferenceGroup.getNormalVertexRef().getVertexIndex());
     assertExpectedIsSetValues(true, true, true, vertexReferenceGroup);
   }
-
 
   private void assertValidVertexReferenceGroup(GeoVertexReference geoVertexReference,
       NormalVertexReference normalVertexReference, VertexReferenceGroup vertexReferenceGroup) {
@@ -203,6 +201,32 @@ public class VertexReferenceGroupAcceptanceTests {
 
     assertValidVertexReferenceGroup(geoVertexReference, texVertexReference, normalVertexReference,
         copiedVertexReferenceGroup);
+  }
+
+  @Test(expected = UnsupportedOperationException.class)
+  public void VertexReferenceGroup_accessTexVertexWhenItIsNotSet_unsupportedOperationException() {
+    Integer geoVertexIndex = Integer.valueOf(1);
+    GeoVertexReference geoVertexReference =
+        statementFactory.createGeoVertexReference(geoVertexIndex);
+    VertexReferenceGroup vertexReferenceGroup =
+        vertexReferenceGroupBuilder.clear().geoVertexRef(geoVertexIndex).build();
+
+    assertValidVertexReferenceGroup(geoVertexReference, vertexReferenceGroup);
+
+    vertexReferenceGroup.getTexVertexRef();
+  }
+
+  @Test(expected = UnsupportedOperationException.class)
+  public void VertexReferenceGroup_accessNormalVertexWhenItIsNotSet_unspportedOperationException() {
+    Integer geoVertexIndex = Integer.valueOf(1);
+    GeoVertexReference geoVertexReference =
+        statementFactory.createGeoVertexReference(geoVertexIndex);
+    VertexReferenceGroup vertexReferenceGroup =
+        vertexReferenceGroupBuilder.clear().geoVertexRef(geoVertexIndex).build();
+
+    assertValidVertexReferenceGroup(geoVertexReference, vertexReferenceGroup);
+
+    vertexReferenceGroup.getNormalVertexRef();
   }
 
   // TODO equals, hashCode, compareTo

@@ -10,18 +10,10 @@ Rough list:
    by the acceptance tests, even if the user stories do not explicitly state the behaviour in their acceptance
    criteria.  How will you deal with optional data members?  It seems to be a common problem for many statements.
    To consider:
-    * creation: validate parameters: null
-    * creation: validate parameters: supported value ranges.
-    * creation: validate parameters: optional parameters: How to handle?
     * equals and hashcode.
     * comparable?
-    * defined methods: access to required parameters.
-    * defined methods: access to optional parameters.
 
 Notes:
-
-It may make the interface simpler to use, and it is possible to enforce the minimum number of members
-for statements with lists of things if you use varargs.
 
 When implementing the copying of malicious, mutable ensure you also handle those statements that contain complex
 member data, such as VertexReferenceGroup containing VertexReferences.
@@ -38,3 +30,8 @@ discussion about the vertex references from the vertex implementations into the 
 If you start using singleton, and fly weight patterns in the implementation, it would make more sense to do so
 on a StatementFactory by StatementFactory basis, since eventually you want to be able to start setting different
 policies changing behaviours when creating the StatementFactory.
+
+It may make the interface simpler to use, and it is possible to enforce the minimum number of members
+for statements with lists of things if you use varargs.  Actually, I'm not sure whether this idea will work
+well with the parser.  I'll leave this idea until last.  NOTE: I started working on a solution for this in
+the branch "refactor".  I'll keep it for now, but this work is no longer a priority.

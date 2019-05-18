@@ -46,6 +46,10 @@ public interface VertexReferenceGroup {
 
   NormalVertexReference getNormalVertexRef();
 
+  boolean isTexVertexRefSet();
+
+  boolean isNormalVertexRefSet();
+
   boolean equals(Object object);
 
   public int hashCode();

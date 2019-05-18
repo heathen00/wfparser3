@@ -24,12 +24,30 @@ class VertexReferenceGroupImp implements VertexReferenceGroup {
 
   @Override
   public TexVertexReference getTexVertexRef() {
+    if (!textureVertexReference.isSet()) {
+      throw new UnsupportedOperationException(
+          "cannot access texture vertex reference when it is not set");
+    }
     return textureVertexReference;
   }
 
   @Override
   public NormalVertexReference getNormalVertexRef() {
+    if (!normalVervexReference.isSet()) {
+      throw new UnsupportedOperationException(
+          "cannot access normal vertex reference when it is not set");
+    }
     return normalVervexReference;
+  }
+
+  @Override
+  public boolean isTexVertexRefSet() {
+    return textureVertexReference.isSet();
+  }
+
+  @Override
+  public boolean isNormalVertexRefSet() {
+    return normalVervexReference.isSet();
   }
 
   @Override
