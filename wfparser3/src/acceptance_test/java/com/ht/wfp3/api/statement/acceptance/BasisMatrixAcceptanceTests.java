@@ -3,13 +3,13 @@ package com.ht.wfp3.api.statement.acceptance;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import java.math.BigDecimal;
 import org.junit.Before;
 import org.junit.Test;
 import com.ht.wfp3.api.statement.Axis;
 import com.ht.wfp3.api.statement.BasisMatrix;
+import com.ht.wfp3.api.statement.EqualsHashCodeAndCompareToTester;
 import com.ht.wfp3.api.statement.Matrix;
 import com.ht.wfp3.api.statement.MatrixBuilder;
 import com.ht.wfp3.api.statement.StatementFactory;
@@ -78,30 +78,23 @@ public class BasisMatrixAcceptanceTests {
 
   @Test
   public void BasisMatrix_exerciseAllVariantsOfEqualsHashCodeAndCompareTo_equalsHashCodeAndCompareToContractsRespected() {
+    EqualsHashCodeAndCompareToTester equalsHashCodeAndCompareToTester =
+        EqualsHashCodeAndCompareToTester.createEqualsHashCodeAndCompareToTester();
     BasisMatrix first;
     BasisMatrix second;
 
-    // Equality.
     first = statementFactory.createBasisMatrix(Axis.U, buildDefaultMatrix());
     second = statementFactory.createBasisMatrix(Axis.U, buildDefaultMatrix());
 
-    assertTrue(first.equals(second));
-    assertTrue(second.equals(first));
-    assertTrue(first.compareTo(second) == 0);
-    assertTrue(second.compareTo(first) == 0);
-    assertTrue(first.hashCode() == second.hashCode());
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenEqual(first, second);
 
-    assertTrue(first.equals(first));
-    assertTrue(first.compareTo(first) == 0);
+    equalsHashCodeAndCompareToTester.assertEqualsSelf(first);
 
     // different axes, same matrix.
     first = statementFactory.createBasisMatrix(Axis.U, buildDefaultMatrix());
     second = statementFactory.createBasisMatrix(Axis.V, buildDefaultMatrix());
 
-    assertFalse(first.equals(second));
-    assertTrue(first.compareTo(second) < 0);
-    assertTrue(second.compareTo(first) > 0);
-    assertFalse(first.hashCode() == second.hashCode());
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(true, first, second);
 
     // same axes, different matrix.
     Matrix firstMatrix = matrixBuilder.clear().rowByRow() //
@@ -113,14 +106,12 @@ public class BasisMatrixAcceptanceTests {
     first = statementFactory.createBasisMatrix(Axis.V, firstMatrix);
     second = statementFactory.createBasisMatrix(Axis.V, secondMatrix);
 
-    assertFalse(first.equals(second));
-    assertTrue(first.compareTo(second) < 0);
-    assertTrue(second.compareTo(first) > 0);
-    assertFalse(first.hashCode() == second.hashCode());
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(true, first, second);
 
     // equals null
     first = statementFactory.createBasisMatrix(Axis.U, buildDefaultMatrix());
-    assertFalse(first.equals(null));
+
+    equalsHashCodeAndCompareToTester.assertDoesNotEqualNull(first);
   }
 
   @Test
@@ -129,5 +120,4 @@ public class BasisMatrixAcceptanceTests {
   }
 
   // TODO what about empty matrix?
-  // TODO what about null in compareTo()?
 }

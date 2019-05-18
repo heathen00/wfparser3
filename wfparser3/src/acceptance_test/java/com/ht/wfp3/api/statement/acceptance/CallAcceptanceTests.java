@@ -1,7 +1,6 @@
 package com.ht.wfp3.api.statement.acceptance;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -14,6 +13,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import com.ht.wfp3.api.statement.Call;
+import com.ht.wfp3.api.statement.EqualsHashCodeAndCompareToTester;
 import com.ht.wfp3.api.statement.StatementFactory;
 
 public class CallAcceptanceTests {
@@ -128,43 +128,32 @@ public class CallAcceptanceTests {
 
   @Test
   public void Call_exerciseAllEqualsHashCodeAndCompareToVariants_equalsHashCodeAndCompareToContractIsRespected() {
+    EqualsHashCodeAndCompareToTester equalsHashCodeAndCompareToTester =
+        EqualsHashCodeAndCompareToTester.createEqualsHashCodeAndCompareToTester();
     Call first;
     Call second;
 
-    // Equals
     first = statementFactory.createCall(true, Paths.get("home", "test.mod"), Arrays.asList(34, 78));
     second =
         statementFactory.createCall(true, Paths.get("home", "test.mod"), Arrays.asList(34, 78));
 
-    assertTrue(first.equals(second));
-    assertTrue(second.equals(first));
-    assertFalse(first == second);
-    assertTrue(first.hashCode() == second.hashCode());
-    assertTrue(first.compareTo(second) == 0);
-    assertTrue(second.compareTo(first) == 0);
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenEqual(first, second);
 
-    assertTrue(first.equals(first));
-    assertTrue(first.compareTo(first) == 0);
+    equalsHashCodeAndCompareToTester.assertEqualsSelf(first);
 
     // Not Equals: isFrameNumberRequired different
     first = statementFactory.createCall(true, Paths.get("home", "test.mod"), Arrays.asList(34, 78));
     second =
         statementFactory.createCall(false, Paths.get("home", "test.mod"), Arrays.asList(34, 78));
 
-    assertFalse(first.equals(second));
-    assertFalse(first.hashCode() == second.hashCode());
-    assertTrue(first.compareTo(second) > 0);
-    assertTrue(second.compareTo(first) < 0);
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(false, first, second);
 
     // Not Equals: fileName different
     first = statementFactory.createCall(false, Paths.get("home", "AAA.mod"), Arrays.asList(34, 78));
     second =
         statementFactory.createCall(false, Paths.get("home", "ZZZ.mod"), Arrays.asList(34, 78));
 
-    assertFalse(first.equals(second));
-    assertFalse(first.hashCode() == second.hashCode());
-    assertTrue(first.compareTo(second) < 0);
-    assertTrue(second.compareTo(first) > 0);
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(true, first, second);
 
     // Not Equals: arguments list different lengths
     first = statementFactory.createCall(false, Paths.get("home", "same.mod"),
@@ -172,10 +161,7 @@ public class CallAcceptanceTests {
     second = statementFactory.createCall(false, Paths.get("home", "same.mod"),
         Arrays.asList(55, 56, 57, 58));
 
-    assertFalse(first.equals(second));
-    assertFalse(first.hashCode() == second.hashCode());
-    assertTrue(first.compareTo(second) < 0);
-    assertTrue(second.compareTo(first) > 0);
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(true, first, second);
 
     // Not equals: arguments values different.
     first =
@@ -183,16 +169,13 @@ public class CallAcceptanceTests {
     second =
         statementFactory.createCall(false, Paths.get("home", "same.mod"), Arrays.asList(28, 77));
 
-    assertFalse(first.equals(second));
-    assertFalse(first.hashCode() == second.hashCode());
-    assertTrue(first.compareTo(second) > 0);
-    assertTrue(second.compareTo(first) < 0);
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(false, first, second);
 
     // Not equals: null
     first =
         statementFactory.createCall(false, Paths.get("home", "test.obj"), Arrays.asList(56, 90));
 
-    assertFalse(first.equals(null));
+    equalsHashCodeAndCompareToTester.assertDoesNotEqualNull(first);
   }
 
   @Test

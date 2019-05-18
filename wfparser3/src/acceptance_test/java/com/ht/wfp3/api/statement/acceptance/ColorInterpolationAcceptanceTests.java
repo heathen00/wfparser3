@@ -5,12 +5,11 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-
-import com.ht.wfp3.api.statement.ColorInterpolation;
-import com.ht.wfp3.api.statement.StatementFactory;
-
 import org.junit.Before;
 import org.junit.Test;
+import com.ht.wfp3.api.statement.ColorInterpolation;
+import com.ht.wfp3.api.statement.EqualsHashCodeAndCompareToTester;
+import com.ht.wfp3.api.statement.StatementFactory;
 
 public class ColorInterpolationAcceptanceTests {
   private static final String COLOR_INTERPOLATION_KEYWORD = "c_interp";
@@ -69,35 +68,26 @@ public class ColorInterpolationAcceptanceTests {
 
   @Test
   public void ColorInterpolation_exerciseAllVariantsOfEqualsHashCodeAndCompareTo_equalsHashCodeAndCompareToContractsAreRespected() {
+    EqualsHashCodeAndCompareToTester equalsHashCodeAndCompareToTester =
+        EqualsHashCodeAndCompareToTester.createEqualsHashCodeAndCompareToTester();
     ColorInterpolation first;
     ColorInterpolation second;
 
-    // Equals
     first = statementFactory.createColorInterpolation(true);
     second = statementFactory.createColorInterpolation(true);
 
-    assertTrue(first.equals(second));
-    assertTrue(second.equals(first));
-    assertTrue(first.hashCode() == second.hashCode());
-    assertTrue(first.compareTo(second) == 0);
-    assertTrue(second.compareTo(first) == 0);
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenEqual(first, second);
 
-    assertTrue(first.equals(first));
-    assertTrue(first.compareTo(first) == 0);
+    equalsHashCodeAndCompareToTester.assertEqualsSelf(first);
 
-    // Not equals
     first = statementFactory.createColorInterpolation(false);
     second = statementFactory.createColorInterpolation(true);
 
-    assertFalse(first.equals(second));
-    assertFalse(second.equals(first));
-    assertFalse(first.hashCode() == second.hashCode());
-    assertTrue(first.compareTo(second) < 0);
-    assertTrue(second.compareTo(first) > 0);
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(true, first, second);
 
-    // Null
     first = statementFactory.createColorInterpolation(false);
-    assertFalse(first.equals(null));
+
+    equalsHashCodeAndCompareToTester.assertDoesNotEqualNull(first);
   }
 
   @Test

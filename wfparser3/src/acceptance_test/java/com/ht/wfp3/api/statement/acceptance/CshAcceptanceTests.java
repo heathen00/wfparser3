@@ -82,11 +82,13 @@ public class CshAcceptanceTests {
 
     equalsHashCodeAndCompareToTester.assertEqualsSelf(first);
 
+    // Not equals: different shouldIgnoreError
     first = statementFactory.createCsh(false, "echo 'foo' | grep 'foo'");
     second = statementFactory.createCsh(true, "echo 'foo' | grep 'foo'");
 
     equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(true, first, second);
 
+    // Not equals: different command
     first = statementFactory.createCsh(false, "echo 'command zzzz'");
     second = statementFactory.createCsh(false, "echo 'command aaaa'");
 

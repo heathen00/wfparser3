@@ -8,6 +8,7 @@ import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.Test;
 import com.ht.wfp3.api.statement.Bevel;
+import com.ht.wfp3.api.statement.EqualsHashCodeAndCompareToTester;
 import com.ht.wfp3.api.statement.StatementFactory;
 
 public class BevelAcceptanceTests {
@@ -48,36 +49,26 @@ public class BevelAcceptanceTests {
 
   @Test
   public void Bevel_exerciseAllEqualsHashCodeAndCompareToVariants_equalsHashCodeAndCompareToContractsRespected() {
+    EqualsHashCodeAndCompareToTester equalsHashCodeAndCompareToTester =
+        EqualsHashCodeAndCompareToTester.createEqualsHashCodeAndCompareToTester();
     Bevel first;
     Bevel second;
 
-    // Equal
     first = statementFactory.createBevel(true);
     second = statementFactory.createBevel(true);
 
-    assertTrue(first.equals(second));
-    assertTrue(second.equals(first));
-    assertFalse(first == second);
-    assertTrue(first.hashCode() == second.hashCode());
-    assertTrue(first.compareTo(second) == 0);
-    assertTrue(second.compareTo(first) == 0);
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenEqual(first, second);
 
-    assertTrue(first.equals(first));
-    assertTrue(first.compareTo(first) == 0);
+    equalsHashCodeAndCompareToTester.assertEqualsSelf(first);
 
-    // Not equal
     first = statementFactory.createBevel(false);
     second = statementFactory.createBevel(true);
 
-    assertFalse(first.equals(second));
-    assertFalse(second.equals(first));
-    assertFalse(first.hashCode() == second.hashCode());
-    assertTrue(first.compareTo(second) < 0);
-    assertTrue(second.compareTo(first) > 0);
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(true, first, second);
 
-    // Null
     first = statementFactory.createBevel(true);
-    assertFalse(first.equals(null));
+
+    equalsHashCodeAndCompareToTester.assertDoesNotEqualNull(first);
   }
 
   @Test

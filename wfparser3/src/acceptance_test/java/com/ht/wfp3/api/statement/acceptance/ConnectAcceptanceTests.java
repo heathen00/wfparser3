@@ -1,16 +1,15 @@
 package com.ht.wfp3.api.statement.acceptance;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-import com.ht.wfp3.api.statement.Connect;
-import com.ht.wfp3.api.statement.Curve2DReference;
-import com.ht.wfp3.api.statement.StatementFactory;
 import java.math.BigDecimal;
 import org.junit.Before;
 import org.junit.Test;
+import com.ht.wfp3.api.statement.Connect;
+import com.ht.wfp3.api.statement.Curve2DReference;
+import com.ht.wfp3.api.statement.EqualsHashCodeAndCompareToTester;
+import com.ht.wfp3.api.statement.StatementFactory;
 
 public class ConnectAcceptanceTests {
   private static final String CONNECT_KEYWORD = "con";
@@ -118,6 +117,8 @@ public class ConnectAcceptanceTests {
 
   @Test
   public void Connect_exerciseAllVariantsOfEqualsHashCodeAndCompareTo_equalsHashCodeAndCompareToContractsAreRespected() {
+    EqualsHashCodeAndCompareToTester equalsHashCodeAndCompareToTester =
+        EqualsHashCodeAndCompareToTester.createEqualsHashCodeAndCompareToTester();
     Connect first;
     Connect second;
 
@@ -126,32 +127,47 @@ public class ConnectAcceptanceTests {
         create2DReference(5.5d, 6.6d, 1000));
     second = statementFactory.createConnect(1, create2DReference(1.1d, 2.2d, 33), 2,
         create2DReference(5.5d, 6.6d, 1000));
-    
-    assertTrue(first.equals(second));
-    assertTrue(second.equals(first));
-    assertTrue(first.hashCode() == second.hashCode());
-    assertTrue(first.compareTo(second) == 0);
-    assertTrue(second.compareTo(first) == 0);
-    
-    assertTrue(first.equals(first));
-    assertTrue(first.compareTo(first) == 0);
-    
-    // Not equals
+
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenEqual(first, second);
+
+    equalsHashCodeAndCompareToTester.assertEqualsSelf(first);
+
+    // Not equals: firstSurfaceIndex different
     first = statementFactory.createConnect(1, create2DReference(1.1d, 2.2d, 33), 2,
         create2DReference(5.5d, 6.6d, 1000));
-    second = statementFactory.createConnect(1, create2DReference(10.1d, 20.2d, 330), 2,
-        create2DReference(50.5d, 60.6d, 10000));
-    
-    assertFalse(first.equals(second));
-    assertFalse(second.equals(first));
-    assertFalse(first.hashCode() == second.hashCode());
-    assertTrue(first.compareTo(second) < 0);
-    assertTrue(second.compareTo(first) > 0);
-    
-    // Null
+    second = statementFactory.createConnect(10, create2DReference(1.1d, 2.2d, 33), 2,
+        create2DReference(5.5d, 6.6d, 1000));
+
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(true, first, second);
+
+    // Not Equals: firstCurve2DReference different
+    first = statementFactory.createConnect(1, create2DReference(0.0d, 2.2d, 33), 2,
+        create2DReference(5.5d, 6.6d, 1000));
+    second = statementFactory.createConnect(1, create2DReference(1.1d, 2.2d, 33), 2,
+        create2DReference(5.5d, 6.6d, 1000));
+
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(true, first, second);
+
+    // Not Equals: seconSurfaceIndex different
+    first = statementFactory.createConnect(1, create2DReference(1.1d, 2.2d, 33), 21,
+        create2DReference(5.5d, 6.6d, 1000));
+    second = statementFactory.createConnect(1, create2DReference(1.1d, 2.2d, 33), 2,
+        create2DReference(5.5d, 6.6d, 1000));
+
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(false, first, second);
+
+    // Not Equals: secondCurve2DReference different
+    first = statementFactory.createConnect(1, create2DReference(1.1d, 2.2d, 33), 2,
+        create2DReference(5.5d, 6.6d, 1));
+    second = statementFactory.createConnect(1, create2DReference(1.1d, 2.2d, 33), 2,
+        create2DReference(5.5d, 6.6d, 1000));
+
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(true, first, second);
+
     first = statementFactory.createConnect(34543, create2DReference(1.1d, 2.2d, 33), 86786,
         create2DReference(5.5d, 6.6d, 1000));
-    assertFalse(first.equals(null));
+
+    equalsHashCodeAndCompareToTester.assertDoesNotEqualNull(first);
   }
 
   @Test
