@@ -9,4 +9,9 @@ class ParamVertexReferenceImp extends VertexReferenceImp implements ParamVertexR
   ParamVertexReferenceImp(ParamVertexReference paramVertexReference) {
     this(paramVertexReference.getVertexIndex());
   }
+
+  @Override
+  public int compareTo(ParamVertexReference o) {
+    return getVertexIndex().compareTo(o.getVertexIndex());
+  }
 }

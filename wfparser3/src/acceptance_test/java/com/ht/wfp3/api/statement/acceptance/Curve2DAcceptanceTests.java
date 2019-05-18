@@ -9,6 +9,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import com.ht.wfp3.api.statement.Curve2D;
+import com.ht.wfp3.api.statement.EqualsHashCodeAndCompareToTester;
 import com.ht.wfp3.api.statement.ParamVertexReference;
 import com.ht.wfp3.api.statement.StatementFactory;
 
@@ -78,7 +79,44 @@ public class Curve2DAcceptanceTests {
 
   @Test
   public void Curve2D_exerciseAllVariantsOfEqualsHashCodeAndCompareTo_equalsHashCodeAndCompareToContractsRespected() {
-    fail("Not yet implemented");
+    EqualsHashCodeAndCompareToTester equalsHashCodeAndCompareToTester =
+        EqualsHashCodeAndCompareToTester.createEqualsHashCodeAndCompareToTester();
+    Curve2D first;
+    Curve2D second;
+
+    first =
+        statementFactory.createCurve2D(Arrays.asList(statementFactory.createParamVertexReference(1),
+            statementFactory.createParamVertexReference(2)));
+    second =
+        statementFactory.createCurve2D(Arrays.asList(statementFactory.createParamVertexReference(1),
+            statementFactory.createParamVertexReference(2)));
+
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenEqual(first, second);
+
+    // not equals: different parameter vertex references
+    first = statementFactory
+        .createCurve2D(Arrays.asList(statementFactory.createParamVertexReference(50),
+            statementFactory.createParamVertexReference(2)));
+    second =
+        statementFactory.createCurve2D(Arrays.asList(statementFactory.createParamVertexReference(1),
+            statementFactory.createParamVertexReference(2)));
+
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(false, first, second);
+
+    equalsHashCodeAndCompareToTester.assertEqualsSelf(first);
+
+    // not equals: different number of parameter vertex references
+    first =
+        statementFactory.createCurve2D(Arrays.asList(statementFactory.createParamVertexReference(1),
+            statementFactory.createParamVertexReference(2),
+            statementFactory.createParamVertexReference(3)));
+    second =
+        statementFactory.createCurve2D(Arrays.asList(statementFactory.createParamVertexReference(1),
+            statementFactory.createParamVertexReference(2)));
+
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(false, first, second);
+
+    equalsHashCodeAndCompareToTester.assertDoesNotEqualNull(first);
   }
 
   @Test

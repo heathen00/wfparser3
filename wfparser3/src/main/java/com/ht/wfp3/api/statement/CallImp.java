@@ -9,26 +9,6 @@ import java.util.Comparator;
 import java.util.List;
 
 class CallImp extends StatementImp implements Call {
-  private class ArgumentsComparator implements Comparator<List<Integer>> {
-    ArgumentsComparator() {
-
-    }
-
-    @Override
-    public int compare(List<Integer> o1, List<Integer> o2) {
-      int compare = (o1.size() < o2.size() ? -1 : (o1.size() > o2.size() ? 1 : 0));
-      if (0 == compare) {
-        for (int i = 0; i < o1.size(); i++) {
-          compare = Integer.compare(o1.get(i), o2.get(i));
-          if (0 != compare) {
-            break;
-          }
-        }
-      }
-      return compare;
-    }
-  }
-
   private static final String KEYWORD = "call";
 
   private final boolean isFrameNumberRequired;
@@ -120,8 +100,8 @@ class CallImp extends StatementImp implements Call {
       if (0 == compareTo) {
         compareTo = fileName.compareTo(call.getFileName());
         if (0 == compareTo) {
-          ArgumentsComparator argumentsComparator = new ArgumentsComparator();
-          compareTo = argumentsComparator.compare(arguments, call.getArguments());
+          ListOfComparableComparator<Integer> listComparator = new ListOfComparableComparator<>();
+          compareTo = listComparator.compare(arguments, call.getArguments());
         }
       }
     }
