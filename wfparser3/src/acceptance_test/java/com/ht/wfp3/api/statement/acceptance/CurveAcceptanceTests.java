@@ -11,6 +11,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import com.ht.wfp3.api.statement.Curve;
+import com.ht.wfp3.api.statement.EqualsHashCodeAndCompareToTester;
 import com.ht.wfp3.api.statement.GeoVertexReference;
 import com.ht.wfp3.api.statement.StatementFactory;
 
@@ -129,7 +130,48 @@ public class CurveAcceptanceTests {
 
   @Test
   public void Curve_exerciseAllVariantsOfEqualsHashCodeAndCompareTo_equalsHashCodeAndCompareToContractsAreRespected() {
-    fail("Not yet implemented");
+    EqualsHashCodeAndCompareToTester equalsHashCodeAndCompareToTester =
+        EqualsHashCodeAndCompareToTester.createEqualsHashCodeAndCompareToTester();
+    Curve first;
+    Curve second;
+
+    first = statementFactory.createCurve(BigDecimal.valueOf(1.1d), BigDecimal.valueOf(3.3d),
+        createGeoVertexReferenceList(1, 2, 3));
+    second = statementFactory.createCurve(BigDecimal.valueOf(1.1d), BigDecimal.valueOf(3.3d),
+        createGeoVertexReferenceList(1, 2, 3));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenEqual(first, second);
+
+    // Not equal: startingParameterValue different
+    first = statementFactory.createCurve(BigDecimal.valueOf(1.1d), BigDecimal.valueOf(3.3d),
+        createGeoVertexReferenceList(1, 2, 3));
+    second = statementFactory.createCurve(BigDecimal.valueOf(-1.1d), BigDecimal.valueOf(3.3d),
+        createGeoVertexReferenceList(1, 2, 3));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(false, first, second);
+
+    // Not equal: endingParameterValue different
+    first = statementFactory.createCurve(BigDecimal.valueOf(1.1d), BigDecimal.valueOf(3.3d),
+        createGeoVertexReferenceList(1, 2, 3));
+    second = statementFactory.createCurve(BigDecimal.valueOf(1.1d), BigDecimal.valueOf(0.0d),
+        createGeoVertexReferenceList(1, 2, 3));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(false, first, second);
+
+    // Not equal: different number of geoVertexReferences
+    first = statementFactory.createCurve(BigDecimal.valueOf(1.1d), BigDecimal.valueOf(3.3d),
+        createGeoVertexReferenceList(1, 2));
+    second = statementFactory.createCurve(BigDecimal.valueOf(1.1d), BigDecimal.valueOf(3.3d),
+        createGeoVertexReferenceList(1, 2, 3));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(true, first, second);
+
+    // Not equal: different geoVertexReference values
+    first = statementFactory.createCurve(BigDecimal.valueOf(1.1d), BigDecimal.valueOf(3.3d),
+        createGeoVertexReferenceList(1, 2, 3));
+    second = statementFactory.createCurve(BigDecimal.valueOf(1.1d), BigDecimal.valueOf(3.3d),
+        createGeoVertexReferenceList(1, 7, 3));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(true, first, second);
+
+    equalsHashCodeAndCompareToTester.assertEqualsSelf(first);
+
+    equalsHashCodeAndCompareToTester.assertDoesNotEqualNull(first);
   }
 
   @Test

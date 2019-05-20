@@ -7,6 +7,7 @@ import java.math.BigDecimal;
 import org.junit.Before;
 import org.junit.Test;
 import com.ht.wfp3.api.statement.CurveApproxCspaceTechnique;
+import com.ht.wfp3.api.statement.EqualsHashCodeAndCompareToTester;
 import com.ht.wfp3.api.statement.StatementFactory;
 
 public class CurveApproxCspaceTechniqueAcceptanceTests {
@@ -68,7 +69,27 @@ public class CurveApproxCspaceTechniqueAcceptanceTests {
     assertEquals(maxLength, copiedCurveApproxCspaceTechnique.getMaxLength());
   }
 
-  // TODO equals, hashCode, compareTo
+  @Test
+  public void CurveApproxCspaceTechnique_exerciseAllVariantsOfEqualsHashCodeAndCompareTo_equalsHashCodeAndCompareToContractsRespected() {
+    EqualsHashCodeAndCompareToTester equalsHashCodeAndCompareToTester =
+        EqualsHashCodeAndCompareToTester.createEqualsHashCodeAndCompareToTester();
+    CurveApproxCspaceTechnique first;
+    CurveApproxCspaceTechnique second;
+
+    first = statementFactory.createCurveApproxCspaceTechnique(BigDecimal.valueOf(1001.1d));
+    second = statementFactory.createCurveApproxCspaceTechnique(BigDecimal.valueOf(1001.1d));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenEqual(first, second);
+
+    // not equal: maxLength different
+    first = statementFactory.createCurveApproxCspaceTechnique(BigDecimal.valueOf(1001.1d));
+    second = statementFactory.createCurveApproxCspaceTechnique(BigDecimal.valueOf(101.1d));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(false, first, second);
+
+    equalsHashCodeAndCompareToTester.assertDoesNotEqualNull(first);
+
+    equalsHashCodeAndCompareToTester.assertEqualsSelf(first);
+  }
+
   // TODO copy malicious mutable statement.
 
   @Test

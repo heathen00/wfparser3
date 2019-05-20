@@ -13,7 +13,9 @@ class CurveApproxCparmTechniqueImp extends CurveApproxImp implements CurveApprox
       throw new NullPointerException("resolution constructor parameter cannot be null");
     }
     if (MINIMUM_RESOLUTION.compareTo(resolution) > 0) {
-      throw new IllegalArgumentException("resolution constructor parameter must be greater or equal to " + MINIMUM_RESOLUTION.doubleValue());
+      throw new IllegalArgumentException(
+          "resolution constructor parameter must be greater or equal to "
+              + MINIMUM_RESOLUTION.doubleValue());
     }
     this.resolution = resolution;
   }
@@ -50,6 +52,16 @@ class CurveApproxCparmTechniqueImp extends CurveApproxImp implements CurveApprox
     } else if (!resolution.equals(other.resolution))
       return false;
     return true;
+  }
+
+  @Override
+  public int compareTo(Statement o) {
+    int compareTo = super.compareTo(o);
+    if (0 == compareTo) {
+      CurveApproxCparmTechnique curveApproxCparmTechnique = (CurveApproxCparmTechnique) o;
+      compareTo = resolution.compareTo(curveApproxCparmTechnique.getResolution());
+    }
+    return compareTo;
   }
 
   @Override

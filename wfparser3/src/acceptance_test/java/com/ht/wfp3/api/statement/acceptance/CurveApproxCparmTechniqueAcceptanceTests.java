@@ -7,6 +7,7 @@ import java.math.BigDecimal;
 import org.junit.Before;
 import org.junit.Test;
 import com.ht.wfp3.api.statement.CurveApproxCparmTechnique;
+import com.ht.wfp3.api.statement.EqualsHashCodeAndCompareToTester;
 import com.ht.wfp3.api.statement.StatementFactory;
 
 public class CurveApproxCparmTechniqueAcceptanceTests {
@@ -29,7 +30,7 @@ public class CurveApproxCparmTechniqueAcceptanceTests {
   public void CurveApproxCparmTechnique_createCurveApproxCparmTechniqueWithResolutionLessThanZero_illegalArguementExceptionIsThrown() {
     statementFactory.createCurveApproxCparmTechnique(BigDecimal.valueOf(-0.000000001d));
   }
-  
+
   @Test
   public void CurveApprocCparmTechnique_createCurveApproxCparmTechniqueWithResolutionEqualToZero_validCurveApproxCparmTechniqueIsCreated() {
     BigDecimal resolution = BigDecimal.ZERO;
@@ -78,7 +79,23 @@ public class CurveApproxCparmTechniqueAcceptanceTests {
 
   @Test
   public void CurveApproxCparmTechnique_exerciseAllVariantsOfEqualsHashCodeAndCompareTo_equalsHashCodeAndCompareToContractsRespected() {
-    fail("Not yet implemented");
+    EqualsHashCodeAndCompareToTester equalsHashCodeAndCompareToTester =
+        EqualsHashCodeAndCompareToTester.createEqualsHashCodeAndCompareToTester();
+    CurveApproxCparmTechnique first;
+    CurveApproxCparmTechnique second;
+
+    first = statementFactory.createCurveApproxCparmTechnique(BigDecimal.valueOf(10d));
+    second = statementFactory.createCurveApproxCparmTechnique(BigDecimal.valueOf(10d));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenEqual(first, second);
+
+    // Not equal: resolution different
+    first = statementFactory.createCurveApproxCparmTechnique(BigDecimal.valueOf(5d));
+    second = statementFactory.createCurveApproxCparmTechnique(BigDecimal.valueOf(10d));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(true, first, second);
+
+    equalsHashCodeAndCompareToTester.assertEqualsSelf(first);
+
+    equalsHashCodeAndCompareToTester.assertDoesNotEqualNull(first);
   }
 
   @Test

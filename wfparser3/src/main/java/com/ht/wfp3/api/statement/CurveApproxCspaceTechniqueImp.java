@@ -13,7 +13,8 @@ class CurveApproxCspaceTechniqueImp extends CurveApproxImp implements CurveAppro
       throw new NullPointerException("maxLength constructor parameter cannot be null");
     }
     if (MINIMUM_MAX_LENGTH.compareTo(maxLength) >= 0) {
-      throw new IllegalArgumentException("maxLength constructor parameter must be greater than " + MINIMUM_MAX_LENGTH);
+      throw new IllegalArgumentException(
+          "maxLength constructor parameter must be greater than " + MINIMUM_MAX_LENGTH);
     }
     this.maxLength = maxLength;
   }
@@ -50,6 +51,16 @@ class CurveApproxCspaceTechniqueImp extends CurveApproxImp implements CurveAppro
     } else if (!maxLength.equals(other.maxLength))
       return false;
     return true;
+  }
+
+  @Override
+  public int compareTo(Statement o) {
+    int compareTo = super.compareTo(o);
+    if (0 == compareTo) {
+      CurveApproxCspaceTechnique curveApproxCspaceTechnique = (CurveApproxCspaceTechnique) o;
+      compareTo = maxLength.compareTo(curveApproxCspaceTechnique.getMaxLength());
+    }
+    return compareTo;
   }
 
   @Override

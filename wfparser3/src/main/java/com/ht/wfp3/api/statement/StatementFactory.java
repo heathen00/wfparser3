@@ -280,8 +280,8 @@ public final class StatementFactory {
   }
 
   public Curve createCurve(BigDecimal startingParameterValue, BigDecimal endingParameterValue,
-      List<GeoVertexReference> vertexReferenceGroupList) {
-    return new CurveImp(startingParameterValue, endingParameterValue, vertexReferenceGroupList);
+      List<GeoVertexReference> geoVertexReferenceList) {
+    return new CurveImp(startingParameterValue, endingParameterValue, geoVertexReferenceList);
   }
 
   public Curve copyCurve(Curve curv) {

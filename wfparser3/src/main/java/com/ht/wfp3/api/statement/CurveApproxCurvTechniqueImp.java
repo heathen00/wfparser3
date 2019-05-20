@@ -17,10 +17,13 @@ class CurveApproxCurvTechniqueImp extends CurveApproxImp implements CurveApproxC
       throw new NullPointerException("maximumAngleInDegrees constructor parameter cannot be null");
     }
     if (MINIMUM_MAXIMUM_DISTANCE.compareTo(maximumDistance) >= 0) {
-      throw new IllegalArgumentException("maximumDistance constructor parameter must be greater than " + MINIMUM_MAXIMUM_DISTANCE);
+      throw new IllegalArgumentException(
+          "maximumDistance constructor parameter must be greater than " + MINIMUM_MAXIMUM_DISTANCE);
     }
     if (MINIMUM_MAXIMUM_ANGLE.compareTo(maximumAngleInDegrees) >= 0) {
-      throw new IllegalArgumentException("maximumAngleInDegrees constructor parameter must be greater than " + MINIMUM_MAXIMUM_ANGLE);
+      throw new IllegalArgumentException(
+          "maximumAngleInDegrees constructor parameter must be greater than "
+              + MINIMUM_MAXIMUM_ANGLE);
     }
     this.maximumDistance = maximumDistance;
     this.maximumAngleInDegrees = maximumAngleInDegrees;
@@ -71,6 +74,20 @@ class CurveApproxCurvTechniqueImp extends CurveApproxImp implements CurveApproxC
     } else if (!maximumDistance.equals(other.maximumDistance))
       return false;
     return true;
+  }
+
+  @Override
+  public int compareTo(Statement o) {
+    int compareTo = super.compareTo(o);
+    if (0 == compareTo) {
+      CurveApproxCurvTechnique curveApproxCurvTechnique = (CurveApproxCurvTechnique) o;
+      compareTo = maximumDistance.compareTo(curveApproxCurvTechnique.getMaximumDistance());
+      if (0 == compareTo) {
+        compareTo =
+            maximumAngleInDegrees.compareTo(curveApproxCurvTechnique.getMaximumAngleInDegrees());
+      }
+    }
+    return compareTo;
   }
 
   @Override

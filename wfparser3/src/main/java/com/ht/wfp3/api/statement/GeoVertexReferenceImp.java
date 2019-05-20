@@ -9,4 +9,9 @@ class GeoVertexReferenceImp extends VertexReferenceImp implements GeoVertexRefer
   GeoVertexReferenceImp(GeoVertexReference geoVertexReference) {
     this(geoVertexReference.getVertexIndex());
   }
+
+  @Override
+  public int compareTo(GeoVertexReference o) {
+    return getVertexIndex().compareTo(o.getVertexIndex());
+  }
 }

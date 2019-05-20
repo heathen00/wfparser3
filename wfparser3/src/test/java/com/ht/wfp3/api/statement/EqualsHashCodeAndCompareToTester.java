@@ -13,7 +13,7 @@ public class EqualsHashCodeAndCompareToTester {
 
   private EqualsHashCodeAndCompareToTester() {}
 
-  public <T extends Statement> void assertContractRespectedWhenEqual(T first, T second) {
+  public <T extends Comparable<T>> void assertContractRespectedWhenEqual(T first, T second) {
     assertTrue(first.equals(second));
     assertTrue(second.equals(first));
     assertTrue(first.hashCode() == second.hashCode());
@@ -21,7 +21,7 @@ public class EqualsHashCodeAndCompareToTester {
     assertTrue(second.compareTo(first) == 0);
   }
 
-  public <T extends Statement> void assertContractRespectedWhenNotEqual(
+  public <T extends Comparable<T>> void assertContractRespectedWhenNotEqual(
       boolean firstSortsBeforeSecond, T first, T second) {
     assertFalse(first.equals(second));
     assertFalse(second.equals(first));
@@ -35,12 +35,12 @@ public class EqualsHashCodeAndCompareToTester {
     }
   }
 
-  public <T extends Statement> void assertEqualsSelf(T first) {
+  public <T extends Comparable<T>> void assertEqualsSelf(T first) {
     assertTrue(first.equals(first));
     assertTrue(first.compareTo(first) == 0);
   }
 
-  public <T extends Statement> void assertDoesNotEqualNull(T first) {
+  public <T extends Comparable<T>> void assertDoesNotEqualNull(T first) {
     assertFalse(first.equals(null));
   }
 }
