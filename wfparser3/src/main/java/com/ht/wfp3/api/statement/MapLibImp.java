@@ -61,6 +61,17 @@ class MapLibImp extends StatementImp implements MapLib {
   }
 
   @Override
+  public int compareTo(Statement o) {
+    int compareTo = super.compareTo(o);
+    if (0 == compareTo) {
+      MapLib mapLib = (MapLib) o;
+      ListOfComparableComparator<Path> listComparator = new ListOfComparableComparator<>();
+      compareTo = listComparator.compare(mapLibFileNameList, mapLib.getMapLibFileNameList());
+    }
+    return compareTo;
+  }
+
+  @Override
   public String toString() {
     return "MapLibImp [mapLibFileNameList=" + mapLibFileNameList + ", super.toString()="
         + super.toString() + "]";

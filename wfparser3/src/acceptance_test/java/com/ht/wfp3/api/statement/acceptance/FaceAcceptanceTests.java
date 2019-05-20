@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
+import com.ht.wfp3.api.statement.EqualsHashCodeAndCompareToTester;
 import com.ht.wfp3.api.statement.Face;
 import com.ht.wfp3.api.statement.StatementFactory;
 import com.ht.wfp3.api.statement.VertexReferenceGroup;
@@ -97,7 +98,39 @@ public class FaceAcceptanceTests {
     assertValidFace(vertexReferenceGroupList, copiedFace);
   }
 
-  // TODO equals, hashCode, compareTo
+  @Test
+  public void Face_exerciseAllVariantsOfEqualsHashCodeAndCompareTo_equalsHashCodeAndCompareToContractsRespected() {
+    EqualsHashCodeAndCompareToTester equalsHashCodeAndCompareToTester =
+        EqualsHashCodeAndCompareToTester.createEqualsHashCodeAndCompareToTester();
+    Face first;
+    Face second;
+
+    first = statementFactory.createFace(Arrays.asList(createTestVertexReferenceGroup(1, 1, 1),
+        createTestVertexReferenceGroup(2, 2, 2), createTestVertexReferenceGroup(3, 3, 3)));
+    second = statementFactory.createFace(Arrays.asList(createTestVertexReferenceGroup(1, 1, 1),
+        createTestVertexReferenceGroup(2, 2, 2), createTestVertexReferenceGroup(3, 3, 3)));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenEqual(first, second);
+
+    // not equal: different number of vertexReferenceGroups
+    first = statementFactory.createFace(Arrays.asList(createTestVertexReferenceGroup(1, 1, 1),
+        createTestVertexReferenceGroup(2, 2, 2), createTestVertexReferenceGroup(3, 3, 3),
+        createTestVertexReferenceGroup(4, 4, 4)));
+    second = statementFactory.createFace(Arrays.asList(createTestVertexReferenceGroup(1, 1, 1),
+        createTestVertexReferenceGroup(2, 2, 2), createTestVertexReferenceGroup(3, 3, 3)));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(false, first, second);
+
+    // not equal: different vertexReferenceGroup values
+    first = statementFactory.createFace(Arrays.asList(createTestVertexReferenceGroup(1, 1, 1),
+        createTestVertexReferenceGroup(2, 2, 2), createTestVertexReferenceGroup(3, 3, 3)));
+    second = statementFactory.createFace(Arrays.asList(createTestVertexReferenceGroup(1, 1, 1),
+        createTestVertexReferenceGroup(3, 3, 3), createTestVertexReferenceGroup(4, 4, 4)));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(true, first, second);
+
+    equalsHashCodeAndCompareToTester.assertDoesNotEqualNull(first);
+
+    equalsHashCodeAndCompareToTester.assertEqualsSelf(first);
+  }
+
   // TODO copy malicious mutable statement.
 
   @Test

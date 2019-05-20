@@ -6,12 +6,13 @@ import java.util.List;
 
 abstract class StatementsUsingVertexReferenceGroupsImp extends StatementImp
     implements UsesVertexReferenceGroups {
+  private final StatementFactory statementFactory;
   private final List<VertexReferenceGroup> vertexReferenceGroupList;
 
-  StatementsUsingVertexReferenceGroupsImp(String keyword,
-      int minimumNumberOfVertexReferenceGroups,
+  StatementsUsingVertexReferenceGroupsImp(String keyword, int minimumNumberOfVertexReferenceGroups,
       List<VertexReferenceGroup> vertexReferenceGroupList) {
     super(keyword);
+    statementFactory = StatementFactory.createStatementFactory();
     if (null == vertexReferenceGroupList) {
       throw new NullPointerException(
           "vertexReferenceGroupList constructor parameter cannot be null");
@@ -27,7 +28,8 @@ abstract class StatementsUsingVertexReferenceGroupsImp extends StatementImp
     }
     this.vertexReferenceGroupList = new ArrayList<>();
     for (VertexReferenceGroup vertexReferenceGroup : vertexReferenceGroupList) {
-      this.vertexReferenceGroupList.add(new VertexReferenceGroupImp(vertexReferenceGroup));
+      this.vertexReferenceGroupList
+          .add(statementFactory.copyVertexReferenceGroup(vertexReferenceGroup));
     }
   }
 
@@ -65,6 +67,20 @@ abstract class StatementsUsingVertexReferenceGroupsImp extends StatementImp
       return false;
     }
     return true;
+  }
+
+  @Override
+  public int compareTo(Statement o) {
+    int compareTo = super.compareTo(o);
+    if (0 == compareTo) {
+      StatementsUsingVertexReferenceGroupsImp statementsUsingVertexReferenceGroups =
+          (StatementsUsingVertexReferenceGroupsImp) o;
+      ListOfComparableComparator<VertexReferenceGroup> listComparator =
+          new ListOfComparableComparator<>();
+      compareTo = listComparator.compare(vertexReferenceGroupList,
+          statementsUsingVertexReferenceGroups.getVertexReferenceGroupList());
+    }
+    return compareTo;
   }
 
   @Override

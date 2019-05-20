@@ -6,6 +6,7 @@ import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.Test;
 import com.ht.wfp3.api.statement.End;
+import com.ht.wfp3.api.statement.EqualsHashCodeAndCompareToTester;
 import com.ht.wfp3.api.statement.StatementFactory;
 
 public class EndAcceptanceTests {
@@ -41,7 +42,22 @@ public class EndAcceptanceTests {
     assertEquals(END_KEYWORD, copiedEnd.getKeyword());
   }
 
-  // TODO equals, hashCode, compareTo
+  @Test
+  public void End_exerciseAllVariantsOfEqualsHashCodeAndCompareTo_equalsHashCodeAndCompareToContractsRespected() {
+    EqualsHashCodeAndCompareToTester equalsHashCodeAndCompareToTester =
+        EqualsHashCodeAndCompareToTester.createEqualsHashCodeAndCompareToTester();
+    End first;
+    End second;
+
+    first = statementFactory.createEnd();
+    second = statementFactory.createEnd();
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenEqual(first, second);;
+
+    equalsHashCodeAndCompareToTester.assertDoesNotEqualNull(first);
+
+    equalsHashCodeAndCompareToTester.assertEqualsSelf(first);
+  }
+
   // TODO copy malicious mutable statement.
 
   @Test

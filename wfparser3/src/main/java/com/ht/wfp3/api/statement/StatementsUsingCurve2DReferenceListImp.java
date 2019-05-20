@@ -57,6 +57,18 @@ abstract class StatementsUsingCurve2DReferenceListImp extends StatementImp
   }
 
   @Override
+  public int compareTo(Statement o) {
+    int compareTo = super.compareTo(o);
+    if (0 == compareTo) {
+      Hole hole = (Hole) o;
+      ListOfComparableComparator<Curve2DReference> listComparator =
+          new ListOfComparableComparator<>();
+      compareTo = listComparator.compare(curve2DReferenceList, hole.getCurve2DReferenceList());
+    }
+    return compareTo;
+  }
+
+  @Override
   public String toString() {
     return "StatementsUsingCurve2DReferenceListImp [curve2DReferenceList=" + curve2DReferenceList
         + ", super.toString()=" + super.toString() + "]";

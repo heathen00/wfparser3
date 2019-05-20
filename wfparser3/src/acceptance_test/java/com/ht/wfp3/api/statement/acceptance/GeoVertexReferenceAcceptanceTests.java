@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.Test;
+import com.ht.wfp3.api.statement.EqualsHashCodeAndCompareToTester;
 import com.ht.wfp3.api.statement.GeoVertexReference;
 import com.ht.wfp3.api.statement.StatementFactory;
 
@@ -73,8 +74,27 @@ public class GeoVertexReferenceAcceptanceTests {
     assertValidGeoVertexReference(expectedIsSet, vertexIndex, copiedGeoVertexReference);
   }
 
-  // TODO you need tests for when the vertex reference is NOT set.  Might require some refactoring.
-  // TODO equals, hashCode, compareTo
+  @Test
+  public void GeoVertexReference_exerciseAllVariantsOfEqualsHashCodeAndCompareTo_equalsHashCodeAndCompareToContractsRespected() {
+    EqualsHashCodeAndCompareToTester equalsHashCodeAndCompareToTester =
+        EqualsHashCodeAndCompareToTester.createEqualsHashCodeAndCompareToTester();
+    GeoVertexReference first;
+    GeoVertexReference second;
+
+    first = statementFactory.createGeoVertexReference(Integer.valueOf(1));
+    second = statementFactory.createGeoVertexReference(Integer.valueOf(1));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenEqual(first, second);
+
+    first = statementFactory.createGeoVertexReference(Integer.valueOf(1));
+    second = statementFactory.createGeoVertexReference(Integer.valueOf(-1));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(false, first, second);
+
+    equalsHashCodeAndCompareToTester.assertDoesNotEqualNull(first);
+
+    equalsHashCodeAndCompareToTester.assertEqualsSelf(first);
+  }
+
+  // TODO you need tests for when the vertex reference is NOT set. Might require some refactoring.
   // TODO copy malicious mutable statement.
 
   @Test

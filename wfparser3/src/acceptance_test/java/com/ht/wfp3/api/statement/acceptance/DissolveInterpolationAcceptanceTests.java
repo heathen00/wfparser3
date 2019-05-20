@@ -6,6 +6,7 @@ import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.Test;
 import com.ht.wfp3.api.statement.DissolveInterpolation;
+import com.ht.wfp3.api.statement.EqualsHashCodeAndCompareToTester;
 import com.ht.wfp3.api.statement.StatementFactory;
 
 public class DissolveInterpolationAcceptanceTests {
@@ -62,7 +63,26 @@ public class DissolveInterpolationAcceptanceTests {
     assertValidDissolveInterpolation(isEnabled, copiedDissolveInterpolation);
   }
 
-  // TODO equals, hashCode, compareTo
+  @Test
+  public void DissolveInterpolation_exerciseAllVariantsOfEqualsHashCodeAndCompareTo_equalsHashCodeAndCompareToContractsRespected() {
+    EqualsHashCodeAndCompareToTester equalsHashCodeAndCompareToTester =
+        EqualsHashCodeAndCompareToTester.createEqualsHashCodeAndCompareToTester();
+    DissolveInterpolation first;
+    DissolveInterpolation second;
+
+    first = statementFactory.createDissolveInterpolation(false);
+    second = statementFactory.createDissolveInterpolation(false);
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenEqual(first, second);
+
+    first = statementFactory.createDissolveInterpolation(false);
+    second = statementFactory.createDissolveInterpolation(true);
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(true, first, second);
+
+    equalsHashCodeAndCompareToTester.assertDoesNotEqualNull(first);
+
+    equalsHashCodeAndCompareToTester.assertEqualsSelf(first);
+  }
+
   // TODO copy malicious mutable statement.
   // TODO implementation note: there will only ever be two instances, either enabled or disabled.
   // Could use FlyWeight.

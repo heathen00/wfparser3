@@ -9,4 +9,9 @@ class NormalVertexReferenceImp extends VertexReferenceImp implements NormalVerte
   NormalVertexReferenceImp(NormalVertexReference normalVertexReference) {
     this(normalVertexReference.getVertexIndex());
   }
+
+  @Override
+  public int compareTo(NormalVertexReference o) {
+    return getVertexIndex().compareTo(o.getVertexIndex());
+  }
 }

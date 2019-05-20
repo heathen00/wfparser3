@@ -55,6 +55,19 @@ class CurveOrSurfaceTypeImp extends StatementImp implements CurveOrSurfaceType {
   }
 
   @Override
+  public int compareTo(Statement o) {
+    int compareTo = super.compareTo(o);
+    if (0 == compareTo) {
+      CurveOrSurfaceType curveOrSurfaceType = (CurveOrSurfaceType) o;
+      compareTo = Boolean.compare(isRational, curveOrSurfaceType.isRational());
+      if (0 == compareTo) {
+        compareTo = key.compareTo(curveOrSurfaceType.getTypeKey());
+      }
+    }
+    return compareTo;
+  }
+
+  @Override
   public String toString() {
     return "CurveOrSurfaceTypeImp [isRational=" + isRational + ", key=" + key
         + ", super.toString()=" + super.toString() + "]";

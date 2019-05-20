@@ -10,6 +10,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import com.ht.wfp3.api.statement.Curve2DReference;
+import com.ht.wfp3.api.statement.EqualsHashCodeAndCompareToTester;
 import com.ht.wfp3.api.statement.Hole;
 import com.ht.wfp3.api.statement.StatementFactory;
 
@@ -78,7 +79,38 @@ public class HoleAcceptanceTests {
     assertValidHole(curve2DReferenceList, copiedHole);
   }
 
-  // TODO equals, hashCode, compareTo
+  @Test
+  public void Hole_exerciseAllVariantsOfEqualsHashCodeAndCompareTo_equalsHashCodeAndCompareToContractsRespected() {
+    EqualsHashCodeAndCompareToTester equalsHashCodeAndCompareToTester =
+        EqualsHashCodeAndCompareToTester.createEqualsHashCodeAndCompareToTester();
+    Hole first;
+    Hole second;
+
+    first = statementFactory.createHole(Arrays.asList(createCurve2DReference(1.1d, 2.2d, 1),
+        createCurve2DReference(3.3d, 4.4d, 2)));
+    second = statementFactory.createHole(Arrays.asList(createCurve2DReference(1.1d, 2.2d, 1),
+        createCurve2DReference(3.3d, 4.4d, 2)));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenEqual(first, second);
+
+    // not equal: different number of Curve2DReferences
+    first = statementFactory.createHole(Arrays.asList(createCurve2DReference(1.1d, 2.2d, 1),
+        createCurve2DReference(3.3d, 4.4d, 2)));
+    second = statementFactory.createHole(Arrays.asList(createCurve2DReference(1.1d, 2.2d, 1),
+        createCurve2DReference(3.3d, 4.4d, 2), createCurve2DReference(5.5d, 6.6d, 3)));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(true, first, second);
+
+    // not equal: different Curve2DRerference values
+    first = statementFactory.createHole(Arrays.asList(createCurve2DReference(1.1d, 2.2d, 1),
+        createCurve2DReference(3.3d, 4.4d, 2)));
+    second = statementFactory.createHole(Arrays.asList(createCurve2DReference(1.1d, 2.2d, 1),
+        createCurve2DReference(3.3d, 3.3d, 2)));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(false, first, second);
+
+    equalsHashCodeAndCompareToTester.assertDoesNotEqualNull(first);
+
+    equalsHashCodeAndCompareToTester.assertEqualsSelf(first);
+  }
+
   // TODO copy malicious mutable statement.
 
   @Test

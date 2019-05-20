@@ -9,4 +9,9 @@ class TexVertexReferenceImp extends VertexReferenceImp implements TexVertexRefer
   TexVertexReferenceImp(TexVertexReference texVertexReference) {
     this(texVertexReference.getVertexIndex());
   }
+
+  @Override
+  public int compareTo(TexVertexReference o) {
+    return getVertexIndex().compareTo(o.getVertexIndex());
+  }
 }

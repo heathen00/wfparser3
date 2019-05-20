@@ -12,11 +12,6 @@ class VertexReferenceGroupImp implements VertexReferenceGroup {
     this.normalVervexReference = normalVertexReference;
   }
 
-  VertexReferenceGroupImp(VertexReferenceGroup vertexReferenceGroup) {
-    this(vertexReferenceGroup.getGeoVertexRef(), vertexReferenceGroup.getTexVertexRef(),
-        vertexReferenceGroup.getNormalVertexRef());
-  }
-
   @Override
   public GeoVertexReference getGeoVertexRef() {
     return geometricVertexReference;
@@ -88,6 +83,29 @@ class VertexReferenceGroupImp implements VertexReferenceGroup {
     } else if (!textureVertexReference.equals(other.textureVertexReference))
       return false;
     return true;
+  }
+
+  @Override
+  public int compareTo(VertexReferenceGroup o) {
+    int compareTo = geometricVertexReference.compareTo(o.getGeoVertexRef());
+    if (0 == compareTo) {
+      compareTo = Boolean.compare(isTexVertexRefSet(), o.isTexVertexRefSet());
+      if (0 == compareTo && isTexVertexRefSet()) {
+        compareTo = textureVertexReference.compareTo(o.getTexVertexRef());
+        if (0 == compareTo) {
+          compareTo = Boolean.compare(isNormalVertexRefSet(), o.isNormalVertexRefSet());
+          if (0 == compareTo && isNormalVertexRefSet()) {
+            compareTo = normalVervexReference.compareTo(normalVervexReference);
+          }
+        }
+      } else if (0 == compareTo && !isTexVertexRefSet()) {
+        compareTo = Boolean.compare(isNormalVertexRefSet(), o.isNormalVertexRefSet());
+        if (0 == compareTo && isNormalVertexRefSet()) {
+          compareTo = normalVervexReference.compareTo(normalVervexReference);
+        }
+      }
+    }
+    return compareTo;
   }
 
   @Override

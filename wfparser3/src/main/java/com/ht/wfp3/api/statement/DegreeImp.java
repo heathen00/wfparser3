@@ -17,15 +17,17 @@ class DegreeImp extends StatementImp implements Degree {
       throw new NullPointerException("vAxisDegree constructor parameter cannot be null");
     }
     if (MINIMUM_DEGREE.compareTo(uAxisDegree) > 0) {
-      throw new IllegalArgumentException("uAxisDegree constructor parameter must be greater than " + MINIMUM_DEGREE);
+      throw new IllegalArgumentException(
+          "uAxisDegree constructor parameter must be greater than " + MINIMUM_DEGREE);
     }
     if (MINIMUM_DEGREE.compareTo(vAxisDegree) > 0 && !V_AXIS_NOT_SET.equals(vAxisDegree)) {
-      throw new IllegalArgumentException("vAxisDegree constructor parameter must be greater than " + MINIMUM_DEGREE);
+      throw new IllegalArgumentException(
+          "vAxisDegree constructor parameter must be greater than " + MINIMUM_DEGREE);
     }
     this.uAxisDegree = uAxisDegree;
     this.vAxisDegree = vAxisDegree;
   }
-  
+
   DegreeImp(Integer uAxisDegree) {
     this(uAxisDegree, V_AXIS_NOT_SET);
   }
@@ -76,6 +78,22 @@ class DegreeImp extends StatementImp implements Degree {
     } else if (!vAxisDegree.equals(other.vAxisDegree))
       return false;
     return true;
+  }
+
+  @Override
+  public int compareTo(Statement o) {
+    int compareTo = super.compareTo(o);
+    if (0 == compareTo) {
+      Degree degree = (Degree) o;
+      compareTo = uAxisDegree.compareTo(degree.getUAxisDegree());
+      if (0 == compareTo) {
+        compareTo = Boolean.compare(isVAxisDegreeSet(), degree.isVAxisDegreeSet());
+        if (0 == compareTo && isVAxisDegreeSet()) {
+          compareTo = vAxisDegree.compareTo(degree.getVAxisDegree());
+        }
+      }
+    }
+    return compareTo;
   }
 
   @Override

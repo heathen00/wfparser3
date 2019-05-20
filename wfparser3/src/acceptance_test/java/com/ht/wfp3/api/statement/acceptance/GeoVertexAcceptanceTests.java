@@ -6,6 +6,7 @@ import static org.junit.Assert.fail;
 import java.math.BigDecimal;
 import org.junit.Before;
 import org.junit.Test;
+import com.ht.wfp3.api.statement.EqualsHashCodeAndCompareToTester;
 import com.ht.wfp3.api.statement.GeoVertex;
 import com.ht.wfp3.api.statement.StatementFactory;
 
@@ -95,7 +96,59 @@ public class GeoVertexAcceptanceTests {
     assertValidGeoVertex(xCoord, yCoord, zCoord, expectedWCoord, copiedGeoVertex);
   }
 
-  // TODO equals, hashCode, compareTo
+  @Test
+  public void GeoVertex_exerciseAllVariantsOfEqualsHashCodeAndCompareTo_equalsHashCodeAndCompareToContractsRespected() {
+    EqualsHashCodeAndCompareToTester equalsHashCodeAndCompareToTester =
+        EqualsHashCodeAndCompareToTester.createEqualsHashCodeAndCompareToTester();
+    GeoVertex first;
+    GeoVertex second;
+
+    first = statementFactory.createGeoVertex(BigDecimal.valueOf(1.1d), BigDecimal.valueOf(-2.2d),
+        BigDecimal.valueOf(1000l));
+    second = statementFactory.createGeoVertex(BigDecimal.valueOf(1.1d), BigDecimal.valueOf(-2.2d),
+        BigDecimal.valueOf(1000l));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenEqual(first, second);
+
+    // not equal: different xCoord values
+    first = statementFactory.createGeoVertex(BigDecimal.valueOf(1.0d), BigDecimal.valueOf(-2.2d),
+        BigDecimal.valueOf(1000l));
+    second = statementFactory.createGeoVertex(BigDecimal.valueOf(1.5d), BigDecimal.valueOf(-2.2d),
+        BigDecimal.valueOf(1000l));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(true, first, second);
+
+    // not equal: different yCoord values
+    first = statementFactory.createGeoVertex(BigDecimal.valueOf(1.1d), BigDecimal.valueOf(2.2d),
+        BigDecimal.valueOf(1000l));
+    second = statementFactory.createGeoVertex(BigDecimal.valueOf(1.1d), BigDecimal.valueOf(-2.2d),
+        BigDecimal.valueOf(1000l));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(false, first, second);
+
+    // not equal: different zCoord values
+    first = statementFactory.createGeoVertex(BigDecimal.valueOf(1.1d), BigDecimal.valueOf(-2.2d),
+        BigDecimal.valueOf(1000l));
+    second = statementFactory.createGeoVertex(BigDecimal.valueOf(1.1d), BigDecimal.valueOf(-2.2d),
+        BigDecimal.valueOf(10000000l));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(true, first, second);
+
+    // not equal: different wCoord values
+    first = statementFactory.createGeoVertex(BigDecimal.valueOf(1.1d), BigDecimal.valueOf(-2.2d),
+        BigDecimal.valueOf(1000l), BigDecimal.valueOf(333.300001d));
+    second = statementFactory.createGeoVertex(BigDecimal.valueOf(1.1d), BigDecimal.valueOf(-2.2d),
+        BigDecimal.valueOf(1000l), BigDecimal.valueOf(333.3d));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(false, first, second);
+
+    // not equal: different number of Coords specified
+    first = statementFactory.createGeoVertex(BigDecimal.valueOf(1.1d), BigDecimal.valueOf(-2.2d),
+        BigDecimal.valueOf(1000l));
+    second = statementFactory.createGeoVertex(BigDecimal.valueOf(1.1d), BigDecimal.valueOf(-2.2d),
+        BigDecimal.valueOf(1000l), BigDecimal.valueOf(333.3d));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(true, first, second);
+
+    equalsHashCodeAndCompareToTester.assertDoesNotEqualNull(first);
+
+    equalsHashCodeAndCompareToTester.assertEqualsSelf(first);
+  }
+
   // TODO copy malicious mutable statement.
 
   @Test

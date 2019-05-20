@@ -7,6 +7,7 @@ import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.Test;
 import com.ht.wfp3.api.statement.Degree;
+import com.ht.wfp3.api.statement.EqualsHashCodeAndCompareToTester;
 import com.ht.wfp3.api.statement.StatementFactory;
 
 public class DegreeAcceptanceTests {
@@ -113,7 +114,54 @@ public class DegreeAcceptanceTests {
     degree.getVAxisDegree();
   }
 
-  // TODO equals, hashCode, compareTo
+  @Test
+  public void Degree_exerciseAllVariantsOfEqualsHashCodeAndCompareTo_equalsHashCodeAndCompareToContractsRespected() {
+    EqualsHashCodeAndCompareToTester equalsHashCodeAndCompareToTester =
+        EqualsHashCodeAndCompareToTester.createEqualsHashCodeAndCompareToTester();
+    Degree first;
+    Degree second;
+
+    // Only u-axis degree specified.
+
+    first = statementFactory.createDegree(Integer.valueOf(5));
+    second = statementFactory.createDegree(Integer.valueOf(5));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenEqual(first, second);
+
+    // not equal uAxisDegree different
+    first = statementFactory.createDegree(Integer.valueOf(5));
+    second = statementFactory.createDegree(Integer.valueOf(53));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(true, first, second);
+
+    equalsHashCodeAndCompareToTester.assertDoesNotEqualNull(first);
+
+    equalsHashCodeAndCompareToTester.assertEqualsSelf(first);
+
+    // u and v axis degrees specified.
+
+    first = statementFactory.createDegree(Integer.valueOf(10), Integer.valueOf(11));
+    second = statementFactory.createDegree(Integer.valueOf(10), Integer.valueOf(11));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenEqual(first, second);
+
+    // not equal: uAxisDegree different.
+    first = statementFactory.createDegree(Integer.valueOf(100), Integer.valueOf(11));
+    second = statementFactory.createDegree(Integer.valueOf(10), Integer.valueOf(11));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(false, first, second);
+
+    // not equal: vAxisDegree different.
+    first = statementFactory.createDegree(Integer.valueOf(10), Integer.valueOf(11));
+    second = statementFactory.createDegree(Integer.valueOf(10), Integer.valueOf(111));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(true, first, second);
+
+    equalsHashCodeAndCompareToTester.assertDoesNotEqualNull(first);
+
+    equalsHashCodeAndCompareToTester.assertEqualsSelf(first);
+
+    // compare Degree with uAxisDegree only versus Degree with both uAxis and VAxis degrees set.
+    first = statementFactory.createDegree(Integer.valueOf(10));
+    second = statementFactory.createDegree(Integer.valueOf(10), Integer.valueOf(111));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(true, first, second);
+  }
+
   // TODO copy malicious mutable statement.
 
   @Test

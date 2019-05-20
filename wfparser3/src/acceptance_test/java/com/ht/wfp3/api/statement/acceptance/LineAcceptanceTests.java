@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
+import com.ht.wfp3.api.statement.EqualsHashCodeAndCompareToTester;
 import com.ht.wfp3.api.statement.Line;
 import com.ht.wfp3.api.statement.StatementFactory;
 import com.ht.wfp3.api.statement.VertexReferenceGroup;
@@ -92,9 +93,39 @@ public class LineAcceptanceTests {
     assertValidLine(vertexReferenceGroupList, copiedLine);
   }
 
-  // TODO equals, hashCode, compareTo
+  @Test
+  public void Line_exerciseAllVariantsOfEqualsHashCodeAndCompareTo_equalsHashCodeAndCompareToContractsRespected() {
+    EqualsHashCodeAndCompareToTester equalsHashCodeAndCompareToTester =
+        EqualsHashCodeAndCompareToTester.createEqualsHashCodeAndCompareToTester();
+    Line first;
+    Line second;
+
+    first = statementFactory.createLine(
+        Arrays.asList(createVertexReferenceGroup(1, 1), createVertexReferenceGroup(2, 2)));
+    second = statementFactory.createLine(
+        Arrays.asList(createVertexReferenceGroup(1, 1), createVertexReferenceGroup(2, 2)));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenEqual(first, second);
+
+    // not equal different number of vertex reference groups.
+    first = statementFactory.createLine(
+        Arrays.asList(createVertexReferenceGroup(1, 1), createVertexReferenceGroup(2, 2)));
+    second = statementFactory.createLine(Arrays.asList(createVertexReferenceGroup(1, 1),
+        createVertexReferenceGroup(2, 2), createVertexReferenceGroup(3, 3)));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(true, first, second);
+
+    // not equal: different values for vertex reference group
+    first = statementFactory.createLine(
+        Arrays.asList(createVertexReferenceGroup(100, 1), createVertexReferenceGroup(2, 2)));
+    second = statementFactory.createLine(
+        Arrays.asList(createVertexReferenceGroup(1, 1), createVertexReferenceGroup(2, 2)));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(false, first, second);
+
+    equalsHashCodeAndCompareToTester.assertDoesNotEqualNull(first);
+
+    equalsHashCodeAndCompareToTester.assertEqualsSelf(first);
+  }
+
   // TODO copy malicious mutable statement.
-  // TODO what about vertexReferenceGroupLists that contain null members?
 
   @Test
   public void test() {

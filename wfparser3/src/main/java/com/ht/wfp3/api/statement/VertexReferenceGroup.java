@@ -39,7 +39,7 @@ package com.ht.wfp3.api.statement;
  * @author nickl
  *
  */
-public interface VertexReferenceGroup {
+public interface VertexReferenceGroup extends Comparable<VertexReferenceGroup> {
   GeoVertexReference getGeoVertexRef();
 
   TexVertexReference getTexVertexRef();

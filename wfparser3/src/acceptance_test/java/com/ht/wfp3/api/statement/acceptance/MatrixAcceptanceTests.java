@@ -6,6 +6,7 @@ import static org.junit.Assert.fail;
 import java.math.BigDecimal;
 import org.junit.Before;
 import org.junit.Test;
+import com.ht.wfp3.api.statement.EqualsHashCodeAndCompareToTester;
 import com.ht.wfp3.api.statement.Matrix;
 import com.ht.wfp3.api.statement.MatrixBuilder;
 import com.ht.wfp3.api.statement.StatementFactory;
@@ -317,11 +318,67 @@ public class MatrixAcceptanceTests {
     assertValidMatrix(BuildMethod.COL_BY_COL, expectedMatrixData, matrix);
   }
 
+  @Test
+  public void Matrix_exerciseAllVariantsOfEqualsHashCodeAndCompareTo_equalsHashCodeAndCompareToContractsRespected() {
+    EqualsHashCodeAndCompareToTester equalsHashCodeAndCompareToTester =
+        EqualsHashCodeAndCompareToTester.createEqualsHashCodeAndCompareToTester();
+    final double[][] matrixData = { //
+        {100.100d, 200.100d, 300.100d, 400.100d,}, //
+        {100.200d, 200.200d, 300.200d, 400.200d,}, //
+        {100.300d, 200.300d, 300.300d, 400.300d,}, //
+        {100.400d, 200.400d, 300.400d, 400.400d,}, //
+        {100.500d, 200.500d, 300.500d, 400.500d,}, //
+    };
+    Matrix first;
+    Matrix second;
 
+    first = addDataFromArrays(matrixData, matrixBuilder.clear().colByCol());
+    second = addDataFromArrays(matrixData, matrixBuilder.clear().colByCol());
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenEqual(first, second);
+
+    // not equal: different number of columns.
+    first = matrixBuilder.clear().colByCol() //
+        .append(BigDecimal.valueOf(1.1d)).append(BigDecimal.valueOf(2.2d))
+        .append(BigDecimal.valueOf(3.3d)).end() //
+        .append(BigDecimal.valueOf(4.4d)).append(BigDecimal.valueOf(5.5d))
+        .append(BigDecimal.valueOf(6.6d)).end() //
+        .build();
+    second = matrixBuilder.clear().colByCol() //
+        .append(BigDecimal.valueOf(1.1d)).append(BigDecimal.valueOf(2.2d)).end() //
+        .append(BigDecimal.valueOf(4.4d)).append(BigDecimal.valueOf(5.5d)).end() //
+        .build();
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(false, first, second);
+
+    // not equal: different number of rows.
+    first = matrixBuilder.clear().colByCol() //
+        .append(BigDecimal.valueOf(1.1d)).append(BigDecimal.valueOf(2.2d)).end() //
+        .append(BigDecimal.valueOf(4.4d)).append(BigDecimal.valueOf(5.5d)).end() //
+        .build();
+    second = matrixBuilder.clear().colByCol() //
+        .append(BigDecimal.valueOf(1.1d)).append(BigDecimal.valueOf(2.2d)).end() //
+        .append(BigDecimal.valueOf(4.4d)).append(BigDecimal.valueOf(5.5d)).end() //
+        .append(BigDecimal.valueOf(6.6d)).append(BigDecimal.valueOf(7.7d)).end() //
+        .build();
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(true, first, second);
+
+    // not equal: different array values.
+    first = matrixBuilder.clear().colByCol() //
+        .append(BigDecimal.valueOf(1.1d)).append(BigDecimal.valueOf(2.2d)).end() //
+        .append(BigDecimal.valueOf(1000.0d)).append(BigDecimal.valueOf(5.5d)).end() //
+        .build();
+    second = matrixBuilder.clear().colByCol() //
+        .append(BigDecimal.valueOf(1.1d)).append(BigDecimal.valueOf(2.2d)).end() //
+        .append(BigDecimal.valueOf(4.4d)).append(BigDecimal.valueOf(5.5d)).end() //
+        .build();
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(false, first, second);
+
+    equalsHashCodeAndCompareToTester.assertDoesNotEqualNull(first);
+
+    equalsHashCodeAndCompareToTester.assertEqualsSelf(first);
+  }
 
   // What happens when you use / do not use "endRow()" at the end of the last row?
   // What about building multiple matrices with the same matrixbuilder?
-  // TODO equals, hashCode, and compareTo
   // TODO What about trying to add a mutable Matrix to BasisMatrix. Should not be allowed!
   // build identity.
   // configure fill value for empty elements.
@@ -331,5 +388,4 @@ public class MatrixAcceptanceTests {
   public void test() {
     fail("Not yet implemented");
   }
-
 }

@@ -114,6 +114,25 @@ class GeoVertexImp extends StatementImp implements GeoVertex {
   }
 
   @Override
+  public int compareTo(Statement o) {
+    int compareTo = super.compareTo(o);
+    if (0 == compareTo) {
+      GeoVertex geoVertex = (GeoVertex) o;
+      compareTo = xCoord.compareTo(geoVertex.getXCoord());
+      if (0 == compareTo) {
+        compareTo = yCoord.compareTo(geoVertex.getYCoord());
+        if (0 == compareTo) {
+          compareTo = zCoord.compareTo(geoVertex.getZCoord());
+          if (0 == compareTo) {
+            compareTo = wCoord.compareTo(geoVertex.getWCoord());
+          }
+        }
+      }
+    }
+    return compareTo;
+  }
+
+  @Override
   public String toString() {
     return "GeoVertexImp [xCoord=" + xCoord + ", yCoord=" + yCoord + ", zCoord=" + zCoord
         + ", wCoord=" + wCoord + ", super.toString()=" + super.toString() + "]";

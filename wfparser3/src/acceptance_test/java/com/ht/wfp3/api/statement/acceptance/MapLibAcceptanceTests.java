@@ -10,6 +10,7 @@ import java.util.Collections;
 import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
+import com.ht.wfp3.api.statement.EqualsHashCodeAndCompareToTester;
 import com.ht.wfp3.api.statement.MapLib;
 import com.ht.wfp3.api.statement.StatementFactory;
 
@@ -81,7 +82,38 @@ public class MapLibAcceptanceTests {
     assertValidMapLib(mapLibFileNameList, copiedMapLib);
   }
 
-  // TODO equals, hashCode, compareTo
+  @Test
+  public void MapLib_exerciseAllVariantsOfEqualsHashCodeAndCompareTo_equalsHashCodeAndCompareToContractsRespected() {
+    EqualsHashCodeAndCompareToTester equalsHashCodeAndCompareToTester =
+        EqualsHashCodeAndCompareToTester.createEqualsHashCodeAndCompareToTester();
+    MapLib first;
+    MapLib second;
+
+    first = statementFactory
+        .createMapLib(Arrays.asList(Paths.get("goat_map.lib"), Paths.get("moose_map.lib")));
+    second = statementFactory
+        .createMapLib(Arrays.asList(Paths.get("goat_map.lib"), Paths.get("moose_map.lib")));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenEqual(first, second);
+
+    // not equal: different number of map file names.
+    first = statementFactory.createMapLib(Arrays.asList(Paths.get("goat_map.lib"),
+        Paths.get("moose_map.lib"), Paths.get("wombat_map.lib")));
+    second = statementFactory
+        .createMapLib(Arrays.asList(Paths.get("goat_map.lib"), Paths.get("moose_map.lib")));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(false, first, second);
+
+    // not equal: different map files names.
+    first = statementFactory.createMapLib(Arrays.asList(Paths.get("goat_map.lib"),
+        Paths.get("moose_map.lib"), Paths.get("wombat_map.lib")));
+    second = statementFactory.createMapLib(Arrays.asList(Paths.get("goat_map.lib"),
+        Paths.get("moose_map.lib"), Paths.get("combat_map.lib")));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(false, first, second);
+
+    equalsHashCodeAndCompareToTester.assertDoesNotEqualNull(first);
+
+    equalsHashCodeAndCompareToTester.assertEqualsSelf(first);
+  }
+
   // TODO copy malicious mutable statement.
   // TODO what about mapLibFileNameList with null members?
 

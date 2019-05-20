@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.Test;
+import com.ht.wfp3.api.statement.EqualsHashCodeAndCompareToTester;
 import com.ht.wfp3.api.statement.LevelOfDetail;
 import com.ht.wfp3.api.statement.StatementFactory;
 
@@ -67,14 +68,40 @@ public class LevelOfDetailAcceptanceTests {
   @Test
   public void LevelOfDetail_copyLevelOfDetail_levelOfDetailIsCopied() {
     Integer levelOfDetailParameter = Integer.valueOf(33);
-    LevelOfDetail originalLevelOfDetail = statementFactory.createLevelOfDetail(levelOfDetailParameter);
+    LevelOfDetail originalLevelOfDetail =
+        statementFactory.createLevelOfDetail(levelOfDetailParameter);
 
     LevelOfDetail copiedLevelOfDetail = statementFactory.copyLevelOfDetail(originalLevelOfDetail);
 
     assertValidLevelOfDetail(levelOfDetailParameter, copiedLevelOfDetail);
   }
 
-  // TODO equals, hashCode, compareTo
+  @Test
+  public void LevelOfDetail_exerciseAllVariantsOfEqualsHashCodeAndCompareTo_equalsHashCodeAndCompareToContractsRespected() {
+    EqualsHashCodeAndCompareToTester equalsHashCodeAndCompareToTester =
+        EqualsHashCodeAndCompareToTester.createEqualsHashCodeAndCompareToTester();
+    LevelOfDetail first;
+    LevelOfDetail second;
+
+    first = statementFactory.createLevelOfDetail(Integer.valueOf(3));
+    second = statementFactory.createLevelOfDetail(Integer.valueOf(3));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenEqual(first, second);
+
+    // Not equal: levelOfDetail different
+    first = statementFactory.createLevelOfDetail(Integer.valueOf(37));
+    second = statementFactory.createLevelOfDetail(Integer.valueOf(3));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(false, first, second);
+
+    // Not equal: levelOfDetail disabled in one
+    first = statementFactory.createLevelOfDetail(Integer.valueOf(0));
+    second = statementFactory.createLevelOfDetail(Integer.valueOf(3));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(true, first, second);
+
+    equalsHashCodeAndCompareToTester.assertDoesNotEqualNull(first);
+
+    equalsHashCodeAndCompareToTester.assertEqualsSelf(first);
+  }
+
   // TODO copy malicious mutable statement.
 
   @Test

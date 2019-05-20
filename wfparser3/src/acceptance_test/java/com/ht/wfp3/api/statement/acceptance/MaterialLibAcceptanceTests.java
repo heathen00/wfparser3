@@ -10,6 +10,7 @@ import java.util.Collections;
 import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
+import com.ht.wfp3.api.statement.EqualsHashCodeAndCompareToTester;
 import com.ht.wfp3.api.statement.MaterialLib;
 import com.ht.wfp3.api.statement.StatementFactory;
 
@@ -81,9 +82,39 @@ public class MaterialLibAcceptanceTests {
     assertValidMaterialLib(materialLibFileNameList, copiedMaterialLib);
   }
 
-  // TODO equals, hashCode, compareTo
+  @Test
+  public void MaterialLib_exerciseAllVariantsOfEqualsHashCodeAndCompareTo_equalsHashCodeAndCompareToContractsRespected() {
+    EqualsHashCodeAndCompareToTester equalsHashCodeAndCompareToTester =
+        EqualsHashCodeAndCompareToTester.createEqualsHashCodeAndCompareToTester();
+    MaterialLib first;
+    MaterialLib second;
+
+    first = statementFactory
+        .createMaterialLib(Arrays.asList(Paths.get("foo_mat.lib"), Paths.get("bar_mat.lib")));
+    second = statementFactory
+        .createMaterialLib(Arrays.asList(Paths.get("foo_mat.lib"), Paths.get("bar_mat.lib")));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenEqual(first, second);
+
+    // not equal: different number of material file names
+    first = statementFactory
+        .createMaterialLib(Arrays.asList(Paths.get("foo_mat.lib"), Paths.get("bar_mat.lib")));
+    second = statementFactory.createMaterialLib(Arrays.asList(Paths.get("foo_mat.lib"),
+        Paths.get("bar_mat.lib"), Paths.get("bar_mat.lib")));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(true, first, second);
+
+    // not equal: different material file names
+    first = statementFactory
+        .createMaterialLib(Arrays.asList(Paths.get("foo_mat.lib"), Paths.get("bar_mat.lib")));
+    second = statementFactory
+        .createMaterialLib(Arrays.asList(Paths.get("fool_mat.lib"), Paths.get("bar_mat.lib")));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(true, first, second);
+
+    equalsHashCodeAndCompareToTester.assertDoesNotEqualNull(first);
+
+    equalsHashCodeAndCompareToTester.assertEqualsSelf(first);
+  }
+
   // TODO copy malicious mutable statement.
-  // TODO what about materialFileNameList with null members?
 
   @Test
   public void test() {

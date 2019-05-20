@@ -42,6 +42,16 @@ class DissolveInterpolationImp extends StatementImp implements DissolveInterpola
   }
 
   @Override
+  public int compareTo(Statement o) {
+    int compareTo = super.compareTo(o);
+    if (0 == compareTo) {
+      DissolveInterpolation dissolveInterpolation = (DissolveInterpolation) o;
+      compareTo = Boolean.compare(isEnabled, dissolveInterpolation.isEnabled());
+    }
+    return compareTo;
+  }
+
+  @Override
   public String toString() {
     return "DissolveInterpolationImp [isEnabled=" + isEnabled + ", super.toString()="
         + super.toString() + "]";

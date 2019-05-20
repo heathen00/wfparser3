@@ -63,6 +63,18 @@ class MaterialLibImp extends StatementImp implements MaterialLib {
   }
 
   @Override
+  public int compareTo(Statement o) {
+    int compareTo = super.compareTo(o);
+    if (0 == compareTo) {
+      MaterialLib materialLib = (MaterialLib) o;
+      ListOfComparableComparator<Path> listComparator = new ListOfComparableComparator<>();
+      compareTo =
+          listComparator.compare(materialLibFileNameList, materialLib.getMaterialLibFileNameList());
+    }
+    return compareTo;
+  }
+
+  @Override
   public String toString() {
     return "MaterialLibImp [materialLibFileNameList=" + materialLibFileNameList
         + ", super.toString()=" + super.toString() + "]";

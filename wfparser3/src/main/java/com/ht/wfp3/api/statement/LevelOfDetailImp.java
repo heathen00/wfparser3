@@ -11,10 +11,12 @@ class LevelOfDetailImp extends StatementImp implements LevelOfDetail {
       throw new NullPointerException("levelOfDetail constructor parameter cannot be null");
     }
     if (OFF.compareTo(levelOfDetail) > 0) {
-      throw new IllegalArgumentException("levelOfDetail constructor parameter cannot be less than " + OFF);
+      throw new IllegalArgumentException(
+          "levelOfDetail constructor parameter cannot be less than " + OFF);
     }
     if (MAX.compareTo(levelOfDetail) < 0) {
-      throw new IllegalArgumentException("levelOfDetail constructor parameter cannt be greater than " + MAX);
+      throw new IllegalArgumentException(
+          "levelOfDetail constructor parameter cannt be greater than " + MAX);
     }
     this.levelOfDetail = levelOfDetail;
   }
@@ -51,6 +53,16 @@ class LevelOfDetailImp extends StatementImp implements LevelOfDetail {
     } else if (!levelOfDetail.equals(other.levelOfDetail))
       return false;
     return true;
+  }
+
+  @Override
+  public int compareTo(Statement o) {
+    int compareTo = super.compareTo(o);
+    if (0 == compareTo) {
+      LevelOfDetail levelOfDetailParameter = (LevelOfDetail) o;
+      compareTo = levelOfDetail.compareTo(levelOfDetailParameter.getLevelOfDetail());
+    }
+    return compareTo;
   }
 
   @Override

@@ -107,7 +107,11 @@ public final class StatementFactory {
       throw new NullPointerException(
           "vertexReferenceGroup copy constructor parameter cannot be null");
     }
-    return new VertexReferenceGroupImp((VertexReferenceGroupImp) vertexReferenceGroup);
+    return new VertexReferenceGroupImp(vertexReferenceGroup.getGeoVertexRef(),
+        vertexReferenceGroup.isTexVertexRefSet() ? vertexReferenceGroup.getTexVertexRef()
+            : createDisabledTexVertexReference(),
+        vertexReferenceGroup.isNormalVertexRefSet() ? vertexReferenceGroup.getNormalVertexRef()
+            : createDisabledNormalVertexReference());
   }
 
   public GeoVertexReference createGeoVertexReference(Integer vertexIndex) {

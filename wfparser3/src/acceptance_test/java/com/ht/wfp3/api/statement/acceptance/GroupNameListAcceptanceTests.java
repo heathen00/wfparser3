@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
+import com.ht.wfp3.api.statement.EqualsHashCodeAndCompareToTester;
 import com.ht.wfp3.api.statement.GroupNameList;
 import com.ht.wfp3.api.statement.StatementFactory;
 
@@ -80,7 +81,33 @@ public class GroupNameListAcceptanceTests {
     assertValidGroupNameList(groupNameListParameter, copiedGroupNameList);
   }
 
-  // TODO equals, hashCode, compareTo
+  @Test
+  public void GroupNameList_exerciseAllVariantsOfEqualsHashCodeAndCompareTo_equalsHashCodeAndCompareToContractsRespected() {
+    EqualsHashCodeAndCompareToTester equalsHashCodeAndCompareToTester =
+        EqualsHashCodeAndCompareToTester.createEqualsHashCodeAndCompareToTester();
+    GroupNameList first;
+    GroupNameList second;
+
+    first = statementFactory.createGroupNameList(Arrays.asList("group_00", "group_01", "ralf"));
+    second = statementFactory.createGroupNameList(Arrays.asList("group_00", "group_01", "ralf"));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenEqual(first, second);
+
+    // not equal: different number of group names.
+    first = statementFactory.createGroupNameList(Arrays.asList("group_00", "group_01", "ralf"));
+    second = statementFactory
+        .createGroupNameList(Arrays.asList("group_00", "group_01", "ralf", "cantaloup"));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(true, first, second);
+
+    // not equal: different group names.
+    first = statementFactory.createGroupNameList(Arrays.asList("group_00", "lake", "ralf"));
+    second = statementFactory.createGroupNameList(Arrays.asList("group_00", "group_01", "ralf"));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(false, first, second);
+
+    equalsHashCodeAndCompareToTester.assertDoesNotEqualNull(first);
+
+    equalsHashCodeAndCompareToTester.assertEqualsSelf(first);
+  }
+
   // TODO copy malicious mutable statement.
   // TODO what happens if you specify the same group name twice?
 
