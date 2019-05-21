@@ -10,6 +10,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import com.ht.wfp3.api.statement.Axis;
+import com.ht.wfp3.api.statement.EqualsHashCodeAndCompareToTester;
 import com.ht.wfp3.api.statement.Parm;
 import com.ht.wfp3.api.statement.StatementFactory;
 
@@ -97,7 +98,45 @@ public class ParmAcceptanceTests {
     assertValidParm(axis, parameterList, copiedParm);
   }
 
-  // TODO equals, hashCode, compareTo
+  @Test
+  public void Parm_exerciseAllVariantsOfEqualsHashCodeAndCompareTo_equalsHashCodeAndCompareToContractsRespected() {
+    EqualsHashCodeAndCompareToTester equalsHashCodeAndCompareToTester =
+        EqualsHashCodeAndCompareToTester.createEqualsHashCodeAndCompareToTester();
+    Parm first;
+    Parm second;
+
+    first = statementFactory.createParm(Axis.U, Arrays.asList(BigDecimal.valueOf(1.1d),
+        BigDecimal.valueOf(2.2d), BigDecimal.valueOf(3.3d)));
+    second = statementFactory.createParm(Axis.U, Arrays.asList(BigDecimal.valueOf(1.1d),
+        BigDecimal.valueOf(2.2d), BigDecimal.valueOf(3.3d)));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenEqual(first, second);
+
+    // not equal: different axes
+    first = statementFactory.createParm(Axis.U, Arrays.asList(BigDecimal.valueOf(1.1d),
+        BigDecimal.valueOf(2.2d), BigDecimal.valueOf(3.3d)));
+    second = statementFactory.createParm(Axis.V, Arrays.asList(BigDecimal.valueOf(1.1d),
+        BigDecimal.valueOf(2.2d), BigDecimal.valueOf(3.3d)));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(true, first, second);
+
+    // not equal: different number of parameters
+    first = statementFactory.createParm(Axis.U, Arrays.asList(BigDecimal.valueOf(1.1d),
+        BigDecimal.valueOf(2.2d), BigDecimal.valueOf(3.3d), BigDecimal.valueOf(-4.4d)));
+    second = statementFactory.createParm(Axis.U, Arrays.asList(BigDecimal.valueOf(1.1d),
+        BigDecimal.valueOf(2.2d), BigDecimal.valueOf(3.3d)));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(false, first, second);
+
+    // not equal: different parameter values
+    first = statementFactory.createParm(Axis.U, Arrays.asList(BigDecimal.valueOf(1.1d),
+        BigDecimal.valueOf(2.2d), BigDecimal.valueOf(-3.3d)));
+    second = statementFactory.createParm(Axis.U, Arrays.asList(BigDecimal.valueOf(1.1d),
+        BigDecimal.valueOf(2.2d), BigDecimal.valueOf(3.3d)));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(true, first, second);
+
+    equalsHashCodeAndCompareToTester.assertDoesNotEqualNull(first);
+
+    equalsHashCodeAndCompareToTester.assertEqualsSelf(first);
+  }
+
   // TODO copy malicious mutable statement.
 
   @Test

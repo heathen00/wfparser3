@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 import java.math.BigDecimal;
 import org.junit.Before;
 import org.junit.Test;
+import com.ht.wfp3.api.statement.EqualsHashCodeAndCompareToTester;
 import com.ht.wfp3.api.statement.StatementFactory;
 import com.ht.wfp3.api.statement.SurfaceApproxCparmbTechnique;
 
@@ -75,7 +76,27 @@ public class SurfaceApproxCparmbTechniqueAcceptanceTests {
         copiedSurfaceApproxCparmbTechnique);
   }
 
-  // TODO equals, hashCode, compareTo
+  @Test
+  public void SurfaceApproxCparmbTechnique_exerciseAllVariantsOfEqualsHashCodeAndCompareTo_equalsHashCodeAndCompareToContractsRespected() {
+    EqualsHashCodeAndCompareToTester equalsHashCodeAndCompareToTester =
+        EqualsHashCodeAndCompareToTester.createEqualsHashCodeAndCompareToTester();
+    SurfaceApproxCparmbTechnique first;
+    SurfaceApproxCparmbTechnique second;
+
+    first = statementFactory.createSurfaceApproxCparmbTechnique(BigDecimal.valueOf(123.45d));
+    second = statementFactory.createSurfaceApproxCparmbTechnique(BigDecimal.valueOf(123.45d));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenEqual(first, second);
+
+    // different: different resolutionForUAndVAxes
+    first = statementFactory.createSurfaceApproxCparmbTechnique(BigDecimal.valueOf(12389.45d));
+    second = statementFactory.createSurfaceApproxCparmbTechnique(BigDecimal.valueOf(123.45d));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(false, first, second);
+
+    equalsHashCodeAndCompareToTester.assertDoesNotEqualNull(first);
+
+    equalsHashCodeAndCompareToTester.assertEqualsSelf(first);
+  }
+
   // TODO copy malicious mutable statement.
 
   @Test

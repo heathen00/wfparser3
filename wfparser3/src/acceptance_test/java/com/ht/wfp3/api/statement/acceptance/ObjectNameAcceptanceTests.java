@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.Test;
+import com.ht.wfp3.api.statement.EqualsHashCodeAndCompareToTester;
 import com.ht.wfp3.api.statement.ObjectName;
 import com.ht.wfp3.api.statement.StatementFactory;
 
@@ -63,13 +64,33 @@ public class ObjectNameAcceptanceTests {
   public void ObjectName_copyObjectName_objectNameIsCopied() {
     String objectNameParameter = "dodecahedron";
     ObjectName originalObjectName = statementFactory.createObjectName(objectNameParameter);
-    
+
     ObjectName copiedObjectName = statementFactory.copyObjectName(originalObjectName);
 
     assertValidObjectName(objectNameParameter, copiedObjectName);
   }
 
-  // TODO equals, hashCode, compareTo
+  @Test
+  public void ObjectName_exerciseAllVariantsOfEqualsHashCodeAndCompareTo_equalsHashCodeAndCompareToContractsRespected() {
+    EqualsHashCodeAndCompareToTester equalsHashCodeAndCompareToTester =
+        EqualsHashCodeAndCompareToTester.createEqualsHashCodeAndCompareToTester();
+    ObjectName first;
+    ObjectName second;
+
+    first = statementFactory.createObjectName("man_i_am_bad_at_naming_things");
+    second = statementFactory.createObjectName("man_i_am_bad_at_naming_things");
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenEqual(first, second);
+
+    // Not equal: different group name.
+    first = statementFactory.createObjectName("man_i_am_bad_at_naming_things");
+    second = statementFactory.createObjectName("walter");
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(true, first, second);
+
+    equalsHashCodeAndCompareToTester.assertDoesNotEqualNull(first);
+
+    equalsHashCodeAndCompareToTester.assertEqualsSelf(first);
+  }
+
   // TODO copy malicious mutable statement.
 
   @Test

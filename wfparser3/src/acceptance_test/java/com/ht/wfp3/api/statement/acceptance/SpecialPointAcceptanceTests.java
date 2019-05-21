@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
+import com.ht.wfp3.api.statement.EqualsHashCodeAndCompareToTester;
 import com.ht.wfp3.api.statement.ParamVertexReference;
 import com.ht.wfp3.api.statement.SpecialPoint;
 import com.ht.wfp3.api.statement.StatementFactory;
@@ -84,7 +85,39 @@ public class SpecialPointAcceptanceTests {
     assertValidSpecialPoint(vertexReferenceList, copiedSpecialPoint);
   }
 
-  // TODO equals, hashCode, compareTo
+  @Test
+  public void SpecialPoint_exerciseAllVariantsOfEqualsHashCodeAndCompareTo_equalsHashCodeAndCompareToContractsRespected() {
+    EqualsHashCodeAndCompareToTester equalsHashCodeAndCompareToTester =
+        EqualsHashCodeAndCompareToTester.createEqualsHashCodeAndCompareToTester();
+    SpecialPoint first;
+    SpecialPoint second;
+
+    first = statementFactory.createSpecialPoint(Arrays.asList(createParamVertexReference(33),
+        createParamVertexReference(44), createParamVertexReference(55)));
+    second = statementFactory.createSpecialPoint(Arrays.asList(createParamVertexReference(33),
+        createParamVertexReference(44), createParamVertexReference(55)));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenEqual(first, second);
+
+    // not equal: different number of parameter vertex references
+    first = statementFactory.createSpecialPoint(Arrays.asList(createParamVertexReference(33),
+        createParamVertexReference(44), createParamVertexReference(55)));
+    second = statementFactory.createSpecialPoint(
+        Arrays.asList(createParamVertexReference(33), createParamVertexReference(44),
+            createParamVertexReference(55), createParamVertexReference(66)));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(true, first, second);
+
+    // not equal: different parameter vertex reference values
+    first = statementFactory.createSpecialPoint(Arrays.asList(createParamVertexReference(33),
+        createParamVertexReference(44), createParamVertexReference(55)));
+    second = statementFactory.createSpecialPoint(Arrays.asList(createParamVertexReference(33),
+        createParamVertexReference(11), createParamVertexReference(55)));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(false, first, second);
+
+    equalsHashCodeAndCompareToTester.assertDoesNotEqualNull(first);
+
+    equalsHashCodeAndCompareToTester.assertEqualsSelf(first);
+  }
+
   // TODO copy malicious mutable statement.
 
   @Test

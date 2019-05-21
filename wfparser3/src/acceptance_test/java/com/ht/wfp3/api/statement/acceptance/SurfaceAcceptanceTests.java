@@ -9,6 +9,7 @@ import java.util.Collections;
 import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
+import com.ht.wfp3.api.statement.EqualsHashCodeAndCompareToTester;
 import com.ht.wfp3.api.statement.StatementFactory;
 import com.ht.wfp3.api.statement.Surface;
 import com.ht.wfp3.api.statement.VertexReferenceGroup;
@@ -20,8 +21,8 @@ public class SurfaceAcceptanceTests {
   private StatementFactory statementFactory;
   private VertexReferenceGroupBuilder vertexReferenceGroupBuilder;
 
-  private VertexReferenceGroup createVertexReferenceGroupList(int geoVertexIndex,
-      int texVertexIndex, int normalVertexIndex) {
+  private VertexReferenceGroup createVertexReferenceGroup(int geoVertexIndex, int texVertexIndex,
+      int normalVertexIndex) {
     return vertexReferenceGroupBuilder.clear().geoVertexRef(Integer.valueOf(geoVertexIndex))
         .texVertexRef(Integer.valueOf(texVertexIndex))
         .normalVertexRef(Integer.valueOf(normalVertexIndex)).build();
@@ -49,25 +50,25 @@ public class SurfaceAcceptanceTests {
   @Test(expected = NullPointerException.class)
   public void Surface_createSurfaceWithNullStartingParameterValueUAxis_nullPointerExceptionIsThrown() {
     statementFactory.createSurface(null, BigDecimal.valueOf(2.2d), BigDecimal.valueOf(3.3d),
-        BigDecimal.valueOf(4.4d), Arrays.asList(createVertexReferenceGroupList(1, 1, 1)));
+        BigDecimal.valueOf(4.4d), Arrays.asList(createVertexReferenceGroup(1, 1, 1)));
   }
 
   @Test(expected = NullPointerException.class)
   public void Surface_createSurfaceWithNullEndingParameterValueUAxis_nullPointerExceptionIsThrown() {
     statementFactory.createSurface(BigDecimal.valueOf(1.1d), null, BigDecimal.valueOf(3.3d),
-        BigDecimal.valueOf(4.4d), Arrays.asList(createVertexReferenceGroupList(1, 1, 1)));
+        BigDecimal.valueOf(4.4d), Arrays.asList(createVertexReferenceGroup(1, 1, 1)));
   }
 
   @Test(expected = NullPointerException.class)
   public void Surface_createSurfaceWithNullStartingParamterValueVAxis_nullPointerExceptionIsThrown() {
     statementFactory.createSurface(BigDecimal.valueOf(1.1d), BigDecimal.valueOf(2.2d), null,
-        BigDecimal.valueOf(4.4d), Arrays.asList(createVertexReferenceGroupList(1, 1, 1)));
+        BigDecimal.valueOf(4.4d), Arrays.asList(createVertexReferenceGroup(1, 1, 1)));
   }
 
   @Test(expected = NullPointerException.class)
   public void Surface_createSurfaceWithNullEndingParameterValueVAxis_nullPointerExceptionIsThrown() {
     statementFactory.createSurface(BigDecimal.valueOf(1.1d), BigDecimal.valueOf(2.2d),
-        BigDecimal.valueOf(3.3d), null, Arrays.asList(createVertexReferenceGroupList(1, 1, 1)));
+        BigDecimal.valueOf(3.3d), null, Arrays.asList(createVertexReferenceGroup(1, 1, 1)));
   }
 
   @Test(expected = NullPointerException.class)
@@ -85,9 +86,8 @@ public class SurfaceAcceptanceTests {
   @Test(expected = IllegalArgumentException.class)
   public void Surface_createSurfaceWithVertexReferenceGroupListContainingNullMembers_illegalArgumentExceptionIsThrown() {
     statementFactory.createSurface(BigDecimal.valueOf(1.1d), BigDecimal.valueOf(2.2d),
-        BigDecimal.valueOf(3.3d), BigDecimal.valueOf(4.4d),
-        Arrays.asList(createVertexReferenceGroupList(1, 1, 1), null,
-            createVertexReferenceGroupList(2, 2, 2)));
+        BigDecimal.valueOf(3.3d), BigDecimal.valueOf(4.4d), Arrays.asList(
+            createVertexReferenceGroup(1, 1, 1), null, createVertexReferenceGroup(2, 2, 2)));
   }
 
   @Test
@@ -97,7 +97,7 @@ public class SurfaceAcceptanceTests {
     BigDecimal startingParameterValueVAxis = BigDecimal.valueOf(3.3d);
     BigDecimal endingParameterValueVAxis = BigDecimal.valueOf(4.4d);
     List<VertexReferenceGroup> vertexReferenceGroupList =
-        Arrays.asList(createVertexReferenceGroupList(1, 1, 1));
+        Arrays.asList(createVertexReferenceGroup(1, 1, 1));
 
     Surface surface =
         statementFactory.createSurface(startingParameterValueUAxis, endingParameterValueUAxis,
@@ -114,8 +114,8 @@ public class SurfaceAcceptanceTests {
     BigDecimal startingParameterValueVAxis = BigDecimal.valueOf(3.3d);
     BigDecimal endingParameterValueVAxis = BigDecimal.valueOf(4.4d);
     List<VertexReferenceGroup> vertexReferenceGroupList =
-        Arrays.asList(createVertexReferenceGroupList(1, 1, 1),
-            createVertexReferenceGroupList(2, 2, 2), createVertexReferenceGroupList(3, 3, 3));
+        Arrays.asList(createVertexReferenceGroup(1, 1, 1), createVertexReferenceGroup(2, 2, 2),
+            createVertexReferenceGroup(3, 3, 3));
 
     Surface surface =
         statementFactory.createSurface(startingParameterValueUAxis, endingParameterValueUAxis,
@@ -137,8 +137,8 @@ public class SurfaceAcceptanceTests {
     BigDecimal startingParameterValueVAxis = BigDecimal.valueOf(3.3d);
     BigDecimal endingParameterValueVAxis = BigDecimal.valueOf(4.4d);
     List<VertexReferenceGroup> vertexReferenceGroupList =
-        Arrays.asList(createVertexReferenceGroupList(1, 1, 1),
-            createVertexReferenceGroupList(2, 2, 2), createVertexReferenceGroupList(3, 3, 3));
+        Arrays.asList(createVertexReferenceGroup(1, 1, 1), createVertexReferenceGroup(2, 2, 2),
+            createVertexReferenceGroup(3, 3, 3));
     Surface originalSurface =
         statementFactory.createSurface(startingParameterValueUAxis, endingParameterValueUAxis,
             startingParameterValueVAxis, endingParameterValueVAxis, vertexReferenceGroupList);
@@ -150,7 +150,94 @@ public class SurfaceAcceptanceTests {
         copiedSurface);
   }
 
-  // TODO equals, hashCode, compareTo
+  @Test
+  public void Surface_exerciseAllVariantsOfEqualsHashCodeAndCompareTo_equalsHashCodeAndCompareToContractsRespected() {
+    EqualsHashCodeAndCompareToTester equalsHashCodeAndCompareToTester =
+        EqualsHashCodeAndCompareToTester.createEqualsHashCodeAndCompareToTester();
+    Surface first;
+    Surface second;
+
+    first = statementFactory.createSurface(BigDecimal.valueOf(1.1d), BigDecimal.valueOf(2.2d),
+        BigDecimal.valueOf(3.3d), BigDecimal.valueOf(4.4d),
+        Arrays.asList(createVertexReferenceGroup(1, 1, 1), createVertexReferenceGroup(2, 2, 2),
+            createVertexReferenceGroup(3, 3, 3)));
+    second = statementFactory.createSurface(BigDecimal.valueOf(1.1d), BigDecimal.valueOf(2.2d),
+        BigDecimal.valueOf(3.3d), BigDecimal.valueOf(4.4d),
+        Arrays.asList(createVertexReferenceGroup(1, 1, 1), createVertexReferenceGroup(2, 2, 2),
+            createVertexReferenceGroup(3, 3, 3)));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenEqual(first, second);
+
+    // not equal: different startingParameterValueUAxis
+    first = statementFactory.createSurface(BigDecimal.valueOf(11111.1d), BigDecimal.valueOf(2.2d),
+        BigDecimal.valueOf(3.3d), BigDecimal.valueOf(4.4d),
+        Arrays.asList(createVertexReferenceGroup(1, 1, 1), createVertexReferenceGroup(2, 2, 2),
+            createVertexReferenceGroup(3, 3, 3)));
+    second = statementFactory.createSurface(BigDecimal.valueOf(1.1d), BigDecimal.valueOf(2.2d),
+        BigDecimal.valueOf(3.3d), BigDecimal.valueOf(4.4d),
+        Arrays.asList(createVertexReferenceGroup(1, 1, 1), createVertexReferenceGroup(2, 2, 2),
+            createVertexReferenceGroup(3, 3, 3)));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(false, first, second);
+
+    // not equal: different endingParameterValueUAxis
+    first = statementFactory.createSurface(BigDecimal.valueOf(1.1d), BigDecimal.valueOf(-2.2d),
+        BigDecimal.valueOf(3.3d), BigDecimal.valueOf(4.4d),
+        Arrays.asList(createVertexReferenceGroup(1, 1, 1), createVertexReferenceGroup(2, 2, 2),
+            createVertexReferenceGroup(3, 3, 3)));
+    second = statementFactory.createSurface(BigDecimal.valueOf(1.1d), BigDecimal.valueOf(2.2d),
+        BigDecimal.valueOf(3.3d), BigDecimal.valueOf(4.4d),
+        Arrays.asList(createVertexReferenceGroup(1, 1, 1), createVertexReferenceGroup(2, 2, 2),
+            createVertexReferenceGroup(3, 3, 3)));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(true, first, second);
+
+    // not equal: different startingParameterValueVAxis
+    first = statementFactory.createSurface(BigDecimal.valueOf(1.1d), BigDecimal.valueOf(2.2d),
+        BigDecimal.valueOf(3.3d), BigDecimal.valueOf(4.4d),
+        Arrays.asList(createVertexReferenceGroup(1, 1, 1), createVertexReferenceGroup(2, 2, 2),
+            createVertexReferenceGroup(3, 3, 3)));
+    second = statementFactory.createSurface(BigDecimal.valueOf(1.1d), BigDecimal.valueOf(2.2d),
+        BigDecimal.valueOf(-3.3d), BigDecimal.valueOf(4.4d),
+        Arrays.asList(createVertexReferenceGroup(1, 1, 1), createVertexReferenceGroup(2, 2, 2),
+            createVertexReferenceGroup(3, 3, 3)));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(false, first, second);
+
+    // not equal: different endingParameterValueVaxis
+    first = statementFactory.createSurface(BigDecimal.valueOf(1.1d), BigDecimal.valueOf(2.2d),
+        BigDecimal.valueOf(3.3d), BigDecimal.valueOf(0.4d),
+        Arrays.asList(createVertexReferenceGroup(1, 1, 1), createVertexReferenceGroup(2, 2, 2),
+            createVertexReferenceGroup(3, 3, 3)));
+    second = statementFactory.createSurface(BigDecimal.valueOf(1.1d), BigDecimal.valueOf(2.2d),
+        BigDecimal.valueOf(3.3d), BigDecimal.valueOf(4.4d),
+        Arrays.asList(createVertexReferenceGroup(1, 1, 1), createVertexReferenceGroup(2, 2, 2),
+            createVertexReferenceGroup(3, 3, 3)));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(true, first, second);
+
+    // not equal: different number of VertexReferenceGroup instances
+    first = statementFactory.createSurface(BigDecimal.valueOf(1.1d), BigDecimal.valueOf(2.2d),
+        BigDecimal.valueOf(3.3d), BigDecimal.valueOf(4.4d),
+        Arrays.asList(createVertexReferenceGroup(1, 1, 1), createVertexReferenceGroup(2, 2, 2),
+            createVertexReferenceGroup(3, 3, 3), createVertexReferenceGroup(4, 4, 4)));
+    second = statementFactory.createSurface(BigDecimal.valueOf(1.1d), BigDecimal.valueOf(2.2d),
+        BigDecimal.valueOf(3.3d), BigDecimal.valueOf(4.4d),
+        Arrays.asList(createVertexReferenceGroup(1, 1, 1), createVertexReferenceGroup(2, 2, 2),
+            createVertexReferenceGroup(3, 3, 3)));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(false, first, second);
+
+    // not equal: different value of VertexReferenceGroup instance
+    first = statementFactory.createSurface(BigDecimal.valueOf(1.1d), BigDecimal.valueOf(2.2d),
+        BigDecimal.valueOf(3.3d), BigDecimal.valueOf(4.4d),
+        Arrays.asList(createVertexReferenceGroup(1, 1, 1), createVertexReferenceGroup(2, 2, 2),
+            createVertexReferenceGroup(2, 2, 2)));
+    second = statementFactory.createSurface(BigDecimal.valueOf(1.1d), BigDecimal.valueOf(2.2d),
+        BigDecimal.valueOf(3.3d), BigDecimal.valueOf(4.4d),
+        Arrays.asList(createVertexReferenceGroup(1, 1, 1), createVertexReferenceGroup(2, 2, 2),
+            createVertexReferenceGroup(3, 3, 3)));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(true, first, second);
+
+    equalsHashCodeAndCompareToTester.assertDoesNotEqualNull(first);
+
+    equalsHashCodeAndCompareToTester.assertEqualsSelf(first);
+  }
+
   // TODO copy malicious mutable statement.
 
   @Test

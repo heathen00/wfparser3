@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.Test;
+import com.ht.wfp3.api.statement.EqualsHashCodeAndCompareToTester;
 import com.ht.wfp3.api.statement.NormalVertexReference;
 import com.ht.wfp3.api.statement.StatementFactory;
 
@@ -74,7 +75,27 @@ public class NormalVertexReferenceAcceptanceTests {
     assertValidNormalVertexReference(vertexIndex, expectedIsSet, copiedNormalVertexReference);
   }
 
-  // TODO equals, hashCode, compareTo
+  @Test
+  public void NormalVertexReference_exerciseAllVariantsOfEqualsHashCodeAndCompareTo_equalsHashCodeAndCompareToContractsRespected() {
+    EqualsHashCodeAndCompareToTester equalsHashCodeAndCompareToTester =
+        EqualsHashCodeAndCompareToTester.createEqualsHashCodeAndCompareToTester();
+    NormalVertexReference first;
+    NormalVertexReference second;
+
+    first = statementFactory.createNormalVertexReference(Integer.valueOf(3));
+    second = statementFactory.createNormalVertexReference(Integer.valueOf(3));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenEqual(first, second);
+
+    // Not equal: different vertex index
+    first = statementFactory.createNormalVertexReference(Integer.valueOf(3));
+    second = statementFactory.createNormalVertexReference(Integer.valueOf(-3));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(false, first, second);
+
+    equalsHashCodeAndCompareToTester.assertDoesNotEqualNull(first);
+
+    equalsHashCodeAndCompareToTester.assertEqualsSelf(first);
+  }
+
   // TODO copy malicious mutable statement.
 
   @Test

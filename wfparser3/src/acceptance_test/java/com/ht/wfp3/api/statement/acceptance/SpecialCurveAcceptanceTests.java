@@ -10,6 +10,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import com.ht.wfp3.api.statement.Curve2DReference;
+import com.ht.wfp3.api.statement.EqualsHashCodeAndCompareToTester;
 import com.ht.wfp3.api.statement.SpecialCurve;
 import com.ht.wfp3.api.statement.StatementFactory;
 
@@ -89,7 +90,39 @@ public class SpecialCurveAcceptanceTests {
     assertValidSpecialCurve(curve2DReferenceList, copiedSpecialCurve);
   }
 
-  // TODO equals, hashCode, compareTo
+  @Test
+  public void SpecialCurve_exerciseAllVariantsOfEqualsHashCodeAndCompareTo_equalsHashCodeAndCompareToContractsRespected() {
+    EqualsHashCodeAndCompareToTester equalsHashCodeAndCompareToTester =
+        EqualsHashCodeAndCompareToTester.createEqualsHashCodeAndCompareToTester();
+    SpecialCurve first;
+    SpecialCurve second;
+
+    first = statementFactory.createSpecialCurve(Arrays
+        .asList(buildCurve2DReference(1.1d, 2.2d, 100), buildCurve2DReference(3.3d, 4.4d, 200)));
+    second = statementFactory.createSpecialCurve(Arrays
+        .asList(buildCurve2DReference(1.1d, 2.2d, 100), buildCurve2DReference(3.3d, 4.4d, 200)));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenEqual(first, second);
+
+    // not equal: different number of curve2D references
+    first = statementFactory.createSpecialCurve(Arrays
+        .asList(buildCurve2DReference(1.1d, 2.2d, 100), buildCurve2DReference(3.3d, 4.4d, 200)));
+    second =
+        statementFactory.createSpecialCurve(Arrays.asList(buildCurve2DReference(1.1d, 2.2d, 100),
+            buildCurve2DReference(3.3d, 4.4d, 200), buildCurve2DReference(5.5d, 6.6d, 300)));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(true, first, second);
+
+    // not equal: differnt value of curve2D references
+    first = statementFactory.createSpecialCurve(Arrays
+        .asList(buildCurve2DReference(1.1d, 2.2d, 100), buildCurve2DReference(3.3d, 4.4d, 201)));
+    second = statementFactory.createSpecialCurve(Arrays
+        .asList(buildCurve2DReference(1.1d, 2.2d, 100), buildCurve2DReference(3.3d, 4.4d, 200)));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(false, first, second);
+
+    equalsHashCodeAndCompareToTester.assertDoesNotEqualNull(first);
+
+    equalsHashCodeAndCompareToTester.assertEqualsSelf(first);
+  }
+
   // TODO copy malicious mutable statement.
 
   @Test

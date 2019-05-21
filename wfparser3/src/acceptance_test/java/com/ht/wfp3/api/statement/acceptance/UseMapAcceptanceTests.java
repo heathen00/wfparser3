@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.Test;
+import com.ht.wfp3.api.statement.EqualsHashCodeAndCompareToTester;
 import com.ht.wfp3.api.statement.StatementFactory;
 import com.ht.wfp3.api.statement.UseMap;
 
@@ -99,7 +100,27 @@ public class UseMapAcceptanceTests {
     assertValidUseMap(mapName, expectedIsEnabled, copiedUseMap);
   }
 
-  // TODO equals, hashCode, compareTo
+  @Test
+  public void UseMap_exerciseAllVariantsOfEqualsHashCodeAndCompareTo_equalsHashCodeAndCompareToContractsRespected() {
+    EqualsHashCodeAndCompareToTester equalsHashCodeAndCompareToTester =
+        EqualsHashCodeAndCompareToTester.createEqualsHashCodeAndCompareToTester();
+    UseMap first;
+    UseMap second;
+
+    first = statementFactory.createUseMap("mapname");
+    second = statementFactory.createUseMap("mapname");
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenEqual(first, second);
+
+    // different: different map name.
+    first = statementFactory.createUseMap("mapname");
+    second = statementFactory.createUseMap("another_mapname");
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(false, first, second);
+
+    equalsHashCodeAndCompareToTester.assertDoesNotEqualNull(first);
+
+    equalsHashCodeAndCompareToTester.assertEqualsSelf(first);
+  }
+
   // TODO copy malicious mutable statement.
 
   @Test

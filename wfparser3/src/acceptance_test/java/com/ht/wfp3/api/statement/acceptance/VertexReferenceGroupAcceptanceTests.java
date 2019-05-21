@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.Test;
+import com.ht.wfp3.api.statement.EqualsHashCodeAndCompareToTester;
 import com.ht.wfp3.api.statement.GeoVertexReference;
 import com.ht.wfp3.api.statement.NormalVertexReference;
 import com.ht.wfp3.api.statement.StatementFactory;
@@ -229,7 +230,108 @@ public class VertexReferenceGroupAcceptanceTests {
     vertexReferenceGroup.getNormalVertexRef();
   }
 
-  // TODO equals, hashCode, compareTo
+  @Test
+  public void VertexReferenceGroup_exerciseAllVariantsOfEqualsHashCodeAndCompareTo_equalsHashCodeAndCompareToContractsRespected() {
+    EqualsHashCodeAndCompareToTester equalsHashCodeAndCompareToTester =
+        EqualsHashCodeAndCompareToTester.createEqualsHashCodeAndCompareToTester();
+    VertexReferenceGroup first;
+    VertexReferenceGroup second;
+
+    // just geoVertexReference
+
+    first = vertexReferenceGroupBuilder.clear().geoVertexRef(Integer.valueOf(54)).build();
+    second = vertexReferenceGroupBuilder.clear().geoVertexRef(Integer.valueOf(54)).build();
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenEqual(first, second);
+
+    // not equal: different geoVertexReference
+    first = vertexReferenceGroupBuilder.clear().geoVertexRef(Integer.valueOf(-54)).build();
+    second = vertexReferenceGroupBuilder.clear().geoVertexRef(Integer.valueOf(54)).build();
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(true, first, second);
+
+    // geoVertexReference and texVertexReference
+
+    first = vertexReferenceGroupBuilder.clear().geoVertexRef(Integer.valueOf(22))
+        .texVertexRef(Integer.valueOf(34)).build();
+    second = vertexReferenceGroupBuilder.clear().geoVertexRef(Integer.valueOf(22))
+        .texVertexRef(Integer.valueOf(34)).build();
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenEqual(first, second);
+
+    // not equal: different geoVertexReference
+    first = vertexReferenceGroupBuilder.clear().geoVertexRef(Integer.valueOf(21))
+        .texVertexRef(Integer.valueOf(34)).build();
+    second = vertexReferenceGroupBuilder.clear().geoVertexRef(Integer.valueOf(22))
+        .texVertexRef(Integer.valueOf(34)).build();
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(true, first, second);
+
+    // not equal: different texVertexReference
+    first = vertexReferenceGroupBuilder.clear().geoVertexRef(Integer.valueOf(22))
+        .texVertexRef(Integer.valueOf(31)).build();
+    second = vertexReferenceGroupBuilder.clear().geoVertexRef(Integer.valueOf(22))
+        .texVertexRef(Integer.valueOf(34)).build();
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(true, first, second);
+
+    // geoVertexReference and normalVertexReference
+
+    first = vertexReferenceGroupBuilder.clear().geoVertexRef(Integer.valueOf(45))
+        .normalVertexRef(Integer.valueOf(1)).build();
+    second = vertexReferenceGroupBuilder.clear().geoVertexRef(Integer.valueOf(45))
+        .normalVertexRef(Integer.valueOf(1)).build();
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenEqual(first, second);
+
+    // not equal: different geoVertexReference
+    first = vertexReferenceGroupBuilder.clear().geoVertexRef(Integer.valueOf(45))
+        .normalVertexRef(Integer.valueOf(1)).build();
+    second = vertexReferenceGroupBuilder.clear().geoVertexRef(Integer.valueOf(450))
+        .normalVertexRef(Integer.valueOf(1)).build();
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(true, first, second);
+
+    // not equal: different normalVertexReference
+    first = vertexReferenceGroupBuilder.clear().geoVertexRef(Integer.valueOf(45))
+        .normalVertexRef(Integer.valueOf(1)).build();
+    second = vertexReferenceGroupBuilder.clear().geoVertexRef(Integer.valueOf(45))
+        .normalVertexRef(Integer.valueOf(10)).build();
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(true, first, second);
+
+    // geoVertexReference, texVertexReference, and normalVertexReference
+
+    first = vertexReferenceGroupBuilder.clear().geoVertexRef(1).texVertexRef(2).normalVertexRef(3)
+        .build();
+    second = vertexReferenceGroupBuilder.clear().geoVertexRef(1).texVertexRef(2).normalVertexRef(3)
+        .build();
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenEqual(first, second);
+
+    // not equal: different geoVertexReference
+    first = vertexReferenceGroupBuilder.clear().geoVertexRef(1).texVertexRef(2).normalVertexRef(3)
+        .build();
+    second = vertexReferenceGroupBuilder.clear().geoVertexRef(11).texVertexRef(2).normalVertexRef(3)
+        .build();
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(true, first, second);
+
+    // not equal: different texVertexReference
+    first = vertexReferenceGroupBuilder.clear().geoVertexRef(1).texVertexRef(2).normalVertexRef(3)
+        .build();
+    second = vertexReferenceGroupBuilder.clear().geoVertexRef(1).texVertexRef(21).normalVertexRef(3)
+        .build();
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(true, first, second);
+
+    // not equal: different normalVertexReference
+    first = vertexReferenceGroupBuilder.clear().geoVertexRef(1).texVertexRef(2).normalVertexRef(3)
+        .build();
+    second = vertexReferenceGroupBuilder.clear().geoVertexRef(1).texVertexRef(2).normalVertexRef(31)
+        .build();
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(true, first, second);
+
+    // not equal: vertexReferenceGroups with different vertex references
+    first = vertexReferenceGroupBuilder.clear().geoVertexRef(1).normalVertexRef(3).build();
+    second = vertexReferenceGroupBuilder.clear().geoVertexRef(1).texVertexRef(2).normalVertexRef(3)
+        .build();
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(true, first, second);
+
+    equalsHashCodeAndCompareToTester.assertDoesNotEqualNull(first);
+
+    equalsHashCodeAndCompareToTester.assertEqualsSelf(first);
+  }
+
   // TODO copy malicious mutable statement.
 
   @Test

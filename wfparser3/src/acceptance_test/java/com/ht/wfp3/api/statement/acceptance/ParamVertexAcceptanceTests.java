@@ -6,6 +6,7 @@ import static org.junit.Assert.fail;
 import java.math.BigDecimal;
 import org.junit.Before;
 import org.junit.Test;
+import com.ht.wfp3.api.statement.EqualsHashCodeAndCompareToTester;
 import com.ht.wfp3.api.statement.ParamVertex;
 import com.ht.wfp3.api.statement.StatementFactory;
 
@@ -161,7 +162,82 @@ public class ParamVertexAcceptanceTests {
     assertValidParamVertex(uCoord, vCoord, expectedWCoord, paramVertex);
   }
 
-  // TODO equals, hashCode, compareTo
+  @Test
+  public void ParamVertex_exerciseAllVariantsOfEqualsHashCodeAndCompareTo_equalsHashCodeAndCompareToContractsRespected() {
+    EqualsHashCodeAndCompareToTester equalsHashCodeAndCompareToTester =
+        EqualsHashCodeAndCompareToTester.createEqualsHashCodeAndCompareToTester();
+    ParamVertex first;
+    ParamVertex second;
+
+    // Only uCoord
+
+    first = statementFactory.createParamVertex(BigDecimal.valueOf(1.1d));
+    second = statementFactory.createParamVertex(BigDecimal.valueOf(1.1d));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenEqual(first, second);
+
+    // not equal: different uCoord
+    first = statementFactory.createParamVertex(BigDecimal.valueOf(1.1d));
+    second = statementFactory.createParamVertex(BigDecimal.valueOf(12345.1d));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(true, first, second);
+
+    // uCoord and vCoord
+
+    first = statementFactory.createParamVertex(BigDecimal.valueOf(1.1d), BigDecimal.valueOf(2.2d));
+    second = statementFactory.createParamVertex(BigDecimal.valueOf(1.1d), BigDecimal.valueOf(2.2d));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenEqual(first, second);
+
+    // not equal: different uCoord
+    first = statementFactory.createParamVertex(BigDecimal.valueOf(1.1d), BigDecimal.valueOf(2.2d));
+    second =
+        statementFactory.createParamVertex(BigDecimal.valueOf(-1.1d), BigDecimal.valueOf(2.2d));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(false, first, second);
+
+    // not equal: different vCoord
+    first = statementFactory.createParamVertex(BigDecimal.valueOf(1.1d), BigDecimal.valueOf(2.2d));
+    second =
+        statementFactory.createParamVertex(BigDecimal.valueOf(1.1d), BigDecimal.valueOf(3.50d));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(true, first, second);
+
+    // uCoord, vCoord, and wCoord
+
+    first = statementFactory.createParamVertex(BigDecimal.valueOf(1.1d), BigDecimal.valueOf(2.2d),
+        BigDecimal.valueOf(3.3d));
+    second = statementFactory.createParamVertex(BigDecimal.valueOf(1.1d), BigDecimal.valueOf(2.2d),
+        BigDecimal.valueOf(3.3d));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenEqual(first, second);
+
+    // not equal: different uCoord
+    first = statementFactory.createParamVertex(BigDecimal.valueOf(111.1d), BigDecimal.valueOf(2.2d),
+        BigDecimal.valueOf(3.3d));
+    second = statementFactory.createParamVertex(BigDecimal.valueOf(1.1d), BigDecimal.valueOf(2.2d),
+        BigDecimal.valueOf(3.3d));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(false, first, second);
+
+    // not equal: different vCoord
+    first = statementFactory.createParamVertex(BigDecimal.valueOf(1.1d), BigDecimal.valueOf(-2.2d),
+        BigDecimal.valueOf(3.3d));
+    second = statementFactory.createParamVertex(BigDecimal.valueOf(1.1d), BigDecimal.valueOf(2.2d),
+        BigDecimal.valueOf(3.3d));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(true, first, second);
+
+    // not equal: different wCoord
+    first = statementFactory.createParamVertex(BigDecimal.valueOf(1.1d), BigDecimal.valueOf(2.2d),
+        BigDecimal.valueOf(673.3d));
+    second = statementFactory.createParamVertex(BigDecimal.valueOf(1.1d), BigDecimal.valueOf(2.2d),
+        BigDecimal.valueOf(3.3d));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(false, first, second);
+
+    // not equal: different number of parameters.
+    first = statementFactory.createParamVertex(BigDecimal.valueOf(1.1d));
+    second = statementFactory.createParamVertex(BigDecimal.valueOf(1.1d), BigDecimal.valueOf(2.2d),
+        BigDecimal.valueOf(3.3d));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(true, first, second);
+
+    equalsHashCodeAndCompareToTester.assertDoesNotEqualNull(first);
+
+    equalsHashCodeAndCompareToTester.assertEqualsSelf(first);
+  }
+
   // TODO copy malicious mutable statement.
 
   @Test

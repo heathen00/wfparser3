@@ -99,6 +99,22 @@ class TexVertexImp extends StatementImp implements TexVertex {
   }
 
   @Override
+  public int compareTo(Statement o) {
+    int compareTo = super.compareTo(o);
+    if (0 == compareTo) {
+      TexVertex texVertex = (TexVertex) o;
+      compareTo = uCoord.compareTo(texVertex.getUCoord());
+      if (0 == compareTo) {
+        compareTo = vCoord.compareTo(texVertex.getVCoord());
+        if (0 == compareTo) {
+          compareTo = wCoord.compareTo(texVertex.getWCoord());
+        }
+      }
+    }
+    return compareTo;
+  }
+
+  @Override
   public String toString() {
     return "TexVertexImp [uCoord=" + uCoord + ", vCoord=" + vCoord + ", wCoord=" + wCoord
         + ", super.toString()=" + super.toString() + "]";

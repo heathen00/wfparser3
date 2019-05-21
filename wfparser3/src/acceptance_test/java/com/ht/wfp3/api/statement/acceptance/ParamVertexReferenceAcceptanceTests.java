@@ -3,6 +3,7 @@ package com.ht.wfp3.api.statement.acceptance;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
+import com.ht.wfp3.api.statement.EqualsHashCodeAndCompareToTester;
 import com.ht.wfp3.api.statement.ParamVertexReference;
 import com.ht.wfp3.api.statement.StatementFactory;
 
@@ -72,7 +73,27 @@ public class ParamVertexReferenceAcceptanceTests {
     assertValidParamVertexReference(vertexIndex, expectedIsSet, copiedParamVertexReference);
   }
 
-  // TODO equals, hashCode, compareTo
+  @Test
+  public void ParamVertexReference_exerciseAllVariantsOfEqualsHashCodeAndCompareTo_equalsHashCodeAndCompareToContractsRespected() {
+    EqualsHashCodeAndCompareToTester equalsHashCodeAndCompareToTester =
+        EqualsHashCodeAndCompareToTester.createEqualsHashCodeAndCompareToTester();
+    ParamVertexReference first;
+    ParamVertexReference second;
+
+    first = statementFactory.createParamVertexReference(Integer.valueOf(5678));
+    second = statementFactory.createParamVertexReference(Integer.valueOf(5678));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenEqual(first, second);
+
+    // not equal: different vertex index values
+    first = statementFactory.createParamVertexReference(Integer.valueOf(5678));
+    second = statementFactory.createParamVertexReference(Integer.valueOf(567));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(false, first, second);
+
+    equalsHashCodeAndCompareToTester.assertDoesNotEqualNull(first);
+
+    equalsHashCodeAndCompareToTester.assertEqualsSelf(first);
+  }
+
   // TODO copy malicious mutable statement.
 
   @Test

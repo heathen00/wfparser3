@@ -52,6 +52,16 @@ class UseMaterialImp extends StatementImp implements UseMaterial {
   }
 
   @Override
+  public int compareTo(Statement o) {
+    int compareTo = super.compareTo(o);
+    if (0 == compareTo) {
+      UseMaterial useMaterial = (UseMaterial) o;
+      compareTo = materialName.compareTo(useMaterial.getMaterialName());
+    }
+    return compareTo;
+  }
+
+  @Override
   public String toString() {
     return "UseMaterialImp [materialName=" + materialName + ", super.toString()=" + super.toString()
         + "]";

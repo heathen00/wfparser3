@@ -95,13 +95,13 @@ class VertexReferenceGroupImp implements VertexReferenceGroup {
         if (0 == compareTo) {
           compareTo = Boolean.compare(isNormalVertexRefSet(), o.isNormalVertexRefSet());
           if (0 == compareTo && isNormalVertexRefSet()) {
-            compareTo = normalVervexReference.compareTo(normalVervexReference);
+            compareTo = normalVervexReference.compareTo(o.getNormalVertexRef());
           }
         }
       } else if (0 == compareTo && !isTexVertexRefSet()) {
         compareTo = Boolean.compare(isNormalVertexRefSet(), o.isNormalVertexRefSet());
         if (0 == compareTo && isNormalVertexRefSet()) {
-          compareTo = normalVervexReference.compareTo(normalVervexReference);
+          compareTo = normalVervexReference.compareTo(o.getNormalVertexRef());
         }
       }
     }

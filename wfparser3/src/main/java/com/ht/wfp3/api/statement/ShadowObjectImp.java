@@ -63,6 +63,16 @@ class ShadowObjectImp extends StatementImp implements ShadowObject {
   }
 
   @Override
+  public int compareTo(Statement o) {
+    int compareTo = super.compareTo(o);
+    if (0 == compareTo) {
+      ShadowObject shadowObject = (ShadowObject) o;
+      compareTo = shadowObjectFileName.compareTo(shadowObject.getShadowObjectFileName());
+    }
+    return compareTo;
+  }
+
+  @Override
   public String toString() {
     return "ShadowObjectImp [shadowObjectFileName=" + shadowObjectFileName + ", super.toString()="
         + super.toString() + "]";

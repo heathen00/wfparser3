@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.Test;
+import com.ht.wfp3.api.statement.EqualsHashCodeAndCompareToTester;
 import com.ht.wfp3.api.statement.SmoothingGroup;
 import com.ht.wfp3.api.statement.StatementFactory;
 
@@ -75,7 +76,27 @@ public class SmoothingGroupAcceptanceTests {
     assertValidSmoothingGroup(smoothingGroupNumber, expectedIsEnabled, copiedSmoothingGroup);
   }
 
-  // TODO equals, hashCode, compareTo
+  @Test
+  public void SmoothingGroup_exerciseAllVariantsOfEqualsHashCodeAndCompareTo_equalsHashCodeAndCompareToContractsRespected() {
+    EqualsHashCodeAndCompareToTester equalsHashCodeAndCompareToTester =
+        EqualsHashCodeAndCompareToTester.createEqualsHashCodeAndCompareToTester();
+    SmoothingGroup first;
+    SmoothingGroup second;
+
+    first = statementFactory.createSmoothingGroup(Integer.valueOf(2345));
+    second = statementFactory.createSmoothingGroup(Integer.valueOf(2345));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenEqual(first, second);
+
+    // not equal: different smoothing group numbers.
+    first = statementFactory.createSmoothingGroup(Integer.valueOf(2345));
+    second = statementFactory.createSmoothingGroup(Integer.valueOf(245));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(false, first, second);
+
+    equalsHashCodeAndCompareToTester.assertDoesNotEqualNull(first);
+
+    equalsHashCodeAndCompareToTester.assertEqualsSelf(first);
+  }
+
   // TODO copy malicious mutable statement.
 
   @Test

@@ -60,10 +60,11 @@ abstract class StatementsUsingCurve2DReferenceListImp extends StatementImp
   public int compareTo(Statement o) {
     int compareTo = super.compareTo(o);
     if (0 == compareTo) {
-      Hole hole = (Hole) o;
+      UsesCurv2DReferenceList usesCurv2DReferenceList = (UsesCurv2DReferenceList) o;
       ListOfComparableComparator<Curve2DReference> listComparator =
           new ListOfComparableComparator<>();
-      compareTo = listComparator.compare(curve2DReferenceList, hole.getCurve2DReferenceList());
+      compareTo = listComparator.compare(curve2DReferenceList,
+          usesCurv2DReferenceList.getCurve2DReferenceList());
     }
     return compareTo;
   }

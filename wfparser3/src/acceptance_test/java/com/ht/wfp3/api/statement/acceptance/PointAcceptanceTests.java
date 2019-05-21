@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
+import com.ht.wfp3.api.statement.EqualsHashCodeAndCompareToTester;
 import com.ht.wfp3.api.statement.Point;
 import com.ht.wfp3.api.statement.StatementFactory;
 import com.ht.wfp3.api.statement.VertexReferenceGroup;
@@ -82,13 +83,45 @@ public class PointAcceptanceTests {
     List<VertexReferenceGroup> vertexReferenceGroupList =
         Arrays.asList(buildPointVertexReferenceGroup(33));
     Point originalPoint = statementFactory.createPoint(vertexReferenceGroupList);
-    
+
     Point copiedPoint = statementFactory.copyPoint(originalPoint);
 
     assertValidPoint(vertexReferenceGroupList, copiedPoint);
   }
 
-  // TODO equals, hashCode, compareTo
+  @Test
+  public void Point_exerciseAllVariantsOfEqualsHashCodeAndCompareTo_equalsHashCodeAndCompareToContractsRespected() {
+    EqualsHashCodeAndCompareToTester equalsHashCodeAndCompareToTester =
+        EqualsHashCodeAndCompareToTester.createEqualsHashCodeAndCompareToTester();
+    Point first;
+    Point second;
+
+    first = statementFactory.createPoint(Arrays.asList(buildPointVertexReferenceGroup(234),
+        buildPointVertexReferenceGroup(432), buildPointVertexReferenceGroup(5)));
+    second = statementFactory.createPoint(Arrays.asList(buildPointVertexReferenceGroup(234),
+        buildPointVertexReferenceGroup(432), buildPointVertexReferenceGroup(5)));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenEqual(first, second);
+
+    // not equal: different number of vertex reference groups
+    first = statementFactory.createPoint(
+        Arrays.asList(buildPointVertexReferenceGroup(234), buildPointVertexReferenceGroup(432),
+            buildPointVertexReferenceGroup(5), buildPointVertexReferenceGroup(1234455676)));
+    second = statementFactory.createPoint(Arrays.asList(buildPointVertexReferenceGroup(234),
+        buildPointVertexReferenceGroup(432), buildPointVertexReferenceGroup(5)));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(false, first, second);
+
+    // not equal: different vertex reference group values.
+    first = statementFactory.createPoint(Arrays.asList(buildPointVertexReferenceGroup(2),
+        buildPointVertexReferenceGroup(432), buildPointVertexReferenceGroup(5)));
+    second = statementFactory.createPoint(Arrays.asList(buildPointVertexReferenceGroup(234),
+        buildPointVertexReferenceGroup(432), buildPointVertexReferenceGroup(5)));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(true, first, second);
+
+    equalsHashCodeAndCompareToTester.assertDoesNotEqualNull(first);
+
+    equalsHashCodeAndCompareToTester.assertEqualsSelf(first);
+  }
+
   // TODO copy malicious mutable statement.
 
   @Test

@@ -6,6 +6,7 @@ import static org.junit.Assert.fail;
 import java.math.BigDecimal;
 import org.junit.Before;
 import org.junit.Test;
+import com.ht.wfp3.api.statement.EqualsHashCodeAndCompareToTester;
 import com.ht.wfp3.api.statement.NormalVertex;
 import com.ht.wfp3.api.statement.StatementFactory;
 
@@ -72,7 +73,45 @@ public class NormalVertexAcceptanceTests {
     assertValidNormalVertex(iCoord, jCoord, kCoord, copiedNormalVertex);
   }
 
-  // TODO equals, hashCode, compareTo
+  @Test
+  public void NormalVertex_exerciseAllVariantsOfEqualsHashCodeAndCompareTo_equalsHashCodeAndCompareToContractsRespected() {
+    EqualsHashCodeAndCompareToTester equalsHashCodeAndCompareToTester =
+        EqualsHashCodeAndCompareToTester.createEqualsHashCodeAndCompareToTester();
+    NormalVertex first;
+    NormalVertex second;
+
+    first = statementFactory.createNormalVertex(BigDecimal.valueOf(1.1d), BigDecimal.valueOf(2.2d),
+        BigDecimal.valueOf(-3.3d));
+    second = statementFactory.createNormalVertex(BigDecimal.valueOf(1.1d), BigDecimal.valueOf(2.2d),
+        BigDecimal.valueOf(-3.3d));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenEqual(first, second);
+
+    // not equal: different iCoord
+    first = statementFactory.createNormalVertex(BigDecimal.valueOf(-1.1d), BigDecimal.valueOf(2.2d),
+        BigDecimal.valueOf(-3.3d));
+    second = statementFactory.createNormalVertex(BigDecimal.valueOf(1.1d), BigDecimal.valueOf(2.2d),
+        BigDecimal.valueOf(-3.3d));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(true, first, second);
+
+    // not equal: different jCoord
+    first = statementFactory.createNormalVertex(BigDecimal.valueOf(1.1d), BigDecimal.valueOf(2.2d),
+        BigDecimal.valueOf(-3.3d));
+    second = statementFactory.createNormalVertex(BigDecimal.valueOf(1.1d),
+        BigDecimal.valueOf(-2.2d), BigDecimal.valueOf(-3.3d));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(false, first, second);
+
+    // not equal: different kCoord
+    first = statementFactory.createNormalVertex(BigDecimal.valueOf(1.1d), BigDecimal.valueOf(2.2d),
+        BigDecimal.valueOf(-3.3d));
+    second = statementFactory.createNormalVertex(BigDecimal.valueOf(1.1d), BigDecimal.valueOf(2.2d),
+        BigDecimal.valueOf(3.3d));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(true, first, second);
+
+    equalsHashCodeAndCompareToTester.assertDoesNotEqualNull(first);
+
+    equalsHashCodeAndCompareToTester.assertEqualsSelf(first);
+  }
+
   // TODO copy malicious mutable statement.
 
   @Test

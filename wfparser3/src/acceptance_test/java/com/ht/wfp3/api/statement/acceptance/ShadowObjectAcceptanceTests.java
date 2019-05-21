@@ -7,6 +7,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import org.junit.Before;
 import org.junit.Test;
+import com.ht.wfp3.api.statement.EqualsHashCodeAndCompareToTester;
 import com.ht.wfp3.api.statement.ShadowObject;
 import com.ht.wfp3.api.statement.StatementFactory;
 
@@ -80,7 +81,27 @@ public class ShadowObjectAcceptanceTests {
     assertValidShadowObject(shadowObjectFileName, copiedShadowObject);
   }
 
-  // TODO equals, hashCode, compareTo
+  @Test
+  public void ShadowObject_exerciseAllVariantsOfEqualsHashCodeAndCompareTo_equalsHashCodeAndCompareToContractsRespected() {
+    EqualsHashCodeAndCompareToTester equalsHashCodeAndCompareToTester =
+        EqualsHashCodeAndCompareToTester.createEqualsHashCodeAndCompareToTester();
+    ShadowObject first;
+    ShadowObject second;
+
+    first = statementFactory.createShadowObject(Paths.get("foo.mod"));
+    second = statementFactory.createShadowObject(Paths.get("foo.mod"));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenEqual(first, second);
+
+    // not equal: different path names.
+    first = statementFactory.createShadowObject(Paths.get("foo.mod"));
+    second = statementFactory.createShadowObject(Paths.get("bar.mod"));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(false, first, second);
+
+    equalsHashCodeAndCompareToTester.assertDoesNotEqualNull(first);
+
+    equalsHashCodeAndCompareToTester.assertEqualsSelf(first);
+  }
+
   // TODO copy malicious mutable statement.
 
   @Test

@@ -64,6 +64,16 @@ class SmoothingGroupImp extends StatementImp implements SmoothingGroup {
   }
 
   @Override
+  public int compareTo(Statement o) {
+    int compareTo = super.compareTo(o);
+    if (0 == compareTo) {
+      SmoothingGroup smoothingGroup = (SmoothingGroup) o;
+      compareTo = smoothingGroupNumber.compareTo(smoothingGroup.getSmoothingGroupNumber());
+    }
+    return compareTo;
+  }
+
+  @Override
   public String toString() {
     return "SmoothingGroupImp [isEnabled=" + isEnabled + ", smoothingGroupNumber="
         + smoothingGroupNumber + ", super.toString()=" + super.toString() + "]";

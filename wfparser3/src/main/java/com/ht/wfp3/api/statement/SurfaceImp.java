@@ -110,6 +110,26 @@ class SurfaceImp extends StatementsUsingVertexReferenceGroupsImp implements Surf
   }
 
   @Override
+  public int compareTo(Statement o) {
+    int compareTo = super.compareTo(o);
+    if (0 == compareTo) {
+      Surface surface = (Surface) o;
+      compareTo = startingParameterValueUAxis.compareTo(surface.getStartingParameterValueUAxis());
+      if (0 == compareTo) {
+        compareTo = endingParameterValueUAxis.compareTo(surface.getEndingParameterValueUAxis());
+        if (0 == compareTo) {
+          compareTo =
+              startingParameterValueVAxis.compareTo(surface.getStartingParameterValueVAxis());
+          if (0 == compareTo) {
+            compareTo = endingParameterValueVAxis.compareTo(surface.getEndingParameterValueVAxis());
+          }
+        }
+      }
+    }
+    return compareTo;
+  }
+
+  @Override
   public String toString() {
     return "SurfaceImp [startingParameterValueUAxis=" + startingParameterValueUAxis
         + ", endingParameterValueUAxis=" + endingParameterValueUAxis

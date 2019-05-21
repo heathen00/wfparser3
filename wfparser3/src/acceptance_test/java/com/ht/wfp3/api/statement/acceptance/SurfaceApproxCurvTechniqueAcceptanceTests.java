@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 import java.math.BigDecimal;
 import org.junit.Before;
 import org.junit.Test;
+import com.ht.wfp3.api.statement.EqualsHashCodeAndCompareToTester;
 import com.ht.wfp3.api.statement.StatementFactory;
 import com.ht.wfp3.api.statement.SurfaceApproxCurvTechnique;
 
@@ -93,7 +94,38 @@ public class SurfaceApproxCurvTechniqueAcceptanceTests {
         copiedSurfaceApproxCurvTechnique);
   }
 
-  // TODO equals, hashCode, compareTo
+  @Test
+  public void SurfaceApproxCurvTechnique_exerciseAllVariantsOfEqualsHashCodeAndCompareTo_equalsHashCodeAndCompareToContractsRespected() {
+    EqualsHashCodeAndCompareToTester equalsHashCodeAndCompareToTester =
+        EqualsHashCodeAndCompareToTester.createEqualsHashCodeAndCompareToTester();
+    SurfaceApproxCurvTechnique first;
+    SurfaceApproxCurvTechnique second;
+
+    first = statementFactory.createSurfaceApproxCurvTechnique(BigDecimal.valueOf(123.45d),
+        BigDecimal.valueOf(30.0d));
+    second = statementFactory.createSurfaceApproxCurvTechnique(BigDecimal.valueOf(123.45d),
+        BigDecimal.valueOf(30.0d));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenEqual(first, second);
+
+    // not equal: different maxLength
+    first = statementFactory.createSurfaceApproxCurvTechnique(BigDecimal.valueOf(1234.45d),
+        BigDecimal.valueOf(30.0d));
+    second = statementFactory.createSurfaceApproxCurvTechnique(BigDecimal.valueOf(123.45d),
+        BigDecimal.valueOf(30.0d));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(false, first, second);
+
+    // not equal: different maxAngleInDegrees
+    first = statementFactory.createSurfaceApproxCurvTechnique(BigDecimal.valueOf(123.45d),
+        BigDecimal.valueOf(31.0d));
+    second = statementFactory.createSurfaceApproxCurvTechnique(BigDecimal.valueOf(123.45d),
+        BigDecimal.valueOf(30.0d));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(false, first, second);
+
+    equalsHashCodeAndCompareToTester.assertDoesNotEqualNull(first);
+
+    equalsHashCodeAndCompareToTester.assertEqualsSelf(first);
+  }
+
   // TODO copy malicious mutable statement.
 
   @Test

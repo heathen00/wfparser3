@@ -6,6 +6,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.Test;
+import com.ht.wfp3.api.statement.EqualsHashCodeAndCompareToTester;
 import com.ht.wfp3.api.statement.StatementFactory;
 import com.ht.wfp3.api.statement.TexVertexReference;
 
@@ -70,7 +71,27 @@ public class TexVertexReferenceAcceptanceTests {
     assertValidTexVertexReference(vertexIndex, copiedTexVertexReference);
   }
 
-  // TODO equals, hashCode, compareTo
+  @Test
+  public void TexVertexReference_exerciseAllVariantsOfEqualsHashCodeAndCompareTo_equalsHashCodeAndCompareToContractsRespected() {
+    EqualsHashCodeAndCompareToTester equalsHashCodeAndCompareToTester =
+        EqualsHashCodeAndCompareToTester.createEqualsHashCodeAndCompareToTester();
+    TexVertexReference first;
+    TexVertexReference second;
+
+    first = statementFactory.createTexVertexReference(Integer.valueOf(4567));
+    second = statementFactory.createTexVertexReference(Integer.valueOf(4567));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenEqual(first, second);
+
+    // not equal: different TexVertex index number
+    first = statementFactory.createTexVertexReference(Integer.valueOf(4));
+    second = statementFactory.createTexVertexReference(Integer.valueOf(4567));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(true, first, second);
+
+    equalsHashCodeAndCompareToTester.assertDoesNotEqualNull(first);
+
+    equalsHashCodeAndCompareToTester.assertEqualsSelf(first);
+  }
+
   // TODO copy malicious mutable statement.
 
   @Test

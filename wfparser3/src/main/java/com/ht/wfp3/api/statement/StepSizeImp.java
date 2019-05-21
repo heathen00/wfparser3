@@ -90,6 +90,22 @@ class StepSizeImp extends StatementImp implements StepSize {
   }
 
   @Override
+  public int compareTo(Statement o) {
+    int compareTo = super.compareTo(o);
+    if (0 == compareTo) {
+      StepSize stepSize = (StepSize) o;
+      compareTo = stepSizeInUAxis.compareTo(stepSize.getStepSizeInUAxis());
+      if (0 == compareTo) {
+        compareTo = Boolean.compare(isStepSizeInVAxisUsed, stepSize.isStepSizeInVAxisSet());
+        if (0 == compareTo && isStepSizeInVAxisUsed) {
+          compareTo = stepSizeInVAxis.compareTo(stepSize.getStepSizeInVAxis());
+        }
+      }
+    }
+    return compareTo;
+  }
+
+  @Override
   public String toString() {
     return "StepSizeImp [stepSizeInUAxis=" + stepSizeInUAxis + ", stepSizeInVAxis="
         + stepSizeInVAxis + ", super.toString()=" + super.toString() + "]";

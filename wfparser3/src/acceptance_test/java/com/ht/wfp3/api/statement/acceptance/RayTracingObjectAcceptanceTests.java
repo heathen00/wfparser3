@@ -6,6 +6,7 @@ import static org.junit.Assert.fail;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import org.junit.Test;
+import com.ht.wfp3.api.statement.EqualsHashCodeAndCompareToTester;
 import com.ht.wfp3.api.statement.RayTracingObject;
 import com.ht.wfp3.api.statement.StatementFactory;
 
@@ -80,7 +81,27 @@ public class RayTracingObjectAcceptanceTests {
     assertValidRayTracingObject(rayTracingObjectFileName, copiedRayTracingObject);
   }
 
-  // TODO equals, hashCode, compareTo
+  @Test
+  public void RayTracingObject_exerciseAllVariantsOfEqualsHashCodeAndCompareTo_equalsHashCodeAndCompareToContractsRespected() {
+    EqualsHashCodeAndCompareToTester equalsHashCodeAndCompareToTester =
+        EqualsHashCodeAndCompareToTester.createEqualsHashCodeAndCompareToTester();
+    RayTracingObject first;
+    RayTracingObject second;
+
+    first = statementFactory.createRayTracingObject(Paths.get("goat.obj"));
+    second = statementFactory.createRayTracingObject(Paths.get("goat.obj"));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenEqual(first, second);
+
+    // not equal: different file names.
+    first = statementFactory.createRayTracingObject(Paths.get("goat.obj"));
+    second = statementFactory.createRayTracingObject(Paths.get("llama.obj"));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(true, first, second);
+
+    equalsHashCodeAndCompareToTester.assertDoesNotEqualNull(first);
+
+    equalsHashCodeAndCompareToTester.assertEqualsSelf(first);
+  }
+
   // TODO copy malicious mutable statement.
 
   @Test

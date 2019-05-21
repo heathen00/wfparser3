@@ -6,6 +6,7 @@ import static org.junit.Assert.fail;
 import java.math.BigDecimal;
 import org.junit.Before;
 import org.junit.Test;
+import com.ht.wfp3.api.statement.EqualsHashCodeAndCompareToTester;
 import com.ht.wfp3.api.statement.StatementFactory;
 import com.ht.wfp3.api.statement.TexVertex;
 
@@ -94,7 +95,80 @@ public class TexVertexAcceptanceTests {
     assertValidTexVertex(uCoord, vCoord, wCoord, copiedTexVertex);
   }
 
-  // TODO equals, hashCode, compareTo
+  @Test
+  public void TexVertex_exerciseAllVariantsOfEqualsHashCodeAndCompareTo_equalsHashCodeAndCompareToContractsRespected() {
+    EqualsHashCodeAndCompareToTester equalsHashCodeAndCompareToTester =
+        EqualsHashCodeAndCompareToTester.createEqualsHashCodeAndCompareToTester();
+    TexVertex first;
+    TexVertex second;
+
+    // just uCoord
+
+    first = statementFactory.createTexVertexWithDefaultVAndWCoords(BigDecimal.valueOf(-1.1d));
+    second = statementFactory.createTexVertexWithDefaultVAndWCoords(BigDecimal.valueOf(-1.1d));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenEqual(first, second);
+
+    // not equal: different uCoord
+    first = statementFactory.createTexVertexWithDefaultVAndWCoords(BigDecimal.valueOf(-1.5d));
+    second = statementFactory.createTexVertexWithDefaultVAndWCoords(BigDecimal.valueOf(-1.1d));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(true, first, second);
+
+    // uCoord and vCoord
+
+    first = statementFactory.createTexVertexWithDefaultWCoord(BigDecimal.valueOf(-1.1d),
+        BigDecimal.valueOf(-2.2d));
+    second = statementFactory.createTexVertexWithDefaultWCoord(BigDecimal.valueOf(-1.1d),
+        BigDecimal.valueOf(-2.2d));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenEqual(first, second);
+
+    // not equal: different uCoord
+    first = statementFactory.createTexVertexWithDefaultWCoord(BigDecimal.valueOf(-1.1d),
+        BigDecimal.valueOf(-2.2d));
+    second = statementFactory.createTexVertexWithDefaultWCoord(BigDecimal.valueOf(-1.0d),
+        BigDecimal.valueOf(-2.2d));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(true, first, second);
+
+    // not equal: different vCoord
+    first = statementFactory.createTexVertexWithDefaultWCoord(BigDecimal.valueOf(-1.1d),
+        BigDecimal.valueOf(2.2d));
+    second = statementFactory.createTexVertexWithDefaultWCoord(BigDecimal.valueOf(-1.1d),
+        BigDecimal.valueOf(-2.2d));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(false, first, second);
+
+    // uCoord, vCoord, and wCoord
+
+    first = statementFactory.createTexVertex(BigDecimal.valueOf(-1.1d), BigDecimal.valueOf(-2.2d),
+        BigDecimal.valueOf(-3.3d));
+    second = statementFactory.createTexVertex(BigDecimal.valueOf(-1.1d), BigDecimal.valueOf(-2.2d),
+        BigDecimal.valueOf(-3.3d));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenEqual(first, second);
+
+    // not equal: different uCoord
+    first = statementFactory.createTexVertex(BigDecimal.valueOf(-1.0d), BigDecimal.valueOf(-2.2d),
+        BigDecimal.valueOf(-3.3d));
+    second = statementFactory.createTexVertex(BigDecimal.valueOf(-1.1d), BigDecimal.valueOf(-2.2d),
+        BigDecimal.valueOf(-3.3d));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(false, first, second);
+
+    // not equal: different vCoord
+    first = statementFactory.createTexVertex(BigDecimal.valueOf(-1.1d), BigDecimal.valueOf(-2.2d),
+        BigDecimal.valueOf(-3.3d));
+    second = statementFactory.createTexVertex(BigDecimal.valueOf(-1.1d), BigDecimal.valueOf(2.2d),
+        BigDecimal.valueOf(-3.3d));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(true, first, second);
+
+    // not equal: different wCoord
+    first = statementFactory.createTexVertex(BigDecimal.valueOf(-1.1d), BigDecimal.valueOf(-2.2d),
+        BigDecimal.valueOf(-3.3d));
+    second = statementFactory.createTexVertex(BigDecimal.valueOf(-1.1d), BigDecimal.valueOf(-2.2d),
+        BigDecimal.valueOf(3.3d));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(true, first, second);
+
+    equalsHashCodeAndCompareToTester.assertDoesNotEqualNull(first);
+
+    equalsHashCodeAndCompareToTester.assertEqualsSelf(first);
+  }
+
   // TODO copy malicious mutable statement.
 
   @Test

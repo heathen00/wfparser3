@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.Test;
+import com.ht.wfp3.api.statement.EqualsHashCodeAndCompareToTester;
 import com.ht.wfp3.api.statement.StatementFactory;
 import com.ht.wfp3.api.statement.UseMaterial;
 
@@ -74,7 +75,27 @@ public class UseMaterialAcceptanceTests {
     assertValidUseMaterial(materialName, copiedUseMaterial);
   }
 
-  // TODO equals, hashCode, compareTo
+  @Test
+  public void UseMaterial_exerciseAllVariantsOfEqualsHashCodeAndCompareTo_equalsHashCodeAndCompareToContractsRespected() {
+    EqualsHashCodeAndCompareToTester equalsHashCodeAndCompareToTester =
+        EqualsHashCodeAndCompareToTester.createEqualsHashCodeAndCompareToTester();
+    UseMaterial first;
+    UseMaterial second;
+
+    first = statementFactory.createUseMaterial("some_material_name");
+    second = statementFactory.createUseMaterial("some_material_name");
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenEqual(first, second);
+
+    // not equal: different material name
+    first = statementFactory.createUseMaterial("some_material");
+    second = statementFactory.createUseMaterial("some_material_name");
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(true, first, second);
+
+    equalsHashCodeAndCompareToTester.assertDoesNotEqualNull(first);
+
+    equalsHashCodeAndCompareToTester.assertEqualsSelf(first);
+  }
+
   // TODO copy malicious mutable statement.
 
   @Test

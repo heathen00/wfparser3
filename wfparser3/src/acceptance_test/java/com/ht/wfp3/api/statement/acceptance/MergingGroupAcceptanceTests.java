@@ -6,6 +6,7 @@ import static org.junit.Assert.fail;
 import java.math.BigDecimal;
 import org.junit.Before;
 import org.junit.Test;
+import com.ht.wfp3.api.statement.EqualsHashCodeAndCompareToTester;
 import com.ht.wfp3.api.statement.MergingGroup;
 import com.ht.wfp3.api.statement.StatementFactory;
 
@@ -107,7 +108,32 @@ public class MergingGroupAcceptanceTests {
         copiedMergingGroup);
   }
 
-  // TODO equals, hashCode, compareTo
+  @Test
+  public void MergingGroup_exerciseAllVariantsOfEqualsHashCodeAndCompareTo_equalsHashCodeAndCompareToContractsRespected() {
+    EqualsHashCodeAndCompareToTester equalsHashCodeAndCompareToTester =
+        EqualsHashCodeAndCompareToTester.createEqualsHashCodeAndCompareToTester();
+    MergingGroup first;
+    MergingGroup second;
+
+    first = statementFactory.createMergingGroup(Integer.valueOf(10), BigDecimal.valueOf(10.0d));
+    second = statementFactory.createMergingGroup(Integer.valueOf(10), BigDecimal.valueOf(10.0d));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenEqual(first, second);
+
+    // not equal: different merging group number
+    first = statementFactory.createMergingGroup(Integer.valueOf(22), BigDecimal.valueOf(10.0d));
+    second = statementFactory.createMergingGroup(Integer.valueOf(10), BigDecimal.valueOf(10.0d));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(false, first, second);
+
+    // not equal: different resolution
+    first = statementFactory.createMergingGroup(Integer.valueOf(10), BigDecimal.valueOf(5.0d));
+    second = statementFactory.createMergingGroup(Integer.valueOf(10), BigDecimal.valueOf(10.0d));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(true, first, second);
+
+    equalsHashCodeAndCompareToTester.assertDoesNotEqualNull(first);
+
+    equalsHashCodeAndCompareToTester.assertEqualsSelf(first);
+  }
+
   // TODO copy malicious mutable statement.
 
   @Test

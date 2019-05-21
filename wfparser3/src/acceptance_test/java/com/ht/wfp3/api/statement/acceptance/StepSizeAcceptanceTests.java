@@ -7,6 +7,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.Test;
+import com.ht.wfp3.api.statement.EqualsHashCodeAndCompareToTester;
 import com.ht.wfp3.api.statement.StatementFactory;
 import com.ht.wfp3.api.statement.StepSize;
 
@@ -118,7 +119,50 @@ public class StepSizeAcceptanceTests {
     stepSize.getStepSizeInVAxis();
   }
 
-  // TODO equals, hashCode, compareTo
+  @Test
+  public void StepSize_exerciseAllVariantsOfEqualsHashCodeAndCompareTo_equalsHashCodeAndCompareToContractsRespected() {
+    EqualsHashCodeAndCompareToTester equalsHashCodeAndCompareToTester =
+        EqualsHashCodeAndCompareToTester.createEqualsHashCodeAndCompareToTester();
+    StepSize first;
+    StepSize second;
+
+    // step size in u axis only
+
+    first = statementFactory.createStepSize(Integer.valueOf(23));
+    second = statementFactory.createStepSize(Integer.valueOf(23));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenEqual(first, second);
+
+    // not equal: different step size in u-axis.
+    first = statementFactory.createStepSize(Integer.valueOf(2));
+    second = statementFactory.createStepSize(Integer.valueOf(23));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(true, first, second);
+
+    // step size in both u and v axes
+
+    first = statementFactory.createStepSize(Integer.valueOf(23), Integer.valueOf(54));
+    second = statementFactory.createStepSize(Integer.valueOf(23), Integer.valueOf(54));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenEqual(first, second);
+
+    // not equal: different step size in u-axis
+    first = statementFactory.createStepSize(Integer.valueOf(230000), Integer.valueOf(54));
+    second = statementFactory.createStepSize(Integer.valueOf(23), Integer.valueOf(54));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(false, first, second);
+
+    // not equal: different step size in v-axis
+    first = statementFactory.createStepSize(Integer.valueOf(23), Integer.valueOf(54));
+    second = statementFactory.createStepSize(Integer.valueOf(23), Integer.valueOf(55));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(true, first, second);
+
+    // compare step sizes specifying different number of step size values
+    first = statementFactory.createStepSize(Integer.valueOf(23), Integer.valueOf(54));
+    second = statementFactory.createStepSize(Integer.valueOf(23));
+    equalsHashCodeAndCompareToTester.assertContractRespectedWhenNotEqual(false, first, second);
+
+    equalsHashCodeAndCompareToTester.assertDoesNotEqualNull(first);
+
+    equalsHashCodeAndCompareToTester.assertEqualsSelf(first);
+  }
+
   // TODO copy malicious mutable statement.
 
   @Test
