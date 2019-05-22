@@ -2,7 +2,6 @@ package com.ht.wfp3.api.statement.acceptance;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
@@ -116,10 +115,4 @@ public class MapLibAcceptanceTests {
 
   // TODO copy malicious mutable statement.
   // TODO what about mapLibFileNameList with null members?
-
-  @Test
-  public void test() {
-    fail("Not yet implemented");
-  }
-
 }

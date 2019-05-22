@@ -2,8 +2,10 @@ package com.ht.wfp3.api.statement.acceptance;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 import java.math.BigDecimal;
 import org.junit.Before;
 import org.junit.Test;
@@ -59,7 +61,7 @@ public class BasisMatrixAcceptanceTests {
 
     assertNotNull(basisMatrix);
     assertEquals(BASIS_MATRIX_KEYWORD, basisMatrix.getKeyword());
-    assertEquals(axis, basisMatrix.getBasisMatrixAxis());
+    assertEquals(axis, basisMatrix.getAxis());
     assertEquals(matrix, basisMatrix.getMatrix());
   }
 
@@ -116,7 +118,19 @@ public class BasisMatrixAcceptanceTests {
 
   @Test
   public void BasisMatrix_copyMaliciousMutableBasisMatrix_validImmutableBasisMatrixIsCreated() {
-    fail("Not yet implemented");
+    Matrix testData =
+        matrixBuilder.clear().rowByRow().append(BigDecimal.valueOf(2.2d)).end().build();
+    Matrix modifiableMatrix = mock(Matrix.class);
+    when(modifiableMatrix.getNumColumns()).thenReturn(testData.getNumColumns());
+    when(modifiableMatrix.getNumRows()).thenReturn(testData.getNumRows());
+    when(modifiableMatrix.getElementAt(0, 0)).thenReturn(testData.getElementAt(0, 0));
+    BasisMatrix original = statementFactory.createBasisMatrix(Axis.U, modifiableMatrix);
+
+    BasisMatrix copy = statementFactory.copyBasisMatrix(original);
+
+    assertEquals(original.getMatrix().getElementAt(0, 0), copy.getMatrix().getElementAt(0, 0));
+    when(modifiableMatrix.getElementAt(0, 0)).thenReturn(BigDecimal.valueOf(55.5d));
+    assertNotEquals(original.getMatrix().getElementAt(0, 0), copy.getMatrix().getElementAt(0, 0));
   }
 
   // TODO what about empty matrix?

@@ -2,7 +2,6 @@ package com.ht.wfp3.api.statement.acceptance;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
 import java.math.BigDecimal;
 import org.junit.Before;
 import org.junit.Test;
@@ -382,10 +381,5 @@ public class MatrixAcceptanceTests {
   // TODO What about trying to add a mutable Matrix to BasisMatrix. Should not be allowed!
   // build identity.
   // configure fill value for empty elements.
-
-
-  @Test
-  public void test() {
-    fail("Not yet implemented");
-  }
+  // TODO copy malicious, mutable original
 }

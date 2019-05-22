@@ -2,7 +2,6 @@ package com.ht.wfp3.api.statement.acceptance;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
 import java.math.BigDecimal;
 import org.junit.Before;
 import org.junit.Test;
@@ -113,10 +112,4 @@ public class NormalVertexAcceptanceTests {
   }
 
   // TODO copy malicious mutable statement.
-
-  @Test
-  public void test() {
-    fail("Not yet implemented");
-  }
-
 }

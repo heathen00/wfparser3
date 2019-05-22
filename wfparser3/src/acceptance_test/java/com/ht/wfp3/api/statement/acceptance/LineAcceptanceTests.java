@@ -2,7 +2,6 @@ package com.ht.wfp3.api.statement.acceptance;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
 import java.util.Arrays;
 import java.util.List;
 import org.junit.Before;
@@ -126,10 +125,4 @@ public class LineAcceptanceTests {
   }
 
   // TODO copy malicious mutable statement.
-
-  @Test
-  public void test() {
-    fail("Not yet implemented");
-  }
-
 }

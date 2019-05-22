@@ -251,6 +251,27 @@ public final class StatementFactory {
     return new MatrixBuilderImp();
   }
 
+  public BigDecimal copyBigDecimal(BigDecimal bigDecimal) {
+    if (null == bigDecimal) {
+      throw new NullPointerException("bigDecimal copy constructor parameter cannot be null");
+    }
+    return new BigDecimal(bigDecimal.unscaledValue(), bigDecimal.scale());
+  }
+
+  public Matrix copyMatrix(Matrix matrix) {
+    if (null == matrix) {
+      throw new NullPointerException("matrix copy constructor parameter cannot be null");
+    }
+    BigDecimal[][] matrixData = new BigDecimal[matrix.getNumRows()][matrix.getNumColumns()];
+    for (int row = 0; row < matrixData.length; row++) {
+      for (int col = 0; col < matrixData[row].length; col++) {
+        matrixData[row][col] = copyBigDecimal(matrix.getElementAt(row, col));
+      }
+    }
+    Matrix copiedMatrix = new MatrixImp(matrixData);
+    return copiedMatrix;
+  }
+
   public BasisMatrix createBasisMatrix(Axis axis, Matrix matrix) {
     return new BasisMatrixImp(axis, matrix);
   }
@@ -259,7 +280,7 @@ public final class StatementFactory {
     if (null == bmat) {
       throw new NullPointerException("bmat copy constructor parameter cannot be null");
     }
-    return new BasisMatrixImp(bmat);
+    return new BasisMatrixImp(bmat.getAxis(), copyMatrix(bmat.getMatrix()));
   }
 
   public StepSize createStepSize(Integer stepSizeInUAxis) {

@@ -1,6 +1,7 @@
 package com.ht.wfp3.api.statement.acceptance;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import org.junit.Before;
 import org.junit.Test;
 import com.ht.wfp3.api.statement.EqualsHashCodeAndCompareToTester;
@@ -95,10 +96,4 @@ public class ParamVertexReferenceAcceptanceTests {
   }
 
   // TODO copy malicious mutable statement.
-
-  @Test
-  public void test() {
-    fail("Not yet implemented");
-  }
-
 }

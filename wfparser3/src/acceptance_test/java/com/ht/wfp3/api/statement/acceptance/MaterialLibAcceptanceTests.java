@@ -2,7 +2,6 @@ package com.ht.wfp3.api.statement.acceptance;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
@@ -115,10 +114,4 @@ public class MaterialLibAcceptanceTests {
   }
 
   // TODO copy malicious mutable statement.
-
-  @Test
-  public void test() {
-    fail("Not yet implemented");
-  }
-
 }

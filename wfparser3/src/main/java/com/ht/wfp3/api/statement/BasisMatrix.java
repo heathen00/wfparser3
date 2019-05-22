@@ -33,7 +33,7 @@ package com.ht.wfp3.api.statement;
  *
  */
 public interface BasisMatrix extends Comparable<BasisMatrix>, Statement {
-  Axis getBasisMatrixAxis();
+  Axis getAxis();
 
   Matrix getMatrix();
 }

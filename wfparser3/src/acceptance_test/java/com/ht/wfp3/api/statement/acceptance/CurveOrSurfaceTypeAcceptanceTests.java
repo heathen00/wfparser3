@@ -2,7 +2,6 @@ package com.ht.wfp3.api.statement.acceptance;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.Test;
 import com.ht.wfp3.api.statement.CurveOrSurfaceType;
@@ -87,9 +86,4 @@ public class CurveOrSurfaceTypeAcceptanceTests {
   }
 
   // TODO copy malicious mutable statement.
-
-  @Test
-  public void test() {
-    fail("Not yet implemented");
-  }
 }

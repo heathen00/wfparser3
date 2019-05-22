@@ -2,7 +2,6 @@ package com.ht.wfp3.api.statement.acceptance;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.Test;
 import com.ht.wfp3.api.statement.DissolveInterpolation;
@@ -86,10 +85,4 @@ public class DissolveInterpolationAcceptanceTests {
   // TODO copy malicious mutable statement.
   // TODO implementation note: there will only ever be two instances, either enabled or disabled.
   // Could use FlyWeight.
-
-  @Test
-  public void test() {
-    fail("Not yet implemented");
-  }
-
 }

@@ -18,12 +18,8 @@ class BasisMatrixImp extends StatementImp implements BasisMatrix {
     this.matrix = matrix;
   }
 
-  BasisMatrixImp(BasisMatrix bmat) {
-    this(bmat.getBasisMatrixAxis(), bmat.getMatrix());
-  }
-
   @Override
-  public Axis getBasisMatrixAxis() {
+  public Axis getAxis() {
     return axis;
   }
 
@@ -68,7 +64,7 @@ class BasisMatrixImp extends StatementImp implements BasisMatrix {
 
   @Override
   public int compareTo(BasisMatrix o) {
-    int compareTo = axis.compareTo(o.getBasisMatrixAxis());
+    int compareTo = axis.compareTo(o.getAxis());
     if (0 == compareTo) {
       compareTo = matrix.compareTo(o.getMatrix());
     }

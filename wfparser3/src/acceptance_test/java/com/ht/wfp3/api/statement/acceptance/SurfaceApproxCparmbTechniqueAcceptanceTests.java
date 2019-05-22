@@ -1,6 +1,7 @@
 package com.ht.wfp3.api.statement.acceptance;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import java.math.BigDecimal;
 import org.junit.Before;
 import org.junit.Test;
@@ -98,10 +99,4 @@ public class SurfaceApproxCparmbTechniqueAcceptanceTests {
   }
 
   // TODO copy malicious mutable statement.
-
-  @Test
-  public void test() {
-    fail("Not yet implemented");
-  }
-
 }

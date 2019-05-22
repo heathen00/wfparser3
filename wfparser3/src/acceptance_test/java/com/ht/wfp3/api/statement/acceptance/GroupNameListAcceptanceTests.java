@@ -2,7 +2,6 @@ package com.ht.wfp3.api.statement.acceptance;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -110,9 +109,4 @@ public class GroupNameListAcceptanceTests {
 
   // TODO copy malicious mutable statement.
   // TODO what happens if you specify the same group name twice?
-
-  @Test
-  public void test() {
-    fail("Not yet implemented");
-  }
 }
