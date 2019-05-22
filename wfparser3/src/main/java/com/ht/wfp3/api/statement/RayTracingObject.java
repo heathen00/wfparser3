@@ -28,7 +28,7 @@ import java.nio.file.Path;
  * @author nickl
  *
  */
-public interface RayTracingObject extends Statement {
+public interface RayTracingObject extends Comparable<RayTracingObject>, Statement {
   static final String OBJ_EXT = "obj";
   static final String MOD_EXT = "mod";
 

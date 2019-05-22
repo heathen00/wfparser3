@@ -24,7 +24,8 @@ import java.math.BigDecimal;
  * @author nickl
  *
  */
-public interface SurfaceApproxCurvTechnique extends SurfaceApprox {
+public interface SurfaceApproxCurvTechnique
+    extends Comparable<SurfaceApproxCurvTechnique>, SurfaceApprox {
   static final BigDecimal MINIMUM_MAX_DISTANCE = BigDecimal.ZERO;
   static final BigDecimal MINIMUM_MAX_ANGLE = BigDecimal.ZERO;
 

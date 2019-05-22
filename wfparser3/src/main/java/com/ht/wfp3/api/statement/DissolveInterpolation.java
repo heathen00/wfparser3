@@ -25,6 +25,6 @@ package com.ht.wfp3.api.statement;
  * @author nickl
  *
  */
-public interface DissolveInterpolation extends Statement {
+public interface DissolveInterpolation extends Comparable<DissolveInterpolation>, Statement {
   boolean isEnabled();
 }

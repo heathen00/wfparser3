@@ -17,7 +17,7 @@ package com.ht.wfp3.api.statement;
  * @author nickl
  *
  */
-public interface Csh extends Statement {
+public interface Csh extends Comparable<Csh>, Statement {
   boolean shouldIgnoreErrors();
 
   String getCommand();

@@ -7,7 +7,9 @@ package com.ht.wfp3.api.statement;
  * @author nickl
  *
  */
-public interface Statement extends Comparable<Statement> {
+// public interface Statement extends Comparable<Statement> {
+public interface Statement {
+
   String getKeyword();
 
   boolean equals(Object object);

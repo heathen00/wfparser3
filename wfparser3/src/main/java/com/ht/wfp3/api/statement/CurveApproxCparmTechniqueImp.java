@@ -55,13 +55,8 @@ class CurveApproxCparmTechniqueImp extends CurveApproxImp implements CurveApprox
   }
 
   @Override
-  public int compareTo(Statement o) {
-    int compareTo = super.compareTo(o);
-    if (0 == compareTo) {
-      CurveApproxCparmTechnique curveApproxCparmTechnique = (CurveApproxCparmTechnique) o;
-      compareTo = resolution.compareTo(curveApproxCparmTechnique.getResolution());
-    }
-    return compareTo;
+  public int compareTo(CurveApproxCparmTechnique o) {
+    return resolution.compareTo(o.getResolution());
   }
 
   @Override

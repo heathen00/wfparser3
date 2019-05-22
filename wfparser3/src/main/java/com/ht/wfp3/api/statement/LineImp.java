@@ -17,4 +17,9 @@ class LineImp extends StatementsUsingVertexReferenceGroupsImp implements Line {
   public String toString() {
     return "LineImp [super.toString()=" + super.toString() + "]";
   }
+
+  @Override
+  public int compareTo(Line o) {
+    return compareToCommon(o);
+  }
 }

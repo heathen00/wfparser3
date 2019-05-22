@@ -12,4 +12,9 @@ class SpecialCurveImp extends StatementsUsingCurve2DReferenceListImp implements 
   SpecialCurveImp(SpecialCurve scrv) {
     this(scrv.getCurve2DReferenceList());
   }
+
+  @Override
+  public int compareTo(SpecialCurve o) {
+    return compareToCommon(o);
+  }
 }

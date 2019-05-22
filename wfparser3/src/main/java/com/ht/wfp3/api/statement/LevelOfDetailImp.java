@@ -56,13 +56,8 @@ class LevelOfDetailImp extends StatementImp implements LevelOfDetail {
   }
 
   @Override
-  public int compareTo(Statement o) {
-    int compareTo = super.compareTo(o);
-    if (0 == compareTo) {
-      LevelOfDetail levelOfDetailParameter = (LevelOfDetail) o;
-      compareTo = levelOfDetail.compareTo(levelOfDetailParameter.getLevelOfDetail());
-    }
-    return compareTo;
+  public int compareTo(LevelOfDetail o) {
+    return levelOfDetail.compareTo(o.getLevelOfDetail());
   }
 
   @Override

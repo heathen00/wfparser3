@@ -16,6 +16,6 @@ package com.ht.wfp3.api.statement;
  * @author nickl
  *
  */
-public interface ObjectName extends Statement {
+public interface ObjectName extends Comparable<ObjectName>, Statement {
   String getObjectName();
 }

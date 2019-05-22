@@ -29,7 +29,7 @@ import java.math.BigDecimal;
  * @author nickl
  *
  */
-public interface MergingGroup extends Statement {
+public interface MergingGroup extends Comparable<MergingGroup>, Statement {
   static final Integer OFF = Integer.valueOf(0);
   static final BigDecimal MINIMUM_RESOLUTION = BigDecimal.ZERO;
 

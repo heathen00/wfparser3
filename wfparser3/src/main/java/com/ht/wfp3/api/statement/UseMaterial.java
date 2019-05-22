@@ -16,6 +16,6 @@ package com.ht.wfp3.api.statement;
  * @author nickl
  *
  */
-public interface UseMaterial extends Statement {
+public interface UseMaterial extends Comparable<UseMaterial>, Statement {
   String getMaterialName();
 }

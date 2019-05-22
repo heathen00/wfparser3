@@ -17,4 +17,9 @@ class PointImp extends StatementsUsingVertexReferenceGroupsImp implements Point 
   public String toString() {
     return "PointImp [super.toString()=" + super.toString() + "]";
   }
+
+  @Override
+  public int compareTo(Point o) {
+    return compareToCommon(o);
+  }
 }

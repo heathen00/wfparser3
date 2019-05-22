@@ -63,13 +63,8 @@ class UseMapImp extends StatementImp implements UseMap {
   }
 
   @Override
-  public int compareTo(Statement o) {
-    int compareTo = super.compareTo(o);
-    if (0 == compareTo) {
-      UseMap useMap = (UseMap) o;
-      compareTo = mapName.compareTo(useMap.getMapName());
-    }
-    return compareTo;
+  public int compareTo(UseMap o) {
+    return mapName.compareTo(o.getMapName());
   }
 
   @Override

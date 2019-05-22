@@ -77,15 +77,10 @@ class CurveApproxCurvTechniqueImp extends CurveApproxImp implements CurveApproxC
   }
 
   @Override
-  public int compareTo(Statement o) {
-    int compareTo = super.compareTo(o);
+  public int compareTo(CurveApproxCurvTechnique o) {
+    int compareTo = maximumDistance.compareTo(o.getMaximumDistance());
     if (0 == compareTo) {
-      CurveApproxCurvTechnique curveApproxCurvTechnique = (CurveApproxCurvTechnique) o;
-      compareTo = maximumDistance.compareTo(curveApproxCurvTechnique.getMaximumDistance());
-      if (0 == compareTo) {
-        compareTo =
-            maximumAngleInDegrees.compareTo(curveApproxCurvTechnique.getMaximumAngleInDegrees());
-      }
+      compareTo = maximumAngleInDegrees.compareTo(o.getMaximumAngleInDegrees());
     }
     return compareTo;
   }

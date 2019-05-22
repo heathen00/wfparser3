@@ -24,7 +24,8 @@ import java.math.BigDecimal;
  * @author nickl
  *
  */
-public interface CurveApproxCurvTechnique extends CurveApprox {
+public interface CurveApproxCurvTechnique
+    extends Comparable<CurveApproxCurvTechnique>, CurveApprox {
   public static final BigDecimal MINIMUM_MAXIMUM_DISTANCE = BigDecimal.ZERO;
   public static final BigDecimal MINIMUM_MAXIMUM_ANGLE = BigDecimal.ZERO;
 

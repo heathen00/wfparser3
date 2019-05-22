@@ -60,15 +60,9 @@ class GroupNameListImp extends StatementImp implements GroupNameList {
   }
 
   @Override
-  public int compareTo(Statement o) {
-    int compareTo = super.compareTo(o);
-    if (0 == compareTo) {
-      GroupNameList groupNameListParameter = (GroupNameList) o;
-      ListOfComparableComparator<String> listComparator = new ListOfComparableComparator<>();
-      compareTo =
-          listComparator.compare(this.groupNameList, groupNameListParameter.getGroupNameList());
-    }
-    return compareTo;
+  public int compareTo(GroupNameList o) {
+    ListOfComparableComparator<String> listComparator = new ListOfComparableComparator<>();
+    return listComparator.compare(this.groupNameList, o.getGroupNameList());
   }
 
   @Override

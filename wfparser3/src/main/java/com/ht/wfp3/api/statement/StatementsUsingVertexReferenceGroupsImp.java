@@ -69,18 +69,10 @@ abstract class StatementsUsingVertexReferenceGroupsImp extends StatementImp
     return true;
   }
 
-  @Override
-  public int compareTo(Statement o) {
-    int compareTo = super.compareTo(o);
-    if (0 == compareTo) {
-      StatementsUsingVertexReferenceGroupsImp statementsUsingVertexReferenceGroups =
-          (StatementsUsingVertexReferenceGroupsImp) o;
-      ListOfComparableComparator<VertexReferenceGroup> listComparator =
-          new ListOfComparableComparator<>();
-      compareTo = listComparator.compare(vertexReferenceGroupList,
-          statementsUsingVertexReferenceGroups.getVertexReferenceGroupList());
-    }
-    return compareTo;
+  protected <T extends UsesVertexReferenceGroups & Comparable<T>> int compareToCommon(T o) {
+    ListOfComparableComparator<VertexReferenceGroup> listComparator =
+        new ListOfComparableComparator<>();
+    return listComparator.compare(vertexReferenceGroupList, o.getVertexReferenceGroupList());
   }
 
   @Override

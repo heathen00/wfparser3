@@ -74,15 +74,11 @@ class ParmImp extends StatementImp implements Parm {
   }
 
   @Override
-  public int compareTo(Statement o) {
-    int compareTo = super.compareTo(o);
+  public int compareTo(Parm o) {
+    int compareTo = axis.compareTo(o.getAxis());
     if (0 == compareTo) {
-      Parm parm = (Parm) o;
-      compareTo = axis.compareTo(parm.getAxis());
-      if (0 == compareTo) {
-        ListOfComparableComparator<BigDecimal> listComparator = new ListOfComparableComparator<>();
-        compareTo = listComparator.compare(parameterList, parm.getParameterValues());
-      }
+      ListOfComparableComparator<BigDecimal> listComparator = new ListOfComparableComparator<>();
+      compareTo = listComparator.compare(parameterList, o.getParameterValues());
     }
     return compareTo;
   }

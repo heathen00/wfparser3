@@ -19,6 +19,6 @@ package com.ht.wfp3.api.statement;
  * @author nickl
  *
  */
-public interface SpecialCurve extends Statement, UsesCurv2DReferenceList {
+public interface SpecialCurve extends Comparable<SpecialCurve>, Statement, UsesCurv2DReferenceList {
   static final Integer MINIMUM_CURVE2D_REFERENCES = Integer.valueOf(1);
 }

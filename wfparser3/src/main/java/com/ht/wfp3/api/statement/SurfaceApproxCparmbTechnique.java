@@ -20,7 +20,8 @@ import java.math.BigDecimal;
  * @author nickl
  *
  */
-public interface SurfaceApproxCparmbTechnique extends SurfaceApprox {
+public interface SurfaceApproxCparmbTechnique
+    extends Comparable<SurfaceApproxCparmbTechnique>, SurfaceApprox {
   static final BigDecimal MINIMUM_RESOLUTION = BigDecimal.ZERO;
 
   BigDecimal getResolutionForUAndVAxes();

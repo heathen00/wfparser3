@@ -75,14 +75,10 @@ class SurfaceApproxCurvTechniqueImp extends SurfaceApproxImp implements SurfaceA
   }
 
   @Override
-  public int compareTo(Statement o) {
-    int compareTo = super.compareTo(o);
+  public int compareTo(SurfaceApproxCurvTechnique o) {
+    int compareTo = maxDistance.compareTo(o.getMaxDistance());
     if (0 == compareTo) {
-      SurfaceApproxCurvTechnique surfaceApproxCurvTechnique = (SurfaceApproxCurvTechnique) o;
-      compareTo = maxDistance.compareTo(surfaceApproxCurvTechnique.getMaxDistance());
-      if (0 == compareTo) {
-        compareTo = maxAngleInDegrees.compareTo(surfaceApproxCurvTechnique.getMaxAngleInDegrees());
-      }
+      compareTo = maxAngleInDegrees.compareTo(o.getMaxAngleInDegrees());
     }
     return compareTo;
   }

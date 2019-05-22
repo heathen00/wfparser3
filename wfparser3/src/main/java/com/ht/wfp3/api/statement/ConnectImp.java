@@ -110,22 +110,16 @@ class ConnectImp extends StatementImp implements Connect {
   }
 
   @Override
-  public int compareTo(Statement o) {
-    int compareTo = super.compareTo(o);
+  public int compareTo(Connect o) {
+    int compareTo =
+        Integer.compare(firstSurfaceIndex.intValue(), o.getFirstSurfaceIndex().intValue());
     if (0 == compareTo) {
-      Connect connect = (Connect) o;
-      compareTo =
-          Integer.compare(firstSurfaceIndex.intValue(), connect.getFirstSurfaceIndex().intValue());
+      compareTo = getFirstSurfaceCurve2DReference().compareTo(o.getFirstSurfaceCurve2DReference());
       if (0 == compareTo) {
         compareTo =
-            getFirstSurfaceCurve2DReference().compareTo(connect.getFirstSurfaceCurve2DReference());
+            Integer.compare(secondSurfaceIndex.intValue(), o.getSecondSurfaceIndex().intValue());
         if (0 == compareTo) {
-          compareTo = Integer.compare(secondSurfaceIndex.intValue(),
-              connect.getSecondSurfaceIndex().intValue());
-          if (0 == compareTo) {
-            compareTo =
-                secondSurfaceCurve2DReference.compareTo(connect.getSecondSurfaceCurve2DReference());
-          }
+          compareTo = secondSurfaceCurve2DReference.compareTo(o.getSecondSurfaceCurve2DReference());
         }
       }
     }

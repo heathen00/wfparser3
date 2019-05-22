@@ -45,7 +45,7 @@ import java.util.List;
  * @author nickl
  *
  */
-public interface Call extends Statement {
+public interface Call extends Comparable<Call>, Statement {
   static final String OBJ_EXT = "obj";
   static final String MOD_EXT = "mod";
   static final Integer MINIMUM_ARGUMENTS = Integer.valueOf(0);

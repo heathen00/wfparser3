@@ -22,7 +22,7 @@ import java.util.List;
  * @author nickl
  *
  */
-public interface Curve2D extends Statement {
+public interface Curve2D extends Comparable<Curve2D>, Statement {
   public static final int MINIMUM_CONTROL_POINTS = 2;
   
   List<ParamVertexReference> getControlPointVertexReferences();

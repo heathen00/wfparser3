@@ -20,7 +20,7 @@ import java.util.List;
  * @author nickl
  *
  */
-public interface GroupNameList extends Statement {
+public interface GroupNameList extends Comparable<GroupNameList>, Statement {
   static final Integer MINIMUM_GROUP_NAMES = Integer.valueOf(1);
 
   List<String> getGroupNameList();

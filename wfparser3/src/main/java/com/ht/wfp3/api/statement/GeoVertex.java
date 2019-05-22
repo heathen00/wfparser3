@@ -30,7 +30,7 @@ import java.math.BigDecimal;
  * @author nickl
  *
  */
-public interface GeoVertex extends Statement {
+public interface GeoVertex extends Comparable<GeoVertex>, Statement {
   public static final BigDecimal DEFAULT_W_COORD = BigDecimal.ONE;
 
   BigDecimal getXCoord();

@@ -26,7 +26,7 @@ import java.math.BigDecimal;
  * @author nickl
  *
  */
-public interface NormalVertex extends Statement {
+public interface NormalVertex extends Comparable<NormalVertex>, Statement {
   BigDecimal getICoord();
 
   BigDecimal getJCoord();

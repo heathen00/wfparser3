@@ -19,7 +19,7 @@ import java.util.List;
  * @author nickl
  *
  */
-public interface SpecialPoint extends Statement {
+public interface SpecialPoint extends Comparable<SpecialPoint>, Statement {
   static final Integer MINIMUM_VERTEX_REFERENCES = Integer.valueOf(1);
 
   List<ParamVertexReference> getVertexReferenceList();

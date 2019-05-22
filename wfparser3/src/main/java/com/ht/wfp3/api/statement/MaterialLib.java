@@ -23,7 +23,7 @@ import java.util.List;
  * @author nickl
  *
  */
-public interface MaterialLib extends Statement {
+public interface MaterialLib extends Comparable<MaterialLib>, Statement {
   static final Integer MINIMUM_FILE_NAMES = Integer.valueOf(1);
 
   List<Path> getMaterialLibFileNameList();

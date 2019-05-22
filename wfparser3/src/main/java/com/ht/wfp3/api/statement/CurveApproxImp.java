@@ -41,16 +41,6 @@ abstract class CurveApproxImp extends StatementImp implements CurveApprox {
   }
 
   @Override
-  public int compareTo(Statement o) {
-    int compareTo = super.compareTo(o);
-    if (0 == compareTo) {
-      CurveApprox curveApprox = (CurveApprox) o;
-      compareTo = techniqueKeyword.compareTo(curveApprox.getTechniqueKeyword());
-    }
-    return compareTo;
-  }
-
-  @Override
   public String toString() {
     return "CurveApproxImp [techniqueKeyword=" + techniqueKeyword + ", super.toString()="
         + super.toString() + "]";

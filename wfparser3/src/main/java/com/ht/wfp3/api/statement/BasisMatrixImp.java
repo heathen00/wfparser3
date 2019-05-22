@@ -61,21 +61,17 @@ class BasisMatrixImp extends StatementImp implements BasisMatrix {
   }
 
   @Override
-  public int compareTo(Statement o) {
-    int compareTo = super.compareTo(o);
-    if (0 == compareTo) {
-      BasisMatrix basisMatrix = (BasisMatrix) o;
-      compareTo = axis.compareTo(basisMatrix.getBasisMatrixAxis());
-      if (0 == compareTo) {
-        compareTo = matrix.compareTo(basisMatrix.getMatrix());
-      }
-    }
-    return compareTo;
-  }
-
-  @Override
   public String toString() {
     return "BasisMatrixImp [axis=" + axis + ", matrix=" + matrix + ", super.toString()="
         + super.toString() + "]";
+  }
+
+  @Override
+  public int compareTo(BasisMatrix o) {
+    int compareTo = axis.compareTo(o.getBasisMatrixAxis());
+    if (0 == compareTo) {
+      compareTo = matrix.compareTo(o.getMatrix());
+    }
+    return compareTo;
   }
 }

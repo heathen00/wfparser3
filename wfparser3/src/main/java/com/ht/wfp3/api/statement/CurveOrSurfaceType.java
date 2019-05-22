@@ -31,7 +31,7 @@ package com.ht.wfp3.api.statement;
  * @author nickl
  *
  */
-public interface CurveOrSurfaceType extends Statement {
+public interface CurveOrSurfaceType extends Comparable<CurveOrSurfaceType>, Statement {
   enum Key {
     BMATRIX("bmatrix"), BEZIER("bezier"), BSPLINE("bspline"), CARDINAL("cardinal"), TAYLOR(
         "taylor");

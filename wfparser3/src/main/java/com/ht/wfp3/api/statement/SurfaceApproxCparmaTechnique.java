@@ -21,7 +21,8 @@ import java.math.BigDecimal;
  * @author nickl
  *
  */
-public interface SurfaceApproxCparmaTechnique extends SurfaceApprox {
+public interface SurfaceApproxCparmaTechnique
+    extends Comparable<SurfaceApproxCparmaTechnique>, SurfaceApprox {
   static final BigDecimal MINIMUM_RESOLUTION_FOR_U_AXIS = BigDecimal.ZERO;
   static final BigDecimal MINIMUM_RESOLUTION_FOR_V_AXIS = BigDecimal.ZERO;
 

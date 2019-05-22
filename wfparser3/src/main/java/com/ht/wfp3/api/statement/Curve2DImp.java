@@ -61,19 +61,12 @@ class Curve2DImp extends StatementImp implements Curve2D {
     return true;
   }
 
-
-
   @Override
-  public int compareTo(Statement o) {
-    int compareTo = super.compareTo(o);
-    if (0 == compareTo) {
-      Curve2D curve2D = (Curve2D) o;
-      ListOfComparableComparator<ParamVertexReference> listComparator =
-          new ListOfComparableComparator<>();
-      compareTo = listComparator.compare(controlPointVertexReferenceList,
-          curve2D.getControlPointVertexReferences());
-    }
-    return compareTo;
+  public int compareTo(Curve2D o) {
+    ListOfComparableComparator<ParamVertexReference> listComparator =
+        new ListOfComparableComparator<>();
+    return listComparator.compare(controlPointVertexReferenceList,
+        o.getControlPointVertexReferences());
   }
 
   @Override

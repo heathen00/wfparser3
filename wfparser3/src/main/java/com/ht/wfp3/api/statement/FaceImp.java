@@ -17,4 +17,9 @@ class FaceImp extends StatementsUsingVertexReferenceGroupsImp implements Face {
   public String toString() {
     return "FaceImp [super.toString()=" + super.toString() + "]";
   }
+
+  @Override
+  public int compareTo(Face o) {
+    return compareToCommon(o);
+  }
 }

@@ -32,7 +32,7 @@ import java.math.BigDecimal;
  * @author nickl
  *
  */
-public interface TexVertex extends Statement {
+public interface TexVertex extends Comparable<TexVertex>, Statement {
   static final BigDecimal DEFAULT_W_COORD = BigDecimal.ZERO;
   static final BigDecimal DEFAULT_V_COORD = BigDecimal.ZERO;
 

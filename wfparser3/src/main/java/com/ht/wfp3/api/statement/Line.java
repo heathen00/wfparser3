@@ -41,6 +41,6 @@ package com.ht.wfp3.api.statement;
  * @author nickl
  *
  */
-public interface Line extends Statement, UsesVertexReferenceGroups {
+public interface Line extends Comparable<Line>, Statement, UsesVertexReferenceGroups {
   static final Integer MINIMUM_VERTEX_REFERENCE_GROUPS = Integer.valueOf(2);
 }

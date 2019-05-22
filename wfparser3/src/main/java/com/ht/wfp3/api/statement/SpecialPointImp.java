@@ -59,16 +59,10 @@ class SpecialPointImp extends StatementImp implements SpecialPoint {
   }
 
   @Override
-  public int compareTo(Statement o) {
-    int compareTo = super.compareTo(o);
-    if (0 == compareTo) {
-      SpecialPoint specialPoint = (SpecialPoint) o;
-      ListOfComparableComparator<ParamVertexReference> listComparator =
-          new ListOfComparableComparator<>();
-      compareTo =
-          listComparator.compare(vertexReferenceList, specialPoint.getVertexReferenceList());
-    }
-    return compareTo;
+  public int compareTo(SpecialPoint o) {
+    ListOfComparableComparator<ParamVertexReference> listComparator =
+        new ListOfComparableComparator<>();
+    return listComparator.compare(vertexReferenceList, o.getVertexReferenceList());
   }
 
   @Override

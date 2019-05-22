@@ -100,19 +100,15 @@ class CurveImp extends StatementImp implements Curve {
   }
 
   @Override
-  public int compareTo(Statement o) {
-    int compareTo = super.compareTo(o);
+  public int compareTo(Curve o) {
+    int compareTo = startingParameterValue.compareTo(o.getStartingParameterValue());
     if (0 == compareTo) {
-      Curve curve = (Curve) o;
-      compareTo = startingParameterValue.compareTo(curve.getStartingParameterValue());
+      compareTo = endingParameterValue.compareTo(o.getEndingParameterValue());
       if (0 == compareTo) {
-        compareTo = endingParameterValue.compareTo(curve.getEndingParameterValue());
-        if (0 == compareTo) {
-          ListOfComparableComparator<GeoVertexReference> listComparator =
-              new ListOfComparableComparator<>();
-          compareTo = listComparator.compare(controlPointVertexReferenceList,
-              curve.getControlPointVertexReferenceList());
-        }
+        ListOfComparableComparator<GeoVertexReference> listComparator =
+            new ListOfComparableComparator<>();
+        compareTo = listComparator.compare(controlPointVertexReferenceList,
+            o.getControlPointVertexReferenceList());
       }
     }
     return compareTo;

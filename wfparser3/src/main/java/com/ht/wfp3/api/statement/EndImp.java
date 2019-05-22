@@ -11,4 +11,9 @@ class EndImp extends StatementImp implements End {
   private EndImp() {
     super(KEYWORD);
   }
+
+  @Override
+  public int compareTo(End o) {
+    return 0;
+  }
 }

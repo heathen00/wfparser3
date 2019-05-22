@@ -12,4 +12,9 @@ class TrimImp extends StatementsUsingCurve2DReferenceListImp implements Trim {
   TrimImp(Trim trim) {
     this(trim.getCurve2DReferenceList());
   }
+
+  @Override
+  public int compareTo(Trim o) {
+    return compareToCommon(o);
+  }
 }

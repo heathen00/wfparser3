@@ -24,6 +24,6 @@ package com.ht.wfp3.api.statement;
  * @author nickl
  *
  */
-public interface Bevel extends Statement {
+public interface Bevel extends Comparable<Bevel>, Statement {
   boolean isEnabled();
 }

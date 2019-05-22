@@ -64,14 +64,8 @@ class RayTracingObjectImp extends StatementImp implements RayTracingObject {
   }
 
   @Override
-  public int compareTo(Statement o) {
-    int compareTo = super.compareTo(o);
-    if (0 == compareTo) {
-      RayTracingObject rayTracingObject = (RayTracingObject) o;
-      compareTo =
-          rayTracingObjectFileName.compareTo(rayTracingObject.getRayTracingObjectFileName());
-    }
-    return compareTo;
+  public int compareTo(RayTracingObject o) {
+    return rayTracingObjectFileName.compareTo(o.getRayTracingObjectFileName());
   }
 
   @Override

@@ -26,7 +26,7 @@ package com.ht.wfp3.api.statement;
  * @author nickl
  *
  */
-public interface SmoothingGroup extends Statement {
+public interface SmoothingGroup extends Comparable<SmoothingGroup>, Statement {
   boolean isEnabled();
 
   Integer getSmoothingGroupNumber();

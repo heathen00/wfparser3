@@ -55,13 +55,8 @@ class SurfaceApproxCspaceTechniqueImp extends SurfaceApproxImp
   }
 
   @Override
-  public int compareTo(Statement o) {
-    int compareTo = super.compareTo(o);
-    if (0 == compareTo) {
-      SurfaceApproxCspaceTechnique surfaceApproxCspaceTechnique = (SurfaceApproxCspaceTechnique) o;
-      compareTo = maxLength.compareTo(surfaceApproxCspaceTechnique.getMaxLength());
-    }
-    return compareTo;
+  public int compareTo(SurfaceApproxCspaceTechnique o) {
+    return maxLength.compareTo(o.getMaxLength());
   }
 
   @Override

@@ -30,7 +30,7 @@ package com.ht.wfp3.api.statement;
  * @author nickl
  *
  */
-public interface Connect extends Statement {
+public interface Connect extends Comparable<Connect>, Statement {
   Integer getFirstSurfaceIndex();
 
   Curve2DReference getFirstSurfaceCurve2DReference();

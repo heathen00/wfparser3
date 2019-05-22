@@ -123,20 +123,16 @@ class ParamVertexImp extends StatementImp implements ParamVertex {
   }
 
   @Override
-  public int compareTo(Statement o) {
-    int compareTo = super.compareTo(o);
+  public int compareTo(ParamVertex o) {
+    int compareTo = uCoord.compareTo(o.getUCoord());
     if (0 == compareTo) {
-      ParamVertex paramVertex = (ParamVertex) o;
-      compareTo = uCoord.compareTo(paramVertex.getUCoord());
-      if (0 == compareTo) {
-        compareTo = Boolean.compare(isVCoordSet, paramVertex.isVCoordSet());
-        if (0 == compareTo && isVCoordSet) {
-          compareTo = vCoord.compareTo(paramVertex.getVCoord());
-          if (0 == compareTo) {
-            compareTo = Boolean.compare(isWCoordSet, paramVertex.isWCoordSet());
-            if (compareTo == 0 && isWCoordSet) {
-              compareTo = wCoord.compareTo(paramVertex.getWCoord());
-            }
+      compareTo = Boolean.compare(isVCoordSet, o.isVCoordSet());
+      if (0 == compareTo && isVCoordSet) {
+        compareTo = vCoord.compareTo(o.getVCoord());
+        if (0 == compareTo) {
+          compareTo = Boolean.compare(isWCoordSet, o.isWCoordSet());
+          if (compareTo == 0 && isWCoordSet) {
+            compareTo = wCoord.compareTo(o.getWCoord());
           }
         }
       }

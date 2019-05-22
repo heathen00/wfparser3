@@ -43,7 +43,7 @@ import java.math.BigDecimal;
  * @author nickl
  *
  */
-public interface Surface extends Statement, UsesVertexReferenceGroups {
+public interface Surface extends Comparable<Surface>, Statement, UsesVertexReferenceGroups {
   static final Integer MINIMUM_VERTEX_REFERENCE_GROUPS = Integer.valueOf(1);
 
   BigDecimal getStartingParameterValueUAxis();

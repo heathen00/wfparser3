@@ -42,13 +42,8 @@ class ColorInterpolationImp extends StatementImp implements ColorInterpolation {
   }
 
   @Override
-  public int compareTo(Statement o) {
-    int compareTo = super.compareTo(o);
-    if (0 == compareTo) {
-      ColorInterpolation colorInterpolation = (ColorInterpolation) o;
-      compareTo = Boolean.compare(isEnabled, colorInterpolation.isEnabled());
-    }
-    return compareTo;
+  public int compareTo(ColorInterpolation o) {
+    return Boolean.compare(isEnabled, o.isEnabled());
   }
 
   @Override

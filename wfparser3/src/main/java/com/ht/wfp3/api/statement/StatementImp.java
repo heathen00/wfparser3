@@ -42,9 +42,4 @@ abstract class StatementImp implements Statement {
   public String toString() {
     return "StatementImp [keyword=" + keyword + "]";
   }
-
-  @Override
-  public int compareTo(Statement o) {
-    return keyword.compareTo(o.getKeyword());
-  }
 }

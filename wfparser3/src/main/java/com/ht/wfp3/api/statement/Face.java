@@ -57,6 +57,6 @@ package com.ht.wfp3.api.statement;
  * @author nickl
  *
  */
-public interface Face extends Statement, UsesVertexReferenceGroups {
+public interface Face extends Comparable<Face>, Statement, UsesVertexReferenceGroups {
   static final Integer MINIMUM_VERTEX_REFERENCE_GROUPS = Integer.valueOf(3);
 }

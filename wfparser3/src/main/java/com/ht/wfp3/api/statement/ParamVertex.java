@@ -34,7 +34,7 @@ import java.math.BigDecimal;
  * @author nickl
  *
  */
-public interface ParamVertex extends Statement {
+public interface ParamVertex extends Comparable<ParamVertex>, Statement {
   BigDecimal DEFAULT_W_COORD = BigDecimal.valueOf(1.0d);
 
   BigDecimal getUCoord();

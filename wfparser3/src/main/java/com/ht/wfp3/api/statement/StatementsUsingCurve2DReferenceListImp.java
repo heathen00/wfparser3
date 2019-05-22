@@ -56,17 +56,10 @@ abstract class StatementsUsingCurve2DReferenceListImp extends StatementImp
     return true;
   }
 
-  @Override
-  public int compareTo(Statement o) {
-    int compareTo = super.compareTo(o);
-    if (0 == compareTo) {
-      UsesCurv2DReferenceList usesCurv2DReferenceList = (UsesCurv2DReferenceList) o;
-      ListOfComparableComparator<Curve2DReference> listComparator =
-          new ListOfComparableComparator<>();
-      compareTo = listComparator.compare(curve2DReferenceList,
-          usesCurv2DReferenceList.getCurve2DReferenceList());
-    }
-    return compareTo;
+  protected int compareToCommon(UsesCurv2DReferenceList o) {
+    ListOfComparableComparator<Curve2DReference> listComparator =
+        new ListOfComparableComparator<>();
+    return listComparator.compare(curve2DReferenceList, o.getCurve2DReferenceList());
   }
 
   @Override

@@ -86,14 +86,10 @@ class MergingGroupImp extends StatementImp implements MergingGroup {
   }
 
   @Override
-  public int compareTo(Statement o) {
-    int compareTo = super.compareTo(o);
+  public int compareTo(MergingGroup o) {
+    int compareTo = mergingGroupNumber.compareTo(o.getMergingGroupNumber());
     if (0 == compareTo) {
-      MergingGroup mergingGroup = (MergingGroup) o;
-      compareTo = mergingGroupNumber.compareTo(mergingGroup.getMergingGroupNumber());
-      if (0 == compareTo) {
-        compareTo = mergingGroupResolution.compareTo(mergingGroup.getMergingResolution());
-      }
+      compareTo = mergingGroupResolution.compareTo(o.getMergingResolution());
     }
     return compareTo;
   }

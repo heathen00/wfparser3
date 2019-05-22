@@ -17,7 +17,7 @@ package com.ht.wfp3.api.statement;
  * @author nickl
  *
  */
-public interface LevelOfDetail extends Statement {
+public interface LevelOfDetail extends Comparable<LevelOfDetail>, Statement {
   static final Integer MAX = Integer.valueOf(100);
   static final Integer MIN = Integer.valueOf(1);
   static final Integer OFF = Integer.valueOf(0);

@@ -91,16 +91,12 @@ class NormalVertexImp extends StatementImp implements NormalVertex {
   }
 
   @Override
-  public int compareTo(Statement o) {
-    int compareTo = super.compareTo(o);
+  public int compareTo(NormalVertex o) {
+    int compareTo = iCoord.compareTo(o.getICoord());
     if (0 == compareTo) {
-      NormalVertex normalVertex = (NormalVertex) o;
-      compareTo = iCoord.compareTo(normalVertex.getICoord());
+      compareTo = jCoord.compareTo(o.getJCoord());
       if (0 == compareTo) {
-        compareTo = jCoord.compareTo(normalVertex.getJCoord());
-        if (0 == compareTo) {
-          compareTo = kCoord.compareTo(normalVertex.getKCoord());
-        }
+        compareTo = kCoord.compareTo(o.getKCoord());
       }
     }
     return compareTo;

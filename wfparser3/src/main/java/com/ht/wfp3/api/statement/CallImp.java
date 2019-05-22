@@ -91,20 +91,15 @@ class CallImp extends StatementImp implements Call {
   }
 
   @Override
-  public int compareTo(Statement o) {
-    int compareTo = super.compareTo(o);
+  public int compareTo(Call o) {
+    int compareTo = Boolean.compare(isFrameNumberRequired, o.isFrameNumberRequired());
     if (0 == compareTo) {
-      Call call = (Call) o;
-      compareTo = Boolean.compare(isFrameNumberRequired, call.isFrameNumberRequired());
+      compareTo = fileName.compareTo(o.getFileName());
       if (0 == compareTo) {
-        compareTo = fileName.compareTo(call.getFileName());
-        if (0 == compareTo) {
-          ListOfComparableComparator<Integer> listComparator = new ListOfComparableComparator<>();
-          compareTo = listComparator.compare(arguments, call.getArguments());
-        }
+        ListOfComparableComparator<Integer> listComparator = new ListOfComparableComparator<>();
+        compareTo = listComparator.compare(arguments, o.getArguments());
       }
     }
-
     return compareTo;
   }
 

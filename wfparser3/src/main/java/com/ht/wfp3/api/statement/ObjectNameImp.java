@@ -52,13 +52,8 @@ class ObjectNameImp extends StatementImp implements ObjectName {
   }
 
   @Override
-  public int compareTo(Statement o) {
-    int compareTo = super.compareTo(o);
-    if (0 == compareTo) {
-      ObjectName objectNameParameter = (ObjectName) o;
-      compareTo = objectName.compareTo(objectNameParameter.getObjectName());
-    }
-    return compareTo;
+  public int compareTo(ObjectName o) {
+    return objectName.compareTo(o.getObjectName());
   }
 
   @Override

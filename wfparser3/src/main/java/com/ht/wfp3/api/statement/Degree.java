@@ -18,7 +18,7 @@ package com.ht.wfp3.api.statement;
  * @author nickl
  *
  */
-public interface Degree extends Statement {
+public interface Degree extends Comparable<Degree>, Statement {
   static final Integer MINIMUM_DEGREE = Integer.valueOf(1);
 
   boolean isVAxisDegreeSet();

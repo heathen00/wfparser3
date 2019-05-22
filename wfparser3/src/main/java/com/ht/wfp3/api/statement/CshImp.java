@@ -62,14 +62,10 @@ class CshImp extends StatementImp implements Csh {
   }
 
   @Override
-  public int compareTo(Statement o) {
-    int compareTo = super.compareTo(o);
+  public int compareTo(Csh o) {
+    int compareTo = Boolean.compare(shouldIgnoreErrors, o.shouldIgnoreErrors());
     if (0 == compareTo) {
-      Csh csh = (Csh) o;
-      compareTo = Boolean.compare(shouldIgnoreErrors, csh.shouldIgnoreErrors());
-      if (0 == compareTo) {
-        compareTo = command.compareTo(csh.getCommand());
-      }
+      compareTo = command.compareTo(o.getCommand());
     }
     return compareTo;
   }

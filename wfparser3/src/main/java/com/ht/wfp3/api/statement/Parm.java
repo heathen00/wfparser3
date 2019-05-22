@@ -28,7 +28,7 @@ import java.util.List;
  * @author nickl
  *
  */
-public interface Parm extends Statement {
+public interface Parm extends Comparable<Parm>, Statement {
   static final Integer MINIMUM_PARAMETERS = Integer.valueOf(2);
 
   Axis getAxis();

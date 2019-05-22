@@ -6,9 +6,4 @@ public class UnknownStatementStub implements Statement {
   public String getKeyword() {
     return null;
   }
-
-  @Override
-  public int compareTo(Statement o) {
-    return 0;
-  }
 }

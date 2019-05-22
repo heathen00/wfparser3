@@ -78,16 +78,10 @@ class SurfaceApproxCparmaTechniqueImp extends SurfaceApproxImp
   }
 
   @Override
-  public int compareTo(Statement o) {
-    int compareTo = super.compareTo(o);
+  public int compareTo(SurfaceApproxCparmaTechnique o) {
+    int compareTo = resolutionForUAxis.compareTo(o.getResolutionForUAxis());
     if (0 == compareTo) {
-      SurfaceApproxCparmaTechnique surfaceApproxCparmaTechnique = (SurfaceApproxCparmaTechnique) o;
-      compareTo =
-          resolutionForUAxis.compareTo(surfaceApproxCparmaTechnique.getResolutionForUAxis());
-      if (0 == compareTo) {
-        compareTo =
-            resolutionForVAxis.compareTo(surfaceApproxCparmaTechnique.getResolutionForVAxis());
-      }
+      compareTo = resolutionForVAxis.compareTo(o.getResolutionForVAxis());
     }
     return compareTo;
   }

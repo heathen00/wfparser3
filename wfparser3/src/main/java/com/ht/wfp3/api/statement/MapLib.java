@@ -23,7 +23,7 @@ import java.util.List;
  * @author nickl
  *
  */
-public interface MapLib extends Statement {
+public interface MapLib extends Comparable<MapLib>, Statement {
   static final Integer MINIMUM_FILE_NAMES = Integer.valueOf(1);
 
   List<Path> getMapLibFileNameList();

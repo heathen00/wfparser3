@@ -18,7 +18,7 @@ package com.ht.wfp3.api.statement;
  * @author nickl
  *
  */
-public interface UseMap extends Statement {
+public interface UseMap extends Comparable<UseMap>, Statement {
   boolean isEnabled();
 
   String getMapName();

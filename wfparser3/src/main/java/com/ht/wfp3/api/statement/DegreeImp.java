@@ -81,16 +81,12 @@ class DegreeImp extends StatementImp implements Degree {
   }
 
   @Override
-  public int compareTo(Statement o) {
-    int compareTo = super.compareTo(o);
+  public int compareTo(Degree o) {
+    int compareTo = uAxisDegree.compareTo(o.getUAxisDegree());
     if (0 == compareTo) {
-      Degree degree = (Degree) o;
-      compareTo = uAxisDegree.compareTo(degree.getUAxisDegree());
-      if (0 == compareTo) {
-        compareTo = Boolean.compare(isVAxisDegreeSet(), degree.isVAxisDegreeSet());
-        if (0 == compareTo && isVAxisDegreeSet()) {
-          compareTo = vAxisDegree.compareTo(degree.getVAxisDegree());
-        }
+      compareTo = Boolean.compare(isVAxisDegreeSet(), o.isVAxisDegreeSet());
+      if (0 == compareTo && isVAxisDegreeSet()) {
+        compareTo = vAxisDegree.compareTo(o.getVAxisDegree());
       }
     }
     return compareTo;

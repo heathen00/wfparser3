@@ -40,15 +40,10 @@ class BevelImp extends StatementImp implements Bevel {
       return false;
     return true;
   }
-  
+
   @Override
-  public int compareTo(Statement o) {
-    int compareTo = super.compareTo(o);
-    if (0 == compareTo) {
-      Bevel bevel = (Bevel) o;
-      compareTo = Boolean.compare(isEnabled, bevel.isEnabled());
-    }
-    return compareTo;
+  public int compareTo(Bevel o) {
+    return Boolean.compare(isEnabled, o.isEnabled());
   }
 
   @Override

@@ -32,7 +32,7 @@ package com.ht.wfp3.api.statement;
  * @author nickl
  *
  */
-public interface BasisMatrix extends Statement {
+public interface BasisMatrix extends Comparable<BasisMatrix>, Statement {
   Axis getBasisMatrixAxis();
 
   Matrix getMatrix();

@@ -52,13 +52,8 @@ class UseMaterialImp extends StatementImp implements UseMaterial {
   }
 
   @Override
-  public int compareTo(Statement o) {
-    int compareTo = super.compareTo(o);
-    if (0 == compareTo) {
-      UseMaterial useMaterial = (UseMaterial) o;
-      compareTo = materialName.compareTo(useMaterial.getMaterialName());
-    }
-    return compareTo;
+  public int compareTo(UseMaterial o) {
+    return materialName.compareTo(o.getMaterialName());
   }
 
   @Override

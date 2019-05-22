@@ -18,7 +18,8 @@ import java.math.BigDecimal;
  * @author nickl
  *
  */
-public interface CurveApproxCparmTechnique extends CurveApprox {
+public interface CurveApproxCparmTechnique
+    extends Comparable<CurveApproxCparmTechnique>, CurveApprox {
   public static final BigDecimal MINIMUM_RESOLUTION = BigDecimal.ZERO;
 
   BigDecimal getResolution();

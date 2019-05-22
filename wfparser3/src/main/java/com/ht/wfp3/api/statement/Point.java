@@ -34,6 +34,6 @@ package com.ht.wfp3.api.statement;
  * @author nickl
  *
  */
-public interface Point extends Statement, UsesVertexReferenceGroups {
+public interface Point extends Comparable<Point>, Statement, UsesVertexReferenceGroups {
   static final Integer MINIMUM_VERTEX_REFERENCE_GROUPS = Integer.valueOf(1);
 }

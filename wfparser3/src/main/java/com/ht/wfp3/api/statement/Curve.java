@@ -26,7 +26,7 @@ import java.util.List;
  * @author nickl
  *
  */
-public interface Curve extends Statement {
+public interface Curve extends Comparable<Curve>, Statement {
   public static int MINIMUM_CONTROL_POINTS = 2;
 
   BigDecimal getStartingParameterValue();

@@ -54,13 +54,8 @@ class CurveApproxCspaceTechniqueImp extends CurveApproxImp implements CurveAppro
   }
 
   @Override
-  public int compareTo(Statement o) {
-    int compareTo = super.compareTo(o);
-    if (0 == compareTo) {
-      CurveApproxCspaceTechnique curveApproxCspaceTechnique = (CurveApproxCspaceTechnique) o;
-      compareTo = maxLength.compareTo(curveApproxCspaceTechnique.getMaxLength());
-    }
-    return compareTo;
+  public int compareTo(CurveApproxCspaceTechnique o) {
+    return maxLength.compareTo(o.getMaxLength());
   }
 
   @Override

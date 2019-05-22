@@ -12,4 +12,9 @@ class HoleImp extends StatementsUsingCurve2DReferenceListImp implements Hole {
   HoleImp(Hole hole) {
     this(hole.getCurve2DReferenceList());
   }
+
+  @Override
+  public int compareTo(Hole o) {
+    return compareToCommon(o);
+  }
 }
