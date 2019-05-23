@@ -1,5 +1,7 @@
 package com.ht.wfp3.api.statement;
 
+import java.math.BigDecimal;
+
 abstract class StatementImp implements Statement {
   private final String keyword;
 
@@ -41,5 +43,12 @@ abstract class StatementImp implements Statement {
   @Override
   public String toString() {
     return "StatementImp [keyword=" + keyword + "]";
+  }
+
+  BigDecimal defensiveCopy(BigDecimal bigDecimal) {
+    if (BigDecimal.class != bigDecimal.getClass()) {
+      return new BigDecimal(bigDecimal.unscaledValue(), bigDecimal.scale());
+    }
+    return bigDecimal;
   }
 }

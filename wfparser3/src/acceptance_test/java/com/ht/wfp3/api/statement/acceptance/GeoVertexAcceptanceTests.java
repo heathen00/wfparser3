@@ -3,10 +3,14 @@ package com.ht.wfp3.api.statement.acceptance;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 import com.ht.wfp3.api.statement.EqualsHashCodeAndCompareToTester;
 import com.ht.wfp3.api.statement.GeoVertex;
+import com.ht.wfp3.api.statement.MutabilityTester;
+import com.ht.wfp3.api.statement.MutabilityTester.Creator;
 import com.ht.wfp3.api.statement.StatementFactory;
 
 public class GeoVertexAcceptanceTests {
@@ -148,5 +152,36 @@ public class GeoVertexAcceptanceTests {
     equalsHashCodeAndCompareToTester.assertEqualsSelf(first);
   }
 
-  // TODO copy malicious mutable statement.
+  @Test
+  public void GeoVertex_copyMaliciousMutableInstance_validImmutableInstanceIsCreated()
+      throws Exception {
+    final BigDecimal expectedBigDecimal = BigDecimal.valueOf(1.1d);
+    MutabilityTester<GeoVertex> mutabilityTester =
+        new MutabilityTester<GeoVertex>(new Creator<GeoVertex>() {
+
+          @Override
+          public GeoVertex create() {
+            return statementFactory.createGeoVertex(mutable(expectedBigDecimal),
+                mutable(expectedBigDecimal), mutable(expectedBigDecimal),
+                mutable(expectedBigDecimal));
+          }
+
+          @Override
+          public GeoVertex copy(GeoVertex o) {
+            return statementFactory.copyGeoVertex(mutable(o));
+          }
+
+          @Override
+          public Map<String, Object> getExpectedMemberData() {
+            Map<String, Object> methodDataMap = new HashMap<>();
+            methodDataMap.put("getXCoord", expectedBigDecimal);
+            methodDataMap.put("getYCoord", expectedBigDecimal);
+            methodDataMap.put("getZCoord", expectedBigDecimal);
+            methodDataMap.put("getWCoord", expectedBigDecimal);
+            return methodDataMap;
+          }
+        });
+
+    mutabilityTester.assertImmutability();
+  }
 }

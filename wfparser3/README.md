@@ -1,19 +1,33 @@
 # WAVEFRONT PARSER VERSION 3
 
 
-Rough list:
- * Automated Testing: Complete the Statement acceptance tests.  This might be difficult since you already have partial
-   solutions in place due to defining the API which are likely incorrect since they have no unit tests associated
-   with them.  Thus, there might be some re-implementation necessary.  Are they unit tests?  Probably not.  Since
-   The acceptance tests are defined by the user stories acceptance criteria for visible behaviour, and all published
-   API classes are visible, then any behaviour that is associated with a published class is required to be defined
-   by the acceptance tests, even if the user stories do not explicitly state the behaviour in their acceptance
-   criteria.  How will you deal with optional data members?  It seems to be a common problem for many statements.
+## Testing Methodology
 
-Notes:
+The user acceptance tests define the behaviour of the system from the product owner's perspective.  They are used to
+demonstrate the correct behaviour of the system.  The system is structured into several different subsystems.  The
+most important subsystem are the domain objects defined in the "com.ht.wfp3.api.*" packages.  All other subsystems,
+including the parser itself will be implemented based on these base subsystems.  The user acceptance tests are
+written solely based on the published APIs of their respective subsystems.  This may result in duplication of testing
+if the implementation results in shared classes that is not evident in the published APIs.  Similarly, the
+implementation may result in classes or methods not visible from the published APIs.  Testing coverage analysis may
+indicate that these implementation artifacts require additional tests to achieve sufficient testing coverage.  Any
+such supplemental testing will be covered through unit testing.
 
-When implementing the copying of malicious, mutable ensure you also handle those statements that contain complex
-member data, such as VertexReferenceGroup containing VertexReferences.
+In consideration of the extent of the coverage for the published APIs: The acceptance tests are defined by the user
+stories acceptance criteria for visible behaviour, and all published API classes are visible, then any behaviour that
+is associated with a published class is required to be defined by the acceptance tests, even if the user stories do
+not explicitly state the behaviour in their acceptance criteria.
+
+
+## Rough Notes
+
+When implementing the copying of malicious, mutable data ensure you also handle those statements that contain complex
+member data, such as VertexReferenceGroup containing VertexReferences.  You'll also need to handle defensive copying
+for BigDecimal since it has an implementation flaw (missing "final" keyword in class definition) so it can be sub
+classed and made modifiable.  NOTE: you have a prototype solution for testing BasisMatrix for copying, only.  Try
+making the implementation as simple as possible so that you don't have to write too much code.  You'll have to test
+both creating objects, data members that are non-final classes (BigDecimal) and data members that are classes defined
+in this subsystem.
 
 After completing the acceptance tests, check testing coverage to find where supplemental unit testing is required.
 
