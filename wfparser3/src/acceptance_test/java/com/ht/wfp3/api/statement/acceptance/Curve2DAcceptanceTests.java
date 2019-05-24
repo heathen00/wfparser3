@@ -2,7 +2,6 @@ package com.ht.wfp3.api.statement.acceptance;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -119,8 +118,5 @@ public class Curve2DAcceptanceTests {
     equalsHashCodeAndCompareToTester.assertDoesNotEqualNull(first);
   }
 
-  @Test
-  public void Curve2D_copyCurve2DWithMaliciousMutableCurve2DParameter_validImmutableCurve2DIsCreated() {
-    fail("Not yet implemented");
-  }
+  // TODO tests for mutability
 }

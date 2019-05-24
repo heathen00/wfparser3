@@ -2,7 +2,6 @@ package com.ht.wfp3.api.statement.acceptance;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
 import java.math.BigDecimal;
 import org.junit.Before;
 import org.junit.Test;
@@ -116,8 +115,5 @@ public class Curve2DReferenceAcceptanceTests {
     equalsHashCodeAndCompareToTester.assertDoesNotEqualNull(first);
   }
 
-  @Test
-  public void Curve2DReference_copyMaliciousMutableCurve2DReference_validImmutableCurve2DReferenceIsCreated() {
-    fail("Not yet implemented");
-  }
+  // TODO tests for mutability
 }

@@ -2,11 +2,10 @@ package com.ht.wfp3.api.statement.acceptance;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 import com.ht.wfp3.api.statement.Axis;
@@ -14,6 +13,8 @@ import com.ht.wfp3.api.statement.BasisMatrix;
 import com.ht.wfp3.api.statement.EqualsHashCodeAndCompareToTester;
 import com.ht.wfp3.api.statement.Matrix;
 import com.ht.wfp3.api.statement.MatrixBuilder;
+import com.ht.wfp3.api.statement.MutabilityTester;
+import com.ht.wfp3.api.statement.MutabilityTester.Creator;
 import com.ht.wfp3.api.statement.StatementFactory;
 
 public class BasisMatrixAcceptanceTests {
@@ -117,20 +118,31 @@ public class BasisMatrixAcceptanceTests {
   }
 
   @Test
-  public void BasisMatrix_copyMaliciousMutableBasisMatrix_validImmutableBasisMatrixIsCreated() {
-    Matrix testData =
+  public void BasisMatrix_checkMutableDefensiveCopy_validImmutableInstanceIsCreated()
+      throws Exception {
+    final Matrix matrix =
         matrixBuilder.clear().rowByRow().append(BigDecimal.valueOf(2.2d)).end().build();
-    Matrix modifiableMatrix = mock(Matrix.class);
-    when(modifiableMatrix.getNumColumns()).thenReturn(testData.getNumColumns());
-    when(modifiableMatrix.getNumRows()).thenReturn(testData.getNumRows());
-    when(modifiableMatrix.getElementAt(0, 0)).thenReturn(testData.getElementAt(0, 0));
-    BasisMatrix original = statementFactory.createBasisMatrix(Axis.U, modifiableMatrix);
+    final MutabilityTester<BasisMatrix> mutabilityTester =
+        new MutabilityTester<BasisMatrix>(new Creator<BasisMatrix>() {
 
-    BasisMatrix copy = statementFactory.copyBasisMatrix(original);
+          @Override
+          public BasisMatrix create() {
+            return statementFactory.createBasisMatrix(Axis.U, mutable(matrix));
+          }
 
-    assertEquals(original.getMatrix().getElementAt(0, 0), copy.getMatrix().getElementAt(0, 0));
-    when(modifiableMatrix.getElementAt(0, 0)).thenReturn(BigDecimal.valueOf(55.5d));
-    assertNotEquals(original.getMatrix().getElementAt(0, 0), copy.getMatrix().getElementAt(0, 0));
+          @Override
+          public BasisMatrix copy(BasisMatrix o) {
+            return statementFactory.copyBasisMatrix(mutable(o));
+          }
+
+          @Override
+          public Map<String, Object> getExpectedMemberData() {
+            Map<String, Object> methodDataMap = new HashMap<>();
+            methodDataMap.put("getMatrix", matrix);
+            return methodDataMap;
+          }
+        });
+    mutabilityTester.assertImmutability();
   }
 
   // TODO what about empty matrix?

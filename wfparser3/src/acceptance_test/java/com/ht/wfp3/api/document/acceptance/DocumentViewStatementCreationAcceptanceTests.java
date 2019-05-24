@@ -151,7 +151,8 @@ public class DocumentViewStatementCreationAcceptanceTests {
   }
 
   @Test(expected = EmptyDocumentException.class)
-  public void DocumentView_peekInEmptyDocumentView_emptyDocumentExceptionIsThrown() throws Exception {
+  public void DocumentView_peekInEmptyDocumentView_emptyDocumentExceptionIsThrown()
+      throws Exception {
     objDocument.peek(cursor);
   }
 

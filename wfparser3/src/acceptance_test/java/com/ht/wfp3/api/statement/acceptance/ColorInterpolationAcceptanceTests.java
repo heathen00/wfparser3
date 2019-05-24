@@ -4,11 +4,14 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import java.util.HashMap;
+import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 import com.ht.wfp3.api.statement.ColorInterpolation;
 import com.ht.wfp3.api.statement.EqualsHashCodeAndCompareToTester;
+import com.ht.wfp3.api.statement.MutabilityTester;
+import com.ht.wfp3.api.statement.MutabilityTester.Creator;
 import com.ht.wfp3.api.statement.StatementFactory;
 
 public class ColorInterpolationAcceptanceTests {
@@ -91,7 +94,28 @@ public class ColorInterpolationAcceptanceTests {
   }
 
   @Test
-  public void ColorInterpolation_copyMaliciousMutableColorInterpolation_validImmutableColorInterpolationIsCreated() {
-    fail("Not yet implemented");
+  public void ColorInterpolation_checkMutableDefensiveCopy_validImmutableInstanceIsCreated()
+      throws Exception {
+    final boolean isEnabled = false;
+    final MutabilityTester<ColorInterpolation> mutabilityTester =
+        new MutabilityTester<ColorInterpolation>(new Creator<ColorInterpolation>() {
+
+          @Override
+          public ColorInterpolation create() {
+            return statementFactory.createColorInterpolation(isEnabled);
+          }
+
+          @Override
+          public ColorInterpolation copy(ColorInterpolation o) {
+            return statementFactory.copyColorInterpolation(mutable(o));
+          }
+
+          @Override
+          public Map<String, Object> getExpectedMemberData() {
+            Map<String, Object> methodDataMap = new HashMap<>();
+            return methodDataMap;
+          }
+        });
+    mutabilityTester.assertImmutability();
   }
 }

@@ -4,11 +4,14 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import java.util.HashMap;
+import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 import com.ht.wfp3.api.statement.Bevel;
 import com.ht.wfp3.api.statement.EqualsHashCodeAndCompareToTester;
+import com.ht.wfp3.api.statement.MutabilityTester;
+import com.ht.wfp3.api.statement.MutabilityTester.Creator;
 import com.ht.wfp3.api.statement.StatementFactory;
 
 public class BevelAcceptanceTests {
@@ -72,7 +75,27 @@ public class BevelAcceptanceTests {
   }
 
   @Test
-  public void Bevel_copyBevelWithMaliciousMutableBevelParameter_validImmutableBevelParameterCreated() {
-    fail("Not yet implemented");
+  public void Bevel_checkMutableDefensiveCopy_validImmutableInstanceIsCreated() throws Exception {
+    final boolean isEnabled = true;
+    final MutabilityTester<Bevel> mutabilityTester =
+        new MutabilityTester<Bevel>(new Creator<Bevel>() {
+
+          @Override
+          public Bevel create() {
+            return statementFactory.createBevel(isEnabled);
+          }
+
+          @Override
+          public Bevel copy(Bevel o) {
+            return statementFactory.copyBevel(mutable(o));
+          }
+
+          @Override
+          public Map<String, Object> getExpectedMemberData() {
+            Map<String, Object> methodDataMap = new HashMap<>();
+            return methodDataMap;
+          }
+        });
+    mutabilityTester.assertImmutability();
   }
 }

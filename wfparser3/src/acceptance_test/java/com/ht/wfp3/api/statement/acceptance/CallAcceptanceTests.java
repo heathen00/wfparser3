@@ -3,17 +3,20 @@ package com.ht.wfp3.api.statement.acceptance;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 import com.ht.wfp3.api.statement.Call;
 import com.ht.wfp3.api.statement.EqualsHashCodeAndCompareToTester;
+import com.ht.wfp3.api.statement.MutabilityTester;
+import com.ht.wfp3.api.statement.MutabilityTester.Creator;
 import com.ht.wfp3.api.statement.StatementFactory;
 
 public class CallAcceptanceTests {
@@ -179,7 +182,30 @@ public class CallAcceptanceTests {
   }
 
   @Test
-  public void Call_copyMaliciousMutableCall_validImmutableCallIsCreated() {
-    fail("Not yet implemented");
+  public void Call_checkMutableDefensiveCopy_validImmutableInstanceIsCreated() throws Exception {
+    final boolean isFrameNumberRequired = false;
+    final Path testPath = Paths.get("home", "test.obj");
+    final List<Integer> arguments = Collections.unmodifiableList(
+        Arrays.asList(Integer.valueOf(1), Integer.valueOf(2), Integer.valueOf(3)));
+    final MutabilityTester<Call> mutabilityTester = new MutabilityTester<Call>(new Creator<Call>() {
+
+      @Override
+      public Call create() {
+        return statementFactory.createCall(isFrameNumberRequired, testPath, arguments);
+      }
+
+      @Override
+      public Call copy(Call o) {
+        return statementFactory.copyCall(mutable(o));
+      }
+
+      @Override
+      public Map<String, Object> getExpectedMemberData() {
+        Map<String, Object> methodDataMap = new HashMap<>();
+        methodDataMap.put("getArguments", arguments);
+        return methodDataMap;
+      }
+    });
+    mutabilityTester.assertImmutability();
   }
 }

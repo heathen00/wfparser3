@@ -2,7 +2,6 @@ package com.ht.wfp3.api.statement.acceptance;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -174,8 +173,5 @@ public class CurveAcceptanceTests {
     equalsHashCodeAndCompareToTester.assertDoesNotEqualNull(first);
   }
 
-  @Test
-  public void Curve_copyCurveWithMaliciousMutableCurve_validImmutableCurveIsCreated() {
-    fail("Not yet implemented");
-  }
+  // TODO tests for mutability
 }

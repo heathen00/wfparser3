@@ -95,7 +95,7 @@ class Curve2DReferenceImp implements Curve2DReference {
       }
     }
     return compareTo;
-  }  
+  }
 
   @Override
   public String toString() {

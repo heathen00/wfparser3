@@ -273,7 +273,7 @@ public final class StatementFactory {
   }
 
   public BasisMatrix createBasisMatrix(Axis axis, Matrix matrix) {
-    return new BasisMatrixImp(axis, matrix);
+    return new BasisMatrixImp(axis, copyMatrix(matrix));
   }
 
   public BasisMatrix copyBasisMatrix(BasisMatrix bmat) {

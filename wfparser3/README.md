@@ -28,6 +28,8 @@ classed and made modifiable.  NOTE: you have a prototype solution for testing Ba
 making the implementation as simple as possible so that you don't have to write too much code.  You'll have to test
 both creating objects, data members that are non-final classes (BigDecimal) and data members that are classes defined
 in this subsystem.
+   * NOTE: You want to add additional testing to MutabilityTester to ensure the defensive copy ONLY occurs if the
+     object being copied is NOT the expected type.
 
 After completing the acceptance tests, check testing coverage to find where supplemental unit testing is required.
 

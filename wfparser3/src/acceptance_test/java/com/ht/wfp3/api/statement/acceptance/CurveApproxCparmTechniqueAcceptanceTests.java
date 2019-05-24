@@ -2,7 +2,6 @@ package com.ht.wfp3.api.statement.acceptance;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
 import java.math.BigDecimal;
 import org.junit.Before;
 import org.junit.Test;
@@ -98,8 +97,5 @@ public class CurveApproxCparmTechniqueAcceptanceTests {
     equalsHashCodeAndCompareToTester.assertDoesNotEqualNull(first);
   }
 
-  @Test
-  public void CurveApproCparmTechnique_copyMaliciousMutableCurveApproxCparmTechnique_validImmutableCurveApproxCparmTechniqueCreated() {
-    fail("Not yet implemented");
-  }
+  // TODO tests for mutability
 }

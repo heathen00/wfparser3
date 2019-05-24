@@ -2,7 +2,6 @@ package com.ht.wfp3.api.statement.acceptance;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.Test;
 import com.ht.wfp3.api.statement.Csh;
@@ -97,8 +96,5 @@ public class CshAcceptanceTests {
     equalsHashCodeAndCompareToTester.assertDoesNotEqualNull(first);
   }
 
-  @Test
-  public void Csh_copyMaliciousMutableCsh_validImmutableCshIsCreated() {
-    fail("Not yet implemented");
-  }
+  // TODO tests for mutability
 }

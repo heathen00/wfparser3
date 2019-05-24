@@ -153,7 +153,7 @@ public class GeoVertexAcceptanceTests {
   }
 
   @Test
-  public void GeoVertex_copyMaliciousMutableInstance_validImmutableInstanceIsCreated()
+  public void GeoVertex_checkMutableDefensiveCopy_validImmutableInstanceIsCreated()
       throws Exception {
     final BigDecimal expectedBigDecimal = BigDecimal.valueOf(1.1d);
     MutabilityTester<GeoVertex> mutabilityTester =

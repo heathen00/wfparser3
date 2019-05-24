@@ -7,7 +7,7 @@ import java.util.Map;
 
 /**
  * Tester class to check if the class being tested performs defensive copying of its data members
- * when created or copied if the data members are unknown potentially immutable implementations. The
+ * when created or copied if the data members are unknown potentially mutable implementations. The
  * purpose is to test classes such as BigDecimal or classes that are accessible by extensible
  * interfaces that may have been subclassed to allow them to be modified external to the system.
  * This would break the immutability contract. This class does NOT check whether the internal data
@@ -50,8 +50,7 @@ public final class MutabilityTester<T> {
     this.creator = creator;
   }
 
-  private <S extends Object> void assertImmutableMemberData(Map<String, S> methodDataMap, T o)
-      throws Exception {
+  private void assertImmutableMemberData(Map<String, Object> methodDataMap, T o) throws Exception {
     Class<? extends Object> clazz = o.getClass();
     for (String methodName : methodDataMap.keySet()) {
       Method method = clazz.getMethod(methodName);
@@ -61,11 +60,11 @@ public final class MutabilityTester<T> {
     }
   }
 
-  private <S extends Object> void assertCopyImmutability(T expected, T actual) throws Exception {
+  private void assertCopyImmutability(T expected, T actual) throws Exception {
     assertEquals(expected.getClass(), actual.getClass());
   }
 
-  public <S extends Object> void assertImmutability() throws Exception {
+  public void assertImmutability() throws Exception {
     creator.setMutable(true);
     T o = creator.create();
     Map<String, Object> expectedMethodDataMap = creator.getExpectedMemberData();
@@ -79,6 +78,9 @@ public final class MutabilityTester<T> {
     assertCopyImmutability(o, copiedO);
     assertImmutableMemberData(expectedMethodDataMap, copiedO);
   }
+
+  // TODO You cannot accurately test to ensure the correct List type is used internally since I
+  // implemented methods to return an unmodifiable list.
 
   // TODO you should also test to ensure that the objects are ONLY copied if they have been
   // identified as not being the correct type. That is not copied every time.
