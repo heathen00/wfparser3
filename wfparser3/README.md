@@ -20,65 +20,42 @@ not explicitly state the behaviour in their acceptance criteria.
 
 ## Subsystems
 
-### Subsystems: Domain Objects
-
-packages:
-   * com.ht.wfp3.api.*
-
 
 ### Subsystems: Common Status Reporting
 
-TODO: YOU NEED TO REVIEW AND CLEAN UP THIS SECTION.  THEN START WRITING ACCEPTANCE TESTS.
+The following description is just a set of guidelines for how I envision this subsystem to work.  Once you
+implement the system, then delete this section since the software should be descriptive enough on its own.
 
 This software system consists of a number of subsystems.  These subsystems require a common mechanism for reporting
 status messages while they perform their tasks in such a way that is not as disruptive as throwing an exception.
 These status messages may not be reported immediately as they may delayed and presented in a final report document
 after the subsystem completes its task.
 
-There may be usage scenarios that require removing status messages.
-
-Scenario: Remove status message:
-   1. Initialize status of GeoVertex statement to "not used".
-   1. Perform OBJ document validation task.
-   1. Validation task determines GeoVertex statement is used.
-   1. Remove "not used" status of GeoVertex statement.
-
-The reported status messages will contain the following data:
-   * An identifier unique to the status message
-   * An identifier unique to the task.  The task is closely related to the subsystem, for example "parser" or
-     "validation".  However, mapping directly to the subsystem is a bad idea because the subsystem (Java package) is
-     an implementation artifact.  The task should also have a short name (maybe 10 characters or less) that supports
-     i18n.
-   * A priority: Not sure which priorities I'd like to have other than "NOT_DEFINED" as the default.  I would prefer
-     not to hard code the priority values.  The priority itself should consist of a text name such as "DEBUG" but also
-     an identifier unique to that priority.  The text name for the priority supports internationalization (i18n).  The
-     priority name should also have a limited length, maybe 10 characters.
-   * A human readable message: The human readable message is a short description of the event that occurred.  It
-     supports i18n.  The length should be short enough that it fits the width of a standard UNIX terminal (80
-     characters) minus the width of the priority name.  Perhaps a good starting maximum length is 50 characters.
-
-The objective is to potentially support the task name, priority name, and status message on a single standard UNIX
-terminal (80 characters at 12pts).  Thus, max lengths of:
+User stories require that the parser is supported at the UNIX command line.  This implies that the generated
+messages are compatible with the standard UNIX command line.  Thus, the task name, priority name, and status
+message must fit on a single standard UNIX terminal (80 characters at 12pts).  Thus, max lengths of:
    * task name: 10 characters
    * priority name: 10 characters
    * message: 50 characters
    * additional whitespace and formatting: 10 characters
    * overall line length (total of above): 80 characters
 
-Since tasks, priorities, and status messages are defined during the reporting bootstrapping process, they can all
-be checked to ensure they conform to the 
+Alternatively, you may have an optional auto-wrap or simply ignore the line length limit.  I've certainly used
+UNIX command line tools whose status messages are not limited to the standard terminal width.  But it would be
+easier to simply start with the defined limit.  If the limits are implemented to be flexible, as they should be,
+then they can easily be tweaked later.
 
-The status reporting system should bootstrap itself.  That is, when reading in the configuration for a set of status
-messages for a given task (or tasks), then it should use itself to report any problems.  This implies that it has its
-own set of status messages that it reads in first.  This further implies that there is a primordial "bootstrapping"
-status message that it throws when bootstrapping itself.  That last status message (or possibly minimal set of status
-messages) can be hard coded.
+Following are some relevant, high level usage scenarios.
 
-It may be necessary to link status messages (one or more messages for a given object) to an object belonging to a
-separate subsystem.  See the "Remove status message" scenario.  On a related note, it may be necessary to support
-parameterized strings in the status messages.
+Scenario: Remove status message during OBJ data model validation.
+   1. Start OBJ data model validation.
+   1. Create an empty OBJ validation report.
+   1. Initialize status of GeoVertex statement to "not used" in validation report.
+   1. Perform OBJ document validation task.
+   1. Validation task determines GeoVertex statement is used by a Face statement.
+   1. Remove "not used" status of GeoVertex statement.
 
-Scenario: Parsing OBJ file
+Scenario: Parsing OBJ file requires linking status messages
    1. Parse OBJ file.
    1. Find GeoVertex that is incorrectly defined.
    1. Complete parsing.
@@ -89,26 +66,69 @@ event for every statement may be too cumbersome.  What about "specific reason"? 
 specify the character number, so it would be 'at character number "YYY"'.  At any rate, you'll likely want to
 start with simple message reporting first, then enhance it with these features.
 
+Scenario: Message system bootstrapping
+   1. Message system is started with the client(s) specifying the configuration for their event messages.
+   1. Message system initializes, possibly hard-coded, "primordial" messages for itself for messages related to the
+      bootstrapping process.
+   1. Message system reads the client configuration specified to it.
+   1. Message system may generate bootstrapping messages if the proper bootstrapping events occur as set in its
+      bootsrapping message configuration.
+
+Since tasks, priorities, and status messages are defined during the reporting bootstrapping process, they can all
+be checked to ensure they conform to the text width limitations, etc.  Alternatively, it may be sufficient for the
+system to throw exceptions while bootstrapping if a non-recoverable error occurs.
+
+Scenario: Validation requires report generation
+   1. Parsing of OBJ file has completed and created OBJ document model successfully.
+   1. Validation subsystem walks across OBJ document model to ensure valid relationships between statements defined
+      on OBJ document model.
+   1. Validation subsystem generates event messages based on information it determines while analyzing the OBJ
+      document model and saves these event messages in a validation report.
+   1. Validation subsystem completes validation of the OBJ document model.
+   1. Validation subsystem publishes results of validation process in validation report.
+
 It was mentioned above that a report is generated.  This will be a simple model, and it will be the responsibility
 of some as of yet undetermined subsystem(s) to format the messages according to those subsystems' requirements.
 However, tools for activities like sorting based on priority/message/etc. should be provided.  At the very least,
 a default natural ordering should be provided.
 
-The "unique key" for both the priority and the full message should be private.  These would likely be generated
-during the reporting system bootstrapping process and are not guaranteed to be unique across invocations.
+The messages consist of the following data:
+   * Unique task identifier: The "task" identifies what task the software system is currently performing and is
+        loosely associated with the subsystem that performs that task, such as "parser" or "validator".  The
+        task will have a human readable name that supports internationalization (i18n).  It will have a positive
+        non-zero integer that is unique across all tasks, thus the whole messaging subsystem.  The zeroth task
+        is reserved for the standard "UNDEFINED" task for when a client erroneously attempts to use an unidentified
+        task.  The first task is reserved for general "SYSTEM" errors for implementation problems that occurred in
+        the reporting system that are not related to client problems.  The second task is also reserved for
+        bootstrapping.  The task name and integer identifier are explicitly identified during the bootstrap process.
+   * Message: The "message" is the event description. The message contains a human readable string that supports 
+        i18n with a defined limited length.  The message string is optionally parameterized.  The message string is
+        specified explicitly during the system bootstrap including parameterization tokens.
+   * Unique message identifier: The message contains a positive non-zero integer that is unique within the task it
+        is defined.  The zeroth message is reserved for the standard "UNDEFINED" message for when a client
+        erroneously attempts to use an unidentified message.  The message unique identifier integer is specified
+        explicitly during the system bootstraps process.
+   * A priority: The priority will contain a human readable string name that supports i18n and has a system wide
+        defined maximum string length.  The priority will have a unique non-zero integer identifier.  The zeroth
+        priority is reserved for the "UNDEFINED" priority for when the client erroneously specifies a message
+        with an unidentified priority.  The priorities are defined across all tasks and messages at subsystem
+        bootstrap time and are unique across all tasks and messages.  The priorities are intended to be changeable
+        for a given message, so should NOT be used as a part of uniquely identifying a message either within a task
+        or across the entire message subsystem.        
+   * Associated object?: The message is optionally associated with an object from another subsystem.  Alternative 1:
+        The tracking is performed by the client system.  As long as the message properly implements equals, hashcode,
+        and compareTo, then the tracking can be done in standard maps, lists, etc.  Alternative 2: Do not implement
+        removing messages at all, and just assume that message reports will be regenerated if the system state
+        changes.  You should delay message removal as long as possible to see if it is actually needed or not.  If
+        it is, then move to "alternative 1".
 
-The message "unique key" ONLY needs to be unique within the given task that it is defined.
+All domain objects are implemented as immutable value objects.  The event handling would likely best be implemented
+using a producer/consumer model.  Thus, if logging of events is desired, then a logging consumer could be
+implemented that immediately logs events.  If a validation report generation is required, then the consumer would
+generate the report by appending the messages to an appropriate, simple data structure.
 
-The defined priorities should be defined across all tasks and event messages.
-
-You may provide logging functionality as a simple event handler.
-
-For testability and flexibility, you should implement the event handling, as well, an event handler where listeners
-register to do "something" with the information reported to reporting subsystem.  Thus, you could then have a simple
-logger that just logs the event immediately, or have a report creator that adds the events to a report that can
-then be analyzed / reported after the task is complete.  Once you get the implementation refined enough, you could
-consider providing an interface so that the subsystems that use the reporting subsystem could register their own
-clients/listeners.
+It may be necessary to provide the ability to disable / enable events for scenarios like a given event was
+incorrectly defined (or something) and should not be used anymore.
 
 
 ## Rough Notes
