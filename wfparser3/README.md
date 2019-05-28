@@ -93,34 +93,19 @@ However, tools for activities like sorting based on priority/message/etc. should
 a default natural ordering should be provided.
 
 The messages consist of the following data:
-   * Unique task identifier: The "task" identifies what task the software system is currently performing and is
-        loosely associated with the subsystem that performs that task, such as "parser" or "validator".  The
-        task will have a human readable name that supports internationalization (i18n).  It will have a positive
-        non-zero integer that is unique across all tasks, thus the whole messaging subsystem.  The zeroth task
-        is reserved for the standard "UNDEFINED" task for when a client erroneously attempts to use an unidentified
-        task.  The first task is reserved for general "SYSTEM" errors for implementation problems that occurred in
-        the reporting system that are not related to client problems.  The second task is also reserved for
-        bootstrapping.  The task name and integer identifier are explicitly identified during the bootstrap process.
-   * Message: The "message" is the event description. The message contains a human readable string that supports 
-        i18n with a defined limited length.  The message string is optionally parameterized.  The message string is
-        specified explicitly during the system bootstrap including parameterization tokens.
-   * Unique message identifier: The message contains a positive non-zero integer that is unique within the task it
-        is defined.  The zeroth message is reserved for the standard "UNDEFINED" message for when a client
-        erroneously attempts to use an unidentified message.  The message unique identifier integer is specified
-        explicitly during the system bootstraps process.
-   * A priority: The priority will contain a human readable string name that supports i18n and has a system wide
-        defined maximum string length.  The priority will have a unique non-zero integer identifier.  The zeroth
-        priority is reserved for the "UNDEFINED" priority for when the client erroneously specifies a message
-        with an unidentified priority.  The priorities are defined across all tasks and messages at subsystem
-        bootstrap time and are unique across all tasks and messages.  The priorities are intended to be changeable
-        for a given message, so should NOT be used as a part of uniquely identifying a message either within a task
-        or across the entire message subsystem.        
+   * Unique message identifier
+   * Topic
+   * Description
+   * Priority   
    * Associated object?: The message is optionally associated with an object from another subsystem.  Alternative 1:
         The tracking is performed by the client system.  As long as the message properly implements equals, hashcode,
         and compareTo, then the tracking can be done in standard maps, lists, etc.  Alternative 2: Do not implement
         removing messages at all, and just assume that message reports will be regenerated if the system state
         changes.  You should delay message removal as long as possible to see if it is actually needed or not.  If
         it is, then move to "alternative 1".
+
+For the description, the intention is just to use "sprintf", so maybe read up about it, then figure out a simple
+way to construct a formatted message that passing in all the required parameters.
 
 All domain objects are implemented as immutable value objects.  The event handling would likely best be implemented
 using a producer/consumer model.  Thus, if logging of events is desired, then a logging consumer could be
