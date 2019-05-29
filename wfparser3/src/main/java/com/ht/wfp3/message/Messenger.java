@@ -10,7 +10,7 @@ public interface Messenger {
 
   /**
    * Locate a message instance for the specified topic and message key. The message key is the same
-   * value as what is returned in Message.getUniqueId().getKey().
+   * value as what is returned in Message.getUId().getKey().
    * 
    * @param topicName
    * @param messageKey
