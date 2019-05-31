@@ -10,6 +10,18 @@ import java.util.List;
  *
  */
 public interface MessageSystem {
+  public interface Config {
+
+    Localization getLocalization();
+
+  }
+
+  static MessageSystem createMessageSystem() {
+    return MessageSystemImp.SINGLETON;
+  }
+
+  MessageFactory createMessageFactory();
+
   Messenger createMessenger();
 
   List<Priority> getPriorityList();
@@ -17,4 +29,6 @@ public interface MessageSystem {
   List<Topic> getTopicList();
 
   List<Message> getMessageList(Topic topic);
+
+  Config getConfig();
 }

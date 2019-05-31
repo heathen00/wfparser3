@@ -11,7 +11,7 @@ public class MessageFactoryTest {
 
   @Before
   public void setup() {
-    messageFactory = MessageFactory.createMessageFactory();
+    messageFactory = MessageSystem.createMessageSystem().createMessageFactory();
   }
 
   // TODO Set up the localization configuration, first, then come back to this and rewrite the tests

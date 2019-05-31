@@ -1,10 +1,8 @@
 package com.ht.wfp3.message;
 
-final class MessageFactory {
-  private static final MessageFactory SINGLETON = new MessageFactory();
+public final class MessageFactory {
+  MessageFactory() {
 
-  static MessageFactory createMessageFactory() {
-    return SINGLETON;
   }
 
   Priority createPriority(String uidKey, String name) throws ConstraintViolationException {
