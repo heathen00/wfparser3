@@ -1,6 +1,6 @@
 package com.ht.wfp3.message;
 
-import java.util.List;
+import java.util.Set;
 
 /**
  * The message system represents the system used for messaging. This is the starting point for
@@ -11,6 +11,7 @@ import java.util.List;
  */
 public interface MessageSystem {
   public interface Config {
+    Constraints getConstraints();
 
     Localization getLocalization();
 
@@ -20,15 +21,17 @@ public interface MessageSystem {
     return MessageSystemImp.SINGLETON;
   }
 
-  MessageFactory createMessageFactory();
+  void resetToDefault();
+
+  Config getConfig();
+
+  MessageFactory getMessageFactory();
 
   Messenger createMessenger();
 
-  List<Priority> getPriorityList();
+  Set<UID<Priority>> getPriorityUidList();
 
-  List<Topic> getTopicList();
+  Set<UID<Topic>> getTopicUidList();
 
-  List<Message> getMessageList(Topic topic);
-
-  Config getConfig();
+  Set<UID<Message>> getMessageUidList();
 }

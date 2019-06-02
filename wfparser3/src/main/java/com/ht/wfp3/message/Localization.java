@@ -1,12 +1,16 @@
 package com.ht.wfp3.message;
 
 import java.util.Locale;
-import java.util.ResourceBundle;
 
 public interface Localization {
 
+  String UNKNOWN_L10N_KEY = "__UNKNOWN_KEY__";
+
   Locale getLocale();
 
-  ResourceBundle getPriorityResourceBundle();
+  void setLocale(Locale locale);
 
+  void setDefaultLocale();
+
+  String getPriorityName(String uidKey);
 }
