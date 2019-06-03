@@ -31,6 +31,21 @@ final class NullMessageFactoryImp implements MessageFactory {
   }
 
   @Override
+  public UID<Topic> addTopic(String topicUidKey) {
+    throw new UnsupportedOperationException("message system failed to initialize properly");
+  }
+
+  @Override
+  public Topic getTopic(UID<Topic> topicUid) {
+    throw new UnsupportedOperationException("message system failed to initialize properly");
+  }
+
+  @Override
+  public UID<Topic> getTopicUid(String topicUidKey) {
+    throw new UnsupportedOperationException("message system failed to initialize properly");
+  }
+
+  @Override
   public Set<UID<Topic>> getTopicUidSet() {
     throw new UnsupportedOperationException("message system failed to initialize properly");
   }

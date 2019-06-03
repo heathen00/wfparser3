@@ -9,40 +9,48 @@ final class MessageFactoryImp implements MessageFactory {
   private final MessageSystem messageSystem;
   private final Map<UID<Priority>, Priority> priorityMap;
   private final Map<String, UID<Priority>> priorityKeyMap;
+  private final Map<UID<Topic>, Topic> topicMap;
+  private final Map<String, UID<Topic>> topicKeyMap;
 
   MessageFactoryImp(MessageSystem messageSystem) throws ConstraintViolationException {
     this.messageSystem = messageSystem;
-    this.priorityMap = new HashMap<>();
-    this.priorityKeyMap = new HashMap<>();
+    priorityMap = new HashMap<>();
+    priorityKeyMap = new HashMap<>();
+    topicMap = new HashMap<>();
+    topicKeyMap = new HashMap<>();
   }
 
-  public UID<Priority> addPriority(String uidKey) throws ConstraintViolationException {
+  private void uidKeyValidationGuard(String uidKey) throws ConstraintViolationException {
     if (null == uidKey) {
-      throw new ConstraintViolationException("priority uidKey cannot be null");
+      throw new ConstraintViolationException("uidKey cannot be null");
     }
     if (!uidKey.matches("^[a-z.]+$")) {
       throw new ConstraintViolationException(
-          "priority uidKey can only contain lower case letters and periods");
+          "uidKey can only contain lower case letters and periods");
     }
-    int priorityUidKeyMaxLength =
-        messageSystem.getConfig().getConstraints().getPriorityUidKeyMaxLength();
-    if (priorityUidKeyMaxLength < uidKey.length()) {
+    int uidKeyMaxLength = messageSystem.getConfig().getConstraints().getUidKeyMaxLength();
+    if (uidKeyMaxLength < uidKey.length()) {
       throw new ConstraintViolationException(
-          "priority uidKey length must be less than or equal to " + priorityUidKeyMaxLength);
+          "uidKey length must be less than or equal to " + uidKeyMaxLength);
     }
+  }
+
+  public UID<Priority> addPriority(String priorityUidKey) throws ConstraintViolationException {
+    uidKeyValidationGuard(priorityUidKey);
     if (Localization.UNKNOWN_L10N_KEY
-        .equals(messageSystem.getConfig().getLocalization().getPriorityName(uidKey))) {
+        .equals(messageSystem.getConfig().getLocalization().getPriorityName(priorityUidKey))) {
       throw new ConstraintViolationException(
-          "localization not defined for priority uidKey '" + uidKey + "'");
+          "localization not defined for priority uidKey '" + priorityUidKey + "'");
     }
-    Priority priority = new PriorityImp(messageSystem, uidKey);
-    UID<Priority> priorityUID = priority.getUId();
-    if (null != priorityMap.get(priorityUID)) {
-      throw new ConstraintViolationException("priority with uid " + uidKey + " already exists");
+    Priority priority = new PriorityImp(messageSystem, priorityUidKey);
+    UID<Priority> priorityUid = priority.getUId();
+    if (null != priorityMap.get(priorityUid)) {
+      throw new ConstraintViolationException(
+          "priority with uid " + priorityUidKey + " already exists");
     }
-    priorityMap.put(priorityUID, priority);
-    priorityKeyMap.put(priorityUID.getKey(), priorityUID);
-    return priorityUID;
+    priorityMap.put(priorityUid, priority);
+    priorityKeyMap.put(priorityUid.getKey(), priorityUid);
+    return priorityUid;
   }
 
   public UID<Priority> getPriorityUid(String uidKey) {
@@ -59,9 +67,31 @@ final class MessageFactoryImp implements MessageFactory {
   }
 
   @Override
+  public UID<Topic> addTopic(String topicUidKey) throws ConstraintViolationException {
+    uidKeyValidationGuard(topicUidKey);
+    Topic topic = new TopicImp(messageSystem, topicUidKey);
+    UID<Topic> topicUid = topic.getUId();
+    if (null != topicMap.get(topicUid)) {
+      throw new ConstraintViolationException("topic with uid " + topicUidKey + " already exists");
+    }
+    topicMap.put(topicUid, topic);
+    topicKeyMap.put(topicUidKey, topicUid);
+    return topicUid;
+  }
+
+  @Override
+  public Topic getTopic(UID<Topic> topicUid) {
+    return topicMap.get(topicUid);
+  }
+
+  @Override
+  public UID<Topic> getTopicUid(String topicUidKey) {
+    return topicKeyMap.get(topicUidKey);
+  }
+
+  @Override
   public Set<UID<Topic>> getTopicUidSet() {
-    // TODO Auto-generated method stub
-    return null;
+    return Collections.unmodifiableSet(topicMap.keySet());
   }
 
   @Override

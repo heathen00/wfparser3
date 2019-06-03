@@ -12,5 +12,7 @@ public interface Localization {
 
   void setDefaultLocale();
 
-  String getPriorityName(String uidKey);
+  String getPriorityName(String priorityUidKey);
+
+  String getTopicName(String topicUidKey);
 }

@@ -46,7 +46,7 @@ public class MessageFactoryTest {
   public void MessageFactory_addPriorityWithUidKeyIsTooLong_constraintViolationExceptionIsThrown()
       throws Exception {
     messageFactory.addPriority(
-        "priorityUidKeyMustBeLessThanMaximumLengthSoIfItIsTooLongThenAConstraintViolationExceptionWillBeThrown");
+        "uidkey.cannot.be.too.long.or.the.message.system.will.throw.a.constraint.violation");
   }
 
   @Test(expected = ConstraintViolationException.class)
@@ -59,9 +59,9 @@ public class MessageFactoryTest {
   public void MessageFactory_addTheTestingPriority_testingPriorityIsAdded() throws Exception {
     String testingUidKey = "testing";
     UID<Priority> priorityUid = messageFactory.addPriority(testingUidKey);
-    Priority undefinedPriority = messageFactory.getPriority(priorityUid);
-
-    assertNotNull(undefinedPriority);
+    assertNotNull(priorityUid);
+    Priority testingPriority = messageFactory.getPriority(priorityUid);
+    assertNotNull(testingPriority);
   }
 
   @Test(expected = ConstraintViolationException.class)
@@ -129,9 +129,123 @@ public class MessageFactoryTest {
     }
   }
 
+  @Test(expected = ConstraintViolationException.class)
+  public void MessageFactory_addTopicWithNullUidKey_constraintViolationExceptionIsThrown()
+      throws Exception {
+    messageFactory.addTopic(null);
+  }
+
+  @Test(expected = ConstraintViolationException.class)
+  public void MessageFactory_addTopicWithEmptyUidKey_constraintViolationExceptionIsThrown()
+      throws Exception {
+    messageFactory.addTopic(" \t");
+  }
+
+  @Test(expected = ConstraintViolationException.class)
+  public void MessageFactory_addTopicWithUidKeyContainingWhitespaceOrNewLines_constraintViolationExceptionIsThrown()
+      throws Exception {
+    messageFactory.addTopic("not\tvalid");
+  }
+
+  @Test(expected = ConstraintViolationException.class)
+  public void MessageFactory_addTopicWithUidKeyIsTooLong_constraintViolationExceptionIsThrown()
+      throws Exception {
+    try {
+      messageFactory.addTopic(
+          "uidkey.cannot.be.too.long.or.the.message.system.will.throw.a.constraint.violation");
+    } catch (ConstraintViolationException cve) {
+      System.out.println(cve);
+      throw cve;
+    }
+
+  }
+
+  @Test(expected = ConstraintViolationException.class)
+  public void MessageFactory_addTopicWithUidKeyContainingInvalidCharacters_constraintViolationExceptionIsThrown()
+      throws Exception {
+    messageFactory.addTopic("invalid_key_012345");
+  }
+
+  @Test
+  public void MessageFactory_addTheTestingTopic_testingTopicIsAdded() throws Exception {
+    String testingUidKey = "testing";
+    UID<Topic> topicUid = messageFactory.addTopic(testingUidKey);
+    assertNotNull(topicUid);
+    Topic testingTopic = messageFactory.getTopic(topicUid);
+    assertNotNull(testingTopic);
+  }
+
+  @Test(expected = ConstraintViolationException.class)
+  public void MessageFactory_addTopicWithDuplicateUidKey_constraintViolationExceptionIsThrown()
+      throws Exception {
+    String testingUidKey = "testing.defined.in.all";
+    messageFactory.addTopic(testingUidKey);
+
+    messageFactory.addTopic(testingUidKey);
+  }
+
+  @Test
+  public void MessageFactory_setLocaleToAvailableLocaleResourcesAndGetTopicName_nameFromAvailableResourcesReturned()
+      throws Exception {
+    messageSystemInternal.getConfig().getLocalization().setLocale(Locale.CANADA_FRENCH);
+    String testingUidKey = "testing";
+    UID<Topic> topicUid = messageFactory.addTopic(testingUidKey);
+    Topic topic = messageFactory.getTopic(topicUid);
+    assertNotNull(topic);
+    assertNotNull(topic.getName());
+    assertTrue(topic.getName().matches("^.*fr\\.CA.*$"));
+
+    messageSystemInternal.getConfig().getLocalization().setDefaultLocale();
+    assertTrue(topic.getName().matches("^.*default.*$"));
+  }
+
+  @Test
+  public void MessageFactory_setLocaleToNotAvailableLocaleResourcesAndGetTopicName_nameFromNoLocaleResourcesReturned()
+      throws Exception {
+    messageSystemInternal.getConfig().getLocalization().setLocale(Locale.TRADITIONAL_CHINESE);
+    String testingUidKey = "testing";
+    UID<Topic> topicUid = messageFactory.addTopic(testingUidKey);
+    Topic topic = messageFactory.getTopic(topicUid);
+    assertNotNull(topic);
+    assertTrue(topic.getName().matches("^.*default.*$"));
+
+    messageSystemInternal.getConfig().getLocalization().setDefaultLocale();
+    assertTrue(topic.getName().matches("^.*default.*$"));
+  }
+
+  @Test
+  public void MessageFactory_setLocaleGetTopicNameSetDifferentLocaleGetTopicName_nameforSpecifiedLocaleReturned()
+      throws Exception {
+    messageSystemInternal.getConfig().getLocalization().setLocale(Locale.CANADA_FRENCH);
+    String testingUidKey = "testing";
+    UID<Topic> topicUid = messageFactory.addTopic(testingUidKey);
+    Topic topic = messageFactory.getTopic(topicUid);
+    assertNotNull(topic);
+    assertTrue(topic.getName().matches("^.*fr\\.CA.*$"));
+
+    messageSystemInternal.getConfig().getLocalization().setLocale(Locale.GERMANY);
+    assertFalse(topic.getName().matches("^.*fr\\.CA.*$"));
+  }
+
+  @Test
+  public void MessageFactory_checkAllDefaultSystemTopic_allDefaultTopicsAreAdded() {
+    List<String> expectedTopicKeyList = Arrays.asList("undefined", "system");
+    Set<UID<Topic>> topicUidList = messageFactory.getTopicUidSet();
+
+    assertNotNull(topicUidList);
+    for (String expectedTopicUidKey : expectedTopicKeyList) {
+      UID<Topic> expectedTopicUid = messageFactory.getTopicUid(expectedTopicUidKey);
+      assertNotNull(expectedTopicUidKey, expectedTopicUid);
+      assertTrue(expectedTopicUidKey, topicUidList.contains(expectedTopicUid));
+    }
+  }
+
   // TODO What if name as configured in L10N is too long? How to validate all localization values
   // over all values.
   // test: priority defined in default cfg, but value is too long.
   // test: priority defined in current locale, but value is too long.
   // TODO you will need to handle "null", too, both being passed in AND out.
+  // test: you need a test for priority and topic (and others when you implement them) to test for
+  // adding a topic whose configuration does NOT exist in the locale bundle. Should throw an
+  // exception.
 }

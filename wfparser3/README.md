@@ -115,6 +115,18 @@ generate the report by appending the messages to an appropriate, simple data str
 It may be necessary to provide the ability to disable / enable events for scenarios like a given event was
 incorrectly defined (or something) and should not be used anymore.
 
+Ideas I had during implementation:
+   * perhaps you should have an interface that the localized data should implement that maps the localized fields
+     to the localized data.
+   * you should consider re-implementing the localization so that their are three tiers.  The first tier is the
+     user defined localization configuration(s) and it can be fully configuration based.  It is searched first for
+     the localization data.  The second tier is the system tier and it is hard coded.  This is to get around the
+     chicken and egg situation related to using the same interfaces that may require localized data from the
+     "system" topic while setting up the "system".  The third and last tier is to handle scenarios when the
+     localization data is missing from the two previous tiers.  Instead of halting the system due to a localization
+     misconfiguration, you can just report that the localization data is missing.  This would be less prone to
+     runtime errors.
+
 
 ## Rough Notes
 

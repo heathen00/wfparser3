@@ -1,14 +1,14 @@
 package com.ht.wfp3.message;
 
 final class ConstraintsImp implements Constraints {
-  private int priorityUidKeyMaxLength;
+  private int uidKeyMaxLength;
 
-  ConstraintsImp(int priorityUidKeyMaxLength) {
-    this.priorityUidKeyMaxLength = priorityUidKeyMaxLength;
+  ConstraintsImp(int uidKeyMaxLength) {
+    this.uidKeyMaxLength = uidKeyMaxLength;
   }
 
   @Override
-  public int getPriorityUidKeyMaxLength() {
-    return priorityUidKeyMaxLength;
+  public int getUidKeyMaxLength() {
+    return uidKeyMaxLength;
   }
 }

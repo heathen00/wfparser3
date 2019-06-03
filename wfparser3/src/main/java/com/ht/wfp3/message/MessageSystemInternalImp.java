@@ -2,13 +2,13 @@ package com.ht.wfp3.message;
 
 final class MessageSystemInternalImp implements MessageSystemInternal {
   final static class ConfigImp implements MessageSystem.Config {
-    private final static int INIT_PRIORITY_UID_KEY_MAXIMUM_LENGTH = 50;
+    private final static int INIT_UID_KEY_MAXIMUM_LENGTH = 50;
     private final Localization localization;
     private final Constraints constraints;
 
     ConfigImp() {
       localization = new LocalizationImp();
-      constraints = new ConstraintsImp(INIT_PRIORITY_UID_KEY_MAXIMUM_LENGTH);
+      constraints = new ConstraintsImp(INIT_UID_KEY_MAXIMUM_LENGTH);
     }
 
     @Override
@@ -40,6 +40,8 @@ final class MessageSystemInternalImp implements MessageSystemInternal {
       messageFactory.addPriority("info");
       messageFactory.addPriority("warn");
       messageFactory.addPriority("error");
+      messageFactory.addTopic("undefined");
+      messageFactory.addTopic("system");
     } catch (ConstraintViolationException cve) {
       System.out.println("cve: " + cve);
       messageFactory = new NullMessageFactoryImp();
