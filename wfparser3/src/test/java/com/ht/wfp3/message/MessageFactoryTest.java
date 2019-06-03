@@ -12,14 +12,14 @@ import org.junit.Test;
 
 public class MessageFactoryTest {
 
-  private MessageSystem messageSystem;
+  private MessageSystemInternal messageSystemInternal;
   private MessageFactory messageFactory;
 
   @Before
   public void setup() {
-    messageSystem = MessageSystem.createMessageSystem();
-    messageSystem.resetToDefault();
-    messageFactory = MessageSystem.createMessageSystem().getMessageFactory();
+    messageSystemInternal = (MessageSystemInternal) MessageSystem.createMessageSystem();
+    messageSystemInternal.resetToDefault();
+    messageFactory = messageSystemInternal.getMessageFactory();
   }
 
   // TODO you should research more detailed exception testing since in this case you need to ensure
@@ -76,42 +76,42 @@ public class MessageFactoryTest {
   @Test
   public void MessageFactory_setLocaleToAvailableLocaleResourcesAndGetPriorityName_nameFromAvailableResourcesReturned()
       throws Exception {
-    messageSystem.getConfig().getLocalization().setLocale(Locale.CANADA_FRENCH);
+    messageSystemInternal.getConfig().getLocalization().setLocale(Locale.CANADA_FRENCH);
     String testingUidKey = "testing";
     UID<Priority> priorityUid = messageFactory.addPriority(testingUidKey);
     Priority priority = messageFactory.getPriority(priorityUid);
     assertNotNull(priority);
     assertTrue(priority.getName().matches("^.*fr\\.CA.*$"));
 
-    messageSystem.getConfig().getLocalization().setDefaultLocale();
+    messageSystemInternal.getConfig().getLocalization().setDefaultLocale();
     assertTrue(priority.getName().matches("^.*default.*$"));
   }
 
   @Test
   public void MessageFactory_setLocaleToNotAvailableLocaleResourcesAndGetPriorityName_nameFromNoLocaleResourcesReturned()
       throws Exception {
-    messageSystem.getConfig().getLocalization().setLocale(Locale.TRADITIONAL_CHINESE);
+    messageSystemInternal.getConfig().getLocalization().setLocale(Locale.TRADITIONAL_CHINESE);
     String testingUidKey = "testing";
     UID<Priority> priorityUid = messageFactory.addPriority(testingUidKey);
     Priority priority = messageFactory.getPriority(priorityUid);
     assertNotNull(priority);
     assertTrue(priority.getName().matches("^.*default.*$"));
 
-    messageSystem.getConfig().getLocalization().setDefaultLocale();
+    messageSystemInternal.getConfig().getLocalization().setDefaultLocale();
     assertTrue(priority.getName().matches("^.*default.*$"));
   }
 
   @Test
   public void MessageFactory_setLocaleGetPriorityNameSetDifferentLocaleGetPriorityName_nameforSpecifiedLocaleReturned()
       throws Exception {
-    messageSystem.getConfig().getLocalization().setLocale(Locale.CANADA_FRENCH);
+    messageSystemInternal.getConfig().getLocalization().setLocale(Locale.CANADA_FRENCH);
     String testingUidKey = "testing";
     UID<Priority> priorityUid = messageFactory.addPriority(testingUidKey);
     Priority priority = messageFactory.getPriority(priorityUid);
     assertNotNull(priority);
     assertTrue(priority.getName().matches("^.*fr\\.CA.*$"));
 
-    messageSystem.getConfig().getLocalization().setLocale(Locale.GERMANY);
+    messageSystemInternal.getConfig().getLocalization().setLocale(Locale.GERMANY);
     assertFalse(priority.getName().matches("^.*fr\\.CA.*$"));
   }
 
@@ -119,7 +119,7 @@ public class MessageFactoryTest {
   public void MessageFactory_checkAllDefaultSystemPriorities_allDefaultPrioritiesAreAdded() {
     List<String> expectedPriorityKeyList =
         Arrays.asList("undefined", "debug", "info", "warn", "error");
-    Set<UID<Priority>> priorityUidList = messageSystem.getPriorityUidList();
+    Set<UID<Priority>> priorityUidList = messageFactory.getPriorityUidSet();
 
     assertNotNull(priorityUidList);
     for (String expectedPriorityUidKey : expectedPriorityKeyList) {
@@ -133,4 +133,5 @@ public class MessageFactoryTest {
   // over all values.
   // test: priority defined in default cfg, but value is too long.
   // test: priority defined in current locale, but value is too long.
+  // TODO you will need to handle "null", too, both being passed in AND out.
 }

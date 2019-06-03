@@ -1,6 +1,6 @@
 package com.ht.wfp3.message;
 
-class ConstraintsImp implements Constraints {
+final class ConstraintsImp implements Constraints {
   private int priorityUidKeyMaxLength;
 
   ConstraintsImp(int priorityUidKeyMaxLength) {

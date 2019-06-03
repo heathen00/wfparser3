@@ -2,15 +2,10 @@ package com.ht.wfp3.message;
 
 import java.util.Set;
 
-public class NullMessageFactoryImp implements MessageFactory {
+final class NullMessageFactoryImp implements MessageFactory {
 
   @Override
   public UID<Priority> getPriorityUid(String string) {
-    throw new UnsupportedOperationException("message system failed to initialize properly");
-  }
-
-  @Override
-  public UID<Priority> createPriorityUid(Priority priority, String uidKey) {
     throw new UnsupportedOperationException("message system failed to initialize properly");
   }
 
@@ -25,12 +20,23 @@ public class NullMessageFactoryImp implements MessageFactory {
   }
 
   @Override
-  public Set<UID<Priority>> getPriorityKeySet() {
+  public void addMessageNotYetImplemented() {
     throw new UnsupportedOperationException("message system failed to initialize properly");
   }
 
   @Override
-  public void addMessageNotYetImplemented() {
+  public Set<UID<Priority>> getPriorityUidSet() {
+    throw new UnsupportedOperationException("message system failed to initialize properly");
+
+  }
+
+  @Override
+  public Set<UID<Topic>> getTopicUidSet() {
+    throw new UnsupportedOperationException("message system failed to initialize properly");
+  }
+
+  @Override
+  public Set<UID<Message>> getMessageUidSet() {
     throw new UnsupportedOperationException("message system failed to initialize properly");
   }
 }

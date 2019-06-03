@@ -1,8 +1,6 @@
 package com.ht.wfp3.message;
 
-import java.util.Set;
-
-final class MessageSystemImp implements MessageSystem {
+final class MessageSystemInternalImp implements MessageSystemInternal {
   final static class ConfigImp implements MessageSystem.Config {
     private final static int INIT_PRIORITY_UID_KEY_MAXIMUM_LENGTH = 50;
     private final Localization localization;
@@ -24,17 +22,17 @@ final class MessageSystemImp implements MessageSystem {
     }
   }
 
-  static final MessageSystem SINGLETON = new MessageSystemImp();
+  static final MessageSystem SINGLETON = new MessageSystemInternalImp();
 
   private MessageFactory messageFactory;
   private MessageSystem.Config config;
 
-  MessageSystemImp() {
+  MessageSystemInternalImp() {
     internalResetToDefault();
   }
 
   private void internalResetToDefault() {
-    config = new MessageSystemImp.ConfigImp();
+    config = new MessageSystemInternalImp.ConfigImp();
     try {
       messageFactory = new MessageFactoryImp(this);
       messageFactory.addPriority("undefined");
@@ -67,22 +65,5 @@ final class MessageSystemImp implements MessageSystem {
   @Override
   public void resetToDefault() {
     internalResetToDefault();
-  }
-
-  @Override
-  public Set<UID<Priority>> getPriorityUidList() {
-    return messageFactory.getPriorityKeySet();
-  }
-
-  @Override
-  public Set<UID<Topic>> getTopicUidList() {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-  @Override
-  public Set<UID<Message>> getMessageUidList() {
-    // TODO Auto-generated method stub
-    return null;
   }
 }

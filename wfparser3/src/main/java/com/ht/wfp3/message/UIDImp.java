@@ -1,6 +1,6 @@
 package com.ht.wfp3.message;
 
-public class UIDImp<T> implements UID<T> {
+final class UIDImp<T> implements UID<T> {
 
   private final T component;
   private final String key;

@@ -7,7 +7,7 @@ final class PriorityImp implements Priority {
 
   PriorityImp(MessageSystem messageSystem, String uidKey) {
     this.messageSystem = messageSystem;
-    uid = messageSystem.getMessageFactory().createPriorityUid(this, uidKey);
+    uid = new UIDImp<Priority>(this, uidKey);
   }
 
   @Override

@@ -4,7 +4,7 @@ import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
-class LocalizationImp implements Localization {
+final class LocalizationImp implements Localization {
   private static final String PRIORITY_L10N_BUNDLE_BASENAME =
       "com.ht.wfp3.message.PriorityL10nBundle";
   private static final String L10N_KEY_SEPARATOR = ".";

@@ -1,6 +1,6 @@
 package com.ht.wfp3.message;
 
-class ConstraintViolationException extends Exception {
+public class ConstraintViolationException extends Exception {
 
   /**
    * 

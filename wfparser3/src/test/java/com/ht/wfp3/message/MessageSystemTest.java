@@ -12,16 +12,12 @@ public class MessageSystemTest {
   public void MessageSystem_createDefaultMessageSystem_defaultMessageSystemCreated() {
     MessageSystem messageSystem = MessageSystem.createMessageSystem();
     MessageSystem singletonMessageSystem = MessageSystem.createMessageSystem();
-    MessageFactory messageFactory = messageSystem.getMessageFactory();
-    MessageFactory singletonMessageFactory = messageSystem.getMessageFactory();
     MessageSystem.Config messageSystemConfig = messageSystem.getConfig();
     MessageSystem.Config singletonMessageSystemConfig = messageSystem.getConfig();
     Localization localization = messageSystemConfig.getLocalization();
     Locale locale = localization.getLocale();
     assertNotNull(messageSystem);
     assertTrue(messageSystem == singletonMessageSystem);
-    assertNotNull(messageFactory);
-    assertTrue(messageFactory == singletonMessageFactory);
     assertNotNull(messageSystemConfig);
     assertTrue(messageSystemConfig == singletonMessageSystemConfig);
     assertNotNull(localization);

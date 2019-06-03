@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-public final class MessageFactoryImp implements MessageFactory {
+final class MessageFactoryImp implements MessageFactory {
   private final MessageSystem messageSystem;
   private final Map<UID<Priority>, Priority> priorityMap;
   private final Map<String, UID<Priority>> priorityKeyMap;
@@ -45,11 +45,6 @@ public final class MessageFactoryImp implements MessageFactory {
     return priorityUID;
   }
 
-  public UID<Priority> createPriorityUid(Priority priority, String uidKey) {
-    UID<Priority> priorityUid = new UIDImp<>(priority, uidKey);
-    return priorityUid;
-  }
-
   public UID<Priority> getPriorityUid(String uidKey) {
     return priorityKeyMap.get(uidKey);
   }
@@ -58,8 +53,21 @@ public final class MessageFactoryImp implements MessageFactory {
     return priorityMap.get(priorityUid);
   }
 
-  public Set<UID<Priority>> getPriorityKeySet() {
+  @Override
+  public Set<UID<Priority>> getPriorityUidSet() {
     return Collections.unmodifiableSet(priorityMap.keySet());
+  }
+
+  @Override
+  public Set<UID<Topic>> getTopicUidSet() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  @Override
+  public Set<UID<Message>> getMessageUidSet() {
+    // TODO Auto-generated method stub
+    return null;
   }
 
   @Override
