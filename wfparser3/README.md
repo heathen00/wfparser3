@@ -115,9 +115,16 @@ generate the report by appending the messages to an appropriate, simple data str
 It may be necessary to provide the ability to disable / enable events for scenarios like a given event was
 incorrectly defined (or something) and should not be used anymore.
 
-Ideas I had during implementation:
-   * perhaps you should have an interface that the localized data should implement that maps the localized fields
-     to the localized data.
+There are a number of problems with the localization implementation I currently have:
+   * The fact that I need to write in the "undefined" configuration for each localized string is time consuming.
+     But on the other hand, since it is defined, for all of the Priority, Topic, and Description objects, then
+     I should not need to write it again.  Still, it must go into every defined localization otherwise it does
+     not work.  This is the bigger problem since it makes the system fragile.  You should have a more robust and
+     general mechanism for handling when a given locale configuration is missing on a string by string basis.
+   * The localization functionality needs to know too much about the Priority, Topic, and Description objects
+     since the localization functionality contains methods to localize all fields for each of these objects.  It
+     would be better if the Priority, Topic, and Description classes implemented an interface published by the
+     localization system for each of their fields that need to be localized.
    * you should consider re-implementing the localization so that their are three tiers.  The first tier is the
      user defined localization configuration(s) and it can be fully configuration based.  It is searched first for
      the localization data.  The second tier is the system tier and it is hard coded.  This is to get around the
@@ -126,6 +133,14 @@ Ideas I had during implementation:
      localization data is missing from the two previous tiers.  Instead of halting the system due to a localization
      misconfiguration, you can just report that the localization data is missing.  This would be less prone to
      runtime errors.
+   * I don't like Java properties files and never have.  You should implement the localization resource bundle data
+     as a JSON file, or something, so that it has more structure and internal validation.  But how would it be
+     extendible if someone wants to localize existing data to yet another locale?
+   * perhaps the localization functionality should be moved to its own Java package, too?  It it more of a system
+     level set of functionality and does not really belong to the message subsystem, conceptually.
+   * You should also move all the localization related test cases from where they are into their own set of test
+     cases.  Or maybe not?  Maybe you should separate between acceptance tests and unit tests, first, then see
+     what should be where.  It would be acceptable to Mock the localization functionality when testing other things.
 
 
 ## Rough Notes

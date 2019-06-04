@@ -15,5 +15,5 @@ interface UniqueComponent<T> {
    * 
    * @return An identifier instance that uniquely identifies this component within a context.
    */
-  UID<T> getUId();
+  UID<T> getUid();
 }

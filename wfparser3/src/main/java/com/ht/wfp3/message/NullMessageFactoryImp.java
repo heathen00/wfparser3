@@ -20,11 +20,6 @@ final class NullMessageFactoryImp implements MessageFactory {
   }
 
   @Override
-  public void addMessageNotYetImplemented() {
-    throw new UnsupportedOperationException("message system failed to initialize properly");
-  }
-
-  @Override
   public Set<UID<Priority>> getPriorityUidSet() {
     throw new UnsupportedOperationException("message system failed to initialize properly");
 
@@ -47,6 +42,31 @@ final class NullMessageFactoryImp implements MessageFactory {
 
   @Override
   public Set<UID<Topic>> getTopicUidSet() {
+    throw new UnsupportedOperationException("message system failed to initialize properly");
+  }
+
+  @Override
+  public UID<Description> addDescription(String descriptionUidKey) {
+    throw new UnsupportedOperationException("message system failed to initialize properly");
+  }
+
+  @Override
+  public Description getDescription(UID<Description> descriptionUid) {
+    throw new UnsupportedOperationException("message system failed to initialize properly");
+  }
+
+  @Override
+  public UID<Description> getDescriptionUid(String descriptionUidKey) {
+    throw new UnsupportedOperationException("message system failed to initialize properly");
+  }
+
+  @Override
+  public Set<UID<Description>> getDescriptionUidSet() {
+    throw new UnsupportedOperationException("message system failed to initialize properly");
+  }
+
+  @Override
+  public void addMessageNotYetImplemented() {
     throw new UnsupportedOperationException("message system failed to initialize properly");
   }
 

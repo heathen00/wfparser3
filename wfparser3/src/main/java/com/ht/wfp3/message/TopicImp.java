@@ -11,7 +11,7 @@ class TopicImp implements Topic {
   }
 
   @Override
-  public UID<Topic> getUId() {
+  public UID<Topic> getUid() {
     return uid;
   }
 

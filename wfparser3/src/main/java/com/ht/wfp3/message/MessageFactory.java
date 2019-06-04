@@ -21,5 +21,13 @@ interface MessageFactory {
 
   Set<UID<Topic>> getTopicUidSet();
 
+  UID<Description> addDescription(String descriptionUidKey) throws ConstraintViolationException;
+
+  Description getDescription(UID<Description> descriptionUid);
+
+  UID<Description> getDescriptionUid(String descriptionUidKey);
+
+  Set<UID<Description>> getDescriptionUidSet();
+
   Set<UID<Message>> getMessageUidSet();
 }

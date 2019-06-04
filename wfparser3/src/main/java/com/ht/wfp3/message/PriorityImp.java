@@ -11,7 +11,7 @@ final class PriorityImp implements Priority {
   }
 
   @Override
-  public UID<Priority> getUId() {
+  public UID<Priority> getUid() {
     return uid;
   }
 

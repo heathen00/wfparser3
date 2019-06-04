@@ -15,4 +15,8 @@ public interface Localization {
   String getPriorityName(String priorityUidKey);
 
   String getTopicName(String topicUidKey);
+
+  String getDescriptionUnformattedText(String descriptionUidKey);
+
+  String getDescriptionFormattedText(String descriptionUidKey, Object... parameters);
 }

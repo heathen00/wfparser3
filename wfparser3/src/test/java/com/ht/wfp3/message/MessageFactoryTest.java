@@ -1,6 +1,5 @@
 package com.ht.wfp3.message;
 
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import java.util.Arrays;
@@ -8,6 +7,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class MessageFactoryTest {
@@ -112,7 +112,7 @@ public class MessageFactoryTest {
     assertTrue(priority.getName().matches("^.*fr\\.CA.*$"));
 
     messageSystemInternal.getConfig().getLocalization().setLocale(Locale.GERMANY);
-    assertFalse(priority.getName().matches("^.*fr\\.CA.*$"));
+    assertTrue(priority.getName().matches("^.*de\\.DE.*$"));
   }
 
   @Test
@@ -150,13 +150,8 @@ public class MessageFactoryTest {
   @Test(expected = ConstraintViolationException.class)
   public void MessageFactory_addTopicWithUidKeyIsTooLong_constraintViolationExceptionIsThrown()
       throws Exception {
-    try {
-      messageFactory.addTopic(
-          "uidkey.cannot.be.too.long.or.the.message.system.will.throw.a.constraint.violation");
-    } catch (ConstraintViolationException cve) {
-      System.out.println(cve);
-      throw cve;
-    }
+    messageFactory.addTopic(
+        "uidkey.cannot.be.too.long.or.the.message.system.will.throw.a.constraint.violation");
 
   }
 
@@ -224,7 +219,7 @@ public class MessageFactoryTest {
     assertTrue(topic.getName().matches("^.*fr\\.CA.*$"));
 
     messageSystemInternal.getConfig().getLocalization().setLocale(Locale.GERMANY);
-    assertFalse(topic.getName().matches("^.*fr\\.CA.*$"));
+    assertTrue(topic.getName().matches("^.*de\\.DE.*$"));
   }
 
   @Test
@@ -237,6 +232,157 @@ public class MessageFactoryTest {
       UID<Topic> expectedTopicUid = messageFactory.getTopicUid(expectedTopicUidKey);
       assertNotNull(expectedTopicUidKey, expectedTopicUid);
       assertTrue(expectedTopicUidKey, topicUidList.contains(expectedTopicUid));
+    }
+  }
+
+  @Test(expected = ConstraintViolationException.class)
+  public void MessageFactory_addDescriptionWithNullUidKey_constraintViolationExceptionIsThrown()
+      throws Exception {
+    messageFactory.addDescription(null);
+  }
+
+  @Test(expected = ConstraintViolationException.class)
+  public void MessageFactory_addDescriptionWithEmptyUidKey_constraintViolationExceptionIsThrown()
+      throws Exception {
+    messageFactory.addDescription(" \t");
+  }
+
+  @Test(expected = ConstraintViolationException.class)
+  public void MessageFactory_addDescriptionWithUidKeyContainingWhitespaceOrNewLines_constraintViolationExceptionIsThrown()
+      throws Exception {
+    messageFactory.addDescription("not\nvalid");
+  }
+
+  @Test(expected = ConstraintViolationException.class)
+  public void MessageFactory_addDescriptionWithUidKeyIsTooLong_constraintViolationExceptionIsThrown()
+      throws Exception {
+    messageFactory.addDescription(
+        "uidkey.cannot.be.too.long.or.the.message.system.will.throw.a.constraint.violation");
+  }
+
+  @Test(expected = ConstraintViolationException.class)
+  public void MessageFactory_addDescriptionWithUidKeyContainingInvalidCharacters_constraintViolationExceptionIsThrown()
+      throws Exception {
+    messageFactory.addDescription("invalidkey012345");
+  }
+
+  @Test
+  public void MessageFactory_addTheTestingDescription_testingTopicIsAdded() throws Exception {
+    String testingUidKey = "testing";
+    UID<Description> descriptionUid = messageFactory.addDescription(testingUidKey);
+    assertNotNull(descriptionUid);
+    Description testingDescription = messageFactory.getDescription(descriptionUid);
+    assertNotNull(testingDescription);
+  }
+
+  @Test(expected = ConstraintViolationException.class)
+  public void MessageFactory_addDescriptionWithDuplicateUidKey_constraintViolationExceptionIsThrown()
+      throws Exception {
+    String testingUidKey = "testing.defined.in.all";
+    messageFactory.addDescription(testingUidKey);
+
+    messageFactory.addDescription(testingUidKey);
+  }
+
+  @Test
+  public void MessageFactory_setLocaleToAvailableLocaleResourcesAndGetAllDescriptionTexts_nameFromAvailableResourcesReturned()
+      throws Exception {
+    messageSystemInternal.getConfig().getLocalization().setLocale(Locale.CANADA_FRENCH);
+    String testingUnformattedUidKey = "testing.unformatted";
+    String testingFormattedUidKey = "testing.formatted";
+    String testingString = "Test Parameter";
+    Integer testingInteger = Integer.valueOf(10);
+
+    UID<Description> unformattedDescriptionUid =
+        messageFactory.addDescription(testingUnformattedUidKey);
+    Description unformattedDescription = messageFactory.getDescription(unformattedDescriptionUid);
+    assertNotNull(unformattedDescription);
+    assertNotNull(unformattedDescription.getUnformattedText());
+    assertTrue(unformattedDescription.getUnformattedText().matches("^.*fr\\.CA.*$"));
+
+    UID<Description> formattedDescriptionUid =
+        messageFactory.addDescription(testingFormattedUidKey);
+    Description formattedDescription = messageFactory.getDescription(formattedDescriptionUid);
+    assertNotNull(formattedDescription);
+    assertNotNull(formattedDescription.getFormattedText(testingString, testingInteger));
+    assertTrue(formattedDescription.getFormattedText(testingString, testingInteger)
+        .matches("^.*fr\\.CA.*$"));
+
+    messageSystemInternal.getConfig().getLocalization().setDefaultLocale();
+    assertTrue(unformattedDescription.getUnformattedText().matches("^.*default.*$"));
+    assertTrue(formattedDescription.getFormattedText(testingString, testingInteger)
+        .matches("^.*default.*$"));
+  }
+
+  @Test
+  public void MessageFactory_setLocaleToNotAvailableLocaleResourcesAndGetAllDescriptionTexts_nameFromNoLocaleResourcesReturned()
+      throws Exception {
+    messageSystemInternal.getConfig().getLocalization().setLocale(Locale.TRADITIONAL_CHINESE);
+    String testingUnformattedUidKey = "testing.unformatted";
+    String testingFormattedUidKey = "testing.formatted";
+    String testingString = "Test Parameter";
+    Integer testingInteger = Integer.valueOf(10);
+
+    UID<Description> unformattedDescriptionUid =
+        messageFactory.addDescription(testingUnformattedUidKey);
+    Description unformattedDescription = messageFactory.getDescription(unformattedDescriptionUid);
+    assertNotNull(unformattedDescription);
+    assertTrue(unformattedDescription.getUnformattedText().matches("^.*default.*$"));
+
+    UID<Description> formattedDescriptionUid =
+        messageFactory.addDescription(testingFormattedUidKey);
+    Description formattedDescription = messageFactory.getDescription(formattedDescriptionUid);
+    assertNotNull(formattedDescription);
+    assertNotNull(formattedDescription.getFormattedText(testingString, testingInteger));
+    assertTrue(formattedDescription.getFormattedText(testingString, testingInteger)
+        .matches("^.*default.*$"));
+
+    messageSystemInternal.getConfig().getLocalization().setDefaultLocale();
+    assertTrue(unformattedDescription.getUnformattedText().matches("^.*default.*$"));
+    assertTrue(formattedDescription.getFormattedText(testingString, testingInteger)
+        .matches("^.*default.*$"));
+  }
+
+  @Test
+  @Ignore(value = "not implemented")
+  public void MessageFactory_setLocaleGetTopicNameSetDifferentLocaleGetAllDescriptionTexts_nameforSpecifiedLocaleReturned()
+      throws Exception {
+    messageSystemInternal.getConfig().getLocalization().setLocale(Locale.CANADA_FRENCH);
+    String testingUnformattedUidKey = "testing.unformatted";
+    String testingFormattedUidKey = "testing.formatted";
+    String testingString = "Test Parameter";
+    Integer testingInteger = Integer.valueOf(10);
+
+    UID<Description> unformattedDescriptionUid =
+        messageFactory.addDescription(testingUnformattedUidKey);
+    Description unformattedDescription = messageFactory.getDescription(unformattedDescriptionUid);
+    assertNotNull(unformattedDescription);
+    assertTrue(unformattedDescription.getUnformattedText().matches("^.*fr\\.CA.*$"));
+
+    UID<Description> formattedDescriptionUid =
+        messageFactory.addDescription(testingFormattedUidKey);
+    Description formattedDescription = messageFactory.getDescription(formattedDescriptionUid);
+    assertNotNull(formattedDescription);
+    assertNotNull(formattedDescription.getFormattedText(testingString, testingInteger));
+    assertTrue(formattedDescription.getFormattedText(testingString, testingInteger)
+        .matches("^.*fr\\.CA.*$"));
+
+    messageSystemInternal.getConfig().getLocalization().setLocale(Locale.GERMANY);
+    assertTrue(unformattedDescription.getUnformattedText().matches("^.*de\\.DE.*$"));
+    assertTrue(formattedDescription.getFormattedText(testingString, testingInteger)
+        .matches("^.*de\\.DE.*$"));
+  }
+
+  @Test
+  public void MessageFactory_checkAllDefaultSystemDescriptions_allDefaultTopicsAreAdded() {
+    List<String> expectedDescriptionKeyList = Arrays.asList("undefined");
+    Set<UID<Description>> descriptionUidList = messageFactory.getDescriptionUidSet();
+
+    assertNotNull(descriptionUidList);
+    for (String expectedDescriptionUidKey : expectedDescriptionKeyList) {
+      UID<Description> expectedDescriptionUid = messageFactory.getDescriptionUid(expectedDescriptionUidKey);
+      assertNotNull(expectedDescriptionUidKey, expectedDescriptionUid);
+      assertTrue(expectedDescriptionUidKey, descriptionUidList.contains(expectedDescriptionUid));
     }
   }
 

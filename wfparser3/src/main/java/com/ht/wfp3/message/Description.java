@@ -1,7 +1,5 @@
 package com.ht.wfp3.message;
 
-import java.util.List;
-
 /**
  * The message description. The description contains a human readable string that supports i18n with
  * a defined limited length. The message string is optionally parameterized. The message string is
@@ -18,20 +16,12 @@ public interface Description extends UniqueComponent<Description> {
    * Returns the message description text after all specified formatting has been applied, if any
    * formatting information exists.
    * 
+   * @param parameters The optional list of parameters to substitute into the formatted text.
    * @return A string text message with any Description formatting applied. If the Description
    *         contains no formatting, then this method will return the same string as
    *         "getUnformattedText()".
    */
-  String getFormattedText();
-
-  /**
-   * Returns the optional list of parameters that will be used to format the description.
-   * 
-   * @return A list of parameters that will be applied to the description text when it is formatted.
-   *         If the description text is not parameterized and contains no formatting, then an empty
-   *         list is returned.
-   */
-  List<? extends Object> getFormattedTextParameters();
+  String getFormattedText(Object... parameters);
 
   /**
    * Returns the unformatted Description text, thus, if the Description text contains formatting

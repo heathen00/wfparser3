@@ -42,6 +42,7 @@ final class MessageSystemInternalImp implements MessageSystemInternal {
       messageFactory.addPriority("error");
       messageFactory.addTopic("undefined");
       messageFactory.addTopic("system");
+      messageFactory.addDescription("undefined");
     } catch (ConstraintViolationException cve) {
       System.out.println("cve: " + cve);
       messageFactory = new NullMessageFactoryImp();

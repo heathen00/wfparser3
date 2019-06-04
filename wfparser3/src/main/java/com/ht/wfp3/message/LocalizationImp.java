@@ -10,11 +10,11 @@ final class LocalizationImp implements Localization {
   private static final String SYSTEM_L10N_TOPIC = "system";
 
   private Locale locale;
-  private ResourceBundle priorityResourceBundle;
+  private ResourceBundle systemResourceBundle;
 
   LocalizationImp() {
     locale = Locale.getDefault();
-    priorityResourceBundle = ResourceBundle.getBundle(SYSTEM_L10N_BUNDLE_BASENAME, locale);
+    systemResourceBundle = ResourceBundle.getBundle(SYSTEM_L10N_BUNDLE_BASENAME, locale);
   }
 
   private String mapPriorityUidKeyToL10NKey(String fieldName, String priorityUidKey) {
@@ -34,6 +34,15 @@ final class LocalizationImp implements Localization {
     return topicPrefix + topicUidKey;
   }
 
+  private String mapDescriptionUidKeyToL10NKey(String fieldName, String descriptionUidKey) {
+    final String descriptionTopic = SYSTEM_L10N_TOPIC;
+    final String descriptionType = "description";
+    final String separator = L10N_KEY_SEPARATOR;
+    final String descriptionPrefix =
+        descriptionTopic + separator + descriptionType + separator + fieldName + separator;
+    return descriptionPrefix + descriptionUidKey;
+  }
+
   @Override
   public Locale getLocale() {
     return locale;
@@ -42,13 +51,13 @@ final class LocalizationImp implements Localization {
   @Override
   public void setLocale(Locale locale) {
     this.locale = locale;
-    priorityResourceBundle = ResourceBundle.getBundle(SYSTEM_L10N_BUNDLE_BASENAME, locale);
+    systemResourceBundle = ResourceBundle.getBundle(SYSTEM_L10N_BUNDLE_BASENAME, locale);
   }
 
   @Override
   public void setDefaultLocale() {
     locale = Locale.getDefault();
-    priorityResourceBundle = ResourceBundle.getBundle(SYSTEM_L10N_BUNDLE_BASENAME, locale);
+    systemResourceBundle = ResourceBundle.getBundle(SYSTEM_L10N_BUNDLE_BASENAME, locale);
   }
 
   @Override
@@ -57,7 +66,7 @@ final class LocalizationImp implements Localization {
     String l10NKey = mapPriorityUidKeyToL10NKey(fieldName, priorityUidKey);
     String l10NValue = null;
     try {
-      l10NValue = priorityResourceBundle.getString(l10NKey);
+      l10NValue = systemResourceBundle.getString(l10NKey);
     } catch (MissingResourceException mre) {
       l10NValue = Localization.UNKNOWN_L10N_KEY;
     }
@@ -70,7 +79,33 @@ final class LocalizationImp implements Localization {
     final String l10NKey = mapTopicUidKeyToL10NKey(fieldName, topicUidKey);
     String l10NValue = null;
     try {
-      l10NValue = priorityResourceBundle.getString(l10NKey);
+      l10NValue = systemResourceBundle.getString(l10NKey);
+    } catch (MissingResourceException mre) {
+      l10NValue = Localization.UNKNOWN_L10N_KEY;
+    }
+    return l10NValue;
+  }
+
+  @Override
+  public String getDescriptionUnformattedText(String descriptionUidKey) {
+    final String fieldName = "unformatted.text";
+    final String l10NKey = mapDescriptionUidKeyToL10NKey(fieldName, descriptionUidKey);
+    String l10NValue = null;
+    try {
+      l10NValue = systemResourceBundle.getString(l10NKey);
+    } catch (MissingResourceException mre) {
+      l10NValue = Localization.UNKNOWN_L10N_KEY;
+    }
+    return l10NValue;
+  }
+
+  @Override
+  public String getDescriptionFormattedText(String descriptionUidKey, Object... parameters) {
+    final String fieldName = "formatted.text";
+    final String l10NKey = mapDescriptionUidKeyToL10NKey(fieldName, descriptionUidKey);
+    String l10NValue = null;
+    try {
+      l10NValue = String.format(locale, systemResourceBundle.getString(l10NKey), parameters);
     } catch (MissingResourceException mre) {
       l10NValue = Localization.UNKNOWN_L10N_KEY;
     }
