@@ -29,4 +29,8 @@ public interface UID<T> {
    *         uniquely identified by this identifier.
    */
   T getComponent();
+
+  boolean equals(Object obj);
+
+  int hashCode();
 }

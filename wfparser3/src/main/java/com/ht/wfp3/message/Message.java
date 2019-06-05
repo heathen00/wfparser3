@@ -13,6 +13,8 @@ package com.ht.wfp3.message;
 public interface Message extends UniqueComponent<Message> {
   Priority getPriority();
 
+  void setPriority(UID<Priority> priorityUid);
+
   Topic getTopic();
 
   Description getDescription();

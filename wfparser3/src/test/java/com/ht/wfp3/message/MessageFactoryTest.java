@@ -1,5 +1,6 @@
 package com.ht.wfp3.message;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import java.util.Arrays;
@@ -7,7 +8,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class MessageFactoryTest {
@@ -67,7 +67,7 @@ public class MessageFactoryTest {
   @Test(expected = ConstraintViolationException.class)
   public void MessageFactory_addPriorityWithDuplicateUidKey_constraintViolationExceptionIsThrown()
       throws Exception {
-    String testingUidKey = "testing.defined.in.all";
+    String testingUidKey = "testing";
     messageFactory.addPriority(testingUidKey);
 
     messageFactory.addPriority(testingUidKey);
@@ -173,7 +173,7 @@ public class MessageFactoryTest {
   @Test(expected = ConstraintViolationException.class)
   public void MessageFactory_addTopicWithDuplicateUidKey_constraintViolationExceptionIsThrown()
       throws Exception {
-    String testingUidKey = "testing.defined.in.all";
+    String testingUidKey = "testing";
     messageFactory.addTopic(testingUidKey);
 
     messageFactory.addTopic(testingUidKey);
@@ -278,7 +278,7 @@ public class MessageFactoryTest {
   @Test(expected = ConstraintViolationException.class)
   public void MessageFactory_addDescriptionWithDuplicateUidKey_constraintViolationExceptionIsThrown()
       throws Exception {
-    String testingUidKey = "testing.defined.in.all";
+    String testingUidKey = "testing";
     messageFactory.addDescription(testingUidKey);
 
     messageFactory.addDescription(testingUidKey);
@@ -344,7 +344,6 @@ public class MessageFactoryTest {
   }
 
   @Test
-  @Ignore(value = "not implemented")
   public void MessageFactory_setLocaleGetTopicNameSetDifferentLocaleGetAllDescriptionTexts_nameforSpecifiedLocaleReturned()
       throws Exception {
     messageSystemInternal.getConfig().getLocalization().setLocale(Locale.CANADA_FRENCH);
@@ -380,9 +379,133 @@ public class MessageFactoryTest {
 
     assertNotNull(descriptionUidList);
     for (String expectedDescriptionUidKey : expectedDescriptionKeyList) {
-      UID<Description> expectedDescriptionUid = messageFactory.getDescriptionUid(expectedDescriptionUidKey);
+      UID<Description> expectedDescriptionUid =
+          messageFactory.getDescriptionUid(expectedDescriptionUidKey);
       assertNotNull(expectedDescriptionUidKey, expectedDescriptionUid);
       assertTrue(expectedDescriptionUidKey, descriptionUidList.contains(expectedDescriptionUid));
+    }
+  }
+
+  @Test(expected = ConstraintViolationException.class)
+  public void MessageFactory_addMessageWithNullTopicUid_constraintViolationExceptionIsThrown()
+      throws Exception {
+    messageFactory.addMessage(null, messageFactory.addPriority("testing"),
+        messageFactory.addDescription("testing.unformatted"));
+  }
+
+  @Test(expected = ConstraintViolationException.class)
+  public void MessageFactory_addMessageWithNullPriorityUid_constraintViolationExceptionIsThrown()
+      throws Exception {
+    messageFactory.addMessage(messageFactory.addTopic("testing"), null,
+        messageFactory.addDescription("testing.unformatted"));
+  }
+
+  @Test(expected = ConstraintViolationException.class)
+  public void MessageFactory_addMessageWithNullDescriptionUid_constraintViolationExceptionIsThrown()
+      throws Exception {
+    messageFactory.addMessage(messageFactory.addTopic("testing"),
+        messageFactory.addPriority("testing"), null);
+  }
+
+  @Test
+  public void MessageFactory_addOneMessageWithValidParameters_oneMessageIsAdded() throws Exception {
+    UID<Topic> expectedTopicUid = messageFactory.addTopic("testing");
+    UID<Priority> expectedPriorityUid = messageFactory.addPriority("testing");
+    UID<Description> expectedDescriptionUid = messageFactory.addDescription("testing.unformatted");
+
+    UID<Message> messageUid =
+        messageFactory.addMessage(expectedTopicUid, expectedPriorityUid, expectedDescriptionUid);
+
+    assertNotNull(messageUid);
+    Message message = messageFactory.getMessage(messageUid);
+    assertNotNull(message);
+    assertEquals(expectedTopicUid, message.getTopic().getUid());
+    assertEquals(expectedPriorityUid, message.getPriority().getUid());
+    assertEquals(expectedDescriptionUid, message.getDescription().getUid());
+  }
+
+  @Test
+  public void MessageFactory_addMultipleMessagesWithSameTopicButDifferentDescriptions_allMessagesAddedSuccessfully()
+      throws Exception {
+    UID<Topic> expectedTopicUid = messageFactory.addTopic("testing");
+    UID<Priority> expectedPriorityUid = messageFactory.addPriority("testing");
+    UID<Description> expectedFirstDescriptionUid =
+        messageFactory.addDescription("testing.unformatted");
+    UID<Description> expectedSecondDescriptionUid =
+        messageFactory.addDescription("testing.formatted");
+
+    UID<Message> firstMessageUid = messageFactory.addMessage(expectedTopicUid, expectedPriorityUid,
+        expectedFirstDescriptionUid);
+    UID<Message> secondMessageUid = messageFactory.addMessage(expectedTopicUid, expectedPriorityUid,
+        expectedSecondDescriptionUid);
+
+    assertNotNull(firstMessageUid);
+    assertNotNull(secondMessageUid);
+
+    Message firstMessage = messageFactory.getMessage(firstMessageUid);
+    Message secondMessage = messageFactory.getMessage(secondMessageUid);
+
+    assertNotNull(firstMessage);
+    assertNotNull(secondMessage);
+    assertEquals(expectedTopicUid, firstMessage.getTopic().getUid());
+    assertEquals(expectedPriorityUid, firstMessage.getPriority().getUid());
+    assertEquals(expectedFirstDescriptionUid, firstMessage.getDescription().getUid());
+    assertEquals(expectedTopicUid, secondMessage.getTopic().getUid());
+    assertEquals(expectedPriorityUid, secondMessage.getPriority().getUid());
+    assertEquals(expectedSecondDescriptionUid, secondMessage.getDescription().getUid());
+  }
+
+  @Test
+  public void MessageFactory_addMultipleMessagesWithDifferentTopicsButSameDescriptions_allMessagesAddedSuccessfully()
+      throws Exception {
+    UID<Topic> expectedFirstTopicUid = messageFactory.addTopic("testing");
+    UID<Topic> expectedSecondTopicUid = messageFactory.addTopic("testing.two");
+    UID<Priority> expectedPriorityUid = messageFactory.addPriority("testing");
+    UID<Description> expectedDescriptionUid = messageFactory.addDescription("testing.unformatted");
+
+    UID<Message> firstMessageUid = messageFactory.addMessage(expectedFirstTopicUid,
+        expectedPriorityUid, expectedDescriptionUid);
+    UID<Message> secondMessageUid = messageFactory.addMessage(expectedSecondTopicUid,
+        expectedPriorityUid, expectedDescriptionUid);
+
+    assertNotNull(firstMessageUid);
+    assertNotNull(secondMessageUid);
+
+    Message firstMessage = messageFactory.getMessage(firstMessageUid);
+    Message secondMessage = messageFactory.getMessage(secondMessageUid);
+
+    assertNotNull(firstMessage);
+    assertNotNull(secondMessage);
+    assertEquals(expectedFirstTopicUid, firstMessage.getTopic().getUid());
+    assertEquals(expectedPriorityUid, firstMessage.getPriority().getUid());
+    assertEquals(expectedDescriptionUid, firstMessage.getDescription().getUid());
+    assertEquals(expectedSecondTopicUid, secondMessage.getTopic().getUid());
+    assertEquals(expectedPriorityUid, secondMessage.getPriority().getUid());
+    assertEquals(expectedDescriptionUid, secondMessage.getDescription().getUid());
+  }
+
+  @Test(expected = ConstraintViolationException.class)
+  public void MessageFactory_addMultipleMessagesWithSameTopicSameDescriptionButDifferentPriorities_constraintViolationExceptionIsThrown()
+      throws Exception {
+    UID<Topic> expectedTopicUid = messageFactory.addTopic("testing");
+    UID<Priority> expectedFirstPriorityUid = messageFactory.addPriority("testing");
+    UID<Priority> expectedSecondPriorityUid = messageFactory.addPriority("testing.two");
+    UID<Description> expectedDescriptionUid = messageFactory.addDescription("testing.unformatted");
+
+    messageFactory.addMessage(expectedTopicUid, expectedFirstPriorityUid, expectedDescriptionUid);
+    messageFactory.addMessage(expectedTopicUid, expectedSecondPriorityUid, expectedDescriptionUid);
+  }
+
+  @Test
+  public void MessageFactory_checkAllDefaultSystemMessages_allDefaultMessagesAreAdded() {
+    List<String> expectedMessageKeyList = Arrays.asList("undefined.undefined");
+    Set<UID<Message>> messageUidSet = messageFactory.getMessageUidSet();
+
+    assertNotNull(messageUidSet);
+    for (String expectedMessageUidKey : expectedMessageKeyList) {
+      UID<Message> expectedMessageUid = messageFactory.getMessageUid(expectedMessageUidKey);
+      assertNotNull(expectedMessageUidKey, expectedMessageUid);
+      assertTrue(expectedMessageUidKey, messageUidSet.contains(expectedMessageUid));
     }
   }
 

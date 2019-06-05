@@ -35,14 +35,15 @@ final class MessageSystemInternalImp implements MessageSystemInternal {
     config = new MessageSystemInternalImp.ConfigImp();
     try {
       messageFactory = new MessageFactoryImp(this);
-      messageFactory.addPriority("undefined");
+      UID<Priority> undefinedPriorityUid = messageFactory.addPriority("undefined");
       messageFactory.addPriority("debug");
       messageFactory.addPriority("info");
       messageFactory.addPriority("warn");
       messageFactory.addPriority("error");
-      messageFactory.addTopic("undefined");
+      UID<Topic> undefinedTopicUid = messageFactory.addTopic("undefined");
       messageFactory.addTopic("system");
-      messageFactory.addDescription("undefined");
+      UID<Description> undefinedDescriptionUid = messageFactory.addDescription("undefined");
+      messageFactory.addMessage(undefinedTopicUid, undefinedPriorityUid, undefinedDescriptionUid);
     } catch (ConstraintViolationException cve) {
       System.out.println("cve: " + cve);
       messageFactory = new NullMessageFactoryImp();

@@ -13,6 +13,8 @@ final class MessageFactoryImp implements MessageFactory {
   private final Map<String, UID<Topic>> topicKeyMap;
   private final Map<UID<Description>, Description> descriptionMap;
   private final Map<String, UID<Description>> descriptionKeyMap;
+  private final Map<UID<Message>, Message> messageMap;
+  private final Map<String, UID<Message>> messageKeyMap;
 
   MessageFactoryImp(MessageSystem messageSystem) throws ConstraintViolationException {
     this.messageSystem = messageSystem;
@@ -22,6 +24,8 @@ final class MessageFactoryImp implements MessageFactory {
     topicKeyMap = new HashMap<>();
     descriptionMap = new HashMap<>();
     descriptionKeyMap = new HashMap<>();
+    messageMap = new HashMap<>();
+    messageKeyMap = new HashMap<>();
   }
 
   private void uidKeyValidationGuard(String uidKey) throws ConstraintViolationException {
@@ -73,6 +77,11 @@ final class MessageFactoryImp implements MessageFactory {
   @Override
   public UID<Topic> addTopic(String topicUidKey) throws ConstraintViolationException {
     uidKeyValidationGuard(topicUidKey);
+    if (Localization.UNKNOWN_L10N_KEY
+        .equals(messageSystem.getConfig().getLocalization().getTopicName(topicUidKey))) {
+      throw new ConstraintViolationException(
+          "localization not defined for topic uidKey '" + topicUidKey + "'");
+    }
     Topic topic = new TopicImp(messageSystem, topicUidKey);
     UID<Topic> topicUid = topic.getUid();
     if (null != topicMap.get(topicUid)) {
@@ -129,13 +138,40 @@ final class MessageFactoryImp implements MessageFactory {
   }
 
   @Override
-  public Set<UID<Message>> getMessageUidSet() {
-    // TODO Auto-generated method stub
-    return null;
+  public UID<Message> addMessage(UID<Topic> topicUid, UID<Priority> priorityUid,
+      UID<Description> descriptionUid) throws ConstraintViolationException {
+    if (null == topicUid) {
+      throw new ConstraintViolationException("topicUid cannot be null");
+    }
+    if (null == priorityUid) {
+      throw new ConstraintViolationException("priorityUid cannot be null");
+    }
+    if (null == descriptionUid) {
+      throw new ConstraintViolationException("descriptionUid cannot be null");
+    }
+    Message message = new MessageImp(messageSystem, getTopic(topicUid), getPriority(priorityUid),
+        getDescription(descriptionUid));
+    UID<Message> messageUid = message.getUid();
+    if (null != messageMap.get(messageUid)) {
+      throw new ConstraintViolationException("message with uid " + messageUid + " already exists");
+    }
+    messageMap.put(messageUid, message);
+    messageKeyMap.put(messageUid.getKey(), messageUid);
+    return messageUid;
   }
 
   @Override
-  public void addMessageNotYetImplemented() {
-    // TODO Auto-generated method stub
+  public Message getMessage(UID<Message> messageUid) {
+    return messageMap.get(messageUid);
+  }
+
+  @Override
+  public UID<Message> getMessageUid(String messageUidKey) {
+    return messageKeyMap.get(messageUidKey);
+  }
+
+  @Override
+  public Set<UID<Message>> getMessageUidSet() {
+    return Collections.unmodifiableSet(messageMap.keySet());
   }
 }

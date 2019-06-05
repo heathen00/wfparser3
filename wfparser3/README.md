@@ -141,6 +141,8 @@ There are a number of problems with the localization implementation I currently 
    * You should also move all the localization related test cases from where they are into their own set of test
      cases.  Or maybe not?  Maybe you should separate between acceptance tests and unit tests, first, then see
      what should be where.  It would be acceptable to Mock the localization functionality when testing other things.
+   * objects within the message system package that need to access the message factory should maintain a reference to
+     the message system internal interface and NOT the message system interface.
 
 
 ## Rough Notes

@@ -3,8 +3,6 @@ package com.ht.wfp3.message;
 import java.util.Set;
 
 interface MessageFactory {
-  void addMessageNotYetImplemented();
-
   UID<Priority> addPriority(String priorityUidKey) throws ConstraintViolationException;
 
   Priority getPriority(UID<Priority> priorityUid);
@@ -28,6 +26,13 @@ interface MessageFactory {
   UID<Description> getDescriptionUid(String descriptionUidKey);
 
   Set<UID<Description>> getDescriptionUidSet();
+
+  UID<Message> addMessage(UID<Topic> topicUid, UID<Priority> priorityUid,
+      UID<Description> descriptionUid) throws ConstraintViolationException;
+
+  Message getMessage(UID<Message> messageUid);
+
+  UID<Message> getMessageUid(String messageUidKey);
 
   Set<UID<Message>> getMessageUidSet();
 }
