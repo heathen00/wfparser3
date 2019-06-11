@@ -143,6 +143,9 @@ There are a number of problems with the localization implementation I currently 
      what should be where.  It would be acceptable to Mock the localization functionality when testing other things.
    * objects within the message system package that need to access the message factory should maintain a reference to
      the message system internal interface and NOT the message system interface.
+   * I want some means to validate the localization at test time so that I can compare all defined field instances
+     against the configured localization and know EXACTLY where each field is defined AND be able to easily compare
+     to ensure it is defined as expected.
 
 
 ## Rough Notes
