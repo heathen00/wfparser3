@@ -277,7 +277,7 @@ public class FactoryTest {
         "com.ht.l10n.acceptance.TestL10ResourceBundleForLocaleExistsButRootLocaleDoesNot";
     Localizer localizer = localizerFactory.createLocalizer(Locale.CANADA_FRENCH);
 
-    LocalizerBundle localizerBundle = localizerFactory.createCompoundLocalizerBundle(localizer,
-        expectedResourceBundleName, true, true);
+    localizerFactory.createCompoundLocalizerBundle(localizer, expectedResourceBundleName, true,
+        true);
   }
 }

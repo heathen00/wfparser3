@@ -71,9 +71,12 @@ public class LocalizerBundleTest {
       throws Exception {
     final Localizer localizer = localizerFactory.createLocalizer(Locale.CANADA_FRENCH);
     final String resourceBundleName = "com.ht.l10n.acceptance.TestL10nRootLocaleResourceBundle";
-    final String expectedUnformattedString = "this is a test unformatted string";
-    final String expectedUnformattedFormattedString = "this is a test formatted string: %s, %d";
-    final String expectedFormattedString = "this is a test formatted string: test_parameter, 33";
+    final String expectedUnformattedString =
+        "this is a test unformatted string for the root locale";
+    final String expectedUnformattedFormattedString =
+        "this is a test formatted string for the root locale: %s, %d";
+    final String expectedFormattedString =
+        "this is a test formatted string for the root locale: test_parameter, 33";
     final LocalizerField unformattedField = createStubLocalizerField("unformatted", "one");
     final LocalizerField formattedField = createStubLocalizerField("formatted", "one");
 
@@ -129,6 +132,111 @@ public class LocalizerBundleTest {
     rootLocalizerBundle.getFormattedString(nonExistentFormattedField, "param01", Long.valueOf(23l));
   }
 
+  @Test
+  public void LocalizerBundle_getExistingStringsFromLocalizerBundleForLocale_stringsForLocaleAreRetreived()
+      throws Exception {
+
+    final Locale expectedTargetLocale = Locale.CANADA_FRENCH;
+    final Locale expectedResolvedLocale = Locale.CANADA_FRENCH;
+    final Localizer localizer = localizerFactory.createLocalizer(expectedTargetLocale);
+    final String resourceBundleName =
+        "com.ht.l10n.acceptance.TestL10nResourceBundleForSpecifiedLocaleExists";
+    final String expectedUnformattedString = "this is a test unformatted string for Locale fr_CA";
+    final String expectedUnformattedFormattedString =
+        "this is a test formatted string for Locale fr_CA: %s, %d";
+    final String expectedFormattedString =
+        "this is a test formatted string for Locale fr_CA: test_parameter, 33";
+    final LocalizerField unformattedField = createStubLocalizerField("unformatted", "one");
+    final LocalizerField formattedField = createStubLocalizerField("formatted", "one");
+
+    LocalizerBundle localizerBundle =
+        localizerFactory.createLocalizerBundle(localizer, resourceBundleName);
+
+    assertNotNull(localizerBundle);
+    assertEquals(expectedTargetLocale, localizerBundle.getTargetLocale());
+    assertEquals(expectedResolvedLocale, localizerBundle.getResolvedLocale());
+    assertEquals(expectedUnformattedString, localizerBundle.getUnformattedString(unformattedField));
+    assertEquals(expectedFormattedString,
+        localizerBundle.getFormattedString(formattedField, "test_parameter", Integer.valueOf(33)));
+    assertEquals(expectedUnformattedFormattedString,
+        localizerBundle.getUnformattedString(formattedField));
+    assertEquals(expectedUnformattedString, localizerBundle.getFormattedString(unformattedField,
+        "another_parameter", Double.valueOf(33.4d)));
+  }
+
+  @Test(expected = LocalizerException.class)
+  public void LocalizerBundle_getNonExistentUnformattedStringFromLocalizerBundleForLocale_localizerExceptionIsThrown()
+      throws Exception {
+
+    final Localizer localizer = localizerFactory.createLocalizer(Locale.CANADA_FRENCH);
+    final String resourceBundleName =
+        "com.ht.l10n.acceptance.TestL10nResourceBundleForSpecifiedLocaleExists";
+    final LocalizerField nonExistentUnformattedField =
+        createStubLocalizerField("unformatted.does.not.exist", "one");
+    LocalizerBundle localizerBundle = null;
+
+    try {
+      localizerBundle = localizerFactory.createLocalizerBundle(localizer, resourceBundleName);
+    } catch (LocalizerException le) {
+      fail("exception occurred at wrong place");
+    }
+
+    localizerBundle.getUnformattedString(nonExistentUnformattedField);
+  }
+
+  @Test(expected = LocalizerException.class)
+  public void LocalizerBundle_getNonExistentformattedStringFromLocalizerBundleForLocale_localizerExceptionIsThrown()
+      throws Exception {
+    final Localizer localizer = localizerFactory.createLocalizer(Locale.CANADA_FRENCH);
+    final String resourceBundleName =
+        "com.ht.l10n.acceptance.TestL10nResourceBundleForSpecifiedLocaleExists";
+    final LocalizerField nonExistentFormattedField =
+        createStubLocalizerField("formatted.does.not.exist", "one");
+    LocalizerBundle localizerBundle = null;
+
+    try {
+      localizerBundle = localizerFactory.createLocalizerBundle(localizer, resourceBundleName);
+    } catch (LocalizerException le) {
+      fail("exception occurred at wrong place");
+    }
+
+    localizerBundle.getFormattedString(nonExistentFormattedField, "param01", Long.valueOf(23l));
+  }
+
+  @Test
+  public void LocalizerBundle_getExistingStringsFromLocalizerBundleForSimilarLocale_stringsForSimilarLocaleAreRetreived()
+      throws Exception {
+
+    final Locale expectedTargetLocale = Locale.CANADA_FRENCH;
+    final Locale expectedResolvedLocale = Locale.FRENCH;
+    final Localizer localizer = localizerFactory.createLocalizer(expectedTargetLocale);
+    final String resourceBundleName =
+        "com.ht.l10n.acceptance.TestL10nResourceBundleForSimilarLocaleExists";
+    final String expectedUnformattedString = "this is a test unformatted string for Locale fr";
+    final String expectedUnformattedFormattedString =
+        "this is a test formatted string for Locale fr: %s, %d";
+    final String expectedFormattedString =
+        "this is a test formatted string for Locale fr: test_parameter, 33";
+    final LocalizerField unformattedField = createStubLocalizerField("unformatted", "one");
+    final LocalizerField formattedField = createStubLocalizerField("formatted", "one");
+
+    LocalizerBundle localizerBundle =
+        localizerFactory.createLocalizerBundle(localizer, resourceBundleName);
+
+    assertNotNull(localizerBundle);
+    assertEquals(expectedTargetLocale, localizerBundle.getTargetLocale());
+    assertEquals(expectedResolvedLocale, localizerBundle.getResolvedLocale());
+    assertEquals(expectedUnformattedString, localizerBundle.getUnformattedString(unformattedField));
+    assertEquals(expectedFormattedString,
+        localizerBundle.getFormattedString(formattedField, "test_parameter", Integer.valueOf(33)));
+    assertEquals(expectedUnformattedFormattedString,
+        localizerBundle.getUnformattedString(formattedField));
+    assertEquals(expectedUnformattedString, localizerBundle.getFormattedString(unformattedField,
+        "another_parameter", Double.valueOf(33.4d)));
+  }
+
+  // TODO Tests for CompositeLocalizerBundle (probably needs better name).
+
   private LocalizerField createStubLocalizerField(String fieldName, String instanceName) {
     return new LocalizerField() {
       private final String myBundleName = "testBundle00";
@@ -158,7 +266,7 @@ public class LocalizerBundleTest {
 
       @Override
       public String getFieldName() {
-        return null;
+        return myFieldName;
       }
     };
   }
