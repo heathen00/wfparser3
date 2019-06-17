@@ -15,7 +15,7 @@ public interface Factory {
   LocalizerBundle createRootLocaleLocalizerBundle(Localizer localizer, String resourceBundleName)
       throws LocalizerException;
 
-  LocalizerBundle createUndefinedLocalizerBundle(Localizer localizer);
+  LocalizerBundle createUndefinedLocalizerBundle();
 
   LocalizerBundle createCompoundLocalizerBundle(Localizer localizer,
       String expectedResourceBundleName, boolean useRootLocale,

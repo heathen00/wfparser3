@@ -14,7 +14,7 @@ final class FactoryImp implements Factory {
         (useRootLocale ? createRootLocaleLocalizerBundle(localizer, resourceBundleName)
             : createNullLocalizerBundle());
     LocalizerBundle undefinedLocalizerBundle =
-        (!throwExceptionWhenL10nStringDataMissing ? createUndefinedLocalizerBundle(localizer)
+        (!throwExceptionWhenL10nStringDataMissing ? createUndefinedLocalizerBundle()
             : createNullLocalizerBundle());
     return new CompoundLocalizerBundleImp(localizer, targetLocalizerBundle, rootLocalizerBundle,
         undefinedLocalizerBundle);
@@ -55,10 +55,7 @@ final class FactoryImp implements Factory {
   }
 
   @Override
-  public LocalizerBundle createUndefinedLocalizerBundle(Localizer localizer) {
-    if (null == localizer) {
-      throw new NullPointerException("localizer constructor parameter cannot be null");
-    }
+  public LocalizerBundle createUndefinedLocalizerBundle() {
     return new UndefinedLocalizerBundle();
   }
 

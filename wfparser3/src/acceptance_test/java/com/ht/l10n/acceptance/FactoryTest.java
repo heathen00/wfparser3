@@ -12,6 +12,9 @@ import com.ht.l10n.LocalizerException;
 
 public class FactoryTest {
 
+  // TODO need to ensure there are restrictions on how to name resource bundles: only use upper and
+  // lower case letters, numbers, and periods. Cannot start or end with a period
+
   private Factory localizerFactory;
 
   private void assertExpectedLocalizerBundle(Locale expectedTargetLocale,
@@ -51,17 +54,10 @@ public class FactoryTest {
     assertEquals(expectedLocale, locale);
   }
 
-  @Test(expected = NullPointerException.class)
-  public void Factory_createUndefinedLocalizerBundleWithNullLocalizer_nullPointerExceptionIsThrown() {
-    localizerFactory.createUndefinedLocalizerBundle(null);
-  }
-
   @Test
   public void Factory_createUndefinedLocalizerBundle_undefinedLocalizerBundleCreated() {
     String expectedBundleName = "__UNDEFINED__";
-    Localizer expectedLocalizer = localizerFactory.createLocalizer(Locale.CANADA_FRENCH);
-    LocalizerBundle localizerBundle =
-        localizerFactory.createUndefinedLocalizerBundle(expectedLocalizer);
+    LocalizerBundle localizerBundle = localizerFactory.createUndefinedLocalizerBundle();
 
     assertNotNull(localizerBundle);
     assertEquals(expectedBundleName, localizerBundle.getBundleName());

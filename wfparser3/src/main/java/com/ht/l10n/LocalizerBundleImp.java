@@ -1,6 +1,7 @@
 package com.ht.l10n;
 
 import java.util.Locale;
+import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 final class LocalizerBundleImp implements LocalizerBundle, NullObject {
@@ -18,9 +19,16 @@ final class LocalizerBundleImp implements LocalizerBundle, NullObject {
   }
 
   @Override
-  public String getFormattedString(LocalizerField localizerField, Object... parameters) {
-    // TODO Auto-generated method stub
-    return null;
+  public String getFormattedString(LocalizerField localizerField, Object... parameters)
+      throws LocalizerException {
+    String formattedLocalizedString = null;
+    try {
+      formattedLocalizedString = String.format(resourceBundle.getLocale(),
+          resourceBundle.getString(localizerField.getFullyQualifiedName()), parameters);
+    } catch (MissingResourceException mre) {
+      throw new LocalizerException(mre);
+    }
+    return formattedLocalizedString;
   }
 
   @Override
@@ -34,9 +42,14 @@ final class LocalizerBundleImp implements LocalizerBundle, NullObject {
   }
 
   @Override
-  public String getUnformattedString(LocalizerField localizerField) {
-    // TODO Auto-generated method stub
-    return null;
+  public String getUnformattedString(LocalizerField localizerField) throws LocalizerException {
+    String unformattedLocalizedString = null;
+    try {
+      unformattedLocalizedString = resourceBundle.getString(localizerField.getFullyQualifiedName());
+    } catch (MissingResourceException mre) {
+      throw new LocalizerException(mre);
+    }
+    return unformattedLocalizedString;
   }
 
   @Override

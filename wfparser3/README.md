@@ -146,6 +146,8 @@ There are a number of problems with the localization implementation I currently 
    * I want some means to validate the localization at test time so that I can compare all defined field instances
      against the configured localization and know EXACTLY where each field is defined AND be able to easily compare
      to ensure it is defined as expected.
+   * Not sure I like using a checked exception.  Finish implementation and review.  The objective of the new Localizer
+     implementation is to ensure there are no unneeded exceptions during runtime.
 
 
 ## Rough Notes
