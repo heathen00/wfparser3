@@ -4,14 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-final class CompoundLocalizerBundleImp implements LocalizerBundle {
+final class CompositeLocalizerBundleImp implements LocalizerBundle {
   private final List<LocalizerBundle> localizerBundleList;
   private final int TARGET_BUNDLE = 0;
-  private final int ROOT_BUNDLE = 1;
-  private final int UNDEFINED_BUNDLE = 2;
-  private final int EXCEPTION_BUNDLE = 3;
 
-  public CompoundLocalizerBundleImp(Localizer localizer, LocalizerBundle targetLocalizerBundle,
+  public CompositeLocalizerBundleImp(Localizer localizer, LocalizerBundle targetLocalizerBundle,
       LocalizerBundle rootLocalizerBundle, LocalizerBundle undefinedLocalizerBundle) {
     localizerBundleList = new ArrayList<>();
     localizerBundleList.add(targetLocalizerBundle);
@@ -26,8 +23,16 @@ final class CompoundLocalizerBundleImp implements LocalizerBundle {
 
   @Override
   public String getFormattedString(LocalizerField localizerField, Object... parameters) {
-    // TODO Auto-generated method stub
-    return null;
+    String localizedString = null;
+    for (int bundleIndex = TARGET_BUNDLE; localizedString == null; bundleIndex++) {
+      try {
+        localizedString =
+            localizerBundleList.get(bundleIndex).getFormattedString(localizerField, parameters);
+      } catch (LocalizerException le) {
+        localizedString = null;
+      }
+    }
+    return localizedString;
   }
 
   @Override
@@ -42,8 +47,15 @@ final class CompoundLocalizerBundleImp implements LocalizerBundle {
 
   @Override
   public String getUnformattedString(LocalizerField localizerField) {
-    // TODO Auto-generated method stub
-    return null;
+    String localizedString = null;
+    for (int bundleIndex = TARGET_BUNDLE; localizedString == null; bundleIndex++) {
+      try {
+        localizedString = localizerBundleList.get(bundleIndex).getUnformattedString(localizerField);
+      } catch (LocalizerException le) {
+        localizedString = null;
+      }
+    }
+    return localizedString;
   }
 
 }

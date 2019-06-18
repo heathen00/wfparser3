@@ -6,17 +6,13 @@ import java.util.ResourceBundle;
 
 final class FactoryImp implements Factory {
   @Override
-  public LocalizerBundle createCompoundLocalizerBundle(Localizer localizer,
-      String resourceBundleName, boolean useRootLocale,
-      boolean throwExceptionWhenL10nStringDataMissing) throws LocalizerException {
+  public LocalizerBundle createCompositeLocalizerBundle(Localizer localizer,
+      String resourceBundleName) throws LocalizerException {
     LocalizerBundle targetLocalizerBundle = createLocalizerBundle(localizer, resourceBundleName);
     LocalizerBundle rootLocalizerBundle =
-        (useRootLocale ? createRootLocaleLocalizerBundle(localizer, resourceBundleName)
-            : createNullLocalizerBundle());
-    LocalizerBundle undefinedLocalizerBundle =
-        (!throwExceptionWhenL10nStringDataMissing ? createUndefinedLocalizerBundle()
-            : createNullLocalizerBundle());
-    return new CompoundLocalizerBundleImp(localizer, targetLocalizerBundle, rootLocalizerBundle,
+        createRootLocaleLocalizerBundle(localizer, resourceBundleName);
+    LocalizerBundle undefinedLocalizerBundle = createUndefinedLocalizerBundle();
+    return new CompositeLocalizerBundleImp(localizer, targetLocalizerBundle, rootLocalizerBundle,
         undefinedLocalizerBundle);
   }
 

@@ -210,74 +210,41 @@ public class FactoryTest {
   }
 
   @Test(expected = NullPointerException.class)
-  public void Factory_createCompoundLocalizerBundleWithNullLocalizer_nullPointerExceptionIsThrown()
+  public void Factory_createCompositeLocalizerBundleWithNullLocalizer_nullPointerExceptionIsThrown()
       throws Exception {
-    localizerFactory.createCompoundLocalizerBundle(null, "does.not.matter", true, false);
+    localizerFactory.createCompositeLocalizerBundle(null, "does.not.matter");
   }
 
   @Test(expected = NullPointerException.class)
-  public void Factory_createCompoundLocalizerBundleWithNullResourceBundleName_nullPointerExceptionIsThrown()
+  public void Factory_createCompositeLocalizerBundleWithNullResourceBundleName_nullPointerExceptionIsThrown()
       throws Exception {
-    localizerFactory.createCompoundLocalizerBundle(
-        localizerFactory.createLocalizer(Locale.CANADA_FRENCH), null, true, false);
+    localizerFactory.createCompositeLocalizerBundle(
+        localizerFactory.createLocalizer(Locale.CANADA_FRENCH), null);
   }
 
   @Test
-  public void Factory_createCompoundLocalizerBundleWithCreateRootLocaleFalseAndThrowExceptionTrue_localizerBundleCreatedAsSpecified()
+  public void Factory_createCompositeLocalizerBundleWithValidParameters_localizerBundleCreatedAsSpecified()
       throws Exception {
     final Locale expectedTargetLocale = Locale.CANADA_FRENCH;
     final Locale expectedResolvedLocale = Locale.CANADA_FRENCH;
     final String expectedResourceBundleName =
-        "com.ht.l10n.acceptance.TestL10ResourceBundleForCompoundResourceBundleWithRootLocaleAndNoExceptions";
+        "com.ht.l10n.acceptance.TestL10ResourceBundleForCompositeResourceBundleWithRootLocaleAndNoExceptions";
     Localizer localizer = localizerFactory.createLocalizer(expectedTargetLocale);
 
-    LocalizerBundle localizerBundle = localizerFactory.createCompoundLocalizerBundle(localizer,
-        expectedResourceBundleName, false, true);
-
-    assertExpectedLocalizerBundle(expectedTargetLocale, expectedResolvedLocale,
-        expectedResourceBundleName, localizer, localizerBundle);
-  }
-
-  @Test
-  public void Factory_createCompoundLocalizerBundleWithCreateRootLocaleTrueAndThrowExceptionTrue_localizerBundleCreatedAsSpecified()
-      throws Exception {
-    final Locale expectedTargetLocale = Locale.CANADA_FRENCH;
-    final Locale expectedResolvedLocale = Locale.CANADA_FRENCH;
-    final String expectedResourceBundleName =
-        "com.ht.l10n.acceptance.TestL10ResourceBundleForCompoundResourceBundleWithRootLocaleAndNoExceptions";
-    Localizer localizer = localizerFactory.createLocalizer(expectedTargetLocale);
-
-    LocalizerBundle localizerBundle = localizerFactory.createCompoundLocalizerBundle(localizer,
-        expectedResourceBundleName, true, true);
-
-    assertExpectedLocalizerBundle(expectedTargetLocale, expectedResolvedLocale,
-        expectedResourceBundleName, localizer, localizerBundle);
-  }
-
-  @Test
-  public void Factory_createCompoundLocalizerBundleWithCreateRootLocaleTrueAndThrowExceptionFalse_localizerBundleCreatedAsSpecified()
-      throws Exception {
-    final Locale expectedTargetLocale = Locale.CANADA_FRENCH;
-    final Locale expectedResolvedLocale = Locale.CANADA_FRENCH;
-    final String expectedResourceBundleName =
-        "com.ht.l10n.acceptance.TestL10ResourceBundleForCompoundResourceBundleWithRootLocaleAndNoExceptions";
-    Localizer localizer = localizerFactory.createLocalizer(expectedTargetLocale);
-
-    LocalizerBundle localizerBundle = localizerFactory.createCompoundLocalizerBundle(localizer,
-        expectedResourceBundleName, true, false);
+    LocalizerBundle localizerBundle =
+        localizerFactory.createCompositeLocalizerBundle(localizer, expectedResourceBundleName);
 
     assertExpectedLocalizerBundle(expectedTargetLocale, expectedResolvedLocale,
         expectedResourceBundleName, localizer, localizerBundle);
   }
 
   @Test(expected = LocalizerException.class)
-  public void Factory_createCompoindLocalizerBundleWithCreateRootLocaleTrueButRootLocaleResourceBundleDoesNotExist_localizerExceptionIsThrown()
+  public void Factory_createCompositeLocalizerButRootLocaleResourceBundleDoesNotExist_localizerExceptionIsThrown()
       throws Exception {
     final String expectedResourceBundleName =
         "com.ht.l10n.acceptance.TestL10ResourceBundleForLocaleExistsButRootLocaleDoesNot";
     Localizer localizer = localizerFactory.createLocalizer(Locale.CANADA_FRENCH);
 
-    localizerFactory.createCompoundLocalizerBundle(localizer, expectedResourceBundleName, true,
-        true);
+    localizerFactory.createCompositeLocalizerBundle(localizer, expectedResourceBundleName);
   }
 }
