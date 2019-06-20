@@ -7,7 +7,7 @@ public interface LocalizerField {
 
   String getFullyQualifiedName();
 
-  String getUnformattedString();
+  String getUnformattedString() throws LocalizerException;
 
-  String getFormattedString(Object... parameters);
+  String getFormattedString(Object... parameters) throws LocalizerException;
 }

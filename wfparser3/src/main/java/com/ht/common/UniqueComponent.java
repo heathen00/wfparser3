@@ -8,7 +8,7 @@ package com.ht.common;
  *
  * @param <T>
  */
-interface UniqueComponent<T> {
+public interface UniqueComponent<T> {
 
   /**
    * The identifier instance that uniquely identifies this component within a context.

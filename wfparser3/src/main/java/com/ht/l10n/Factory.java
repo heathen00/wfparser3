@@ -10,7 +10,7 @@ public interface Factory {
 
   Localizer createLocalizer(Locale locale);
 
-  LocalizerBundle createLocalizerBundle(Localizer localizer, String resourceBundleName)
+  LocalizerBundle createTargetLocalizerBundle(Localizer localizer, String resourceBundleName)
       throws LocalizerException;
 
   LocalizerBundle createRootLocaleLocalizerBundle(Localizer localizer, String resourceBundleName)
@@ -28,7 +28,6 @@ public interface Factory {
 
   UID<LocalizerType> addLocalizerType(Localizer localizer, LocalizerType localizerType);
 
-  LocalizerField createLocalizerField(String fieldName) throws LocalizerException;
-
-  UID<LocalizerField> addLocalizerField(LocalizerType localizerType, LocalizerField localizerField);
+  LocalizerField createLocalizerField(LocalizerType localizerType, String fieldName)
+      throws LocalizerException;
 }

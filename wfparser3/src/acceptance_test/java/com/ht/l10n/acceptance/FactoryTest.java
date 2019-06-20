@@ -3,6 +3,7 @@ package com.ht.l10n.acceptance;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
 import org.junit.Before;
@@ -111,14 +112,15 @@ public class FactoryTest {
   @Test(expected = NullPointerException.class)
   public void Factory_createLocalizerBundleWithNullLocalizer_nullPointerExceptionIsThrown()
       throws Exception {
-    localizerFactory.createLocalizerBundle(null, "com.ht.l10n.acceptance.TestL10nResourceBundle");
+    localizerFactory.createTargetLocalizerBundle(null,
+        "com.ht.l10n.acceptance.TestL10nResourceBundle");
   }
 
   @Test(expected = NullPointerException.class)
   public void Factory_createLocalizerBundleWithNullResourceBundleName_nullPointerExceptionIsThrown()
       throws Exception {
-    localizerFactory.createLocalizerBundle(localizerFactory.createLocalizer(Locale.CANADA_FRENCH),
-        null);
+    localizerFactory
+        .createTargetLocalizerBundle(localizerFactory.createLocalizer(Locale.CANADA_FRENCH), null);
   }
 
   @Test(expected = LocalizerException.class)
@@ -128,7 +130,7 @@ public class FactoryTest {
     final String expectedResourceBundleName =
         "com.ht.l10n.acceptance.DoesNotExistL10nResourceBundle";
 
-    localizerFactory.createLocalizerBundle(localizer, expectedResourceBundleName);
+    localizerFactory.createTargetLocalizerBundle(localizer, expectedResourceBundleName);
   }
 
   @Test
@@ -141,7 +143,7 @@ public class FactoryTest {
     Localizer localizer = localizerFactory.createLocalizer(expectedTargetLocale);
 
     LocalizerBundle localizerBundle =
-        localizerFactory.createLocalizerBundle(localizer, expectedResourceBundleName);
+        localizerFactory.createTargetLocalizerBundle(localizer, expectedResourceBundleName);
 
     assertExpectedLocalizerBundle(expectedTargetLocale, expectedResolvedLocale,
         expectedResourceBundleName, localizer, localizerBundle);
@@ -157,7 +159,7 @@ public class FactoryTest {
     Localizer localizer = localizerFactory.createLocalizer(expectedTargetLocale);
 
     LocalizerBundle localizerBundle =
-        localizerFactory.createLocalizerBundle(localizer, expectedResourceBundleName);
+        localizerFactory.createTargetLocalizerBundle(localizer, expectedResourceBundleName);
 
     assertExpectedLocalizerBundle(expectedTargetLocale, expectedResolvedLocale,
         expectedResourceBundleName, localizer, localizerBundle);
@@ -174,7 +176,7 @@ public class FactoryTest {
     Localizer localizer = localizerFactory.createLocalizer(expectedTargetLocale);
 
     LocalizerBundle localizerBundle =
-        localizerFactory.createLocalizerBundle(localizer, expectedResourceBundleName);
+        localizerFactory.createTargetLocalizerBundle(localizer, expectedResourceBundleName);
 
     assertExpectedLocalizerBundle(expectedTargetLocale, expectedResolvedLocale,
         expectedResourceBundleName, localizer, localizerBundle);
@@ -191,7 +193,7 @@ public class FactoryTest {
     Localizer localizer = localizerFactory.createLocalizer(expectedTargetLocale);
 
     LocalizerBundle localizerBundle =
-        localizerFactory.createLocalizerBundle(localizer, expectedResourceBundleName);
+        localizerFactory.createTargetLocalizerBundle(localizer, expectedResourceBundleName);
 
     assertExpectedLocalizerBundle(expectedTargetLocale, expectedResolvedLocale,
         expectedResourceBundleName, localizer, localizerBundle);
@@ -208,7 +210,7 @@ public class FactoryTest {
     Localizer localizer = localizerFactory.createLocalizer(expectedTargetLocale);
 
     LocalizerBundle localizerBundle =
-        localizerFactory.createLocalizerBundle(localizer, expectedResourceBundleName);
+        localizerFactory.createTargetLocalizerBundle(localizer, expectedResourceBundleName);
 
     assertExpectedLocalizerBundle(expectedTargetLocale, expectedResolvedLocale,
         expectedResourceBundleName, localizer, localizerBundle);
@@ -254,46 +256,194 @@ public class FactoryTest {
   }
 
   @Test(expected = NullPointerException.class)
+  public void Factory_createLocalizerFieldWithNullLocalizerType_nullPointerExceptionIsThrown()
+      throws Exception {
+    localizerFactory.createLocalizerField(null, "test.field");
+  }
+
+  @Test(expected = NullPointerException.class)
   public void Factory_createLocalizerFieldWithNullFieldName_nullPointerExceptionIsThrown()
       throws Exception {
-    localizerFactory.createLocalizerField(null);
+    localizerFactory.createLocalizerField(
+        createStubLocalizerType("test.group", "test.type", "test.instance"), null);
   }
 
   @Test(expected = LocalizerException.class)
   public void Factory_createLocalizerFieldWithEmptyFieldName_localizerExceptionIsThrown()
       throws Exception {
-    localizerFactory.createLocalizerField("");
+    localizerFactory.createLocalizerField(
+        createStubLocalizerType("test.group", "test.type", "test.instance"), "");
   }
 
   @Test(expected = LocalizerException.class)
   public void Factory_createLocalizerFieldWithUnsupportedCharactersInFieldName_localizerExceptionIsThrown()
       throws Exception {
-    localizerFactory.createLocalizerField("SOME UNSUPPORTED\tCHARACTERS\n");
+    localizerFactory.createLocalizerField(
+        createStubLocalizerType("test.group", "test.type", "test.instance"),
+        "SOME UNSUPPORTED\tCHARACTERS\n");
   }
 
   @Test(expected = LocalizerException.class)
   public void Factory_createLocalizerFieldWithFieldNameBeginningWithAPeriod_localizerExceptionIsThrown()
       throws Exception {
-    localizerFactory.createLocalizerField(".invalid.period.at.begging");
+    localizerFactory.createLocalizerField(
+        createStubLocalizerType("test.group", "test.type", "test.instance"),
+        ".invalid.period.at.begging");
   }
 
   @Test(expected = LocalizerException.class)
   public void Factory_createLocalizerFieldWithFieldNameEndingWithAPeriod_localizerExceptionIsThrown()
       throws Exception {
-    localizerFactory.createLocalizerField("invalid.period.at.end.");
+    localizerFactory.createLocalizerField(
+        createStubLocalizerType("test.group", "test.type", "test.instance"),
+        "invalid.period.at.end.");
   }
 
   @Test
   public void Factory_createLocalizerFieldWithSupportedFieldName_localizerFieldIsCreated()
       throws Exception {
+    final String expectedGroupName = "test.group";
+    final String expectedTypeName = "test.type";
+    final String expectedInstanceName = "test.instance";
     final String expectedFieldName = "valid.field.name.00";
-    final String expectedFullyQualifiedName = "UNDEFINED.UNDEFINED.UNDEFINED." + expectedFieldName;
+    final String expectedFullyQualifiedName = String.join(".", expectedGroupName, expectedTypeName,
+        expectedInstanceName, expectedFieldName);
+    final LocalizerType expectedLocalizerType =
+        createStubLocalizerType("test.group", "test.type", "test.instance");
+    final String expectedUnformattedString =
+        "test unformatted string for localizerField with fieldName " + expectedFieldName;
+    final String expectedFormattedString =
+        "test formatted string for localizerField with fieldName " + expectedFieldName;
 
-    LocalizerField localizerField = localizerFactory.createLocalizerField(expectedFieldName);
+    LocalizerField localizerField =
+        localizerFactory.createLocalizerField(expectedLocalizerType, expectedFieldName);
 
     assertNotNull(localizerField);
+    assertEquals(expectedLocalizerType, localizerField.getLocalizerType());
     assertEquals(expectedFieldName, localizerField.getFieldName());
     assertEquals(expectedFullyQualifiedName, localizerField.getFullyQualifiedName());
+    assertEquals(expectedUnformattedString, localizerField.getUnformattedString());
+    assertEquals(expectedFormattedString, localizerField.getFormattedString());
+  }
+
+  private LocalizerType createStubLocalizerType(String groupName, String typeName,
+      String instanceName) {
+    return new LocalizerType() {
+      final String myGroupName = groupName;
+      final String myTypeName = typeName;
+      final String myInstanceName = instanceName;
+      final Localizer myLocalizer = createDefaultStubLocalizer();
+
+      @Override
+      public String getTypeName() {
+        return myTypeName;
+      }
+
+      @Override
+      public Set<UID<LocalizerField>> getLocalizerFieldKeySet() {
+        throw new UnsupportedOperationException("this operation not supported by stub");
+      }
+
+      @Override
+      public LocalizerField getLocalizerField(UID<LocalizerField> fieldUid) {
+        throw new UnsupportedOperationException("this operation not supported by stub");
+      }
+
+      @Override
+      public Localizer getLocalizer() {
+        return myLocalizer;
+      }
+
+      @Override
+      public String getInstanceName() {
+        return myInstanceName;
+      }
+
+      @Override
+      public String getGroupName() {
+        return myGroupName;
+      }
+    };
+  }
+
+  private Localizer createDefaultStubLocalizer() {
+    return new Localizer() {
+      final Set<LocalizerBundle> myLocalizerBundleSet = initLocalizerBundleSet();
+
+      private Set<LocalizerBundle> initLocalizerBundleSet() {
+        Set<LocalizerBundle> localizerBundleSet = new HashSet<>();
+        localizerBundleSet.add(createDefaultStubLocalizerBundle());
+        return localizerBundleSet;
+      }
+
+      @Override
+      public void setLocale(Locale locale) {
+        throw new UnsupportedOperationException("this operation not supported by stub");
+      }
+
+      @Override
+      public Set<UID<LocalizerType>> getLocalizerTypeKeySet() {
+        throw new UnsupportedOperationException("this operation not supported by stub");
+      }
+
+      @Override
+      public LocalizerType getLocalizerType(UID<LocalizerType> typeUid) {
+        throw new UnsupportedOperationException("this operation not supported by stub");
+      }
+
+      @Override
+      public Set<UID<LocalizerField>> getLocalizerFieldKeySet() {
+        throw new UnsupportedOperationException("this operation not supported by stub");
+      }
+
+      @Override
+      public LocalizerField getLocalizerField(UID<LocalizerField> fieldUid) {
+        throw new UnsupportedOperationException("this operation not supported by stub");
+      }
+
+      @Override
+      public Set<LocalizerBundle> getLocalizerBundleSet() {
+        return Collections.unmodifiableSet(myLocalizerBundleSet);
+      }
+
+      @Override
+      public Locale getLocale() {
+        throw new UnsupportedOperationException("this operation not supported by stub");
+      }
+    };
+  }
+
+  private LocalizerBundle createDefaultStubLocalizerBundle() {
+    return new LocalizerBundle() {
+
+      @Override
+      public String getUnformattedString(LocalizerField localizerField) throws LocalizerException {
+        return "test unformatted string for localizerField with fieldName "
+            + localizerField.getFieldName();
+      }
+
+      @Override
+      public Locale getTargetLocale() {
+        throw new UnsupportedOperationException("this operation not supported by stub");
+      }
+
+      @Override
+      public String getResourceBundleName() {
+        throw new UnsupportedOperationException("this operation not supported by stub");
+      }
+
+      @Override
+      public Locale getResolvedLocale() {
+        throw new UnsupportedOperationException("this operation not supported by stub");
+      }
+
+      @Override
+      public String getFormattedString(LocalizerField localizerField, Object... parameters)
+          throws LocalizerException {
+        return "test formatted string for localizerField with fieldName "
+            + localizerField.getFieldName();
+      }
+    };
   }
 
   @Test(expected = NullPointerException.class)

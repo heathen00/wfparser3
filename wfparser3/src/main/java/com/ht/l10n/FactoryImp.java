@@ -22,7 +22,8 @@ final class FactoryImp implements Factory {
   @Override
   public LocalizerBundle createCompositeLocalizerBundle(Localizer localizer,
       String resourceBundleName) throws LocalizerException {
-    LocalizerBundle targetLocalizerBundle = createLocalizerBundle(localizer, resourceBundleName);
+    LocalizerBundle targetLocalizerBundle =
+        createTargetLocalizerBundle(localizer, resourceBundleName);
     LocalizerBundle rootLocalizerBundle =
         createRootLocaleLocalizerBundle(localizer, resourceBundleName);
     LocalizerBundle undefinedLocalizerBundle = createUndefinedLocalizerBundle();
@@ -39,7 +40,7 @@ final class FactoryImp implements Factory {
   }
 
   @Override
-  public LocalizerBundle createLocalizerBundle(Localizer localizer, String resourceBundleName)
+  public LocalizerBundle createTargetLocalizerBundle(Localizer localizer, String resourceBundleName)
       throws LocalizerException {
     createLocalizerBundleGuard(localizer, resourceBundleName);
     ResourceBundle resourceBundle = null;
@@ -105,17 +106,13 @@ final class FactoryImp implements Factory {
   }
 
   @Override
-  public UID<LocalizerField> addLocalizerField(LocalizerType localizerType,
-      LocalizerField localizerField) {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-  @Override
-  public LocalizerField createLocalizerField(String fieldName) throws LocalizerException {
-    String constructorParameterName = "fieldName";
-    guardNamingConvention(constructorParameterName, fieldName);
-    return new LocalizerFieldImp(fieldName);
+  public LocalizerField createLocalizerField(LocalizerType localizerType, String fieldName)
+      throws LocalizerException {
+    if (null == localizerType) {
+      throw new NullPointerException("localizerType constructor parameter cannot be null.");
+    }
+    guardNamingConvention("fieldName", fieldName);
+    return new LocalizerFieldImp(localizerType, fieldName);
   }
 
   @Override

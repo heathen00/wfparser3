@@ -1,16 +1,17 @@
 package com.ht.l10n;
 
 final class LocalizerFieldImp implements LocalizerField {
+  private final LocalizerType localizerType;
   private final String fieldName;
 
-  LocalizerFieldImp(String fieldName) {
+  LocalizerFieldImp(LocalizerType localizerType, String fieldName) {
+    this.localizerType = localizerType;
     this.fieldName = fieldName;
   }
 
   @Override
   public LocalizerType getLocalizerType() {
-    // TODO Auto-generated method stub
-    return null;
+    return localizerType;
   }
 
   @Override
@@ -20,18 +21,27 @@ final class LocalizerFieldImp implements LocalizerField {
 
   @Override
   public String getFullyQualifiedName() {
-    return "UNDEFINED.UNDEFINED.UNDEFINED." + fieldName;
+    return String.join(".", getLocalizerType().getGroupName(), getLocalizerType().getTypeName(),
+        getLocalizerType().getInstanceName(), fieldName);
   }
 
   @Override
-  public String getUnformattedString() {
-    // TODO Auto-generated method stub
-    return null;
+  public String getUnformattedString() throws LocalizerException {
+    String localizedString = null;
+    for (LocalizerBundle localizerBundle : getLocalizerType().getLocalizer()
+        .getLocalizerBundleSet()) {
+      localizedString = localizerBundle.getUnformattedString(this);
+    }
+    return localizedString;
   }
 
   @Override
-  public String getFormattedString(Object... parameters) {
-    // TODO Auto-generated method stub
-    return null;
+  public String getFormattedString(Object... parameters) throws LocalizerException {
+    String formattedLocalizedString = null;
+    for (LocalizerBundle localizerBundle : getLocalizerType().getLocalizer()
+        .getLocalizerBundleSet()) {
+      formattedLocalizedString = localizerBundle.getFormattedString(this, parameters);
+    }
+    return formattedLocalizedString;
   }
 }

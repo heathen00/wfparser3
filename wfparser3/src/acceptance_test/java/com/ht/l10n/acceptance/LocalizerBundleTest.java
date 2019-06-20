@@ -150,7 +150,7 @@ public class LocalizerBundleTest {
     final LocalizerField formattedField = createStubLocalizerField("formatted", "one");
 
     LocalizerBundle localizerBundle =
-        localizerFactory.createLocalizerBundle(localizer, resourceBundleName);
+        localizerFactory.createTargetLocalizerBundle(localizer, resourceBundleName);
 
     assertNotNull(localizerBundle);
     assertEquals(expectedTargetLocale, localizerBundle.getTargetLocale());
@@ -176,7 +176,7 @@ public class LocalizerBundleTest {
     LocalizerBundle localizerBundle = null;
 
     try {
-      localizerBundle = localizerFactory.createLocalizerBundle(localizer, resourceBundleName);
+      localizerBundle = localizerFactory.createTargetLocalizerBundle(localizer, resourceBundleName);
     } catch (LocalizerException le) {
       fail("exception occurred at wrong place");
     }
@@ -195,7 +195,7 @@ public class LocalizerBundleTest {
     LocalizerBundle localizerBundle = null;
 
     try {
-      localizerBundle = localizerFactory.createLocalizerBundle(localizer, resourceBundleName);
+      localizerBundle = localizerFactory.createTargetLocalizerBundle(localizer, resourceBundleName);
     } catch (LocalizerException le) {
       fail("exception occurred at wrong place");
     }
@@ -220,7 +220,7 @@ public class LocalizerBundleTest {
     final LocalizerField formattedField = createStubLocalizerField("formatted", "one");
 
     LocalizerBundle localizerBundle =
-        localizerFactory.createLocalizerBundle(localizer, resourceBundleName);
+        localizerFactory.createTargetLocalizerBundle(localizer, resourceBundleName);
 
     assertNotNull(localizerBundle);
     assertEquals(expectedTargetLocale, localizerBundle.getTargetLocale());
