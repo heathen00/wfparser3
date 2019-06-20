@@ -11,6 +11,7 @@ import com.ht.l10n.Localizer;
 import com.ht.l10n.LocalizerBundle;
 import com.ht.l10n.LocalizerException;
 import com.ht.l10n.LocalizerField;
+import com.ht.l10n.LocalizerType;
 
 public class LocalizerBundleTest {
 
@@ -40,7 +41,7 @@ public class LocalizerBundleTest {
     LocalizerBundle undefinedLocalizerBundle = localizerFactory.createUndefinedLocalizerBundle();
 
     assertNotNull(undefinedLocalizerBundle);
-    assertEquals(expectedBundleName, undefinedLocalizerBundle.getBundleName());
+    assertEquals(expectedBundleName, undefinedLocalizerBundle.getResourceBundleName());
     assertEquals(expectedTargetLocale, undefinedLocalizerBundle.getTargetLocale());
     assertEquals(expectedResolvedLocale, undefinedLocalizerBundle.getResolvedLocale());
     assertEquals(expectedUnformattedString,
@@ -333,7 +334,7 @@ public class LocalizerBundleTest {
 
   private LocalizerField createStubLocalizerField(String fieldName, String instanceName) {
     return new LocalizerField() {
-      private final String myBundleName = "testBundle00";
+      private final String myGroupName = "testBundle00";
       private final String myTypeName = "testType00";
       private final String myFieldName = fieldName;
       private final String myInstanceName = instanceName;
@@ -344,13 +345,8 @@ public class LocalizerBundleTest {
       }
 
       @Override
-      public String getInstanceName() {
-        return myInstanceName;
-      }
-
-      @Override
       public String getFullyQualifiedName() {
-        return String.join(".", myBundleName, myTypeName, myFieldName, myInstanceName);
+        return String.join(".", myGroupName, myTypeName, myFieldName, myInstanceName);
       }
 
       @Override
@@ -361,6 +357,12 @@ public class LocalizerBundleTest {
       @Override
       public String getFieldName() {
         return myFieldName;
+      }
+
+      @Override
+      public LocalizerType getLocalizerType() {
+        // TODO Auto-generated method stub
+        return null;
       }
     };
   }

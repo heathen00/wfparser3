@@ -5,7 +5,7 @@ import java.util.Locale;
 class NullLocalizerBundleImp implements LocalizerBundle, NullObject {
 
   @Override
-  public String getBundleName() {
+  public String getResourceBundleName() {
     // TODO Auto-generated method stub
     return null;
   }

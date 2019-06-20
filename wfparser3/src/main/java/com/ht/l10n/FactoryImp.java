@@ -3,8 +3,22 @@ package com.ht.l10n;
 import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
+import com.ht.common.UID;
 
 final class FactoryImp implements Factory {
+  private void guardNamingConvention(String constructorParameterName,
+      String constructorParameterValue) throws LocalizerException {
+    if (null == constructorParameterValue) {
+      throw new NullPointerException(
+          constructorParameterName + " constructor parameter cannot be null");
+    }
+    if (!constructorParameterValue.matches("^[a-z0-9][a-z0-9.]+$")
+        || constructorParameterValue.endsWith(".")) {
+      throw new LocalizerException(constructorParameterName
+          + " can only contain the characters: lowercase letters, numbers, and period and cannot start or end with a period");
+    }
+  }
+
   @Override
   public LocalizerBundle createCompositeLocalizerBundle(Localizer localizer,
       String resourceBundleName) throws LocalizerException {
@@ -73,5 +87,40 @@ final class FactoryImp implements Factory {
 
   LocalizerBundle createNullLocalizerBundle() {
     return new NullLocalizerBundleImp();
+  }
+
+  @Override
+  public LocalizerType createLocalizerType(String groupName, String typeName, String instanceName)
+      throws LocalizerException {
+    guardNamingConvention("groupName", groupName);
+    guardNamingConvention("typeName", typeName);
+    guardNamingConvention("instanceName", instanceName);
+    return new LocalizerTypeImp(groupName, typeName, instanceName);
+  }
+
+  @Override
+  public UID<LocalizerType> addLocalizerType(Localizer localizer, LocalizerType localizerType) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  @Override
+  public UID<LocalizerField> addLocalizerField(LocalizerType localizerType,
+      LocalizerField localizerField) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  @Override
+  public LocalizerField createLocalizerField(String fieldName) throws LocalizerException {
+    String constructorParameterName = "fieldName";
+    guardNamingConvention(constructorParameterName, fieldName);
+    return new LocalizerFieldImp(fieldName);
+  }
+
+  @Override
+  public void addLocalizerBundle(Localizer localizer, LocalizerBundle localizerBundle) {
+    // TODO Auto-generated method stub
+
   }
 }

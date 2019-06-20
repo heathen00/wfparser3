@@ -2,13 +2,18 @@ package com.ht.l10n.acceptance;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import java.util.Collections;
 import java.util.Locale;
+import java.util.Set;
 import org.junit.Before;
 import org.junit.Test;
+import com.ht.common.UID;
 import com.ht.l10n.Factory;
 import com.ht.l10n.Localizer;
 import com.ht.l10n.LocalizerBundle;
 import com.ht.l10n.LocalizerException;
+import com.ht.l10n.LocalizerField;
+import com.ht.l10n.LocalizerType;
 
 public class FactoryTest {
 
@@ -21,7 +26,7 @@ public class FactoryTest {
       Locale expectedResolvedLocale, final String expectedResourceBundleName, Localizer localizer,
       LocalizerBundle localizerBundle) {
     assertNotNull(localizerBundle);
-    assertEquals(expectedResourceBundleName, localizerBundle.getBundleName());
+    assertEquals(expectedResourceBundleName, localizerBundle.getResourceBundleName());
     assertEquals(expectedTargetLocale, localizer.getLocale());
     assertEquals(expectedTargetLocale, localizerBundle.getTargetLocale());
     assertEquals(expectedResolvedLocale, localizerBundle.getResolvedLocale());
@@ -60,7 +65,7 @@ public class FactoryTest {
     LocalizerBundle localizerBundle = localizerFactory.createUndefinedLocalizerBundle();
 
     assertNotNull(localizerBundle);
-    assertEquals(expectedBundleName, localizerBundle.getBundleName());
+    assertEquals(expectedBundleName, localizerBundle.getResourceBundleName());
   }
 
   @Test(expected = NullPointerException.class)
@@ -246,5 +251,159 @@ public class FactoryTest {
     Localizer localizer = localizerFactory.createLocalizer(Locale.CANADA_FRENCH);
 
     localizerFactory.createCompositeLocalizerBundle(localizer, expectedResourceBundleName);
+  }
+
+  @Test(expected = NullPointerException.class)
+  public void Factory_createLocalizerFieldWithNullFieldName_nullPointerExceptionIsThrown()
+      throws Exception {
+    localizerFactory.createLocalizerField(null);
+  }
+
+  @Test(expected = LocalizerException.class)
+  public void Factory_createLocalizerFieldWithEmptyFieldName_localizerExceptionIsThrown()
+      throws Exception {
+    localizerFactory.createLocalizerField("");
+  }
+
+  @Test(expected = LocalizerException.class)
+  public void Factory_createLocalizerFieldWithUnsupportedCharactersInFieldName_localizerExceptionIsThrown()
+      throws Exception {
+    localizerFactory.createLocalizerField("SOME UNSUPPORTED\tCHARACTERS\n");
+  }
+
+  @Test(expected = LocalizerException.class)
+  public void Factory_createLocalizerFieldWithFieldNameBeginningWithAPeriod_localizerExceptionIsThrown()
+      throws Exception {
+    localizerFactory.createLocalizerField(".invalid.period.at.begging");
+  }
+
+  @Test(expected = LocalizerException.class)
+  public void Factory_createLocalizerFieldWithFieldNameEndingWithAPeriod_localizerExceptionIsThrown()
+      throws Exception {
+    localizerFactory.createLocalizerField("invalid.period.at.end.");
+  }
+
+  @Test
+  public void Factory_createLocalizerFieldWithSupportedFieldName_localizerFieldIsCreated()
+      throws Exception {
+    final String expectedFieldName = "valid.field.name.00";
+    final String expectedFullyQualifiedName = "UNDEFINED.UNDEFINED.UNDEFINED." + expectedFieldName;
+
+    LocalizerField localizerField = localizerFactory.createLocalizerField(expectedFieldName);
+
+    assertNotNull(localizerField);
+    assertEquals(expectedFieldName, localizerField.getFieldName());
+    assertEquals(expectedFullyQualifiedName, localizerField.getFullyQualifiedName());
+  }
+
+  @Test(expected = NullPointerException.class)
+  public void Factory_createLocalizerTypeWithNullGroupName_nullPointerExceptionIsThrown()
+      throws Exception {
+    localizerFactory.createLocalizerType(null, "test.type", "test.instance");
+  }
+
+  @Test(expected = LocalizerException.class)
+  public void Factory_createLocalizerTypeWithEmptyGroupName_localizerExceptionIsThrown()
+      throws Exception {
+    localizerFactory.createLocalizerType("", "test.type", "test.instance");
+  }
+
+  @Test(expected = LocalizerException.class)
+  public void Factory_createLocalizerTypeWithUnsupportedCharactersInGroupName_localizerExceptionIsThrown()
+      throws Exception {
+    localizerFactory.createLocalizerType("unsupported\ncharacters", "test.type", "test.instance");
+  }
+
+  @Test(expected = LocalizerException.class)
+  public void Factory_createLocalizerTypeWithGroupNameBeginningWithAPeriod_localizerExceptionIsThrown()
+      throws Exception {
+    localizerFactory.createLocalizerType(".invalid.starts.with.period", "test.type",
+        "test.instance");
+  }
+
+  @Test(expected = LocalizerException.class)
+  public void Factory_createLocalizerTypeWithGroupNameEndingWithAPeriod_localizerExceptionIsThrown()
+      throws Exception {
+    localizerFactory.createLocalizerType("invalid.ends.with.period.", "test.type", "test.instance");
+  }
+
+  @Test(expected = NullPointerException.class)
+  public void Factory_createLocalizerTypeWithNullTypeName_nullPointerExceptionIsThrown()
+      throws Exception {
+    localizerFactory.createLocalizerType("test.group", null, "test.instance");
+  }
+
+  @Test(expected = LocalizerException.class)
+  public void Factory_createLocalizerTypeWithEmptyTypeName_localizerExceptionIsThrown()
+      throws Exception {
+    localizerFactory.createLocalizerType("test.group", "", "test.instance");
+  }
+
+  @Test(expected = LocalizerException.class)
+  public void Factory_createLocalizerTypeWithUnsupportedCharactersInTypeName_localizerExceptionIsThrown()
+      throws Exception {
+    localizerFactory.createLocalizerType("test.group", "unsupported characters", "test.instance");
+  }
+
+  @Test(expected = LocalizerException.class)
+  public void Factory_createLocalizerTypeWithTypeNameBeginningWithAPeriod_localizerExceptionIsThrown()
+      throws Exception {
+    localizerFactory.createLocalizerType("test.group", ".invalid.starts.with.period",
+        "test.instance");
+  }
+
+  @Test(expected = LocalizerException.class)
+  public void Factory_createLocalizerTypeWithTypeNameEndingWithAPeriod_localizerExceptionIsThrown()
+      throws Exception {
+    localizerFactory.createLocalizerType("test.group", "invalid.ends.with.period.",
+        "test.instance");
+  }
+
+  @Test(expected = NullPointerException.class)
+  public void Factory_createLocalizerTypeWithNullInstanceName_nullPointerExceptionIsThrown()
+      throws Exception {
+    localizerFactory.createLocalizerType("test.group", "test.type", null);
+  }
+
+  @Test(expected = LocalizerException.class)
+  public void Factory_createLocalizerTypeWithEmptyInstanceName_localizerExceptionIsThrown()
+      throws Exception {
+    localizerFactory.createLocalizerType("test.group", "test.type", "");
+  }
+
+  @Test(expected = LocalizerException.class)
+  public void Factory_createLocalizerTypeWithUnsupportedCharactersInInstanceName_localizerExceptionIsThrown()
+      throws Exception {
+    localizerFactory.createLocalizerType("test.group", "test.type", "unsupported!characters");
+  }
+
+  @Test(expected = LocalizerException.class)
+  public void Factory_createLocalizerTypeWithInstanceNameBeginningWithAPeriod_localizerExceptionIsThrown()
+      throws Exception {
+    localizerFactory.createLocalizerType("test.group", "test.type", ".invalid.starts.with.period");
+  }
+
+  @Test(expected = LocalizerException.class)
+  public void Factory_createLocalizerTypeWithInstanceNameEndingWithAPeriod_localizerExceptionIsThrown()
+      throws Exception {
+    localizerFactory.createLocalizerType("test.group", "test.type", "invalid.ends.with.period.");
+  }
+
+  @Test
+  public void Factory_createLocalizerTypeWithValidParameters_localizerTypeIsCreated()
+      throws Exception {
+    final String expectedGroupName = "expected.group.name";
+    final String expectedTypeName = "expected.type.name";
+    final String expectedInstanceName = "expected.instance.name";
+    final Set<UID<LocalizerField>> expectedLocalizerFieldKeySet = Collections.emptySet();
+
+    LocalizerType localizerType = localizerFactory.createLocalizerType(expectedGroupName,
+        expectedTypeName, expectedInstanceName);
+
+    assertNotNull(localizerType);
+    assertEquals(expectedGroupName, localizerType.getGroupName());
+    assertEquals(expectedTypeName, localizerType.getTypeName());
+    assertEquals(expectedInstanceName, localizerType.getInstanceName());
+    assertEquals(expectedLocalizerFieldKeySet, localizerType.getLocalizerFieldKeySet());
   }
 }

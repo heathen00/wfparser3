@@ -17,8 +17,8 @@ final class CompositeLocalizerBundleImp implements LocalizerBundle {
   }
 
   @Override
-  public String getBundleName() {
-    return localizerBundleList.get(TARGET_BUNDLE).getBundleName();
+  public String getResourceBundleName() {
+    return localizerBundleList.get(TARGET_BUNDLE).getResourceBundleName();
   }
 
   @Override

@@ -4,11 +4,13 @@ import java.util.Set;
 import com.ht.common.UID;
 
 public interface LocalizerType {
-  String getBundleName();
+  Localizer getLocalizer();
+
+  String getGroupName();
 
   String getTypeName();
 
-  LocalizerField addLocalizerField(LocalizerField localizerField);
+  String getInstanceName();
 
   LocalizerField getLocalizerField(UID<LocalizerField> fieldUid);
 

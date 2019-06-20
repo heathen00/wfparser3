@@ -11,7 +11,7 @@ final class UndefinedLocalizerBundle implements LocalizerBundle, NullObject {
       new Locale.Builder().setLanguage(UNDEFINED_LANGUAGE).setRegion(UNKNOWN_REGION).build();
 
   @Override
-  public String getBundleName() {
+  public String getResourceBundleName() {
     return INTERNAL_UNDEFINED;
   }
 

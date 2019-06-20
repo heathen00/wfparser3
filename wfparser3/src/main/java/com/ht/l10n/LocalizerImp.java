@@ -25,30 +25,6 @@ final class LocalizerImp implements Localizer {
   }
 
   @Override
-  public UID<LocalizerBundle> addLocalizerBundle(LocalizerBundle localizerBundle) {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-  @Override
-  public LocalizerBundle getLocalizerBundle(UID<LocalizerBundle> bundleUid) {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-  @Override
-  public Set<UID<LocalizerBundle>> getLocalizerBundleKeySet() {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-  @Override
-  public LocalizerType createLocalizerType(LocalizerType localizerType) {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-  @Override
   public LocalizerType getLocalizerType(UID<LocalizerType> typeUid) {
     // TODO Auto-generated method stub
     return null;
@@ -56,6 +32,24 @@ final class LocalizerImp implements Localizer {
 
   @Override
   public Set<UID<LocalizerType>> getLocalizerTypeKeySet() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  @Override
+  public LocalizerField getLocalizerField(UID<LocalizerField> fieldUid) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  @Override
+  public Set<UID<LocalizerField>> getLocalizerFieldKeySet() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  @Override
+  public Set<LocalizerBundle> getLocalizerBundleSet() {
     // TODO Auto-generated method stub
     return null;
   }

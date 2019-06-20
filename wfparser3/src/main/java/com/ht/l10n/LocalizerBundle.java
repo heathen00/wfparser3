@@ -3,7 +3,7 @@ package com.ht.l10n;
 import java.util.Locale;
 
 public interface LocalizerBundle {
-  String getBundleName();
+  String getResourceBundleName();
 
   String getFormattedString(LocalizerField localizerField, Object... parameters)
       throws LocalizerException;

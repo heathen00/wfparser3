@@ -1,9 +1,9 @@
 package com.ht.l10n;
 
 public interface LocalizerField {
-  String getFieldName();
+  LocalizerType getLocalizerType();
 
-  String getInstanceName();
+  String getFieldName();
 
   String getFullyQualifiedName();
 

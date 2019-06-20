@@ -9,15 +9,13 @@ public interface Localizer {
 
   void setLocale(Locale locale);
 
-  UID<LocalizerBundle> addLocalizerBundle(LocalizerBundle localizerBundle);
-
-  LocalizerBundle getLocalizerBundle(UID<LocalizerBundle> bundleUid);
-
-  Set<UID<LocalizerBundle>> getLocalizerBundleKeySet();
-
-  LocalizerType createLocalizerType(LocalizerType localizerType);
+  Set<LocalizerBundle> getLocalizerBundleSet();
 
   LocalizerType getLocalizerType(UID<LocalizerType> typeUid);
 
   Set<UID<LocalizerType>> getLocalizerTypeKeySet();
+
+  LocalizerField getLocalizerField(UID<LocalizerField> fieldUid);
+
+  Set<UID<LocalizerField>> getLocalizerFieldKeySet();
 }

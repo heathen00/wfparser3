@@ -14,7 +14,7 @@ final class LocalizerBundleImp implements LocalizerBundle, NullObject {
   }
 
   @Override
-  public String getBundleName() {
+  public String getResourceBundleName() {
     return resourceBundle.getBaseBundleName();
   }
 
