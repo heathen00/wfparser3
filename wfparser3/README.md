@@ -148,6 +148,8 @@ There are a number of problems with the localization implementation I currently 
      to ensure it is defined as expected.
    * Not sure I like using a checked exception.  Finish implementation and review.  The objective of the new Localizer
      implementation is to ensure there are no unneeded exceptions during runtime.
+   * The Set<LocalizerBundle> will need to be changed to a SortedSet<LocalizerBundle>.  I wrote this down someplace,
+     already, but forget where!
 
 
 ## Rough Notes

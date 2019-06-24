@@ -108,9 +108,6 @@ final class FactoryImp implements Factory {
   @Override
   public LocalizerField createLocalizerField(LocalizerType localizerType, String fieldName)
       throws LocalizerException {
-    if (null == localizerType) {
-      throw new NullPointerException("localizerType constructor parameter cannot be null.");
-    }
     guardNamingConvention("fieldName", fieldName);
     return new LocalizerFieldImp(localizerType, fieldName);
   }

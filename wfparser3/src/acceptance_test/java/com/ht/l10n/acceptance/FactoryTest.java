@@ -3,7 +3,6 @@ package com.ht.l10n.acceptance;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
 import org.junit.Before;
@@ -21,7 +20,12 @@ public class FactoryTest {
   // TODO need to ensure there are restrictions on how to name resource bundles: only use upper and
   // lower case letters, numbers, and periods. Cannot start or end with a period
 
+  // TODO for Localizer, the LocalizerBundle set will need to be an OrderedSet. This, in turn,
+  // requires that LocalizerBundle implement the methods that naturally sort LocalizerBundle
+  // instances.
+
   private Factory localizerFactory;
+  private StubFactory stubFactory;
 
   private void assertExpectedLocalizerBundle(Locale expectedTargetLocale,
       Locale expectedResolvedLocale, final String expectedResourceBundleName, Localizer localizer,
@@ -36,6 +40,7 @@ public class FactoryTest {
   @Before
   public void setup() {
     localizerFactory = Factory.createFactory();
+    stubFactory = StubFactory.createStubFactory();
   }
 
   @Test
@@ -265,21 +270,21 @@ public class FactoryTest {
   public void Factory_createLocalizerFieldWithNullFieldName_nullPointerExceptionIsThrown()
       throws Exception {
     localizerFactory.createLocalizerField(
-        createStubLocalizerType("test.group", "test.type", "test.instance"), null);
+        stubFactory.createStubLocalizerType("test.group", "test.type", "test.instance"), null);
   }
 
   @Test(expected = LocalizerException.class)
   public void Factory_createLocalizerFieldWithEmptyFieldName_localizerExceptionIsThrown()
       throws Exception {
     localizerFactory.createLocalizerField(
-        createStubLocalizerType("test.group", "test.type", "test.instance"), "");
+        stubFactory.createStubLocalizerType("test.group", "test.type", "test.instance"), "");
   }
 
   @Test(expected = LocalizerException.class)
   public void Factory_createLocalizerFieldWithUnsupportedCharactersInFieldName_localizerExceptionIsThrown()
       throws Exception {
     localizerFactory.createLocalizerField(
-        createStubLocalizerType("test.group", "test.type", "test.instance"),
+        stubFactory.createStubLocalizerType("test.group", "test.type", "test.instance"),
         "SOME UNSUPPORTED\tCHARACTERS\n");
   }
 
@@ -287,7 +292,7 @@ public class FactoryTest {
   public void Factory_createLocalizerFieldWithFieldNameBeginningWithAPeriod_localizerExceptionIsThrown()
       throws Exception {
     localizerFactory.createLocalizerField(
-        createStubLocalizerType("test.group", "test.type", "test.instance"),
+        stubFactory.createStubLocalizerType("test.group", "test.type", "test.instance"),
         ".invalid.period.at.begging");
   }
 
@@ -295,7 +300,7 @@ public class FactoryTest {
   public void Factory_createLocalizerFieldWithFieldNameEndingWithAPeriod_localizerExceptionIsThrown()
       throws Exception {
     localizerFactory.createLocalizerField(
-        createStubLocalizerType("test.group", "test.type", "test.instance"),
+        stubFactory.createStubLocalizerType("test.group", "test.type", "test.instance"),
         "invalid.period.at.end.");
   }
 
@@ -309,7 +314,7 @@ public class FactoryTest {
     final String expectedFullyQualifiedName = String.join(".", expectedGroupName, expectedTypeName,
         expectedInstanceName, expectedFieldName);
     final LocalizerType expectedLocalizerType =
-        createStubLocalizerType("test.group", "test.type", "test.instance");
+        stubFactory.createStubLocalizerType("test.group", "test.type", "test.instance");
     final String expectedUnformattedString =
         "test unformatted string for localizerField with fieldName " + expectedFieldName;
     final String expectedFormattedString =
@@ -324,126 +329,6 @@ public class FactoryTest {
     assertEquals(expectedFullyQualifiedName, localizerField.getFullyQualifiedName());
     assertEquals(expectedUnformattedString, localizerField.getUnformattedString());
     assertEquals(expectedFormattedString, localizerField.getFormattedString());
-  }
-
-  private LocalizerType createStubLocalizerType(String groupName, String typeName,
-      String instanceName) {
-    return new LocalizerType() {
-      final String myGroupName = groupName;
-      final String myTypeName = typeName;
-      final String myInstanceName = instanceName;
-      final Localizer myLocalizer = createDefaultStubLocalizer();
-
-      @Override
-      public String getTypeName() {
-        return myTypeName;
-      }
-
-      @Override
-      public Set<UID<LocalizerField>> getLocalizerFieldKeySet() {
-        throw new UnsupportedOperationException("this operation not supported by stub");
-      }
-
-      @Override
-      public LocalizerField getLocalizerField(UID<LocalizerField> fieldUid) {
-        throw new UnsupportedOperationException("this operation not supported by stub");
-      }
-
-      @Override
-      public Localizer getLocalizer() {
-        return myLocalizer;
-      }
-
-      @Override
-      public String getInstanceName() {
-        return myInstanceName;
-      }
-
-      @Override
-      public String getGroupName() {
-        return myGroupName;
-      }
-    };
-  }
-
-  private Localizer createDefaultStubLocalizer() {
-    return new Localizer() {
-      final Set<LocalizerBundle> myLocalizerBundleSet = initLocalizerBundleSet();
-
-      private Set<LocalizerBundle> initLocalizerBundleSet() {
-        Set<LocalizerBundle> localizerBundleSet = new HashSet<>();
-        localizerBundleSet.add(createDefaultStubLocalizerBundle());
-        return localizerBundleSet;
-      }
-
-      @Override
-      public void setLocale(Locale locale) {
-        throw new UnsupportedOperationException("this operation not supported by stub");
-      }
-
-      @Override
-      public Set<UID<LocalizerType>> getLocalizerTypeKeySet() {
-        throw new UnsupportedOperationException("this operation not supported by stub");
-      }
-
-      @Override
-      public LocalizerType getLocalizerType(UID<LocalizerType> typeUid) {
-        throw new UnsupportedOperationException("this operation not supported by stub");
-      }
-
-      @Override
-      public Set<UID<LocalizerField>> getLocalizerFieldKeySet() {
-        throw new UnsupportedOperationException("this operation not supported by stub");
-      }
-
-      @Override
-      public LocalizerField getLocalizerField(UID<LocalizerField> fieldUid) {
-        throw new UnsupportedOperationException("this operation not supported by stub");
-      }
-
-      @Override
-      public Set<LocalizerBundle> getLocalizerBundleSet() {
-        return Collections.unmodifiableSet(myLocalizerBundleSet);
-      }
-
-      @Override
-      public Locale getLocale() {
-        throw new UnsupportedOperationException("this operation not supported by stub");
-      }
-    };
-  }
-
-  private LocalizerBundle createDefaultStubLocalizerBundle() {
-    return new LocalizerBundle() {
-
-      @Override
-      public String getUnformattedString(LocalizerField localizerField) throws LocalizerException {
-        return "test unformatted string for localizerField with fieldName "
-            + localizerField.getFieldName();
-      }
-
-      @Override
-      public Locale getTargetLocale() {
-        throw new UnsupportedOperationException("this operation not supported by stub");
-      }
-
-      @Override
-      public String getResourceBundleName() {
-        throw new UnsupportedOperationException("this operation not supported by stub");
-      }
-
-      @Override
-      public Locale getResolvedLocale() {
-        throw new UnsupportedOperationException("this operation not supported by stub");
-      }
-
-      @Override
-      public String getFormattedString(LocalizerField localizerField, Object... parameters)
-          throws LocalizerException {
-        return "test formatted string for localizerField with fieldName "
-            + localizerField.getFieldName();
-      }
-    };
   }
 
   @Test(expected = NullPointerException.class)

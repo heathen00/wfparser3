@@ -12,7 +12,10 @@ package com.ht.common;
  *
  * @param <T>
  */
-public interface UID<T> {
+public interface UID<T> extends Comparable<UID<T>> {
+  public static <T> UID<T> createUid(String key, T component) {
+    return new UIDImp<T>(key, component);
+  }
 
   /**
    * The unique identifier for this component. Must be unique within its context. It does not

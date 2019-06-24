@@ -1,6 +1,8 @@
 package com.ht.l10n;
 
-public interface LocalizerField {
+import com.ht.common.UniqueComponent;
+
+public interface LocalizerField extends UniqueComponent<LocalizerField> {
   LocalizerType getLocalizerType();
 
   String getFieldName();

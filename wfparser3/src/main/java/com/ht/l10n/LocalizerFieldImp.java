@@ -1,12 +1,16 @@
 package com.ht.l10n;
 
+import com.ht.common.UID;
+
 final class LocalizerFieldImp implements LocalizerField {
+  private final UID<LocalizerField> localizerFieldUid;
   private final LocalizerType localizerType;
   private final String fieldName;
 
   LocalizerFieldImp(LocalizerType localizerType, String fieldName) {
     this.localizerType = localizerType;
     this.fieldName = fieldName;
+    localizerFieldUid = UID.createUid(getFullyQualifiedName(), this);
   }
 
   @Override
@@ -43,5 +47,10 @@ final class LocalizerFieldImp implements LocalizerField {
       formattedLocalizedString = localizerBundle.getFormattedString(this, parameters);
     }
     return formattedLocalizedString;
+  }
+
+  @Override
+  public UID<LocalizerField> getUid() {
+    return localizerFieldUid;
   }
 }

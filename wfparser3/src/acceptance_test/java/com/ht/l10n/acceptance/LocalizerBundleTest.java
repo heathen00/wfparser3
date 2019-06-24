@@ -11,20 +11,22 @@ import com.ht.l10n.Localizer;
 import com.ht.l10n.LocalizerBundle;
 import com.ht.l10n.LocalizerException;
 import com.ht.l10n.LocalizerField;
-import com.ht.l10n.LocalizerType;
 
 public class LocalizerBundleTest {
 
   private Factory localizerFactory;
+  private StubFactory stubFactory;
 
   @Before
   public void setup() {
     localizerFactory = Factory.createFactory();
+    stubFactory = StubFactory.createStubFactory();
   }
 
   @Test
-  public void LocalizerBundle_createFactory_factoryIsCreated() {
+  public void LocalizerBundle_createFactories_factoriesAreCreated() {
     assertNotNull(localizerFactory);
+    assertNotNull(stubFactory);
   }
 
   @Test
@@ -36,7 +38,8 @@ public class LocalizerBundleTest {
     final Locale expectedResolvedLocale = expectedTargetLocale;
     final String expectedFormattedString = "UNDEFINED";
     final String expectedUnformattedString = "UNDEFINED";
-    LocalizerField localizerField = createStubLocalizerField("testField00", "testInstance00");
+    LocalizerField localizerField =
+        stubFactory.createStubLocalizerField("testField00", "testInstance00");
 
     LocalizerBundle undefinedLocalizerBundle = localizerFactory.createUndefinedLocalizerBundle();
 
@@ -53,8 +56,10 @@ public class LocalizerBundleTest {
   @Test
   public void LocalizerBundle_getStringsForMultipleFieldInstancesFromUndefinedLocalizerBundle_stringsReturnedByUndefinedLocalizerBundleAlwaysUndefined()
       throws Exception {
-    LocalizerField localizerFieldOne = createStubLocalizerField("testField01", "testInstance01");
-    LocalizerField localizerFieldTwo = createStubLocalizerField("testField02", "testInstance02");
+    LocalizerField localizerFieldOne =
+        stubFactory.createStubLocalizerField("testField01", "testInstance01");
+    LocalizerField localizerFieldTwo =
+        stubFactory.createStubLocalizerField("testField02", "testInstance02");
     String expectedString = "UNDEFINED";
 
     LocalizerBundle undefinedLocalizerBundle = localizerFactory.createUndefinedLocalizerBundle();
@@ -78,8 +83,9 @@ public class LocalizerBundleTest {
         "this is a test formatted string for the root locale: %s, %d";
     final String expectedFormattedString =
         "this is a test formatted string for the root locale: test_parameter, 33";
-    final LocalizerField unformattedField = createStubLocalizerField("unformatted", "one");
-    final LocalizerField formattedField = createStubLocalizerField("formatted", "one");
+    final LocalizerField unformattedField =
+        stubFactory.createStubLocalizerField("unformatted", "one");
+    final LocalizerField formattedField = stubFactory.createStubLocalizerField("formatted", "one");
 
     LocalizerBundle rootLocalizerBundle =
         localizerFactory.createRootLocaleLocalizerBundle(localizer, resourceBundleName);
@@ -101,7 +107,7 @@ public class LocalizerBundleTest {
     final Localizer localizer = localizerFactory.createLocalizer(Locale.CANADA_FRENCH);
     final String resourceBundleName = "com.ht.l10n.acceptance.TestL10nRootLocaleResourceBundle";
     final LocalizerField nonExistentUnformattedField =
-        createStubLocalizerField("unformatted.does.not.exist", "one");
+        stubFactory.createStubLocalizerField("unformatted.does.not.exist", "one");
     LocalizerBundle rootLocalizerBundle = null;
 
     try {
@@ -120,7 +126,7 @@ public class LocalizerBundleTest {
     final Localizer localizer = localizerFactory.createLocalizer(Locale.CANADA_FRENCH);
     final String resourceBundleName = "com.ht.l10n.acceptance.TestL10nRootLocaleResourceBundle";
     final LocalizerField nonExistentFormattedField =
-        createStubLocalizerField("formatted.does.not.exist", "one");
+        stubFactory.createStubLocalizerField("formatted.does.not.exist", "one");
     LocalizerBundle rootLocalizerBundle = null;
 
     try {
@@ -146,8 +152,9 @@ public class LocalizerBundleTest {
         "this is a test formatted string for Locale fr_CA: %s, %d";
     final String expectedFormattedString =
         "this is a test formatted string for Locale fr_CA: test_parameter, 33";
-    final LocalizerField unformattedField = createStubLocalizerField("unformatted", "one");
-    final LocalizerField formattedField = createStubLocalizerField("formatted", "one");
+    final LocalizerField unformattedField =
+        stubFactory.createStubLocalizerField("unformatted", "one");
+    final LocalizerField formattedField = stubFactory.createStubLocalizerField("formatted", "one");
 
     LocalizerBundle localizerBundle =
         localizerFactory.createTargetLocalizerBundle(localizer, resourceBundleName);
@@ -172,7 +179,7 @@ public class LocalizerBundleTest {
     final String resourceBundleName =
         "com.ht.l10n.acceptance.TestL10nResourceBundleForSpecifiedLocaleExists";
     final LocalizerField nonExistentUnformattedField =
-        createStubLocalizerField("unformatted.does.not.exist", "one");
+        stubFactory.createStubLocalizerField("unformatted.does.not.exist", "one");
     LocalizerBundle localizerBundle = null;
 
     try {
@@ -191,7 +198,7 @@ public class LocalizerBundleTest {
     final String resourceBundleName =
         "com.ht.l10n.acceptance.TestL10nResourceBundleForSpecifiedLocaleExists";
     final LocalizerField nonExistentFormattedField =
-        createStubLocalizerField("formatted.does.not.exist", "one");
+        stubFactory.createStubLocalizerField("formatted.does.not.exist", "one");
     LocalizerBundle localizerBundle = null;
 
     try {
@@ -216,8 +223,9 @@ public class LocalizerBundleTest {
         "this is a test formatted string for Locale fr: %s, %d";
     final String expectedFormattedString =
         "this is a test formatted string for Locale fr: test_parameter, 33";
-    final LocalizerField unformattedField = createStubLocalizerField("unformatted", "one");
-    final LocalizerField formattedField = createStubLocalizerField("formatted", "one");
+    final LocalizerField unformattedField =
+        stubFactory.createStubLocalizerField("unformatted", "one");
+    final LocalizerField formattedField = stubFactory.createStubLocalizerField("formatted", "one");
 
     LocalizerBundle localizerBundle =
         localizerFactory.createTargetLocalizerBundle(localizer, resourceBundleName);
@@ -249,9 +257,9 @@ public class LocalizerBundleTest {
     final String expectedFormattedString =
         "this is a test formatted string for composite resource bundle for Locale fr_CA: test_parameter, 33";
     final LocalizerField unformattedField =
-        createStubLocalizerField("unformatted", "exists.in.target.locale");
+        stubFactory.createStubLocalizerField("unformatted", "exists.in.target.locale");
     final LocalizerField formattedField =
-        createStubLocalizerField("formatted", "exists.in.target.locale");
+        stubFactory.createStubLocalizerField("formatted", "exists.in.target.locale");
 
     LocalizerBundle localizerBundle =
         localizerFactory.createCompositeLocalizerBundle(localizer, resourceBundleName);
@@ -283,9 +291,9 @@ public class LocalizerBundleTest {
     final String expectedFormattedString =
         "this is a test formatted string for composite resource bundle for root Locale: test_parameter, 33";
     final LocalizerField unformattedField =
-        createStubLocalizerField("unformatted", "exists.in.root.locale");
+        stubFactory.createStubLocalizerField("unformatted", "exists.in.root.locale");
     final LocalizerField formattedField =
-        createStubLocalizerField("formatted", "exists.in.root.locale");
+        stubFactory.createStubLocalizerField("formatted", "exists.in.root.locale");
 
     LocalizerBundle localizerBundle =
         localizerFactory.createCompositeLocalizerBundle(localizer, resourceBundleName);
@@ -313,8 +321,10 @@ public class LocalizerBundleTest {
     final String expectedUnformattedString = "UNDEFINED";
     final String expectedUnformattedFormattedString = "UNDEFINED";
     final String expectedFormattedString = "UNDEFINED";
-    final LocalizerField unformattedField = createStubLocalizerField("unformatted", "not.defined");
-    final LocalizerField formattedField = createStubLocalizerField("formatted", "not.defined");
+    final LocalizerField unformattedField =
+        stubFactory.createStubLocalizerField("unformatted", "not.defined");
+    final LocalizerField formattedField =
+        stubFactory.createStubLocalizerField("formatted", "not.defined");
 
     LocalizerBundle localizerBundle =
         localizerFactory.createCompositeLocalizerBundle(localizer, resourceBundleName);
@@ -330,41 +340,4 @@ public class LocalizerBundleTest {
     assertEquals(expectedUnformattedString, localizerBundle.getFormattedString(unformattedField,
         "another_parameter", Double.valueOf(33.4d)));
   }
-
-
-  private LocalizerField createStubLocalizerField(String fieldName, String instanceName) {
-    return new LocalizerField() {
-      private final String myGroupName = "testBundle00";
-      private final String myTypeName = "testType00";
-      private final String myFieldName = fieldName;
-      private final String myInstanceName = instanceName;
-
-      @Override
-      public String getUnformattedString() {
-        return null;
-      }
-
-      @Override
-      public String getFullyQualifiedName() {
-        return String.join(".", myGroupName, myTypeName, myFieldName, myInstanceName);
-      }
-
-      @Override
-      public String getFormattedString(Object... parameters) {
-        return null;
-      }
-
-      @Override
-      public String getFieldName() {
-        return myFieldName;
-      }
-
-      @Override
-      public LocalizerType getLocalizerType() {
-        // TODO Auto-generated method stub
-        return null;
-      }
-    };
-  }
-
 }
