@@ -3,7 +3,6 @@ package com.ht.l10n;
 import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
-import com.ht.common.UID;
 
 final class FactoryImp implements Factory {
   private void guardNamingConvention(String constructorParameterName,
@@ -91,18 +90,15 @@ final class FactoryImp implements Factory {
   }
 
   @Override
-  public LocalizerType createLocalizerType(String groupName, String typeName, String instanceName)
-      throws LocalizerException {
+  public LocalizerType createLocalizerType(Localizer localizer, String groupName, String typeName,
+      String instanceName) throws LocalizerException {
+    if (null == localizer) {
+      throw new NullPointerException("localizer constructor parameter cannot be null");
+    }
     guardNamingConvention("groupName", groupName);
     guardNamingConvention("typeName", typeName);
     guardNamingConvention("instanceName", instanceName);
-    return new LocalizerTypeImp(groupName, typeName, instanceName);
-  }
-
-  @Override
-  public UID<LocalizerType> addLocalizerType(Localizer localizer, LocalizerType localizerType) {
-    // TODO Auto-generated method stub
-    return null;
+    return new LocalizerTypeImp(localizer, groupName, typeName, instanceName);
   }
 
   @Override

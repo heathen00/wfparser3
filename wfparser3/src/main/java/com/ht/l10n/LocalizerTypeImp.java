@@ -6,22 +6,26 @@ import java.util.Set;
 import com.ht.common.UID;
 
 final class LocalizerTypeImp implements LocalizerType {
+  private final Localizer localizer;
   private final String groupName;
   private final String typeName;
   private final String instanceName;
   private final Map<UID<LocalizerField>, LocalizerField> localizerFieldMap;
+  private final UID<LocalizerType> localizerTypeUid;
 
-  LocalizerTypeImp(String groupName, String typeName, String instanceName) {
+  LocalizerTypeImp(Localizer localizer, String groupName, String typeName, String instanceName) {
+    this.localizer = localizer;
     this.groupName = groupName;
     this.typeName = typeName;
     this.instanceName = instanceName;
     localizerFieldMap = new HashMap<>();
+    localizerTypeUid =
+        UID.createUid(String.join(".", getGroupName(), getTypeName(), getInstanceName()), this);
   }
 
   @Override
   public Localizer getLocalizer() {
-    // TODO Auto-generated method stub
-    return null;
+    return localizer;
   }
 
   @Override
@@ -50,4 +54,8 @@ final class LocalizerTypeImp implements LocalizerType {
     return localizerFieldMap.keySet();
   }
 
+  @Override
+  public UID<LocalizerType> getUid() {
+    return localizerTypeUid;
+  }
 }

@@ -57,6 +57,11 @@ public final class StubFactory {
       public String getGroupName() {
         return myGroupName;
       }
+
+      @Override
+      public UID<LocalizerType> getUid() {
+        throw new UnsupportedOperationException("this operation not supported by stub");
+      }
     };
   }
 

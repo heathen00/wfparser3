@@ -2,8 +2,9 @@ package com.ht.l10n;
 
 import java.util.Set;
 import com.ht.common.UID;
+import com.ht.common.UniqueComponent;
 
-public interface LocalizerType {
+public interface LocalizerType extends UniqueComponent<LocalizerType> {
   Localizer getLocalizer();
 
   String getGroupName();

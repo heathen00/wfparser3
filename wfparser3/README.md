@@ -150,6 +150,8 @@ There are a number of problems with the localization implementation I currently 
      implementation is to ensure there are no unneeded exceptions during runtime.
    * The Set<LocalizerBundle> will need to be changed to a SortedSet<LocalizerBundle>.  I wrote this down someplace,
      already, but forget where!
+   * What should happen if you try and create a localizer bundle/type/field that is not unique?  Error?  Return
+     reference to already existing type?
 
 
 ## Rough Notes
