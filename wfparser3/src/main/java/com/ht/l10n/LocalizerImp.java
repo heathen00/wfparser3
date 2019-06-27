@@ -4,7 +4,7 @@ import java.util.Locale;
 import java.util.Set;
 import com.ht.common.UID;
 
-final class LocalizerImp implements Localizer {
+final class LocalizerImp implements LocalizerInternal {
   private Locale locale;
 
   public LocalizerImp(Locale locale) {
@@ -52,5 +52,10 @@ final class LocalizerImp implements Localizer {
   public Set<LocalizerBundle> getLocalizerBundleSet() {
     // TODO Auto-generated method stub
     return null;
+  }
+
+  @Override
+  public boolean isDefined() {
+    return true;
   }
 }

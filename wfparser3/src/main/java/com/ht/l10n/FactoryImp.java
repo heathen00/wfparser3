@@ -113,21 +113,21 @@ final class FactoryImp implements Factory {
   public LocalizerField createLocalizerField(LocalizerType localizerType, String fieldName)
       throws LocalizerException {
     guardNamingConvention("fieldName", fieldName);
-    LocalizerFieldImp localizerFieldInternal = new LocalizerFieldImp(localizerType, fieldName);
-    if (!"undef.field"
-        .equals(localizerType.getLocalizerField(localizerFieldInternal.getUid()).getFieldName())) {
-      localizerFieldInternal =
-          (LocalizerFieldImp) localizerType.getLocalizerField(localizerFieldInternal.getUid());
+    LocalizerFieldInternal newLocalizerFieldInternal =
+        new LocalizerFieldImp(localizerType, fieldName);
+    LocalizerFieldInternal existingLocalizerFieldInternal = (LocalizerFieldInternal) localizerType
+        .getLocalizerField(newLocalizerFieldInternal.getUid());
+    if (existingLocalizerFieldInternal.isDefined()) {
+      newLocalizerFieldInternal = existingLocalizerFieldInternal;
     }
     LocalizerTypeInternal localizerTypeInternal = (LocalizerTypeInternal) localizerType;
-    localizerTypeInternal.addLocalizerField(localizerFieldInternal);
-    return localizerFieldInternal;
+    localizerTypeInternal.addLocalizerField(newLocalizerFieldInternal);
+    return newLocalizerFieldInternal;
   }
 
   @Override
   public void addLocalizerBundle(Localizer localizer, LocalizerBundle localizerBundle) {
     // TODO Auto-generated method stub
-
   }
 
   @Override

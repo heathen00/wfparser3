@@ -1,6 +1,7 @@
-package com.ht.l10n.acceptance;
+package com.ht.l10n;
 
 import com.ht.common.UID;
+import com.ht.l10n.Factory;
 import com.ht.l10n.Localizer;
 import com.ht.l10n.LocalizerBundle;
 import com.ht.l10n.LocalizerException;
@@ -23,7 +24,7 @@ public final class StubFactory {
 
   public LocalizerType createStubLocalizerType(String groupName, String typeName,
       String instanceName) {
-    return new LocalizerType() {
+    return new LocalizerTypeInternal() {
       final String myGroupName = groupName;
       final String myTypeName = typeName;
       final String myInstanceName = instanceName;
@@ -41,7 +42,7 @@ public final class StubFactory {
 
       @Override
       public LocalizerField getLocalizerField(UID<LocalizerField> fieldUid) {
-        throw new UnsupportedOperationException("this operation not supported by stub");
+        return Factory.createFactory().createUndefinedLocalizer().getLocalizerField(fieldUid);
       }
 
       @Override
@@ -63,11 +64,19 @@ public final class StubFactory {
       public UID<LocalizerType> getUid() {
         throw new UnsupportedOperationException("this operation not supported by stub");
       }
+
+      @Override
+      public void addLocalizerField(LocalizerField localizerField) {}
+
+      @Override
+      public boolean isDefined() {
+        return false;
+      }
     };
   }
 
   public Localizer createDefaultStubLocalizer() {
-    return new Localizer() {
+    return new LocalizerInternal() {
       final Set<LocalizerBundle> myLocalizerBundleSet = initLocalizerBundleSet();
 
       private Set<LocalizerBundle> initLocalizerBundleSet() {
@@ -110,11 +119,16 @@ public final class StubFactory {
       public Locale getLocale() {
         throw new UnsupportedOperationException("this operation not supported by stub");
       }
+
+      @Override
+      public boolean isDefined() {
+        return false;
+      }
     };
   }
 
   public LocalizerBundle createDefaultStubLocalizerBundle() {
-    return new LocalizerBundle() {
+    return new LocalizerBundleInternal() {
 
       @Override
       public String getUnformattedString(LocalizerField localizerField) throws LocalizerException {
@@ -143,11 +157,16 @@ public final class StubFactory {
         return "test formatted string for localizerField with fieldName "
             + localizerField.getFieldName();
       }
+
+      @Override
+      public boolean isDefined() {
+        return false;
+      }
     };
   }
 
   public LocalizerField createStubLocalizerField(String fieldName, String instanceName) {
-    return new LocalizerField() {
+    return new LocalizerFieldInternal() {
       private final String myGroupName = "testBundle00";
       private final String myTypeName = "testType00";
       private final String myFieldName = fieldName;
@@ -181,6 +200,11 @@ public final class StubFactory {
       @Override
       public UID<LocalizerField> getUid() {
         throw new UnsupportedOperationException("this operation not supported by stub");
+      }
+
+      @Override
+      public boolean isDefined() {
+        return false;
       }
     };
   }

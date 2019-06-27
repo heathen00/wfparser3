@@ -70,4 +70,9 @@ final class LocalizerTypeImp implements LocalizerTypeInternal {
   public void addLocalizerField(LocalizerField localizerField) {
     localizerFieldMap.put(localizerField.getUid(), localizerField);
   }
+
+  @Override
+  public boolean isDefined() {
+    return true;
+  }
 }

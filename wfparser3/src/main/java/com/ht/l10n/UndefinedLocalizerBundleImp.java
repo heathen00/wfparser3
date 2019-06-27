@@ -2,13 +2,15 @@ package com.ht.l10n;
 
 import java.util.Locale;
 
-final class UndefinedLocalizerBundle implements LocalizerBundle, NullObject {
+final class UndefinedLocalizerBundleImp implements LocalizerBundleInternal {
   private static final String INTERNAL_UNDEFINED = "__UNDEFINED__";
   private static final String EXTERNAL_UNDEFINED = "UNDEFINED";
-  private static final String UNDEFINED_LANGUAGE = "xx";
-  private static final String UNKNOWN_REGION = "ZZ";
-  private static final Locale UNKNOWN_LOCALE =
-      new Locale.Builder().setLanguage(UNDEFINED_LANGUAGE).setRegion(UNKNOWN_REGION).build();
+
+  private final UndefinedLocalizerImp undefinedLocalizer;
+
+  UndefinedLocalizerBundleImp(UndefinedLocalizerImp undefinedLocalizer) {
+    this.undefinedLocalizer = undefinedLocalizer;
+  }
 
   @Override
   public String getResourceBundleName() {
@@ -22,12 +24,12 @@ final class UndefinedLocalizerBundle implements LocalizerBundle, NullObject {
 
   @Override
   public Locale getResolvedLocale() {
-    return UNKNOWN_LOCALE;
+    return undefinedLocalizer.getLocale();
   }
 
   @Override
   public Locale getTargetLocale() {
-    return UNKNOWN_LOCALE;
+    return undefinedLocalizer.getLocale();
   }
 
   @Override
@@ -36,7 +38,7 @@ final class UndefinedLocalizerBundle implements LocalizerBundle, NullObject {
   }
 
   @Override
-  public boolean isNull() {
+  public boolean isDefined() {
     return false;
   }
 }

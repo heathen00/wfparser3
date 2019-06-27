@@ -2,7 +2,7 @@ package com.ht.l10n;
 
 import com.ht.common.UID;
 
-final class LocalizerFieldImp implements LocalizerField {
+final class LocalizerFieldImp implements LocalizerFieldInternal {
   private final UID<LocalizerField> localizerFieldUid;
   private final LocalizerType localizerType;
   private final String fieldName;
@@ -52,5 +52,10 @@ final class LocalizerFieldImp implements LocalizerField {
   @Override
   public UID<LocalizerField> getUid() {
     return localizerFieldUid;
+  }
+
+  @Override
+  public boolean isDefined() {
+    return true;
   }
 }
