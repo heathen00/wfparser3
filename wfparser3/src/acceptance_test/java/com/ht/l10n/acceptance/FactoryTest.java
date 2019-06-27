@@ -14,6 +14,7 @@ import com.ht.l10n.LocalizerBundle;
 import com.ht.l10n.LocalizerException;
 import com.ht.l10n.LocalizerField;
 import com.ht.l10n.LocalizerType;
+import com.ht.l10n.StubFactory;
 
 public class FactoryTest {
 

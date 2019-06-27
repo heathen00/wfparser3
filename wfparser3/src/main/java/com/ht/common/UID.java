@@ -25,14 +25,6 @@ public interface UID<T> extends Comparable<UID<T>> {
    */
   String getKey();
 
-  /**
-   * The message field or full message that is uniquely identified by this identifier.
-   * 
-   * @return The component instance, such as Topic, Description, Priority, or Message that is
-   *         uniquely identified by this identifier.
-   */
-  T getComponent();
-
   boolean equals(Object obj);
 
   int hashCode();

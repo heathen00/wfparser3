@@ -1,15 +1,16 @@
 package com.ht.l10n.acceptance;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Locale;
-import java.util.Set;
 import com.ht.common.UID;
 import com.ht.l10n.Localizer;
 import com.ht.l10n.LocalizerBundle;
 import com.ht.l10n.LocalizerException;
 import com.ht.l10n.LocalizerField;
 import com.ht.l10n.LocalizerType;
+
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Locale;
+import java.util.Set;
 
 public final class StubFactory {
   private static final StubFactory STUB_FACTORY_SINGLETON = new StubFactory();

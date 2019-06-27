@@ -10,6 +10,7 @@ import com.ht.common.UID;
 import com.ht.l10n.Factory;
 import com.ht.l10n.LocalizerField;
 import com.ht.l10n.LocalizerType;
+import com.ht.l10n.StubFactory;
 
 public class LocalizerFieldTest {
   private Factory localizerFactory;
@@ -46,7 +47,6 @@ public class LocalizerFieldTest {
 
     assertNotNull(localizerFieldUid);
     assertEquals(expectedFullyQualifiedName, localizerFieldUid.getKey());
-    assertEquals(localizerField, localizerFieldUid.getComponent());
   }
 
   @Test

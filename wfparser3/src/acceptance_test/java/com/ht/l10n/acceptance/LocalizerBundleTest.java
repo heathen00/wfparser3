@@ -11,6 +11,7 @@ import com.ht.l10n.Localizer;
 import com.ht.l10n.LocalizerBundle;
 import com.ht.l10n.LocalizerException;
 import com.ht.l10n.LocalizerField;
+import com.ht.l10n.StubFactory;
 
 public class LocalizerBundleTest {
 

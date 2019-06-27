@@ -1,7 +1,6 @@
 package com.ht.common;
 
 final class UIDImp<T> implements UID<T> {
-
   private final T component;
   private final String key;
 
@@ -13,11 +12,6 @@ final class UIDImp<T> implements UID<T> {
   @Override
   public String getKey() {
     return key;
-  }
-
-  @Override
-  public T getComponent() {
-    return component;
   }
 
   @Override

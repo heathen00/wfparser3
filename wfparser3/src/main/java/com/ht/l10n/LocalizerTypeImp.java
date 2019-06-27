@@ -1,11 +1,12 @@
 package com.ht.l10n;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import com.ht.common.UID;
 
-final class LocalizerTypeImp implements LocalizerType {
+final class LocalizerTypeImp implements LocalizerTypeInternal {
   private final Localizer localizer;
   private final String groupName;
   private final String typeName;
@@ -45,17 +46,28 @@ final class LocalizerTypeImp implements LocalizerType {
 
   @Override
   public LocalizerField getLocalizerField(UID<LocalizerField> fieldUid) {
-    // TODO Auto-generated method stub
-    return null;
+    if (null == fieldUid) {
+      throw new NullPointerException("fieldUid cannot be null");
+    }
+    LocalizerField localizerField = localizerFieldMap.get(fieldUid);
+    if (null == localizerField) {
+      localizerField = Factory.createFactory().createUndefinedLocalizer().getLocalizerField(null);
+    }
+    return localizerField;
   }
 
   @Override
   public Set<UID<LocalizerField>> getLocalizerFieldKeySet() {
-    return localizerFieldMap.keySet();
+    return Collections.unmodifiableSet(localizerFieldMap.keySet());
   }
 
   @Override
   public UID<LocalizerType> getUid() {
     return localizerTypeUid;
+  }
+
+  @Override
+  public void addLocalizerField(LocalizerField localizerField) {
+    localizerFieldMap.put(localizerField.getUid(), localizerField);
   }
 }

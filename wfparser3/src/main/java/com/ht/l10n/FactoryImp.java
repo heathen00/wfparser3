@@ -5,6 +5,18 @@ import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 final class FactoryImp implements Factory {
+  private static final Factory FACTORY_SINGLETON = new FactoryImp();
+
+  static Factory getFactorySingleton() {
+    return FACTORY_SINGLETON;
+  }
+
+  private final Localizer undefinedLocalizer;
+
+  private FactoryImp() {
+    undefinedLocalizer = new UndefinedLocalizerImp();
+  }
+
   private void guardNamingConvention(String constructorParameterName,
       String constructorParameterValue) throws LocalizerException {
     if (null == constructorParameterValue) {
@@ -66,7 +78,7 @@ final class FactoryImp implements Factory {
 
   @Override
   public LocalizerBundle createUndefinedLocalizerBundle() {
-    return new UndefinedLocalizerBundle();
+    return undefinedLocalizer.getLocalizerBundleSet().iterator().next();
   }
 
   private void createLocalizerBundleGuard(Localizer localizer, String resourceBundleName) {
@@ -85,10 +97,6 @@ final class FactoryImp implements Factory {
     return resourceBundle;
   }
 
-  LocalizerBundle createNullLocalizerBundle() {
-    return new NullLocalizerBundleImp();
-  }
-
   @Override
   public LocalizerType createLocalizerType(Localizer localizer, String groupName, String typeName,
       String instanceName) throws LocalizerException {
@@ -105,12 +113,25 @@ final class FactoryImp implements Factory {
   public LocalizerField createLocalizerField(LocalizerType localizerType, String fieldName)
       throws LocalizerException {
     guardNamingConvention("fieldName", fieldName);
-    return new LocalizerFieldImp(localizerType, fieldName);
+    LocalizerFieldImp localizerFieldInternal = new LocalizerFieldImp(localizerType, fieldName);
+    if (!"undef.field"
+        .equals(localizerType.getLocalizerField(localizerFieldInternal.getUid()).getFieldName())) {
+      localizerFieldInternal =
+          (LocalizerFieldImp) localizerType.getLocalizerField(localizerFieldInternal.getUid());
+    }
+    LocalizerTypeInternal localizerTypeInternal = (LocalizerTypeInternal) localizerType;
+    localizerTypeInternal.addLocalizerField(localizerFieldInternal);
+    return localizerFieldInternal;
   }
 
   @Override
   public void addLocalizerBundle(Localizer localizer, LocalizerBundle localizerBundle) {
     // TODO Auto-generated method stub
 
+  }
+
+  @Override
+  public Localizer createUndefinedLocalizer() {
+    return undefinedLocalizer;
   }
 }

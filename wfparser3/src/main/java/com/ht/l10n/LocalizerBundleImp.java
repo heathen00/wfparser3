@@ -4,7 +4,7 @@ import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
-final class LocalizerBundleImp implements LocalizerBundle, NullObject {
+final class LocalizerBundleImp implements LocalizerBundleInternal {
   private final Localizer localizer;
   private final ResourceBundle resourceBundle;
 
@@ -53,7 +53,7 @@ final class LocalizerBundleImp implements LocalizerBundle, NullObject {
   }
 
   @Override
-  public boolean isNull() {
-    return false;
+  public boolean isDefined() {
+    return true;
   }
 }
