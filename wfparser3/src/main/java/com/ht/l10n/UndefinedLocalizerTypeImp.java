@@ -68,8 +68,10 @@ final class UndefinedLocalizerTypeImp implements LocalizerTypeInternal {
   }
 
   @Override
-  public void addLocalizerField(LocalizerField localizerField) {
-    // TODO Auto-generated method stub
+  public void addLocalizerField(LocalizerField localizerField) {}
 
+  @Override
+  public String getFullyQualifiedName() {
+    return String.join(".", groupName, typeName, instanceName);
   }
 }

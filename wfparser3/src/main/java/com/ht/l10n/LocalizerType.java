@@ -13,6 +13,8 @@ public interface LocalizerType extends UniqueComponent<LocalizerType> {
 
   String getInstanceName();
 
+  String getFullyQualifiedName();
+
   LocalizerField getLocalizerField(UID<LocalizerField> fieldUid);
 
   Set<UID<LocalizerField>> getLocalizerFieldKeySet();

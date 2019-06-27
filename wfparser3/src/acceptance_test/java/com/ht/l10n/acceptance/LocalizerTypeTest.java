@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import com.ht.common.UID;
 import com.ht.l10n.Factory;
@@ -16,7 +15,6 @@ import java.util.Arrays;
 import java.util.Set;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class LocalizerTypeTest {
@@ -32,6 +30,21 @@ public class LocalizerTypeTest {
     assertEquals(expectedLocalizerFieldFullyQualifiedName, localizerField.getFullyQualifiedName());
     assertNotNull(localizerField.getUid());
     assertEquals(expectedLocalizerFieldKey, localizerField.getUid().getKey());
+  }
+
+  private void assertExpectedLocalizerType(String expectedLocalizerTypeGroup,
+      String expectedLocalizerTypeType, String expectedLocalizerTypeInstance,
+      LocalizerType localizerType) {
+    final String expectedLocalizerTypeFullyQualifiedName = String.join(".",
+        expectedLocalizerTypeGroup, expectedLocalizerTypeType, expectedLocalizerTypeInstance);
+    final String expectedLocalizerTypeKey = expectedLocalizerTypeFullyQualifiedName;
+    assertNotNull(localizerType);
+    assertEquals(expectedLocalizerTypeGroup, localizerType.getGroupName());
+    assertEquals(expectedLocalizerTypeType, localizerType.getTypeName());
+    assertEquals(expectedLocalizerTypeInstance, localizerType.getInstanceName());
+    assertEquals(expectedLocalizerTypeFullyQualifiedName, localizerType.getFullyQualifiedName());
+    assertNotNull(localizerType.getUid());
+    assertEquals(expectedLocalizerTypeKey, localizerType.getUid().getKey());
   }
 
   @Before
@@ -65,8 +78,6 @@ public class LocalizerTypeTest {
     String expectedLocalizerFieldFullyQualifiedName = String.join(".", expectedLocalizerTypeGroup,
         expectedLocalizerTypeType, expectedLocalizerTypeInstance, expectedLocalizerFieldName);
     String expectedLocalizerFieldKey = expectedLocalizerFieldFullyQualifiedName;
-    String expectedLocalizerTypeKey = String.join(".", expectedLocalizerTypeGroup,
-        expectedLocalizerTypeType, expectedLocalizerTypeInstance);
     LocalizerType otherLocalizerType = localizerFactory.createLocalizerType(
         stubFactory.createDefaultStubLocalizer(), "other.group", "other.name", "other.instance");
     LocalizerField otherLocalizerField =
@@ -79,19 +90,8 @@ public class LocalizerTypeTest {
     assertExpectedLocalizerField(expectedLocalizerFieldName,
         expectedLocalizerFieldFullyQualifiedName, expectedLocalizerFieldKey, localizerField);
     assertExpectedLocalizerType(expectedLocalizerTypeGroup, expectedLocalizerTypeType,
-        expectedLocalizerTypeInstance, expectedLocalizerTypeKey, localizerField.getLocalizerType());
+        expectedLocalizerTypeInstance, localizerField.getLocalizerType());
 
-  }
-
-  private void assertExpectedLocalizerType(String expectedLocalizerTypeGroup,
-      String expectedLocalizerTypeType, String expectedLocalizerTypeInstance,
-      String expectedLocalizerTypeKey, LocalizerType localizerType) {
-    assertNotNull(localizerType);
-    assertEquals(expectedLocalizerTypeGroup, localizerType.getGroupName());
-    assertEquals(expectedLocalizerTypeType, localizerType.getTypeName());
-    assertEquals(expectedLocalizerTypeInstance, localizerType.getInstanceName());
-    assertNotNull(localizerType.getUid());
-    assertEquals(expectedLocalizerTypeKey, localizerType.getUid().getKey());
   }
 
   @Test
@@ -105,7 +105,6 @@ public class LocalizerTypeTest {
         String.join(".", expectedGroup, expectedType, expectedInstance, expectedField);
     final LocalizerType localizerType = localizerFactory.createLocalizerType(
         stubFactory.createDefaultStubLocalizer(), expectedGroup, expectedType, expectedInstance);
-    final String expectedLocalizerTypeKey = localizerType.getUid().getKey();
     final LocalizerField expectedLocalizerField =
         localizerFactory.createLocalizerField(localizerType, expectedField);
 
@@ -115,7 +114,7 @@ public class LocalizerTypeTest {
     assertExpectedLocalizerField(expectedField, expectedFullyQualifiedName,
         expectedLocalizerField.getUid().getKey(), localizerField);
     assertExpectedLocalizerType(expectedGroup, expectedType, expectedInstance,
-        expectedLocalizerTypeKey, localizerField.getLocalizerType());
+        localizerField.getLocalizerType());
   }
 
   @Test
@@ -219,23 +218,5 @@ public class LocalizerTypeTest {
       isModifiable = false;
     }
     assertFalse(isModifiable);
-  }
-
-  @Test
-  @Ignore("Not implemented yet")
-  public void LocalizerType_getLocalizerTypeUid_localizerTypeUidIsReturned() {
-    fail("Not yet implemented");
-  }
-
-  @Test
-  @Ignore("Not implemented yet")
-  public void LocalizerType_assertLocalizerTypeUidAssertEqualsAndCompareToMethodsRespectContract_methodsContractsRespected() {
-    fail("Not yet implemented");
-  }
-
-  @Test
-  @Ignore("Not implemented yet")
-  public void LocalizerType_addDuplicateLocalizerField_noErrorButDuplicateFieldNotAdded() {
-    fail("Not yet implemented");
   }
 }

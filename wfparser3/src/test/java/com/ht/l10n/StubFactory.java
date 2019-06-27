@@ -72,6 +72,11 @@ public final class StubFactory {
       public boolean isDefined() {
         return false;
       }
+
+      @Override
+      public String getFullyQualifiedName() {
+        return String.join(".", myGroupName, myTypeName, myInstanceName);
+      }
     };
   }
 

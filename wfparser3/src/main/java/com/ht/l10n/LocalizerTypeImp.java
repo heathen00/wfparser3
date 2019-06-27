@@ -20,8 +20,7 @@ final class LocalizerTypeImp implements LocalizerTypeInternal {
     this.typeName = typeName;
     this.instanceName = instanceName;
     localizerFieldMap = new HashMap<>();
-    localizerTypeUid =
-        UID.createUid(String.join(".", getGroupName(), getTypeName(), getInstanceName()), this);
+    localizerTypeUid = UID.createUid(getFullyQualifiedName(), this);
   }
 
   @Override
@@ -74,5 +73,10 @@ final class LocalizerTypeImp implements LocalizerTypeInternal {
   @Override
   public boolean isDefined() {
     return true;
+  }
+
+  @Override
+  public String getFullyQualifiedName() {
+    return String.join(".", groupName, typeName, instanceName);
   }
 }
