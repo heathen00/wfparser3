@@ -30,9 +30,6 @@ public class LocalizerBundleAcceptanceTest {
     assertNotNull(stubFactory);
   }
 
-
-
-
   @Test
   public void LocalizerBundle_compositeLocalizerBundleStringExistsInTargetLocale_stringFromTargetLocaleRetrieved()
       throws Exception {
@@ -40,7 +37,7 @@ public class LocalizerBundleAcceptanceTest {
     final Locale expectedResolvedLocale = Locale.CANADA_FRENCH;
     final Localizer localizer = localizerFactory.createLocalizer(expectedTargetLocale);
     final String resourceBundleName =
-        "com.ht.l10n.acceptance.TestL10ResourceBundleForCompositeResourceBundleWithRootLocaleAndNoExceptions";
+        "com.ht.l10n.test.resource.TestL10ResourceBundleForCompositeResourceBundleWithRootLocaleAndNoExceptions";
     final String expectedUnformattedString =
         "this is a test unformatted string for composite resource bundle for Locale fr_CA";
     final String expectedUnformattedFormattedString =
@@ -74,7 +71,7 @@ public class LocalizerBundleAcceptanceTest {
     final Locale expectedResolvedLocale = Locale.CANADA_FRENCH;
     final Localizer localizer = localizerFactory.createLocalizer(expectedTargetLocale);
     final String resourceBundleName =
-        "com.ht.l10n.acceptance.TestL10ResourceBundleForCompositeResourceBundleWithRootLocaleAndNoExceptions";
+        "com.ht.l10n.test.resource.TestL10ResourceBundleForCompositeResourceBundleWithRootLocaleAndNoExceptions";
     final String expectedUnformattedString =
         "this is a test unformatted string for composite resource bundle for root Locale";
     final String expectedUnformattedFormattedString =
@@ -108,7 +105,7 @@ public class LocalizerBundleAcceptanceTest {
     final Locale expectedResolvedLocale = Locale.CANADA_FRENCH;
     final Localizer localizer = localizerFactory.createLocalizer(expectedTargetLocale);
     final String resourceBundleName =
-        "com.ht.l10n.acceptance.TestL10ResourceBundleForCompositeResourceBundleWithRootLocaleAndNoExceptions";
+        "com.ht.l10n.test.resource.TestL10ResourceBundleForCompositeResourceBundleWithRootLocaleAndNoExceptions";
     final String expectedUnformattedString = "UNDEFINED";
     final String expectedUnformattedFormattedString = "UNDEFINED";
     final String expectedFormattedString = "UNDEFINED";

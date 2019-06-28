@@ -1,4 +1,4 @@
-package com.ht.l10n.acceptance;
+package com.ht.l10n.test.resource;
 
 import java.util.ListResourceBundle;
 

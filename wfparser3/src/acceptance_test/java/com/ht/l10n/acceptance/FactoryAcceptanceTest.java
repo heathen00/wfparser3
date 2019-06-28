@@ -78,7 +78,7 @@ public class FactoryAcceptanceTest {
     final Locale expectedTargetLocale = Locale.CANADA_FRENCH;
     final Locale expectedResolvedLocale = Locale.CANADA_FRENCH;
     final String expectedResourceBundleName =
-        "com.ht.l10n.acceptance.TestL10ResourceBundleForCompositeResourceBundleWithRootLocaleAndNoExceptions";
+        "com.ht.l10n.test.resource.TestL10ResourceBundleForCompositeResourceBundleWithRootLocaleAndNoExceptions";
     Localizer localizer = localizerFactory.createLocalizer(expectedTargetLocale);
 
     LocalizerBundle localizerBundle =
@@ -92,7 +92,7 @@ public class FactoryAcceptanceTest {
   public void Factory_createCompositeLocalizerButRootLocaleResourceBundleDoesNotExist_localizerExceptionIsThrown()
       throws Exception {
     final String expectedResourceBundleName =
-        "com.ht.l10n.acceptance.TestL10ResourceBundleForLocaleExistsButRootLocaleDoesNot";
+        "com.ht.l10n.test.resource.TestL10ResourceBundleForLocaleExistsButRootLocaleDoesNot";
     Localizer localizer = localizerFactory.createLocalizer(Locale.CANADA_FRENCH);
 
     localizerFactory.createCompositeLocalizerBundle(localizer, expectedResourceBundleName);

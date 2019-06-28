@@ -40,7 +40,7 @@ public class FactoryUnitTest {
   public void Factory_createRootLocaleLocalizerBundleWithNullLocalizer_nullPointerExceptionIsThrown()
       throws Exception {
     localizerFactory.createRootLocaleLocalizerBundle(null,
-        "com.ht.l10n.acceptance.TestL10nResourceBundle");
+        "com.ht.l10n.test.resource.TestL10nResourceBundle");
   }
 
   @Test(expected = NullPointerException.class)
@@ -55,7 +55,7 @@ public class FactoryUnitTest {
       throws Exception {
     Localizer localizer = localizerFactory.createLocalizer(Locale.CANADA_FRENCH);
     final String expectedResourceBundleName =
-        "com.ht.l10n.acceptance.DoesNotExistL10nResourceBundle";
+        "com.ht.l10n.test.resource.DoesNotExistL10nResourceBundle";
 
     localizerFactory.createRootLocaleLocalizerBundle(localizer, expectedResourceBundleName);
   }
@@ -66,7 +66,7 @@ public class FactoryUnitTest {
     final Locale expectedTargetLocale = Locale.CANADA_FRENCH;
     final Locale expectedResolvedLocale = Locale.ROOT;
     final String expectedResourceBundleName =
-        "com.ht.l10n.acceptance.TestL10nRootLocaleResourceBundle";
+        "com.ht.l10n.test.resource.TestL10nRootLocaleResourceBundle";
     Localizer localizer = localizerFactory.createLocalizer(expectedTargetLocale);
 
     LocalizerBundle localizerBundle =
@@ -80,7 +80,7 @@ public class FactoryUnitTest {
   public void Factory_createLocalizerBundleWithNullLocalizer_nullPointerExceptionIsThrown()
       throws Exception {
     localizerFactory.createTargetLocalizerBundle(null,
-        "com.ht.l10n.acceptance.TestL10nResourceBundle");
+        "com.ht.l10n.test.resource.TestL10nResourceBundle");
   }
 
   @Test(expected = NullPointerException.class)
@@ -95,7 +95,7 @@ public class FactoryUnitTest {
       throws Exception {
     Localizer localizer = localizerFactory.createLocalizer(Locale.CANADA_FRENCH);
     final String expectedResourceBundleName =
-        "com.ht.l10n.acceptance.DoesNotExistL10nResourceBundle";
+        "com.ht.l10n.test.resource.DoesNotExistL10nResourceBundle";
 
     localizerFactory.createTargetLocalizerBundle(localizer, expectedResourceBundleName);
   }
@@ -106,7 +106,7 @@ public class FactoryUnitTest {
     final Locale expectedTargetLocale = Locale.CANADA_FRENCH;
     final Locale expectedResolvedLocale = Locale.FRENCH;
     final String expectedResourceBundleName =
-        "com.ht.l10n.acceptance.TestL10nResourceBundleForSimilarLocaleExists";
+        "com.ht.l10n.test.resource.TestL10nResourceBundleForSimilarLocaleExists";
     Localizer localizer = localizerFactory.createLocalizer(expectedTargetLocale);
 
     LocalizerBundle localizerBundle =
@@ -122,7 +122,7 @@ public class FactoryUnitTest {
     final Locale expectedTargetLocale = Locale.CANADA_FRENCH;
     final Locale expectedResolvedLocale = Locale.ROOT;
     final String expectedResourceBundleName =
-        "com.ht.l10n.acceptance.TestL10nResourceBundleForSpecifiedLocaleButOnlyRootLocaleExists";
+        "com.ht.l10n.test.resource.TestL10nResourceBundleForSpecifiedLocaleButOnlyRootLocaleExists";
     Localizer localizer = localizerFactory.createLocalizer(expectedTargetLocale);
 
     LocalizerBundle localizerBundle =
@@ -138,7 +138,7 @@ public class FactoryUnitTest {
     final Locale expectedTargetLocale = Locale.CANADA_FRENCH;
     final Locale expectedResolvedLocale = Locale.GERMANY;
     final String expectedResourceBundleName =
-        "com.ht.l10n.acceptance.TestL10nResourceBundleForSpecifiedLocaleButOnlyDefaultLocaleExists";
+        "com.ht.l10n.test.resource.TestL10nResourceBundleForSpecifiedLocaleButOnlyDefaultLocaleExists";
     Locale.setDefault(expectedResolvedLocale);
     Localizer localizer = localizerFactory.createLocalizer(expectedTargetLocale);
 
@@ -155,7 +155,7 @@ public class FactoryUnitTest {
     final Locale expectedTargetLocale = Locale.CANADA_FRENCH;
     final Locale expectedResolvedLocale = Locale.FRENCH;
     final String expectedResourceBundleName =
-        "com.ht.l10n.acceptance.TestL10nResourceBundleForSpecifiedLocaleEclipsedByClass";
+        "com.ht.l10n.test.resource.TestL10nResourceBundleForSpecifiedLocaleEclipsedByClass";
     Locale.setDefault(expectedResolvedLocale);
     Localizer localizer = localizerFactory.createLocalizer(expectedTargetLocale);
 
@@ -172,7 +172,7 @@ public class FactoryUnitTest {
     final Locale expectedTargetLocale = Locale.CANADA_FRENCH;
     final Locale expectedResolvedLocale = Locale.CANADA_FRENCH;
     final String expectedResourceBundleName =
-        "com.ht.l10n.acceptance.TestL10nResourceBundleForSpecifiedLocaleExists";
+        "com.ht.l10n.test.resource.TestL10nResourceBundleForSpecifiedLocaleExists";
 
     Localizer localizer = localizerFactory.createLocalizer(expectedTargetLocale);
 
