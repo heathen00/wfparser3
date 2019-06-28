@@ -7,7 +7,7 @@ import org.junit.Test;
 import com.ht.l10n.Factory;
 import com.ht.l10n.Localizer;
 
-public class LocalizerTest {
+public class LocalizerAcceptanceTest {
   private Factory localizerFactory;
 
   @Before

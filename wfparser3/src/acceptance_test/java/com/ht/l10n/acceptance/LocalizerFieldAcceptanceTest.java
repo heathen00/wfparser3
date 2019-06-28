@@ -12,7 +12,7 @@ import com.ht.l10n.LocalizerField;
 import com.ht.l10n.LocalizerType;
 import com.ht.l10n.StubFactory;
 
-public class LocalizerFieldTest {
+public class LocalizerFieldAcceptanceTest {
   private Factory localizerFactory;
   private StubFactory stubFactory;
 

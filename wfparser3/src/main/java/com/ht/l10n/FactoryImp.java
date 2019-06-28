@@ -4,7 +4,7 @@ import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
-final class FactoryImp implements Factory {
+final class FactoryImp implements FactoryInternal {
   private static final Factory FACTORY_SINGLETON = new FactoryImp();
 
   static Factory getFactorySingleton() {
