@@ -5,6 +5,7 @@ import java.util.Locale;
 public interface LocalizerBundle {
   String getResourceBundleName();
 
+  // TODO move to internal
   String getFormattedString(LocalizerField localizerField, Object... parameters)
       throws LocalizerException;
 
@@ -12,5 +13,6 @@ public interface LocalizerBundle {
 
   Locale getTargetLocale();
 
+  // TODO move to internal
   String getUnformattedString(LocalizerField localizerField) throws LocalizerException;
 }

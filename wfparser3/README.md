@@ -153,6 +153,8 @@ There are a number of problems with the localization implementation I currently 
    * What should happen if you try and create a localizer bundle/type/field that is not unique?  Error?  Return
      reference to already existing type?
    * Maybe remove the ability to get the component from the UID: getComponent().
+   * What happens when you add the same bundle, key, or field multiple times? Not sure if
+     these scenarios tested sufficiently.
 
 
 ## Rough Notes

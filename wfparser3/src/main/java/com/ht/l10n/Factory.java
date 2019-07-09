@@ -21,6 +21,6 @@ public interface Factory {
   LocalizerField createLocalizerField(LocalizerType localizerType, String fieldName)
       throws LocalizerException;
 
-  // TODO remove
+  // TODO move to internal
   Localizer createUndefinedLocalizer();
 }
