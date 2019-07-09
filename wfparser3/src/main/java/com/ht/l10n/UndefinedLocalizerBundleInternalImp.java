@@ -2,13 +2,13 @@ package com.ht.l10n;
 
 import java.util.Locale;
 
-final class UndefinedLocalizerBundleImp implements LocalizerBundleInternal {
+final class UndefinedLocalizerBundleInternalImp implements LocalizerBundleInternal {
   private static final String INTERNAL_UNDEFINED = "__UNDEFINED__";
   private static final String EXTERNAL_UNDEFINED = "UNDEFINED";
 
-  private final UndefinedLocalizerImp undefinedLocalizer;
+  private final UndefinedLocalizerInternalImp undefinedLocalizer;
 
-  UndefinedLocalizerBundleImp(UndefinedLocalizerImp undefinedLocalizer) {
+  UndefinedLocalizerBundleInternalImp(UndefinedLocalizerInternalImp undefinedLocalizer) {
     this.undefinedLocalizer = undefinedLocalizer;
   }
 

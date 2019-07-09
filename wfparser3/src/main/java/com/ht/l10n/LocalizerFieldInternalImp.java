@@ -2,12 +2,12 @@ package com.ht.l10n;
 
 import com.ht.common.UID;
 
-final class LocalizerFieldImp implements LocalizerFieldInternal {
+final class LocalizerFieldInternalImp implements LocalizerFieldInternal {
   private final UID<LocalizerField> localizerFieldUid;
   private final LocalizerType localizerType;
   private final String fieldName;
 
-  LocalizerFieldImp(LocalizerType localizerType, String fieldName) {
+  LocalizerFieldInternalImp(LocalizerType localizerType, String fieldName) {
     this.localizerType = localizerType;
     this.fieldName = fieldName;
     localizerFieldUid = UID.createUid(getFullyQualifiedName(), this);

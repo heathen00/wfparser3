@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.Set;
 import com.ht.common.UID;
 
-final class LocalizerTypeImp implements LocalizerTypeInternal {
+final class LocalizerTypeInternalImp implements LocalizerTypeInternal {
   private final Localizer localizer;
   private final String groupName;
   private final String typeName;
@@ -14,7 +14,8 @@ final class LocalizerTypeImp implements LocalizerTypeInternal {
   private final Map<UID<LocalizerField>, LocalizerField> localizerFieldMap;
   private final UID<LocalizerType> localizerTypeUid;
 
-  LocalizerTypeImp(Localizer localizer, String groupName, String typeName, String instanceName) {
+  LocalizerTypeInternalImp(Localizer localizer, String groupName, String typeName,
+      String instanceName) {
     this.localizer = localizer;
     this.groupName = groupName;
     this.typeName = typeName;

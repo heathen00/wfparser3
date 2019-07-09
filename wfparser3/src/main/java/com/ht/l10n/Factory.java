@@ -4,7 +4,7 @@ import java.util.Locale;
 
 public interface Factory {
   static Factory createFactory() {
-    return FactoryImp.getFactorySingleton();
+    return FactoryInternalImp.getFactorySingleton();
   }
 
   Localizer createLocalizer(Locale locale);
@@ -12,6 +12,7 @@ public interface Factory {
   LocalizerBundle createLocalizerBundle(Localizer localizer, String resourceBundleName)
       throws LocalizerException;
 
+  // TODO remove
   void addLocalizerBundle(Localizer localizer, LocalizerBundle localizerBundle);
 
   LocalizerType createLocalizerType(Localizer localizer, String groupName, String typeName,
@@ -20,5 +21,6 @@ public interface Factory {
   LocalizerField createLocalizerField(LocalizerType localizerType, String fieldName)
       throws LocalizerException;
 
+  // TODO remove
   Localizer createUndefinedLocalizer();
 }

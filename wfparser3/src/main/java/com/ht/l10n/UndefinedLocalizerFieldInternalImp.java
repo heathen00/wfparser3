@@ -2,13 +2,13 @@ package com.ht.l10n;
 
 import com.ht.common.UID;
 
-final class UndefinedLocalizerFieldImp implements LocalizerFieldInternal {
+final class UndefinedLocalizerFieldInternalImp implements LocalizerFieldInternal {
   private static final String UNDEFINED_LOCALIZED_STRING = "UNDEFINED";
-  private final UndefinedLocalizerTypeImp undefinedLocalizerType;
+  private final UndefinedLocalizerTypeInternalImp undefinedLocalizerType;
   private final String fieldName;
   private final UID<LocalizerField> undefinedLocalizerFieldUid;
 
-  UndefinedLocalizerFieldImp(UndefinedLocalizerTypeImp undefinedLocalizerTypeImp) {
+  UndefinedLocalizerFieldInternalImp(UndefinedLocalizerTypeInternalImp undefinedLocalizerTypeImp) {
     undefinedLocalizerType = undefinedLocalizerTypeImp;
     fieldName = "undef.field";
     undefinedLocalizerFieldUid = UID.createUid(getFullyQualifiedName(), this);

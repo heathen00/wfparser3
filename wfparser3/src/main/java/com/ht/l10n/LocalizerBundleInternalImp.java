@@ -4,11 +4,11 @@ import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
-final class LocalizerBundleImp implements LocalizerBundleInternal {
+final class LocalizerBundleInternalImp implements LocalizerBundleInternal {
   private final Localizer localizer;
   private final ResourceBundle resourceBundle;
 
-  LocalizerBundleImp(Localizer localizer, ResourceBundle resourceBundle) {
+  LocalizerBundleInternalImp(Localizer localizer, ResourceBundle resourceBundle) {
     this.localizer = localizer;
     this.resourceBundle = resourceBundle;
   }

@@ -4,8 +4,8 @@ import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
-final class FactoryImp implements FactoryInternal {
-  private static final Factory FACTORY_SINGLETON = new FactoryImp();
+final class FactoryInternalImp implements FactoryInternal {
+  private static final Factory FACTORY_SINGLETON = new FactoryInternalImp();
 
   static Factory getFactorySingleton() {
     return FACTORY_SINGLETON;
@@ -13,8 +13,8 @@ final class FactoryImp implements FactoryInternal {
 
   private final Localizer undefinedLocalizer;
 
-  private FactoryImp() {
-    undefinedLocalizer = new UndefinedLocalizerImp();
+  private FactoryInternalImp() {
+    undefinedLocalizer = new UndefinedLocalizerInternalImp();
   }
 
   private void guardNamingConvention(String constructorParameterName,
@@ -47,7 +47,7 @@ final class FactoryImp implements FactoryInternal {
     if (null == locale) {
       throw new NullPointerException("locale constructor parameter cannot be null");
     }
-    return new LocalizerImp(locale);
+    return new LocalizerInternalImp(locale);
   }
 
   @Override
@@ -60,7 +60,7 @@ final class FactoryImp implements FactoryInternal {
     } catch (MissingResourceException mre) {
       throw new LocalizerException(mre);
     }
-    return new LocalizerBundleImp(localizer, resourceBundle);
+    return new LocalizerBundleInternalImp(localizer, resourceBundle);
   }
 
   @Override
@@ -73,7 +73,7 @@ final class FactoryImp implements FactoryInternal {
     } catch (MissingResourceException mre) {
       throw new LocalizerException(mre);
     }
-    return new LocalizerBundleImp(localizer, resourceBundle);
+    return new LocalizerBundleInternalImp(localizer, resourceBundle);
   }
 
   @Override
@@ -106,7 +106,7 @@ final class FactoryImp implements FactoryInternal {
     guardNamingConvention("groupName", groupName);
     guardNamingConvention("typeName", typeName);
     guardNamingConvention("instanceName", instanceName);
-    return new LocalizerTypeImp(localizer, groupName, typeName, instanceName);
+    return new LocalizerTypeInternalImp(localizer, groupName, typeName, instanceName);
   }
 
   @Override
@@ -114,7 +114,7 @@ final class FactoryImp implements FactoryInternal {
       throws LocalizerException {
     guardNamingConvention("fieldName", fieldName);
     LocalizerFieldInternal newLocalizerFieldInternal =
-        new LocalizerFieldImp(localizerType, fieldName);
+        new LocalizerFieldInternalImp(localizerType, fieldName);
     LocalizerFieldInternal existingLocalizerFieldInternal = (LocalizerFieldInternal) localizerType
         .getLocalizerField(newLocalizerFieldInternal.getUid());
     if (existingLocalizerFieldInternal.isDefined()) {

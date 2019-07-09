@@ -4,10 +4,10 @@ import java.util.Locale;
 import java.util.Set;
 import com.ht.common.UID;
 
-final class LocalizerImp implements LocalizerInternal {
+final class LocalizerInternalImp implements LocalizerInternal {
   private Locale locale;
 
-  public LocalizerImp(Locale locale) {
+  public LocalizerInternalImp(Locale locale) {
     this.locale = locale;
   }
 

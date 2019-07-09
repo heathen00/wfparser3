@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-final class CompositeLocalizerBundleImp implements LocalizerBundle {
+final class CompositeLocalizerBundleImp implements LocalizerBundleInternal {
   private final List<LocalizerBundle> localizerBundleList;
   private final int TARGET_BUNDLE = 0;
 
@@ -58,4 +58,8 @@ final class CompositeLocalizerBundleImp implements LocalizerBundle {
     return localizedString;
   }
 
+  @Override
+  public boolean isDefined() {
+    return true;
+  }
 }

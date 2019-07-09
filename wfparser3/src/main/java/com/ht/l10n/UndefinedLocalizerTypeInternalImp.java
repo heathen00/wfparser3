@@ -6,8 +6,8 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-final class UndefinedLocalizerTypeImp implements LocalizerTypeInternal {
-  private final UndefinedLocalizerImp undefinedLocalizer;
+final class UndefinedLocalizerTypeInternalImp implements LocalizerTypeInternal {
+  private final UndefinedLocalizerInternalImp undefinedLocalizer;
   private final String groupName;
   private final String typeName;
   private final String instanceName;
@@ -15,14 +15,14 @@ final class UndefinedLocalizerTypeImp implements LocalizerTypeInternal {
   private final LocalizerField undefinedLocalizerField;
   private final Set<UID<LocalizerField>> undefinedLocalizerFieldUidSet;
 
-  UndefinedLocalizerTypeImp(UndefinedLocalizerImp undefinedLocalizer) {
+  UndefinedLocalizerTypeInternalImp(UndefinedLocalizerInternalImp undefinedLocalizer) {
     this.undefinedLocalizer = undefinedLocalizer;
     groupName = "undef.group";
     typeName = "undef.type";
     instanceName = "undef.instance";
     undefinedLocalizerTypeUid =
         UID.createUid(String.join(".", groupName, typeName, instanceName), this);
-    undefinedLocalizerField = new UndefinedLocalizerFieldImp(this);
+    undefinedLocalizerField = new UndefinedLocalizerFieldInternalImp(this);
     undefinedLocalizerFieldUidSet = new HashSet<>();
     undefinedLocalizerFieldUidSet.add(undefinedLocalizerField.getUid());
   }

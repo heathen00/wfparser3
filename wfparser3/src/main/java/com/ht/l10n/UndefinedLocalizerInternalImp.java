@@ -7,22 +7,22 @@ import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
 
-final class UndefinedLocalizerImp implements LocalizerInternal {
+final class UndefinedLocalizerInternalImp implements LocalizerInternal {
   private final Locale undefinedLocale;
-  private final UndefinedLocalizerTypeImp undefinedLocalizerType;
+  private final UndefinedLocalizerTypeInternalImp undefinedLocalizerType;
   private final Set<UID<LocalizerType>> undefinedLocalizerTypeUidSet;
   private final Set<LocalizerBundle> undefinedLocalizerBundleSet;
 
-  UndefinedLocalizerImp() {
+  UndefinedLocalizerInternalImp() {
     final String undefinedLanguage = "xx";
     final String undefinedRegion = "ZZ";
     undefinedLocale =
         new Locale.Builder().setLanguage(undefinedLanguage).setRegion(undefinedRegion).build();
-    undefinedLocalizerType = new UndefinedLocalizerTypeImp(this);
+    undefinedLocalizerType = new UndefinedLocalizerTypeInternalImp(this);
     undefinedLocalizerTypeUidSet = new HashSet<>();
     undefinedLocalizerTypeUidSet.add(undefinedLocalizerType.getUid());
     undefinedLocalizerBundleSet = new HashSet<>();
-    undefinedLocalizerBundleSet.add(new UndefinedLocalizerBundleImp(this));
+    undefinedLocalizerBundleSet.add(new UndefinedLocalizerBundleInternalImp(this));
   }
 
   @Override
