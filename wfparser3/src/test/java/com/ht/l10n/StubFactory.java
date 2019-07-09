@@ -129,6 +129,13 @@ public final class StubFactory {
       public boolean isDefined() {
         return false;
       }
+
+      @Override
+      public LocalizerBundleInternal addLocalizerBundleInternal(
+          LocalizerBundleInternal localizerBundleInternal) {
+        // TODO Auto-generated method stub
+        return null;
+      }
     };
   }
 

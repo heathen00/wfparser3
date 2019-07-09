@@ -1,14 +1,19 @@
 package com.ht.l10n;
 
+import com.ht.common.UID;
+
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
-import com.ht.common.UID;
 
 final class LocalizerInternalImp implements LocalizerInternal {
   private Locale locale;
+  private final Set<LocalizerBundle> localizerBundleSet;
 
   public LocalizerInternalImp(Locale locale) {
     this.locale = locale;
+    localizerBundleSet = new HashSet<>();
   }
 
   @Override
@@ -26,6 +31,9 @@ final class LocalizerInternalImp implements LocalizerInternal {
 
   @Override
   public LocalizerType getLocalizerType(UID<LocalizerType> typeUid) {
+    if (null == typeUid) {
+      throw new NullPointerException("typeUid cannot be null");
+    }
     // TODO Auto-generated method stub
     return null;
   }
@@ -50,12 +58,18 @@ final class LocalizerInternalImp implements LocalizerInternal {
 
   @Override
   public Set<LocalizerBundle> getLocalizerBundleSet() {
-    // TODO Auto-generated method stub
-    return null;
+    return Collections.unmodifiableSet(localizerBundleSet);
   }
 
   @Override
   public boolean isDefined() {
     return true;
+  }
+
+  @Override
+  public LocalizerBundleInternal addLocalizerBundleInternal(
+      LocalizerBundleInternal localizerBundleInternal) {
+    localizerBundleSet.add(localizerBundleInternal);
+    return localizerBundleInternal;
   }
 }

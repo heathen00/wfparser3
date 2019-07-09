@@ -1,15 +1,26 @@
 package com.ht.l10n.acceptance;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
+import com.ht.l10n.Factory;
+import com.ht.l10n.Localizer;
+import com.ht.l10n.LocalizerBundle;
+import com.ht.l10n.StubFactory;
+
 import java.util.Locale;
+import java.util.Set;
+
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-import com.ht.l10n.Factory;
-import com.ht.l10n.Localizer;
 
 public class LocalizerAcceptanceTest {
   private Factory localizerFactory;
+  private StubFactory stubFactory;
 
   // TODO shouldn't the LocalizerBundle Set be an OrderedSet since the LocalizerBundle instances
   // will be checked for the localized string in a defined order? This may have implications on how
@@ -21,11 +32,13 @@ public class LocalizerAcceptanceTest {
   @Before
   public void setup() {
     localizerFactory = Factory.createFactory();
+    stubFactory = StubFactory.createStubFactory();
   }
 
   @Test
-  public void Localizer_createFactory_factoryIsCreated() {
+  public void Localizer_createFactories_factoriesAreCreated() {
     assertNotNull(localizerFactory);
+    assertNotNull(stubFactory);
   }
 
   @Test(expected = NullPointerException.class)
@@ -51,19 +64,44 @@ public class LocalizerAcceptanceTest {
 
   @Test
   public void Localizer_getLocalizerBundleSetWhenNoLocalizerBundlesAdded_emptySetIsReturned() {
-    fail("not implemented yet");
+    Localizer localizer = localizerFactory.createLocalizer(Locale.CANADA_FRENCH);
+
+    assertNotNull(localizer);
+    assertTrue(localizer.getLocalizerBundleSet().isEmpty());
   }
 
   @Test
-  @Ignore("not implemented yet")
-  public void Localizer_getLocalizerBundleSetWhenLocalizerBundlesAdded_allAddedLocalizerBundlesArePresent() {
-    fail("not implemented yet");
+  public void Localizer_getLocalizerBundleSetWhenLocalizerBundlesAdded_allAddedLocalizerBundlesArePresent()
+      throws Exception {
+    Localizer localizer = localizerFactory.createLocalizer(Locale.CANADA_FRENCH);
+    final int expectedLocalizerBundleSetSize = 2;
+    final LocalizerBundle expectedLocalizerBundle00 = localizerFactory
+        .createLocalizerBundle(localizer, "com.ht.l10n.test.resource.TestResourceBundle00");
+    final LocalizerBundle expectedLocalizerBundle01 = localizerFactory
+        .createLocalizerBundle(localizer, "com.ht.l10n.test.resource.TestResourceBundle01");
+
+    assertNotNull(localizer);
+    assertNotNull(expectedLocalizerBundle00);
+    assertNotNull(expectedLocalizerBundle01);
+    assertNotNull(localizer.getLocalizerBundleSet());
+    assertTrue(expectedLocalizerBundleSetSize == localizer.getLocalizerBundleSet().size());
+    assertTrue(localizer.getLocalizerBundleSet().contains(expectedLocalizerBundle00));
+    assertTrue(localizer.getLocalizerBundleSet().contains(expectedLocalizerBundle01));
+    boolean isModifiable = true;
+    try {
+      Set<LocalizerBundle> unmodifiableLocalizerBundleSet = localizer.getLocalizerBundleSet();
+      unmodifiableLocalizerBundleSet.clear();
+    } catch (UnsupportedOperationException uoe) {
+      isModifiable = false;
+    }
+    assertFalse(isModifiable);
   }
 
-  @Test
-  @Ignore("not implemented yet")
+  @Test(expected = NullPointerException.class)
   public void Localizer_getLocalizerTypeWithNullParameter_nullPointerExceptionIsThrown() {
-    fail("not implemented yet");
+    Localizer localizer = localizerFactory.createLocalizer(Locale.CANADA_FRENCH);
+
+    localizer.getLocalizerType(null);
   }
 
   @Test

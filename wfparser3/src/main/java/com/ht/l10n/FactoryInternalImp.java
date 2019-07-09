@@ -31,15 +31,17 @@ final class FactoryInternalImp implements FactoryInternal {
   }
 
   @Override
-  public LocalizerBundle createLocalizerBundle(Localizer localizer,
-      String resourceBundleName) throws LocalizerException {
+  public LocalizerBundle createLocalizerBundle(Localizer localizer, String resourceBundleName)
+      throws LocalizerException {
     LocalizerBundle targetLocalizerBundle =
         createTargetLocalizerBundle(localizer, resourceBundleName);
     LocalizerBundle rootLocalizerBundle =
         createRootLocaleLocalizerBundle(localizer, resourceBundleName);
     LocalizerBundle undefinedLocalizerBundle = createUndefinedLocalizerBundle();
-    return new CompositeLocalizerBundleImp(localizer, targetLocalizerBundle, rootLocalizerBundle,
-        undefinedLocalizerBundle);
+    CompositeLocalizerBundleImp compositeLocalizerBundleImp = new CompositeLocalizerBundleImp(
+        localizer, targetLocalizerBundle, rootLocalizerBundle, undefinedLocalizerBundle);
+    LocalizerInternal localizerInternal = (LocalizerInternal) localizer;
+    return (LocalizerBundle) localizerInternal.addLocalizerBundleInternal(compositeLocalizerBundleImp);
   }
 
   @Override
