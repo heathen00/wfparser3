@@ -9,7 +9,7 @@ public interface Factory {
 
   Localizer createLocalizer(Locale locale);
 
-  LocalizerBundle createCompositeLocalizerBundle(Localizer localizer, String resourceBundleName)
+  LocalizerBundle createLocalizerBundle(Localizer localizer, String resourceBundleName)
       throws LocalizerException;
 
   void addLocalizerBundle(Localizer localizer, LocalizerBundle localizerBundle);

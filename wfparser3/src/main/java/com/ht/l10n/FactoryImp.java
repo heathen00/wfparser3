@@ -31,7 +31,7 @@ final class FactoryImp implements FactoryInternal {
   }
 
   @Override
-  public LocalizerBundle createCompositeLocalizerBundle(Localizer localizer,
+  public LocalizerBundle createLocalizerBundle(Localizer localizer,
       String resourceBundleName) throws LocalizerException {
     LocalizerBundle targetLocalizerBundle =
         createTargetLocalizerBundle(localizer, resourceBundleName);

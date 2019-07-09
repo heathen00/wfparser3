@@ -42,10 +42,8 @@ public class LocalizerBundleUnitTest {
 
     LocalizerBundle undefinedLocalizerBundle = localizerFactory.createUndefinedLocalizerBundle();
 
-    assertNotNull(undefinedLocalizerBundle);
-    assertEquals(expectedBundleName, undefinedLocalizerBundle.getResourceBundleName());
-    assertEquals(expectedTargetLocale, undefinedLocalizerBundle.getTargetLocale());
-    assertEquals(expectedResolvedLocale, undefinedLocalizerBundle.getResolvedLocale());
+    localizerAssert.assertExpectedLocalizerBundle(expectedTargetLocale, expectedResolvedLocale,
+        expectedBundleName, undefinedLocalizerBundle);
     assertEquals(expectedUnformattedString,
         undefinedLocalizerBundle.getUnformattedString(localizerField));
     assertEquals(expectedFormattedString,
@@ -74,7 +72,9 @@ public class LocalizerBundleUnitTest {
   @Test
   public void LocalizerBundle_getExistingStringsFromRootLocalizerBundle_stringsAreRetreived()
       throws Exception {
-    final Localizer localizer = localizerFactory.createLocalizer(Locale.CANADA_FRENCH);
+    final Locale expectedTargetLocale = Locale.CANADA_FRENCH;
+    final Locale expectedResolvedLocale = Locale.ROOT;
+    final Localizer localizer = localizerFactory.createLocalizer(expectedTargetLocale);
     final String resourceBundleName = "com.ht.l10n.test.resource.TestL10nRootLocaleResourceBundle";
     final String expectedUnformattedString =
         "this is a test unformatted string for the root locale";
@@ -89,7 +89,8 @@ public class LocalizerBundleUnitTest {
     LocalizerBundle rootLocalizerBundle =
         localizerFactory.createRootLocaleLocalizerBundle(localizer, resourceBundleName);
 
-    assertNotNull(rootLocalizerBundle);
+    localizerAssert.assertExpectedLocalizerBundle(expectedTargetLocale, expectedResolvedLocale,
+        resourceBundleName, localizer, rootLocalizerBundle);;
     assertEquals(expectedUnformattedString,
         rootLocalizerBundle.getUnformattedString(unformattedField));
     assertEquals(expectedFormattedString, rootLocalizerBundle.getFormattedString(formattedField,
@@ -113,7 +114,7 @@ public class LocalizerBundleUnitTest {
       rootLocalizerBundle =
           localizerFactory.createRootLocaleLocalizerBundle(localizer, resourceBundleName);
     } catch (LocalizerException le) {
-      fail("exception occurred at wrong place");
+      fail("exception occurred at wrong place: " + le);
     }
 
     rootLocalizerBundle.getUnformattedString(nonExistentUnformattedField);

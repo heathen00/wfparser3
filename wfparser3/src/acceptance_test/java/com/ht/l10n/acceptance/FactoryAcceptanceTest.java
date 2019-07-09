@@ -2,12 +2,9 @@ package com.ht.l10n.acceptance;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import java.util.Collections;
-import java.util.Locale;
-import java.util.Set;
-import org.junit.Before;
-import org.junit.Test;
+
 import com.ht.common.UID;
+import com.ht.l10n.Assert;
 import com.ht.l10n.Factory;
 import com.ht.l10n.Localizer;
 import com.ht.l10n.LocalizerBundle;
@@ -16,30 +13,31 @@ import com.ht.l10n.LocalizerField;
 import com.ht.l10n.LocalizerType;
 import com.ht.l10n.StubFactory;
 
+import java.util.Collections;
+import java.util.Locale;
+import java.util.Set;
+
+import org.junit.Before;
+import org.junit.Test;
+
 public class FactoryAcceptanceTest {
 
   private Factory localizerFactory;
   private StubFactory stubFactory;
-
-  private void assertExpectedLocalizerBundle(Locale expectedTargetLocale,
-      Locale expectedResolvedLocale, final String expectedResourceBundleName, Localizer localizer,
-      LocalizerBundle localizerBundle) {
-    assertNotNull(localizerBundle);
-    assertEquals(expectedResourceBundleName, localizerBundle.getResourceBundleName());
-    assertEquals(expectedTargetLocale, localizer.getLocale());
-    assertEquals(expectedTargetLocale, localizerBundle.getTargetLocale());
-    assertEquals(expectedResolvedLocale, localizerBundle.getResolvedLocale());
-  }
+  private Assert localizerAssert;
 
   @Before
   public void setup() {
     localizerFactory = Factory.createFactory();
     stubFactory = StubFactory.createStubFactory();
+    localizerAssert = Assert.createAssert();
   }
 
   @Test
-  public void Factory_createFactory_factoryCreated() {
+  public void Factory_createFactories_factoriesCreated() {
     assertNotNull(localizerFactory);
+    assertNotNull(stubFactory);
+    assertNotNull(localizerAssert);
   }
 
   @Test(expected = NullPointerException.class)
@@ -62,14 +60,14 @@ public class FactoryAcceptanceTest {
   @Test(expected = NullPointerException.class)
   public void Factory_createCompositeLocalizerBundleWithNullLocalizer_nullPointerExceptionIsThrown()
       throws Exception {
-    localizerFactory.createCompositeLocalizerBundle(null, "does.not.matter");
+    localizerFactory.createLocalizerBundle(null, "does.not.matter");
   }
 
   @Test(expected = NullPointerException.class)
   public void Factory_createCompositeLocalizerBundleWithNullResourceBundleName_nullPointerExceptionIsThrown()
       throws Exception {
-    localizerFactory.createCompositeLocalizerBundle(
-        localizerFactory.createLocalizer(Locale.CANADA_FRENCH), null);
+    localizerFactory.createLocalizerBundle(localizerFactory.createLocalizer(Locale.CANADA_FRENCH),
+        null);
   }
 
   @Test
@@ -82,9 +80,9 @@ public class FactoryAcceptanceTest {
     Localizer localizer = localizerFactory.createLocalizer(expectedTargetLocale);
 
     LocalizerBundle localizerBundle =
-        localizerFactory.createCompositeLocalizerBundle(localizer, expectedResourceBundleName);
+        localizerFactory.createLocalizerBundle(localizer, expectedResourceBundleName);
 
-    assertExpectedLocalizerBundle(expectedTargetLocale, expectedResolvedLocale,
+    localizerAssert.assertExpectedLocalizerBundle(expectedTargetLocale, expectedResolvedLocale,
         expectedResourceBundleName, localizer, localizerBundle);
   }
 
@@ -95,7 +93,7 @@ public class FactoryAcceptanceTest {
         "com.ht.l10n.test.resource.TestL10ResourceBundleForLocaleExistsButRootLocaleDoesNot";
     Localizer localizer = localizerFactory.createLocalizer(Locale.CANADA_FRENCH);
 
-    localizerFactory.createCompositeLocalizerBundle(localizer, expectedResourceBundleName);
+    localizerFactory.createLocalizerBundle(localizer, expectedResourceBundleName);
   }
 
   @Test(expected = NullPointerException.class)
@@ -161,12 +159,8 @@ public class FactoryAcceptanceTest {
     LocalizerField localizerField =
         localizerFactory.createLocalizerField(expectedLocalizerType, expectedFieldName);
 
-    assertNotNull(localizerField);
-    assertEquals(expectedLocalizerType, localizerField.getLocalizerType());
-    assertEquals(expectedFieldName, localizerField.getFieldName());
-    assertEquals(expectedFullyQualifiedName, localizerField.getFullyQualifiedName());
-    assertEquals(expectedUnformattedString, localizerField.getUnformattedString());
-    assertEquals(expectedFormattedString, localizerField.getFormattedString());
+    localizerAssert.assertExpectedLocalizerField(expectedFieldName, expectedFullyQualifiedName,
+        expectedLocalizerType, expectedUnformattedString, expectedFormattedString, localizerField);
   }
 
   @Test(expected = NullPointerException.class)
@@ -295,12 +289,8 @@ public class FactoryAcceptanceTest {
     LocalizerType localizerType = localizerFactory.createLocalizerType(expectedLocalizer,
         expectedGroupName, expectedTypeName, expectedInstanceName);
 
-    assertNotNull(localizerType);
-    assertEquals(expectedLocalizer, localizerType.getLocalizer());
-    assertEquals(expectedGroupName, localizerType.getGroupName());
-    assertEquals(expectedTypeName, localizerType.getTypeName());
-    assertEquals(expectedInstanceName, localizerType.getInstanceName());
-    assertEquals(expectedLocalizerFieldKeySet, localizerType.getLocalizerFieldKeySet());
-    assertEquals(expectedLocalizerTypeUid, localizerType.getUid());
+    localizerAssert.assertExpectedLocalizerType(expectedGroupName, expectedTypeName,
+        expectedInstanceName, expectedLocalizerFieldKeySet, expectedLocalizer,
+        expectedLocalizerTypeUid, localizerType);
   }
 }
