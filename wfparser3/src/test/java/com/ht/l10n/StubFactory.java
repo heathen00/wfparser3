@@ -133,15 +133,13 @@ public final class StubFactory {
       @Override
       public LocalizerBundleInternal addLocalizerBundleInternal(
           LocalizerBundleInternal localizerBundleInternal) {
-        // TODO Auto-generated method stub
-        return null;
+        return localizerBundleInternal;
       }
 
       @Override
       public LocalizerTypeInternal addLocalizerTypeInternal(
           LocalizerTypeInternal localizerTypeInternal) {
-        // TODO Auto-generated method stub
-        return null;
+        return localizerTypeInternal;
       }
     };
   }
