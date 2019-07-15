@@ -15,7 +15,7 @@ public class FactoryUnitTest {
 
   @Before
   public void setup() {
-    localizerFactory = (FactoryInternal) Factory.createFactory();
+    localizerFactory = FactoryInternal.createFactoryInternal();
     stubFactory = StubFactory.createStubFactory();
     localizerAssert = Assert.createAssert();
   }

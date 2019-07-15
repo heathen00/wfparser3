@@ -42,7 +42,8 @@ public final class StubFactory {
 
       @Override
       public LocalizerField getLocalizerField(UID<LocalizerField> fieldUid) {
-        return Factory.createFactory().createUndefinedLocalizer().getLocalizerField(fieldUid);
+        return FactoryInternal.createFactoryInternal().createUndefinedLocalizer()
+            .getLocalizerField(fieldUid);
       }
 
       @Override

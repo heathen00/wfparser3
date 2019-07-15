@@ -11,10 +11,12 @@ import java.util.Set;
 
 final class LocalizerInternalImp implements LocalizerInternal {
   private Locale locale;
+  private final FactoryInternal factoryInternal;
   private final Set<LocalizerBundleInternal> localizerBundleSet;
   private final Map<UID<LocalizerType>, LocalizerTypeInternal> localizerTypeMap;
 
-  public LocalizerInternalImp(Locale locale) {
+  public LocalizerInternalImp(FactoryInternal factoryInternal, Locale locale) {
+    this.factoryInternal = factoryInternal;
     this.locale = locale;
     localizerBundleSet = new HashSet<>();
     localizerTypeMap = new HashMap<>();
@@ -43,7 +45,7 @@ final class LocalizerInternalImp implements LocalizerInternal {
     }
     LocalizerType localizerType = localizerTypeMap.get(typeUid);
     if (null == localizerType) {
-      localizerType = Factory.createFactory().createUndefinedLocalizer().getLocalizerType(null);
+      localizerType = factoryInternal.createUndefinedLocalizer().getLocalizerType(null);
     }
     return localizerType;
   }
@@ -66,7 +68,7 @@ final class LocalizerInternalImp implements LocalizerInternal {
       }
     }
     if (null == localizerField) {
-      localizerField = Factory.createFactory().createUndefinedLocalizer().getLocalizerField(null);
+      localizerField = factoryInternal.createUndefinedLocalizer().getLocalizerField(null);
     }
     return localizerField;
   }

@@ -5,9 +5,9 @@ import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 final class FactoryInternalImp implements FactoryInternal {
-  private static final Factory FACTORY_SINGLETON = new FactoryInternalImp();
+  private static final FactoryInternalImp FACTORY_SINGLETON = new FactoryInternalImp();
 
-  static Factory getFactorySingleton() {
+  static FactoryInternalImp getFactorySingleton() {
     return FACTORY_SINGLETON;
   }
 
@@ -50,20 +50,16 @@ final class FactoryInternalImp implements FactoryInternal {
     if (null == locale) {
       throw new NullPointerException("locale constructor parameter cannot be null");
     }
-    return new LocalizerInternalImp(locale);
+    return new LocalizerInternalImp(this, locale);
   }
 
   @Override
   public LocalizerBundle createTargetLocalizerBundle(Localizer localizer, String resourceBundleName)
       throws LocalizerException {
     createLocalizerBundleGuard(localizer, resourceBundleName);
-    ResourceBundle resourceBundle = null;
-    try {
-      resourceBundle = createResourceBundleForLocale(localizer.getLocale(), resourceBundleName);
-    } catch (MissingResourceException mre) {
-      throw new LocalizerException(mre);
-    }
-    return new LocalizerBundleInternalImp(localizer, resourceBundle);
+    ResourceBundle resourceBundle =
+        createResourceBundleForLocalizerBundle(resourceBundleName, localizer.getLocale());
+    return new LocalizerBundleInternalImp(this, localizer, resourceBundle);
   }
 
   @Override
@@ -72,11 +68,11 @@ final class FactoryInternalImp implements FactoryInternal {
     createLocalizerBundleGuard(localizer, resourceBundleName);
     ResourceBundle resourceBundle = null;
     try {
-      resourceBundle = createResourceBundleForLocale(Locale.ROOT, resourceBundleName);
+      resourceBundle = createResourceBundleForLocalizerBundle(resourceBundleName, Locale.ROOT);
     } catch (MissingResourceException mre) {
       throw new LocalizerException(mre);
     }
-    return new LocalizerBundleInternalImp(localizer, resourceBundle);
+    return new LocalizerBundleInternalImp(this, localizer, resourceBundle);
   }
 
   @Override
@@ -93,13 +89,6 @@ final class FactoryInternalImp implements FactoryInternal {
     }
   }
 
-  private ResourceBundle createResourceBundleForLocale(Locale locale, String resourceBundleName) {
-    ResourceBundle resourceBundle;
-    resourceBundle = ResourceBundle.getBundle(resourceBundleName, locale,
-        ResourceBundle.Control.getControl(ResourceBundle.Control.FORMAT_PROPERTIES));
-    return resourceBundle;
-  }
-
   @Override
   public LocalizerType createLocalizerType(Localizer localizer, String groupName, String typeName,
       String instanceName) throws LocalizerException {
@@ -111,7 +100,7 @@ final class FactoryInternalImp implements FactoryInternal {
     guardNamingConvention("instanceName", instanceName);
     LocalizerInternal localizerInternal = (LocalizerInternal) localizer;
     LocalizerTypeInternal localizerTypeInternal =
-        new LocalizerTypeInternalImp(localizer, groupName, typeName, instanceName);
+        new LocalizerTypeInternalImp(this, localizer, groupName, typeName, instanceName);
     return localizerInternal.addLocalizerTypeInternal(localizerTypeInternal);
   }
 
@@ -139,5 +128,18 @@ final class FactoryInternalImp implements FactoryInternal {
   @Override
   public Localizer createUndefinedLocalizer() {
     return undefinedLocalizer;
+  }
+
+  @Override
+  public ResourceBundle createResourceBundleForLocalizerBundle(String resourceBundleName,
+      Locale targetLocale) throws LocalizerException {
+    ResourceBundle resourceBundle = null;
+    try {
+      resourceBundle = ResourceBundle.getBundle(resourceBundleName, targetLocale,
+          ResourceBundle.Control.getControl(ResourceBundle.Control.FORMAT_PROPERTIES));
+    } catch (MissingResourceException mre) {
+      throw new LocalizerException(mre);
+    }
+    return resourceBundle;
   }
 }

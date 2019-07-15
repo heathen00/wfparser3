@@ -7,6 +7,7 @@ import java.util.Set;
 import com.ht.common.UID;
 
 final class LocalizerTypeInternalImp implements LocalizerTypeInternal {
+  private final FactoryInternal factoryInternal;
   private final Localizer localizer;
   private final String groupName;
   private final String typeName;
@@ -14,8 +15,9 @@ final class LocalizerTypeInternalImp implements LocalizerTypeInternal {
   private final Map<UID<LocalizerField>, LocalizerField> localizerFieldMap;
   private final UID<LocalizerType> localizerTypeUid;
 
-  LocalizerTypeInternalImp(Localizer localizer, String groupName, String typeName,
-      String instanceName) {
+  LocalizerTypeInternalImp(FactoryInternal factoryIntrnal, Localizer localizer, String groupName,
+      String typeName, String instanceName) {
+    this.factoryInternal = factoryIntrnal;
     this.localizer = localizer;
     this.groupName = groupName;
     this.typeName = typeName;
@@ -51,7 +53,7 @@ final class LocalizerTypeInternalImp implements LocalizerTypeInternal {
     }
     LocalizerField localizerField = localizerFieldMap.get(fieldUid);
     if (null == localizerField) {
-      localizerField = Factory.createFactory().createUndefinedLocalizer().getLocalizerField(null);
+      localizerField = factoryInternal.createUndefinedLocalizer().getLocalizerField(null);
     }
     return localizerField;
   }
