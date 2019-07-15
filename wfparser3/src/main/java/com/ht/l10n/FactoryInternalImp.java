@@ -121,11 +121,6 @@ final class FactoryInternalImp implements FactoryInternal {
   }
 
   @Override
-  public void addLocalizerBundle(Localizer localizer, LocalizerBundle localizerBundle) {
-    // TODO Auto-generated method stub
-  }
-
-  @Override
   public Localizer createUndefinedLocalizer() {
     return undefinedLocalizer;
   }

@@ -12,9 +12,6 @@ public interface Factory {
   LocalizerBundle createLocalizerBundle(Localizer localizer, String resourceBundleName)
       throws LocalizerException;
 
-  // TODO remove
-  void addLocalizerBundle(Localizer localizer, LocalizerBundle localizerBundle);
-
   LocalizerType createLocalizerType(Localizer localizer, String groupName, String typeName,
       String instanceName) throws LocalizerException;
 

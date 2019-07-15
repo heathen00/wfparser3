@@ -166,9 +166,6 @@ There are a number of problems with the localization implementation I currently 
      unique but the fully qualified names for the fields can be exactly the same.  Since it is the
      FQDN that are used in the localization properties files, this is an issue.  You should solve this
      problem, but get things working, first.
-   * Refactor the factory implementation and LocalizerBundle implementation of the creation of the
-     LocalizerBundles to use the new package level method loadL10nResourceBundle() to remove the
-     duplicate code and also pass the resource bundle name in as a constructor parameter.
    * Right now the Localizer interface setLocale() throws a LocalizerException, although the CompositeLocalizer
      class should never throw this exception since it will always set SOME localization bundle.  You should
      refactor to remove the throws clause from the published interface and have another internal method
@@ -182,6 +179,7 @@ There are a number of problems with the localization implementation I currently 
      refer to the published instances when a published method requires it and only cast at that point.
    * You should go through the implementation and mark method parameters as final to indicate that none of
      them will be modified.
+   * search for TODO items and complete them.
      
      
 ## Rough Notes

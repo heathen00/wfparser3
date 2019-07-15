@@ -1,12 +1,6 @@
 package com.ht.l10n;
 
 import com.ht.common.UID;
-import com.ht.l10n.Factory;
-import com.ht.l10n.Localizer;
-import com.ht.l10n.LocalizerBundle;
-import com.ht.l10n.LocalizerException;
-import com.ht.l10n.LocalizerField;
-import com.ht.l10n.LocalizerType;
 
 import java.util.Collections;
 import java.util.HashSet;
