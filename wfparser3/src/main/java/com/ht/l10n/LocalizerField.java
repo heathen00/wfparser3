@@ -2,7 +2,7 @@ package com.ht.l10n;
 
 import com.ht.common.UniqueComponent;
 
-public interface LocalizerField extends UniqueComponent<LocalizerField> {
+public interface LocalizerField extends UniqueComponent<LocalizerField>, DefinedObject {
   LocalizerType getLocalizerType();
 
   String getFieldName();

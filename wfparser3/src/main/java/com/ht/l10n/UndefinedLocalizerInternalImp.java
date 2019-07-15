@@ -69,4 +69,11 @@ final class UndefinedLocalizerInternalImp implements LocalizerInternal {
     // TODO Auto-generated method stub
     return null;
   }
+
+  @Override
+  public LocalizerTypeInternal addLocalizerTypeInternal(
+      LocalizerTypeInternal localizerTypeInternal) {
+    // TODO Auto-generated method stub
+    return null;
+  }
 }

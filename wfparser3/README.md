@@ -155,8 +155,35 @@ There are a number of problems with the localization implementation I currently 
    * Maybe remove the ability to get the component from the UID: getComponent().
    * What happens when you add the same bundle, key, or field multiple times? Not sure if
      these scenarios tested sufficiently.
-
-
+   * Since some published methods return UndefinedLocalizerXXX instances, and clients will need to be
+     able to differentiate between defined and undefined LocalizerXXX instances, it follows that you
+     will need to provide a published mechanism so that clients can programmatically determine whether
+     the LocalizerXXX instance they are referencing is defined or not.  Therefore, the published
+     LocalizerXXX interfaces must extend IsDefined and NOT the internal interfaces.  Go through the
+     implementation and ensure they all consistently published the "isDefined()" method.
+   * WARNING: There could be overlap between different fields that LOOK distinct based on how the
+     types and fields are named.  That is, the LocalizerType and LocalizerField instances are all
+     unique but the fully qualified names for the fields can be exactly the same.  Since it is the
+     FQDN that are used in the localization properties files, this is an issue.  You should solve this
+     problem, but get things working, first.
+   * Refactor the factory implementation and LocalizerBundle implementation of the creation of the
+     LocalizerBundles to use the new package level method loadL10nResourceBundle() to remove the
+     duplicate code and also pass the resource bundle name in as a constructor parameter.
+   * Right now the Localizer interface setLocale() throws a LocalizerException, although the CompositeLocalizer
+     class should never throw this exception since it will always set SOME localization bundle.  You should
+     refactor to remove the throws clause from the published interface and have another internal method
+     defined in the internal interface for the Localizer implementations to implement.  The internal class
+     implementations should just throw an unsupported exception for their implementations of the published
+     API since it does not make sense for them to implement them.  You cannot invert the inheritance
+     hierarchy between the published and internal interfaces since this would cause the internal methods
+     to be visible in the published API.
+   * You need to go through the implementation of this sub system and ensure that ALL implementations refer
+     primarily, possibly exclusively, to other internal implementations of classes.  They should only
+     refer to the published instances when a published method requires it and only cast at that point.
+   * You should go through the implementation and mark method parameters as final to indicate that none of
+     them will be modified.
+     
+     
 ## Rough Notes
 
 You should rename the "DocumentView" to "DocumentModel" because that is what it is.  When you start implementing

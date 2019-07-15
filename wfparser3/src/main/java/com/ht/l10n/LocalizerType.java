@@ -4,7 +4,7 @@ import java.util.Set;
 import com.ht.common.UID;
 import com.ht.common.UniqueComponent;
 
-public interface LocalizerType extends UniqueComponent<LocalizerType> {
+public interface LocalizerType extends UniqueComponent<LocalizerType>, DefinedObject {
   Localizer getLocalizer();
 
   String getGroupName();

@@ -62,4 +62,12 @@ final class CompositeLocalizerBundleImp implements LocalizerBundleInternal {
   public boolean isDefined() {
     return true;
   }
+
+  @Override
+  public void loadL10nResource(Locale locale) throws LocalizerException {
+    for (LocalizerBundle localizerBundle : localizerBundleList) {
+      LocalizerBundleInternal localizerBundleInternal = (LocalizerBundleInternal) localizerBundle;
+      localizerBundleInternal.loadL10nResource(locale);
+    }
+  }
 }

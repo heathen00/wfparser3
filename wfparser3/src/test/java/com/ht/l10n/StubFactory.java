@@ -136,6 +136,13 @@ public final class StubFactory {
         // TODO Auto-generated method stub
         return null;
       }
+
+      @Override
+      public LocalizerTypeInternal addLocalizerTypeInternal(
+          LocalizerTypeInternal localizerTypeInternal) {
+        // TODO Auto-generated method stub
+        return null;
+      }
     };
   }
 
@@ -174,6 +181,9 @@ public final class StubFactory {
       public boolean isDefined() {
         return false;
       }
+
+      @Override
+      public void loadL10nResource(Locale locale) {}
     };
   }
 

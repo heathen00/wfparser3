@@ -3,17 +3,21 @@ package com.ht.l10n;
 import com.ht.common.UID;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Set;
 
 final class LocalizerInternalImp implements LocalizerInternal {
   private Locale locale;
-  private final Set<LocalizerBundle> localizerBundleSet;
+  private final Set<LocalizerBundleInternal> localizerBundleSet;
+  private final Map<UID<LocalizerType>, LocalizerTypeInternal> localizerTypeMap;
 
   public LocalizerInternalImp(Locale locale) {
     this.locale = locale;
     localizerBundleSet = new HashSet<>();
+    localizerTypeMap = new HashMap<>();
   }
 
   @Override
@@ -22,11 +26,14 @@ final class LocalizerInternalImp implements LocalizerInternal {
   }
 
   @Override
-  public void setLocale(Locale locale) {
+  public void setLocale(Locale locale) throws LocalizerException {
     if (null == locale) {
       throw new NullPointerException("locale cannot be null");
     }
     this.locale = locale;
+    for (LocalizerBundleInternal localizerBundleInternal : localizerBundleSet) {
+      localizerBundleInternal.loadL10nResource(this.locale);
+    }
   }
 
   @Override
@@ -34,26 +41,43 @@ final class LocalizerInternalImp implements LocalizerInternal {
     if (null == typeUid) {
       throw new NullPointerException("typeUid cannot be null");
     }
-    // TODO Auto-generated method stub
-    return null;
+    LocalizerType localizerType = localizerTypeMap.get(typeUid);
+    if (null == localizerType) {
+      localizerType = Factory.createFactory().createUndefinedLocalizer().getLocalizerType(null);
+    }
+    return localizerType;
   }
 
   @Override
   public Set<UID<LocalizerType>> getLocalizerTypeKeySet() {
-    // TODO Auto-generated method stub
-    return null;
+    return Collections.unmodifiableSet(localizerTypeMap.keySet());
   }
 
   @Override
   public LocalizerField getLocalizerField(UID<LocalizerField> fieldUid) {
-    // TODO Auto-generated method stub
-    return null;
+    if (fieldUid == null) {
+      throw new NullPointerException("fieldUid cannot be null");
+    }
+    LocalizerField localizerField = null;
+    for (UID<LocalizerType> localizerTypeKey : localizerTypeMap.keySet()) {
+      localizerField = localizerTypeMap.get(localizerTypeKey).getLocalizerField(fieldUid);
+      if (localizerField.isDefined()) {
+        break;
+      }
+    }
+    if (null == localizerField) {
+      localizerField = Factory.createFactory().createUndefinedLocalizer().getLocalizerField(null);
+    }
+    return localizerField;
   }
 
   @Override
   public Set<UID<LocalizerField>> getLocalizerFieldKeySet() {
-    // TODO Auto-generated method stub
-    return null;
+    Set<UID<LocalizerField>> localizerFieldUidSet = new HashSet<>();
+    for (UID<LocalizerType> localizerTypeUid : localizerTypeMap.keySet()) {
+      localizerFieldUidSet.addAll(localizerTypeMap.get(localizerTypeUid).getLocalizerFieldKeySet());
+    }
+    return Collections.unmodifiableSet(localizerFieldUidSet);
   }
 
   @Override
@@ -71,5 +95,12 @@ final class LocalizerInternalImp implements LocalizerInternal {
       LocalizerBundleInternal localizerBundleInternal) {
     localizerBundleSet.add(localizerBundleInternal);
     return localizerBundleInternal;
+  }
+
+  @Override
+  public LocalizerTypeInternal addLocalizerTypeInternal(
+      LocalizerTypeInternal localizerTypeInternal) {
+    localizerTypeMap.put(localizerTypeInternal.getUid(), localizerTypeInternal);
+    return localizerTypeInternal;
   }
 }

@@ -41,4 +41,7 @@ final class UndefinedLocalizerBundleInternalImp implements LocalizerBundleIntern
   public boolean isDefined() {
     return false;
   }
+
+  @Override
+  public void loadL10nResource(Locale locale) {}
 }

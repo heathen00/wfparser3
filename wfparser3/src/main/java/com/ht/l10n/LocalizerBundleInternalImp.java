@@ -6,11 +6,13 @@ import java.util.ResourceBundle;
 
 final class LocalizerBundleInternalImp implements LocalizerBundleInternal {
   private final Localizer localizer;
-  private final ResourceBundle resourceBundle;
+  private final String resourceBundleName;
+  private ResourceBundle resourceBundle;
 
   LocalizerBundleInternalImp(Localizer localizer, ResourceBundle resourceBundle) {
     this.localizer = localizer;
     this.resourceBundle = resourceBundle;
+    this.resourceBundleName = this.resourceBundle.getBaseBundleName();
   }
 
   @Override
@@ -55,5 +57,15 @@ final class LocalizerBundleInternalImp implements LocalizerBundleInternal {
   @Override
   public boolean isDefined() {
     return true;
+  }
+
+  @Override
+  public void loadL10nResource(Locale locale) throws LocalizerException {
+    try {
+      this.resourceBundle = ResourceBundle.getBundle(resourceBundleName, locale,
+          ResourceBundle.Control.getControl(ResourceBundle.Control.FORMAT_PROPERTIES));
+    } catch (MissingResourceException mre) {
+      throw new LocalizerException(mre);
+    }
   }
 }

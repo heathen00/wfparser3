@@ -4,18 +4,20 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
+import com.ht.common.UID;
 import com.ht.l10n.Factory;
 import com.ht.l10n.Localizer;
 import com.ht.l10n.LocalizerBundle;
+import com.ht.l10n.LocalizerField;
+import com.ht.l10n.LocalizerType;
 import com.ht.l10n.StubFactory;
 
+import java.util.Arrays;
 import java.util.Locale;
 import java.util.Set;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class LocalizerAcceptanceTest {
@@ -42,13 +44,13 @@ public class LocalizerAcceptanceTest {
   }
 
   @Test(expected = NullPointerException.class)
-  public void Localizer_setLocaleToNull_nullPointerExceptionIsThrown() {
+  public void Localizer_setLocaleToNull_nullPointerExceptionIsThrown() throws Exception {
     Localizer localize = localizerFactory.createLocalizer(Locale.CHINESE);
     localize.setLocale(null);
   }
 
   @Test
-  public void Localizer_setLocaleToANewLocale_localeChangedToNewLocale() {
+  public void Localizer_setLocaleToANewLocale_localeChangedToNewLocale() throws Exception {
     Locale originalLocale = Locale.CHINESE;
     Locale newLocale = Locale.CANADA_FRENCH;
     Localizer localize = localizerFactory.createLocalizer(originalLocale);
@@ -105,99 +107,215 @@ public class LocalizerAcceptanceTest {
   }
 
   @Test
-  @Ignore("not implemented yet")
-  public void Localizer_getLocalizerTypeForNonExistentLocalizerType_undefinedLocalizerTypeIsReturned() {
-    fail("not implemented yet");
+  public void Localizer_getLocalizerTypeForNonExistentLocalizerType_undefinedLocalizerTypeIsReturned()
+      throws Exception {
+    Localizer someOtherLocalizer = localizerFactory.createLocalizer(Locale.CANADA_FRENCH);
+    LocalizerType someOtherocalizerType = localizerFactory.createLocalizerType(someOtherLocalizer,
+        "test.group", "test.type", "test.instance");
+    UID<LocalizerType> localizerTypeUid = someOtherocalizerType.getUid();
+    Localizer localizer = localizerFactory.createLocalizer(Locale.CANADA_FRENCH);
+
+    LocalizerType localizerType = localizer.getLocalizerType(localizerTypeUid);
+
+    assertNotNull(localizerType);
+    assertFalse(localizerType.isDefined());
   }
 
   @Test
-  @Ignore("not implemented yet")
-  public void Localizer_getLocalizerTypeForExistentLocalizerType_requestedLocalizerTypeIsReturned() {
-    fail("not implemented yet");
+  public void Localizer_getLocalizerTypeForExistentLocalizerType_requestedLocalizerTypeIsReturned()
+      throws Exception {
+    Localizer localizer = localizerFactory.createLocalizer(Locale.CANADA_FRENCH);
+    LocalizerType expectedLocalizerType =
+        localizerFactory.createLocalizerType(localizer, "test.group", "test.type", "test.instance");
+
+    LocalizerType localizerType = localizer.getLocalizerType(expectedLocalizerType.getUid());
+
+    assertNotNull(localizerType);
+    assertEquals(expectedLocalizerType, localizerType);
   }
 
   @Test
-  @Ignore("not implemented yet")
   public void Localizer_getLocalizerTypeKeySetWhenNoLocalizerTypesAdded_emptySetIsReturned() {
-    fail("not implemented yet");
+    Localizer localizer = localizerFactory.createLocalizer(Locale.CANADA_FRENCH);
+
+    assertNotNull(localizer.getLocalizerTypeKeySet());
+    assertTrue(localizer.getLocalizerTypeKeySet().isEmpty());
   }
 
   @Test
-  @Ignore("not implemented yet")
-  public void Localizer_getLocalizerTypeKeySetWhenLocalizerTypesAdded_allAddedLocalizerTypesKeysArePresent() {
-    fail("not implemented yet");
+  public void Localizer_getLocalizerTypeKeySetWhenLocalizerTypesAdded_allAddedLocalizerTypesKeysArePresent()
+      throws Exception {
+    Localizer localizer = localizerFactory.createLocalizer(Locale.CANADA_FRENCH);
+    LocalizerType expectedLocalizerType00 = localizerFactory.createLocalizerType(localizer,
+        "test.group", "test.type", "test.intance.00");
+    LocalizerType expectedLocalizerType01 = localizerFactory.createLocalizerType(localizer,
+        "test.group", "test.name", "test.instance.01");
+
+    Set<UID<LocalizerType>> localizerTypeUidSet = localizer.getLocalizerTypeKeySet();
+
+    assertNotNull(localizerTypeUidSet);
+    assertTrue(localizerTypeUidSet.contains(expectedLocalizerType00.getUid()));
+    assertTrue(localizerTypeUidSet.contains(expectedLocalizerType01.getUid()));
+    boolean isModifiable = true;
+    try {
+      localizerTypeUidSet.clear();
+    } catch (UnsupportedOperationException uoe) {
+      isModifiable = false;
+    }
+    assertFalse(isModifiable);
   }
 
-  @Test
-  @Ignore("not implemented yet")
+  @Test(expected = NullPointerException.class)
   public void Localizer_getLocalizerFieldWithNullParameter_nullPointerExceptionIsThrown() {
-    fail("not implemented yet");
+    Localizer localizer = localizerFactory.createLocalizer(Locale.CANADA_FRENCH);
+
+    localizer.getLocalizerField(null);
   }
 
   @Test
-  @Ignore("not implemented yet")
-  public void Localizer_getLocalizerFieldForNonExistentLocalizerField_undefinedLocalizerFieldIsReturned() {
-    fail("not implemented yet");
+  public void Localizer_getLocalizerFieldForNonExistentLocalizerField_undefinedLocalizerFieldIsReturned()
+      throws Exception {
+    Localizer someOtherLocalizer = localizerFactory.createLocalizer(Locale.CANADA_FRENCH);
+    LocalizerType someOtherLocalizerType = localizerFactory.createLocalizerType(someOtherLocalizer,
+        "other.group", "other.type", "other.instance");
+    LocalizerField someOtherLocalizerField =
+        localizerFactory.createLocalizerField(someOtherLocalizerType, "other.field");
+    Localizer localizer = localizerFactory.createLocalizer((Locale.CANADA_FRENCH));
+
+    LocalizerField localizerField = localizer.getLocalizerField(someOtherLocalizerField.getUid());
+
+    assertNotNull(localizerField);
+    assertFalse(localizerField.isDefined());
   }
 
   @Test
-  @Ignore("not implemented yet")
-  public void Localizer_getLocalizerFieldForExistentLocalizerField_requestedLocalizerFieldIsReturned() {
-    fail("not implemented yet");
+  public void Localizer_getLocalizerFieldForExistentLocalizerField_requestedLocalizerFieldIsReturned()
+      throws Exception {
+    Localizer localizer = localizerFactory.createLocalizer(Locale.CANADA_FRENCH);
+    LocalizerType localizerType = localizerFactory.createLocalizerType(localizer, "test.group",
+        "test.type", "test.instance.00");
+    LocalizerField expectedLocalizerField =
+        localizerFactory.createLocalizerField(localizerType, "test.field.00");
+
+    LocalizerField localizerField = localizer.getLocalizerField(expectedLocalizerField.getUid());
+
+    assertNotNull(localizerField);
+    assertEquals(expectedLocalizerField, localizerField);
   }
 
   @Test
-  @Ignore("not implemented yet")
-  public void Localizer_addLocalizerFieldsWithSameFieldNameButDifferntLocalizerTypesAndGetBothLocalizerFields_bothRequestedLocalizerFieldsAreReturned() {
-    // TODO write test for getLocalizerField where you have two LocalizerField instances that have
-    // the
-    // same field name but belong to two different LocalizerType instances. It must be supported and
-    // behave as expected. That is, the correct LocalizerField for the correct LocalizerType is
-    // always
-    // returned. This behaviour should be compatible with getLocalizerKeySet, too, since the
-    // LocalizerField UID keys are defined as the LocalizerField fully qualified names.
-    fail("not implemented yet");
+  public void Localizer_addLocalizerFieldsWithSameFieldNameButDifferntLocalizerTypesAndGetBothLocalizerFields_bothRequestedLocalizerFieldsAreReturned()
+      throws Exception {
+    Localizer localizer = localizerFactory.createLocalizer(Locale.CANADA_FRENCH);
+    LocalizerType localizerType00 = localizerFactory.createLocalizerType(localizer, "test.group",
+        "test.type", "test.instance.00");
+    LocalizerField localizerField00 =
+        localizerFactory.createLocalizerField(localizerType00, "test.field");
+    LocalizerType localizerType01 = localizerFactory.createLocalizerType(localizer, "test.group",
+        "test.type", "test.instance.01");
+    LocalizerField localizerField01 =
+        localizerFactory.createLocalizerField(localizerType01, "test.field");
+
+    for (LocalizerField expectedLocalizerField : Arrays.asList(localizerField00,
+        localizerField01)) {
+      assertNotNull(localizer.getLocalizerField(expectedLocalizerField.getUid()));
+      assertEquals(expectedLocalizerField,
+          localizer.getLocalizerField(expectedLocalizerField.getUid()));
+    }
   }
 
   @Test
-  @Ignore("not implemented yet")
-  public void Localizer_getLocalizerFieldKeySetWhenLocalizerKeysButNoLocalizerFields_emptySetIsReturned() {
-    fail("not implemented yet");
+  public void Localizer_getLocalizerFieldKeySetWhenLocalizerKeysButNoLocalizerFields_emptySetIsReturned()
+      throws Exception {
+    Localizer localizer = localizerFactory.createLocalizer(Locale.CANADA_FRENCH);
+    localizerFactory.createLocalizerType(localizer, "test.group", "test.type", "test.instance.00");
+    localizerFactory.createLocalizerType(localizer, "test.group", "test.type", "test.instance.01");
+    localizerFactory.createLocalizerType(localizer, "test.group", "test.type", "test.instance.02");
+
+    Set<UID<LocalizerField>> localizerFieldUidSet = localizer.getLocalizerFieldKeySet();
+
+    assertNotNull(localizerFieldUidSet);
+    assertTrue(localizerFieldUidSet.isEmpty());
   }
 
   @Test
-  @Ignore("not implemented yet")
   public void Localizer_getLocalizerFieldKeySetWhenNoLocalizerKeysAndNoLocalizerFields_emptySetIsReturned() {
-    fail("not implemented yet");
+    Localizer localizer = localizerFactory.createLocalizer(Locale.CANADA_FRENCH);
+
+    Set<UID<LocalizerField>> localizerFieldUidSet = localizer.getLocalizerFieldKeySet();
+
+    assertNotNull(localizerFieldUidSet);
+    assertTrue(localizerFieldUidSet.isEmpty());
   }
 
   @Test
-  @Ignore("not implemented yet")
-  public void Localizer_getLocalizerFieldKeySetWhenLocalizerFieldsForLocalizerTypesAdded_allLocalizerFieldsForAllLocalizerTypesAreReturned() {
-    fail("not implemented yet");
+  public void Localizer_getLocalizerFieldKeySetWhenLocalizerFieldsForLocalizerTypesAdded_allLocalizerFieldsForAllLocalizerTypesAreReturned()
+      throws Exception {
+    Localizer localizer = localizerFactory.createLocalizer(Locale.CANADA_FRENCH);
+    LocalizerType localizerType00 = localizerFactory.createLocalizerType(localizer, "test.group",
+        "test.type", "test.instance.00");
+    LocalizerField localizerField00 =
+        localizerFactory.createLocalizerField(localizerType00, "test.field.00");
+    LocalizerField localizerField01 =
+        localizerFactory.createLocalizerField(localizerType00, "test.field.01");
+    LocalizerType localizerType01 = localizerFactory.createLocalizerType(localizer, "test.group",
+        "test.type", "test.instance.01");
+    LocalizerField localizerField02 =
+        localizerFactory.createLocalizerField(localizerType01, "test.field.02");
+
+    Set<UID<LocalizerField>> localizerFieldUidSet = localizer.getLocalizerFieldKeySet();
+
+    assertNotNull(localizerFieldUidSet);
+    for (UID<LocalizerField> expectedLocalizerFieldUid : Arrays.asList(localizerField00.getUid(),
+        localizerField01.getUid(), localizerField02.getUid())) {
+      assertTrue(localizerFieldUidSet.contains(expectedLocalizerFieldUid));
+    }
   }
 
   @Test
-  @Ignore("not implemented yet")
-  public void Localizer_addOneLocalizerBundleThenSetLocaleToNewSupportedLocale_LocalizerBundleReloadedForNewLocale() {
-    fail("not implemented yet");
+  public void Localizer_addOneLocalizerBundleThenSetLocaleToNewSupportedLocale_LocalizerBundleReloadedForNewLocale()
+      throws Exception {
+    Locale startingLocale = Locale.ENGLISH;
+    Locale expectedLocale = Locale.CANADA_FRENCH;
+    Localizer localizer = localizerFactory.createLocalizer(startingLocale);
+    LocalizerBundle localizerBundle = localizerFactory.createLocalizerBundle(localizer,
+        "com.ht.l10n.test.resource.TestL10nResourceBundleChangeToExistingLocale");
+    assertNotNull(localizerBundle);
+    assertEquals(startingLocale, localizerBundle.getTargetLocale());
+    assertEquals(startingLocale, localizerBundle.getResolvedLocale());
+
+    localizer.setLocale(expectedLocale);
+
+    assertEquals(expectedLocale, localizerBundle.getTargetLocale());
+    assertEquals(expectedLocale, localizerBundle.getResolvedLocale());
   }
 
   @Test
-  @Ignore("not implemented yet")
-  public void Localizer_addLocalizerBundleThenSetLocaleToNewUnsupportedLocale_localizerExceptionIsThrown() {
-    fail("not implemented yet");
-  }
+  public void Localizer_addMultipleLocalizerBundlesThenSetLocaleToNewSupportedLocale_allLocalizerBundlesReloadedForNewLocale()
+      throws Exception {
+    final Locale startingLocale = Locale.ENGLISH;
+    final Locale expectedLocale = Locale.CANADA_FRENCH;
+    final Localizer localizer = localizerFactory.createLocalizer(startingLocale);
+    final String localizerBundleName00 =
+        "com.ht.l10n.test.resource.TestL10nResourceBundleTestMultiple00";
+    final String localizerBundleName01 =
+        "com.ht.l10n.test.resource.TestL10nResourceBundleTestMultiple01";
+    LocalizerBundle localizerBundle00 =
+        localizerFactory.createLocalizerBundle(localizer, localizerBundleName00);
+    assertNotNull(localizerBundle00);
+    assertEquals(startingLocale, localizerBundle00.getTargetLocale());
+    assertEquals(startingLocale, localizerBundle00.getResolvedLocale());
+    LocalizerBundle localizerBundle01 =
+        localizerFactory.createLocalizerBundle(localizer, localizerBundleName01);
+    assertNotNull(localizerBundle00);
+    assertEquals(startingLocale, localizerBundle00.getTargetLocale());
+    assertEquals(startingLocale, localizerBundle00.getResolvedLocale());
 
-  @Test
-  @Ignore("not implemented yet")
-  public void Localizer_addMultipleLocalizerBundlesThenSetLocaleToNewSupportedLocale_allLocalizerBundlesReloadedForNewLocale() {
-    fail("not implemented yet");
-  }
+    localizer.setLocale(expectedLocale);
 
-  @Test
-  @Ignore("not implemented yet")
-  public void Localizer_addMultipleLocalizerBundlesThenSetLocaleToNewUnsupportedLocale_localizerExceptionIsThrown() {
-    fail("not implemented yet");
+    assertEquals(expectedLocale, localizerBundle00.getTargetLocale());
+    assertEquals(expectedLocale, localizerBundle00.getResolvedLocale());
+    assertEquals(expectedLocale, localizerBundle01.getTargetLocale());
+    assertEquals(expectedLocale, localizerBundle01.getResolvedLocale());
   }
 }

@@ -7,7 +7,7 @@ import com.ht.common.UID;
 public interface Localizer {
   Locale getLocale();
 
-  void setLocale(Locale locale);
+  void setLocale(Locale locale) throws LocalizerException;
 
   Set<LocalizerBundle> getLocalizerBundleSet();
 

@@ -41,7 +41,8 @@ final class FactoryInternalImp implements FactoryInternal {
     CompositeLocalizerBundleImp compositeLocalizerBundleImp = new CompositeLocalizerBundleImp(
         localizer, targetLocalizerBundle, rootLocalizerBundle, undefinedLocalizerBundle);
     LocalizerInternal localizerInternal = (LocalizerInternal) localizer;
-    return (LocalizerBundle) localizerInternal.addLocalizerBundleInternal(compositeLocalizerBundleImp);
+    return (LocalizerBundle) localizerInternal
+        .addLocalizerBundleInternal(compositeLocalizerBundleImp);
   }
 
   @Override
@@ -108,7 +109,10 @@ final class FactoryInternalImp implements FactoryInternal {
     guardNamingConvention("groupName", groupName);
     guardNamingConvention("typeName", typeName);
     guardNamingConvention("instanceName", instanceName);
-    return new LocalizerTypeInternalImp(localizer, groupName, typeName, instanceName);
+    LocalizerInternal localizerInternal = (LocalizerInternal) localizer;
+    LocalizerTypeInternal localizerTypeInternal =
+        new LocalizerTypeInternalImp(localizer, groupName, typeName, instanceName);
+    return localizerInternal.addLocalizerTypeInternal(localizerTypeInternal);
   }
 
   @Override
