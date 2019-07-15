@@ -33,11 +33,11 @@ final class FactoryInternalImp implements FactoryInternal {
   @Override
   public LocalizerBundle createLocalizerBundle(Localizer localizer, String resourceBundleName)
       throws LocalizerException {
-    LocalizerBundle targetLocalizerBundle =
+    LocalizerBundleInternal targetLocalizerBundle =
         createTargetLocalizerBundle(localizer, resourceBundleName);
-    LocalizerBundle rootLocalizerBundle =
+    LocalizerBundleInternal rootLocalizerBundle =
         createRootLocaleLocalizerBundle(localizer, resourceBundleName);
-    LocalizerBundle undefinedLocalizerBundle = createUndefinedLocalizerBundle();
+    LocalizerBundleInternal undefinedLocalizerBundle = createUndefinedLocalizerBundle();
     CompositeLocalizerBundleImp compositeLocalizerBundleImp = new CompositeLocalizerBundleImp(
         localizer, targetLocalizerBundle, rootLocalizerBundle, undefinedLocalizerBundle);
     LocalizerInternal localizerInternal = (LocalizerInternal) localizer;
@@ -54,8 +54,8 @@ final class FactoryInternalImp implements FactoryInternal {
   }
 
   @Override
-  public LocalizerBundle createTargetLocalizerBundle(Localizer localizer, String resourceBundleName)
-      throws LocalizerException {
+  public LocalizerBundleInternal createTargetLocalizerBundle(Localizer localizer,
+      String resourceBundleName) throws LocalizerException {
     createLocalizerBundleGuard(localizer, resourceBundleName);
     ResourceBundle resourceBundle =
         createResourceBundleForLocalizerBundle(resourceBundleName, localizer.getLocale());
@@ -63,7 +63,7 @@ final class FactoryInternalImp implements FactoryInternal {
   }
 
   @Override
-  public LocalizerBundle createRootLocaleLocalizerBundle(Localizer localizer,
+  public LocalizerBundleInternal createRootLocaleLocalizerBundle(Localizer localizer,
       String resourceBundleName) throws LocalizerException {
     createLocalizerBundleGuard(localizer, resourceBundleName);
     ResourceBundle resourceBundle = null;
@@ -76,8 +76,8 @@ final class FactoryInternalImp implements FactoryInternal {
   }
 
   @Override
-  public LocalizerBundle createUndefinedLocalizerBundle() {
-    return undefinedLocalizer.getLocalizerBundleSet().iterator().next();
+  public LocalizerBundleInternal createUndefinedLocalizerBundle() {
+    return (LocalizerBundleInternal) undefinedLocalizer.getLocalizerBundleSet().iterator().next();
   }
 
   private void createLocalizerBundleGuard(Localizer localizer, String resourceBundleName) {

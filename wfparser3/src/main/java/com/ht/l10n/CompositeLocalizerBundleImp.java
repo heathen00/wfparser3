@@ -5,20 +5,21 @@ import java.util.List;
 import java.util.Locale;
 
 final class CompositeLocalizerBundleImp implements LocalizerBundleInternal {
-  private final List<LocalizerBundle> localizerBundleList;
+  private final List<LocalizerBundleInternal> localizerBundleInternalList;
   private final int TARGET_BUNDLE = 0;
 
-  public CompositeLocalizerBundleImp(Localizer localizer, LocalizerBundle targetLocalizerBundle,
-      LocalizerBundle rootLocalizerBundle, LocalizerBundle undefinedLocalizerBundle) {
-    localizerBundleList = new ArrayList<>();
-    localizerBundleList.add(targetLocalizerBundle);
-    localizerBundleList.add(rootLocalizerBundle);
-    localizerBundleList.add(undefinedLocalizerBundle);
+  public CompositeLocalizerBundleImp(Localizer localizer,
+      LocalizerBundleInternal targetLocalizerBundle, LocalizerBundleInternal rootLocalizerBundle,
+      LocalizerBundleInternal undefinedLocalizerBundle) {
+    localizerBundleInternalList = new ArrayList<>();
+    localizerBundleInternalList.add(targetLocalizerBundle);
+    localizerBundleInternalList.add(rootLocalizerBundle);
+    localizerBundleInternalList.add(undefinedLocalizerBundle);
   }
 
   @Override
   public String getResourceBundleName() {
-    return localizerBundleList.get(TARGET_BUNDLE).getResourceBundleName();
+    return localizerBundleInternalList.get(TARGET_BUNDLE).getResourceBundleName();
   }
 
   @Override
@@ -26,8 +27,8 @@ final class CompositeLocalizerBundleImp implements LocalizerBundleInternal {
     String localizedString = null;
     for (int bundleIndex = TARGET_BUNDLE; localizedString == null; bundleIndex++) {
       try {
-        localizedString =
-            localizerBundleList.get(bundleIndex).getFormattedString(localizerField, parameters);
+        localizedString = localizerBundleInternalList.get(bundleIndex)
+            .getFormattedString(localizerField, parameters);
       } catch (LocalizerException le) {
         localizedString = null;
       }
@@ -37,12 +38,12 @@ final class CompositeLocalizerBundleImp implements LocalizerBundleInternal {
 
   @Override
   public Locale getResolvedLocale() {
-    return localizerBundleList.get(TARGET_BUNDLE).getResolvedLocale();
+    return localizerBundleInternalList.get(TARGET_BUNDLE).getResolvedLocale();
   }
 
   @Override
   public Locale getTargetLocale() {
-    return localizerBundleList.get(TARGET_BUNDLE).getTargetLocale();
+    return localizerBundleInternalList.get(TARGET_BUNDLE).getTargetLocale();
   }
 
   @Override
@@ -50,7 +51,8 @@ final class CompositeLocalizerBundleImp implements LocalizerBundleInternal {
     String localizedString = null;
     for (int bundleIndex = TARGET_BUNDLE; localizedString == null; bundleIndex++) {
       try {
-        localizedString = localizerBundleList.get(bundleIndex).getUnformattedString(localizerField);
+        localizedString =
+            localizerBundleInternalList.get(bundleIndex).getUnformattedString(localizerField);
       } catch (LocalizerException le) {
         localizedString = null;
       }
@@ -65,7 +67,7 @@ final class CompositeLocalizerBundleImp implements LocalizerBundleInternal {
 
   @Override
   public void loadL10nResource(Locale locale) throws LocalizerException {
-    for (LocalizerBundle localizerBundle : localizerBundleList) {
+    for (LocalizerBundle localizerBundle : localizerBundleInternalList) {
       LocalizerBundleInternal localizerBundleInternal = (LocalizerBundleInternal) localizerBundle;
       localizerBundleInternal.loadL10nResource(locale);
     }

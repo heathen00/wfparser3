@@ -14,20 +14,20 @@ public final class Assert {
     public static LocalizationTester createLocalizationTester(LocalizerBundle localizerBundle,
         LocalizerField localizerField, String expectedUnformattedLocalizedString,
         String expectedFormattedLocalizedString, Object... parameters) {
-      return new LocalizationTester(localizerBundle, localizerField,
+      return new LocalizationTester((LocalizerBundleInternal) localizerBundle, localizerField,
           expectedUnformattedLocalizedString, expectedFormattedLocalizedString, parameters);
     }
 
-    private final LocalizerBundle localizerBundle;
+    private final LocalizerBundleInternal localizerBundleInternal;
     private final LocalizerField localizerField;
     private final String expectedUnformattedLocalizedString;
     private final String expectedFormattedLocalizedString;
     private final Object[] parameters;
 
-    private LocalizationTester(LocalizerBundle localizerBundle, LocalizerField localizerField,
-        String expectedUnformattedLocalizedString, String expectedFormattedLocalizedString,
-        Object... parameters) {
-      this.localizerBundle = localizerBundle;
+    private LocalizationTester(LocalizerBundleInternal localizerBundle2,
+        LocalizerField localizerField, String expectedUnformattedLocalizedString,
+        String expectedFormattedLocalizedString, Object... parameters) {
+      this.localizerBundleInternal = localizerBundle2;
       this.localizerField = localizerField;
       this.expectedUnformattedLocalizedString = expectedUnformattedLocalizedString;
       this.expectedFormattedLocalizedString = expectedFormattedLocalizedString;
@@ -37,9 +37,9 @@ public final class Assert {
     public void assertExpectedStringFormattingAndLocalization() {
       try {
         assertEquals(expectedUnformattedLocalizedString,
-            localizerBundle.getUnformattedString(localizerField));
+            localizerBundleInternal.getUnformattedString(localizerField));
         assertEquals(expectedFormattedLocalizedString,
-            localizerBundle.getFormattedString(localizerField, parameters));
+            localizerBundleInternal.getFormattedString(localizerField, parameters));
       } catch (LocalizerException e) {
         fail("Unexpected exception:\n" + e);
       }

@@ -34,7 +34,7 @@ final class LocalizerFieldInternalImp implements LocalizerFieldInternal {
     String localizedString = null;
     for (LocalizerBundle localizerBundle : getLocalizerType().getLocalizer()
         .getLocalizerBundleSet()) {
-      localizedString = localizerBundle.getUnformattedString(this);
+      localizedString = ((LocalizerBundleInternal) localizerBundle).getUnformattedString(this);
     }
     return localizedString;
   }
@@ -44,7 +44,8 @@ final class LocalizerFieldInternalImp implements LocalizerFieldInternal {
     String formattedLocalizedString = null;
     for (LocalizerBundle localizerBundle : getLocalizerType().getLocalizer()
         .getLocalizerBundleSet()) {
-      formattedLocalizedString = localizerBundle.getFormattedString(this, parameters);
+      formattedLocalizedString =
+          ((LocalizerBundleInternal) localizerBundle).getFormattedString(this, parameters);
     }
     return formattedLocalizedString;
   }

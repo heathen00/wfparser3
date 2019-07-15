@@ -8,13 +8,15 @@ interface FactoryInternal extends Factory {
     return FactoryInternalImp.getFactorySingleton();
   }
 
-  LocalizerBundle createTargetLocalizerBundle(Localizer localizer, String resourceBundleName)
-      throws LocalizerException;
+  LocalizerBundleInternal createTargetLocalizerBundle(Localizer localizer,
+      String resourceBundleName) throws LocalizerException;
 
-  LocalizerBundle createRootLocaleLocalizerBundle(Localizer localizer, String resourceBundleName)
-      throws LocalizerException;
+  LocalizerBundleInternal createRootLocaleLocalizerBundle(Localizer localizer,
+      String resourceBundleName) throws LocalizerException;
 
-  LocalizerBundle createUndefinedLocalizerBundle();
+  LocalizerBundleInternal createUndefinedLocalizerBundle();
+
+  Localizer createUndefinedLocalizer();
 
   ResourceBundle createResourceBundleForLocalizerBundle(String resourceBundleName,
       Locale targetLocale) throws LocalizerException;

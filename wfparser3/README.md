@@ -179,7 +179,7 @@ There are a number of problems with the localization implementation I currently 
      refer to the published instances when a published method requires it and only cast at that point.
    * You should go through the implementation and mark method parameters as final to indicate that none of
      them will be modified.
-   * search for TODO items and complete them.
+   * search for TODO items in the code and complete them.
      
      
 ## Rough Notes
