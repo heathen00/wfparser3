@@ -61,7 +61,10 @@ public final class StubFactory {
       }
 
       @Override
-      public void addLocalizerField(LocalizerField localizerField) {}
+      public LocalizerFieldInternal addLocalizerFieldInternal(
+          LocalizerFieldInternal localizerFieldInternal) {
+        return localizerFieldInternal;
+      }
 
       @Override
       public boolean isDefined() {

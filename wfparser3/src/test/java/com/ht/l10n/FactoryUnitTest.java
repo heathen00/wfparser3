@@ -98,17 +98,19 @@ public class FactoryUnitTest {
   public void Factory_createRootLocaleLocalizerBundleWithNullResourceBundleName_nullPointerExceptionIsThrown()
       throws Exception {
     localizerFactoryInternal.createRootLocaleLocalizerBundle(
-        localizerFactoryInternal.createLocalizer(Locale.CANADA_FRENCH), null);
+        (LocalizerInternal) localizerFactoryInternal.createLocalizer(Locale.CANADA_FRENCH), null);
   }
 
   @Test(expected = LocalizerException.class)
   public void Factory_createRootLocaleLocalizerBundleWithNonExistentResourceBundle_localizerExceptionIsThrown()
       throws Exception {
-    Localizer localizer = localizerFactoryInternal.createLocalizer(Locale.CANADA_FRENCH);
+    LocalizerInternal localizerInternal =
+        (LocalizerInternal) localizerFactoryInternal.createLocalizer(Locale.CANADA_FRENCH);
     final String expectedResourceBundleName =
         "com.ht.l10n.test.resource.DoesNotExistL10nResourceBundle";
 
-    localizerFactoryInternal.createRootLocaleLocalizerBundle(localizer, expectedResourceBundleName);
+    localizerFactoryInternal.createRootLocaleLocalizerBundle(localizerInternal,
+        expectedResourceBundleName);
   }
 
   @Test
@@ -119,13 +121,14 @@ public class FactoryUnitTest {
     final String expectedResourceBundleName =
         "com.ht.l10n.test.resource.TestL10nRootLocaleResourceBundle";
     final boolean expectedIsDefined = true;
-    Localizer localizer = localizerFactoryInternal.createLocalizer(expectedTargetLocale);
+    LocalizerInternal localizerIntrnal =
+        (LocalizerInternal) localizerFactoryInternal.createLocalizer(expectedTargetLocale);
 
     LocalizerBundle localizerBundle = localizerFactoryInternal
-        .createRootLocaleLocalizerBundle(localizer, expectedResourceBundleName);
+        .createRootLocaleLocalizerBundle(localizerIntrnal, expectedResourceBundleName);
 
     localizerAssert.assertExpectedLocalizerBundle(expectedTargetLocale, expectedResolvedLocale,
-        expectedResourceBundleName, expectedIsDefined, localizer, localizerBundle);
+        expectedResourceBundleName, expectedIsDefined, localizerIntrnal, localizerBundle);
   }
 
   @Test(expected = NullPointerException.class)
@@ -139,17 +142,19 @@ public class FactoryUnitTest {
   public void Factory_createLocalizerBundleWithNullResourceBundleName_nullPointerExceptionIsThrown()
       throws Exception {
     localizerFactoryInternal.createTargetLocalizerBundle(
-        localizerFactoryInternal.createLocalizer(Locale.CANADA_FRENCH), null);
+        (LocalizerInternal) localizerFactoryInternal.createLocalizer(Locale.CANADA_FRENCH), null);
   }
 
   @Test(expected = LocalizerException.class)
   public void Factory_createLocalizerBundleWithNonExistentResourceBundle_localizerExceptionIsThrown()
       throws Exception {
-    Localizer localizer = localizerFactoryInternal.createLocalizer(Locale.CANADA_FRENCH);
+    LocalizerInternal localizerInternal =
+        (LocalizerInternal) localizerFactoryInternal.createLocalizer(Locale.CANADA_FRENCH);
     final String expectedResourceBundleName =
         "com.ht.l10n.test.resource.DoesNotExistL10nResourceBundle";
 
-    localizerFactoryInternal.createTargetLocalizerBundle(localizer, expectedResourceBundleName);
+    localizerFactoryInternal.createTargetLocalizerBundle(localizerInternal,
+        expectedResourceBundleName);
   }
 
   @Test
@@ -160,13 +165,14 @@ public class FactoryUnitTest {
     final String expectedResourceBundleName =
         "com.ht.l10n.test.resource.TestL10nResourceBundleForSimilarLocaleExists";
     final boolean expectedIsDefined = true;
-    Localizer localizer = localizerFactoryInternal.createLocalizer(expectedTargetLocale);
+    LocalizerInternal localizerInternal =
+        (LocalizerInternal) localizerFactoryInternal.createLocalizer(expectedTargetLocale);
 
-    LocalizerBundle localizerBundle =
-        localizerFactoryInternal.createTargetLocalizerBundle(localizer, expectedResourceBundleName);
+    LocalizerBundle localizerBundle = localizerFactoryInternal
+        .createTargetLocalizerBundle(localizerInternal, expectedResourceBundleName);
 
     localizerAssert.assertExpectedLocalizerBundle(expectedTargetLocale, expectedResolvedLocale,
-        expectedResourceBundleName, expectedIsDefined, localizer, localizerBundle);
+        expectedResourceBundleName, expectedIsDefined, localizerInternal, localizerBundle);
   }
 
   @Test
@@ -177,13 +183,14 @@ public class FactoryUnitTest {
     final String expectedResourceBundleName =
         "com.ht.l10n.test.resource.TestL10nResourceBundleForSpecifiedLocaleButOnlyRootLocaleExists";
     final boolean expectedIsDefined = true;
-    Localizer localizer = localizerFactoryInternal.createLocalizer(expectedTargetLocale);
+    LocalizerInternal localizerInternal =
+        (LocalizerInternal) localizerFactoryInternal.createLocalizer(expectedTargetLocale);
 
-    LocalizerBundle localizerBundle =
-        localizerFactoryInternal.createTargetLocalizerBundle(localizer, expectedResourceBundleName);
+    LocalizerBundle localizerBundle = localizerFactoryInternal
+        .createTargetLocalizerBundle(localizerInternal, expectedResourceBundleName);
 
     localizerAssert.assertExpectedLocalizerBundle(expectedTargetLocale, expectedResolvedLocale,
-        expectedResourceBundleName, expectedIsDefined, localizer, localizerBundle);
+        expectedResourceBundleName, expectedIsDefined, localizerInternal, localizerBundle);
   }
 
   @Test
@@ -195,13 +202,14 @@ public class FactoryUnitTest {
         "com.ht.l10n.test.resource.TestL10nResourceBundleForSpecifiedLocaleButOnlyDefaultLocaleExists";
     final boolean expectedIsDefined = true;
     Locale.setDefault(expectedResolvedLocale);
-    Localizer localizer = localizerFactoryInternal.createLocalizer(expectedTargetLocale);
+    LocalizerInternal localizerInternal =
+        (LocalizerInternal) localizerFactoryInternal.createLocalizer(expectedTargetLocale);
 
-    LocalizerBundle localizerBundle =
-        localizerFactoryInternal.createTargetLocalizerBundle(localizer, expectedResourceBundleName);
+    LocalizerBundle localizerBundle = localizerFactoryInternal
+        .createTargetLocalizerBundle(localizerInternal, expectedResourceBundleName);
 
     localizerAssert.assertExpectedLocalizerBundle(expectedTargetLocale, expectedResolvedLocale,
-        expectedResourceBundleName, expectedIsDefined, localizer, localizerBundle);
+        expectedResourceBundleName, expectedIsDefined, localizerInternal, localizerBundle);
   }
 
   @Test
@@ -213,13 +221,14 @@ public class FactoryUnitTest {
         "com.ht.l10n.test.resource.TestL10nResourceBundleForSpecifiedLocaleEclipsedByClass";
     final boolean expectedIsDefined = true;
     Locale.setDefault(expectedResolvedLocale);
-    Localizer localizer = localizerFactoryInternal.createLocalizer(expectedTargetLocale);
+    LocalizerInternal localizerInternal =
+        (LocalizerInternal) localizerFactoryInternal.createLocalizer(expectedTargetLocale);
 
-    LocalizerBundle localizerBundle =
-        localizerFactoryInternal.createTargetLocalizerBundle(localizer, expectedResourceBundleName);
+    LocalizerBundle localizerBundle = localizerFactoryInternal
+        .createTargetLocalizerBundle(localizerInternal, expectedResourceBundleName);
 
     localizerAssert.assertExpectedLocalizerBundle(expectedTargetLocale, expectedResolvedLocale,
-        expectedResourceBundleName, expectedIsDefined, localizer, localizerBundle);
+        expectedResourceBundleName, expectedIsDefined, localizerInternal, localizerBundle);
   }
 
   @Test
@@ -231,12 +240,13 @@ public class FactoryUnitTest {
         "com.ht.l10n.test.resource.TestL10nResourceBundleForSpecifiedLocaleExists";
     final boolean expectedIsDefined = true;
 
-    Localizer localizer = localizerFactoryInternal.createLocalizer(expectedTargetLocale);
+    LocalizerInternal localizerInternal =
+        (LocalizerInternal) localizerFactoryInternal.createLocalizer(expectedTargetLocale);
 
-    LocalizerBundle localizerBundle =
-        localizerFactoryInternal.createTargetLocalizerBundle(localizer, expectedResourceBundleName);
+    LocalizerBundle localizerBundle = localizerFactoryInternal
+        .createTargetLocalizerBundle(localizerInternal, expectedResourceBundleName);
 
     localizerAssert.assertExpectedLocalizerBundle(expectedTargetLocale, expectedResolvedLocale,
-        expectedResourceBundleName, expectedIsDefined, localizer, localizerBundle);
+        expectedResourceBundleName, expectedIsDefined, localizerInternal, localizerBundle);
   }
 }

@@ -68,7 +68,10 @@ final class UndefinedLocalizerTypeInternalImp implements LocalizerTypeInternal {
   }
 
   @Override
-  public void addLocalizerField(LocalizerField localizerField) {}
+  public LocalizerFieldInternal addLocalizerFieldInternal(
+      LocalizerFieldInternal localizerFieldInternal) {
+    return localizerFieldInternal;
+  }
 
   @Override
   public String getFullyQualifiedName() {

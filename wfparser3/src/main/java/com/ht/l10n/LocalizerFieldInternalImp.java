@@ -4,18 +4,18 @@ import com.ht.common.UID;
 
 final class LocalizerFieldInternalImp implements LocalizerFieldInternal {
   private final UID<LocalizerField> localizerFieldUid;
-  private final LocalizerType localizerType;
+  private final LocalizerTypeInternal localizerTypeInternal;
   private final String fieldName;
 
-  LocalizerFieldInternalImp(LocalizerType localizerType, String fieldName) {
-    this.localizerType = localizerType;
+  LocalizerFieldInternalImp(LocalizerTypeInternal localizerTypeInternal, String fieldName) {
+    this.localizerTypeInternal = localizerTypeInternal;
     this.fieldName = fieldName;
     localizerFieldUid = UID.createUid(getFullyQualifiedName(), this);
   }
 
   @Override
   public LocalizerType getLocalizerType() {
-    return localizerType;
+    return localizerTypeInternal;
   }
 
   @Override

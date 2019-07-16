@@ -8,8 +8,8 @@ final class CompositeLocalizerBundleImp implements LocalizerBundleInternal {
   private final List<LocalizerBundleInternal> localizerBundleInternalList;
   private final int TARGET_BUNDLE = 0;
 
-  public CompositeLocalizerBundleImp(Localizer localizer,
-      LocalizerBundleInternal targetLocalizerBundle, LocalizerBundleInternal rootLocalizerBundle,
+  public CompositeLocalizerBundleImp(LocalizerBundleInternal targetLocalizerBundle,
+      LocalizerBundleInternal rootLocalizerBundle,
       LocalizerBundleInternal undefinedLocalizerBundle) {
     localizerBundleInternalList = new ArrayList<>();
     localizerBundleInternalList.add(targetLocalizerBundle);

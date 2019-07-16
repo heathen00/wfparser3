@@ -11,7 +11,7 @@ final class FactoryInternalImp implements FactoryInternal {
     return FACTORY_SINGLETON;
   }
 
-  private final Localizer undefinedLocalizer;
+  private final LocalizerInternal undefinedLocalizer;
 
   private FactoryInternalImp() {
     undefinedLocalizer = new UndefinedLocalizerInternalImp();
@@ -33,14 +33,14 @@ final class FactoryInternalImp implements FactoryInternal {
   @Override
   public LocalizerBundle createLocalizerBundle(Localizer localizer, String resourceBundleName)
       throws LocalizerException {
+    LocalizerInternal localizerInternal = (LocalizerInternal) localizer;
     LocalizerBundleInternal targetLocalizerBundle =
-        createTargetLocalizerBundle(localizer, resourceBundleName);
+        createTargetLocalizerBundle(localizerInternal, resourceBundleName);
     LocalizerBundleInternal rootLocalizerBundle =
-        createRootLocaleLocalizerBundle(localizer, resourceBundleName);
+        createRootLocaleLocalizerBundle(localizerInternal, resourceBundleName);
     LocalizerBundleInternal undefinedLocalizerBundle = createUndefinedLocalizerBundle();
     CompositeLocalizerBundleImp compositeLocalizerBundleImp = new CompositeLocalizerBundleImp(
-        localizer, targetLocalizerBundle, rootLocalizerBundle, undefinedLocalizerBundle);
-    LocalizerInternal localizerInternal = (LocalizerInternal) localizer;
+        targetLocalizerBundle, rootLocalizerBundle, undefinedLocalizerBundle);
     return (LocalizerBundle) localizerInternal
         .addLocalizerBundleInternal(compositeLocalizerBundleImp);
   }
@@ -54,25 +54,25 @@ final class FactoryInternalImp implements FactoryInternal {
   }
 
   @Override
-  public LocalizerBundleInternal createTargetLocalizerBundle(Localizer localizer,
+  public LocalizerBundleInternal createTargetLocalizerBundle(LocalizerInternal localizerInternal,
       String resourceBundleName) throws LocalizerException {
-    createLocalizerBundleGuard(localizer, resourceBundleName);
+    createLocalizerBundleGuard(localizerInternal, resourceBundleName);
     ResourceBundle resourceBundle =
-        createResourceBundleForLocalizerBundle(resourceBundleName, localizer.getLocale());
-    return new LocalizerBundleInternalImp(this, localizer, resourceBundle);
+        createResourceBundleForLocalizerBundle(resourceBundleName, localizerInternal.getLocale());
+    return new LocalizerBundleInternalImp(this, localizerInternal, resourceBundle);
   }
 
   @Override
-  public LocalizerBundleInternal createRootLocaleLocalizerBundle(Localizer localizer,
-      String resourceBundleName) throws LocalizerException {
-    createLocalizerBundleGuard(localizer, resourceBundleName);
+  public LocalizerBundleInternal createRootLocaleLocalizerBundle(
+      LocalizerInternal localizerInternal, String resourceBundleName) throws LocalizerException {
+    createLocalizerBundleGuard(localizerInternal, resourceBundleName);
     ResourceBundle resourceBundle = null;
     try {
       resourceBundle = createResourceBundleForLocalizerBundle(resourceBundleName, Locale.ROOT);
     } catch (MissingResourceException mre) {
       throw new LocalizerException(mre);
     }
-    return new LocalizerBundleInternalImp(this, localizer, resourceBundle);
+    return new LocalizerBundleInternalImp(this, localizerInternal, resourceBundle);
   }
 
   @Override
@@ -100,7 +100,7 @@ final class FactoryInternalImp implements FactoryInternal {
     guardNamingConvention("instanceName", instanceName);
     LocalizerInternal localizerInternal = (LocalizerInternal) localizer;
     LocalizerTypeInternal localizerTypeInternal =
-        new LocalizerTypeInternalImp(this, localizer, groupName, typeName, instanceName);
+        new LocalizerTypeInternalImp(this, localizerInternal, groupName, typeName, instanceName);
     return localizerInternal.addLocalizerTypeInternal(localizerTypeInternal);
   }
 
@@ -109,19 +109,18 @@ final class FactoryInternalImp implements FactoryInternal {
       throws LocalizerException {
     guardNamingConvention("fieldName", fieldName);
     LocalizerFieldInternal newLocalizerFieldInternal =
-        new LocalizerFieldInternalImp(localizerType, fieldName);
+        new LocalizerFieldInternalImp((LocalizerTypeInternal) localizerType, fieldName);
     LocalizerFieldInternal existingLocalizerFieldInternal = (LocalizerFieldInternal) localizerType
         .getLocalizerField(newLocalizerFieldInternal.getUid());
     if (existingLocalizerFieldInternal.isDefined()) {
       newLocalizerFieldInternal = existingLocalizerFieldInternal;
     }
     LocalizerTypeInternal localizerTypeInternal = (LocalizerTypeInternal) localizerType;
-    localizerTypeInternal.addLocalizerField(newLocalizerFieldInternal);
-    return newLocalizerFieldInternal;
+    return localizerTypeInternal.addLocalizerFieldInternal(newLocalizerFieldInternal);
   }
 
   @Override
-  public Localizer createUndefinedLocalizer() {
+  public LocalizerInternal createUndefinedLocalizer() {
     return undefinedLocalizer;
   }
 

@@ -9,7 +9,7 @@ import java.util.Set;
 
 final class UndefinedLocalizerInternalImp implements LocalizerInternal {
   private final Locale undefinedLocale;
-  private final UndefinedLocalizerTypeInternalImp undefinedLocalizerType;
+  private final UndefinedLocalizerTypeInternalImp undefinedLocalizerTypeInternalImp;
   private final Set<UID<LocalizerType>> undefinedLocalizerTypeUidSet;
   private final Set<LocalizerBundle> undefinedLocalizerBundleSet;
 
@@ -18,9 +18,9 @@ final class UndefinedLocalizerInternalImp implements LocalizerInternal {
     final String undefinedRegion = "ZZ";
     undefinedLocale =
         (new Locale.Builder()).setLanguage(undefinedLanguage).setRegion(undefinedRegion).build();
-    undefinedLocalizerType = new UndefinedLocalizerTypeInternalImp(this);
+    undefinedLocalizerTypeInternalImp = new UndefinedLocalizerTypeInternalImp(this);
     undefinedLocalizerTypeUidSet = new HashSet<>();
-    undefinedLocalizerTypeUidSet.add(undefinedLocalizerType.getUid());
+    undefinedLocalizerTypeUidSet.add(undefinedLocalizerTypeInternalImp.getUid());
     undefinedLocalizerBundleSet = new HashSet<>();
     undefinedLocalizerBundleSet.add(new UndefinedLocalizerBundleInternalImp(this));
   }
@@ -40,7 +40,7 @@ final class UndefinedLocalizerInternalImp implements LocalizerInternal {
 
   @Override
   public LocalizerType getLocalizerType(UID<LocalizerType> typeUid) {
-    return undefinedLocalizerType;
+    return undefinedLocalizerTypeInternalImp;
   }
 
   @Override
@@ -50,12 +50,12 @@ final class UndefinedLocalizerInternalImp implements LocalizerInternal {
 
   @Override
   public LocalizerField getLocalizerField(UID<LocalizerField> fieldUid) {
-    return undefinedLocalizerType.getLocalizerField(fieldUid);
+    return undefinedLocalizerTypeInternalImp.getLocalizerField(fieldUid);
   }
 
   @Override
   public Set<UID<LocalizerField>> getLocalizerFieldKeySet() {
-    return undefinedLocalizerType.getLocalizerFieldKeySet();
+    return undefinedLocalizerTypeInternalImp.getLocalizerFieldKeySet();
   }
 
   @Override

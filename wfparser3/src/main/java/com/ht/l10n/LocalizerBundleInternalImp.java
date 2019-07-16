@@ -6,14 +6,14 @@ import java.util.ResourceBundle;
 
 final class LocalizerBundleInternalImp implements LocalizerBundleInternal {
   private final FactoryInternal factoryInternal;
-  private final Localizer localizer;
+  private final LocalizerInternal localizerInternal;
   private final String resourceBundleName;
   private ResourceBundle resourceBundle;
 
-  LocalizerBundleInternalImp(FactoryInternal factoryInternal, Localizer localizer,
+  LocalizerBundleInternalImp(FactoryInternal factoryInternal, LocalizerInternal localizerInternal,
       ResourceBundle resourceBundle) {
     this.factoryInternal = factoryInternal;
-    this.localizer = localizer;
+    this.localizerInternal = localizerInternal;
     this.resourceBundle = resourceBundle;
     this.resourceBundleName = this.resourceBundle.getBaseBundleName();
   }
@@ -43,7 +43,7 @@ final class LocalizerBundleInternalImp implements LocalizerBundleInternal {
 
   @Override
   public Locale getTargetLocale() {
-    return localizer.getLocale();
+    return localizerInternal.getLocale();
   }
 
   @Override
