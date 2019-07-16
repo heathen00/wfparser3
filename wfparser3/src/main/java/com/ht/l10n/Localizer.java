@@ -4,7 +4,7 @@ import java.util.Locale;
 import java.util.Set;
 import com.ht.common.UID;
 
-public interface Localizer {
+public interface Localizer extends DefinedObject {
   Locale getLocale();
 
   void setLocale(Locale locale) throws LocalizerException;

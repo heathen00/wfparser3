@@ -149,18 +149,12 @@ There are a number of problems with the localization implementation I currently 
    * Not sure I like using a checked exception.  Finish implementation and review.  The objective of the new Localizer
      implementation is to ensure there are no unneeded exceptions during runtime.
    * The Set<LocalizerBundle> will need to be changed to a SortedSet<LocalizerBundle>.  I wrote this down someplace,
-     already, but forget where!
+     already, but forget where!  I don't want to use a simple List because I want to enforce uniqueness.
    * What should happen if you try and create a localizer bundle/type/field that is not unique?  Error?  Return
      reference to already existing type?
    * Maybe remove the ability to get the component from the UID: getComponent().
    * What happens when you add the same bundle, key, or field multiple times? Not sure if
      these scenarios tested sufficiently.
-   * Since some published methods return UndefinedLocalizerXXX instances, and clients will need to be
-     able to differentiate between defined and undefined LocalizerXXX instances, it follows that you
-     will need to provide a published mechanism so that clients can programmatically determine whether
-     the LocalizerXXX instance they are referencing is defined or not.  Therefore, the published
-     LocalizerXXX interfaces must extend IsDefined and NOT the internal interfaces.  Go through the
-     implementation and ensure they all consistently published the "isDefined()" method.
    * WARNING: There could be overlap between different fields that LOOK distinct based on how the
      types and fields are named.  That is, the LocalizerType and LocalizerField instances are all
      unique but the fully qualified names for the fields can be exactly the same.  Since it is the
@@ -174,12 +168,27 @@ There are a number of problems with the localization implementation I currently 
      API since it does not make sense for them to implement them.  You cannot invert the inheritance
      hierarchy between the published and internal interfaces since this would cause the internal methods
      to be visible in the published API.
-   * You need to go through the implementation of this sub system and ensure that ALL implementations refer
-     primarily, possibly exclusively, to other internal implementations of classes.  They should only
-     refer to the published instances when a published method requires it and only cast at that point.
    * You should go through the implementation and mark method parameters as final to indicate that none of
      them will be modified.
    * search for TODO items in the code and complete them.
+   * You should also just look through the code for instances of duplication and remove them using
+     inheritance, pulling out duplicate code into its own class and use composition, instead.
+     
+     
+  // TODO shouldn't the LocalizerBundle Set be an OrderedSet since the LocalizerBundle instances
+  // will be checked for the localized string in a defined order? This may have implications on how
+  // the LocalizerBundle instances are added to the Localizer but the API could be enhanced to
+  // provide "insert()" methods afterwards.
+
+  // TODO ensure to test that all returned Set instances are unmodifiable.
+     
+HERE:
+
+   * You need to go through the implementation of this sub system and ensure that ALL implementations refer
+     primarily, possibly exclusively, to other internal implementations of classes.  They should only
+     refer to the published instances when a published method requires it and only cast at that point.
+     
+     
      
      
 ## Rough Notes

@@ -2,7 +2,7 @@ package com.ht.l10n;
 
 import java.util.Locale;
 
-interface LocalizerBundleInternal extends LocalizerBundle, DefinedObject {
+interface LocalizerBundleInternal extends LocalizerBundle {
   String getFormattedString(LocalizerField localizerField, Object... parameters)
       throws LocalizerException;
 

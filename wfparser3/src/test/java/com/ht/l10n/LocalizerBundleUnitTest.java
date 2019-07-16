@@ -37,6 +37,7 @@ public class LocalizerBundleUnitTest {
     final Locale expectedResolvedLocale = expectedTargetLocale;
     final String expectedFormattedString = "UNDEFINED";
     final String expectedUnformattedString = "UNDEFINED";
+    final boolean expectedIsDefined = false;
     LocalizerField localizerField =
         stubFactory.createStubLocalizerField("testField00", "testInstance00");
 
@@ -44,7 +45,7 @@ public class LocalizerBundleUnitTest {
         localizerFactory.createUndefinedLocalizerBundle();
 
     localizerAssert.assertExpectedLocalizerBundle(expectedTargetLocale, expectedResolvedLocale,
-        expectedBundleName, undefinedLocalizerBundle);
+        expectedBundleName, expectedIsDefined, undefinedLocalizerBundle);
     assertEquals(expectedUnformattedString,
         undefinedLocalizerBundle.getUnformattedString(localizerField));
     assertEquals(expectedFormattedString,
@@ -77,7 +78,9 @@ public class LocalizerBundleUnitTest {
     final Locale expectedTargetLocale = Locale.CANADA_FRENCH;
     final Locale expectedResolvedLocale = Locale.ROOT;
     final Localizer localizer = localizerFactory.createLocalizer(expectedTargetLocale);
-    final String resourceBundleName = "com.ht.l10n.test.resource.TestL10nRootLocaleResourceBundle";
+    final String expectedResourceBundleName =
+        "com.ht.l10n.test.resource.TestL10nRootLocaleResourceBundle";
+    final boolean expectedIsDefined = true;
     final String expectedUnformattedString =
         "this is a test unformatted string for the root locale";
     final String expectedUnformattedFormattedString =
@@ -89,10 +92,10 @@ public class LocalizerBundleUnitTest {
     final LocalizerField formattedField = stubFactory.createStubLocalizerField("formatted", "one");
 
     LocalizerBundleInternal rootLocalizerBundle =
-        localizerFactory.createRootLocaleLocalizerBundle(localizer, resourceBundleName);
+        localizerFactory.createRootLocaleLocalizerBundle(localizer, expectedResourceBundleName);
 
     localizerAssert.assertExpectedLocalizerBundle(expectedTargetLocale, expectedResolvedLocale,
-        resourceBundleName, localizer, rootLocalizerBundle);;
+        expectedResourceBundleName, expectedIsDefined, localizer, rootLocalizerBundle);;
     assertEquals(expectedUnformattedString,
         rootLocalizerBundle.getUnformattedString(unformattedField));
     assertEquals(expectedFormattedString, rootLocalizerBundle.getFormattedString(formattedField,

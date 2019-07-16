@@ -49,6 +49,7 @@ public class LocalizerBundleAcceptanceTest {
         "this is a test formatted string for composite resource bundle for Locale fr_CA: %s, %d";
     final String expectedFormattedString =
         "this is a test formatted string for composite resource bundle for Locale fr_CA: test_parameter, 33";
+    final boolean expectedIsDefined = true;
     final LocalizerField unformattedField =
         stubFactory.createStubLocalizerField("unformatted", "exists.in.target.locale");
     final LocalizerField formattedField =
@@ -58,7 +59,7 @@ public class LocalizerBundleAcceptanceTest {
         localizerFactory.createLocalizerBundle(expectedLocalizer, expectedResourceBundleName);
 
     localizerAssert.assertExpectedLocalizerBundle(expectedTargetLocale, expectedResolvedLocale,
-        expectedResourceBundleName, expectedLocalizer, localizerBundle);
+        expectedResourceBundleName, expectedIsDefined, expectedLocalizer, localizerBundle);
     LocalizationTester unformattedLocalizedStringTester = LocalizationTester
         .createLocalizationTester(localizerBundle, unformattedField, expectedUnformattedString,
             expectedUnformattedString, "does not matter", Integer.valueOf(13456));
@@ -83,6 +84,7 @@ public class LocalizerBundleAcceptanceTest {
         "this is a test formatted string for composite resource bundle for root Locale: %s, %d";
     final String expectedFormattedString =
         "this is a test formatted string for composite resource bundle for root Locale: test_parameter, 33";
+    final boolean expectedIsDefined = true;
     final LocalizerField unformattedField =
         stubFactory.createStubLocalizerField("unformatted", "exists.in.root.locale");
     final LocalizerField formattedField =
@@ -92,7 +94,7 @@ public class LocalizerBundleAcceptanceTest {
         localizerFactory.createLocalizerBundle(expectedLocalizer, expectedResourceBundleName);
 
     localizerAssert.assertExpectedLocalizerBundle(expectedTargetLocale, expectedResolvedLocale,
-        expectedResourceBundleName, expectedLocalizer, localizerBundle);
+        expectedResourceBundleName, expectedIsDefined, expectedLocalizer, localizerBundle);
     LocalizationTester unformattedLocalizedStringTester = LocalizationTester
         .createLocalizationTester(localizerBundle, unformattedField, expectedUnformattedString,
             expectedUnformattedString, "does not matter", Integer.valueOf(13456));
@@ -114,6 +116,7 @@ public class LocalizerBundleAcceptanceTest {
     final String expectedUnformattedString = "UNDEFINED";
     final String expectedUnformattedFormattedString = "UNDEFINED";
     final String expectedFormattedString = "UNDEFINED";
+    final boolean expectedIsDefined = true;
     final LocalizerField unformattedField =
         stubFactory.createStubLocalizerField("unformatted", "not.defined");
     final LocalizerField formattedField =
@@ -123,7 +126,7 @@ public class LocalizerBundleAcceptanceTest {
         localizerFactory.createLocalizerBundle(expectedLocalizer, expectedResourceBundleName);
 
     localizerAssert.assertExpectedLocalizerBundle(expectedTargetLocale, expectedResolvedLocale,
-        expectedResourceBundleName, expectedLocalizer, localizerBundle);
+        expectedResourceBundleName, expectedIsDefined, expectedLocalizer, localizerBundle);
     LocalizationTester unformattedLocalizedStringTester = LocalizationTester
         .createLocalizationTester(localizerBundle, unformattedField, expectedUnformattedString,
             expectedUnformattedString, "does not matter", Integer.valueOf(13456));

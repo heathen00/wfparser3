@@ -6,6 +6,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import com.ht.common.UID;
+import com.ht.l10n.Assert;
 import com.ht.l10n.Factory;
 import com.ht.l10n.Localizer;
 import com.ht.l10n.LocalizerBundle;
@@ -23,24 +24,21 @@ import org.junit.Test;
 public class LocalizerAcceptanceTest {
   private Factory localizerFactory;
   private StubFactory stubFactory;
+  private Assert localizerAssert;
 
-  // TODO shouldn't the LocalizerBundle Set be an OrderedSet since the LocalizerBundle instances
-  // will be checked for the localized string in a defined order? This may have implications on how
-  // the LocalizerBundle instances are added to the Localizer but the API could be enhanced to
-  // provide "insert()" methods afterwards.
-
-  // TODO ensure to test that all returned Set instances are unmodifiable.
 
   @Before
   public void setup() {
     localizerFactory = Factory.createFactory();
     stubFactory = StubFactory.createStubFactory();
+    localizerAssert = Assert.createAssert();
   }
 
   @Test
   public void Localizer_createFactories_factoriesAreCreated() {
     assertNotNull(localizerFactory);
     assertNotNull(stubFactory);
+    assertNotNull(localizerAssert);
   }
 
   @Test(expected = NullPointerException.class)
@@ -51,17 +49,16 @@ public class LocalizerAcceptanceTest {
 
   @Test
   public void Localizer_setLocaleToANewLocale_localeChangedToNewLocale() throws Exception {
-    Locale originalLocale = Locale.CHINESE;
-    Locale newLocale = Locale.CANADA_FRENCH;
-    Localizer localize = localizerFactory.createLocalizer(originalLocale);
+    final Locale originalLocale = Locale.CHINESE;
+    final Locale newLocale = Locale.CANADA_FRENCH;
+    final boolean expectedIsDefined = true;
+    Localizer localizer = localizerFactory.createLocalizer(originalLocale);
 
-    assertNotNull(localize);
-    assertNotNull(localize.getLocale());
-    assertEquals(originalLocale, localize.getLocale());
+    localizerAssert.assertExpectedLocalizer(originalLocale, expectedIsDefined, localizer);
 
-    localize.setLocale(newLocale);
-    assertNotNull(localize.getLocale());
-    assertEquals(newLocale, localize.getLocale());
+    localizer.setLocale(newLocale);
+
+    localizerAssert.assertExpectedLocalizer(newLocale, expectedIsDefined, localizer);
   }
 
   @Test

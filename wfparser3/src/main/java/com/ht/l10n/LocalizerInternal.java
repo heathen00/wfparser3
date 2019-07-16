@@ -1,6 +1,6 @@
 package com.ht.l10n;
 
-interface LocalizerInternal extends Localizer, DefinedObject {
+interface LocalizerInternal extends Localizer {
 
   LocalizerBundleInternal addLocalizerBundleInternal(
       LocalizerBundleInternal localizerBundleInternal);

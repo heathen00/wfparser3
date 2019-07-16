@@ -1,6 +1,5 @@
 package com.ht.l10n.acceptance;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import com.ht.common.UID;
@@ -41,20 +40,18 @@ public class FactoryAcceptanceTest {
   }
 
   @Test(expected = NullPointerException.class)
-  public void Factory_createLocalizeWithNullLocale_nullPointerExceptionIsThrown() {
+  public void Factory_createLocalizerWithNullLocale_nullPointerExceptionIsThrown() {
     localizerFactory.createLocalizer(null);
   }
 
   @Test
-  public void Factory_createLocalizeWithLocale_localizeIsCreated() {
+  public void Factory_createLocalizerWithLocale_localizeIsCreated() {
     Locale expectedLocale = Locale.CANADA_FRENCH;
+    boolean expectedIsDefined = true;
 
-    Localizer localize = localizerFactory.createLocalizer(expectedLocale);
+    Localizer localizer = localizerFactory.createLocalizer(expectedLocale);
 
-    assertNotNull(localize);
-    Locale locale = localize.getLocale();
-    assertNotNull(locale);
-    assertEquals(expectedLocale, locale);
+    localizerAssert.assertExpectedLocalizer(expectedLocale, expectedIsDefined, localizer);
   }
 
   @Test(expected = NullPointerException.class)
@@ -77,13 +74,14 @@ public class FactoryAcceptanceTest {
     final Locale expectedResolvedLocale = Locale.CANADA_FRENCH;
     final String expectedResourceBundleName =
         "com.ht.l10n.test.resource.TestL10ResourceBundleForCompositeResourceBundleWithRootLocaleAndNoExceptions";
+    final boolean expectedIsDefined = true;
     Localizer localizer = localizerFactory.createLocalizer(expectedTargetLocale);
 
     LocalizerBundle localizerBundle =
         localizerFactory.createLocalizerBundle(localizer, expectedResourceBundleName);
 
     localizerAssert.assertExpectedLocalizerBundle(expectedTargetLocale, expectedResolvedLocale,
-        expectedResourceBundleName, localizer, localizerBundle);
+        expectedResourceBundleName, expectedIsDefined, localizer, localizerBundle);
   }
 
   @Test(expected = LocalizerException.class)
@@ -155,12 +153,14 @@ public class FactoryAcceptanceTest {
         "test unformatted string for localizerField with fieldName " + expectedFieldName;
     final String expectedFormattedString =
         "test formatted string for localizerField with fieldName " + expectedFieldName;
+    final boolean expectedIsDefined = true;
 
     LocalizerField localizerField =
         localizerFactory.createLocalizerField(expectedLocalizerType, expectedFieldName);
 
     localizerAssert.assertExpectedLocalizerField(expectedFieldName, expectedFullyQualifiedName,
-        expectedLocalizerType, expectedUnformattedString, expectedFormattedString, localizerField);
+        expectedLocalizerType, expectedUnformattedString, expectedFormattedString,
+        expectedIsDefined, localizerField);
   }
 
   @Test(expected = NullPointerException.class)
@@ -285,12 +285,13 @@ public class FactoryAcceptanceTest {
     final UID<LocalizerType> expectedLocalizerTypeUid = UID.createUid(
         String.join(".", expectedGroupName, expectedTypeName, expectedInstanceName), stubFactory
             .createStubLocalizerType(expectedGroupName, expectedTypeName, expectedInstanceName));
+    final boolean expectedIsDefined = true;
 
     LocalizerType localizerType = localizerFactory.createLocalizerType(expectedLocalizer,
         expectedGroupName, expectedTypeName, expectedInstanceName);
 
     localizerAssert.assertExpectedLocalizerType(expectedGroupName, expectedTypeName,
         expectedInstanceName, expectedLocalizerFieldKeySet, expectedLocalizer,
-        expectedLocalizerTypeUid, localizerType);
+        expectedLocalizerTypeUid, expectedIsDefined, localizerType);
   }
 }

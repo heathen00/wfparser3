@@ -17,7 +17,7 @@ final class UndefinedLocalizerInternalImp implements LocalizerInternal {
     final String undefinedLanguage = "xx";
     final String undefinedRegion = "ZZ";
     undefinedLocale =
-        new Locale.Builder().setLanguage(undefinedLanguage).setRegion(undefinedRegion).build();
+        (new Locale.Builder()).setLanguage(undefinedLanguage).setRegion(undefinedRegion).build();
     undefinedLocalizerType = new UndefinedLocalizerTypeInternalImp(this);
     undefinedLocalizerTypeUidSet = new HashSet<>();
     undefinedLocalizerTypeUidSet.add(undefinedLocalizerType.getUid());
