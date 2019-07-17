@@ -8,6 +8,8 @@ interface FactoryInternal extends Factory {
     return FactoryInternalImp.getFactorySingleton();
   }
 
+  LocalizerInternal createLocalizerInternal(Locale locale);
+
   LocalizerBundleInternal createTargetLocalizerBundle(LocalizerInternal localizer,
       String resourceBundleName) throws LocalizerException;
 

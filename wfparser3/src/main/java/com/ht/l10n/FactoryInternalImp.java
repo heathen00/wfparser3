@@ -46,11 +46,16 @@ final class FactoryInternalImp implements FactoryInternal {
   }
 
   @Override
-  public Localizer createLocalizer(Locale locale) {
+  public LocalizerInternal createLocalizerInternal(Locale locale) {
     if (null == locale) {
       throw new NullPointerException("locale constructor parameter cannot be null");
     }
     return new LocalizerInternalImp(this, locale);
+  }
+
+  @Override
+  public Localizer createLocalizer(Locale locale) {
+    return createLocalizerInternal(locale);
   }
 
   @Override
@@ -108,14 +113,14 @@ final class FactoryInternalImp implements FactoryInternal {
   public LocalizerField createLocalizerField(LocalizerType localizerType, String fieldName)
       throws LocalizerException {
     guardNamingConvention("fieldName", fieldName);
+    LocalizerTypeInternal localizerTypeInternal = (LocalizerTypeInternal) localizerType;
     LocalizerFieldInternal newLocalizerFieldInternal =
         new LocalizerFieldInternalImp((LocalizerTypeInternal) localizerType, fieldName);
-    LocalizerFieldInternal existingLocalizerFieldInternal = (LocalizerFieldInternal) localizerType
-        .getLocalizerField(newLocalizerFieldInternal.getUid());
+    LocalizerFieldInternal existingLocalizerFieldInternal =
+        localizerTypeInternal.getLocalizerFieldInternal(newLocalizerFieldInternal.getUid());
     if (existingLocalizerFieldInternal.isDefined()) {
       newLocalizerFieldInternal = existingLocalizerFieldInternal;
     }
-    LocalizerTypeInternal localizerTypeInternal = (LocalizerTypeInternal) localizerType;
     return localizerTypeInternal.addLocalizerFieldInternal(newLocalizerFieldInternal);
   }
 

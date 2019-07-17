@@ -39,8 +39,13 @@ final class UndefinedLocalizerInternalImp implements LocalizerInternal {
   }
 
   @Override
-  public LocalizerType getLocalizerType(UID<LocalizerType> typeUid) {
+  public LocalizerTypeInternal getLocalizerTypeInternal(UID<LocalizerType> typeUid) {
     return undefinedLocalizerTypeInternalImp;
+  }
+
+  @Override
+  public LocalizerType getLocalizerType(UID<LocalizerType> typeUid) {
+    return getLocalizerTypeInternal(typeUid);
   }
 
   @Override
@@ -66,14 +71,12 @@ final class UndefinedLocalizerInternalImp implements LocalizerInternal {
   @Override
   public LocalizerBundleInternal addLocalizerBundleInternal(
       LocalizerBundleInternal localizerBundleInternal) {
-    // TODO Auto-generated method stub
-    return null;
+    return localizerBundleInternal;
   }
 
   @Override
   public LocalizerTypeInternal addLocalizerTypeInternal(
       LocalizerTypeInternal localizerTypeInternal) {
-    // TODO Auto-generated method stub
-    return null;
+    return localizerTypeInternal;
   }
 }

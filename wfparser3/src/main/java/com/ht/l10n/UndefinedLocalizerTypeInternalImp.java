@@ -12,7 +12,7 @@ final class UndefinedLocalizerTypeInternalImp implements LocalizerTypeInternal {
   private final String typeName;
   private final String instanceName;
   private final UID<LocalizerType> undefinedLocalizerTypeUid;
-  private final LocalizerField undefinedLocalizerField;
+  private final LocalizerFieldInternal undefinedLocalizerField;
   private final Set<UID<LocalizerField>> undefinedLocalizerFieldUidSet;
 
   UndefinedLocalizerTypeInternalImp(UndefinedLocalizerInternalImp undefinedLocalizer) {
@@ -53,8 +53,13 @@ final class UndefinedLocalizerTypeInternalImp implements LocalizerTypeInternal {
   }
 
   @Override
-  public LocalizerField getLocalizerField(UID<LocalizerField> fieldUid) {
+  public LocalizerFieldInternal getLocalizerFieldInternal(UID<LocalizerField> fieldUid) {
     return undefinedLocalizerField;
+  }
+
+  @Override
+  public LocalizerField getLocalizerField(UID<LocalizerField> fieldUid) {
+    return getLocalizerFieldInternal(fieldUid);
   }
 
   @Override

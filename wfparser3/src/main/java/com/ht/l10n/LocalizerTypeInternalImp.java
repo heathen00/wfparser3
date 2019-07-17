@@ -47,15 +47,21 @@ final class LocalizerTypeInternalImp implements LocalizerTypeInternal {
   }
 
   @Override
-  public LocalizerField getLocalizerField(UID<LocalizerField> fieldUid) {
+  public LocalizerFieldInternal getLocalizerFieldInternal(UID<LocalizerField> fieldUid) {
     if (null == fieldUid) {
       throw new NullPointerException("fieldUid cannot be null");
     }
-    LocalizerField localizerField = localizerFieldMap.get(fieldUid);
+    LocalizerFieldInternal localizerField = localizerFieldMap.get(fieldUid);
     if (null == localizerField) {
-      localizerField = factoryInternal.createUndefinedLocalizer().getLocalizerField(null);
+      localizerField = factoryInternal.createUndefinedLocalizer().getLocalizerTypeInternal(null)
+          .getLocalizerFieldInternal(null);
     }
     return localizerField;
+  }
+
+  @Override
+  public LocalizerField getLocalizerField(UID<LocalizerField> fieldUid) {
+    return getLocalizerFieldInternal(fieldUid);
   }
 
   @Override

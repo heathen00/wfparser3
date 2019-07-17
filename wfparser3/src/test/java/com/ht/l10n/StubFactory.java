@@ -34,10 +34,16 @@ public final class StubFactory {
         throw new UnsupportedOperationException("this operation not supported by stub");
       }
 
+
+      @Override
+      public LocalizerFieldInternal getLocalizerFieldInternal(UID<LocalizerField> fieldUid) {
+        return FactoryInternal.createFactoryInternal().createUndefinedLocalizer()
+            .getLocalizerTypeInternal(null).getLocalizerFieldInternal(null);
+      }
+
       @Override
       public LocalizerField getLocalizerField(UID<LocalizerField> fieldUid) {
-        return FactoryInternal.createFactoryInternal().createUndefinedLocalizer()
-            .getLocalizerField(fieldUid);
+        return getLocalizerFieldInternal(fieldUid);
       }
 
       @Override
@@ -99,8 +105,13 @@ public final class StubFactory {
       }
 
       @Override
-      public LocalizerType getLocalizerType(UID<LocalizerType> typeUid) {
+      public LocalizerTypeInternal getLocalizerTypeInternal(UID<LocalizerType> typeUid) {
         throw new UnsupportedOperationException("this operation not supported by stub");
+      }
+
+      @Override
+      public LocalizerType getLocalizerType(UID<LocalizerType> typeUid) {
+        return getLocalizerTypeInternal(typeUid);
       }
 
       @Override
