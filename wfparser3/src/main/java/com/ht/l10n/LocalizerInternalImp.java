@@ -8,17 +8,19 @@ import java.util.HashSet;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 final class LocalizerInternalImp implements LocalizerInternal {
   private Locale locale;
   private final FactoryInternal factoryInternal;
-  private final Set<LocalizerBundleInternal> localizerBundleSet;
+  private final SortedSet<LocalizerBundle> localizerBundleSet;
   private final Map<UID<LocalizerType>, LocalizerTypeInternal> localizerTypeMap;
 
   public LocalizerInternalImp(FactoryInternal factoryInternal, Locale locale) {
     this.factoryInternal = factoryInternal;
     this.locale = locale;
-    localizerBundleSet = new HashSet<>();
+    localizerBundleSet = new TreeSet<>();
     localizerTypeMap = new HashMap<>();
   }
 
@@ -33,8 +35,8 @@ final class LocalizerInternalImp implements LocalizerInternal {
       throw new NullPointerException("locale cannot be null");
     }
     this.locale = locale;
-    for (LocalizerBundleInternal localizerBundleInternal : localizerBundleSet) {
-      localizerBundleInternal.loadL10nResource(this.locale);
+    for (LocalizerBundle localizerBundle : localizerBundleSet) {
+      ((LocalizerBundleInternal) localizerBundle).loadL10nResource(this.locale);
     }
   }
 
@@ -88,8 +90,8 @@ final class LocalizerInternalImp implements LocalizerInternal {
   }
 
   @Override
-  public Set<LocalizerBundle> getLocalizerBundleSet() {
-    return Collections.unmodifiableSet(localizerBundleSet);
+  public SortedSet<LocalizerBundle> getLocalizerBundleSet() {
+    return Collections.unmodifiableSortedSet(localizerBundleSet);
   }
 
   @Override

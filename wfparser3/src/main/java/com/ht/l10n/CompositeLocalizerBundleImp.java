@@ -72,4 +72,9 @@ final class CompositeLocalizerBundleImp implements LocalizerBundleInternal {
       localizerBundleInternal.loadL10nResource(locale);
     }
   }
+
+  @Override
+  public int compareTo(LocalizerBundle o) {
+    return localizerBundleInternalList.get(TARGET_BUNDLE).compareTo(o);
+  }
 }

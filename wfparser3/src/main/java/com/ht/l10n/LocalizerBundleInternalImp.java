@@ -67,4 +67,9 @@ final class LocalizerBundleInternalImp implements LocalizerBundleInternal {
     this.resourceBundle =
         factoryInternal.createResourceBundleForLocalizerBundle(resourceBundleName, locale);
   }
+
+  @Override
+  public int compareTo(LocalizerBundle o) {
+    return getResourceBundleName().compareTo(o.getResourceBundleName());
+  }
 }

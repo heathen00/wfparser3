@@ -171,11 +171,6 @@ There are a number of problems with the localization implementation I currently 
    * search for TODO items in the code and complete them.
    * You should also just look through the code for instances of duplication and remove them using
      inheritance, pulling out duplicate code into its own class and use composition, instead.
-   * What happens if you try and add LocalizerBundle or LocalizerType instances to the undefined
-     Localizer instance, or LocalizerField instances to the undefined LocalizerType?  You didn't
-     cover those cases in the tests.  You must, and maybe as unit tests since the undefined
-     structure is an implementation detail, though some of the undefined instances are visible to
-     clients.
    * There is some mention above about what happens if multiple of one or another LocalizerXXX
      instance is created.  You should consider carefully what the behaviour should be.  For
      example, it is conceivable that multiple client modules will use the same LocalizerBundle,
@@ -184,22 +179,21 @@ There are a number of problems with the localization implementation I currently 
      cache and I'm not sure the Java implementation is smart enough to reuse the same ResourceBundle
      instance if the same resource is instantiated/loaded by two separate modules.  This would
      imply that some modules should be cached by the Factory which in turn implies that the
-     Factory should be a singleton.  I think it is already, but double check.
+     Factory should be a singleton.  I think it is already, but double check.  How do you test
+     this, though?
    * There are some cases where the implementation needs to cast from a published API, for example,
      a Localizer, to the internal API, e.g. LocalizerInternal.  You should refactor these casts so
      that they are safe casts.  First check to see if they are instances of the LocalizerInternal
      then cast, and if not, then the instance is likely some external implementation and it should
      be copied into a proper value object to maintain the internal integrity of the solution.  NOTE,
      if they are external implementations, then their data MUST be sanitized before copying.
-   * ensure to test that all returned Set instances are unmodifiable.
      
 HERE:
-   * The Set<LocalizerBundle> will need to be changed to a SortedSet<LocalizerBundle>.  I wrote this down someplace,
-     already, but forget where!  I don't want to use a simple List because I want to enforce uniqueness.
-   * shouldn't the LocalizerBundle Set be an OrderedSet since the LocalizerBundle instances
-     will be checked for the localized string in a defined order? This may have implications on how
-     the LocalizerBundle instances are added to the Localizer but the API could be enhanced to
-     provide "insert()" methods afterwards.
+   * What happens if you try and add LocalizerBundle or LocalizerType instances to the undefined
+     Localizer instance, or LocalizerField instances to the undefined LocalizerType?  You didn't
+     cover those cases in the tests.  You must, and maybe as unit tests since the undefined
+     structure is an implementation detail, though some of the undefined instances are visible to
+     clients.
      
      
 ## Rough Notes

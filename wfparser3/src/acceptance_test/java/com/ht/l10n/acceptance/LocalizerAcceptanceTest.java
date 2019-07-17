@@ -15,6 +15,7 @@ import com.ht.l10n.LocalizerType;
 import com.ht.l10n.StubFactory;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
@@ -73,27 +74,30 @@ public class LocalizerAcceptanceTest {
   public void Localizer_getLocalizerBundleSetWhenLocalizerBundlesAdded_allAddedLocalizerBundlesArePresent()
       throws Exception {
     Localizer localizer = localizerFactory.createLocalizer(Locale.CANADA_FRENCH);
-    final int expectedLocalizerBundleSetSize = 2;
     final LocalizerBundle expectedLocalizerBundle00 = localizerFactory
         .createLocalizerBundle(localizer, "com.ht.l10n.test.resource.TestResourceBundle00");
     final LocalizerBundle expectedLocalizerBundle01 = localizerFactory
         .createLocalizerBundle(localizer, "com.ht.l10n.test.resource.TestResourceBundle01");
+    List<LocalizerBundle> expectedLocalizerBundleList =
+        Arrays.asList(expectedLocalizerBundle00, expectedLocalizerBundle01);
+    final int expectedLocalizerBundleSetSize = expectedLocalizerBundleList.size();
+
 
     assertNotNull(localizer);
     assertNotNull(expectedLocalizerBundle00);
     assertNotNull(expectedLocalizerBundle01);
     assertNotNull(localizer.getLocalizerBundleSet());
     assertTrue(expectedLocalizerBundleSetSize == localizer.getLocalizerBundleSet().size());
+    int i = 0;
+    for (LocalizerBundle localizerBundle : localizer.getLocalizerBundleSet()) {
+      assertEquals(expectedLocalizerBundleList.get(i), localizerBundle);
+      i++;
+    }
+
+
     assertTrue(localizer.getLocalizerBundleSet().contains(expectedLocalizerBundle00));
     assertTrue(localizer.getLocalizerBundleSet().contains(expectedLocalizerBundle01));
-    boolean isModifiable = true;
-    try {
-      Set<LocalizerBundle> unmodifiableLocalizerBundleSet = localizer.getLocalizerBundleSet();
-      unmodifiableLocalizerBundleSet.clear();
-    } catch (UnsupportedOperationException uoe) {
-      isModifiable = false;
-    }
-    assertFalse(isModifiable);
+    localizerAssert.assertSetIsUnmodifiable(localizer.getLocalizerBundleSet());
   }
 
   @Test(expected = NullPointerException.class)

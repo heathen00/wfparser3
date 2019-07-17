@@ -6,12 +6,14 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 final class UndefinedLocalizerInternalImp implements LocalizerInternal {
   private final Locale undefinedLocale;
   private final UndefinedLocalizerTypeInternalImp undefinedLocalizerTypeInternalImp;
   private final Set<UID<LocalizerType>> undefinedLocalizerTypeUidSet;
-  private final Set<LocalizerBundle> undefinedLocalizerBundleSet;
+  private final SortedSet<LocalizerBundle> undefinedLocalizerBundleSet;
 
   UndefinedLocalizerInternalImp() {
     final String undefinedLanguage = "xx";
@@ -21,7 +23,7 @@ final class UndefinedLocalizerInternalImp implements LocalizerInternal {
     undefinedLocalizerTypeInternalImp = new UndefinedLocalizerTypeInternalImp(this);
     undefinedLocalizerTypeUidSet = new HashSet<>();
     undefinedLocalizerTypeUidSet.add(undefinedLocalizerTypeInternalImp.getUid());
-    undefinedLocalizerBundleSet = new HashSet<>();
+    undefinedLocalizerBundleSet = new TreeSet<>();
     undefinedLocalizerBundleSet.add(new UndefinedLocalizerBundleInternalImp(this));
   }
 
@@ -34,8 +36,8 @@ final class UndefinedLocalizerInternalImp implements LocalizerInternal {
   public void setLocale(Locale locale) {}
 
   @Override
-  public Set<LocalizerBundle> getLocalizerBundleSet() {
-    return Collections.unmodifiableSet(undefinedLocalizerBundleSet);
+  public SortedSet<LocalizerBundle> getLocalizerBundleSet() {
+    return Collections.unmodifiableSortedSet(undefinedLocalizerBundleSet);
   }
 
   @Override

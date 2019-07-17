@@ -2,6 +2,8 @@ package com.ht.l10n;
 
 import java.util.Locale;
 import java.util.Set;
+import java.util.SortedSet;
+
 import com.ht.common.UID;
 
 public interface Localizer extends DefinedObject {
@@ -9,7 +11,7 @@ public interface Localizer extends DefinedObject {
 
   void setLocale(Locale locale) throws LocalizerException;
 
-  Set<LocalizerBundle> getLocalizerBundleSet();
+  SortedSet<LocalizerBundle> getLocalizerBundleSet();
 
   LocalizerType getLocalizerType(UID<LocalizerType> typeUid);
 

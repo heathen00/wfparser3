@@ -1,6 +1,7 @@
 package com.ht.l10n;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
@@ -51,6 +52,17 @@ public final class Assert {
   }
 
   private Assert() {}
+
+  public void assertSetIsUnmodifiable(Set<?> unmodifiableSet) {
+    assertNotNull(unmodifiableSet);
+    boolean isModifiable = true;
+    try {
+      unmodifiableSet.clear();
+    } catch (UnsupportedOperationException uoe) {
+      isModifiable = false;
+    }
+    assertFalse(isModifiable);
+  }
 
   public void assertExpectedLocalizerBundle(Locale expectedTargetLocale,
       Locale expectedResolvedLocale, final String expectedResourceBundleName,
@@ -118,6 +130,7 @@ public final class Assert {
     assertNotNull(localizerType.getUid());
     assertEquals(expectedUidKey, localizerType.getUid().getKey());
     assertEquals(expectedIsDefined, localizerType.isDefined());
+    assertSetIsUnmodifiable(localizerType.getLocalizerFieldKeySet());
   }
 
   public void assertExpectedLocalizer(Locale expectedLocale, boolean expectedIsDefined,
@@ -125,5 +138,8 @@ public final class Assert {
     assertNotNull(localizer);
     assertEquals(expectedLocale, localizer.getLocale());
     assertEquals(expectedIsDefined, localizer.isDefined());
+    assertSetIsUnmodifiable(localizer.getLocalizerBundleSet());
+    assertSetIsUnmodifiable(localizer.getLocalizerFieldKeySet());
+    assertSetIsUnmodifiable(localizer.getLocalizerTypeKeySet());
   }
 }

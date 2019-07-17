@@ -44,4 +44,9 @@ final class UndefinedLocalizerBundleInternalImp implements LocalizerBundleIntern
 
   @Override
   public void loadL10nResource(Locale locale) {}
+
+  @Override
+  public int compareTo(LocalizerBundle o) {
+    return getResourceBundleName().compareTo(o.getResourceBundleName());
+  }
 }

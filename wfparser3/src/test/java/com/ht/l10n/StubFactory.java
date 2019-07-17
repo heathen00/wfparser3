@@ -3,9 +3,10 @@ package com.ht.l10n;
 import com.ht.common.UID;
 
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 public final class StubFactory {
   private static final StubFactory STUB_FACTORY_SINGLETON = new StubFactory();
@@ -86,10 +87,10 @@ public final class StubFactory {
 
   public Localizer createDefaultStubLocalizer() {
     return new LocalizerInternal() {
-      final Set<LocalizerBundle> myLocalizerBundleSet = initLocalizerBundleSet();
+      final SortedSet<LocalizerBundle> myLocalizerBundleSet = initLocalizerBundleSet();
 
-      private Set<LocalizerBundle> initLocalizerBundleSet() {
-        Set<LocalizerBundle> localizerBundleSet = new HashSet<>();
+      private SortedSet<LocalizerBundle> initLocalizerBundleSet() {
+        SortedSet<LocalizerBundle> localizerBundleSet = new TreeSet<>();
         localizerBundleSet.add(createDefaultStubLocalizerBundle());
         return localizerBundleSet;
       }
@@ -125,8 +126,8 @@ public final class StubFactory {
       }
 
       @Override
-      public Set<LocalizerBundle> getLocalizerBundleSet() {
-        return Collections.unmodifiableSet(myLocalizerBundleSet);
+      public SortedSet<LocalizerBundle> getLocalizerBundleSet() {
+        return Collections.unmodifiableSortedSet(myLocalizerBundleSet);
       }
 
       @Override
@@ -191,6 +192,11 @@ public final class StubFactory {
 
       @Override
       public void loadL10nResource(Locale locale) {}
+
+      @Override
+      public int compareTo(LocalizerBundle o) {
+        return 0;
+      }
     };
   }
 
