@@ -150,8 +150,7 @@ There are a number of problems with the localization implementation I currently 
      implementation is to ensure there are no unneeded exceptions during runtime.
    * What should happen if you try and create a localizer bundle/type/field that is not unique?  Error?  Return
      reference to already existing type?
-   * Maybe remove the ability to get the component from the UID: getComponent().
-   * What happens when you add the same bundle, key, or field multiple times? Not sure if
+   * What happens when you add the same bundle, type, or field multiple times? Not sure if
      these scenarios tested sufficiently.
    * WARNING: There could be overlap between different fields that LOOK distinct based on how the
      types and fields are named.  That is, the LocalizerType and LocalizerField instances are all
@@ -189,11 +188,6 @@ There are a number of problems with the localization implementation I currently 
      if they are external implementations, then their data MUST be sanitized before copying.
      
 HERE:
-   * What happens if you try and add LocalizerBundle or LocalizerType instances to the undefined
-     Localizer instance, or LocalizerField instances to the undefined LocalizerType?  You didn't
-     cover those cases in the tests.  You must, and maybe as unit tests since the undefined
-     structure is an implementation detail, though some of the undefined instances are visible to
-     clients.
      
      
 ## Rough Notes

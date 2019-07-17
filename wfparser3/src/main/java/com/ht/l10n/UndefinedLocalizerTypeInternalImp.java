@@ -75,7 +75,8 @@ final class UndefinedLocalizerTypeInternalImp implements LocalizerTypeInternal {
   @Override
   public LocalizerFieldInternal addLocalizerFieldInternal(
       LocalizerFieldInternal localizerFieldInternal) {
-    return localizerFieldInternal;
+    throw new UnsupportedOperationException(
+        "cannot add localizer field to undefined localizer type");
   }
 
   @Override

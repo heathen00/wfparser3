@@ -73,12 +73,12 @@ final class UndefinedLocalizerInternalImp implements LocalizerInternal {
   @Override
   public LocalizerBundleInternal addLocalizerBundleInternal(
       LocalizerBundleInternal localizerBundleInternal) {
-    return localizerBundleInternal;
+    throw new UnsupportedOperationException("cannot add localizer bundle to undefined localizer");
   }
 
   @Override
   public LocalizerTypeInternal addLocalizerTypeInternal(
       LocalizerTypeInternal localizerTypeInternal) {
-    return localizerTypeInternal;
+    throw new UnsupportedOperationException("cannot add localizer type to undefined localizer");
   }
 }
