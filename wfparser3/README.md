@@ -167,7 +167,6 @@ There are a number of problems with the localization implementation I currently 
      to be visible in the published API.
    * You should go through the implementation and mark method parameters as final to indicate that none of
      them will be modified.
-   * search for TODO items in the code and complete them.
    * You should also just look through the code for instances of duplication and remove them using
      inheritance, pulling out duplicate code into its own class and use composition, instead.
    * There is some mention above about what happens if multiple of one or another LocalizerXXX
@@ -180,14 +179,15 @@ There are a number of problems with the localization implementation I currently 
      imply that some modules should be cached by the Factory which in turn implies that the
      Factory should be a singleton.  I think it is already, but double check.  How do you test
      this, though?
+     
+HERE:
+
    * There are some cases where the implementation needs to cast from a published API, for example,
      a Localizer, to the internal API, e.g. LocalizerInternal.  You should refactor these casts so
      that they are safe casts.  First check to see if they are instances of the LocalizerInternal
      then cast, and if not, then the instance is likely some external implementation and it should
      be copied into a proper value object to maintain the internal integrity of the solution.  NOTE,
      if they are external implementations, then their data MUST be sanitized before copying.
-     
-HERE:
      
      
 ## Rough Notes

@@ -249,4 +249,22 @@ public class FactoryUnitTest {
     localizerAssert.assertExpectedLocalizerBundle(expectedTargetLocale, expectedResolvedLocale,
         expectedResourceBundleName, expectedIsDefined, localizerInternal, localizerBundle);
   }
+
+  // Motivation: The Localizer and LocalizerType are both passed in as parameters to the Factory
+  // create
+  // methods. It is possible for the client to have implemented its own Localizer and LocalizerType
+  // classes and passed them in. Simply using these externally implemented parameters without
+  // checking first would cause unexpected behaviour. These external implementations may break the
+  // implementation contracts, such as the value object pattern. Alternatively, checking to ensure
+  // that these parameters are valid and copying them may also cause unintended side effects for
+  // example creating/introducing unknown Localizers or LocalizerTypes into the system. However,
+  // if the externally implemented types could be resolved to a unique instance of Localizer or
+  // LocalizerType, that may be acceptable. This implies that I need some way to uniquely identify
+  // the Localizer and LocalizerType instances. This is trivial for LocalizerType since each
+  // instance already has a UID. I will need to do the same for Localizer, though. This in turn
+  // implies that I need some means to retrieve known Localizer instances. For this, I'll likely
+  // introduce a System object where both the Factory and list of Localizer instances can be found.
+  // TODO implement the localizer data find and link for Localizer and LocalizerType.
+  // TODO implement the safe copy functionality using the find and link functionality.
+
 }
