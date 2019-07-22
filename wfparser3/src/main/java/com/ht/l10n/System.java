@@ -14,4 +14,6 @@ public interface System {
   Set<UID<Localizer>> getLocalizerKeySet();
 
   Localizer getLocalizer(UID<Localizer> localizerUid);
+
+  void resetAll();
 }

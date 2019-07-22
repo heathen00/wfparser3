@@ -363,4 +363,8 @@ public final class StubFactory {
       }
     };
   }
+
+  public Localizer createUndefinedLocalizer() {
+    return SystemInternal.getSystemInternal().getFactoryInternal().createUndefinedLocalizer();
+  }
 }

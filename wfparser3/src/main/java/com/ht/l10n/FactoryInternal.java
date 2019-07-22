@@ -1,7 +1,10 @@
 package com.ht.l10n;
 
+import com.ht.common.UID;
+
 import java.util.Locale;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 interface FactoryInternal extends Factory {
   LocalizerInternal createLocalizerInternal(String name, Locale locale) throws LocalizerException;
@@ -18,4 +21,10 @@ interface FactoryInternal extends Factory {
 
   ResourceBundle createResourceBundleForLocalizerBundle(String resourceBundleName,
       Locale targetLocale) throws LocalizerException;
+
+  Set<UID<Localizer>> getLocalizerKeySet();
+
+  Localizer getLocalizer(UID<Localizer> localizerUid);
+
+  void resetAll();
 }

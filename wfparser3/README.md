@@ -172,6 +172,9 @@ There are a number of problems with the localization implementation I currently 
    * the checks in the Factory for guarding the naming convention should NOT be checking for null.
      Instead, there should be a separate "guardNotNull(String parameterName, Object parameter)"
      method that checks to ensure the parameter is not null ... as the name implies.
+   * You should rename all methods in all published and internal interfaces that are similar to
+     getLocalizerKeySet() to something more consistent with the return type, so like:
+     getLocalizerUidSet().
 
      
 HERE:

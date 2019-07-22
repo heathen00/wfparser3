@@ -1,13 +1,21 @@
 package com.ht.l10n;
 
+import com.ht.common.UID;
+
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 final class FactoryInternalImp implements FactoryInternal {
+  private final Map<UID<Localizer>, LocalizerInternal> localizerInternalMap;
   private final LocalizerInternal undefinedLocalizer;
 
   FactoryInternalImp() {
+    localizerInternalMap = new HashMap<>();
     undefinedLocalizer = new UndefinedLocalizerInternalImp();
   }
 
@@ -54,7 +62,9 @@ final class FactoryInternalImp implements FactoryInternal {
     if (null == locale) {
       throw new NullPointerException("locale constructor parameter cannot be null");
     }
-    return new LocalizerInternalImp(this, name, locale);
+    LocalizerInternal localizerInternal = new LocalizerInternalImp(this, name, locale);
+    localizerInternalMap.put(localizerInternal.getUid(), localizerInternal);
+    return localizerInternal;
   }
 
   @Override
@@ -157,5 +167,27 @@ final class FactoryInternalImp implements FactoryInternal {
       throw new LocalizerException(mre);
     }
     return resourceBundle;
+  }
+
+  @Override
+  public Set<UID<Localizer>> getLocalizerKeySet() {
+    return Collections.unmodifiableSet(localizerInternalMap.keySet());
+  }
+
+  @Override
+  public Localizer getLocalizer(UID<Localizer> localizerUid) {
+    if (null == localizerUid) {
+      throw new NullPointerException("localizerUid cannot be null");
+    }
+    LocalizerInternal localizerInternal = localizerInternalMap.get(localizerUid);
+    if (null == localizerInternal) {
+      localizerInternal = createUndefinedLocalizer();
+    }
+    return localizerInternal;
+  }
+
+  @Override
+  public void resetAll() {
+    localizerInternalMap.clear();
   }
 }
