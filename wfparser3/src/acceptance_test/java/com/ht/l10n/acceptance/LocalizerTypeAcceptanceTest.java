@@ -10,6 +10,7 @@ import com.ht.l10n.Factory;
 import com.ht.l10n.LocalizerField;
 import com.ht.l10n.LocalizerType;
 import com.ht.l10n.StubFactory;
+import com.ht.l10n.System;
 
 import java.util.Arrays;
 import java.util.Set;
@@ -25,7 +26,7 @@ public class LocalizerTypeAcceptanceTest {
 
   @Before
   public void setup() {
-    localizerFactory = Factory.createFactory();
+    localizerFactory = System.getSystem().getFactory();
     stubFactory = StubFactory.createStubFactory();
     localizerAssert = Assert.createAssert();
   }

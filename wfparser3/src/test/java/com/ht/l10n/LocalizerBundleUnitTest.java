@@ -16,7 +16,7 @@ public class LocalizerBundleUnitTest {
 
   @Before
   public void setup() {
-    localizerFactory = FactoryInternal.createFactoryInternal();
+    localizerFactory = SystemInternal.getSystemInternal().getFactoryInternal();
     stubFactory = StubFactory.createStubFactory();
     localizerAssert = Assert.createAssert();
   }

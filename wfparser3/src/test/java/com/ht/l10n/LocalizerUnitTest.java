@@ -12,7 +12,7 @@ public class LocalizerUnitTest {
 
   @Before
   public void setUp() throws Exception {
-    localizerFactoryInternal = FactoryInternal.createFactoryInternal();
+    localizerFactoryInternal = SystemInternal.getSystemInternal().getFactoryInternal();
     localizerAssert = Assert.createAssert();
   }
 

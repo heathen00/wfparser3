@@ -3,10 +3,6 @@ package com.ht.l10n;
 import java.util.Locale;
 
 public interface Factory {
-  static Factory createFactory() {
-    return FactoryInternal.createFactoryInternal();
-  }
-
   Localizer createLocalizer(Locale locale);
 
   LocalizerBundle createLocalizerBundle(Localizer localizer, String resourceBundleName)

@@ -11,6 +11,7 @@ import com.ht.l10n.LocalizerException;
 import com.ht.l10n.LocalizerField;
 import com.ht.l10n.LocalizerType;
 import com.ht.l10n.StubFactory;
+import com.ht.l10n.System;
 
 import java.util.Collections;
 import java.util.Locale;
@@ -27,7 +28,7 @@ public class FactoryAcceptanceTest {
 
   @Before
   public void setup() {
-    localizerFactory = Factory.createFactory();
+    localizerFactory = System.getSystem().getFactory();
     stubFactory = StubFactory.createStubFactory();
     localizerAssert = Assert.createAssert();
   }

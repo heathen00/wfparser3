@@ -9,6 +9,7 @@ import com.ht.l10n.Localizer;
 import com.ht.l10n.LocalizerBundle;
 import com.ht.l10n.LocalizerField;
 import com.ht.l10n.StubFactory;
+import com.ht.l10n.System;
 
 import java.util.Locale;
 
@@ -23,7 +24,7 @@ public class LocalizerBundleAcceptanceTest {
 
   @Before
   public void setup() {
-    localizerFactory = Factory.createFactory();
+    localizerFactory = System.getSystem().getFactory();
     stubFactory = StubFactory.createStubFactory();
     localizerAssert = Assert.createAssert();
   }

@@ -5,15 +5,9 @@ import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 final class FactoryInternalImp implements FactoryInternal {
-  private static final FactoryInternalImp FACTORY_SINGLETON = new FactoryInternalImp();
-
-  static FactoryInternalImp getFactorySingleton() {
-    return FACTORY_SINGLETON;
-  }
-
   private final LocalizerInternal undefinedLocalizer;
 
-  private FactoryInternalImp() {
+  FactoryInternalImp() {
     undefinedLocalizer = new UndefinedLocalizerInternalImp();
   }
 

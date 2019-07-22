@@ -38,7 +38,7 @@ public final class StubFactory {
 
       @Override
       public LocalizerFieldInternal getLocalizerFieldInternal(UID<LocalizerField> fieldUid) {
-        return FactoryInternal.createFactoryInternal().createUndefinedLocalizer()
+        return SystemInternal.getSystemInternal().getFactoryInternal().createUndefinedLocalizer()
             .getLocalizerTypeInternal(null).getLocalizerFieldInternal(null);
       }
 

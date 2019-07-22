@@ -4,10 +4,6 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 interface FactoryInternal extends Factory {
-  static FactoryInternal createFactoryInternal() {
-    return FactoryInternalImp.getFactorySingleton();
-  }
-
   LocalizerInternal createLocalizerInternal(Locale locale);
 
   LocalizerBundleInternal createTargetLocalizerBundle(LocalizerInternal localizer,

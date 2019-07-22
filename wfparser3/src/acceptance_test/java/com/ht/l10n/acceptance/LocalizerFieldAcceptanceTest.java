@@ -11,6 +11,7 @@ import com.ht.l10n.Factory;
 import com.ht.l10n.LocalizerField;
 import com.ht.l10n.LocalizerType;
 import com.ht.l10n.StubFactory;
+import com.ht.l10n.System;
 
 public class LocalizerFieldAcceptanceTest {
   private Factory localizerFactory;
@@ -18,7 +19,7 @@ public class LocalizerFieldAcceptanceTest {
 
   @Before
   public void setup() {
-    localizerFactory = Factory.createFactory();
+    localizerFactory = System.getSystem().getFactory();
     stubFactory = StubFactory.createStubFactory();
   }
 
