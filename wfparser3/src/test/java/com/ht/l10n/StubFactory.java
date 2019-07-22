@@ -85,6 +85,61 @@ public final class StubFactory {
     };
   }
 
+
+  public LocalizerType createExternalStubLocalizerType(String groupName, String typeName,
+      String instanceName) {
+    return new LocalizerType() {
+      private String myGroupName = groupName;
+      private String myTypeName = typeName;
+      private String myInstanceName = instanceName;
+
+      @Override
+      public boolean isDefined() {
+        return false;
+      }
+
+      @Override
+      public UID<LocalizerType> getUid() {
+        return UID.createUid(getFullyQualifiedName(), this);
+      }
+
+      @Override
+      public String getTypeName() {
+        return myTypeName;
+      }
+
+      @Override
+      public Set<UID<LocalizerField>> getLocalizerFieldKeySet() {
+        throw new UnsupportedOperationException("operation not supported by stub");
+      }
+
+      @Override
+      public LocalizerField getLocalizerField(UID<LocalizerField> fieldUid) {
+        throw new UnsupportedOperationException("operation not supported by stub");
+      }
+
+      @Override
+      public Localizer getLocalizer() {
+        throw new UnsupportedOperationException("operation not supported by stub");
+      }
+
+      @Override
+      public String getInstanceName() {
+        return myInstanceName;
+      }
+
+      @Override
+      public String getGroupName() {
+        return myGroupName;
+      }
+
+      @Override
+      public String getFullyQualifiedName() {
+        return String.join(".", myGroupName, myTypeName, myInstanceName);
+      }
+    };
+  }
+
   public Localizer createDefaultStubLocalizer() {
     return new LocalizerInternal() {
       final SortedSet<LocalizerBundle> myLocalizerBundleSet = initLocalizerBundleSet();
@@ -240,6 +295,51 @@ public final class StubFactory {
       @Override
       public boolean isDefined() {
         return false;
+      }
+    };
+  }
+
+  public Localizer createExternalStubLocalizer() {
+    return new Localizer() {
+
+      @Override
+      public boolean isDefined() {
+        return false;
+      }
+
+      @Override
+      public void setLocale(Locale locale) throws LocalizerException {
+        throw new UnsupportedOperationException("this operation not supported by stub");
+      }
+
+      @Override
+      public Set<UID<LocalizerType>> getLocalizerTypeKeySet() {
+        throw new UnsupportedOperationException("this operation not supported by stub");
+      }
+
+      @Override
+      public LocalizerType getLocalizerType(UID<LocalizerType> typeUid) {
+        throw new UnsupportedOperationException("this operation not supported by stub");
+      }
+
+      @Override
+      public Set<UID<LocalizerField>> getLocalizerFieldKeySet() {
+        throw new UnsupportedOperationException("this operation not supported by stub");
+      }
+
+      @Override
+      public LocalizerField getLocalizerField(UID<LocalizerField> fieldUid) {
+        throw new UnsupportedOperationException("this operation not supported by stub");
+      }
+
+      @Override
+      public SortedSet<LocalizerBundle> getLocalizerBundleSet() {
+        throw new UnsupportedOperationException("this operation not supported by stub");
+      }
+
+      @Override
+      public Locale getLocale() {
+        throw new UnsupportedOperationException("this operation not supported by stub");
       }
     };
   }

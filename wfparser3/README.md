@@ -147,11 +147,11 @@ There are a number of problems with the localization implementation I currently 
      against the configured localization and know EXACTLY where each field is defined AND be able to easily compare
      to ensure it is defined as expected.
    * Not sure I like using a checked exception.  Finish implementation and review.  The objective of the new Localizer
-     implementation is to ensure there are no unneeded exceptions during runtime.
-   * What should happen if you try and create a localizer bundle/type/field that is not unique?  Error?  Return
-     reference to already existing type?
-   * What happens when you add the same bundle, type, or field multiple times? Not sure if
-     these scenarios tested sufficiently.
+     implementation is to ensure there are no unneeded exceptions during runtime.  This also applies to casting errors.
+     From a reuse perspective, it makes more sense to use the standard, conventional Java casting exception instead
+     of rolling your own.  But, the API implementation must check itself, early, right when the object passed in by
+     the client to follow the "fail-fast" convention.  Thus the consequences of the bad client implementation are
+     determined earlier rather than later.
    * WARNING: There could be overlap between different fields that LOOK distinct based on how the
      types and fields are named.  That is, the LocalizerType and LocalizerField instances are all
      unique but the fully qualified names for the fields can be exactly the same.  Since it is the
@@ -169,6 +169,13 @@ There are a number of problems with the localization implementation I currently 
      them will be modified.
    * You should also just look through the code for instances of duplication and remove them using
      inheritance, pulling out duplicate code into its own class and use composition, instead.
+
+     
+HERE:
+   * What should happen if you try and create a localizer bundle/type/field that is not unique?  Error?  Return
+     reference to already existing type?
+   * What happens when you add the same bundle, type, or field multiple times? Not sure if
+     these scenarios tested sufficiently.  Check the existing test cases first.
    * There is some mention above about what happens if multiple of one or another LocalizerXXX
      instance is created.  You should consider carefully what the behaviour should be.  For
      example, it is conceivable that multiple client modules will use the same LocalizerBundle,
@@ -179,15 +186,6 @@ There are a number of problems with the localization implementation I currently 
      imply that some modules should be cached by the Factory which in turn implies that the
      Factory should be a singleton.  I think it is already, but double check.  How do you test
      this, though?
-     
-HERE:
-
-   * There are some cases where the implementation needs to cast from a published API, for example,
-     a Localizer, to the internal API, e.g. LocalizerInternal.  You should refactor these casts so
-     that they are safe casts.  First check to see if they are instances of the LocalizerInternal
-     then cast, and if not, then the instance is likely some external implementation and it should
-     be copied into a proper value object to maintain the internal integrity of the solution.  NOTE,
-     if they are external implementations, then their data MUST be sanitized before copying.
      
      
 ## Rough Notes

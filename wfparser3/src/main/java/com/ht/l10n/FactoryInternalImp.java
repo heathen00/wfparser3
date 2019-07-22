@@ -33,7 +33,15 @@ final class FactoryInternalImp implements FactoryInternal {
   @Override
   public LocalizerBundle createLocalizerBundle(Localizer localizer, String resourceBundleName)
       throws LocalizerException {
-    LocalizerInternal localizerInternal = (LocalizerInternal) localizer;
+    if (null == localizer) {
+      throw new NullPointerException("localizer constructor parameter cannot be null");
+    }
+    LocalizerInternal localizerInternal = null;
+    if (localizer instanceof LocalizerInternal) {
+      localizerInternal = (LocalizerInternal) localizer;
+    } else {
+      throw new LocalizerException("unknown Localizer implementation");
+    }
     LocalizerBundleInternal targetLocalizerBundle =
         createTargetLocalizerBundle(localizerInternal, resourceBundleName);
     LocalizerBundleInternal rootLocalizerBundle =
@@ -103,7 +111,12 @@ final class FactoryInternalImp implements FactoryInternal {
     guardNamingConvention("groupName", groupName);
     guardNamingConvention("typeName", typeName);
     guardNamingConvention("instanceName", instanceName);
-    LocalizerInternal localizerInternal = (LocalizerInternal) localizer;
+    LocalizerInternal localizerInternal = null;
+    if (localizer instanceof LocalizerInternal) {
+      localizerInternal = (LocalizerInternal) localizer;
+    } else {
+      throw new LocalizerException("unknown Localizer implementation");
+    }
     LocalizerTypeInternal localizerTypeInternal =
         new LocalizerTypeInternalImp(this, localizerInternal, groupName, typeName, instanceName);
     return localizerInternal.addLocalizerTypeInternal(localizerTypeInternal);
@@ -112,8 +125,16 @@ final class FactoryInternalImp implements FactoryInternal {
   @Override
   public LocalizerField createLocalizerField(LocalizerType localizerType, String fieldName)
       throws LocalizerException {
+    if (null == localizerType) {
+      throw new NullPointerException("localizerType constructor parameter cannot be nullF");
+    }
     guardNamingConvention("fieldName", fieldName);
-    LocalizerTypeInternal localizerTypeInternal = (LocalizerTypeInternal) localizerType;
+    LocalizerTypeInternal localizerTypeInternal = null;
+    if (localizerType instanceof LocalizerTypeInternal) {
+      localizerTypeInternal = (LocalizerTypeInternal) localizerType;
+    } else {
+      throw new LocalizerException("unknown LocalizerType implementation");
+    }
     LocalizerFieldInternal newLocalizerFieldInternal =
         new LocalizerFieldInternalImp((LocalizerTypeInternal) localizerType, fieldName);
     LocalizerFieldInternal existingLocalizerFieldInternal =

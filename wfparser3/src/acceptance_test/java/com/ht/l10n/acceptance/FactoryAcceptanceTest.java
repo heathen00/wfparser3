@@ -294,4 +294,30 @@ public class FactoryAcceptanceTest {
         expectedInstanceName, expectedLocalizerFieldKeySet, expectedLocalizer,
         expectedLocalizerTypeUid, expectedIsDefined, localizerType);
   }
+
+  @Test(expected = LocalizerException.class)
+  public void Factory_createLocalizerFieldWhereLocalizerTypeParameterIsUnknownExternalImplementation_localizerExceptionIsThrown()
+      throws Exception {
+    LocalizerType externalLocalizerType =
+        stubFactory.createExternalStubLocalizerType("some.group", "some.type", "some.instance");
+
+    localizerFactory.createLocalizerField(externalLocalizerType, "some.field");
+  }
+
+  @Test(expected = LocalizerException.class)
+  public void Factory_createLocalizerBundleWhereLocalizerTypeParameterIsUnknownExternalImplementation_localizerExceptionIsThrown()
+      throws Exception {
+    Localizer externalLocalizer = stubFactory.createExternalStubLocalizer();
+
+    localizerFactory.createLocalizerBundle(externalLocalizer, "com.does.not.Matter");
+  }
+
+  @Test(expected = LocalizerException.class)
+  public void Factory_createLocalizerTypeWhereLocalizerTypeParameterIsUnknownExternalImplementation_localizerExceptionIsThrown()
+      throws Exception {
+    Localizer externalLocalizer = stubFactory.createExternalStubLocalizer();
+
+    localizerFactory.createLocalizerType(externalLocalizer, "some.group", "some.type",
+        "some.instance");
+  }
 }
