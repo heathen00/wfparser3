@@ -4,7 +4,7 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 interface FactoryInternal extends Factory {
-  LocalizerInternal createLocalizerInternal(Locale locale);
+  LocalizerInternal createLocalizerInternal(String name, Locale locale) throws LocalizerException;
 
   LocalizerBundleInternal createTargetLocalizerBundle(LocalizerInternal localizer,
       String resourceBundleName) throws LocalizerException;

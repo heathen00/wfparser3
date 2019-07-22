@@ -12,14 +12,18 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 final class LocalizerInternalImp implements LocalizerInternal {
+  private final String name;
   private Locale locale;
   private final FactoryInternal factoryInternal;
   private final SortedSet<LocalizerBundle> localizerBundleSet;
   private final Map<UID<LocalizerType>, LocalizerTypeInternal> localizerTypeMap;
+  private final UID<Localizer> localizerUid;
 
-  public LocalizerInternalImp(FactoryInternal factoryInternal, Locale locale) {
+  public LocalizerInternalImp(FactoryInternal factoryInternal, String name, Locale locale) {
     this.factoryInternal = factoryInternal;
+    this.name = name;
     this.locale = locale;
+    localizerUid = UID.createUid(name, this);
     localizerBundleSet = new TreeSet<>();
     localizerTypeMap = new HashMap<>();
   }
@@ -111,5 +115,15 @@ final class LocalizerInternalImp implements LocalizerInternal {
       LocalizerTypeInternal localizerTypeInternal) {
     localizerTypeMap.put(localizerTypeInternal.getUid(), localizerTypeInternal);
     return localizerTypeInternal;
+  }
+
+  @Override
+  public String getName() {
+    return name;
+  }
+
+  @Override
+  public UID<Localizer> getUid() {
+    return localizerUid;
   }
 }

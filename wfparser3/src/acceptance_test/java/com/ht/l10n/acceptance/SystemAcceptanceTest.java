@@ -4,6 +4,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import com.ht.common.UID;
 import com.ht.l10n.Assert;
 import com.ht.l10n.Factory;
 import com.ht.l10n.Localizer;
@@ -41,7 +42,7 @@ public class SystemAcceptanceTest {
 
   @Test
   public void System_getLocalizerSetWhenNoLocalizersCreated_emptyLocalizerSetReturned() {
-    Set<Localizer> localizerSet = localizerSystem.getLocalizerSet();
+    Set<UID<Localizer>> localizerSet = localizerSystem.getLocalizerKeySet();
 
     assertTrue(localizerSet.isEmpty());
     localizerAssert.assertSetIsUnmodifiable(localizerSet);

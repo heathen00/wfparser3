@@ -206,6 +206,16 @@ public final class StubFactory {
           LocalizerTypeInternal localizerTypeInternal) {
         return localizerTypeInternal;
       }
+
+      @Override
+      public String getName() {
+        throw new UnsupportedOperationException("this operation not supported by stub");
+      }
+
+      @Override
+      public UID<Localizer> getUid() {
+        throw new UnsupportedOperationException("this operation not supported by stub");
+      }
     };
   }
 
@@ -339,6 +349,16 @@ public final class StubFactory {
 
       @Override
       public Locale getLocale() {
+        throw new UnsupportedOperationException("this operation not supported by stub");
+      }
+
+      @Override
+      public String getName() {
+        throw new UnsupportedOperationException("this operation not supported by stub");
+      }
+
+      @Override
+      public UID<Localizer> getUid() {
         throw new UnsupportedOperationException("this operation not supported by stub");
       }
     };

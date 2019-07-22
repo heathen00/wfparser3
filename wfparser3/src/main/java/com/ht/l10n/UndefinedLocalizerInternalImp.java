@@ -10,12 +10,16 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 final class UndefinedLocalizerInternalImp implements LocalizerInternal {
+  private final String undefinedName;
   private final Locale undefinedLocale;
   private final UndefinedLocalizerTypeInternalImp undefinedLocalizerTypeInternalImp;
   private final Set<UID<LocalizerType>> undefinedLocalizerTypeUidSet;
   private final SortedSet<LocalizerBundle> undefinedLocalizerBundleSet;
+  private final UID<Localizer> undefinedLocalizerUid;
 
   UndefinedLocalizerInternalImp() {
+    undefinedName = "UNDEFINED";
+    undefinedLocalizerUid = UID.createUid(undefinedName, this);
     final String undefinedLanguage = "xx";
     final String undefinedRegion = "ZZ";
     undefinedLocale =
@@ -80,5 +84,15 @@ final class UndefinedLocalizerInternalImp implements LocalizerInternal {
   public LocalizerTypeInternal addLocalizerTypeInternal(
       LocalizerTypeInternal localizerTypeInternal) {
     throw new UnsupportedOperationException("cannot add localizer type to undefined localizer");
+  }
+
+  @Override
+  public String getName() {
+    return undefinedName;
+  }
+
+  @Override
+  public UID<Localizer> getUid() {
+    return undefinedLocalizerUid;
   }
 }

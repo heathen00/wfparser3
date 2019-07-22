@@ -41,18 +41,39 @@ public class FactoryAcceptanceTest {
   }
 
   @Test(expected = NullPointerException.class)
-  public void Factory_createLocalizerWithNullLocale_nullPointerExceptionIsThrown() {
-    localizerFactory.createLocalizer(null);
+  public void Factory_createLocalizerWithNullName_nullPointerExceptionIsThrown() throws Exception {
+    localizerFactory.createLocalizer(null, Locale.CANADA_FRENCH);
+  }
+
+  @Test(expected = LocalizerException.class)
+  public void Factory_createLocalizerWithEmptyName_localizerExceptionIsThrown() throws Exception {
+    localizerFactory.createLocalizer("  /t", Locale.CANADA_FRENCH);
+  }
+
+  @Test(expected = LocalizerException.class)
+  public void Factory_createLocalizerWithInvalidCharactersInName_localizerExceptionIsThrown()
+      throws Exception {
+    localizerFactory.createLocalizer("This name__Is.inValid!\n", Locale.CANADA_FRENCH);
+  }
+
+  @Test(expected = NullPointerException.class)
+  public void Factory_createLocalizerWithNullLocale_nullPointerExceptionIsThrown()
+      throws Exception {
+    localizerFactory.createLocalizer("not.important", null);
   }
 
   @Test
-  public void Factory_createLocalizerWithLocale_localizeIsCreated() {
+  public void Factory_createLocalizerWithLocale_localizeIsCreated() throws Exception {
+    String expectedName = "localizer.name";
+    UID<Localizer> expectedLocalizerUid =
+        UID.createUid(expectedName, stubFactory.createDefaultStubLocalizer());
     Locale expectedLocale = Locale.CANADA_FRENCH;
     boolean expectedIsDefined = true;
 
-    Localizer localizer = localizerFactory.createLocalizer(expectedLocale);
+    Localizer localizer = localizerFactory.createLocalizer(expectedName, expectedLocale);
 
-    localizerAssert.assertExpectedLocalizer(expectedLocale, expectedIsDefined, localizer);
+    localizerAssert.assertExpectedLocalizer(expectedName, expectedLocalizerUid, expectedLocale,
+        expectedIsDefined, localizer);
   }
 
   @Test(expected = NullPointerException.class)
@@ -64,8 +85,8 @@ public class FactoryAcceptanceTest {
   @Test(expected = NullPointerException.class)
   public void Factory_createCompositeLocalizerBundleWithNullResourceBundleName_nullPointerExceptionIsThrown()
       throws Exception {
-    localizerFactory.createLocalizerBundle(localizerFactory.createLocalizer(Locale.CANADA_FRENCH),
-        null);
+    localizerFactory.createLocalizerBundle(
+        localizerFactory.createLocalizer("localizer.name", Locale.CANADA_FRENCH), null);
   }
 
   @Test
@@ -76,7 +97,7 @@ public class FactoryAcceptanceTest {
     final String expectedResourceBundleName =
         "com.ht.l10n.test.resource.TestL10ResourceBundleForCompositeResourceBundleWithRootLocaleAndNoExceptions";
     final boolean expectedIsDefined = true;
-    Localizer localizer = localizerFactory.createLocalizer(expectedTargetLocale);
+    Localizer localizer = localizerFactory.createLocalizer("localizer.name", expectedTargetLocale);
 
     LocalizerBundle localizerBundle =
         localizerFactory.createLocalizerBundle(localizer, expectedResourceBundleName);
@@ -90,7 +111,7 @@ public class FactoryAcceptanceTest {
       throws Exception {
     final String expectedResourceBundleName =
         "com.ht.l10n.test.resource.TestL10ResourceBundleForLocaleExistsButRootLocaleDoesNot";
-    Localizer localizer = localizerFactory.createLocalizer(Locale.CANADA_FRENCH);
+    Localizer localizer = localizerFactory.createLocalizer("localizer.name", Locale.CANADA_FRENCH);
 
     localizerFactory.createLocalizerBundle(localizer, expectedResourceBundleName);
   }

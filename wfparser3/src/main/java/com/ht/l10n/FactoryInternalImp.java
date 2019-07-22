@@ -48,16 +48,18 @@ final class FactoryInternalImp implements FactoryInternal {
   }
 
   @Override
-  public LocalizerInternal createLocalizerInternal(Locale locale) {
+  public LocalizerInternal createLocalizerInternal(String name, Locale locale)
+      throws LocalizerException {
+    guardNamingConvention("name", name);
     if (null == locale) {
       throw new NullPointerException("locale constructor parameter cannot be null");
     }
-    return new LocalizerInternalImp(this, locale);
+    return new LocalizerInternalImp(this, name, locale);
   }
 
   @Override
-  public Localizer createLocalizer(Locale locale) {
-    return createLocalizerInternal(locale);
+  public Localizer createLocalizer(String name, Locale locale) throws LocalizerException {
+    return createLocalizerInternal(name, locale);
   }
 
   @Override

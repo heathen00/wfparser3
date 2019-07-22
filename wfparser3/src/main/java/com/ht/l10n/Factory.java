@@ -3,7 +3,7 @@ package com.ht.l10n;
 import java.util.Locale;
 
 public interface Factory {
-  Localizer createLocalizer(Locale locale);
+  Localizer createLocalizer(String name, Locale locale) throws LocalizerException;
 
   LocalizerBundle createLocalizerBundle(Localizer localizer, String resourceBundleName)
       throws LocalizerException;

@@ -3,7 +3,8 @@ package com.ht.l10n;
 import com.ht.common.UID;
 
 import java.util.Collections;
-import java.util.HashSet;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 class SystemInternalImp implements SystemInternal {
@@ -14,11 +15,11 @@ class SystemInternalImp implements SystemInternal {
   }
 
   private FactoryInternal factoryInternal;
-  private Set<LocalizerInternal> localizerInternalSet;
+  private final Map<UID<Localizer>, Localizer> localizerInternalMap;
 
   private SystemInternalImp() {
     factoryInternal = new FactoryInternalImp();
-    localizerInternalSet = new HashSet<>();
+    localizerInternalMap = new HashMap<>();
   }
 
   @Override
@@ -32,8 +33,8 @@ class SystemInternalImp implements SystemInternal {
   }
 
   @Override
-  public Set<Localizer> getLocalizerSet() {
-    return Collections.unmodifiableSet(localizerInternalSet);
+  public Set<UID<Localizer>> getLocalizerKeySet() {
+    return Collections.unmodifiableSet(localizerInternalMap.keySet());
   }
 
   @Override

@@ -169,6 +169,9 @@ There are a number of problems with the localization implementation I currently 
      them will be modified.
    * You should also just look through the code for instances of duplication and remove them using
      inheritance, pulling out duplicate code into its own class and use composition, instead.
+   * the checks in the Factory for guarding the naming convention should NOT be checking for null.
+     Instead, there should be a separate "guardNotNull(String parameterName, Object parameter)"
+     method that checks to ensure the parameter is not null ... as the name implies.
 
      
 HERE:

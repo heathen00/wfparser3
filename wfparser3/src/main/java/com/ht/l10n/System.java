@@ -11,7 +11,7 @@ public interface System {
 
   Factory getFactory();
 
-  Set<Localizer> getLocalizerSet();
+  Set<UID<Localizer>> getLocalizerKeySet();
 
   Localizer getLocalizer(UID<Localizer> localizerUid);
 }

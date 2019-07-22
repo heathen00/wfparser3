@@ -78,7 +78,7 @@ public class LocalizerBundleUnitTest {
     final Locale expectedTargetLocale = Locale.CANADA_FRENCH;
     final Locale expectedResolvedLocale = Locale.ROOT;
     final LocalizerInternal localizerInternal =
-        localizerFactory.createLocalizerInternal(expectedTargetLocale);
+        localizerFactory.createLocalizerInternal("localizer.name", expectedTargetLocale);
     final String expectedResourceBundleName =
         "com.ht.l10n.test.resource.TestL10nRootLocaleResourceBundle";
     final boolean expectedIsDefined = true;
@@ -111,7 +111,7 @@ public class LocalizerBundleUnitTest {
   public void LocalizerBundle_getNonExistentUnformattedStringFromRootLocalizerBundle_localizerExceptionIsThrown()
       throws Exception {
     final LocalizerInternal localizerInternal =
-        localizerFactory.createLocalizerInternal(Locale.CANADA_FRENCH);
+        localizerFactory.createLocalizerInternal("localizer.name", Locale.CANADA_FRENCH);
     final String resourceBundleName = "com.ht.l10n.test.resource.TestL10nRootLocaleResourceBundle";
     final LocalizerField nonExistentUnformattedField =
         stubFactory.createStubLocalizerField("unformatted.does.not.exist", "one");
@@ -131,7 +131,7 @@ public class LocalizerBundleUnitTest {
   public void LocalizerBundle_getNonExistentformattedStringFromRootLocalizerBundle_localizerExceptionIsThrown()
       throws Exception {
     final LocalizerInternal localizerInternal =
-        localizerFactory.createLocalizerInternal(Locale.CANADA_FRENCH);
+        localizerFactory.createLocalizerInternal("localizer.name", Locale.CANADA_FRENCH);
     final String resourceBundleName = "com.ht.l10n.test.resource.TestL10nRootLocaleResourceBundle";
     final LocalizerField nonExistentFormattedField =
         stubFactory.createStubLocalizerField("formatted.does.not.exist", "one");
@@ -153,7 +153,7 @@ public class LocalizerBundleUnitTest {
     final Locale expectedTargetLocale = Locale.CANADA_FRENCH;
     final Locale expectedResolvedLocale = Locale.CANADA_FRENCH;
     final LocalizerInternal localizerInternal =
-        localizerFactory.createLocalizerInternal(expectedTargetLocale);
+        localizerFactory.createLocalizerInternal("localizer.name", expectedTargetLocale);
     final String resourceBundleName =
         "com.ht.l10n.test.resource.TestL10nResourceBundleForSpecifiedLocaleExists";
     final String expectedUnformattedString = "this is a test unformatted string for Locale fr_CA";
@@ -184,7 +184,7 @@ public class LocalizerBundleUnitTest {
   public void LocalizerBundle_getNonExistentUnformattedStringFromLocalizerBundleForLocale_localizerExceptionIsThrown()
       throws Exception {
     final LocalizerInternal localizerInternal =
-        localizerFactory.createLocalizerInternal(Locale.CANADA_FRENCH);
+        localizerFactory.createLocalizerInternal("localizer.name", Locale.CANADA_FRENCH);
     final String resourceBundleName =
         "com.ht.l10n.test.resource.TestL10nResourceBundleForSpecifiedLocaleExists";
     final LocalizerField nonExistentUnformattedField =
@@ -205,7 +205,7 @@ public class LocalizerBundleUnitTest {
   public void LocalizerBundle_getNonExistentformattedStringFromLocalizerBundleForLocale_localizerExceptionIsThrown()
       throws Exception {
     final LocalizerInternal localizerInternal =
-        localizerFactory.createLocalizerInternal(Locale.CANADA_FRENCH);
+        localizerFactory.createLocalizerInternal("localizer.name", Locale.CANADA_FRENCH);
     final String resourceBundleName =
         "com.ht.l10n.test.resource.TestL10nResourceBundleForSpecifiedLocaleExists";
     final LocalizerField nonExistentFormattedField =
@@ -228,7 +228,7 @@ public class LocalizerBundleUnitTest {
     final Locale expectedTargetLocale = Locale.CANADA_FRENCH;
     final Locale expectedResolvedLocale = Locale.FRENCH;
     final LocalizerInternal localizerInternal =
-        localizerFactory.createLocalizerInternal(expectedTargetLocale);
+        localizerFactory.createLocalizerInternal("localizer.name", expectedTargetLocale);
     final String resourceBundleName =
         "com.ht.l10n.test.resource.TestL10nResourceBundleForSimilarLocaleExists";
     final String expectedUnformattedString = "this is a test unformatted string for Locale fr";

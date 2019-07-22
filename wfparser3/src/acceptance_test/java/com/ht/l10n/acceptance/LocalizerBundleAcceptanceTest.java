@@ -41,7 +41,8 @@ public class LocalizerBundleAcceptanceTest {
       throws Exception {
     final Locale expectedTargetLocale = Locale.CANADA_FRENCH;
     final Locale expectedResolvedLocale = Locale.CANADA_FRENCH;
-    final Localizer expectedLocalizer = localizerFactory.createLocalizer(expectedTargetLocale);
+    final Localizer expectedLocalizer =
+        localizerFactory.createLocalizer("localizer.name", expectedTargetLocale);
     final String expectedResourceBundleName =
         "com.ht.l10n.test.resource.TestL10ResourceBundleForCompositeResourceBundleWithRootLocaleAndNoExceptions";
     final String expectedUnformattedString =
@@ -76,7 +77,8 @@ public class LocalizerBundleAcceptanceTest {
       throws Exception {
     final Locale expectedTargetLocale = Locale.CANADA_FRENCH;
     final Locale expectedResolvedLocale = Locale.CANADA_FRENCH;
-    final Localizer expectedLocalizer = localizerFactory.createLocalizer(expectedTargetLocale);
+    final Localizer expectedLocalizer =
+        localizerFactory.createLocalizer("localizer.name", expectedTargetLocale);
     final String expectedResourceBundleName =
         "com.ht.l10n.test.resource.TestL10ResourceBundleForCompositeResourceBundleWithRootLocaleAndNoExceptions";
     final String expectedUnformattedString =
@@ -111,7 +113,8 @@ public class LocalizerBundleAcceptanceTest {
       throws Exception {
     final Locale expectedTargetLocale = Locale.CANADA_FRENCH;
     final Locale expectedResolvedLocale = Locale.CANADA_FRENCH;
-    final Localizer expectedLocalizer = localizerFactory.createLocalizer(expectedTargetLocale);
+    final Localizer expectedLocalizer =
+        localizerFactory.createLocalizer("localizer.name", expectedTargetLocale);
     final String expectedResourceBundleName =
         "com.ht.l10n.test.resource.TestL10ResourceBundleForCompositeResourceBundleWithRootLocaleAndNoExceptions";
     final String expectedUnformattedString = "UNDEFINED";

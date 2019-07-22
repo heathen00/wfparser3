@@ -5,8 +5,9 @@ import java.util.Set;
 import java.util.SortedSet;
 
 import com.ht.common.UID;
+import com.ht.common.UniqueComponent;
 
-public interface Localizer extends DefinedObject {
+public interface Localizer extends UniqueComponent<Localizer>, DefinedObject {
   Locale getLocale();
 
   void setLocale(Locale locale) throws LocalizerException;
@@ -20,4 +21,6 @@ public interface Localizer extends DefinedObject {
   LocalizerField getLocalizerField(UID<LocalizerField> fieldUid);
 
   Set<UID<LocalizerField>> getLocalizerFieldKeySet();
+
+  String getName();
 }

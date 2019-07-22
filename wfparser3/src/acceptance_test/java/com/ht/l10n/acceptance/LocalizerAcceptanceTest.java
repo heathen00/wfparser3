@@ -10,6 +10,7 @@ import com.ht.l10n.Assert;
 import com.ht.l10n.Factory;
 import com.ht.l10n.Localizer;
 import com.ht.l10n.LocalizerBundle;
+import com.ht.l10n.LocalizerException;
 import com.ht.l10n.LocalizerField;
 import com.ht.l10n.LocalizerType;
 import com.ht.l10n.StubFactory;
@@ -45,27 +46,33 @@ public class LocalizerAcceptanceTest {
 
   @Test(expected = NullPointerException.class)
   public void Localizer_setLocaleToNull_nullPointerExceptionIsThrown() throws Exception {
-    Localizer localize = localizerFactory.createLocalizer(Locale.CHINESE);
+    Localizer localize = localizerFactory.createLocalizer("localizer.name", Locale.CHINESE);
     localize.setLocale(null);
   }
 
   @Test
   public void Localizer_setLocaleToANewLocale_localeChangedToNewLocale() throws Exception {
+    final String expectedName = "localizer.name";
+    final UID<Localizer> expectedLocalizerUid =
+        UID.createUid(expectedName, stubFactory.createDefaultStubLocalizer());
     final Locale originalLocale = Locale.CHINESE;
     final Locale newLocale = Locale.CANADA_FRENCH;
     final boolean expectedIsDefined = true;
-    Localizer localizer = localizerFactory.createLocalizer(originalLocale);
+    Localizer localizer = localizerFactory.createLocalizer(expectedName, originalLocale);
 
-    localizerAssert.assertExpectedLocalizer(originalLocale, expectedIsDefined, localizer);
+    localizerAssert.assertExpectedLocalizer(expectedName, expectedLocalizerUid, originalLocale,
+        expectedIsDefined, localizer);
 
     localizer.setLocale(newLocale);
 
-    localizerAssert.assertExpectedLocalizer(newLocale, expectedIsDefined, localizer);
+    localizerAssert.assertExpectedLocalizer(expectedName, expectedLocalizerUid, newLocale,
+        expectedIsDefined, localizer);
   }
 
   @Test
-  public void Localizer_getLocalizerBundleSetWhenNoLocalizerBundlesAdded_emptySetIsReturned() {
-    Localizer localizer = localizerFactory.createLocalizer(Locale.CANADA_FRENCH);
+  public void Localizer_getLocalizerBundleSetWhenNoLocalizerBundlesAdded_emptySetIsReturned()
+      throws Exception {
+    Localizer localizer = localizerFactory.createLocalizer("localizer.name", Locale.CANADA_FRENCH);
 
     assertNotNull(localizer);
     assertTrue(localizer.getLocalizerBundleSet().isEmpty());
@@ -74,7 +81,7 @@ public class LocalizerAcceptanceTest {
   @Test
   public void Localizer_getLocalizerBundleSetWhenLocalizerBundlesAdded_allAddedLocalizerBundlesArePresent()
       throws Exception {
-    Localizer localizer = localizerFactory.createLocalizer(Locale.CANADA_FRENCH);
+    Localizer localizer = localizerFactory.createLocalizer("localizer.name", Locale.CANADA_FRENCH);
     final LocalizerBundle expectedLocalizerBundle00 = localizerFactory
         .createLocalizerBundle(localizer, "com.ht.l10n.test.resource.TestResourceBundle00");
     final LocalizerBundle expectedLocalizerBundle01 = localizerFactory
@@ -102,8 +109,9 @@ public class LocalizerAcceptanceTest {
   }
 
   @Test(expected = NullPointerException.class)
-  public void Localizer_getLocalizerTypeWithNullParameter_nullPointerExceptionIsThrown() {
-    Localizer localizer = localizerFactory.createLocalizer(Locale.CANADA_FRENCH);
+  public void Localizer_getLocalizerTypeWithNullParameter_nullPointerExceptionIsThrown()
+      throws Exception {
+    Localizer localizer = localizerFactory.createLocalizer("localizer.name", Locale.CANADA_FRENCH);
 
     localizer.getLocalizerType(null);
   }
@@ -111,11 +119,12 @@ public class LocalizerAcceptanceTest {
   @Test
   public void Localizer_getLocalizerTypeForNonExistentLocalizerType_undefinedLocalizerTypeIsReturned()
       throws Exception {
-    Localizer someOtherLocalizer = localizerFactory.createLocalizer(Locale.CANADA_FRENCH);
+    Localizer someOtherLocalizer =
+        localizerFactory.createLocalizer("localizer.name", Locale.CANADA_FRENCH);
     LocalizerType someOtherocalizerType = localizerFactory.createLocalizerType(someOtherLocalizer,
         "test.group", "test.type", "test.instance");
     UID<LocalizerType> localizerTypeUid = someOtherocalizerType.getUid();
-    Localizer localizer = localizerFactory.createLocalizer(Locale.CANADA_FRENCH);
+    Localizer localizer = localizerFactory.createLocalizer("localizer.name", Locale.CANADA_FRENCH);
 
     LocalizerType localizerType = localizer.getLocalizerType(localizerTypeUid);
 
@@ -126,7 +135,7 @@ public class LocalizerAcceptanceTest {
   @Test
   public void Localizer_getLocalizerTypeForExistentLocalizerType_requestedLocalizerTypeIsReturned()
       throws Exception {
-    Localizer localizer = localizerFactory.createLocalizer(Locale.CANADA_FRENCH);
+    Localizer localizer = localizerFactory.createLocalizer("localizer.name", Locale.CANADA_FRENCH);
     LocalizerType expectedLocalizerType =
         localizerFactory.createLocalizerType(localizer, "test.group", "test.type", "test.instance");
 
@@ -137,8 +146,9 @@ public class LocalizerAcceptanceTest {
   }
 
   @Test
-  public void Localizer_getLocalizerTypeKeySetWhenNoLocalizerTypesAdded_emptySetIsReturned() {
-    Localizer localizer = localizerFactory.createLocalizer(Locale.CANADA_FRENCH);
+  public void Localizer_getLocalizerTypeKeySetWhenNoLocalizerTypesAdded_emptySetIsReturned()
+      throws LocalizerException {
+    Localizer localizer = localizerFactory.createLocalizer("localizer.name", Locale.CANADA_FRENCH);
 
     assertNotNull(localizer.getLocalizerTypeKeySet());
     assertTrue(localizer.getLocalizerTypeKeySet().isEmpty());
@@ -147,7 +157,7 @@ public class LocalizerAcceptanceTest {
   @Test
   public void Localizer_getLocalizerTypeKeySetWhenLocalizerTypesAdded_allAddedLocalizerTypesKeysArePresent()
       throws Exception {
-    Localizer localizer = localizerFactory.createLocalizer(Locale.CANADA_FRENCH);
+    Localizer localizer = localizerFactory.createLocalizer("localizer.name", Locale.CANADA_FRENCH);
     LocalizerType expectedLocalizerType00 = localizerFactory.createLocalizerType(localizer,
         "test.group", "test.type", "test.intance.00");
     LocalizerType expectedLocalizerType01 = localizerFactory.createLocalizerType(localizer,
@@ -168,8 +178,9 @@ public class LocalizerAcceptanceTest {
   }
 
   @Test(expected = NullPointerException.class)
-  public void Localizer_getLocalizerFieldWithNullParameter_nullPointerExceptionIsThrown() {
-    Localizer localizer = localizerFactory.createLocalizer(Locale.CANADA_FRENCH);
+  public void Localizer_getLocalizerFieldWithNullParameter_nullPointerExceptionIsThrown()
+      throws Exception {
+    Localizer localizer = localizerFactory.createLocalizer("localizer.name", Locale.CANADA_FRENCH);
 
     localizer.getLocalizerField(null);
   }
@@ -177,12 +188,13 @@ public class LocalizerAcceptanceTest {
   @Test
   public void Localizer_getLocalizerFieldForNonExistentLocalizerField_undefinedLocalizerFieldIsReturned()
       throws Exception {
-    Localizer someOtherLocalizer = localizerFactory.createLocalizer(Locale.CANADA_FRENCH);
+    Localizer someOtherLocalizer =
+        localizerFactory.createLocalizer("localizer.name", Locale.CANADA_FRENCH);
     LocalizerType someOtherLocalizerType = localizerFactory.createLocalizerType(someOtherLocalizer,
         "other.group", "other.type", "other.instance");
     LocalizerField someOtherLocalizerField =
         localizerFactory.createLocalizerField(someOtherLocalizerType, "other.field");
-    Localizer localizer = localizerFactory.createLocalizer((Locale.CANADA_FRENCH));
+    Localizer localizer = localizerFactory.createLocalizer("localizer.name", Locale.CANADA_FRENCH);
 
     LocalizerField localizerField = localizer.getLocalizerField(someOtherLocalizerField.getUid());
 
@@ -193,7 +205,7 @@ public class LocalizerAcceptanceTest {
   @Test
   public void Localizer_getLocalizerFieldForExistentLocalizerField_requestedLocalizerFieldIsReturned()
       throws Exception {
-    Localizer localizer = localizerFactory.createLocalizer(Locale.CANADA_FRENCH);
+    Localizer localizer = localizerFactory.createLocalizer("localizer.name", Locale.CANADA_FRENCH);
     LocalizerType localizerType = localizerFactory.createLocalizerType(localizer, "test.group",
         "test.type", "test.instance.00");
     LocalizerField expectedLocalizerField =
@@ -208,7 +220,7 @@ public class LocalizerAcceptanceTest {
   @Test
   public void Localizer_addLocalizerFieldsWithSameFieldNameButDifferntLocalizerTypesAndGetBothLocalizerFields_bothRequestedLocalizerFieldsAreReturned()
       throws Exception {
-    Localizer localizer = localizerFactory.createLocalizer(Locale.CANADA_FRENCH);
+    Localizer localizer = localizerFactory.createLocalizer("localizer.name", Locale.CANADA_FRENCH);
     LocalizerType localizerType00 = localizerFactory.createLocalizerType(localizer, "test.group",
         "test.type", "test.instance.00");
     LocalizerField localizerField00 =
@@ -229,7 +241,7 @@ public class LocalizerAcceptanceTest {
   @Test
   public void Localizer_getLocalizerFieldKeySetWhenLocalizerKeysButNoLocalizerFields_emptySetIsReturned()
       throws Exception {
-    Localizer localizer = localizerFactory.createLocalizer(Locale.CANADA_FRENCH);
+    Localizer localizer = localizerFactory.createLocalizer("localizer.name", Locale.CANADA_FRENCH);
     localizerFactory.createLocalizerType(localizer, "test.group", "test.type", "test.instance.00");
     localizerFactory.createLocalizerType(localizer, "test.group", "test.type", "test.instance.01");
     localizerFactory.createLocalizerType(localizer, "test.group", "test.type", "test.instance.02");
@@ -241,8 +253,9 @@ public class LocalizerAcceptanceTest {
   }
 
   @Test
-  public void Localizer_getLocalizerFieldKeySetWhenNoLocalizerKeysAndNoLocalizerFields_emptySetIsReturned() {
-    Localizer localizer = localizerFactory.createLocalizer(Locale.CANADA_FRENCH);
+  public void Localizer_getLocalizerFieldKeySetWhenNoLocalizerKeysAndNoLocalizerFields_emptySetIsReturned()
+      throws Exception {
+    Localizer localizer = localizerFactory.createLocalizer("localizer.name", Locale.CANADA_FRENCH);
 
     Set<UID<LocalizerField>> localizerFieldUidSet = localizer.getLocalizerFieldKeySet();
 
@@ -253,7 +266,7 @@ public class LocalizerAcceptanceTest {
   @Test
   public void Localizer_getLocalizerFieldKeySetWhenLocalizerFieldsForLocalizerTypesAdded_allLocalizerFieldsForAllLocalizerTypesAreReturned()
       throws Exception {
-    Localizer localizer = localizerFactory.createLocalizer(Locale.CANADA_FRENCH);
+    Localizer localizer = localizerFactory.createLocalizer("localizer.name", Locale.CANADA_FRENCH);
     LocalizerType localizerType00 = localizerFactory.createLocalizerType(localizer, "test.group",
         "test.type", "test.instance.00");
     LocalizerField localizerField00 =
@@ -279,7 +292,7 @@ public class LocalizerAcceptanceTest {
       throws Exception {
     Locale startingLocale = Locale.ENGLISH;
     Locale expectedLocale = Locale.CANADA_FRENCH;
-    Localizer localizer = localizerFactory.createLocalizer(startingLocale);
+    Localizer localizer = localizerFactory.createLocalizer("localizer.name", startingLocale);
     LocalizerBundle localizerBundle = localizerFactory.createLocalizerBundle(localizer,
         "com.ht.l10n.test.resource.TestL10nResourceBundleChangeToExistingLocale");
     assertNotNull(localizerBundle);
@@ -297,7 +310,7 @@ public class LocalizerAcceptanceTest {
       throws Exception {
     final Locale startingLocale = Locale.ENGLISH;
     final Locale expectedLocale = Locale.CANADA_FRENCH;
-    final Localizer localizer = localizerFactory.createLocalizer(startingLocale);
+    final Localizer localizer = localizerFactory.createLocalizer("localizer.name", startingLocale);
     final String localizerBundleName00 =
         "com.ht.l10n.test.resource.TestL10nResourceBundleTestMultiple00";
     final String localizerBundleName01 =
