@@ -180,9 +180,6 @@ There are a number of problems with the localization implementation I currently 
      It would make setting up tests easier.  You could wrap ResourceBundle in your own type that explicitly
      states the ResourceBundle functionality that the system uses.  And test your ResourceBundle's
      integration with the Java ResourceBundle functionality explicitly.
-   * I don't like having a "common" package, as in "com.ht.common".  It is semantically equivalent
-     to "miscellaneous".  The current "common" package should be renamed to "com.ht.uid" and ONLY
-     contain functionality related to the reused UID functionality.
    * I want to create another small subsystem in a package called "com.ht.guard" that provides
      reusable guard code that can be used throughout all other subsystems, but I am having a
      difficult time figuring out how to structure the code so that the guard code supports optionally

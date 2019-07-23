@@ -2,7 +2,6 @@ package com.ht.l10n.acceptance;
 
 import static org.junit.Assert.assertNotNull;
 
-import com.ht.common.UID;
 import com.ht.l10n.Assert;
 import com.ht.l10n.Factory;
 import com.ht.l10n.Localizer;
@@ -12,6 +11,7 @@ import com.ht.l10n.LocalizerField;
 import com.ht.l10n.LocalizerType;
 import com.ht.l10n.StubFactory;
 import com.ht.l10n.System;
+import com.ht.uid.UID;
 
 import java.util.Collections;
 import java.util.Locale;

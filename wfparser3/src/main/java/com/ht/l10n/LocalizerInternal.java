@@ -1,6 +1,6 @@
 package com.ht.l10n;
 
-import com.ht.common.UID;
+import com.ht.uid.UID;
 
 interface LocalizerInternal extends Localizer {
 

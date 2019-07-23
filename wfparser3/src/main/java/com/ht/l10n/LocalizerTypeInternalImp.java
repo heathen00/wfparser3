@@ -1,10 +1,11 @@
 package com.ht.l10n;
 
+import com.ht.uid.UID;
+
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-import com.ht.common.UID;
 
 final class LocalizerTypeInternalImp implements LocalizerTypeInternal {
   private final FactoryInternal factoryInternal;

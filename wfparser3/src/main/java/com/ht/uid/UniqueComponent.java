@@ -1,4 +1,4 @@
-package com.ht.common;
+package com.ht.uid;
 
 /**
  * Base interface that must be extended by any message component that needs to be uniquely

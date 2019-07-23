@@ -1,8 +1,9 @@
 package com.ht.l10n;
 
+import com.ht.uid.UID;
+import com.ht.uid.UniqueComponent;
+
 import java.util.Set;
-import com.ht.common.UID;
-import com.ht.common.UniqueComponent;
 
 public interface LocalizerType extends UniqueComponent<LocalizerType>, DefinedObject {
   Localizer getLocalizer();

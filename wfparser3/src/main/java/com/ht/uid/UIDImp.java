@@ -1,4 +1,4 @@
-package com.ht.common;
+package com.ht.uid;
 
 final class UIDImp<T> implements UID<T> {
   private final T component;

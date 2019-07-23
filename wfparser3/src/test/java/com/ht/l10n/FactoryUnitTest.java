@@ -2,7 +2,7 @@ package com.ht.l10n;
 
 import static org.junit.Assert.assertNotNull;
 
-import com.ht.common.UID;
+import com.ht.uid.UID;
 
 import java.util.Locale;
 

@@ -1,11 +1,11 @@
 package com.ht.l10n;
 
+import com.ht.uid.UID;
+import com.ht.uid.UniqueComponent;
+
 import java.util.Locale;
 import java.util.Set;
 import java.util.SortedSet;
-
-import com.ht.common.UID;
-import com.ht.common.UniqueComponent;
 
 public interface Localizer extends UniqueComponent<Localizer>, DefinedObject {
   Locale getLocale();

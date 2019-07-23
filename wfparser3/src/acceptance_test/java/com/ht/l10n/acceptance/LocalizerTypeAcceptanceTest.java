@@ -4,13 +4,13 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import com.ht.common.UID;
 import com.ht.l10n.Assert;
 import com.ht.l10n.Factory;
 import com.ht.l10n.LocalizerField;
 import com.ht.l10n.LocalizerType;
 import com.ht.l10n.StubFactory;
 import com.ht.l10n.System;
+import com.ht.uid.UID;
 
 import java.util.Arrays;
 import java.util.Set;

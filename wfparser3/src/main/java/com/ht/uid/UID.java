@@ -1,4 +1,4 @@
-package com.ht.common;
+package com.ht.uid;
 
 /**
  * The unique identity is used by all modules that extend the UniqueComponent interface to provide a

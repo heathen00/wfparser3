@@ -1,6 +1,6 @@
 package com.ht.l10n;
 
-import com.ht.common.UID;
+import com.ht.uid.UID;
 
 final class UndefinedLocalizerFieldInternalImp implements LocalizerFieldInternal {
   private static final String UNDEFINED_LOCALIZED_STRING = "UNDEFINED";

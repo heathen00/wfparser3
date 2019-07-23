@@ -1,6 +1,6 @@
 package com.ht.l10n;
 
-import com.ht.common.UID;
+import com.ht.uid.UID;
 
 final class LocalizerFieldInternalImp implements LocalizerFieldInternal {
   private final UID<LocalizerField> localizerFieldUid;

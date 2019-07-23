@@ -6,12 +6,13 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
-import com.ht.common.UID;
+
 import com.ht.l10n.Factory;
 import com.ht.l10n.LocalizerField;
 import com.ht.l10n.LocalizerType;
 import com.ht.l10n.StubFactory;
 import com.ht.l10n.System;
+import com.ht.uid.UID;
 
 public class LocalizerFieldAcceptanceTest {
   private Factory localizerFactory;
