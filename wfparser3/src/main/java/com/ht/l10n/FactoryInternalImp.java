@@ -19,12 +19,14 @@ final class FactoryInternalImp implements FactoryInternal {
     undefinedLocalizer = new UndefinedLocalizerInternalImp();
   }
 
+  private void guardNotNull(String parameterName, Object parameter) {
+    if (null == parameter) {
+      throw new NullPointerException(parameterName + " cannot be null");
+    }
+  }
+
   private void guardNamingConvention(String constructorParameterName,
       String constructorParameterValue) throws LocalizerException {
-    if (null == constructorParameterValue) {
-      throw new NullPointerException(
-          constructorParameterName + " constructor parameter cannot be null");
-    }
     if (!constructorParameterValue.matches("^[a-z0-9][a-z0-9.]+$")
         || constructorParameterValue.endsWith(".")) {
       throw new LocalizerException(constructorParameterName
@@ -35,9 +37,7 @@ final class FactoryInternalImp implements FactoryInternal {
   @Override
   public LocalizerBundle createLocalizerBundle(Localizer localizer, String resourceBundleName)
       throws LocalizerException {
-    if (null == localizer) {
-      throw new NullPointerException("localizer constructor parameter cannot be null");
-    }
+    guardNotNull("localizer", localizer);
     LocalizerInternal localizerInternal = null;
     if (localizer instanceof LocalizerInternal) {
       localizerInternal = (LocalizerInternal) localizer;
@@ -58,10 +58,9 @@ final class FactoryInternalImp implements FactoryInternal {
   @Override
   public LocalizerInternal createLocalizerInternal(String name, Locale locale)
       throws LocalizerException {
+    guardNotNull("name", name);
     guardNamingConvention("name", name);
-    if (null == locale) {
-      throw new NullPointerException("locale constructor parameter cannot be null");
-    }
+    guardNotNull("locale", locale);
     LocalizerInternal localizerInternal = new LocalizerInternalImp(this, name, locale);
     localizerInternalMap.put(localizerInternal.getUid(), localizerInternal);
     return localizerInternal;
@@ -75,7 +74,7 @@ final class FactoryInternalImp implements FactoryInternal {
   @Override
   public LocalizerBundleInternal createTargetLocalizerBundle(LocalizerInternal localizerInternal,
       String resourceBundleName) throws LocalizerException {
-    createLocalizerBundleGuard(localizerInternal, resourceBundleName);
+    guardNotNull("localizerInternal", localizerInternal);
     ResourceBundle resourceBundle =
         createResourceBundleForLocalizerBundle(resourceBundleName, localizerInternal.getLocale());
     return new LocalizerBundleInternalImp(this, localizerInternal, resourceBundle);
@@ -84,7 +83,8 @@ final class FactoryInternalImp implements FactoryInternal {
   @Override
   public LocalizerBundleInternal createRootLocaleLocalizerBundle(
       LocalizerInternal localizerInternal, String resourceBundleName) throws LocalizerException {
-    createLocalizerBundleGuard(localizerInternal, resourceBundleName);
+    guardNotNull("localizerInternal", localizerInternal);
+    guardNotNull("resourceBundleName", resourceBundleName);
     ResourceBundle resourceBundle = null;
     try {
       resourceBundle = createResourceBundleForLocalizerBundle(resourceBundleName, Locale.ROOT);
@@ -99,24 +99,16 @@ final class FactoryInternalImp implements FactoryInternal {
     return (LocalizerBundleInternal) undefinedLocalizer.getLocalizerBundleSet().iterator().next();
   }
 
-  private void createLocalizerBundleGuard(Localizer localizer, String resourceBundleName) {
-    if (null == localizer) {
-      throw new NullPointerException("localizer constructor parameter cannot be null");
-    }
-    if (null == resourceBundleName) {
-      throw new NullPointerException("resourceBundleName constructor parameter cannot be null");
-    }
-  }
-
   @Override
   public LocalizerType createLocalizerType(Localizer localizer, String groupName, String typeName,
       String instanceName) throws LocalizerException {
-    if (null == localizer) {
-      throw new NullPointerException("localizer constructor parameter cannot be null");
-    }
+    guardNotNull("localizer", localizer);
+    guardNotNull("groupName", groupName);
     guardNamingConvention("groupName", groupName);
+    guardNotNull("typeName", typeName);
     guardNamingConvention("typeName", typeName);
     guardNamingConvention("instanceName", instanceName);
+
     LocalizerInternal localizerInternal = null;
     if (localizer instanceof LocalizerInternal) {
       localizerInternal = (LocalizerInternal) localizer;
@@ -131,9 +123,7 @@ final class FactoryInternalImp implements FactoryInternal {
   @Override
   public LocalizerField createLocalizerField(LocalizerType localizerType, String fieldName)
       throws LocalizerException {
-    if (null == localizerType) {
-      throw new NullPointerException("localizerType constructor parameter cannot be nullF");
-    }
+    guardNotNull("localizerType", localizerType);
     guardNamingConvention("fieldName", fieldName);
     LocalizerTypeInternal localizerTypeInternal = null;
     if (localizerType instanceof LocalizerTypeInternal) {
@@ -176,6 +166,7 @@ final class FactoryInternalImp implements FactoryInternal {
 
   @Override
   public Localizer getLocalizer(UID<Localizer> localizerUid) {
+    guardNotNull("localizerUid", localizerUid);
     if (null == localizerUid) {
       throw new NullPointerException("localizerUid cannot be null");
     }

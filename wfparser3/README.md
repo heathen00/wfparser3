@@ -169,12 +169,6 @@ There are a number of problems with the localization implementation I currently 
      them will be modified.
    * You should also just look through the code for instances of duplication and remove them using
      inheritance, pulling out duplicate code into its own class and use composition, instead.
-   * the checks in the Factory for guarding the naming convention should NOT be checking for null.
-     Instead, there should be a separate "guardNotNull(String parameterName, Object parameter)"
-     method that checks to ensure the parameter is not null ... as the name implies.
-   * You should rename all methods in all published and internal interfaces that are similar to
-     getLocalizerKeySet() to something more consistent with the return type, so like:
-     getLocalizerUidSet().
    * "instanceName()" doesn't really make sense within LocalizerType, conceptually.  It makes more sense
      that there should be a LocalizerInstance that references a LocalizerField.  The localizer field,
      of course has a one to one reference to a LocalizerType.  But there may be multiple LocalizerInstance
@@ -186,6 +180,18 @@ There are a number of problems with the localization implementation I currently 
      It would make setting up tests easier.  You could wrap ResourceBundle in your own type that explicitly
      states the ResourceBundle functionality that the system uses.  And test your ResourceBundle's
      integration with the Java ResourceBundle functionality explicitly.
+   * I don't like having a "common" package, as in "com.ht.common".  It is semantically equivalent
+     to "miscellaneous".  The current "common" package should be renamed to "com.ht.uid" and ONLY
+     contain functionality related to the reused UID functionality.
+   * I want to create another small subsystem in a package called "com.ht.guard" that provides
+     reusable guard code that can be used throughout all other subsystems, but I am having a
+     difficult time figuring out how to structure the code so that the guard code supports optionally
+     throwing exceptions, especially checked exceptions, without explicitly adding a generic
+     "throws Exception" to the method interface.  I probably need to implement two interfaces within
+     the subsystem.  One to mark a parameter to check for a specific condition.  Another to perform
+     a specific action when that condition occurs.  The former method would never need to specify
+     a throws clause.  The latter method would be implementation specific and might specify a
+     throws clause.  I'm not sure that gets me any further ahead ...  Leave this until later.
 
      
 HERE:
