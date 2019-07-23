@@ -22,7 +22,7 @@ interface FactoryInternal extends Factory {
   ResourceBundle createResourceBundleForLocalizerBundle(String resourceBundleName,
       Locale targetLocale) throws LocalizerException;
 
-  Set<UID<Localizer>> getLocalizerKeySet();
+  Set<UID<Localizer>> getLocalizerUidSet();
 
   Localizer getLocalizer(UID<Localizer> localizerUid);
 

@@ -46,7 +46,7 @@ public class SystemAcceptanceTest {
 
   @Test
   public void System_getLocalizerSetWhenNoLocalizersCreated_emptyLocalizerSetReturned() {
-    Set<UID<Localizer>> localizerSet = localizerSystem.getLocalizerKeySet();
+    Set<UID<Localizer>> localizerSet = localizerSystem.getLocalizerUidSet();
 
     assertTrue(localizerSet.isEmpty());
     localizerAssert.assertSetIsUnmodifiable(localizerSet);
@@ -81,7 +81,7 @@ public class SystemAcceptanceTest {
         localizerFactory.createLocalizer("test.localizer.name", Locale.CANADA_FRENCH);
     final UID<Localizer> expectedLocalizerUid = expectedLocalizer.getUid();
 
-    Set<UID<Localizer>> localizerKeySet = localizerSystem.getLocalizerKeySet();
+    Set<UID<Localizer>> localizerKeySet = localizerSystem.getLocalizerUidSet();
 
     assertNotNull(localizerKeySet);
     assertEquals(expectedSetSize, localizerKeySet.size());

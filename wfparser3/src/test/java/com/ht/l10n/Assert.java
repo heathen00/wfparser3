@@ -113,7 +113,7 @@ public final class Assert {
       boolean expectedIsDefined, LocalizerType localizerType) {
     assertExpectedLocalizerType(expectedGroupName, expectedTypeName, expectedInstanceName,
         expectedIsDefined, localizerType);
-    assertEquals(expectedLocalizerFieldKeySet, localizerType.getLocalizerFieldKeySet());
+    assertEquals(expectedLocalizerFieldKeySet, localizerType.getLocalizerFieldUidSet());
     assertEquals(expectedLocalizerTypeUid, localizerType.getUid());
   }
 
@@ -130,7 +130,7 @@ public final class Assert {
     assertNotNull(localizerType.getUid());
     assertEquals(expectedUidKey, localizerType.getUid().getKey());
     assertEquals(expectedIsDefined, localizerType.isDefined());
-    assertSetIsUnmodifiable(localizerType.getLocalizerFieldKeySet());
+    assertSetIsUnmodifiable(localizerType.getLocalizerFieldUidSet());
   }
 
   public void assertExpectedLocalizer(String expectedName, UID<Localizer> expectedLocalizerUid,
@@ -141,7 +141,7 @@ public final class Assert {
     assertEquals(expectedLocale, localizer.getLocale());
     assertEquals(expectedIsDefined, localizer.isDefined());
     assertSetIsUnmodifiable(localizer.getLocalizerBundleSet());
-    assertSetIsUnmodifiable(localizer.getLocalizerFieldKeySet());
-    assertSetIsUnmodifiable(localizer.getLocalizerTypeKeySet());
+    assertSetIsUnmodifiable(localizer.getLocalizerFieldUidSet());
+    assertSetIsUnmodifiable(localizer.getLocalizerTypeUidSet());
   }
 }

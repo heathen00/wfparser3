@@ -17,5 +17,5 @@ public interface LocalizerType extends UniqueComponent<LocalizerType>, DefinedOb
 
   LocalizerField getLocalizerField(UID<LocalizerField> fieldUid);
 
-  Set<UID<LocalizerField>> getLocalizerFieldKeySet();
+  Set<UID<LocalizerField>> getLocalizerFieldUidSet();
 }

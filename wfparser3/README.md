@@ -175,6 +175,17 @@ There are a number of problems with the localization implementation I currently 
    * You should rename all methods in all published and internal interfaces that are similar to
      getLocalizerKeySet() to something more consistent with the return type, so like:
      getLocalizerUidSet().
+   * "instanceName()" doesn't really make sense within LocalizerType, conceptually.  It makes more sense
+     that there should be a LocalizerInstance that references a LocalizerField.  The localizer field,
+     of course has a one to one reference to a LocalizerType.  But there may be multiple LocalizerInstance
+     instances that refer to the same LocalizerField (and indirectly LocalizerType).  This change has
+     implications on the Localizer type  interface since the use case no longer requires that we be able
+     to search based on LocalizerField, but LocalizerInstance, instead.  As a part of this, you should
+     also ensure that the same naming convention for the accessed string in the ResourceBundle is
+     consistent.  Maybe refactor how the resource bundle is tested using stubs for ResourceBundle?
+     It would make setting up tests easier.  You could wrap ResourceBundle in your own type that explicitly
+     states the ResourceBundle functionality that the system uses.  And test your ResourceBundle's
+     integration with the Java ResourceBundle functionality explicitly.
 
      
 HERE:

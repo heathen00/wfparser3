@@ -7,7 +7,7 @@ import java.util.Set;
 final class SystemInternalImp implements SystemInternal {
   private static SystemInternalImp SYSTEM_IMP_SINGLETON = new SystemInternalImp();
 
-  public static SystemInternalImp getSystemImpSingleton() {
+  public static SystemInternalImp getSystemInternalImpSingleton() {
     return SYSTEM_IMP_SINGLETON;
   }
 
@@ -28,8 +28,8 @@ final class SystemInternalImp implements SystemInternal {
   }
 
   @Override
-  public Set<UID<Localizer>> getLocalizerKeySet() {
-    return factoryInternal.getLocalizerKeySet();
+  public Set<UID<Localizer>> getLocalizerUidSet() {
+    return factoryInternal.getLocalizerUidSet();
   }
 
   @Override

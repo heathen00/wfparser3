@@ -31,7 +31,7 @@ public final class StubFactory {
       }
 
       @Override
-      public Set<UID<LocalizerField>> getLocalizerFieldKeySet() {
+      public Set<UID<LocalizerField>> getLocalizerFieldUidSet() {
         throw new UnsupportedOperationException("this operation not supported by stub");
       }
 
@@ -109,7 +109,7 @@ public final class StubFactory {
       }
 
       @Override
-      public Set<UID<LocalizerField>> getLocalizerFieldKeySet() {
+      public Set<UID<LocalizerField>> getLocalizerFieldUidSet() {
         throw new UnsupportedOperationException("operation not supported by stub");
       }
 
@@ -156,7 +156,7 @@ public final class StubFactory {
       }
 
       @Override
-      public Set<UID<LocalizerType>> getLocalizerTypeKeySet() {
+      public Set<UID<LocalizerType>> getLocalizerTypeUidSet() {
         throw new UnsupportedOperationException("this operation not supported by stub");
       }
 
@@ -171,7 +171,7 @@ public final class StubFactory {
       }
 
       @Override
-      public Set<UID<LocalizerField>> getLocalizerFieldKeySet() {
+      public Set<UID<LocalizerField>> getLocalizerFieldUidSet() {
         throw new UnsupportedOperationException("this operation not supported by stub");
       }
 
@@ -323,7 +323,7 @@ public final class StubFactory {
       }
 
       @Override
-      public Set<UID<LocalizerType>> getLocalizerTypeKeySet() {
+      public Set<UID<LocalizerType>> getLocalizerTypeUidSet() {
         throw new UnsupportedOperationException("this operation not supported by stub");
       }
 
@@ -333,7 +333,7 @@ public final class StubFactory {
       }
 
       @Override
-      public Set<UID<LocalizerField>> getLocalizerFieldKeySet() {
+      public Set<UID<LocalizerField>> getLocalizerFieldUidSet() {
         throw new UnsupportedOperationException("this operation not supported by stub");
       }
 

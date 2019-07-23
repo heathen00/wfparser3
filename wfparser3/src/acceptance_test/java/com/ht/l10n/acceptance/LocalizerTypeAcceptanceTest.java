@@ -111,7 +111,7 @@ public class LocalizerTypeAcceptanceTest {
     final LocalizerType localizerType = localizerFactory.createLocalizerType(
         stubFactory.createDefaultStubLocalizer(), expectedGroup, expectedType, expectedInstance);
 
-    Set<UID<LocalizerField>> localizerFieldKeySet = localizerType.getLocalizerFieldKeySet();
+    Set<UID<LocalizerField>> localizerFieldKeySet = localizerType.getLocalizerFieldUidSet();
 
     assertNotNull(localizerFieldKeySet);
     assertTrue(localizerFieldKeySet.isEmpty());
@@ -130,7 +130,7 @@ public class LocalizerTypeAcceptanceTest {
     final LocalizerField expectedLocalizerField =
         localizerFactory.createLocalizerField(localizerType, expectedField);
 
-    Set<UID<LocalizerField>> localizerFieldKeySet = localizerType.getLocalizerFieldKeySet();
+    Set<UID<LocalizerField>> localizerFieldKeySet = localizerType.getLocalizerFieldUidSet();
 
     assertNotNull(localizerFieldKeySet);
     assertTrue(localizerFieldKeySet.size() == expectedLocalizerFieldKeySetSize);
@@ -160,7 +160,7 @@ public class LocalizerTypeAcceptanceTest {
     final LocalizerField expectedLocalizerFieldTwo =
         localizerFactory.createLocalizerField(localizerType, expectedFieldTwo);
 
-    Set<UID<LocalizerField>> localizerFieldKeySet = localizerType.getLocalizerFieldKeySet();
+    Set<UID<LocalizerField>> localizerFieldKeySet = localizerType.getLocalizerFieldUidSet();
 
     assertNotNull(localizerFieldKeySet);
     assertTrue(localizerFieldKeySet.size() == expectedLocalizerFieldKeySetSize);
@@ -190,7 +190,7 @@ public class LocalizerTypeAcceptanceTest {
     final LocalizerField localizerFieldTwo =
         localizerFactory.createLocalizerField(localizerType, expectedField);
 
-    Set<UID<LocalizerField>> localizerFieldKeySet = localizerType.getLocalizerFieldKeySet();
+    Set<UID<LocalizerField>> localizerFieldKeySet = localizerType.getLocalizerFieldUidSet();
 
     assertTrue(localizerFieldOne == localizerFieldTwo);
     assertNotNull(localizerFieldKeySet);

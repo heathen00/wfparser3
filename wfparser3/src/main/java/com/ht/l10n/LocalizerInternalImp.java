@@ -62,7 +62,7 @@ final class LocalizerInternalImp implements LocalizerInternal {
   }
 
   @Override
-  public Set<UID<LocalizerType>> getLocalizerTypeKeySet() {
+  public Set<UID<LocalizerType>> getLocalizerTypeUidSet() {
     return Collections.unmodifiableSet(localizerTypeMap.keySet());
   }
 
@@ -85,10 +85,10 @@ final class LocalizerInternalImp implements LocalizerInternal {
   }
 
   @Override
-  public Set<UID<LocalizerField>> getLocalizerFieldKeySet() {
+  public Set<UID<LocalizerField>> getLocalizerFieldUidSet() {
     Set<UID<LocalizerField>> localizerFieldUidSet = new HashSet<>();
     for (UID<LocalizerType> localizerTypeUid : localizerTypeMap.keySet()) {
-      localizerFieldUidSet.addAll(localizerTypeMap.get(localizerTypeUid).getLocalizerFieldKeySet());
+      localizerFieldUidSet.addAll(localizerTypeMap.get(localizerTypeUid).getLocalizerFieldUidSet());
     }
     return Collections.unmodifiableSet(localizerFieldUidSet);
   }

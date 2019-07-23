@@ -170,7 +170,7 @@ final class FactoryInternalImp implements FactoryInternal {
   }
 
   @Override
-  public Set<UID<Localizer>> getLocalizerKeySet() {
+  public Set<UID<Localizer>> getLocalizerUidSet() {
     return Collections.unmodifiableSet(localizerInternalMap.keySet());
   }
 

@@ -55,7 +55,7 @@ final class UndefinedLocalizerInternalImp implements LocalizerInternal {
   }
 
   @Override
-  public Set<UID<LocalizerType>> getLocalizerTypeKeySet() {
+  public Set<UID<LocalizerType>> getLocalizerTypeUidSet() {
     return Collections.unmodifiableSet(undefinedLocalizerTypeUidSet);
   }
 
@@ -65,8 +65,8 @@ final class UndefinedLocalizerInternalImp implements LocalizerInternal {
   }
 
   @Override
-  public Set<UID<LocalizerField>> getLocalizerFieldKeySet() {
-    return undefinedLocalizerTypeInternalImp.getLocalizerFieldKeySet();
+  public Set<UID<LocalizerField>> getLocalizerFieldUidSet() {
+    return undefinedLocalizerTypeInternalImp.getLocalizerFieldUidSet();
   }
 
   @Override
