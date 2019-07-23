@@ -12,7 +12,8 @@ import com.ht.wfp3.api.statement.StatementFactory;
 
 public class MatrixAcceptanceTests {
   private enum BuildMethod {
-    COL_BY_COL, ROW_BY_ROW,
+    COL_BY_COL,
+    ROW_BY_ROW,
   }
 
   private StatementFactory statementFactory;
@@ -77,10 +78,10 @@ public class MatrixAcceptanceTests {
   @Test
   public void Matrix_buildMatrixButDoNotSetBuildMethod_matrixIsBuiltRowByRow() {
     final double[][] matrixData = { //
-        {1.1d, 2.1d, 3.1d}, //
-        {2.1d, 2.2d, 2.3d}, //
-        {3.1d, 3.2d, 3.3d}, //
-        {4.1d, 4.2d, 4.3d}, //
+        { 1.1d, 2.1d, 3.1d }, //
+        { 2.1d, 2.2d, 2.3d }, //
+        { 3.1d, 3.2d, 3.3d }, //
+        { 4.1d, 4.2d, 4.3d }, //
     };
 
     Matrix matrix = addDataFromArrays(matrixData, matrixBuilder);
@@ -102,7 +103,7 @@ public class MatrixAcceptanceTests {
   @Test
   public void Matrix_buildMatrixRowByRowWithOneElement_matrixWithOneElementIsBuilt() {
     final double[][] matrixData = { //
-        {100.100d,}, //
+        { 100.100d, }, //
     };
 
     Matrix matrix = addDataFromArrays(matrixData, matrixBuilder.rowByRow());
@@ -113,7 +114,7 @@ public class MatrixAcceptanceTests {
   @Test
   public void Matrix_buildMatrixRowByRowWithOneRowOfElements_matrixWithOneRowOfElementsIsBuilt() {
     final double[][] matrixData = { //
-        {100.100d, 200.100d, 300.100d, 400.100d, 500.100d,}, //
+        { 100.100d, 200.100d, 300.100d, 400.100d, 500.100d, }, //
     };
 
     Matrix matrix = addDataFromArrays(matrixData, matrixBuilder.rowByRow());
@@ -124,11 +125,11 @@ public class MatrixAcceptanceTests {
   @Test
   public void Matrix_buildMatrixRowByRowWithMultipleRowsAndColumns_matrixWithMultipleRowsAndColumnsIsBuilt() {
     final double[][] matrixData = { //
-        {100.100d, 200.100d, 300.100d, 400.100d,}, //
-        {100.200d, 200.200d, 300.200d, 400.200d,}, //
-        {100.300d, 200.300d, 300.300d, 400.300d,}, //
-        {100.400d, 200.400d, 300.400d, 400.400d,}, //
-        {100.500d, 200.500d, 300.500d, 400.500d,}, //
+        { 100.100d, 200.100d, 300.100d, 400.100d, }, //
+        { 100.200d, 200.200d, 300.200d, 400.200d, }, //
+        { 100.300d, 200.300d, 300.300d, 400.300d, }, //
+        { 100.400d, 200.400d, 300.400d, 400.400d, }, //
+        { 100.500d, 200.500d, 300.500d, 400.500d, }, //
     };
 
     Matrix matrix = addDataFromArrays(matrixData, matrixBuilder.rowByRow());
@@ -139,11 +140,11 @@ public class MatrixAcceptanceTests {
   @Test
   public void Matrix_clearMatrixBuilderAfterBuildingRowByRow_MatrixBuilderIsCleared() {
     final double[][] matrixData = { //
-        {100.100d, 200.100d, 300.100d, 400.100d,}, //
-        {100.200d, 200.200d, 300.200d, 400.200d,}, //
-        {100.300d, 200.300d, 300.300d, 400.300d,}, //
-        {100.400d, 200.400d, 300.400d, 400.400d,}, //
-        {100.500d, 200.500d, 300.500d, 400.500d,}, //
+        { 100.100d, 200.100d, 300.100d, 400.100d, }, //
+        { 100.200d, 200.200d, 300.200d, 400.200d, }, //
+        { 100.300d, 200.300d, 300.300d, 400.300d, }, //
+        { 100.400d, 200.400d, 300.400d, 400.400d, }, //
+        { 100.500d, 200.500d, 300.500d, 400.500d, }, //
     };
     final int expectedNumRows = 0;
     final int expectedNumCols = 0;
@@ -170,7 +171,7 @@ public class MatrixAcceptanceTests {
   @Test
   public void Matrix_buildMatrixColumnByColumnWithOneElement_matrixWithOneElementIsBuilt() {
     final double[][] matrixData = { //
-        {100.100d,}, //
+        { 100.100d, }, //
     };
 
     Matrix matrix = addDataFromArrays(matrixData, matrixBuilder.colByCol());
@@ -181,7 +182,7 @@ public class MatrixAcceptanceTests {
   @Test
   public void Matrix_buildMatrixColumnByColumnWithOneColumnOfElements_matrixWithOneColumnIsBuilt() {
     final double[][] matrixData = { //
-        {100.100d, 200.100d, 300.100d, 400.100d, 500.100d,}, //
+        { 100.100d, 200.100d, 300.100d, 400.100d, 500.100d, }, //
     };
 
     Matrix matrix = addDataFromArrays(matrixData, matrixBuilder.colByCol());
@@ -192,11 +193,11 @@ public class MatrixAcceptanceTests {
   @Test
   public void Matrix_buildMatrixColumnByColumnWithMultipleRowsAndColumns_matrixWithMultipleRowsAndColumnsIsBuilt() {
     final double[][] matrixData = { //
-        {100.100d, 200.100d, 300.100d, 400.100d,}, //
-        {100.200d, 200.200d, 300.200d, 400.200d,}, //
-        {100.300d, 200.300d, 300.300d, 400.300d,}, //
-        {100.400d, 200.400d, 300.400d, 400.400d,}, //
-        {100.500d, 200.500d, 300.500d, 400.500d,}, //
+        { 100.100d, 200.100d, 300.100d, 400.100d, }, //
+        { 100.200d, 200.200d, 300.200d, 400.200d, }, //
+        { 100.300d, 200.300d, 300.300d, 400.300d, }, //
+        { 100.400d, 200.400d, 300.400d, 400.400d, }, //
+        { 100.500d, 200.500d, 300.500d, 400.500d, }, //
     };
 
     Matrix matrix = addDataFromArrays(matrixData, matrixBuilder.colByCol());
@@ -207,11 +208,11 @@ public class MatrixAcceptanceTests {
   @Test
   public void Matrix_clearMatrixBuilderAfterBuildingColumnByColumn_matrixBuilderIsCleared() {
     final double[][] matrixData = { //
-        {100.100d, 200.100d, 300.100d, 400.100d,}, //
-        {100.200d, 200.200d, 300.200d, 400.200d,}, //
-        {100.300d, 200.300d, 300.300d, 400.300d,}, //
-        {100.400d, 200.400d, 300.400d, 400.400d,}, //
-        {100.500d, 200.500d, 300.500d, 400.500d,}, //
+        { 100.100d, 200.100d, 300.100d, 400.100d, }, //
+        { 100.200d, 200.200d, 300.200d, 400.200d, }, //
+        { 100.300d, 200.300d, 300.300d, 400.300d, }, //
+        { 100.400d, 200.400d, 300.400d, 400.400d, }, //
+        { 100.500d, 200.500d, 300.500d, 400.500d, }, //
     };
     final int expectedNumRows = 0;
     final int expectedNumCols = 0;
@@ -234,11 +235,11 @@ public class MatrixAcceptanceTests {
   @Test(expected = IllegalArgumentException.class)
   public void Matrix_accessElementOutsideRowRange_illegalArgumentExceptionIsThrown() {
     final double[][] matrixData = { //
-        {100.100d, 200.100d, 300.100d, 400.100d,}, //
-        {100.200d, 200.200d, 300.200d, 400.200d,}, //
-        {100.300d, 200.300d, 300.300d, 400.300d,}, //
-        {100.400d, 200.400d, 300.400d, 400.400d,}, //
-        {100.500d, 200.500d, 300.500d, 400.500d,}, //
+        { 100.100d, 200.100d, 300.100d, 400.100d, }, //
+        { 100.200d, 200.200d, 300.200d, 400.200d, }, //
+        { 100.300d, 200.300d, 300.300d, 400.300d, }, //
+        { 100.400d, 200.400d, 300.400d, 400.400d, }, //
+        { 100.500d, 200.500d, 300.500d, 400.500d, }, //
     };
 
     Matrix matrix = addDataFromArrays(matrixData, matrixBuilder.colByCol());
@@ -249,11 +250,11 @@ public class MatrixAcceptanceTests {
   @Test(expected = IllegalArgumentException.class)
   public void Matrix_accessElementOutsideColumnRange_illegalArgumentExceptionIsThrown() {
     final double[][] matrixData = { //
-        {100.100d, 200.100d, 300.100d, 400.100d,}, //
-        {100.200d, 200.200d, 300.200d, 400.200d,}, //
-        {100.300d, 200.300d, 300.300d, 400.300d,}, //
-        {100.400d, 200.400d, 300.400d, 400.400d,}, //
-        {100.500d, 200.500d, 300.500d, 400.500d,}, //
+        { 100.100d, 200.100d, 300.100d, 400.100d, }, //
+        { 100.200d, 200.200d, 300.200d, 400.200d, }, //
+        { 100.300d, 200.300d, 300.300d, 400.300d, }, //
+        { 100.400d, 200.400d, 300.400d, 400.400d, }, //
+        { 100.500d, 200.500d, 300.500d, 400.500d, }, //
     };
 
     Matrix matrix = addDataFromArrays(matrixData, matrixBuilder.colByCol());
@@ -264,11 +265,11 @@ public class MatrixAcceptanceTests {
   @Test
   public void Matrix_buildMatrixRowByRowWhereRowsHaveDifferentNumberOfElements_matrixBuiltWhereRowsAllEqualLength() {
     final double[][] matrixData = { //
-        {100.100d, 200.100d, 300.100d, 400.100d,}, //
-        {100.200d,}, //
-        {100.300d, 200.300d, 400.300d,}, //
-        {300.400d, 400.400d,}, //
-        {100.500d, 200.500d, 300.500d, 400.500d,}, //
+        { 100.100d, 200.100d, 300.100d, 400.100d, }, //
+        { 100.200d, }, //
+        { 100.300d, 200.300d, 400.300d, }, //
+        { 300.400d, 400.400d, }, //
+        { 100.500d, 200.500d, 300.500d, 400.500d, }, //
     };
 
     Matrix matrix = addDataFromArrays(matrixData, matrixBuilder.rowByRow());
@@ -279,11 +280,11 @@ public class MatrixAcceptanceTests {
   @Test
   public void Matrix_buildMatrixColumnByColumnWhereColumnsHaveDifferentNumberOfElements_matrixBuiltWhereColumnsAllEqualLength() {
     final double[][] matrixData = { //
-        {100.100d, 200.100d, 300.100d, 400.100d,}, //
-        {100.200d,}, //
-        {100.300d, 200.300d, 400.300d,}, //
-        {300.400d, 400.400d,}, //
-        {100.500d, 200.500d, 300.500d, 400.500d,}, //
+        { 100.100d, 200.100d, 300.100d, 400.100d, }, //
+        { 100.200d, }, //
+        { 100.300d, 200.300d, 400.300d, }, //
+        { 300.400d, 400.400d, }, //
+        { 100.500d, 200.500d, 300.500d, 400.500d, }, //
     };
 
     Matrix matrix = addDataFromArrays(matrixData, matrixBuilder.colByCol());
@@ -294,9 +295,9 @@ public class MatrixAcceptanceTests {
   @Test
   public void Matrix_buildMatrixRowByRowWithEmptyRows_matrixBuiltEmptyRowFilled() {
     final double[][] expectedMatrixData = { //
-        {BigDecimal.ZERO.doubleValue(), BigDecimal.ZERO.doubleValue()}, //
-        {BigDecimal.ZERO.doubleValue(), BigDecimal.ZERO.doubleValue()}, //
-        {3.3d, 4.4d}, //
+        { BigDecimal.ZERO.doubleValue(), BigDecimal.ZERO.doubleValue() }, //
+        { BigDecimal.ZERO.doubleValue(), BigDecimal.ZERO.doubleValue() }, //
+        { 3.3d, 4.4d }, //
     };
     Matrix matrix = matrixBuilder.rowByRow().end().end().append(BigDecimal.valueOf(3.3d))
         .append(BigDecimal.valueOf(4.4d)).end().build();
@@ -307,9 +308,9 @@ public class MatrixAcceptanceTests {
   @Test
   public void Matrix_builtMatrixColumnByColumnWithEmptyColumns_matrixBuiltEmptyColumnsFilled() {
     final double[][] expectedMatrixData = { //
-        {BigDecimal.ZERO.doubleValue(), BigDecimal.ZERO.doubleValue()}, //
-        {BigDecimal.ZERO.doubleValue(), BigDecimal.ZERO.doubleValue()}, //
-        {3.3d, 4.4d}, //
+        { BigDecimal.ZERO.doubleValue(), BigDecimal.ZERO.doubleValue() }, //
+        { BigDecimal.ZERO.doubleValue(), BigDecimal.ZERO.doubleValue() }, //
+        { 3.3d, 4.4d }, //
     };
     Matrix matrix = matrixBuilder.colByCol().end().end().append(BigDecimal.valueOf(3.3d))
         .append(BigDecimal.valueOf(4.4d)).end().build();
@@ -322,11 +323,11 @@ public class MatrixAcceptanceTests {
     EqualsHashCodeAndCompareToTester equalsHashCodeAndCompareToTester =
         EqualsHashCodeAndCompareToTester.createEqualsHashCodeAndCompareToTester();
     final double[][] matrixData = { //
-        {100.100d, 200.100d, 300.100d, 400.100d,}, //
-        {100.200d, 200.200d, 300.200d, 400.200d,}, //
-        {100.300d, 200.300d, 300.300d, 400.300d,}, //
-        {100.400d, 200.400d, 300.400d, 400.400d,}, //
-        {100.500d, 200.500d, 300.500d, 400.500d,}, //
+        { 100.100d, 200.100d, 300.100d, 400.100d, }, //
+        { 100.200d, 200.200d, 300.200d, 400.200d, }, //
+        { 100.300d, 200.300d, 300.300d, 400.300d, }, //
+        { 100.400d, 200.400d, 300.400d, 400.400d, }, //
+        { 100.500d, 200.500d, 300.500d, 400.500d, }, //
     };
     Matrix first;
     Matrix second;

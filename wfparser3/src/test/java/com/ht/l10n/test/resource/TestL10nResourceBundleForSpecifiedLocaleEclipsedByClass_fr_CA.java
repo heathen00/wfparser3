@@ -8,11 +8,11 @@ public class TestL10nResourceBundleForSpecifiedLocaleEclipsedByClass_fr_CA
   @Override
   protected Object[][] getContents() {
     return new Object[][] { //
-        {"test00", "this"}, //
-        {"test01", "content"}, //
-        {"test02", "does"}, //
-        {"test03", "not"}, //
-        {"test04", "matter"}, //
+        { "test00", "this" }, //
+        { "test01", "content" }, //
+        { "test02", "does" }, //
+        { "test03", "not" }, //
+        { "test04", "matter" }, //
     };
   }
 

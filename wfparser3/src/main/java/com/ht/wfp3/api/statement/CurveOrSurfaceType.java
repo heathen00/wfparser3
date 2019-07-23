@@ -33,8 +33,11 @@ package com.ht.wfp3.api.statement;
  */
 public interface CurveOrSurfaceType extends Comparable<CurveOrSurfaceType>, Statement {
   enum Key {
-    BMATRIX("bmatrix"), BEZIER("bezier"), BSPLINE("bspline"), CARDINAL("cardinal"), TAYLOR(
-        "taylor");
+    BMATRIX("bmatrix"),
+    BEZIER("bezier"),
+    BSPLINE("bspline"),
+    CARDINAL("cardinal"),
+    TAYLOR("taylor");
 
     private final String keyword;
 
