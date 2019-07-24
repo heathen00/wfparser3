@@ -1,10 +1,12 @@
 package com.ht.wrap;
 
 import java.util.Locale;
+import java.util.ResourceBundle;
 
 final class ResourceBundleWrapperImp implements ResourceBundleWrapper {
   private final String baseBundleName;
   private final Locale locale;
+  private ResourceBundle resourceBundle;
 
   ResourceBundleWrapperImp(String baseBundleName, Locale locale) {
     this.baseBundleName = baseBundleName;
@@ -23,12 +25,12 @@ final class ResourceBundleWrapperImp implements ResourceBundleWrapper {
 
   @Override
   public String getString(String key) {
-    // TODO Auto-generated method stub
-    return null;
+    return resourceBundle.getString(key);
   }
 
   @Override
   public void loadResourceBundle() {
-    // TODO Auto-generated method stub
+    resourceBundle = ResourceBundle.getBundle(baseBundleName, locale,
+        ResourceBundle.Control.getControl(ResourceBundle.Control.FORMAT_PROPERTIES));
   }
 }

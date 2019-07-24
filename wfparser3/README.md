@@ -188,7 +188,12 @@ There are a number of problems with the localization implementation I currently 
      the subsystem.  One to mark a parameter to check for a specific condition.  Another to perform
      a specific action when that condition occurs.  The former method would never need to specify
      a throws clause.  The latter method would be implementation specific and might specify a
-     throws clause.  I'm not sure that gets me any further ahead ...  Leave this until later.
+     throws clause.  I'm not sure that gets me any further ahead ...  Leave this until later.  If
+     you do write this, make it a whitelist instead of a blacklist.  Also, you should set the
+     naming convention you want to specify as compatible with Java package, class, and data field
+     names for group, type, and field names respectively.  This would permit you to potentially
+     defined annotations that automatically determined most of the data.  The only thing not set
+     is the instance name which would be set in the annotation.
    * You should move all the acceptance testing related to the UID utility to the UID acceptance
      tests, which don't actually exist at this point, then delete all the UID testing from the
      individual Localizer class acceptance/unit test modules.  It's all the same, anyway, and the
