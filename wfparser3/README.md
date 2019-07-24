@@ -189,12 +189,23 @@ There are a number of problems with the localization implementation I currently 
      a specific action when that condition occurs.  The former method would never need to specify
      a throws clause.  The latter method would be implementation specific and might specify a
      throws clause.  I'm not sure that gets me any further ahead ...  Leave this until later.
+   * You should move all the acceptance testing related to the UID utility to the UID acceptance
+     tests, which don't actually exist at this point, then delete all the UID testing from the
+     individual Localizer class acceptance/unit test modules.  It's all the same, anyway, and the
+     UID behaviour is independent of the component it represents, by design.
+   * The stub localizer factory should really implement the same interface as the internal localizer
+     factory.  It may have its own methods beyond that, but it should, at the very least, implement
+     the same interface for the sake of interchangeability.
 
      
 HERE:
 
   // TODO replace the current ResourceBundle handling with something that allows testing with stubs
   //      more easily.
+  // TODO refactor LocalizerBundle to use the new ResourceBundle.
+  // TODO refactor LocalizerBundle so that its constructor is passed in the resourceBundleName string.
+  //      You'll likely need to refactor the Localizer factory, too, to move the resource bundle
+  //      creation logic into the ResourceBundle factory.
   
   // TODO add functionality to create and access LocalizerInstance instances.
   // TODO remove functionality from LocalizerType for the instance name.
