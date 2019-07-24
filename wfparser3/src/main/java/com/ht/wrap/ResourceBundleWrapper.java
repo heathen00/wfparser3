@@ -7,10 +7,9 @@ public interface ResourceBundleWrapper {
 
   Locale getLocale();
 
-  String getString(String key);
-
   void loadResourceBundle();
 
-  // this.resourceBundle =
-  // factoryInternal.createResourceBundleForLocalizerBundle(resourceBundleName, locale);
+  String getUnformattedString(String key);
+
+  String getFormattedString(String key, Object... args);
 }

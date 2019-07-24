@@ -7,16 +7,34 @@ import com.ht.wrap.Assert;
 import com.ht.wrap.Factory;
 import com.ht.wrap.ResourceBundleWrapper;
 
+import java.util.IllegalFormatConversionException;
 import java.util.Locale;
+import java.util.MissingFormatArgumentException;
 import java.util.MissingResourceException;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class ResourceBundleWrapperAcceptanceTest {
   private Factory wrapperFactory;
   private Assert wrapperAssert;
+
+  private final Locale defaultExpectedLocale = Locale.CANADA_FRENCH;
+  private final String defaultExistingUnformattedKey = "test.unformatted.key";
+  private final String defaultExistingFormattedKey = "test.formatted.key";
+  private final Object[] defaultExpectedFormatObjectsArray = { "some string", Integer.valueOf(33) };
+  private final String defaultNonexistentUnformattedKey = "non.existent.unformatted.key";
+  private final String defaultNonexistentFormattedKey = "non.existent.formatted.key";
+
+
+  private String generateResourceBundleStringToCheck(String rootString,
+      String resourceBundleBaseName, Locale locale) {
+    return rootString + ": " + resourceBundleBaseName + ": " + locale;
+  }
+
+  private boolean isLocaleEnglishCanada(Locale locale) {
+    return Locale.CANADA.equals(locale);
+  }
 
   @Before
   public void setUp() throws Exception {
@@ -32,122 +50,266 @@ public class ResourceBundleWrapperAcceptanceTest {
 
   @Test(expected = MissingResourceException.class)
   public void ResourceBundleWrapper_loadResourceBundleThatDoesNotExistForSpecificLocale_MissingResourceExceptionIsThrown() {
+    ResourceBundleWrapper resourceBundleWrapper = wrapperFactory
+        .createResourceBundleWrapper("resource.bundle.does.not.Exist", Locale.CANADA_FRENCH);
+
+    resourceBundleWrapper.loadResourceBundle();
+  }
+
+  @Test(expected = MissingResourceException.class)
+  public void ResourceBundleWraper_loadResourceBundleThatDoesNotExistForDefaultLocale_missingResourceExceptionIsThrown() {
+    ResourceBundleWrapper resourceBundleWrapper = wrapperFactory
+        .createResourceBundleWrapper("resource.bundle.does.not.Exist", Locale.getDefault());
+
+    resourceBundleWrapper.loadResourceBundle();
+  }
+
+  @Test(expected = MissingResourceException.class)
+  public void ResourceBundleWrapper_loadResourceBundleThatDoesNotExistForRootLocale_missingResourceExceptionIsThrown() {
     ResourceBundleWrapper resourceBundleWrapper =
-        wrapperFactory.createResourceBundleWrapper("com.does.not.Exist", Locale.CANADA_FRENCH);
+        wrapperFactory.createResourceBundleWrapper("resource.bundle.does.not.Exist", Locale.ROOT);
 
     resourceBundleWrapper.loadResourceBundle();
   }
 
   @Test
-  public void ResourceBundleWraper_loadResourceBundleThatDoesNotExistForDefaultLocale_missingResourceExceptionIsThrown() {
-    fail("not implemented yet");
-  }
-
-  @Test
-  @Ignore("not worked on yet")
-  public void ResourceBundleWrapper_loadResourceBundleThatDoesNotExistForRootLocale_missingResourceExceptionIsThrown() {
-    fail("not implemented yet");
-  }
-
-  @Test
-  @Ignore("not worked on yet")
   public void ResourceBundleWrapper_loadResourceBundleThatDoesNotExistForSpecificLocaleButDoesExistInSimilarLocale_resourceBundleForSimilarLocaleLoaded() {
-    // TODO check to ensure both the formatted and unformatted strings exist.
-    fail("not implemented yet");
+    final Locale initialLocale = Locale.CANADA_FRENCH;
+    final Locale expectedLocale = Locale.FRENCH;
+    final String expectedResourceBundleBaseName =
+        "com.ht.wrap.test.resource.ResourceBundleWrapperNoSpecificButSimilarExists";
+    final String expectedUnformattedString = generateResourceBundleStringToCheck(
+        "unformatted string", expectedResourceBundleBaseName, expectedLocale);
+    final String expectedFormattedStringNoFormat = generateResourceBundleStringToCheck(
+        "formatted string: %s %d", expectedResourceBundleBaseName, expectedLocale);
+    ResourceBundleWrapper resourceBundleWrapper =
+        wrapperFactory.createResourceBundleWrapper(expectedResourceBundleBaseName, initialLocale);
+    resourceBundleWrapper.loadResourceBundle();
+
+    wrapperAssert.assertExpectedResourceBundleWrapper(expectedResourceBundleBaseName,
+        expectedLocale, resourceBundleWrapper);
+    wrapperAssert.assertExpectedLocalizedAndFormattedStrings(expectedUnformattedString,
+        expectedFormattedStringNoFormat, defaultExpectedFormatObjectsArray,
+        defaultExistingUnformattedKey, defaultExistingFormattedKey, resourceBundleWrapper);
   }
 
   @Test
-  @Ignore("not worked on yet")
   public void ResourceBundleWrapper_loadResourceBundleThatDoesNotExistForSpecificLocaleButDoesExistInDefaultLocale_resourceBundleForDefaultLocaleLoaded() {
-    // TODO check to ensure both the formatted and unformatted strings exist.
-    fail("not implemented yet");
+    final Locale initialLocale = Locale.CANADA_FRENCH;
+    final Locale expectedLocale = Locale.getDefault();
+    if (!isLocaleEnglishCanada(expectedLocale)) {
+      return;
+    }
+
+    final String expectedResourceBundleBaseName =
+        "com.ht.wrap.test.resource.ResourceBundleWrapperNoSpecificButDefaultsExists";
+    final String expectedUnformattedString = generateResourceBundleStringToCheck(
+        "unformatted string", expectedResourceBundleBaseName, expectedLocale);
+    final String expectedFormattedStringNoFormat = generateResourceBundleStringToCheck(
+        "formatted string: %s %d", expectedResourceBundleBaseName, expectedLocale);
+    ResourceBundleWrapper resourceBundleWrapper =
+        wrapperFactory.createResourceBundleWrapper(expectedResourceBundleBaseName, initialLocale);
+    resourceBundleWrapper.loadResourceBundle();
+
+    wrapperAssert.assertExpectedResourceBundleWrapper(expectedResourceBundleBaseName,
+        expectedLocale, resourceBundleWrapper);
+    wrapperAssert.assertExpectedLocalizedAndFormattedStrings(expectedUnformattedString,
+        expectedFormattedStringNoFormat, defaultExpectedFormatObjectsArray,
+        defaultExistingUnformattedKey, defaultExistingFormattedKey, resourceBundleWrapper);
   }
 
   @Test
-  @Ignore("not worked on yet")
   public void ResourceBundleWrapper_loadResourceBundleThatDoesNotExistForSpecificLocaleButDoesExistInRootLocale_resourceBundleForRootLocaleLoaded() {
-    // TODO check to ensure both the formatted and unformatted strings exist.
-    fail("not implemented yet");
+    final Locale initialLocale = Locale.CANADA_FRENCH;
+    final Locale expectedLocale = Locale.ROOT;
+    final String expectedResourceBundleBaseName =
+        "com.ht.wrap.test.resource.ResourceBundleWrapperNoSpecificButRootExists";
+    final String expectedUnformattedString = generateResourceBundleStringToCheck(
+        "unformatted string", expectedResourceBundleBaseName, expectedLocale);
+    final String expectedFormattedStringNoFormat = generateResourceBundleStringToCheck(
+        "formatted string: %s %d", expectedResourceBundleBaseName, expectedLocale);
+    ResourceBundleWrapper resourceBundleWrapper =
+        wrapperFactory.createResourceBundleWrapper(expectedResourceBundleBaseName, initialLocale);
+    resourceBundleWrapper.loadResourceBundle();
+
+    wrapperAssert.assertExpectedResourceBundleWrapper(expectedResourceBundleBaseName,
+        expectedLocale, resourceBundleWrapper);
+    wrapperAssert.assertExpectedLocalizedAndFormattedStrings(expectedUnformattedString,
+        expectedFormattedStringNoFormat, defaultExpectedFormatObjectsArray,
+        defaultExistingUnformattedKey, defaultExistingFormattedKey, resourceBundleWrapper);
   }
 
   @Test
-  @Ignore("not worked on yet")
   public void ResourceBundleWrapper_loadResourceBundleThatExistsForSpecificLocale_resourceBundleForSpecificIsLoaded() {
-    // TODO check to ensure both the formatted and unformatted strings exist.
-    fail("not implemented yet");
+    final Locale expectedLocale = Locale.CANADA_FRENCH;
+    final String expectedResourceBundleBaseName =
+        "com.ht.wrap.test.resource.ResourceBundleWrapperExistsForSpecificLocale";
+    final String expectedUnformattedString = generateResourceBundleStringToCheck(
+        "unformatted string", expectedResourceBundleBaseName, expectedLocale);
+    final String expectedFormattedStringNoFormat = generateResourceBundleStringToCheck(
+        "formatted string: %s %d", expectedResourceBundleBaseName, expectedLocale);
+    ResourceBundleWrapper resourceBundleWrapper =
+        wrapperFactory.createResourceBundleWrapper(expectedResourceBundleBaseName, expectedLocale);
+    resourceBundleWrapper.loadResourceBundle();
+
+    wrapperAssert.assertExpectedResourceBundleWrapper(expectedResourceBundleBaseName,
+        expectedLocale, resourceBundleWrapper);
+    wrapperAssert.assertExpectedLocalizedAndFormattedStrings(expectedUnformattedString,
+        expectedFormattedStringNoFormat, defaultExpectedFormatObjectsArray,
+        defaultExistingUnformattedKey, defaultExistingFormattedKey, resourceBundleWrapper);
   }
 
   @Test
-  @Ignore("not worked on yet")
   public void ResourceBundleWrapper_loadResourceBundleThatExistsForDefaultLocale_resourceBundleForDefaultLocaleIsLoaded() {
+    final Locale expectedLocale = Locale.getDefault();
+    if (!isLocaleEnglishCanada(expectedLocale)) {
+      return;
+    }
+    final String expectedResourceBundleBaseName =
+        "com.ht.wrap.test.resource.ResourceBundleWrapperExistsForDefaultLocale";
+    final String expectedUnformattedString = generateResourceBundleStringToCheck(
+        "unformatted string", expectedResourceBundleBaseName, expectedLocale);
+    final String expectedFormattedStringNoFormat = generateResourceBundleStringToCheck(
+        "formatted string: %s %d", expectedResourceBundleBaseName, expectedLocale);
+    ResourceBundleWrapper resourceBundleWrapper =
+        wrapperFactory.createResourceBundleWrapper(expectedResourceBundleBaseName, expectedLocale);
+    resourceBundleWrapper.loadResourceBundle();
 
-    // TODO you might need to add a check to ensure the "default" locale is the expected locale and
-    // if not just skip. I wonder if there is functionality in JUnit to dynamically skip a test if
-    // the proper preconditions do not exist?? Check!
-    // TODO check to ensure both the formatted and unformatted strings exist.
-    fail("not implemented yet");
+    wrapperAssert.assertExpectedResourceBundleWrapper(expectedResourceBundleBaseName,
+        expectedLocale, resourceBundleWrapper);
+    wrapperAssert.assertExpectedLocalizedAndFormattedStrings(expectedUnformattedString,
+        expectedFormattedStringNoFormat, defaultExpectedFormatObjectsArray,
+        defaultExistingUnformattedKey, defaultExistingFormattedKey, resourceBundleWrapper);
   }
 
   @Test
-  @Ignore("not worked on yet")
   public void ResourceBundleWrapper_loadResourceBundleThatExistsForRootLocale_resourceBundleForRootLocaleIsLoaded() {
-    // TODO check to ensure both the formatted and unformatted strings exist.
-    fail("not implemented yet");
+    final Locale expectedLocale = Locale.ROOT;
+    final String expectedResourceBundleBaseName =
+        "com.ht.wrap.test.resource.ResourceBundleWrapperExistsForRootLocale";
+    final String expectedUnformattedString = generateResourceBundleStringToCheck(
+        "unformatted string", expectedResourceBundleBaseName, expectedLocale);
+    final String expectedFormattedStringNoFormat = generateResourceBundleStringToCheck(
+        "formatted string: %s %d", expectedResourceBundleBaseName, expectedLocale);
+    ResourceBundleWrapper resourceBundleWrapper =
+        wrapperFactory.createResourceBundleWrapper(expectedResourceBundleBaseName, expectedLocale);
+    resourceBundleWrapper.loadResourceBundle();
+
+    wrapperAssert.assertExpectedResourceBundleWrapper(expectedResourceBundleBaseName,
+        expectedLocale, resourceBundleWrapper);
+    wrapperAssert.assertExpectedLocalizedAndFormattedStrings(expectedUnformattedString,
+        expectedFormattedStringNoFormat, defaultExpectedFormatObjectsArray,
+        defaultExistingUnformattedKey, defaultExistingFormattedKey, resourceBundleWrapper);
   }
 
   @Test
-  @Ignore("not worked on yet")
   public void ResourceBundleWrapper_loadResourceBundleFromPropertiesFileThatExistsForSpecificLocaleButIsEclipsedByResourceBundleFromJavaClassFile_resourceBundleFromPropertiesFileIsLoaded() {
-    // TODO check to ensure both the formatted and unformatted strings exist.
-    fail("not implemented yet");
+    final Locale expectedLocale = Locale.CANADA_FRENCH;
+    final String expectedResourceBundleBaseName =
+        "com.ht.wrap.test.resource.ResourceBundleWrapperExistsForSpecificLocaleButEclipsedByClass";
+    final String expectedUnformattedString = generateResourceBundleStringToCheck(
+        "unformatted string", expectedResourceBundleBaseName, expectedLocale);
+    final String expectedFormattedStringNoFormat = generateResourceBundleStringToCheck(
+        "formatted string: %s %d", expectedResourceBundleBaseName, expectedLocale);
+    ResourceBundleWrapper resourceBundleWrapper =
+        wrapperFactory.createResourceBundleWrapper(expectedResourceBundleBaseName, expectedLocale);
+    resourceBundleWrapper.loadResourceBundle();
+
+    wrapperAssert.assertExpectedResourceBundleWrapper(expectedResourceBundleBaseName,
+        expectedLocale, resourceBundleWrapper);
+    wrapperAssert.assertExpectedLocalizedAndFormattedStrings(expectedUnformattedString,
+        expectedFormattedStringNoFormat, defaultExpectedFormatObjectsArray,
+        defaultExistingUnformattedKey, defaultExistingFormattedKey, resourceBundleWrapper);
   }
 
   @Test
-  @Ignore("not worked on yet")
   public void ResourceBundleWrapper_loadResourceBundleThatExistsForRootLocaleButAlsoExistsForSpecificLocale_resourceBundleForRootLocaleIsLoaded() {
-    // TODO check to ensure both the formatted and unformatted strings exist.
-    fail("not implemented yet");
+    final Locale expectedLocale = Locale.ROOT;
+    final String expectedResourceBundleBaseName =
+        "com.ht.wrap.test.resource.ResourceBundleWrapperExistsLoadForRootLocaleWhenSpecificExists";
+    final String expectedUnformattedString = generateResourceBundleStringToCheck(
+        "unformatted string", expectedResourceBundleBaseName, expectedLocale);
+    final String expectedFormattedStringNoFormat = generateResourceBundleStringToCheck(
+        "formatted string: %s %d", expectedResourceBundleBaseName, expectedLocale);
+    ResourceBundleWrapper resourceBundleWrapper =
+        wrapperFactory.createResourceBundleWrapper(expectedResourceBundleBaseName, expectedLocale);
+    resourceBundleWrapper.loadResourceBundle();
+
+    wrapperAssert.assertExpectedResourceBundleWrapper(expectedResourceBundleBaseName,
+        expectedLocale, resourceBundleWrapper);
+    wrapperAssert.assertExpectedLocalizedAndFormattedStrings(expectedUnformattedString,
+        expectedFormattedStringNoFormat, defaultExpectedFormatObjectsArray,
+        defaultExistingUnformattedKey, defaultExistingFormattedKey, resourceBundleWrapper);
   }
 
-  @Test
-  @Ignore("not worked on yet")
+  @Test(expected = MissingResourceException.class)
   public void ResourceBundleWrapper_getUnformattedStringThatDoesNotExistInResourceBundle_missingResourceExceptionIsThrown() {
-    fail("not implemented yet");
+    final String expectedResourceBundleBaseName =
+        "com.ht.wrap.test.resource.ResourceBundleWrapperExistsNonExistentStringDefinitions";
+    ResourceBundleWrapper resourceBundleWrapper = wrapperFactory
+        .createResourceBundleWrapper(expectedResourceBundleBaseName, defaultExpectedLocale);
+    try {
+      resourceBundleWrapper.loadResourceBundle();
+    } catch (MissingResourceException mre) {
+      fail("exception happend at unexpected location");
+    }
+
+    resourceBundleWrapper.getUnformattedString(defaultNonexistentUnformattedKey);
   }
 
-  @Test
-  @Ignore("not worked on yet")
+  @Test(expected = MissingResourceException.class)
   public void ResourceBundleWrapper_getFormattedStringThatDoesNotExistInResourceBundle_missingResourceExceptionIsThrown() {
-    fail("not implemented yet");
+    final String expectedResourceBundleBaseName =
+        "com.ht.wrap.test.resource.ResourceBundleWrapperExistsNonExistentStringDefinitions";
+    ResourceBundleWrapper resourceBundleWrapper = wrapperFactory
+        .createResourceBundleWrapper(expectedResourceBundleBaseName, defaultExpectedLocale);
+    try {
+      resourceBundleWrapper.loadResourceBundle();
+    } catch (MissingResourceException mre) {
+      fail("exception happend at unexpected location");
+    }
+
+    resourceBundleWrapper.getFormattedString(defaultNonexistentFormattedKey,
+        defaultExpectedFormatObjectsArray);
   }
 
   @Test
-  @Ignore("not worked on yet")
-  public void ResourceBundleWrapper_getUnformattedStringThatExistsInResourceBundle_stringIsReturned() {
-    fail("not implemented yet");
+  public void ResourceBundleWrapper_getStringsThatExistInResourceBundle_stringsAreReturned() {
+    final String expectedResourceBundleBaseName =
+        "com.ht.wrap.test.resource.ResourceBundleWrapperExistsStringDefinitionsExist";
+    final String expectedUnformattedString = generateResourceBundleStringToCheck(
+        "unformatted string", expectedResourceBundleBaseName, defaultExpectedLocale);
+    final String expectedFormattedStringNoFormat = generateResourceBundleStringToCheck(
+        "formatted string: %s %d", expectedResourceBundleBaseName, defaultExpectedLocale);
+    ResourceBundleWrapper resourceBundleWrapper = wrapperFactory
+        .createResourceBundleWrapper(expectedResourceBundleBaseName, defaultExpectedLocale);
+    resourceBundleWrapper.loadResourceBundle();
+
+    wrapperAssert.assertExpectedLocalizedAndFormattedStrings(expectedUnformattedString,
+        expectedFormattedStringNoFormat, defaultExpectedFormatObjectsArray,
+        defaultExistingUnformattedKey, defaultExistingFormattedKey, resourceBundleWrapper);
   }
 
-  @Test
-  @Ignore("not worked on yet")
-  public void ResourceBundleWrapper_getFormattedStringThatExistsInResourceBundle_stringIsReturned() {
-    fail("not implemented yet");
+  @Test(expected = MissingFormatArgumentException.class)
+  public void ResourceBundleWrapper_getFormattedStringButNoFormatObjectsSpecified_missingFormatArgumentExceptionIsThrown() {
+    final String expectedResourceBundleBaseName =
+        "com.ht.wrap.test.resource.ResourceBundleWrapperExistsStringDefinitionsExist";
+    ResourceBundleWrapper resourceBundleWrapper = wrapperFactory
+        .createResourceBundleWrapper(expectedResourceBundleBaseName, defaultExpectedLocale);
+    resourceBundleWrapper.loadResourceBundle();
+
+    resourceBundleWrapper.getFormattedString(defaultExistingFormattedKey);
   }
 
-  @Test
-  @Ignore("not worked on yet")
-  public void ResourceBundleWrapper_getFormattedStringButNoFormatObjectsSpecified_stringWithNoFormattingIsReturned() {
-    fail("not implemented yet");
-  }
+  @Test(expected = IllegalFormatConversionException.class)
+  public void ResourceBundleWrapper_getFormattedStringButWrongObjectTypesSpecifiedForFormatObjects_IllegalFormatConversionExceptionIsThrown() {
+    final String expectedResourceBundleBaseName =
+        "com.ht.wrap.test.resource.ResourceBundleWrapperExistsStringDefinitionsExist";
+    ResourceBundleWrapper resourceBundleWrapper = wrapperFactory
+        .createResourceBundleWrapper(expectedResourceBundleBaseName, defaultExpectedLocale);
+    resourceBundleWrapper.loadResourceBundle();
 
-  @Test
-  @Ignore("not worked on yet")
-  public void ResourceBundleWrapper_getFormattedStringButLessThanRequiredNumberOfFormatObjectsSpecified_partiallyFormattedStringIsReturned() {
-    fail("not implemented yet");
-  }
-
-  @Test
-  @Ignore("not worked on yet")
-  public void ResourceBundleWrapper_getFormattedStringButWrongObjectTypesSpecifiedForFormatObjects_FIX__iHaveNoIdeaWhatWillHappen() {
-    fail("not implemented yet");
+    resourceBundleWrapper.getFormattedString(defaultExistingFormattedKey, "some string",
+        new Object());
   }
 }

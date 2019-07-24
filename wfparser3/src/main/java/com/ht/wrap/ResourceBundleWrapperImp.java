@@ -20,17 +20,30 @@ final class ResourceBundleWrapperImp implements ResourceBundleWrapper {
 
   @Override
   public Locale getLocale() {
-    return locale;
+    if (isDefined(resourceBundle)) {
+      return resourceBundle.getLocale();
+    } else {
+      return locale;
+    }
   }
 
-  @Override
-  public String getString(String key) {
-    return resourceBundle.getString(key);
+  private boolean isDefined(ResourceBundle resourceBundle) {
+    return null != resourceBundle;
   }
 
   @Override
   public void loadResourceBundle() {
     resourceBundle = ResourceBundle.getBundle(baseBundleName, locale,
         ResourceBundle.Control.getControl(ResourceBundle.Control.FORMAT_PROPERTIES));
+  }
+
+  @Override
+  public String getUnformattedString(String key) {
+    return resourceBundle.getString(key);
+  }
+
+  @Override
+  public String getFormattedString(String key, Object... args) {
+    return String.format(getLocale(), resourceBundle.getString(key), args);
   }
 }

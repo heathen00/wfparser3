@@ -13,11 +13,28 @@ public final class Assert {
     return new Assert();
   }
 
-  public void assertExpectedResourceBundleWrapper(String expectedBaseBundleName,
-      Locale expectedLocale, ResourceBundleWrapper resourceBundleWrapper) {
+  public void assertExpectedResourceBundleWrapper(final String expectedBaseBundleName,
+      final Locale expectedLocale, final ResourceBundleWrapper resourceBundleWrapper) {
     assertNotNull(resourceBundleWrapper);
     assertEquals(expectedBaseBundleName, resourceBundleWrapper.getBaseBundleName());
     assertEquals(expectedLocale, resourceBundleWrapper.getLocale());
   }
 
+  public void assertExpectedLocalizedAndFormattedStrings(final String expectedUnformattedString,
+      final String expectedFormattedStringNoFormat, final Object[] expectedFormatObjectsArray,
+      final String unformattedKey, final String formattedKey,
+      final ResourceBundleWrapper resourceBundleWrapper) {
+    final String expectedFormattedStringWithFormat =
+        String.format(resourceBundleWrapper.getLocale(), expectedFormattedStringNoFormat,
+            expectedFormatObjectsArray);
+    assertNotNull(resourceBundleWrapper);
+    assertNotNull(unformattedKey);
+    assertNotNull(formattedKey);
+    assertEquals(expectedUnformattedString,
+        resourceBundleWrapper.getUnformattedString(unformattedKey));
+    assertEquals(expectedFormattedStringNoFormat,
+        resourceBundleWrapper.getUnformattedString(formattedKey));
+    assertEquals(expectedFormattedStringWithFormat,
+        resourceBundleWrapper.getFormattedString(formattedKey, expectedFormatObjectsArray));
+  }
 }
