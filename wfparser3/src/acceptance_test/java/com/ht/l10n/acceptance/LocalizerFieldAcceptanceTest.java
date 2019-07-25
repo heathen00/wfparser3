@@ -7,7 +7,7 @@ import static org.junit.Assert.assertTrue;
 
 import com.ht.l10n.LocalizerField;
 import com.ht.l10n.LocalizerType;
-import com.ht.l10n.StubFactory;
+import com.ht.l10n.StubLocalizerFactory;
 import com.ht.l10n.TestableLocalizerFactory;
 import com.ht.uid.UID;
 
@@ -16,19 +16,19 @@ import org.junit.Test;
 
 public class LocalizerFieldAcceptanceTest {
   private TestableLocalizerFactory testableLocalizerFactory;
-  private StubFactory stubFactory;
+  private StubLocalizerFactory stubLocalizerFactory;
 
   @Before
   public void setup() {
     testableLocalizerFactory = TestableLocalizerFactory.getTestableLocalizerFactory();
     testableLocalizerFactory.resetAll();
-    stubFactory = StubFactory.createStubFactory();
+    stubLocalizerFactory = StubLocalizerFactory.createStubLocalizerFactory();
   }
 
   @Test
   public void LocalizerField_createFactories_factoriesCreated() {
     assertNotNull(testableLocalizerFactory);
-    assertNotNull(stubFactory);
+    assertNotNull(stubLocalizerFactory);
   }
 
   @Test
@@ -40,7 +40,7 @@ public class LocalizerFieldAcceptanceTest {
     final String expectedFieldName = "valid.field.name.00";
     final String expectedFullyQualifiedName = String.join(".", expectedGroupName, expectedTypeName,
         expectedInstanceName, expectedFieldName);
-    final LocalizerType expectedLocalizerType = stubFactory
+    final LocalizerType expectedLocalizerType = stubLocalizerFactory
         .createStubLocalizerType(expectedGroupName, expectedTypeName, expectedInstanceName);
 
     LocalizerField localizerField =
@@ -58,7 +58,7 @@ public class LocalizerFieldAcceptanceTest {
     UID<LocalizerField> first;
     UID<LocalizerField> second;
     LocalizerType localizerType =
-        stubFactory.createStubLocalizerType("test.group", "test.type", "test.instance");
+        stubLocalizerFactory.createStubLocalizerType("test.group", "test.type", "test.instance");
 
     // Equals.
     first = testableLocalizerFactory.createLocalizerField(localizerType, "test.same").getUid();

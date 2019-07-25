@@ -14,7 +14,7 @@ import org.junit.Test;
 
 public class LocalizerFactoryUnitTest {
   private LocalizerFactoryInternal localizerFactoryInternal;
-  private StubFactory stubLocalizerFactory;
+  private StubLocalizerFactory stubLocalizerFactory;
   private StubWrapperFactory stubWrapperFactory;
   private Assert localizerAssert;
   private Locale expectedUndefinedLocale;
@@ -23,7 +23,7 @@ public class LocalizerFactoryUnitTest {
   public void setup() {
     localizerFactoryInternal = SystemInternal.getSystemInternal().getFactoryInternal();
     localizerFactoryInternal.resetAll();
-    stubLocalizerFactory = StubFactory.createStubFactory();
+    stubLocalizerFactory = StubLocalizerFactory.createStubLocalizerFactory();
     stubWrapperFactory = StubWrapperFactory.createStubWrapperFactory();
     localizerAssert = Assert.createAssert();
 

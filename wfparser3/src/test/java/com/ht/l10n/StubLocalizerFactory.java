@@ -8,14 +8,14 @@ import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-public final class StubFactory {
-  private static final StubFactory STUB_FACTORY_SINGLETON = new StubFactory();
+public final class StubLocalizerFactory {
+  private static final StubLocalizerFactory STUB_FACTORY_SINGLETON = new StubLocalizerFactory();
 
-  public static StubFactory createStubFactory() {
+  public static StubLocalizerFactory createStubLocalizerFactory() {
     return STUB_FACTORY_SINGLETON;
   }
 
-  private StubFactory() {}
+  private StubLocalizerFactory() {}
 
   public LocalizerType createStubLocalizerType(String groupName, String typeName,
       String instanceName) {

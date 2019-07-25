@@ -11,7 +11,7 @@ import com.ht.l10n.LocalizerBundle;
 import com.ht.l10n.LocalizerException;
 import com.ht.l10n.LocalizerField;
 import com.ht.l10n.LocalizerType;
-import com.ht.l10n.StubFactory;
+import com.ht.l10n.StubLocalizerFactory;
 import com.ht.l10n.TestableLocalizerFactory;
 import com.ht.uid.UID;
 
@@ -25,7 +25,7 @@ import org.junit.Test;
 
 public class LocalizerAcceptanceTest {
   private TestableLocalizerFactory testableLocalizerFactory;
-  private StubFactory stubFactory;
+  private StubLocalizerFactory stubLocalizerFactory;
   private Assert localizerAssert;
 
 
@@ -33,14 +33,14 @@ public class LocalizerAcceptanceTest {
   public void setup() {
     testableLocalizerFactory = TestableLocalizerFactory.getTestableLocalizerFactory();
     testableLocalizerFactory.resetAll();
-    stubFactory = StubFactory.createStubFactory();
+    stubLocalizerFactory = StubLocalizerFactory.createStubLocalizerFactory();
     localizerAssert = Assert.createAssert();
   }
 
   @Test
   public void Localizer_createFactories_factoriesAreCreated() {
     assertNotNull(testableLocalizerFactory);
-    assertNotNull(stubFactory);
+    assertNotNull(stubLocalizerFactory);
     assertNotNull(localizerAssert);
   }
 
@@ -54,7 +54,7 @@ public class LocalizerAcceptanceTest {
   public void Localizer_setLocaleToANewLocale_localeChangedToNewLocale() throws Exception {
     final String expectedName = "localizer.name";
     final UID<Localizer> expectedLocalizerUid =
-        UID.createUid(expectedName, stubFactory.createDefaultStubLocalizer());
+        UID.createUid(expectedName, stubLocalizerFactory.createDefaultStubLocalizer());
     final Locale originalLocale = Locale.CHINESE;
     final Locale newLocale = Locale.CANADA_FRENCH;
     final boolean expectedIsDefined = true;
