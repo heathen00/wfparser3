@@ -4,29 +4,30 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import org.junit.Before;
-import org.junit.Test;
 
-import com.ht.l10n.Factory;
 import com.ht.l10n.LocalizerField;
 import com.ht.l10n.LocalizerType;
 import com.ht.l10n.StubFactory;
-import com.ht.l10n.System;
+import com.ht.l10n.TestableLocalizerFactory;
 import com.ht.uid.UID;
 
+import org.junit.Before;
+import org.junit.Test;
+
 public class LocalizerFieldAcceptanceTest {
-  private Factory localizerFactory;
+  private TestableLocalizerFactory testableLocalizerFactory;
   private StubFactory stubFactory;
 
   @Before
   public void setup() {
-    localizerFactory = System.getSystem().getFactory();
+    testableLocalizerFactory = TestableLocalizerFactory.getTestableLocalizerFactory();
+    testableLocalizerFactory.resetAll();
     stubFactory = StubFactory.createStubFactory();
   }
 
   @Test
   public void LocalizerField_createFactories_factoriesCreated() {
-    assertNotNull(localizerFactory);
+    assertNotNull(testableLocalizerFactory);
     assertNotNull(stubFactory);
   }
 
@@ -43,7 +44,7 @@ public class LocalizerFieldAcceptanceTest {
         .createStubLocalizerType(expectedGroupName, expectedTypeName, expectedInstanceName);
 
     LocalizerField localizerField =
-        localizerFactory.createLocalizerField(expectedLocalizerType, expectedFieldName);
+        testableLocalizerFactory.createLocalizerField(expectedLocalizerType, expectedFieldName);
     assertNotNull(localizerField);
     UID<LocalizerField> localizerFieldUid = localizerField.getUid();
 
@@ -60,8 +61,8 @@ public class LocalizerFieldAcceptanceTest {
         stubFactory.createStubLocalizerType("test.group", "test.type", "test.instance");
 
     // Equals.
-    first = localizerFactory.createLocalizerField(localizerType, "test.same").getUid();
-    second = localizerFactory.createLocalizerField(localizerType, "test.same").getUid();
+    first = testableLocalizerFactory.createLocalizerField(localizerType, "test.same").getUid();
+    second = testableLocalizerFactory.createLocalizerField(localizerType, "test.same").getUid();
 
     assertTrue(first.equals(second));
     assertTrue(second.equals(first));
@@ -70,8 +71,8 @@ public class LocalizerFieldAcceptanceTest {
     assertTrue(second.compareTo(first) == 0);
 
     // Not equal: different keys.
-    first = localizerFactory.createLocalizerField(localizerType, "test.first").getUid();
-    second = localizerFactory.createLocalizerField(localizerType, "test.second").getUid();
+    first = testableLocalizerFactory.createLocalizerField(localizerType, "test.first").getUid();
+    second = testableLocalizerFactory.createLocalizerField(localizerType, "test.second").getUid();
 
     assertFalse(first.equals(second));
     assertFalse(second.equals(first));

@@ -6,7 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class LocalizerUnitTest {
-  private FactoryInternal localizerFactoryInternal;
+  private LocalizerFactoryInternal localizerFactoryInternal;
   private Assert localizerAssert;
 
 

@@ -1,6 +1,7 @@
 package com.ht.l10n;
 
 import com.ht.uid.UID;
+import com.ht.wrap.WrapperFactory;
 import com.ht.wrap.ResourceBundleWrapper;
 
 import java.util.Collections;
@@ -10,13 +11,13 @@ import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.Set;
 
-final class FactoryInternalImp implements FactoryInternal {
-  private final com.ht.wrap.Factory wrapperFactory;
+final class LocalizerFactoryInternalImp implements LocalizerFactoryInternal {
+  private WrapperFactory wrapperFactory;
   private final Map<UID<Localizer>, LocalizerInternal> localizerInternalMap;
   private final LocalizerInternal undefinedLocalizer;
 
-  FactoryInternalImp() {
-    wrapperFactory = com.ht.wrap.Factory.createWrapperFactory();
+  LocalizerFactoryInternalImp() {
+    wrapperFactory = WrapperFactory.createWrapperFactory();
     localizerInternalMap = new HashMap<>();
     undefinedLocalizer = new UndefinedLocalizerInternalImp();
   }
@@ -77,8 +78,8 @@ final class FactoryInternalImp implements FactoryInternal {
   public LocalizerBundleInternal createTargetLocalizerBundle(LocalizerInternal localizerInternal,
       String resourceBundleName) throws LocalizerException {
     guardNotNull("localizerInternal", localizerInternal);
-    ResourceBundleWrapper resourceBundleWrapper =
-        createResourceBundleForLocalizerBundle(resourceBundleName, localizerInternal.getLocale());
+    ResourceBundleWrapper resourceBundleWrapper = createResourceBundleWrapperForLocalizerBundle(
+        resourceBundleName, localizerInternal.getLocale());
     return new LocalizerBundleInternalImp(this, localizerInternal, resourceBundleWrapper);
   }
 
@@ -88,7 +89,7 @@ final class FactoryInternalImp implements FactoryInternal {
     guardNotNull("localizerInternal", localizerInternal);
     guardNotNull("resourceBundleName", resourceBundleName);
     ResourceBundleWrapper resourceBundleWrapper =
-        createResourceBundleForLocalizerBundle(resourceBundleName, Locale.ROOT);
+        createResourceBundleWrapperForLocalizerBundle(resourceBundleName, Locale.ROOT);
     return new LocalizerBundleInternalImp(this, localizerInternal, resourceBundleWrapper);
   }
 
@@ -145,8 +146,8 @@ final class FactoryInternalImp implements FactoryInternal {
   }
 
   @Override
-  public ResourceBundleWrapper createResourceBundleForLocalizerBundle(String resourceBundleName,
-      Locale targetLocale) throws LocalizerException {
+  public ResourceBundleWrapper createResourceBundleWrapperForLocalizerBundle(
+      String resourceBundleName, Locale targetLocale) throws LocalizerException {
     ResourceBundleWrapper resourceBundleWrapper =
         wrapperFactory.createResourceBundleWrapper(resourceBundleName, targetLocale);
     try {
@@ -178,5 +179,19 @@ final class FactoryInternalImp implements FactoryInternal {
   @Override
   public void resetAll() {
     localizerInternalMap.clear();
+    wrapperFactory = WrapperFactory.createWrapperFactory();
+  }
+
+  @Override
+  public void setWrapperFactory(WrapperFactory wrapperFactory) {
+    if (null == wrapperFactory) {
+      throw new NullPointerException("wrapperFactory parameter cannot be null");
+    }
+    this.wrapperFactory = wrapperFactory;
+  }
+
+  @Override
+  public WrapperFactory getWrapperFactory() {
+    return wrapperFactory;
   }
 }

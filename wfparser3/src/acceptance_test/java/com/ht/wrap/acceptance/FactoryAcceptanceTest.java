@@ -3,7 +3,7 @@ package com.ht.wrap.acceptance;
 import static org.junit.Assert.assertNotNull;
 
 import com.ht.wrap.Assert;
-import com.ht.wrap.Factory;
+import com.ht.wrap.WrapperFactory;
 import com.ht.wrap.ResourceBundleWrapper;
 
 import java.util.Locale;
@@ -12,12 +12,12 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class FactoryAcceptanceTest {
-  private Factory wrapperFactory;
+  private WrapperFactory wrapperFactory;
   private Assert wrapperAssert;
 
   @Before
   public void setUp() throws Exception {
-    wrapperFactory = Factory.createWrapperFactory();
+    wrapperFactory = WrapperFactory.createWrapperFactory();
     wrapperAssert = Assert.createWrapperAssert();
   }
 

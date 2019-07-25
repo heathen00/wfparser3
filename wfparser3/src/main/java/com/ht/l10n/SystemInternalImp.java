@@ -11,19 +11,19 @@ final class SystemInternalImp implements SystemInternal {
     return SYSTEM_IMP_SINGLETON;
   }
 
-  private final FactoryInternal factoryInternal;
+  private final LocalizerFactoryInternal factoryInternal;
 
   private SystemInternalImp() {
-    factoryInternal = new FactoryInternalImp();
+    factoryInternal = new LocalizerFactoryInternalImp();
   }
 
   @Override
-  public Factory getFactory() {
+  public LocalizerFactory getFactory() {
     return getFactoryInternal();
   }
 
   @Override
-  public FactoryInternal getFactoryInternal() {
+  public LocalizerFactoryInternal getFactoryInternal() {
     return factoryInternal;
   }
 

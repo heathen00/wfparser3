@@ -9,7 +9,7 @@ public interface System {
     return SystemInternal.getSystemInternal();
   }
 
-  Factory getFactory();
+  LocalizerFactory getFactory();
 
   Set<UID<Localizer>> getLocalizerUidSet();
 

@@ -10,7 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class LocalizerBundleUnitTest {
-  private FactoryInternal localizerFactory;
+  private LocalizerFactoryInternal localizerFactory;
   private StubFactory stubFactory;
   private Assert localizerAssert;
 

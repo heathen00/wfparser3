@@ -4,7 +4,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
 import com.ht.wrap.Assert;
-import com.ht.wrap.Factory;
+import com.ht.wrap.WrapperFactory;
 import com.ht.wrap.ResourceBundleWrapper;
 
 import java.util.IllegalFormatConversionException;
@@ -16,7 +16,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class ResourceBundleWrapperAcceptanceTest {
-  private Factory wrapperFactory;
+  private WrapperFactory wrapperFactory;
   private Assert wrapperAssert;
 
   private final Locale defaultExpectedLocale = Locale.CANADA_FRENCH;
@@ -38,7 +38,7 @@ public class ResourceBundleWrapperAcceptanceTest {
 
   @Before
   public void setUp() throws Exception {
-    wrapperFactory = Factory.createWrapperFactory();
+    wrapperFactory = WrapperFactory.createWrapperFactory();
     wrapperAssert = Assert.createWrapperAssert();
   }
 

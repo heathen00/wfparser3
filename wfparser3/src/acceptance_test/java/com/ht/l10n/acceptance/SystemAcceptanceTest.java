@@ -5,7 +5,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import com.ht.l10n.Assert;
-import com.ht.l10n.Factory;
+import com.ht.l10n.LocalizerFactory;
 import com.ht.l10n.Localizer;
 import com.ht.l10n.StubFactory;
 import com.ht.l10n.System;
@@ -19,7 +19,7 @@ import org.junit.Test;
 
 public class SystemAcceptanceTest {
   private System localizerSystem;
-  private Factory localizerFactory;
+  private LocalizerFactory localizerFactory;
   private StubFactory localizerStubFactory;
   private Assert localizerAssert;
   private Localizer undefinedLocalizer;

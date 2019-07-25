@@ -4,7 +4,12 @@ import java.util.Locale;
 
 import org.apache.commons.lang3.StringUtils;
 
-final class FactoryImp implements Factory {
+final class WrapperFactoryImp implements WrapperFactory {
+  private static final WrapperFactoryImp WRAPPER_FACTORY_SINGLETON = new WrapperFactoryImp();
+
+  public static WrapperFactoryImp getFactorySingleton() {
+    return WRAPPER_FACTORY_SINGLETON;
+  }
 
   private void guardNotNull(String parameterName, Object parameter) {
     if (null == parameter) {

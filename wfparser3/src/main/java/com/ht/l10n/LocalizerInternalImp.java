@@ -14,12 +14,12 @@ import java.util.TreeSet;
 final class LocalizerInternalImp implements LocalizerInternal {
   private final String name;
   private Locale locale;
-  private final FactoryInternal factoryInternal;
+  private final LocalizerFactoryInternal factoryInternal;
   private final SortedSet<LocalizerBundle> localizerBundleSet;
   private final Map<UID<LocalizerType>, LocalizerTypeInternal> localizerTypeMap;
   private final UID<Localizer> localizerUid;
 
-  public LocalizerInternalImp(FactoryInternal factoryInternal, String name, Locale locale) {
+  public LocalizerInternalImp(LocalizerFactoryInternal factoryInternal, String name, Locale locale) {
     this.factoryInternal = factoryInternal;
     this.name = name;
     this.locale = locale;

@@ -6,12 +6,12 @@ import java.util.Locale;
 import java.util.MissingResourceException;
 
 final class LocalizerBundleInternalImp implements LocalizerBundleInternal {
-  private final FactoryInternal factoryInternal;
+  private final LocalizerFactoryInternal factoryInternal;
   private final LocalizerInternal localizerInternal;
   private final String resourceBundleName;
   private ResourceBundleWrapper resourceBundleWrapper;
 
-  LocalizerBundleInternalImp(FactoryInternal factoryInternal, LocalizerInternal localizerInternal,
+  LocalizerBundleInternalImp(LocalizerFactoryInternal factoryInternal, LocalizerInternal localizerInternal,
       ResourceBundleWrapper resourceBundle) {
     this.factoryInternal = factoryInternal;
     this.localizerInternal = localizerInternal;
@@ -67,7 +67,7 @@ final class LocalizerBundleInternalImp implements LocalizerBundleInternal {
   @Override
   public void loadL10nResource(Locale locale) throws LocalizerException {
     this.resourceBundleWrapper =
-        factoryInternal.createResourceBundleForLocalizerBundle(resourceBundleName, locale);
+        factoryInternal.createResourceBundleWrapperForLocalizerBundle(resourceBundleName, locale);
   }
 
   @Override

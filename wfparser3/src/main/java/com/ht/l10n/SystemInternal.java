@@ -5,5 +5,5 @@ interface SystemInternal extends System {
     return SystemInternalImp.getSystemInternalImpSingleton();
   }
 
-  FactoryInternal getFactoryInternal();
+  LocalizerFactoryInternal getFactoryInternal();
 }

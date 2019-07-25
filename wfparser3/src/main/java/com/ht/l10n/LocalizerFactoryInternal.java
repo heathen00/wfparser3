@@ -6,7 +6,7 @@ import com.ht.wrap.ResourceBundleWrapper;
 import java.util.Locale;
 import java.util.Set;
 
-interface FactoryInternal extends Factory {
+interface LocalizerFactoryInternal extends LocalizerFactory, CanReset, ConfigurableWrapperFactory {
   LocalizerInternal createLocalizerInternal(String name, Locale locale) throws LocalizerException;
 
   LocalizerBundleInternal createTargetLocalizerBundle(LocalizerInternal localizer,
@@ -19,12 +19,10 @@ interface FactoryInternal extends Factory {
 
   LocalizerInternal createUndefinedLocalizer();
 
-  ResourceBundleWrapper createResourceBundleForLocalizerBundle(String resourceBundleName,
+  ResourceBundleWrapper createResourceBundleWrapperForLocalizerBundle(String resourceBundleName,
       Locale targetLocale) throws LocalizerException;
 
   Set<UID<Localizer>> getLocalizerUidSet();
 
   Localizer getLocalizer(UID<Localizer> localizerUid);
-
-  void resetAll();
 }
