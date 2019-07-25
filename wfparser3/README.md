@@ -201,6 +201,10 @@ There are a number of problems with the localization implementation I currently 
    * The stub localizer factory should really implement the same interface as the internal localizer
      factory.  It may have its own methods beyond that, but it should, at the very least, implement
      the same interface for the sake of interchangeability.
+   * You should consider adding yet another layer of testing: integration, which tests to ensure
+     that independent subsystems of the whole solution work together as expected.  The testing
+     should not be too extensive to reduce redundancy and should only indicate that ... what?
+     Think about what the integration testing should prove in more concrete and limited terms.
 
      
 HERE:

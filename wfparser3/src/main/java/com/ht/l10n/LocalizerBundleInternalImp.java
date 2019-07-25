@@ -1,44 +1,45 @@
 package com.ht.l10n;
 
+import com.ht.wrap.ResourceBundleWrapper;
+
 import java.util.Locale;
 import java.util.MissingResourceException;
-import java.util.ResourceBundle;
 
 final class LocalizerBundleInternalImp implements LocalizerBundleInternal {
   private final FactoryInternal factoryInternal;
   private final LocalizerInternal localizerInternal;
   private final String resourceBundleName;
-  private ResourceBundle resourceBundle;
+  private ResourceBundleWrapper resourceBundleWrapper;
 
   LocalizerBundleInternalImp(FactoryInternal factoryInternal, LocalizerInternal localizerInternal,
-      ResourceBundle resourceBundle) {
+      ResourceBundleWrapper resourceBundle) {
     this.factoryInternal = factoryInternal;
     this.localizerInternal = localizerInternal;
-    this.resourceBundle = resourceBundle;
-    this.resourceBundleName = this.resourceBundle.getBaseBundleName();
+    this.resourceBundleWrapper = resourceBundle;
+    this.resourceBundleName = this.resourceBundleWrapper.getBaseBundleName();
   }
 
   @Override
   public String getResourceBundleName() {
-    return resourceBundle.getBaseBundleName();
+    return resourceBundleWrapper.getBaseBundleName();
   }
 
   @Override
   public String getFormattedString(LocalizerField localizerField, Object... parameters)
       throws LocalizerException {
-    String formattedLocalizedString = null;
+    String formattedString = null;
     try {
-      formattedLocalizedString = String.format(resourceBundle.getLocale(),
-          resourceBundle.getString(localizerField.getFullyQualifiedName()), parameters);
+      formattedString = resourceBundleWrapper
+          .getFormattedString(localizerField.getFullyQualifiedName(), parameters);
     } catch (MissingResourceException mre) {
       throw new LocalizerException(mre);
     }
-    return formattedLocalizedString;
+    return formattedString;
   }
 
   @Override
   public Locale getResolvedLocale() {
-    return resourceBundle.getLocale();
+    return resourceBundleWrapper.getLocale();
   }
 
   @Override
@@ -48,13 +49,14 @@ final class LocalizerBundleInternalImp implements LocalizerBundleInternal {
 
   @Override
   public String getUnformattedString(LocalizerField localizerField) throws LocalizerException {
-    String unformattedLocalizedString = null;
+    String unformattedString = null;
     try {
-      unformattedLocalizedString = resourceBundle.getString(localizerField.getFullyQualifiedName());
+      unformattedString =
+          resourceBundleWrapper.getUnformattedString(localizerField.getFullyQualifiedName());
     } catch (MissingResourceException mre) {
       throw new LocalizerException(mre);
     }
-    return unformattedLocalizedString;
+    return unformattedString;
   }
 
   @Override
@@ -64,7 +66,7 @@ final class LocalizerBundleInternalImp implements LocalizerBundleInternal {
 
   @Override
   public void loadL10nResource(Locale locale) throws LocalizerException {
-    this.resourceBundle =
+    this.resourceBundleWrapper =
         factoryInternal.createResourceBundleForLocalizerBundle(resourceBundleName, locale);
   }
 

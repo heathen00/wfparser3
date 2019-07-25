@@ -1,9 +1,9 @@
 package com.ht.l10n;
 
 import com.ht.uid.UID;
+import com.ht.wrap.ResourceBundleWrapper;
 
 import java.util.Locale;
-import java.util.ResourceBundle;
 import java.util.Set;
 
 interface FactoryInternal extends Factory {
@@ -19,7 +19,7 @@ interface FactoryInternal extends Factory {
 
   LocalizerInternal createUndefinedLocalizer();
 
-  ResourceBundle createResourceBundleForLocalizerBundle(String resourceBundleName,
+  ResourceBundleWrapper createResourceBundleForLocalizerBundle(String resourceBundleName,
       Locale targetLocale) throws LocalizerException;
 
   Set<UID<Localizer>> getLocalizerUidSet();
