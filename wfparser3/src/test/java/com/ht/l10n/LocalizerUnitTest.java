@@ -13,6 +13,7 @@ public class LocalizerUnitTest {
   @Before
   public void setUp() throws Exception {
     localizerFactoryInternal = SystemInternal.getSystemInternal().getFactoryInternal();
+    localizerFactoryInternal.resetAll();
     localizerAssert = Assert.createAssert();
   }
 

@@ -11,6 +11,7 @@ import com.ht.l10n.LocalizerType;
 import com.ht.l10n.StubLocalizerFactory;
 import com.ht.l10n.TestableLocalizerFactory;
 import com.ht.uid.UID;
+import com.ht.wrap.StubWrapperFactory;
 
 import java.util.Collections;
 import java.util.Locale;
@@ -23,6 +24,7 @@ public class LocalizerFactoryAcceptanceTest {
 
   private TestableLocalizerFactory testableLocalizerFactory;
   private StubLocalizerFactory stubLocalizerFactory;
+  private StubWrapperFactory stubWrapperFactory;
   private Assert localizerAssert;
 
   @Before
@@ -30,14 +32,17 @@ public class LocalizerFactoryAcceptanceTest {
     testableLocalizerFactory = TestableLocalizerFactory.getTestableLocalizerFactory();
     testableLocalizerFactory.resetAll();
     stubLocalizerFactory = StubLocalizerFactory.createStubLocalizerFactory();
+    stubWrapperFactory = StubWrapperFactory.createStubWrapperFactory();
+    testableLocalizerFactory.setWrapperFactory(stubWrapperFactory);
     localizerAssert = Assert.createAssert();
   }
 
   @Test
-  public void LocalizerFactory_createFactories_factoriesCreated() {
+  public void LocalizerFactory_createTestingAssets_testingAssetsCreated() {
     assertNotNull(testableLocalizerFactory);
     assertNotNull(stubLocalizerFactory);
     assertNotNull(localizerAssert);
+    assertNotNull(stubWrapperFactory);
   }
 
   @Test(expected = NullPointerException.class)
@@ -112,6 +117,7 @@ public class LocalizerFactoryAcceptanceTest {
   @Test(expected = LocalizerException.class)
   public void LocalizerFactory_createCompositeLocalizerButRootLocaleResourceBundleDoesNotExist_localizerExceptionIsThrown()
       throws Exception {
+    testableLocalizerFactory.resetAll();
     final String expectedResourceBundleName =
         "com.ht.l10n.test.resource.TestL10ResourceBundleForLocaleExistsButRootLocaleDoesNot";
     Localizer localizer =

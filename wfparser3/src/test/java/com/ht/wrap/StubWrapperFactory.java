@@ -12,7 +12,6 @@ public class StubWrapperFactory implements WrapperFactory {
   @Override
   public ResourceBundleWrapper createResourceBundleWrapper(String resourceBundleName,
       Locale locale) {
-    // TODO Auto-generated method stub
-    return null;
+    return new StubResourceBundleWrapperImp(resourceBundleName, locale);
   }
 }
