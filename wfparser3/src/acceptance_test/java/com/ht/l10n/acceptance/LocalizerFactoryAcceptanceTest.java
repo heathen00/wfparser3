@@ -33,7 +33,7 @@ public class LocalizerFactoryAcceptanceTest {
     testableLocalizerFactory.resetAll();
     stubLocalizerFactory = StubLocalizerFactory.createStubLocalizerFactory();
     stubWrapperFactory = StubWrapperFactory.createStubWrapperFactory();
-    testableLocalizerFactory.setWrapperFactory(stubWrapperFactory);
+//    testableLocalizerFactory.setWrapperFactory(stubWrapperFactory);
     localizerAssert = Assert.createAssert();
   }
 

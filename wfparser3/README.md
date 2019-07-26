@@ -205,6 +205,11 @@ There are a number of problems with the localization implementation I currently 
      that independent subsystems of the whole solution work together as expected.  The testing
      should not be too extensive to reduce redundancy and should only indicate that ... what?
      Think about what the integration testing should prove in more concrete and limited terms.
+   * After you refactor to make LocalizerInstance a separate type, you should review the LocalizerType
+     and see if it is really necessary to specify the group/type/method separately.  You could eliminate
+     some error scenarios by making this one change.  And then you could enforce the policy for how
+     to map between actual class instances and the localized data in a subsystem above/that uses the
+     localizer.
 
      
 HERE:
