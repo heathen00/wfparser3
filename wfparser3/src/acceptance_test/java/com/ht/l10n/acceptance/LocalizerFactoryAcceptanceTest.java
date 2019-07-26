@@ -1,6 +1,7 @@
 package com.ht.l10n.acceptance;
 
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 
 import com.ht.l10n.Assert;
 import com.ht.l10n.Localizer;
@@ -11,6 +12,7 @@ import com.ht.l10n.LocalizerType;
 import com.ht.l10n.StubLocalizerFactory;
 import com.ht.l10n.TestableLocalizerFactory;
 import com.ht.uid.UID;
+import com.ht.wrap.ResourceBundleWrapperConfigurator;
 import com.ht.wrap.StubWrapperFactory;
 
 import java.util.Collections;
@@ -18,6 +20,7 @@ import java.util.Locale;
 import java.util.Set;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class LocalizerFactoryAcceptanceTest {
@@ -25,6 +28,8 @@ public class LocalizerFactoryAcceptanceTest {
   private TestableLocalizerFactory testableLocalizerFactory;
   private StubLocalizerFactory stubLocalizerFactory;
   private StubWrapperFactory stubWrapperFactory;
+  private ResourceBundleWrapperConfigurator resourceBundleWrapperForLocaleConfigurator;
+  private ResourceBundleWrapperConfigurator resourceBundleWrapperForRootLocaleConfigurator;
   private Assert localizerAssert;
 
   @Before
@@ -33,7 +38,11 @@ public class LocalizerFactoryAcceptanceTest {
     testableLocalizerFactory.resetAll();
     stubLocalizerFactory = StubLocalizerFactory.createStubLocalizerFactory();
     stubWrapperFactory = StubWrapperFactory.createStubWrapperFactory();
-//    testableLocalizerFactory.setWrapperFactory(stubWrapperFactory);
+    resourceBundleWrapperForLocaleConfigurator =
+        stubWrapperFactory.getResourceBundleWrapperForLocaleConfigurator();
+    resourceBundleWrapperForRootLocaleConfigurator =
+        stubWrapperFactory.getResourceBundleWrapperForRootLocaleConfigurator();
+    testableLocalizerFactory.setWrapperFactory(stubWrapperFactory);
     localizerAssert = Assert.createAssert();
   }
 
@@ -43,6 +52,8 @@ public class LocalizerFactoryAcceptanceTest {
     assertNotNull(stubLocalizerFactory);
     assertNotNull(localizerAssert);
     assertNotNull(stubWrapperFactory);
+    assertNotNull(resourceBundleWrapperForLocaleConfigurator);
+    assertNotNull(resourceBundleWrapperForRootLocaleConfigurator);
   }
 
   @Test(expected = NullPointerException.class)
@@ -99,6 +110,8 @@ public class LocalizerFactoryAcceptanceTest {
   @Test
   public void LocalizerFactory_createCompositeLocalizerBundleWithValidParameters_localizerBundleCreatedAsSpecified()
       throws Exception {
+    resourceBundleWrapperForLocaleConfigurator.resetAll().doesResourceBundleExist(true);
+    resourceBundleWrapperForRootLocaleConfigurator.resetAll().doesResourceBundleExist(true);
     final Locale expectedTargetLocale = Locale.CANADA_FRENCH;
     final Locale expectedResolvedLocale = Locale.CANADA_FRENCH;
     final String expectedResourceBundleName =
@@ -117,7 +130,7 @@ public class LocalizerFactoryAcceptanceTest {
   @Test(expected = LocalizerException.class)
   public void LocalizerFactory_createCompositeLocalizerButRootLocaleResourceBundleDoesNotExist_localizerExceptionIsThrown()
       throws Exception {
-    testableLocalizerFactory.resetAll();
+    fail("set resource bundle wrapper behaviour");
     final String expectedResourceBundleName =
         "com.ht.l10n.test.resource.TestL10ResourceBundleForLocaleExistsButRootLocaleDoesNot";
     Localizer localizer =

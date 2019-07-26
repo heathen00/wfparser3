@@ -1,34 +1,31 @@
 package com.ht.wrap;
 
-import java.util.HashMap;
 import java.util.Locale;
-import java.util.Map;
+import java.util.MissingResourceException;
 
 public final class StubResourceBundleWrapperImp implements ResourceBundleWrapper {
-  private final String expectedBaseBundleName;
-  private final Locale expectedLocale;
-  private final Map<String, String> expectedStringMap;
+  private final ResourceBundleWrapperTemplate resourceBundleWrapperTemplate;
 
-  StubResourceBundleWrapperImp(String expectedBaseBundleName, Locale expectedLocale) {
-    this.expectedBaseBundleName = expectedBaseBundleName;
-    this.expectedLocale = expectedLocale;
-    expectedStringMap = new HashMap<>();
+  StubResourceBundleWrapperImp(ResourceBundleWrapperTemplate resourceBundleWrapper) {
+    this.resourceBundleWrapperTemplate = new ResourceBundleWrapperTemplate(resourceBundleWrapper);
   }
 
   @Override
   public String getBaseBundleName() {
-    return expectedBaseBundleName;
+    return resourceBundleWrapperTemplate.getBaseBundleName();
   }
 
   @Override
   public Locale getLocale() {
-    return expectedLocale;
+    return resourceBundleWrapperTemplate.getLocale();
   }
 
   @Override
   public void loadResourceBundle() {
-    // TODO Auto-generated method stub
-
+    if (!resourceBundleWrapperTemplate.doesResourceBundleExist()) {
+      throw new MissingResourceException("resource bundle does not exist", getBaseBundleName(),
+          "no key");
+    }
   }
 
   @Override
