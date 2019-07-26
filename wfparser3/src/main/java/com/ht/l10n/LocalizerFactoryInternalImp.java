@@ -41,6 +41,7 @@ final class LocalizerFactoryInternalImp implements LocalizerFactoryInternal {
   public LocalizerBundle createLocalizerBundle(Localizer localizer, String resourceBundleName)
       throws LocalizerException {
     guardNotNull("localizer", localizer);
+    guardNotNull("resourceBundleName", resourceBundleName);
     LocalizerInternal localizerInternal = null;
     if (localizer instanceof LocalizerInternal) {
       localizerInternal = (LocalizerInternal) localizer;

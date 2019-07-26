@@ -1,7 +1,6 @@
 package com.ht.l10n.acceptance;
 
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
 
 import com.ht.l10n.Assert;
 import com.ht.l10n.Localizer;
@@ -20,7 +19,6 @@ import java.util.Locale;
 import java.util.Set;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class LocalizerFactoryAcceptanceTest {
@@ -130,7 +128,8 @@ public class LocalizerFactoryAcceptanceTest {
   @Test(expected = LocalizerException.class)
   public void LocalizerFactory_createCompositeLocalizerButRootLocaleResourceBundleDoesNotExist_localizerExceptionIsThrown()
       throws Exception {
-    fail("set resource bundle wrapper behaviour");
+    resourceBundleWrapperForLocaleConfigurator.resetAll().doesResourceBundleExist(true);
+    resourceBundleWrapperForRootLocaleConfigurator.resetAll().doesResourceBundleExist(false);
     final String expectedResourceBundleName =
         "com.ht.l10n.test.resource.TestL10ResourceBundleForLocaleExistsButRootLocaleDoesNot";
     Localizer localizer =

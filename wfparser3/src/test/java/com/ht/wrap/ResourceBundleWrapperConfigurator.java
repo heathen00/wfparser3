@@ -10,8 +10,7 @@ public final class ResourceBundleWrapperConfigurator {
   }
 
   private void resetAllPrivate() {
-    resourceBundleWrapperTemplate =
-        ResourceBundleWrapperTemplate.getDefaultResourceBundleWrapperTemplate();
+    resourceBundleWrapperTemplate = new ResourceBundleWrapperTemplate();
   }
 
   public ResourceBundleWrapperConfigurator resetAll() {
@@ -43,5 +42,10 @@ public final class ResourceBundleWrapperConfigurator {
 
   ResourceBundleWrapperTemplate getTemplate() {
     return resourceBundleWrapperTemplate;
+  }
+
+  public ResourceBundleWrapperConfigurator addLocalizedString(String key, String string) {
+    resourceBundleWrapperTemplate.addLocalizedString(key, string);
+    return this;
   }
 }

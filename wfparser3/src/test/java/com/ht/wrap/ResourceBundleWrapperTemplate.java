@@ -1,21 +1,19 @@
 package com.ht.wrap;
 
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 class ResourceBundleWrapperTemplate implements ResourceBundleWrapper {
-  private static final ResourceBundleWrapperTemplate DEFAULT_RESOURCE_BUNDLE_WRAPPER_TEMPLATE =
-      new ResourceBundleWrapperTemplate();
-
-  static ResourceBundleWrapperTemplate getDefaultResourceBundleWrapperTemplate() {
-    return DEFAULT_RESOURCE_BUNDLE_WRAPPER_TEMPLATE;
-  }
-
   private String baseBundleName;
   private Locale locale;
   private boolean doesResourceBundleExist;
   private boolean doesLocalizedStringExist;
+  private final Map<String, String> localizedStringMap;
 
-  private ResourceBundleWrapperTemplate() {
+  ResourceBundleWrapperTemplate() {
+    localizedStringMap = new HashMap<>();
     resetAllPrivate();
   }
 
@@ -24,6 +22,7 @@ class ResourceBundleWrapperTemplate implements ResourceBundleWrapper {
     locale = Locale.ROOT;
     doesResourceBundleExist = false;
     doesLocalizedStringExist = false;
+    localizedStringMap.clear();
   }
 
   public void resetAll() {
@@ -35,6 +34,7 @@ class ResourceBundleWrapperTemplate implements ResourceBundleWrapper {
     this.locale = resourceBundleTemplateWrapper.getLocale();
     this.doesResourceBundleExist = resourceBundleTemplateWrapper.doesResourceBundleExist();
     this.doesLocalizedStringExist = resourceBundleTemplateWrapper.doesLocalizedStringExist();
+    this.localizedStringMap = new HashMap<>(resourceBundleTemplateWrapper.getLocalizedStringMap());
   }
 
   @Override
@@ -84,6 +84,25 @@ class ResourceBundleWrapperTemplate implements ResourceBundleWrapper {
 
   public void setDoesLocalizedStringExist(boolean doesLocalizedStringExist) {
     this.doesLocalizedStringExist = doesLocalizedStringExist;
+  }
+
+  public void addLocalizedString(String key, String string) {
+    localizedStringMap.put(key, string);
+  }
+
+  public Map<String, String> getLocalizedStringMap() {
+    return Collections.unmodifiableMap(localizedStringMap);
+  }
+
+  public String getLocalizedString(String key) {
+    return localizedStringMap.get(key);
+  }
+
+  @Override
+  public String toString() {
+    return "ResourceBundleWrapperTemplate [baseBundleName=" + baseBundleName + ", locale=" + locale
+        + ", doesResourceBundleExist=" + doesResourceBundleExist + ", doesLocalizedStringExist="
+        + doesLocalizedStringExist + ", localizedStringMap=" + localizedStringMap + "]";
   }
 }
 

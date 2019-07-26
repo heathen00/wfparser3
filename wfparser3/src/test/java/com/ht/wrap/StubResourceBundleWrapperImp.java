@@ -30,14 +30,19 @@ public final class StubResourceBundleWrapperImp implements ResourceBundleWrapper
 
   @Override
   public String getUnformattedString(String key) {
-    // TODO Auto-generated method stub
-    return null;
+    if (!resourceBundleWrapperTemplate.doesLocalizedStringExist()) {
+      throw new MissingResourceException("unformatted localized string does not exist",
+          getBaseBundleName(), key);
+    }
+    return resourceBundleWrapperTemplate.getLocalizedString(key);
   }
 
   @Override
   public String getFormattedString(String key, Object... args) {
-    // TODO Auto-generated method stub
-    return null;
+    if (!resourceBundleWrapperTemplate.doesLocalizedStringExist()) {
+      throw new MissingResourceException("formatted localized string does not exist",
+          getBaseBundleName(), key);
+    }
+    return String.format(getLocale(), resourceBundleWrapperTemplate.getLocalizedString(key), args);
   }
-
 }
