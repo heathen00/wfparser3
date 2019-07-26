@@ -7,5 +7,8 @@ public interface WrapperFactory {
     return WrapperFactoryImp.getFactorySingleton();
   }
 
-  ResourceBundleWrapper createResourceBundleWrapper(String resourceBundleName, Locale locale);
+  ResourceBundleWrapper createResourceBundleWrapperForLocale(String resourceBundleName,
+      Locale locale);
+
+  ResourceBundleWrapper createResourceBundleWrapperForRootLocale(String resourceBundleName);
 }

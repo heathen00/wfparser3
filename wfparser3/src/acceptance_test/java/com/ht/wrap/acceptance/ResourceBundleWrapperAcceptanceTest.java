@@ -51,7 +51,7 @@ public class ResourceBundleWrapperAcceptanceTest {
   @Test(expected = MissingResourceException.class)
   public void ResourceBundleWrapper_loadResourceBundleThatDoesNotExistForSpecificLocale_MissingResourceExceptionIsThrown() {
     ResourceBundleWrapper resourceBundleWrapper = wrapperFactory
-        .createResourceBundleWrapper("resource.bundle.does.not.Exist", Locale.CANADA_FRENCH);
+        .createResourceBundleWrapperForLocale("resource.bundle.does.not.Exist", Locale.CANADA_FRENCH);
 
     resourceBundleWrapper.loadResourceBundle();
   }
@@ -59,7 +59,7 @@ public class ResourceBundleWrapperAcceptanceTest {
   @Test(expected = MissingResourceException.class)
   public void ResourceBundleWraper_loadResourceBundleThatDoesNotExistForDefaultLocale_missingResourceExceptionIsThrown() {
     ResourceBundleWrapper resourceBundleWrapper = wrapperFactory
-        .createResourceBundleWrapper("resource.bundle.does.not.Exist", Locale.getDefault());
+        .createResourceBundleWrapperForLocale("resource.bundle.does.not.Exist", Locale.getDefault());
 
     resourceBundleWrapper.loadResourceBundle();
   }
@@ -67,7 +67,7 @@ public class ResourceBundleWrapperAcceptanceTest {
   @Test(expected = MissingResourceException.class)
   public void ResourceBundleWrapper_loadResourceBundleThatDoesNotExistForRootLocale_missingResourceExceptionIsThrown() {
     ResourceBundleWrapper resourceBundleWrapper =
-        wrapperFactory.createResourceBundleWrapper("resource.bundle.does.not.Exist", Locale.ROOT);
+        wrapperFactory.createResourceBundleWrapperForLocale("resource.bundle.does.not.Exist", Locale.ROOT);
 
     resourceBundleWrapper.loadResourceBundle();
   }
@@ -83,7 +83,7 @@ public class ResourceBundleWrapperAcceptanceTest {
     final String expectedFormattedStringNoFormat = generateResourceBundleStringToCheck(
         "formatted string: %s %d", expectedResourceBundleBaseName, expectedLocale);
     ResourceBundleWrapper resourceBundleWrapper =
-        wrapperFactory.createResourceBundleWrapper(expectedResourceBundleBaseName, initialLocale);
+        wrapperFactory.createResourceBundleWrapperForLocale(expectedResourceBundleBaseName, initialLocale);
     resourceBundleWrapper.loadResourceBundle();
 
     wrapperAssert.assertExpectedResourceBundleWrapper(expectedResourceBundleBaseName,
@@ -108,7 +108,7 @@ public class ResourceBundleWrapperAcceptanceTest {
     final String expectedFormattedStringNoFormat = generateResourceBundleStringToCheck(
         "formatted string: %s %d", expectedResourceBundleBaseName, expectedLocale);
     ResourceBundleWrapper resourceBundleWrapper =
-        wrapperFactory.createResourceBundleWrapper(expectedResourceBundleBaseName, initialLocale);
+        wrapperFactory.createResourceBundleWrapperForLocale(expectedResourceBundleBaseName, initialLocale);
     resourceBundleWrapper.loadResourceBundle();
 
     wrapperAssert.assertExpectedResourceBundleWrapper(expectedResourceBundleBaseName,
@@ -129,7 +129,7 @@ public class ResourceBundleWrapperAcceptanceTest {
     final String expectedFormattedStringNoFormat = generateResourceBundleStringToCheck(
         "formatted string: %s %d", expectedResourceBundleBaseName, expectedLocale);
     ResourceBundleWrapper resourceBundleWrapper =
-        wrapperFactory.createResourceBundleWrapper(expectedResourceBundleBaseName, initialLocale);
+        wrapperFactory.createResourceBundleWrapperForLocale(expectedResourceBundleBaseName, initialLocale);
     resourceBundleWrapper.loadResourceBundle();
 
     wrapperAssert.assertExpectedResourceBundleWrapper(expectedResourceBundleBaseName,
@@ -149,7 +149,7 @@ public class ResourceBundleWrapperAcceptanceTest {
     final String expectedFormattedStringNoFormat = generateResourceBundleStringToCheck(
         "formatted string: %s %d", expectedResourceBundleBaseName, expectedLocale);
     ResourceBundleWrapper resourceBundleWrapper =
-        wrapperFactory.createResourceBundleWrapper(expectedResourceBundleBaseName, expectedLocale);
+        wrapperFactory.createResourceBundleWrapperForLocale(expectedResourceBundleBaseName, expectedLocale);
     resourceBundleWrapper.loadResourceBundle();
 
     wrapperAssert.assertExpectedResourceBundleWrapper(expectedResourceBundleBaseName,
@@ -172,7 +172,7 @@ public class ResourceBundleWrapperAcceptanceTest {
     final String expectedFormattedStringNoFormat = generateResourceBundleStringToCheck(
         "formatted string: %s %d", expectedResourceBundleBaseName, expectedLocale);
     ResourceBundleWrapper resourceBundleWrapper =
-        wrapperFactory.createResourceBundleWrapper(expectedResourceBundleBaseName, expectedLocale);
+        wrapperFactory.createResourceBundleWrapperForLocale(expectedResourceBundleBaseName, expectedLocale);
     resourceBundleWrapper.loadResourceBundle();
 
     wrapperAssert.assertExpectedResourceBundleWrapper(expectedResourceBundleBaseName,
@@ -192,7 +192,7 @@ public class ResourceBundleWrapperAcceptanceTest {
     final String expectedFormattedStringNoFormat = generateResourceBundleStringToCheck(
         "formatted string: %s %d", expectedResourceBundleBaseName, expectedLocale);
     ResourceBundleWrapper resourceBundleWrapper =
-        wrapperFactory.createResourceBundleWrapper(expectedResourceBundleBaseName, expectedLocale);
+        wrapperFactory.createResourceBundleWrapperForLocale(expectedResourceBundleBaseName, expectedLocale);
     resourceBundleWrapper.loadResourceBundle();
 
     wrapperAssert.assertExpectedResourceBundleWrapper(expectedResourceBundleBaseName,
@@ -212,7 +212,7 @@ public class ResourceBundleWrapperAcceptanceTest {
     final String expectedFormattedStringNoFormat = generateResourceBundleStringToCheck(
         "formatted string: %s %d", expectedResourceBundleBaseName, expectedLocale);
     ResourceBundleWrapper resourceBundleWrapper =
-        wrapperFactory.createResourceBundleWrapper(expectedResourceBundleBaseName, expectedLocale);
+        wrapperFactory.createResourceBundleWrapperForLocale(expectedResourceBundleBaseName, expectedLocale);
     resourceBundleWrapper.loadResourceBundle();
 
     wrapperAssert.assertExpectedResourceBundleWrapper(expectedResourceBundleBaseName,
@@ -232,7 +232,7 @@ public class ResourceBundleWrapperAcceptanceTest {
     final String expectedFormattedStringNoFormat = generateResourceBundleStringToCheck(
         "formatted string: %s %d", expectedResourceBundleBaseName, expectedLocale);
     ResourceBundleWrapper resourceBundleWrapper =
-        wrapperFactory.createResourceBundleWrapper(expectedResourceBundleBaseName, expectedLocale);
+        wrapperFactory.createResourceBundleWrapperForLocale(expectedResourceBundleBaseName, expectedLocale);
     resourceBundleWrapper.loadResourceBundle();
 
     wrapperAssert.assertExpectedResourceBundleWrapper(expectedResourceBundleBaseName,
@@ -247,7 +247,7 @@ public class ResourceBundleWrapperAcceptanceTest {
     final String expectedResourceBundleBaseName =
         "com.ht.wrap.test.resource.ResourceBundleWrapperExistsNonExistentStringDefinitions";
     ResourceBundleWrapper resourceBundleWrapper = wrapperFactory
-        .createResourceBundleWrapper(expectedResourceBundleBaseName, defaultExpectedLocale);
+        .createResourceBundleWrapperForLocale(expectedResourceBundleBaseName, defaultExpectedLocale);
     try {
       resourceBundleWrapper.loadResourceBundle();
     } catch (MissingResourceException mre) {
@@ -262,7 +262,7 @@ public class ResourceBundleWrapperAcceptanceTest {
     final String expectedResourceBundleBaseName =
         "com.ht.wrap.test.resource.ResourceBundleWrapperExistsNonExistentStringDefinitions";
     ResourceBundleWrapper resourceBundleWrapper = wrapperFactory
-        .createResourceBundleWrapper(expectedResourceBundleBaseName, defaultExpectedLocale);
+        .createResourceBundleWrapperForLocale(expectedResourceBundleBaseName, defaultExpectedLocale);
     try {
       resourceBundleWrapper.loadResourceBundle();
     } catch (MissingResourceException mre) {
@@ -282,7 +282,7 @@ public class ResourceBundleWrapperAcceptanceTest {
     final String expectedFormattedStringNoFormat = generateResourceBundleStringToCheck(
         "formatted string: %s %d", expectedResourceBundleBaseName, defaultExpectedLocale);
     ResourceBundleWrapper resourceBundleWrapper = wrapperFactory
-        .createResourceBundleWrapper(expectedResourceBundleBaseName, defaultExpectedLocale);
+        .createResourceBundleWrapperForLocale(expectedResourceBundleBaseName, defaultExpectedLocale);
     resourceBundleWrapper.loadResourceBundle();
 
     wrapperAssert.assertExpectedLocalizedAndFormattedStrings(expectedUnformattedString,
@@ -295,7 +295,7 @@ public class ResourceBundleWrapperAcceptanceTest {
     final String expectedResourceBundleBaseName =
         "com.ht.wrap.test.resource.ResourceBundleWrapperExistsStringDefinitionsExist";
     ResourceBundleWrapper resourceBundleWrapper = wrapperFactory
-        .createResourceBundleWrapper(expectedResourceBundleBaseName, defaultExpectedLocale);
+        .createResourceBundleWrapperForLocale(expectedResourceBundleBaseName, defaultExpectedLocale);
     resourceBundleWrapper.loadResourceBundle();
 
     resourceBundleWrapper.getFormattedString(defaultExistingFormattedKey);
@@ -306,7 +306,7 @@ public class ResourceBundleWrapperAcceptanceTest {
     final String expectedResourceBundleBaseName =
         "com.ht.wrap.test.resource.ResourceBundleWrapperExistsStringDefinitionsExist";
     ResourceBundleWrapper resourceBundleWrapper = wrapperFactory
-        .createResourceBundleWrapper(expectedResourceBundleBaseName, defaultExpectedLocale);
+        .createResourceBundleWrapperForLocale(expectedResourceBundleBaseName, defaultExpectedLocale);
     resourceBundleWrapper.loadResourceBundle();
 
     resourceBundleWrapper.getFormattedString(defaultExistingFormattedKey, "some string",

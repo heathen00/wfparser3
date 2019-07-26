@@ -149,7 +149,7 @@ final class LocalizerFactoryInternalImp implements LocalizerFactoryInternal {
   public ResourceBundleWrapper createResourceBundleWrapperForLocalizerBundle(
       String resourceBundleName, Locale targetLocale) throws LocalizerException {
     ResourceBundleWrapper resourceBundleWrapper =
-        wrapperFactory.createResourceBundleWrapper(resourceBundleName, targetLocale);
+        wrapperFactory.createResourceBundleWrapperForLocale(resourceBundleName, targetLocale);
     try {
       resourceBundleWrapper.loadResourceBundle();
     } catch (MissingResourceException mre) {

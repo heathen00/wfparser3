@@ -18,7 +18,8 @@ final class WrapperFactoryImp implements WrapperFactory {
   }
 
   @Override
-  public ResourceBundleWrapper createResourceBundleWrapper(String baseBundleName, Locale locale) {
+  public ResourceBundleWrapper createResourceBundleWrapperForLocale(String baseBundleName,
+      Locale locale) {
     guardNotNull("baseBundleName", baseBundleName);
     if (StringUtils.isBlank(baseBundleName)) {
       throw new UnsupportedOperationException("baseBundleName cannot be empty");
@@ -27,4 +28,8 @@ final class WrapperFactoryImp implements WrapperFactory {
     return new ResourceBundleWrapperImp(baseBundleName, locale);
   }
 
+  @Override
+  public ResourceBundleWrapper createResourceBundleWrapperForRootLocale(String resourceBundleName) {
+    return createResourceBundleWrapperForLocale(resourceBundleName, Locale.ROOT);
+  }
 }
