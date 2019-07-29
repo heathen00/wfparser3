@@ -14,6 +14,8 @@ import com.ht.l10n.LocalizerType;
 import com.ht.l10n.StubLocalizerFactory;
 import com.ht.l10n.TestableLocalizerFactory;
 import com.ht.uid.UID;
+import com.ht.wrap.ResourceBundleWrapperConfigurator;
+import com.ht.wrap.StubWrapperFactory;
 
 import java.util.Arrays;
 import java.util.List;
@@ -26,7 +28,10 @@ import org.junit.Test;
 public class LocalizerAcceptanceTest {
   private TestableLocalizerFactory testableLocalizerFactory;
   private StubLocalizerFactory stubLocalizerFactory;
+  private StubWrapperFactory stubWrapperFactory;
   private Assert localizerAssert;
+  private ResourceBundleWrapperConfigurator resourceBundleWrapperForLocaleConfigurator;
+  private ResourceBundleWrapperConfigurator resourceBundleWrapperForRootLocaleConfigurator;
 
 
   @Before
@@ -34,13 +39,22 @@ public class LocalizerAcceptanceTest {
     testableLocalizerFactory = TestableLocalizerFactory.getTestableLocalizerFactory();
     testableLocalizerFactory.resetAll();
     stubLocalizerFactory = StubLocalizerFactory.createStubLocalizerFactory();
+    stubWrapperFactory = StubWrapperFactory.createStubWrapperFactory();
+    resourceBundleWrapperForLocaleConfigurator =
+        stubWrapperFactory.getResourceBundleWrapperForLocaleConfigurator();
+    resourceBundleWrapperForRootLocaleConfigurator =
+        stubWrapperFactory.getResourceBundleWrapperForRootLocaleConfigurator();
+    testableLocalizerFactory.setWrapperFactory(stubWrapperFactory);
     localizerAssert = Assert.createAssert();
   }
 
   @Test
-  public void Localizer_createFactories_factoriesAreCreated() {
+  public void Localizer_createTestingAssets_testingAssetsAreCreated() {
     assertNotNull(testableLocalizerFactory);
     assertNotNull(stubLocalizerFactory);
+    assertNotNull(stubWrapperFactory);
+    assertNotNull(resourceBundleWrapperForLocaleConfigurator);
+    assertNotNull(resourceBundleWrapperForRootLocaleConfigurator);
     assertNotNull(localizerAssert);
   }
 
@@ -82,16 +96,17 @@ public class LocalizerAcceptanceTest {
   @Test
   public void Localizer_getLocalizerBundleSetWhenLocalizerBundlesAdded_allAddedLocalizerBundlesArePresent()
       throws Exception {
+    resourceBundleWrapperForLocaleConfigurator.resetAll().doesResourceBundleExist(true);
+    resourceBundleWrapperForRootLocaleConfigurator.resetAll().doesResourceBundleExist(true);
     Localizer localizer =
         testableLocalizerFactory.createLocalizer("localizer.name", Locale.CANADA_FRENCH);
     final LocalizerBundle expectedLocalizerBundle00 = testableLocalizerFactory
-        .createLocalizerBundle(localizer, "com.ht.l10n.test.resource.TestResourceBundle00");
+        .createLocalizerBundle(localizer, "com.resource.bundle.name.DoesNotMatter00");
     final LocalizerBundle expectedLocalizerBundle01 = testableLocalizerFactory
-        .createLocalizerBundle(localizer, "com.ht.l10n.test.resource.TestResourceBundle01");
+        .createLocalizerBundle(localizer, "com.resource.bundle.name.DoesNotMatter01");
     List<LocalizerBundle> expectedLocalizerBundleList =
         Arrays.asList(expectedLocalizerBundle00, expectedLocalizerBundle01);
     final int expectedLocalizerBundleSetSize = expectedLocalizerBundleList.size();
-
 
     assertNotNull(localizer);
     assertNotNull(expectedLocalizerBundle00);
@@ -307,12 +322,14 @@ public class LocalizerAcceptanceTest {
   @Test
   public void Localizer_addOneLocalizerBundleThenSetLocaleToNewSupportedLocale_LocalizerBundleReloadedForNewLocale()
       throws Exception {
+    resourceBundleWrapperForLocaleConfigurator.resetAll().doesResourceBundleExist(true);
+    resourceBundleWrapperForRootLocaleConfigurator.resetAll().doesResourceBundleExist(true);
     Locale startingLocale = Locale.ENGLISH;
     Locale expectedLocale = Locale.CANADA_FRENCH;
     Localizer localizer =
         testableLocalizerFactory.createLocalizer("localizer.name", startingLocale);
     LocalizerBundle localizerBundle = testableLocalizerFactory.createLocalizerBundle(localizer,
-        "com.ht.l10n.test.resource.TestL10nResourceBundleChangeToExistingLocale");
+        "com.resource.bundle.name.DoesNotMatter");
     assertNotNull(localizerBundle);
     assertEquals(startingLocale, localizerBundle.getTargetLocale());
     assertEquals(startingLocale, localizerBundle.getResolvedLocale());
@@ -326,14 +343,14 @@ public class LocalizerAcceptanceTest {
   @Test
   public void Localizer_addMultipleLocalizerBundlesThenSetLocaleToNewSupportedLocale_allLocalizerBundlesReloadedForNewLocale()
       throws Exception {
+    resourceBundleWrapperForLocaleConfigurator.resetAll().doesResourceBundleExist(true);
+    resourceBundleWrapperForRootLocaleConfigurator.resetAll().doesResourceBundleExist(true);
     final Locale startingLocale = Locale.ENGLISH;
     final Locale expectedLocale = Locale.CANADA_FRENCH;
     final Localizer localizer =
         testableLocalizerFactory.createLocalizer("localizer.name", startingLocale);
-    final String localizerBundleName00 =
-        "com.ht.l10n.test.resource.TestL10nResourceBundleTestMultiple00";
-    final String localizerBundleName01 =
-        "com.ht.l10n.test.resource.TestL10nResourceBundleTestMultiple01";
+    final String localizerBundleName00 = "com.resource.bundle.name.DoesNotMatter00";
+    final String localizerBundleName01 = "com.resource.bundle.name.DoesNotMatter01";
     LocalizerBundle localizerBundle00 =
         testableLocalizerFactory.createLocalizerBundle(localizer, localizerBundleName00);
     assertNotNull(localizerBundle00);
@@ -341,9 +358,9 @@ public class LocalizerAcceptanceTest {
     assertEquals(startingLocale, localizerBundle00.getResolvedLocale());
     LocalizerBundle localizerBundle01 =
         testableLocalizerFactory.createLocalizerBundle(localizer, localizerBundleName01);
-    assertNotNull(localizerBundle00);
-    assertEquals(startingLocale, localizerBundle00.getTargetLocale());
-    assertEquals(startingLocale, localizerBundle00.getResolvedLocale());
+    assertNotNull(localizerBundle01);
+    assertEquals(startingLocale, localizerBundle01.getTargetLocale());
+    assertEquals(startingLocale, localizerBundle01.getResolvedLocale());
 
     localizer.setLocale(expectedLocale);
 

@@ -214,9 +214,6 @@ There are a number of problems with the localization implementation I currently 
      
 HERE:
 
-  // TODO replace the current ResourceBundle handling with something that allows testing with stubs
-  //      more easily.
-  // TODO refactor LocalizerBundle to use the new ResourceBundle.
   // TODO refactor LocalizerBundle so that its constructor is passed in the resourceBundleName string.
   //      You'll likely need to refactor the Localizer factory, too, to move the resource bundle
   //      creation logic into the ResourceBundle factory.
