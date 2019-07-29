@@ -79,6 +79,7 @@ final class LocalizerFactoryInternalImp implements LocalizerFactoryInternal {
   public LocalizerBundleInternal createTargetLocalizerBundle(LocalizerInternal localizerInternal,
       String resourceBundleName) throws LocalizerException {
     guardNotNull("localizerInternal", localizerInternal);
+    guardNotNull("resourceBundleName", resourceBundleName);
     ResourceBundleWrapper resourceBundleWrapper = createResourceBundleWrapperForLocalizerBundle(
         resourceBundleName, localizerInternal.getLocale());
     return new LocalizerBundleInternalImp(this, localizerInternal, resourceBundleWrapper);

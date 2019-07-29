@@ -2,24 +2,39 @@ package com.ht.l10n;
 
 import static org.junit.Assert.assertNotNull;
 
+import com.ht.wrap.ResourceBundleWrapperConfigurator;
+import com.ht.wrap.StubWrapperFactory;
+
 import org.junit.Before;
 import org.junit.Test;
 
 public class LocalizerUnitTest {
   private LocalizerFactoryInternal localizerFactoryInternal;
+  private StubWrapperFactory stubWrapperFactory;
   private Assert localizerAssert;
+  private ResourceBundleWrapperConfigurator resourceBundleWrapperForLocaleConfigurator;
+  private ResourceBundleWrapperConfigurator resourceBundleWrapperForRootLocaleConfigurator;
 
 
   @Before
   public void setUp() throws Exception {
     localizerFactoryInternal = SystemInternal.getSystemInternal().getFactoryInternal();
     localizerFactoryInternal.resetAll();
+    stubWrapperFactory = StubWrapperFactory.createStubWrapperFactory();
+    resourceBundleWrapperForLocaleConfigurator =
+        stubWrapperFactory.getResourceBundleWrapperForLocaleConfigurator();
+    resourceBundleWrapperForRootLocaleConfigurator =
+        stubWrapperFactory.getResourceBundleWrapperForRootLocaleConfigurator();
+    localizerFactoryInternal.setWrapperFactory(stubWrapperFactory);
     localizerAssert = Assert.createAssert();
   }
 
   @Test
-  public void Localizer_createFactories_factoriesAreCreated() {
+  public void Localizer_createTestingAssets_testingAssetsAreCreated() {
     assertNotNull(localizerFactoryInternal);
+    assertNotNull(stubWrapperFactory);
+    assertNotNull(resourceBundleWrapperForLocaleConfigurator);
+    assertNotNull(resourceBundleWrapperForRootLocaleConfigurator);
     assertNotNull(localizerAssert);
   }
 
@@ -72,9 +87,11 @@ public class LocalizerUnitTest {
   @Test(expected = UnsupportedOperationException.class)
   public void Localizer_addLocalizerBundleToUndefinedLocalizer_unsupportedOperationExceptionIsThrown()
       throws Exception {
+    resourceBundleWrapperForLocaleConfigurator.resetAll().doesResourceBundleExist(true);
+    resourceBundleWrapperForRootLocaleConfigurator.resetAll().doesResourceBundleExist(true);
     Localizer localizer = localizerFactoryInternal.createUndefinedLocalizer();
 
     localizerFactoryInternal.createLocalizerBundle(localizer,
-        "com.ht.l10n.test.resource.TestL10nRootLocaleResourceBundle");
+        "com.resource.bundle.name.DoesNotMatter");
   }
 }

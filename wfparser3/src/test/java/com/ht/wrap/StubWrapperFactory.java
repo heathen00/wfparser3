@@ -21,8 +21,6 @@ public final class StubWrapperFactory implements WrapperFactory {
   public ResourceBundleWrapper createResourceBundleWrapperForLocale(String resourceBundleName,
       Locale locale) {
     resourceBundleWrapperForLocaleConfigurator.baseBundleName(resourceBundleName).locale(locale);
-    System.out
-        .println("target template: " + resourceBundleWrapperForLocaleConfigurator.getTemplate());
     return new StubResourceBundleWrapperImp(
         resourceBundleWrapperForLocaleConfigurator.getTemplate());
   }
@@ -30,8 +28,6 @@ public final class StubWrapperFactory implements WrapperFactory {
   @Override
   public ResourceBundleWrapper createResourceBundleWrapperForRootLocale(String resourceBundleName) {
     resourceBundleWrapperForRootLocaleConfigurator.baseBundleName(resourceBundleName);
-    System.out
-        .println("root template: " + resourceBundleWrapperForRootLocaleConfigurator.getTemplate());
     return new StubResourceBundleWrapperImp(
         resourceBundleWrapperForRootLocaleConfigurator.getTemplate());
   }
