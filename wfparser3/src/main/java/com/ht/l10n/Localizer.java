@@ -18,9 +18,9 @@ public interface Localizer extends UniqueComponent<Localizer>, DefinedObject {
 
   Set<UID<LocalizerType>> getLocalizerTypeUidSet();
 
-  LocalizerField getLocalizerField(UID<LocalizerField> fieldUid);
+  LocalizerInstance getLocalizerInstance(UID<LocalizerInstance> instanceUid);
 
-  Set<UID<LocalizerField>> getLocalizerFieldUidSet();
+  Set<UID<LocalizerInstance>> getLocalizerInstanceUidSet();
 
   String getName();
 }

@@ -60,13 +60,13 @@ final class UndefinedLocalizerInternalImp implements LocalizerInternal {
   }
 
   @Override
-  public LocalizerField getLocalizerField(UID<LocalizerField> fieldUid) {
-    return undefinedLocalizerTypeInternalImp.getLocalizerField(fieldUid);
+  public LocalizerInstance getLocalizerInstance(UID<LocalizerInstance> instanceUid) {
+    return undefinedLocalizerTypeInternalImp.getLocalizerInstance(instanceUid);
   }
 
   @Override
-  public Set<UID<LocalizerField>> getLocalizerFieldUidSet() {
-    return undefinedLocalizerTypeInternalImp.getLocalizerFieldUidSet();
+  public Set<UID<LocalizerInstance>> getLocalizerInstanceUidSet() {
+    return undefinedLocalizerTypeInternalImp.getLocalizerInstanceUidSet();
   }
 
   @Override

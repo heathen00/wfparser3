@@ -2,21 +2,22 @@ package com.ht.l10n;
 
 import com.ht.uid.UID;
 
-final class UndefinedLocalizerFieldInternalImp implements LocalizerFieldInternal {
+final class UndefinedLocalizerInstanceInternalImp implements LocalizerInstanceInternal {
   private static final String UNDEFINED_LOCALIZED_STRING = "UNDEFINED";
   private final UndefinedLocalizerTypeInternalImp undefinedLocalizerTypeInternalImp;
-  private final String fieldName;
-  private final UID<LocalizerField> undefinedLocalizerFieldUid;
+  private final String instanceName;
+  private final UID<LocalizerInstance> undefinedLocalizerInstanceUid;
 
-  UndefinedLocalizerFieldInternalImp(UndefinedLocalizerTypeInternalImp undefinedLocalizerTypeImp) {
+  UndefinedLocalizerInstanceInternalImp(
+      UndefinedLocalizerTypeInternalImp undefinedLocalizerTypeImp) {
     undefinedLocalizerTypeInternalImp = undefinedLocalizerTypeImp;
-    fieldName = "undef.field";
-    undefinedLocalizerFieldUid = UID.createUid(getFullyQualifiedName(), this);
+    instanceName = "undef.instance";
+    undefinedLocalizerInstanceUid = UID.createUid(getFullyQualifiedName(), this);
   }
 
   @Override
-  public UID<LocalizerField> getUid() {
-    return undefinedLocalizerFieldUid;
+  public UID<LocalizerInstance> getUid() {
+    return undefinedLocalizerInstanceUid;
   }
 
   @Override
@@ -25,15 +26,15 @@ final class UndefinedLocalizerFieldInternalImp implements LocalizerFieldInternal
   }
 
   @Override
-  public String getFieldName() {
-    return fieldName;
+  public String getInstanceName() {
+    return instanceName;
   }
 
   @Override
   public String getFullyQualifiedName() {
     return String.join(".", undefinedLocalizerTypeInternalImp.getGroupName(),
         undefinedLocalizerTypeInternalImp.getTypeName(),
-        undefinedLocalizerTypeInternalImp.getInstanceName(), fieldName);
+        undefinedLocalizerTypeInternalImp.getMethodName(), instanceName);
   }
 
   @Override

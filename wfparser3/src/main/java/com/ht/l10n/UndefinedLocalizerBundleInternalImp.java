@@ -18,7 +18,7 @@ final class UndefinedLocalizerBundleInternalImp implements LocalizerBundleIntern
   }
 
   @Override
-  public String getFormattedString(LocalizerField localizerField, Object... parameters) {
+  public String getFormattedString(LocalizerInstance localizerInstance, Object... parameters) {
     return EXTERNAL_UNDEFINED;
   }
 
@@ -33,7 +33,7 @@ final class UndefinedLocalizerBundleInternalImp implements LocalizerBundleIntern
   }
 
   @Override
-  public String getUnformattedString(LocalizerField localizerField) {
+  public String getUnformattedString(LocalizerInstance localizerInstance) {
     return EXTERNAL_UNDEFINED;
   }
 

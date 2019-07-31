@@ -11,8 +11,8 @@ final class LocalizerBundleInternalImp implements LocalizerBundleInternal {
   private final String resourceBundleName;
   private ResourceBundleWrapper resourceBundleWrapper;
 
-  LocalizerBundleInternalImp(LocalizerFactoryInternal factoryInternal, LocalizerInternal localizerInternal,
-      ResourceBundleWrapper resourceBundle) {
+  LocalizerBundleInternalImp(LocalizerFactoryInternal factoryInternal,
+      LocalizerInternal localizerInternal, ResourceBundleWrapper resourceBundle) {
     this.factoryInternal = factoryInternal;
     this.localizerInternal = localizerInternal;
     this.resourceBundleWrapper = resourceBundle;
@@ -25,12 +25,12 @@ final class LocalizerBundleInternalImp implements LocalizerBundleInternal {
   }
 
   @Override
-  public String getFormattedString(LocalizerField localizerField, Object... parameters)
+  public String getFormattedString(LocalizerInstance localizerInstance, Object... parameters)
       throws LocalizerException {
     String formattedString = null;
     try {
       formattedString = resourceBundleWrapper
-          .getFormattedString(localizerField.getFullyQualifiedName(), parameters);
+          .getFormattedString(localizerInstance.getFullyQualifiedName(), parameters);
     } catch (MissingResourceException mre) {
       throw new LocalizerException(mre);
     }
@@ -48,11 +48,12 @@ final class LocalizerBundleInternalImp implements LocalizerBundleInternal {
   }
 
   @Override
-  public String getUnformattedString(LocalizerField localizerField) throws LocalizerException {
+  public String getUnformattedString(LocalizerInstance localizerInstance)
+      throws LocalizerException {
     String unformattedString = null;
     try {
       unformattedString =
-          resourceBundleWrapper.getUnformattedString(localizerField.getFullyQualifiedName());
+          resourceBundleWrapper.getUnformattedString(localizerInstance.getFullyQualifiedName());
     } catch (MissingResourceException mre) {
       throw new LocalizerException(mre);
     }

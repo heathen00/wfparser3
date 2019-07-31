@@ -210,13 +210,10 @@ There are a number of problems with the localization implementation I currently 
      some error scenarios by making this one change.  And then you could enforce the policy for how
      to map between actual class instances and the localized data in a subsystem above/that uses the
      localizer.
+   * you should rename the java package from "com.ht.l10n" to "com.ht.localizer" for consistency.
 
      
 HERE:
-
-  // TODO refactor LocalizerBundle so that its constructor is passed in the resourceBundleName string.
-  //      You'll likely need to refactor the Localizer factory, too, to move the resource bundle
-  //      creation logic into the ResourceBundle factory.
   
   // TODO add functionality to create and access LocalizerInstance instances.
   // TODO remove functionality from LocalizerType for the instance name.

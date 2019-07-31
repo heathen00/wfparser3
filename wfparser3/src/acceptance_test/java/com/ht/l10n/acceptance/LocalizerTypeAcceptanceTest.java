@@ -5,7 +5,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import com.ht.l10n.Assert;
-import com.ht.l10n.LocalizerField;
+import com.ht.l10n.LocalizerInstance;
 import com.ht.l10n.LocalizerType;
 import com.ht.l10n.StubLocalizerFactory;
 import com.ht.l10n.TestableLocalizerFactory;
@@ -42,9 +42,10 @@ public class LocalizerTypeAcceptanceTest {
   public void LocalizerType_getLocalizerFieldWithNullUid_nullPointerExceptionThrown()
       throws Exception {
     LocalizerType localizerType = testableLocalizerFactory.createLocalizerType(
-        stubLocalizerFactory.createDefaultStubLocalizer(), "test.group", "test.type", "test.instance");
+        stubLocalizerFactory.createDefaultStubLocalizer(), "test.group", "test.type",
+        "test.instance");
 
-    localizerType.getLocalizerField(null);
+    localizerType.getLocalizerInstance(null);
   }
 
   @Test
@@ -52,27 +53,30 @@ public class LocalizerTypeAcceptanceTest {
       throws Exception {
     String expectedLocalizerTypeGroup = "undef.group";
     String expectedLocalizerTypeType = "undef.type";
-    String expectedLocalizerTypeInstance = "undef.instance";
-    String expectedLocalizerFieldName = "undef.field";
+    String expectedLocalizerTypeMethod = "undef.method";
+    String expectedLocalizerFieldName = "undef.instance";
     String expectedLocalizerFieldFullyQualifiedName = String.join(".", expectedLocalizerTypeGroup,
-        expectedLocalizerTypeType, expectedLocalizerTypeInstance, expectedLocalizerFieldName);
+        expectedLocalizerTypeType, expectedLocalizerTypeMethod, expectedLocalizerFieldName);
     String expectedLocalizerFieldKey = expectedLocalizerFieldFullyQualifiedName;
     final boolean expectedIsDefinedForField = false;
     final boolean expectedIsDefinedForType = false;
     LocalizerType otherLocalizerType = testableLocalizerFactory.createLocalizerType(
-        stubLocalizerFactory.createDefaultStubLocalizer(), "other.group", "other.name", "other.instance");
-    LocalizerField otherLocalizerField =
-        testableLocalizerFactory.createLocalizerField(otherLocalizerType, "field.name");
+        stubLocalizerFactory.createDefaultStubLocalizer(), "other.group", "other.name",
+        "other.instance");
+    LocalizerInstance otherLocalizerField =
+        testableLocalizerFactory.createLocalizerInstance(otherLocalizerType, "field.name");
     LocalizerType localizerType = testableLocalizerFactory.createLocalizerType(
-        stubLocalizerFactory.createDefaultStubLocalizer(), "test.group", "test.type", "test.instance");
+        stubLocalizerFactory.createDefaultStubLocalizer(), "test.group", "test.type",
+        "test.instance");
 
-    LocalizerField localizerField = localizerType.getLocalizerField(otherLocalizerField.getUid());
+    LocalizerInstance localizerField =
+        localizerType.getLocalizerInstance(otherLocalizerField.getUid());
 
     localizerAssert.assertExpectedLocalizerField(expectedLocalizerFieldName,
         expectedLocalizerFieldFullyQualifiedName, expectedLocalizerFieldKey,
         expectedIsDefinedForField, localizerField);
     localizerAssert.assertExpectedLocalizerType(expectedLocalizerTypeGroup,
-        expectedLocalizerTypeType, expectedLocalizerTypeInstance, expectedIsDefinedForType,
+        expectedLocalizerTypeType, expectedLocalizerTypeMethod, expectedIsDefinedForType,
         localizerField.getLocalizerType());
   }
 
@@ -86,15 +90,16 @@ public class LocalizerTypeAcceptanceTest {
     final String expectedFullyQualifiedName =
         String.join(".", expectedGroup, expectedType, expectedInstance, expectedField);
     final LocalizerType localizerType = testableLocalizerFactory.createLocalizerType(
-        stubLocalizerFactory.createDefaultStubLocalizer(), expectedGroup, expectedType, expectedInstance);
-    final LocalizerField expectedLocalizerField =
-        testableLocalizerFactory.createLocalizerField(localizerType, expectedField);
+        stubLocalizerFactory.createDefaultStubLocalizer(), expectedGroup, expectedType,
+        expectedInstance);
+    final LocalizerInstance expectedLocalizerField =
+        testableLocalizerFactory.createLocalizerInstance(localizerType, expectedField);
     final boolean expectedIsDefinedForField = true;
     final boolean expectedIsDefinedForType = true;
 
 
-    LocalizerField localizerField =
-        localizerType.getLocalizerField(expectedLocalizerField.getUid());
+    LocalizerInstance localizerField =
+        localizerType.getLocalizerInstance(expectedLocalizerField.getUid());
 
     localizerAssert.assertExpectedLocalizerField(expectedField, expectedFullyQualifiedName,
         expectedLocalizerField.getUid().getKey(), expectedIsDefinedForField, localizerField);
@@ -109,9 +114,10 @@ public class LocalizerTypeAcceptanceTest {
     final String expectedType = "test.type";
     final String expectedInstance = "test.instance";
     final LocalizerType localizerType = testableLocalizerFactory.createLocalizerType(
-        stubLocalizerFactory.createDefaultStubLocalizer(), expectedGroup, expectedType, expectedInstance);
+        stubLocalizerFactory.createDefaultStubLocalizer(), expectedGroup, expectedType,
+        expectedInstance);
 
-    Set<UID<LocalizerField>> localizerFieldKeySet = localizerType.getLocalizerFieldUidSet();
+    Set<UID<LocalizerInstance>> localizerFieldKeySet = localizerType.getLocalizerInstanceUidSet();
 
     assertNotNull(localizerFieldKeySet);
     assertTrue(localizerFieldKeySet.isEmpty());
@@ -126,11 +132,12 @@ public class LocalizerTypeAcceptanceTest {
     final String expectedInstance = "test.instance";
     final String expectedField = "test.field";
     final LocalizerType localizerType = testableLocalizerFactory.createLocalizerType(
-        stubLocalizerFactory.createDefaultStubLocalizer(), expectedGroup, expectedType, expectedInstance);
-    final LocalizerField expectedLocalizerField =
-        testableLocalizerFactory.createLocalizerField(localizerType, expectedField);
+        stubLocalizerFactory.createDefaultStubLocalizer(), expectedGroup, expectedType,
+        expectedInstance);
+    final LocalizerInstance expectedLocalizerField =
+        testableLocalizerFactory.createLocalizerInstance(localizerType, expectedField);
 
-    Set<UID<LocalizerField>> localizerFieldKeySet = localizerType.getLocalizerFieldUidSet();
+    Set<UID<LocalizerInstance>> localizerFieldKeySet = localizerType.getLocalizerInstanceUidSet();
 
     assertNotNull(localizerFieldKeySet);
     assertTrue(localizerFieldKeySet.size() == expectedLocalizerFieldKeySetSize);
@@ -154,13 +161,14 @@ public class LocalizerTypeAcceptanceTest {
     final String expectedFieldOne = "test.field.01";
     final String expectedFieldTwo = "test.field.02";
     final LocalizerType localizerType = testableLocalizerFactory.createLocalizerType(
-        stubLocalizerFactory.createDefaultStubLocalizer(), expectedGroup, expectedType, expectedInstance);
-    final LocalizerField expectedLocalizerFieldOne =
-        testableLocalizerFactory.createLocalizerField(localizerType, expectedFieldOne);
-    final LocalizerField expectedLocalizerFieldTwo =
-        testableLocalizerFactory.createLocalizerField(localizerType, expectedFieldTwo);
+        stubLocalizerFactory.createDefaultStubLocalizer(), expectedGroup, expectedType,
+        expectedInstance);
+    final LocalizerInstance expectedLocalizerFieldOne =
+        testableLocalizerFactory.createLocalizerInstance(localizerType, expectedFieldOne);
+    final LocalizerInstance expectedLocalizerFieldTwo =
+        testableLocalizerFactory.createLocalizerInstance(localizerType, expectedFieldTwo);
 
-    Set<UID<LocalizerField>> localizerFieldKeySet = localizerType.getLocalizerFieldUidSet();
+    Set<UID<LocalizerInstance>> localizerFieldKeySet = localizerType.getLocalizerInstanceUidSet();
 
     assertNotNull(localizerFieldKeySet);
     assertTrue(localizerFieldKeySet.size() == expectedLocalizerFieldKeySetSize);
@@ -184,13 +192,14 @@ public class LocalizerTypeAcceptanceTest {
     final String expectedInstance = "test.instance";
     final String expectedField = "test.field";
     final LocalizerType localizerType = testableLocalizerFactory.createLocalizerType(
-        stubLocalizerFactory.createDefaultStubLocalizer(), expectedGroup, expectedType, expectedInstance);
-    final LocalizerField localizerFieldOne =
-        testableLocalizerFactory.createLocalizerField(localizerType, expectedField);
-    final LocalizerField localizerFieldTwo =
-        testableLocalizerFactory.createLocalizerField(localizerType, expectedField);
+        stubLocalizerFactory.createDefaultStubLocalizer(), expectedGroup, expectedType,
+        expectedInstance);
+    final LocalizerInstance localizerFieldOne =
+        testableLocalizerFactory.createLocalizerInstance(localizerType, expectedField);
+    final LocalizerInstance localizerFieldTwo =
+        testableLocalizerFactory.createLocalizerInstance(localizerType, expectedField);
 
-    Set<UID<LocalizerField>> localizerFieldKeySet = localizerType.getLocalizerFieldUidSet();
+    Set<UID<LocalizerInstance>> localizerFieldKeySet = localizerType.getLocalizerInstanceUidSet();
 
     assertTrue(localizerFieldOne == localizerFieldTwo);
     assertNotNull(localizerFieldKeySet);

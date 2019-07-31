@@ -3,7 +3,8 @@ package com.ht.l10n;
 import com.ht.uid.UID;
 
 interface LocalizerTypeInternal extends LocalizerType {
-  LocalizerFieldInternal addLocalizerFieldInternal(LocalizerFieldInternal localizerFieldInternal);
+  LocalizerInstanceInternal addLocalizerInstanceInternal(
+      LocalizerInstanceInternal localizerInstanceInternal);
 
-  LocalizerFieldInternal getLocalizerFieldInternal(UID<LocalizerField> fieldUid);
+  LocalizerInstanceInternal getLocalizerInstanceInternal(UID<LocalizerInstance> instanceUid);
 }

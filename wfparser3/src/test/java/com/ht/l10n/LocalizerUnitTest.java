@@ -44,34 +44,34 @@ public class LocalizerUnitTest {
     LocalizerType localizerType =
         localizerFactoryInternal.createUndefinedLocalizer().getLocalizerTypeInternal(null);
 
-    localizerFactoryInternal.createLocalizerField(localizerType, "does.not.matter");
+    localizerFactoryInternal.createLocalizerInstance(localizerType, "does.not.matter");
   }
 
   @Test
   public void Localizer_getLocalizerTypeFromUndefinedLocalizerUsingAnyLocalizerTypeUid_undefinedLocalizerTypeReturned() {
     final String expectedGroupName = "undef.group";
     final String expectedTypeName = "undef.type";
-    final String expectedInstanceName = "undef.instance";
+    final String expectedMethodName = "undef.method";
     final boolean expectedIsDefined = false;
     LocalizerType localizerType =
         localizerFactoryInternal.createUndefinedLocalizer().getLocalizerType(null);
 
     localizerAssert.assertExpectedLocalizerType(expectedGroupName, expectedTypeName,
-        expectedInstanceName, expectedIsDefined, localizerType);
+        expectedMethodName, expectedIsDefined, localizerType);
   }
 
   @Test
   public void Localizer_getLocalizerFieldFromUndefindLocalizerTypeUsingAnyLocalizerFieldUid_undefinedLocalizerFieldReturned() {
-    final String expectedFieldName = "undef.field";
-    final String expectedFullyQualifiedName = "undef.group.undef.type.undef.instance.undef.field";
+    final String expectedInstanceName = "undef.instance";
+    final String expectedFullyQualifiedName = "undef.group.undef.type.undef.method.undef.instance";
     final String expectedUidKey = expectedFullyQualifiedName;
     final boolean expectedIsDefined = false;
     final LocalizerType undefinedLocalizerType =
         localizerFactoryInternal.createUndefinedLocalizer().getLocalizerType(null);
 
-    LocalizerField localizerField = undefinedLocalizerType.getLocalizerField(null);
+    LocalizerInstance localizerField = undefinedLocalizerType.getLocalizerInstance(null);
 
-    localizerAssert.assertExpectedLocalizerField(expectedFieldName, expectedFullyQualifiedName,
+    localizerAssert.assertExpectedLocalizerField(expectedInstanceName, expectedFullyQualifiedName,
         expectedUidKey, expectedIsDefined, localizerField);
   }
 

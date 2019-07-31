@@ -53,8 +53,8 @@ public final class TestableLocalizerFactory
   }
 
   @Override
-  public LocalizerField createLocalizerField(LocalizerType localizerType, String fieldName)
+  public LocalizerInstance createLocalizerInstance(LocalizerType localizerType, String fieldName)
       throws LocalizerException {
-    return localizerFactoryInternal.createLocalizerField(localizerType, fieldName);
+    return localizerFactoryInternal.createLocalizerInstance(localizerType, fieldName);
   }
 }

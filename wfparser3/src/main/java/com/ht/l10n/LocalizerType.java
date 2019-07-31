@@ -12,11 +12,11 @@ public interface LocalizerType extends UniqueComponent<LocalizerType>, DefinedOb
 
   String getTypeName();
 
-  String getInstanceName();
+  String getMethodName();
 
   String getFullyQualifiedName();
 
-  LocalizerField getLocalizerField(UID<LocalizerField> fieldUid);
+  LocalizerInstance getLocalizerInstance(UID<LocalizerInstance> instanceUid);
 
-  Set<UID<LocalizerField>> getLocalizerFieldUidSet();
+  Set<UID<LocalizerInstance>> getLocalizerInstanceUidSet();
 }

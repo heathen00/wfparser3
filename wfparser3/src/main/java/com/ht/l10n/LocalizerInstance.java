@@ -2,10 +2,10 @@ package com.ht.l10n;
 
 import com.ht.uid.UniqueComponent;
 
-public interface LocalizerField extends UniqueComponent<LocalizerField>, DefinedObject {
+public interface LocalizerInstance extends UniqueComponent<LocalizerInstance>, DefinedObject {
   LocalizerType getLocalizerType();
 
-  String getFieldName();
+  String getInstanceName();
 
   String getFullyQualifiedName();
 

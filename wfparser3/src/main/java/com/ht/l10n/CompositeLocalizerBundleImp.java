@@ -23,12 +23,12 @@ final class CompositeLocalizerBundleImp implements LocalizerBundleInternal {
   }
 
   @Override
-  public String getFormattedString(LocalizerField localizerField, Object... parameters) {
+  public String getFormattedString(LocalizerInstance localizerInstance, Object... parameters) {
     String localizedString = null;
     for (int bundleIndex = TARGET_BUNDLE; localizedString == null; bundleIndex++) {
       try {
         localizedString = localizerBundleInternalList.get(bundleIndex)
-            .getFormattedString(localizerField, parameters);
+            .getFormattedString(localizerInstance, parameters);
       } catch (LocalizerException le) {
         localizedString = null;
       }
@@ -47,12 +47,12 @@ final class CompositeLocalizerBundleImp implements LocalizerBundleInternal {
   }
 
   @Override
-  public String getUnformattedString(LocalizerField localizerField) {
+  public String getUnformattedString(LocalizerInstance localizerInstance) {
     String localizedString = null;
     for (int bundleIndex = TARGET_BUNDLE; localizedString == null; bundleIndex++) {
       try {
         localizedString =
-            localizerBundleInternalList.get(bundleIndex).getUnformattedString(localizerField);
+            localizerBundleInternalList.get(bundleIndex).getUnformattedString(localizerInstance);
       } catch (LocalizerException le) {
         localizedString = null;
       }

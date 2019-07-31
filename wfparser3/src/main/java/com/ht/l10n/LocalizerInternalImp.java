@@ -19,7 +19,8 @@ final class LocalizerInternalImp implements LocalizerInternal {
   private final Map<UID<LocalizerType>, LocalizerTypeInternal> localizerTypeMap;
   private final UID<Localizer> localizerUid;
 
-  public LocalizerInternalImp(LocalizerFactoryInternal factoryInternal, String name, Locale locale) {
+  public LocalizerInternalImp(LocalizerFactoryInternal factoryInternal, String name,
+      Locale locale) {
     this.factoryInternal = factoryInternal;
     this.name = name;
     this.locale = locale;
@@ -67,30 +68,31 @@ final class LocalizerInternalImp implements LocalizerInternal {
   }
 
   @Override
-  public LocalizerField getLocalizerField(UID<LocalizerField> fieldUid) {
-    if (fieldUid == null) {
-      throw new NullPointerException("fieldUid cannot be null");
+  public LocalizerInstance getLocalizerInstance(UID<LocalizerInstance> instanceUid) {
+    if (instanceUid == null) {
+      throw new NullPointerException("instanceUid cannot be null");
     }
-    LocalizerField localizerField = null;
+    LocalizerInstance localizerInstance = null;
     for (UID<LocalizerType> localizerTypeKey : localizerTypeMap.keySet()) {
-      localizerField = localizerTypeMap.get(localizerTypeKey).getLocalizerField(fieldUid);
-      if (localizerField.isDefined()) {
+      localizerInstance = localizerTypeMap.get(localizerTypeKey).getLocalizerInstance(instanceUid);
+      if (localizerInstance.isDefined()) {
         break;
       }
     }
-    if (null == localizerField) {
-      localizerField = factoryInternal.createUndefinedLocalizer().getLocalizerField(null);
+    if (null == localizerInstance) {
+      localizerInstance = factoryInternal.createUndefinedLocalizer().getLocalizerInstance(null);
     }
-    return localizerField;
+    return localizerInstance;
   }
 
   @Override
-  public Set<UID<LocalizerField>> getLocalizerFieldUidSet() {
-    Set<UID<LocalizerField>> localizerFieldUidSet = new HashSet<>();
+  public Set<UID<LocalizerInstance>> getLocalizerInstanceUidSet() {
+    Set<UID<LocalizerInstance>> localizerInstanceUidSet = new HashSet<>();
     for (UID<LocalizerType> localizerTypeUid : localizerTypeMap.keySet()) {
-      localizerFieldUidSet.addAll(localizerTypeMap.get(localizerTypeUid).getLocalizerFieldUidSet());
+      localizerInstanceUidSet
+          .addAll(localizerTypeMap.get(localizerTypeUid).getLocalizerInstanceUidSet());
     }
-    return Collections.unmodifiableSet(localizerFieldUidSet);
+    return Collections.unmodifiableSet(localizerInstanceUidSet);
   }
 
   @Override

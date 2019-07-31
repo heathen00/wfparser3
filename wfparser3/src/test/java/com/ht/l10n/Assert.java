@@ -13,20 +13,20 @@ import java.util.Set;
 public final class Assert {
   public static final class LocalizationTester {
     public static LocalizationTester createLocalizationTester(LocalizerBundle localizerBundle,
-        LocalizerField localizerField, String expectedUnformattedLocalizedString,
+        LocalizerInstance localizerField, String expectedUnformattedLocalizedString,
         String expectedFormattedLocalizedString, Object... parameters) {
       return new LocalizationTester((LocalizerBundleInternal) localizerBundle, localizerField,
           expectedUnformattedLocalizedString, expectedFormattedLocalizedString, parameters);
     }
 
     private final LocalizerBundleInternal localizerBundleInternal;
-    private final LocalizerField localizerField;
+    private final LocalizerInstance localizerField;
     private final String expectedUnformattedLocalizedString;
     private final String expectedFormattedLocalizedString;
     private final Object[] parameters;
 
     private LocalizationTester(LocalizerBundleInternal localizerBundle2,
-        LocalizerField localizerField, String expectedUnformattedLocalizedString,
+        LocalizerInstance localizerField, String expectedUnformattedLocalizedString,
         String expectedFormattedLocalizedString, Object... parameters) {
       this.localizerBundleInternal = localizerBundle2;
       this.localizerField = localizerField;
@@ -85,7 +85,7 @@ public final class Assert {
   public void assertExpectedLocalizerField(final String expectedFieldName,
       final String expectedFullyQualifiedName, final LocalizerType expectedLocalizerType,
       final String expectedUnformattedString, final String expectedFormattedString,
-      final boolean expectedIsDefined, LocalizerField localizerField) throws LocalizerException {
+      final boolean expectedIsDefined, LocalizerInstance localizerField) throws LocalizerException {
 
     assertExpectedLocalizerField(expectedFieldName, expectedFullyQualifiedName,
         expectedFullyQualifiedName, expectedIsDefined, localizerField);
@@ -97,9 +97,9 @@ public final class Assert {
 
   public void assertExpectedLocalizerField(final String expectedFieldName,
       final String expectedFullyQualifiedName, final String expectedUidKey,
-      final boolean expectedIsDefined, final LocalizerField localizerField) {
+      final boolean expectedIsDefined, final LocalizerInstance localizerField) {
     assertNotNull(localizerField);
-    assertEquals(expectedFieldName, localizerField.getFieldName());
+    assertEquals(expectedFieldName, localizerField.getInstanceName());
     assertEquals(expectedFullyQualifiedName, localizerField.getFullyQualifiedName());
     assertNotNull(localizerField.getUid());
     assertEquals(expectedUidKey, localizerField.getUid().getKey());
@@ -108,12 +108,12 @@ public final class Assert {
 
   public void assertExpectedLocalizerType(final String expectedGroupName,
       final String expectedTypeName, final String expectedInstanceName,
-      final Set<UID<LocalizerField>> expectedLocalizerFieldKeySet,
+      final Set<UID<LocalizerInstance>> expectedLocalizerFieldKeySet,
       final Localizer expectedLocalizer, final UID<LocalizerType> expectedLocalizerTypeUid,
       boolean expectedIsDefined, LocalizerType localizerType) {
     assertExpectedLocalizerType(expectedGroupName, expectedTypeName, expectedInstanceName,
         expectedIsDefined, localizerType);
-    assertEquals(expectedLocalizerFieldKeySet, localizerType.getLocalizerFieldUidSet());
+    assertEquals(expectedLocalizerFieldKeySet, localizerType.getLocalizerInstanceUidSet());
     assertEquals(expectedLocalizerTypeUid, localizerType.getUid());
   }
 
@@ -125,12 +125,12 @@ public final class Assert {
     assertNotNull(localizerType);
     assertEquals(expectedGroupName, localizerType.getGroupName());
     assertEquals(expectedTypeName, localizerType.getTypeName());
-    assertEquals(expectedInstanceName, localizerType.getInstanceName());
+    assertEquals(expectedInstanceName, localizerType.getMethodName());
     assertEquals(expectedFullyQualifiedName, localizerType.getFullyQualifiedName());
     assertNotNull(localizerType.getUid());
     assertEquals(expectedUidKey, localizerType.getUid().getKey());
     assertEquals(expectedIsDefined, localizerType.isDefined());
-    assertSetIsUnmodifiable(localizerType.getLocalizerFieldUidSet());
+    assertSetIsUnmodifiable(localizerType.getLocalizerInstanceUidSet());
   }
 
   public void assertExpectedLocalizer(String expectedName, UID<Localizer> expectedLocalizerUid,
@@ -141,7 +141,7 @@ public final class Assert {
     assertEquals(expectedLocale, localizer.getLocale());
     assertEquals(expectedIsDefined, localizer.isDefined());
     assertSetIsUnmodifiable(localizer.getLocalizerBundleSet());
-    assertSetIsUnmodifiable(localizer.getLocalizerFieldUidSet());
+    assertSetIsUnmodifiable(localizer.getLocalizerInstanceUidSet());
     assertSetIsUnmodifiable(localizer.getLocalizerTypeUidSet());
   }
 }

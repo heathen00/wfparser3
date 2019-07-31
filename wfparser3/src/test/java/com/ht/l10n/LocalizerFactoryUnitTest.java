@@ -81,16 +81,16 @@ public class LocalizerFactoryUnitTest {
   @Test
   public void LocalizerFactory_createUndefinedLocalizerField_undefinedLocalizerFieldCreated()
       throws Exception {
-    final String expectedFieldName = "undef.field";
-    final String expectedFullyQualifiedName = "undef.group.undef.type.undef.instance.undef.field";
+    final String expectedFieldName = "undef.instance";
+    final String expectedFullyQualifiedName = "undef.group.undef.type.undef.method.undef.instance";
     final LocalizerType expectedLocalizerType =
         localizerFactoryInternal.createUndefinedLocalizer().getLocalizerType(null);
     final String expectedUnformattedString = "UNDEFINED";
     final String expectedFormattedString = "UNDEFINED";
     final boolean expectedIsDefined = false;
 
-    LocalizerField localizerField =
-        localizerFactoryInternal.createUndefinedLocalizer().getLocalizerField(null);
+    LocalizerInstance localizerField =
+        localizerFactoryInternal.createUndefinedLocalizer().getLocalizerInstance(null);
 
     localizerAssert.assertExpectedLocalizerField(expectedFieldName, expectedFullyQualifiedName,
         expectedLocalizerType, expectedUnformattedString, expectedFormattedString,
@@ -101,14 +101,14 @@ public class LocalizerFactoryUnitTest {
   public void LocalizerFactory_createUndefinedLocalizerType_undefinedLocalizerTypeCreated() {
     final String expectedGroupName = "undef.group";
     final String expectedTypeName = "undef.type";
-    final String expectedInstanceName = "undef.instance";
+    final String expectedMethodName = "undef.method";
     final boolean expectedIsDefined = false;
 
     LocalizerType localizerType =
         localizerFactoryInternal.createUndefinedLocalizer().getLocalizerType(null);
 
     localizerAssert.assertExpectedLocalizerType(expectedGroupName, expectedTypeName,
-        expectedInstanceName, expectedIsDefined, localizerType);
+        expectedMethodName, expectedIsDefined, localizerType);
   }
 
   @Test(expected = NullPointerException.class)

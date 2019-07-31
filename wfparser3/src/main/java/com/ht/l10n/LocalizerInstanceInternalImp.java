@@ -2,15 +2,15 @@ package com.ht.l10n;
 
 import com.ht.uid.UID;
 
-final class LocalizerFieldInternalImp implements LocalizerFieldInternal {
-  private final UID<LocalizerField> localizerFieldUid;
+final class LocalizerInstanceInternalImp implements LocalizerInstanceInternal {
+  private final UID<LocalizerInstance> localizerInstanceUid;
   private final LocalizerTypeInternal localizerTypeInternal;
-  private final String fieldName;
+  private final String instanceName;
 
-  LocalizerFieldInternalImp(LocalizerTypeInternal localizerTypeInternal, String fieldName) {
+  LocalizerInstanceInternalImp(LocalizerTypeInternal localizerTypeInternal, String instanceName) {
     this.localizerTypeInternal = localizerTypeInternal;
-    this.fieldName = fieldName;
-    localizerFieldUid = UID.createUid(getFullyQualifiedName(), this);
+    this.instanceName = instanceName;
+    localizerInstanceUid = UID.createUid(getFullyQualifiedName(), this);
   }
 
   @Override
@@ -19,14 +19,14 @@ final class LocalizerFieldInternalImp implements LocalizerFieldInternal {
   }
 
   @Override
-  public String getFieldName() {
-    return fieldName;
+  public String getInstanceName() {
+    return instanceName;
   }
 
   @Override
   public String getFullyQualifiedName() {
     return String.join(".", getLocalizerType().getGroupName(), getLocalizerType().getTypeName(),
-        getLocalizerType().getInstanceName(), fieldName);
+        getLocalizerType().getMethodName(), instanceName);
   }
 
   @Override
@@ -51,8 +51,8 @@ final class LocalizerFieldInternalImp implements LocalizerFieldInternal {
   }
 
   @Override
-  public UID<LocalizerField> getUid() {
-    return localizerFieldUid;
+  public UID<LocalizerInstance> getUid() {
+    return localizerInstanceUid;
   }
 
   @Override

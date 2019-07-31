@@ -107,13 +107,13 @@ final class LocalizerFactoryInternalImp implements LocalizerFactoryInternal {
 
   @Override
   public LocalizerType createLocalizerType(Localizer localizer, String groupName, String typeName,
-      String instanceName) throws LocalizerException {
+      String methodName) throws LocalizerException {
     guardNotNull("localizer", localizer);
     guardNotNull("groupName", groupName);
     guardNamingConvention("groupName", groupName);
     guardNotNull("typeName", typeName);
     guardNamingConvention("typeName", typeName);
-    guardNamingConvention("instanceName", instanceName);
+    guardNamingConvention("methodName", methodName);
 
     LocalizerInternal localizerInternal = null;
     if (localizer instanceof LocalizerInternal) {
@@ -122,29 +122,29 @@ final class LocalizerFactoryInternalImp implements LocalizerFactoryInternal {
       throw new LocalizerException("unknown Localizer implementation");
     }
     LocalizerTypeInternal localizerTypeInternal =
-        new LocalizerTypeInternalImp(this, localizerInternal, groupName, typeName, instanceName);
+        new LocalizerTypeInternalImp(this, localizerInternal, groupName, typeName, methodName);
     return localizerInternal.addLocalizerTypeInternal(localizerTypeInternal);
   }
 
   @Override
-  public LocalizerField createLocalizerField(LocalizerType localizerType, String fieldName)
+  public LocalizerInstance createLocalizerInstance(LocalizerType localizerType, String instanceName)
       throws LocalizerException {
     guardNotNull("localizerType", localizerType);
-    guardNamingConvention("fieldName", fieldName);
+    guardNamingConvention("instanceName", instanceName);
     LocalizerTypeInternal localizerTypeInternal = null;
     if (localizerType instanceof LocalizerTypeInternal) {
       localizerTypeInternal = (LocalizerTypeInternal) localizerType;
     } else {
       throw new LocalizerException("unknown LocalizerType implementation");
     }
-    LocalizerFieldInternal newLocalizerFieldInternal =
-        new LocalizerFieldInternalImp((LocalizerTypeInternal) localizerType, fieldName);
-    LocalizerFieldInternal existingLocalizerFieldInternal =
-        localizerTypeInternal.getLocalizerFieldInternal(newLocalizerFieldInternal.getUid());
-    if (existingLocalizerFieldInternal.isDefined()) {
-      newLocalizerFieldInternal = existingLocalizerFieldInternal;
+    LocalizerInstanceInternal newLocalizerInstanceInternal =
+        new LocalizerInstanceInternalImp((LocalizerTypeInternal) localizerType, instanceName);
+    LocalizerInstanceInternal existingLocalizerInstanceInternal =
+        localizerTypeInternal.getLocalizerInstanceInternal(newLocalizerInstanceInternal.getUid());
+    if (existingLocalizerInstanceInternal.isDefined()) {
+      newLocalizerInstanceInternal = existingLocalizerInstanceInternal;
     }
-    return localizerTypeInternal.addLocalizerFieldInternal(newLocalizerFieldInternal);
+    return localizerTypeInternal.addLocalizerInstanceInternal(newLocalizerInstanceInternal);
   }
 
   @Override

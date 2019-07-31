@@ -12,18 +12,18 @@ final class LocalizerTypeInternalImp implements LocalizerTypeInternal {
   private final LocalizerInternal localizerInternal;
   private final String groupName;
   private final String typeName;
-  private final String instanceName;
-  private final Map<UID<LocalizerField>, LocalizerFieldInternal> localizerFieldMap;
+  private final String methodName;
+  private final Map<UID<LocalizerInstance>, LocalizerInstanceInternal> localizerInstanceMap;
   private final UID<LocalizerType> localizerTypeUid;
 
-  LocalizerTypeInternalImp(LocalizerFactoryInternal factoryIntrnal, LocalizerInternal localizerInternal,
-      String groupName, String typeName, String instanceName) {
-    this.factoryInternal = factoryIntrnal;
+  LocalizerTypeInternalImp(LocalizerFactoryInternal factoryInternal,
+      LocalizerInternal localizerInternal, String groupName, String typeName, String methodName) {
+    this.factoryInternal = factoryInternal;
     this.localizerInternal = localizerInternal;
     this.groupName = groupName;
     this.typeName = typeName;
-    this.instanceName = instanceName;
-    localizerFieldMap = new HashMap<>();
+    this.methodName = methodName;
+    localizerInstanceMap = new HashMap<>();
     localizerTypeUid = UID.createUid(getFullyQualifiedName(), this);
   }
 
@@ -43,31 +43,32 @@ final class LocalizerTypeInternalImp implements LocalizerTypeInternal {
   }
 
   @Override
-  public String getInstanceName() {
-    return instanceName;
+  public String getMethodName() {
+    return methodName;
   }
 
   @Override
-  public LocalizerFieldInternal getLocalizerFieldInternal(UID<LocalizerField> fieldUid) {
-    if (null == fieldUid) {
-      throw new NullPointerException("fieldUid cannot be null");
+  public LocalizerInstanceInternal getLocalizerInstanceInternal(
+      UID<LocalizerInstance> instanceUid) {
+    if (null == instanceUid) {
+      throw new NullPointerException("instanceUid cannot be null");
     }
-    LocalizerFieldInternal localizerField = localizerFieldMap.get(fieldUid);
-    if (null == localizerField) {
-      localizerField = factoryInternal.createUndefinedLocalizer().getLocalizerTypeInternal(null)
-          .getLocalizerFieldInternal(null);
+    LocalizerInstanceInternal localizerInstance = localizerInstanceMap.get(instanceUid);
+    if (null == localizerInstance) {
+      localizerInstance = factoryInternal.createUndefinedLocalizer().getLocalizerTypeInternal(null)
+          .getLocalizerInstanceInternal(null);
     }
-    return localizerField;
+    return localizerInstance;
   }
 
   @Override
-  public LocalizerField getLocalizerField(UID<LocalizerField> fieldUid) {
-    return getLocalizerFieldInternal(fieldUid);
+  public LocalizerInstance getLocalizerInstance(UID<LocalizerInstance> instanceUid) {
+    return getLocalizerInstanceInternal(instanceUid);
   }
 
   @Override
-  public Set<UID<LocalizerField>> getLocalizerFieldUidSet() {
-    return Collections.unmodifiableSet(localizerFieldMap.keySet());
+  public Set<UID<LocalizerInstance>> getLocalizerInstanceUidSet() {
+    return Collections.unmodifiableSet(localizerInstanceMap.keySet());
   }
 
   @Override
@@ -76,9 +77,10 @@ final class LocalizerTypeInternalImp implements LocalizerTypeInternal {
   }
 
   @Override
-  public LocalizerFieldInternal addLocalizerFieldInternal(LocalizerFieldInternal localizerField) {
-    localizerFieldMap.put(localizerField.getUid(), localizerField);
-    return localizerField;
+  public LocalizerInstanceInternal addLocalizerInstanceInternal(
+      LocalizerInstanceInternal localizerInstance) {
+    localizerInstanceMap.put(localizerInstance.getUid(), localizerInstance);
+    return localizerInstance;
   }
 
   @Override
@@ -88,6 +90,6 @@ final class LocalizerTypeInternalImp implements LocalizerTypeInternal {
 
   @Override
   public String getFullyQualifiedName() {
-    return String.join(".", groupName, typeName, instanceName);
+    return String.join(".", groupName, typeName, methodName);
   }
 }

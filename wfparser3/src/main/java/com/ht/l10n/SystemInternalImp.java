@@ -5,10 +5,10 @@ import com.ht.uid.UID;
 import java.util.Set;
 
 final class SystemInternalImp implements SystemInternal {
-  private static SystemInternalImp SYSTEM_IMP_SINGLETON = new SystemInternalImp();
+  private static SystemInternalImp SYSTEM_INTERNAL_IMP_SINGLETON = new SystemInternalImp();
 
   public static SystemInternalImp getSystemInternalImpSingleton() {
-    return SYSTEM_IMP_SINGLETON;
+    return SYSTEM_INTERNAL_IMP_SINGLETON;
   }
 
   private final LocalizerFactoryInternal factoryInternal;

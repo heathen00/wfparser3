@@ -9,8 +9,8 @@ public interface LocalizerFactory {
       throws LocalizerException;
 
   LocalizerType createLocalizerType(Localizer localizer, String groupName, String typeName,
-      String instanceName) throws LocalizerException;
+      String methodName) throws LocalizerException;
 
-  LocalizerField createLocalizerField(LocalizerType localizerType, String fieldName)
+  LocalizerInstance createLocalizerInstance(LocalizerType localizerType, String instanceName)
       throws LocalizerException;
 }

@@ -10,21 +10,21 @@ final class UndefinedLocalizerTypeInternalImp implements LocalizerTypeInternal {
   private final UndefinedLocalizerInternalImp undefinedLocalizer;
   private final String groupName;
   private final String typeName;
-  private final String instanceName;
+  private final String methodName;
   private final UID<LocalizerType> undefinedLocalizerTypeUid;
-  private final LocalizerFieldInternal undefinedLocalizerField;
-  private final Set<UID<LocalizerField>> undefinedLocalizerFieldUidSet;
+  private final LocalizerInstanceInternal undefinedLocalizerInstance;
+  private final Set<UID<LocalizerInstance>> undefinedLocalizerInstanceUidSet;
 
   UndefinedLocalizerTypeInternalImp(UndefinedLocalizerInternalImp undefinedLocalizer) {
     this.undefinedLocalizer = undefinedLocalizer;
     groupName = "undef.group";
     typeName = "undef.type";
-    instanceName = "undef.instance";
+    methodName = "undef.method";
     undefinedLocalizerTypeUid =
-        UID.createUid(String.join(".", groupName, typeName, instanceName), this);
-    undefinedLocalizerField = new UndefinedLocalizerFieldInternalImp(this);
-    undefinedLocalizerFieldUidSet = new HashSet<>();
-    undefinedLocalizerFieldUidSet.add(undefinedLocalizerField.getUid());
+        UID.createUid(String.join(".", groupName, typeName, methodName), this);
+    undefinedLocalizerInstance = new UndefinedLocalizerInstanceInternalImp(this);
+    undefinedLocalizerInstanceUidSet = new HashSet<>();
+    undefinedLocalizerInstanceUidSet.add(undefinedLocalizerInstance.getUid());
   }
 
   @Override
@@ -48,23 +48,24 @@ final class UndefinedLocalizerTypeInternalImp implements LocalizerTypeInternal {
   }
 
   @Override
-  public String getInstanceName() {
-    return instanceName;
+  public String getMethodName() {
+    return methodName;
   }
 
   @Override
-  public LocalizerFieldInternal getLocalizerFieldInternal(UID<LocalizerField> fieldUid) {
-    return undefinedLocalizerField;
+  public LocalizerInstanceInternal getLocalizerInstanceInternal(
+      UID<LocalizerInstance> instanceUid) {
+    return undefinedLocalizerInstance;
   }
 
   @Override
-  public LocalizerField getLocalizerField(UID<LocalizerField> fieldUid) {
-    return getLocalizerFieldInternal(fieldUid);
+  public LocalizerInstance getLocalizerInstance(UID<LocalizerInstance> instanceUid) {
+    return getLocalizerInstanceInternal(instanceUid);
   }
 
   @Override
-  public Set<UID<LocalizerField>> getLocalizerFieldUidSet() {
-    return Collections.unmodifiableSet(undefinedLocalizerFieldUidSet);
+  public Set<UID<LocalizerInstance>> getLocalizerInstanceUidSet() {
+    return Collections.unmodifiableSet(undefinedLocalizerInstanceUidSet);
   }
 
   @Override
@@ -73,14 +74,14 @@ final class UndefinedLocalizerTypeInternalImp implements LocalizerTypeInternal {
   }
 
   @Override
-  public LocalizerFieldInternal addLocalizerFieldInternal(
-      LocalizerFieldInternal localizerFieldInternal) {
+  public LocalizerInstanceInternal addLocalizerInstanceInternal(
+      LocalizerInstanceInternal localizerInstanceInternal) {
     throw new UnsupportedOperationException(
-        "cannot add localizer field to undefined localizer type");
+        "cannot add localizer instance to undefined localizer type");
   }
 
   @Override
   public String getFullyQualifiedName() {
-    return String.join(".", groupName, typeName, instanceName);
+    return String.join(".", groupName, typeName, methodName);
   }
 }
