@@ -72,7 +72,7 @@ public class LocalizerTypeAcceptanceTest {
     LocalizerInstance localizerField =
         localizerType.getLocalizerInstance(otherLocalizerField.getUid());
 
-    localizerAssert.assertExpectedLocalizerField(expectedLocalizerFieldName,
+    localizerAssert.assertExpectedLocalizerInstance(expectedLocalizerFieldName,
         expectedLocalizerFieldFullyQualifiedName, expectedLocalizerFieldKey,
         expectedIsDefinedForField, localizerField);
     localizerAssert.assertExpectedLocalizerType(expectedLocalizerTypeGroup,
@@ -101,7 +101,7 @@ public class LocalizerTypeAcceptanceTest {
     LocalizerInstance localizerField =
         localizerType.getLocalizerInstance(expectedLocalizerField.getUid());
 
-    localizerAssert.assertExpectedLocalizerField(expectedField, expectedFullyQualifiedName,
+    localizerAssert.assertExpectedLocalizerInstance(expectedField, expectedFullyQualifiedName,
         expectedLocalizerField.getUid().getKey(), expectedIsDefinedForField, localizerField);
     localizerAssert.assertExpectedLocalizerType(expectedGroup, expectedType, expectedInstance,
         expectedIsDefinedForType, localizerField.getLocalizerType());

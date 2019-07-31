@@ -79,9 +79,9 @@ public class LocalizerFactoryUnitTest {
   }
 
   @Test
-  public void LocalizerFactory_createUndefinedLocalizerField_undefinedLocalizerFieldCreated()
+  public void LocalizerFactory_createUndefinedLocalizerInstance_undefinedLocalizerInstanceCreated()
       throws Exception {
-    final String expectedFieldName = "undef.instance";
+    final String expectedInstanceName = "undef.instance";
     final String expectedFullyQualifiedName = "undef.group.undef.type.undef.method.undef.instance";
     final LocalizerType expectedLocalizerType =
         localizerFactoryInternal.createUndefinedLocalizer().getLocalizerType(null);
@@ -89,12 +89,12 @@ public class LocalizerFactoryUnitTest {
     final String expectedFormattedString = "UNDEFINED";
     final boolean expectedIsDefined = false;
 
-    LocalizerInstance localizerField =
+    LocalizerInstance localizerInstance =
         localizerFactoryInternal.createUndefinedLocalizer().getLocalizerInstance(null);
 
-    localizerAssert.assertExpectedLocalizerField(expectedFieldName, expectedFullyQualifiedName,
-        expectedLocalizerType, expectedUnformattedString, expectedFormattedString,
-        expectedIsDefined, localizerField);
+    localizerAssert.assertExpectedLocalizerInstance(expectedInstanceName,
+        expectedFullyQualifiedName, expectedLocalizerType, expectedUnformattedString,
+        expectedFormattedString, expectedIsDefined, localizerInstance);
   }
 
   @Test

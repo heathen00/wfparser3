@@ -14,7 +14,7 @@ import com.ht.uid.UID;
 import org.junit.Before;
 import org.junit.Test;
 
-public class LocalizerFieldAcceptanceTest {
+public class LocalizerInstanceAcceptanceTest {
   private TestableLocalizerFactory testableLocalizerFactory;
   private StubLocalizerFactory stubLocalizerFactory;
 
@@ -26,39 +26,39 @@ public class LocalizerFieldAcceptanceTest {
   }
 
   @Test
-  public void LocalizerField_createFactories_factoriesCreated() {
+  public void LocalizerInstance_createFactories_factoriesCreated() {
     assertNotNull(testableLocalizerFactory);
     assertNotNull(stubLocalizerFactory);
   }
 
   @Test
-  public void LocalizerField_createValidLocalizerFieldThenGetUid_validLocalizerFieldUidIsReturned()
+  public void LocalizerInstance_createValidLocalizerInstanceThenGetUid_validLocalizerInstanceUidIsReturned()
       throws Exception {
     final String expectedGroupName = "test.group";
     final String expectedTypeName = "test.type";
-    final String expectedInstanceName = "test.instance";
-    final String expectedFieldName = "valid.field.name.00";
+    final String expectedMethodName = "test.method";
+    final String expectedInstanceName = "valid.instance.name.00";
     final String expectedFullyQualifiedName = String.join(".", expectedGroupName, expectedTypeName,
-        expectedInstanceName, expectedFieldName);
+        expectedMethodName, expectedInstanceName);
     final LocalizerType expectedLocalizerType = stubLocalizerFactory
-        .createStubLocalizerType(expectedGroupName, expectedTypeName, expectedInstanceName);
+        .createStubLocalizerType(expectedGroupName, expectedTypeName, expectedMethodName);
 
-    LocalizerInstance localizerField =
-        testableLocalizerFactory.createLocalizerInstance(expectedLocalizerType, expectedFieldName);
-    assertNotNull(localizerField);
-    UID<LocalizerInstance> localizerFieldUid = localizerField.getUid();
+    LocalizerInstance localizerInstance = testableLocalizerFactory
+        .createLocalizerInstance(expectedLocalizerType, expectedInstanceName);
+    assertNotNull(localizerInstance);
+    UID<LocalizerInstance> localizerInstanceUid = localizerInstance.getUid();
 
-    assertNotNull(localizerFieldUid);
-    assertEquals(expectedFullyQualifiedName, localizerFieldUid.getKey());
+    assertNotNull(localizerInstanceUid);
+    assertEquals(expectedFullyQualifiedName, localizerInstanceUid.getKey());
   }
 
   @Test
-  public void LocalizerField_validateEqualsHashCodeAndCompareToMethodsForUid_theirContractsAreRespected()
+  public void LocalizerInstance_validateEqualsHashCodeAndCompareToMethodsForUid_theirContractsAreRespected()
       throws Exception {
     UID<LocalizerInstance> first;
     UID<LocalizerInstance> second;
     LocalizerType localizerType =
-        stubLocalizerFactory.createStubLocalizerType("test.group", "test.type", "test.instance");
+        stubLocalizerFactory.createStubLocalizerType("test.group", "test.type", "test.method");
 
     // Equals.
     first = testableLocalizerFactory.createLocalizerInstance(localizerType, "test.same").getUid();
@@ -72,7 +72,8 @@ public class LocalizerFieldAcceptanceTest {
 
     // Not equal: different keys.
     first = testableLocalizerFactory.createLocalizerInstance(localizerType, "test.first").getUid();
-    second = testableLocalizerFactory.createLocalizerInstance(localizerType, "test.second").getUid();
+    second =
+        testableLocalizerFactory.createLocalizerInstance(localizerType, "test.second").getUid();
 
     assertFalse(first.equals(second));
     assertFalse(second.equals(first));

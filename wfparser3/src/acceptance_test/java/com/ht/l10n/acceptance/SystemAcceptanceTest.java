@@ -36,7 +36,7 @@ public class SystemAcceptanceTest {
   }
 
   @Test
-  public void System_createReusedInstances_reusedInstancesCreated() {
+  public void System_createTestingAssets_testingAssetsCreated() {
     assertNotNull(localizerSystem);
     assertNotNull(localizerFactory);
     assertNotNull(stubLocalizerFactory);
@@ -104,7 +104,7 @@ public class SystemAcceptanceTest {
   @Test
   public void System_getLocalizerUsingLocalizerUIDForNonExistingLocalizerWhenLocalizersCreated_undefinedLocalizerIsReturned()
       throws Exception {
-    localizerFactory.createLocalizer("test.localzer.name.00", Locale.CANADA_FRENCH);
+    localizerFactory.createLocalizer("test.localizer.name.00", Locale.CANADA_FRENCH);
     localizerFactory.createLocalizer("test.localizer.name.01", Locale.CANADA_FRENCH);
     final Localizer expectedLocalizer = undefinedLocalizer;
     final UID<Localizer> localizerUid = UID.createUid("non.existent.localizer.uid",

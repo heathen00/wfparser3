@@ -29,8 +29,8 @@ public class LocalizerBundleAcceptanceTest {
   private Locale defaultTestingLocale;
   private String defaultTestingResourceBundleName;
   private Localizer defaultTestingLocalizer;
-  private LocalizerInstance defaultTestingUnformattedLocalizerField;
-  private LocalizerInstance defaultTestingFormattedLocalizerField;
+  private LocalizerInstance defaultTestingUnformattedLocalizerInstance;
+  private LocalizerInstance defaultTestingFormattedLocalizerInstance;
   private String defaultTestingUnformattedString;
   private String defaultTestingUnformattedFormattedString;
   private String defaultTestingFormattedString;
@@ -52,10 +52,10 @@ public class LocalizerBundleAcceptanceTest {
     defaultTestingResourceBundleName = "com.ht.l10n.test.resource.TestResourceBundle";
     defaultTestingLocalizer =
         testableLocalizerFactory.createLocalizer("testing.localizer.name", defaultTestingLocale);
-    defaultTestingUnformattedLocalizerField =
-        stubLocalizerFactory.createStubLocalizerField("unformatted", "testing.instance");
-    defaultTestingFormattedLocalizerField =
-        stubLocalizerFactory.createStubLocalizerField("formatted", "testing.instance");
+    defaultTestingUnformattedLocalizerInstance =
+        stubLocalizerFactory.createStubLocalizerInstance("unformatted", "testing.instance");
+    defaultTestingFormattedLocalizerInstance =
+        stubLocalizerFactory.createStubLocalizerInstance("formatted", "testing.instance");
     defaultTestingUnformattedString = "test unformatted string";
     defaultTestingUnformattedFormattedString = "test formatted string: %s, %d";
     defaultTestingFormattedString = "test formatted string: test_parameter, 33";
@@ -73,8 +73,8 @@ public class LocalizerBundleAcceptanceTest {
     assertNotNull(defaultTestingLocale);
     assertNotNull(defaultTestingResourceBundleName);
     assertNotNull(defaultTestingLocalizer);
-    assertNotNull(defaultTestingUnformattedLocalizerField);
-    assertNotNull(defaultTestingFormattedLocalizerField);
+    assertNotNull(defaultTestingUnformattedLocalizerInstance);
+    assertNotNull(defaultTestingFormattedLocalizerInstance);
     assertNotNull(defaultTestingUnformattedString);
     assertNotNull(defaultTestingUnformattedFormattedString);
     assertNotNull(defaultTestingFormattedString);
@@ -86,9 +86,9 @@ public class LocalizerBundleAcceptanceTest {
       throws Exception {
     resourceBundleWrapperForLocaleConfigurator.resetAll().doesResourceBundleExist(true)
         .doesLocalizedStringExist(true)
-        .addLocalizedString(defaultTestingUnformattedLocalizerField.getFullyQualifiedName(),
+        .addLocalizedString(defaultTestingUnformattedLocalizerInstance.getFullyQualifiedName(),
             defaultTestingUnformattedString)
-        .addLocalizedString(defaultTestingFormattedLocalizerField.getFullyQualifiedName(),
+        .addLocalizedString(defaultTestingFormattedLocalizerInstance.getFullyQualifiedName(),
             defaultTestingUnformattedFormattedString);
     resourceBundleWrapperForRootLocaleConfigurator.resetAll().doesResourceBundleExist(true)
         .doesLocalizedStringExist(false);
@@ -101,11 +101,11 @@ public class LocalizerBundleAcceptanceTest {
         localizerBundle);
     LocalizationTester unformattedLocalizedStringTester =
         LocalizationTester.createLocalizationTester(localizerBundle,
-            defaultTestingUnformattedLocalizerField, defaultTestingUnformattedString,
+            defaultTestingUnformattedLocalizerInstance, defaultTestingUnformattedString,
             defaultTestingUnformattedString, "does not matter", Integer.valueOf(13456));
     LocalizationTester formattedLocalizedStringTester =
         LocalizationTester.createLocalizationTester(localizerBundle,
-            defaultTestingFormattedLocalizerField, defaultTestingUnformattedFormattedString,
+            defaultTestingFormattedLocalizerInstance, defaultTestingUnformattedFormattedString,
             defaultTestingFormattedString, "test_parameter", Integer.valueOf(33));
     unformattedLocalizedStringTester.assertExpectedStringFormattingAndLocalization();
     formattedLocalizedStringTester.assertExpectedStringFormattingAndLocalization();
@@ -118,9 +118,9 @@ public class LocalizerBundleAcceptanceTest {
         .doesLocalizedStringExist(false);
     resourceBundleWrapperForRootLocaleConfigurator.resetAll().doesResourceBundleExist(true)
         .doesLocalizedStringExist(true)
-        .addLocalizedString(defaultTestingUnformattedLocalizerField.getFullyQualifiedName(),
+        .addLocalizedString(defaultTestingUnformattedLocalizerInstance.getFullyQualifiedName(),
             defaultTestingUnformattedString)
-        .addLocalizedString(defaultTestingFormattedLocalizerField.getFullyQualifiedName(),
+        .addLocalizedString(defaultTestingFormattedLocalizerInstance.getFullyQualifiedName(),
             defaultTestingUnformattedFormattedString);
 
     LocalizerBundle localizerBundle = testableLocalizerFactory
@@ -131,11 +131,11 @@ public class LocalizerBundleAcceptanceTest {
         localizerBundle);
     LocalizationTester unformattedLocalizedStringTester =
         LocalizationTester.createLocalizationTester(localizerBundle,
-            defaultTestingUnformattedLocalizerField, defaultTestingUnformattedString,
+            defaultTestingUnformattedLocalizerInstance, defaultTestingUnformattedString,
             defaultTestingUnformattedString, "does not matter", Integer.valueOf(13456));
     LocalizationTester formattedLocalizedStringTester =
         LocalizationTester.createLocalizationTester(localizerBundle,
-            defaultTestingFormattedLocalizerField, defaultTestingUnformattedFormattedString,
+            defaultTestingFormattedLocalizerInstance, defaultTestingUnformattedFormattedString,
             defaultTestingFormattedString, "test_parameter", Integer.valueOf(33));
     unformattedLocalizedStringTester.assertExpectedStringFormattingAndLocalization();
     formattedLocalizedStringTester.assertExpectedStringFormattingAndLocalization();
@@ -160,11 +160,12 @@ public class LocalizerBundleAcceptanceTest {
         localizerBundle);
     LocalizationTester unformattedLocalizedStringTester =
         LocalizationTester.createLocalizationTester(localizerBundle,
-            defaultTestingUnformattedLocalizerField, expectedUnformattedString,
+            defaultTestingUnformattedLocalizerInstance, expectedUnformattedString,
             expectedUnformattedString, "does not matter", Integer.valueOf(13456));
-    LocalizationTester formattedLocalizedStringTester = LocalizationTester.createLocalizationTester(
-        localizerBundle, defaultTestingFormattedLocalizerField, expectedUnformattedFormattedString,
-        expectedFormattedString, "test_parameter", Integer.valueOf(33));
+    LocalizationTester formattedLocalizedStringTester =
+        LocalizationTester.createLocalizationTester(localizerBundle,
+            defaultTestingFormattedLocalizerInstance, expectedUnformattedFormattedString,
+            expectedFormattedString, "test_parameter", Integer.valueOf(33));
     unformattedLocalizedStringTester.assertExpectedStringFormattingAndLocalization();
     formattedLocalizedStringTester.assertExpectedStringFormattingAndLocalization();
   }

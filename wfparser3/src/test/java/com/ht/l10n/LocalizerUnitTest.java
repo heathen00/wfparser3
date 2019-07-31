@@ -39,7 +39,7 @@ public class LocalizerUnitTest {
   }
 
   @Test(expected = UnsupportedOperationException.class)
-  public void Localizer_addLocalizerFieldToUndefinedLocalizerType_unsupportedOperationExceptionIsThrown()
+  public void Localizer_addLocalizerInstanceToUndefinedLocalizerType_unsupportedOperationExceptionIsThrown()
       throws Exception {
     LocalizerType localizerType =
         localizerFactoryInternal.createUndefinedLocalizer().getLocalizerTypeInternal(null);
@@ -61,7 +61,7 @@ public class LocalizerUnitTest {
   }
 
   @Test
-  public void Localizer_getLocalizerFieldFromUndefindLocalizerTypeUsingAnyLocalizerFieldUid_undefinedLocalizerFieldReturned() {
+  public void Localizer_getLocalizerInstanceFromUndefindLocalizerTypeUsingAnyLocalizerInstanceUid_undefinedLocalizerInstanceReturned() {
     final String expectedInstanceName = "undef.instance";
     final String expectedFullyQualifiedName = "undef.group.undef.type.undef.method.undef.instance";
     final String expectedUidKey = expectedFullyQualifiedName;
@@ -69,10 +69,10 @@ public class LocalizerUnitTest {
     final LocalizerType undefinedLocalizerType =
         localizerFactoryInternal.createUndefinedLocalizer().getLocalizerType(null);
 
-    LocalizerInstance localizerField = undefinedLocalizerType.getLocalizerInstance(null);
+    LocalizerInstance localizerInstance = undefinedLocalizerType.getLocalizerInstance(null);
 
-    localizerAssert.assertExpectedLocalizerField(expectedInstanceName, expectedFullyQualifiedName,
-        expectedUidKey, expectedIsDefined, localizerField);
+    localizerAssert.assertExpectedLocalizerInstance(expectedInstanceName,
+        expectedFullyQualifiedName, expectedUidKey, expectedIsDefined, localizerInstance);
   }
 
   @Test(expected = UnsupportedOperationException.class)

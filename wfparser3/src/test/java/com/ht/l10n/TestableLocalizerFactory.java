@@ -47,14 +47,13 @@ public final class TestableLocalizerFactory
 
   @Override
   public LocalizerType createLocalizerType(Localizer localizer, String groupName, String typeName,
-      String instanceName) throws LocalizerException {
-    return localizerFactoryInternal.createLocalizerType(localizer, groupName, typeName,
-        instanceName);
+      String methodName) throws LocalizerException {
+    return localizerFactoryInternal.createLocalizerType(localizer, groupName, typeName, methodName);
   }
 
   @Override
-  public LocalizerInstance createLocalizerInstance(LocalizerType localizerType, String fieldName)
+  public LocalizerInstance createLocalizerInstance(LocalizerType localizerType, String instanceName)
       throws LocalizerException {
-    return localizerFactoryInternal.createLocalizerInstance(localizerType, fieldName);
+    return localizerFactoryInternal.createLocalizerInstance(localizerType, instanceName);
   }
 }
