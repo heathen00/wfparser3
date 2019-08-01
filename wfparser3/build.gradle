@@ -27,8 +27,8 @@ repositories {
 
 dependencies {
 
-    compile 'com.google.guava:guava:27.0.1-jre'
-    compile 'org.apache.commons:commons-lang3:3.9'
+    implementation 'com.google.guava:guava:27.0.1-jre'
+    implementation 'org.apache.commons:commons-lang3:3.9'
 
     // Use JUnit test framework
     testImplementation 'junit:junit:4.12'

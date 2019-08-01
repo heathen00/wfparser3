@@ -5,6 +5,7 @@ import com.ht.uid.UID;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
@@ -108,15 +109,39 @@ final class LocalizerInternalImp implements LocalizerInternal {
   @Override
   public LocalizerBundleInternal addLocalizerBundleInternal(
       LocalizerBundleInternal localizerBundleInternal) {
-    localizerBundleSet.add(localizerBundleInternal);
-    return localizerBundleInternal;
+    LocalizerBundleInternal newLocalizerBundleInternal = localizerBundleInternal;
+    LocalizerBundle currentLocalizerBundle = null;
+    for (Iterator<LocalizerBundle> localizerBundleIterator =
+        localizerBundleSet.iterator(); localizerBundleIterator.hasNext();) {
+      currentLocalizerBundle = localizerBundleIterator.next();
+      java.lang.System.out.println("new: " + newLocalizerBundleInternal);
+      java.lang.System.out.println("cur: " + currentLocalizerBundle);
+      java.lang.System.out
+          .println("equals: " + currentLocalizerBundle.equals(newLocalizerBundleInternal));
+      if (currentLocalizerBundle.equals(newLocalizerBundleInternal)) {
+        newLocalizerBundleInternal = (LocalizerBundleInternal) currentLocalizerBundle;
+        break;
+      }
+    }
+    if (newLocalizerBundleInternal != currentLocalizerBundle) {
+      java.lang.System.out.println("yes");
+      localizerBundleSet.add(newLocalizerBundleInternal);
+    }
+    return newLocalizerBundleInternal;
   }
 
   @Override
   public LocalizerTypeInternal addLocalizerTypeInternal(
       LocalizerTypeInternal localizerTypeInternal) {
-    localizerTypeMap.put(localizerTypeInternal.getUid(), localizerTypeInternal);
-    return localizerTypeInternal;
+    LocalizerTypeInternal newLocalizerTypeInternal = localizerTypeInternal;
+    LocalizerTypeInternal currentLocalizerTypeInternal =
+        localizerTypeMap.get(newLocalizerTypeInternal.getUid());
+    if (null == currentLocalizerTypeInternal) {
+      localizerTypeMap.put(newLocalizerTypeInternal.getUid(), newLocalizerTypeInternal);
+    } else {
+      newLocalizerTypeInternal = currentLocalizerTypeInternal;
+    }
+    return newLocalizerTypeInternal;
   }
 
   @Override

@@ -50,11 +50,13 @@ final class LocalizerFactoryInternalImp implements LocalizerFactoryInternal {
     }
     LocalizerBundleInternal targetLocalizerBundle =
         createTargetLocalizerBundle(localizerInternal, resourceBundleName);
+    java.lang.System.out.println("target: " + targetLocalizerBundle);
     LocalizerBundleInternal rootLocalizerBundle =
         createRootLocaleLocalizerBundle(localizerInternal, resourceBundleName);
     LocalizerBundleInternal undefinedLocalizerBundle = createUndefinedLocalizerBundle();
     CompositeLocalizerBundleImp compositeLocalizerBundleImp = new CompositeLocalizerBundleImp(
         targetLocalizerBundle, rootLocalizerBundle, undefinedLocalizerBundle);
+    java.lang.System.out.println("localizerBundle: " + compositeLocalizerBundleImp);
     return (LocalizerBundle) localizerInternal
         .addLocalizerBundleInternal(compositeLocalizerBundleImp);
   }
@@ -65,9 +67,19 @@ final class LocalizerFactoryInternalImp implements LocalizerFactoryInternal {
     guardNotNull("name", name);
     guardNamingConvention("name", name);
     guardNotNull("locale", locale);
-    LocalizerInternal localizerInternal = new LocalizerInternalImp(this, name, locale);
-    localizerInternalMap.put(localizerInternal.getUid(), localizerInternal);
-    return localizerInternal;
+    LocalizerInternal newLocalizerInternal = new LocalizerInternalImp(this, name, locale);
+    LocalizerInternal currentLocalizerInternal =
+        localizerInternalMap.get(newLocalizerInternal.getUid());
+    if (null != currentLocalizerInternal) {
+      if (!newLocalizerInternal.getLocale().equals(currentLocalizerInternal.getLocale())) {
+        throw new LocalizerException(
+            "attempt to create existing Localizer but with different Locale.");
+      }
+      newLocalizerInternal = currentLocalizerInternal;
+    } else {
+      localizerInternalMap.put(newLocalizerInternal.getUid(), newLocalizerInternal);
+    }
+    return newLocalizerInternal;
   }
 
   @Override
@@ -113,6 +125,7 @@ final class LocalizerFactoryInternalImp implements LocalizerFactoryInternal {
     guardNamingConvention("groupName", groupName);
     guardNotNull("typeName", typeName);
     guardNamingConvention("typeName", typeName);
+    guardNotNull("methodName", methodName);
     guardNamingConvention("methodName", methodName);
 
     LocalizerInternal localizerInternal = null;
@@ -139,11 +152,6 @@ final class LocalizerFactoryInternalImp implements LocalizerFactoryInternal {
     }
     LocalizerInstanceInternal newLocalizerInstanceInternal =
         new LocalizerInstanceInternalImp((LocalizerTypeInternal) localizerType, instanceName);
-    LocalizerInstanceInternal existingLocalizerInstanceInternal =
-        localizerTypeInternal.getLocalizerInstanceInternal(newLocalizerInstanceInternal.getUid());
-    if (existingLocalizerInstanceInternal.isDefined()) {
-      newLocalizerInstanceInternal = existingLocalizerInstanceInternal;
-    }
     return localizerTypeInternal.addLocalizerInstanceInternal(newLocalizerInstanceInternal);
   }
 

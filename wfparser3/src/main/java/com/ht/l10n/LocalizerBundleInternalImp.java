@@ -6,6 +6,43 @@ import java.util.Locale;
 import java.util.MissingResourceException;
 
 final class LocalizerBundleInternalImp implements LocalizerBundleInternal {
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + ((resourceBundleName == null) ? 0 : resourceBundleName.hashCode());
+    return result;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    LocalizerBundleInternalImp other = (LocalizerBundleInternalImp) obj;
+    if (resourceBundleName == null) {
+      if (other.resourceBundleName != null) {
+        return false;
+      }
+    } else if (!resourceBundleName.equals(other.resourceBundleName)) {
+      return false;
+    }
+    return true;
+  }
+  
+  
+  @Override
+  public String toString() {
+    return "LocalizerBundleInternalImp [resourceBundleName=" + resourceBundleName + "]";
+  }
+
+
   private final LocalizerFactoryInternal factoryInternal;
   private final LocalizerInternal localizerInternal;
   private final String resourceBundleName;

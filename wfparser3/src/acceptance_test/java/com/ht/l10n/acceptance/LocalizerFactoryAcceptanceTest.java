@@ -1,6 +1,8 @@
 package com.ht.l10n.acceptance;
 
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import com.ht.l10n.Assert;
 import com.ht.l10n.Localizer;
@@ -365,5 +367,84 @@ public class LocalizerFactoryAcceptanceTest {
 
     testableLocalizerFactory.createLocalizerType(externalLocalizer, "some.group", "some.type",
         "some.method");
+  }
+
+  @Test
+  public void LocalizerFactory_createTheSameLocalizerTwice_bothLocalizersAreTheSameInstance()
+      throws Exception {
+    final String expectedLocalizerName = "same.localizer.twice";
+    final Locale expectedLocalizerLocale = Locale.CANADA_FRENCH;
+
+    Localizer firstLocalizer =
+        testableLocalizerFactory.createLocalizer(expectedLocalizerName, expectedLocalizerLocale);
+    Localizer secondLocalizer =
+        testableLocalizerFactory.createLocalizer(expectedLocalizerName, expectedLocalizerLocale);
+
+    assertTrue(firstLocalizer == secondLocalizer);
+  }
+
+  @Test(expected = LocalizerException.class)
+  public void LocalizerFactory_createTheSameLocalizerTwiceButWithDifferentLocales_localizerExceptionIsThrown()
+      throws Exception {
+    final String expectedLocalizerName = "same.localizer.name";
+    final Locale expectedFirstLocale = Locale.GERMAN;
+    final Locale expectedSecondLocale = Locale.ITALIAN;
+    testableLocalizerFactory.createLocalizer(expectedLocalizerName, expectedFirstLocale);
+
+    testableLocalizerFactory.createLocalizer(expectedLocalizerName, expectedSecondLocale);
+  }
+
+  @Test
+  public void LocalizerFactory_createTheSameLocalizerTypeTwice_bothLocalizerTypesAreTheSameInstance()
+      throws Exception {
+    Localizer localizer =
+        testableLocalizerFactory.createLocalizer("test.localizer", Locale.CANADA_FRENCH);
+
+    final String expectedGroupName = "same.group.name";
+    final String expectedTypeName = "same.type.name";
+    final String expectedMethodName = "same.method.name";
+
+    LocalizerType firstLocalizerType = testableLocalizerFactory.createLocalizerType(localizer,
+        expectedGroupName, expectedTypeName, expectedMethodName);
+    LocalizerType secondLocalizerType = testableLocalizerFactory.createLocalizerType(localizer,
+        expectedGroupName, expectedTypeName, expectedMethodName);
+
+    assertTrue(firstLocalizerType == secondLocalizerType);
+  }
+
+  @Test
+  public void LocalizerFactory_createTheSameLocalizerInstanceTwice_bothLocalizerInstancesAreTheSameInstance()
+      throws Exception {
+    final Localizer localizer =
+        testableLocalizerFactory.createLocalizer("test.localizer", Locale.CANADA_FRENCH);
+    final LocalizerType localizerType = testableLocalizerFactory.createLocalizerType(localizer,
+        "test.group", "test.type", "test.method");
+    final String expectedInstanceName = "same.instance";
+
+    LocalizerInstance firstLocalizerInstance =
+        testableLocalizerFactory.createLocalizerInstance(localizerType, expectedInstanceName);
+    LocalizerInstance secondLocalizerInstance =
+        testableLocalizerFactory.createLocalizerInstance(localizerType, expectedInstanceName);
+
+    assertTrue(firstLocalizerInstance == secondLocalizerInstance);
+  }
+
+  @Test
+  public void LocalizerFactory_createTheSameLocalizerBundleForSameLocalizerTwice_bothLocalizerBundlesAreTheSameInstance()
+      throws Exception {
+    resourceBundleWrapperForLocaleConfigurator.doesResourceBundleExist(true);
+    resourceBundleWrapperForRootLocaleConfigurator.doesResourceBundleExist(true);
+    Localizer localizer =
+        testableLocalizerFactory.createLocalizer("same.localizer", Locale.CANADA_FRENCH);
+    final String expectedResourceBundleBaseName = "some.test.ResourceBundle";
+
+    System.out.println("first");
+    LocalizerBundle firstLocalizerBundle =
+        testableLocalizerFactory.createLocalizerBundle(localizer, expectedResourceBundleBaseName);
+    System.out.println("second");
+    LocalizerBundle secondLocalizerBundle =
+        testableLocalizerFactory.createLocalizerBundle(localizer, expectedResourceBundleBaseName);
+
+    assertTrue(firstLocalizerBundle == secondLocalizerBundle);
   }
 }

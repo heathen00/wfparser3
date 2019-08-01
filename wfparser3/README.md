@@ -214,13 +214,6 @@ There are a number of problems with the localization implementation I currently 
 
      
 HERE:
-  
-  // TODO add functionality to create and access LocalizerInstance instances.
-  // TODO remove functionality from LocalizerType for the instance name.
-  // TODO replace functionality in Localizer to get the LocalizerField instances to get the LocalizerInstance instances.
-  // TODO you'll need to figure out at some point how to create the instance names.  With this structure
-  //      it would likely be easier to tack on the instance name at the end.
-
 
    * What should happen if you try and create a localizer bundle/type/field that is not unique?  Error?  Return
      reference to already existing type?

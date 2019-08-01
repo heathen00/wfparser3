@@ -78,9 +78,16 @@ final class LocalizerTypeInternalImp implements LocalizerTypeInternal {
 
   @Override
   public LocalizerInstanceInternal addLocalizerInstanceInternal(
-      LocalizerInstanceInternal localizerInstance) {
-    localizerInstanceMap.put(localizerInstance.getUid(), localizerInstance);
-    return localizerInstance;
+      LocalizerInstanceInternal localizerInstanceInternal) {
+    LocalizerInstanceInternal newLocalizerInstanceInternal = localizerInstanceInternal;
+    LocalizerInstanceInternal existingLocalizerInstanceInternal =
+        localizerInstanceMap.get(localizerInstanceInternal.getUid());
+    if (null == existingLocalizerInstanceInternal) {
+      localizerInstanceMap.put(newLocalizerInstanceInternal.getUid(), newLocalizerInstanceInternal);
+    } else {
+      newLocalizerInstanceInternal = existingLocalizerInstanceInternal;
+    }
+    return newLocalizerInstanceInternal;
   }
 
   @Override

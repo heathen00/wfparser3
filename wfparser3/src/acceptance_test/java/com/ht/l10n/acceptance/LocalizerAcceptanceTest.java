@@ -138,12 +138,12 @@ public class LocalizerAcceptanceTest {
   public void Localizer_getLocalizerTypeForNonExistentLocalizerType_undefinedLocalizerTypeIsReturned()
       throws Exception {
     Localizer someOtherLocalizer =
-        testableLocalizerFactory.createLocalizer("localizer.name", Locale.CANADA_FRENCH);
+        testableLocalizerFactory.createLocalizer("localizer.name.one", Locale.CANADA_FRENCH);
     LocalizerType someOtherocalizerType = testableLocalizerFactory
         .createLocalizerType(someOtherLocalizer, "test.group", "test.type", "test.method");
     UID<LocalizerType> localizerTypeUid = someOtherocalizerType.getUid();
     Localizer localizer =
-        testableLocalizerFactory.createLocalizer("localizer.name", Locale.CANADA_FRENCH);
+        testableLocalizerFactory.createLocalizer("localizer.name.two", Locale.CANADA_FRENCH);
 
     LocalizerType localizerType = localizer.getLocalizerType(localizerTypeUid);
 
@@ -212,13 +212,13 @@ public class LocalizerAcceptanceTest {
   public void Localizer_getLocalizerInstanceForNonExistentLocalizerInstance_undefinedLocalizerInstanceIsReturned()
       throws Exception {
     Localizer someOtherLocalizer =
-        testableLocalizerFactory.createLocalizer("localizer.name", Locale.CANADA_FRENCH);
+        testableLocalizerFactory.createLocalizer("localizer.name.alpha", Locale.CANADA_FRENCH);
     LocalizerType someOtherLocalizerType = testableLocalizerFactory
         .createLocalizerType(someOtherLocalizer, "other.group", "other.type", "other.method");
     LocalizerInstance someOtherLocalizerInstance =
         testableLocalizerFactory.createLocalizerInstance(someOtherLocalizerType, "other.instance");
     Localizer localizer =
-        testableLocalizerFactory.createLocalizer("localizer.name", Locale.CANADA_FRENCH);
+        testableLocalizerFactory.createLocalizer("localizer.name.beta", Locale.CANADA_FRENCH);
 
     LocalizerInstance localizerInstance =
         localizer.getLocalizerInstance(someOtherLocalizerInstance.getUid());
