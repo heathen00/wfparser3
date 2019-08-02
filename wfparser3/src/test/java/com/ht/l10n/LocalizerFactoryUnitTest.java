@@ -1,18 +1,12 @@
 package com.ht.l10n;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-
+import java.util.Locale;
+import org.junit.Before;
+import org.junit.Test;
 import com.ht.uid.UID;
 import com.ht.wrap.ResourceBundleWrapperConfigurator;
 import com.ht.wrap.StubWrapperFactory;
-import com.ht.wrap.WrapperFactory;
-
-import java.util.Locale;
-
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
 
 public class LocalizerFactoryUnitTest {
   private LocalizerFactoryInternal localizerFactoryInternal;
@@ -200,49 +194,5 @@ public class LocalizerFactoryUnitTest {
 
     localizerAssert.assertExpectedLocalizerBundle(expectedTargetLocale, expectedResolvedLocale,
         expectedResourceBundleName, expectedIsDefined, localizerInternal, localizerBundle);
-  }
-
-  @Test(expected = NullPointerException.class)
-  public void LocalizerFactory_setWrapperFactoryWithNullParameter_nullPointerExceptionIsThrown() {
-    localizerFactoryInternal.setWrapperFactory((com.ht.wrap.WrapperFactory) null);
-  }
-
-  @Test
-  public void LocalizerFactory_setWrapperFactoryWithStubWrapperFactory_stubWrapperFactoryIsSet() {
-    WrapperFactory expectedWrapperFactory = StubWrapperFactory.createStubWrapperFactory();
-
-    localizerFactoryInternal.setWrapperFactory(stubWrapperFactory);
-
-    assertEquals(expectedWrapperFactory, localizerFactoryInternal.getWrapperFactory());
-  }
-
-  @Test
-  public void LocalizerFactory_setWrapperFactoryWithProductionWrapperFactory_productionWrapperFactoryIsSet() {
-    WrapperFactory initialWrapperFactory = StubWrapperFactory.createStubWrapperFactory();
-    localizerFactoryInternal.setWrapperFactory(initialWrapperFactory);
-    assertEquals(initialWrapperFactory, localizerFactoryInternal.getWrapperFactory());
-    WrapperFactory expectedWrapperFactory = WrapperFactory.createWrapperFactory();
-
-    localizerFactoryInternal.setWrapperFactory(expectedWrapperFactory);
-
-    assertEquals(expectedWrapperFactory, localizerFactoryInternal.getWrapperFactory());
-  }
-
-  @Test
-  @Ignore("wrapper set in setup() method that breaks this test case")
-  public void LocalizerFactory_doNotSetWrapperFactory_productionWrapperFactoryIsSet() {
-    WrapperFactory myWrapperFactory = localizerFactoryInternal.getWrapperFactory();
-
-    assertEquals(WrapperFactory.createWrapperFactory(), myWrapperFactory);
-  }
-
-  @Test
-  public void LocalizerFactory_resetAll_productionWrapperFactoryIsSet() {
-    final WrapperFactory expectedWrapperFactory = WrapperFactory.createWrapperFactory();
-    localizerFactoryInternal.setWrapperFactory(stubWrapperFactory);
-
-    localizerFactoryInternal.resetAll();
-
-    assertEquals(expectedWrapperFactory, localizerFactoryInternal.getWrapperFactory());
   }
 }

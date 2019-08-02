@@ -3,7 +3,6 @@ package com.ht.l10n;
 import com.ht.uid.UID;
 import com.ht.wrap.WrapperFactory;
 import com.ht.wrap.ResourceBundleWrapper;
-
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Locale;
@@ -50,13 +49,11 @@ final class LocalizerFactoryInternalImp implements LocalizerFactoryInternal {
     }
     LocalizerBundleInternal targetLocalizerBundle =
         createTargetLocalizerBundle(localizerInternal, resourceBundleName);
-    java.lang.System.out.println("target: " + targetLocalizerBundle);
     LocalizerBundleInternal rootLocalizerBundle =
         createRootLocaleLocalizerBundle(localizerInternal, resourceBundleName);
     LocalizerBundleInternal undefinedLocalizerBundle = createUndefinedLocalizerBundle();
     CompositeLocalizerBundleImp compositeLocalizerBundleImp = new CompositeLocalizerBundleImp(
         targetLocalizerBundle, rootLocalizerBundle, undefinedLocalizerBundle);
-    java.lang.System.out.println("localizerBundle: " + compositeLocalizerBundleImp);
     return (LocalizerBundle) localizerInternal
         .addLocalizerBundleInternal(compositeLocalizerBundleImp);
   }

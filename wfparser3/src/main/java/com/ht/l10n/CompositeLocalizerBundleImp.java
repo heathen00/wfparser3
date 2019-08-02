@@ -5,16 +5,6 @@ import java.util.List;
 import java.util.Locale;
 
 final class CompositeLocalizerBundleImp implements LocalizerBundleInternal {
-  @Override
-  public int hashCode() {
-    return localizerBundleInternalList.get(TARGET_BUNDLE).hashCode();
-  }
-
-  @Override
-  public boolean equals(Object obj) {
-    return localizerBundleInternalList.get(TARGET_BUNDLE).equals(obj);
-  }
-
   private final List<LocalizerBundleInternal> localizerBundleInternalList;
   private final int TARGET_BUNDLE = 0;
 
@@ -84,13 +74,31 @@ final class CompositeLocalizerBundleImp implements LocalizerBundleInternal {
   }
 
   @Override
+  public int hashCode() {
+    return localizerBundleInternalList.get(TARGET_BUNDLE).hashCode();
+  }
+
+  @Override
   public int compareTo(LocalizerBundle o) {
     return localizerBundleInternalList.get(TARGET_BUNDLE).compareTo(o);
   }
 
   @Override
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (obj == null)
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
+    CompositeLocalizerBundleImp other = (CompositeLocalizerBundleImp) obj;
+    return localizerBundleInternalList.get(TARGET_BUNDLE)
+        .equals(other.localizerBundleInternalList.get(TARGET_BUNDLE));
+  }
+
+  @Override
   public String toString() {
     return "CompositeLocalizerBundleImp [localizerBundleInternalList=" + localizerBundleInternalList
-        + "]";
+        + ", super.toString()=" + super.toString() + "]";
   }
 }

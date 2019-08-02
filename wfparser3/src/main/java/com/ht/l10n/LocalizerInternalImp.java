@@ -1,7 +1,6 @@
 package com.ht.l10n;
 
 import com.ht.uid.UID;
-
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -114,16 +113,12 @@ final class LocalizerInternalImp implements LocalizerInternal {
     for (Iterator<LocalizerBundle> localizerBundleIterator =
         localizerBundleSet.iterator(); localizerBundleIterator.hasNext();) {
       currentLocalizerBundle = localizerBundleIterator.next();
-      java.lang.System.out.println("new: " + newLocalizerBundleInternal);
-      java.lang.System.out.println("cur: " + currentLocalizerBundle);
-      java.lang.System.out
-          .println("equals: " + currentLocalizerBundle.equals(newLocalizerBundleInternal));
       if (currentLocalizerBundle.equals(newLocalizerBundleInternal)) {
         newLocalizerBundleInternal = (LocalizerBundleInternal) currentLocalizerBundle;
         break;
       }
     }
-    if (newLocalizerBundleInternal != currentLocalizerBundle) {
+    if (newLocalizerBundleInternal == localizerBundleInternal) {
       java.lang.System.out.println("yes");
       localizerBundleSet.add(newLocalizerBundleInternal);
     }

@@ -169,17 +169,6 @@ There are a number of problems with the localization implementation I currently 
      them will be modified.
    * You should also just look through the code for instances of duplication and remove them using
      inheritance, pulling out duplicate code into its own class and use composition, instead.
-   * "instanceName()" doesn't really make sense within LocalizerType, conceptually.  It makes more sense
-     that there should be a LocalizerInstance that references a LocalizerField.  The localizer field,
-     of course has a one to one reference to a LocalizerType.  But there may be multiple LocalizerInstance
-     instances that refer to the same LocalizerField (and indirectly LocalizerType).  This change has
-     implications on the Localizer type  interface since the use case no longer requires that we be able
-     to search based on LocalizerField, but LocalizerInstance, instead.  As a part of this, you should
-     also ensure that the same naming convention for the accessed string in the ResourceBundle is
-     consistent.  Maybe refactor how the resource bundle is tested using stubs for ResourceBundle?
-     It would make setting up tests easier.  You could wrap ResourceBundle in your own type that explicitly
-     states the ResourceBundle functionality that the system uses.  And test your ResourceBundle's
-     integration with the Java ResourceBundle functionality explicitly.
    * I want to create another small subsystem in a package called "com.ht.guard" that provides
      reusable guard code that can be used throughout all other subsystems, but I am having a
      difficult time figuring out how to structure the code so that the guard code supports optionally
@@ -194,41 +183,29 @@ There are a number of problems with the localization implementation I currently 
      names for group, type, and field names respectively.  This would permit you to potentially
      defined annotations that automatically determined most of the data.  The only thing not set
      is the instance name which would be set in the annotation.
-   * You should move all the acceptance testing related to the UID utility to the UID acceptance
-     tests, which don't actually exist at this point, then delete all the UID testing from the
-     individual Localizer class acceptance/unit test modules.  It's all the same, anyway, and the
-     UID behaviour is independent of the component it represents, by design.
-   * The stub localizer factory should really implement the same interface as the internal localizer
-     factory.  It may have its own methods beyond that, but it should, at the very least, implement
-     the same interface for the sake of interchangeability.
    * You should consider adding yet another layer of testing: integration, which tests to ensure
      that independent subsystems of the whole solution work together as expected.  The testing
      should not be too extensive to reduce redundancy and should only indicate that ... what?
      Think about what the integration testing should prove in more concrete and limited terms.
-   * After you refactor to make LocalizerInstance a separate type, you should review the LocalizerType
-     and see if it is really necessary to specify the group/type/method separately.  You could eliminate
-     some error scenarios by making this one change.  And then you could enforce the policy for how
-     to map between actual class instances and the localized data in a subsystem above/that uses the
-     localizer.
-   * you should rename the java package from "com.ht.l10n" to "com.ht.localizer" for consistency.
 
      
 HERE:
+   * you should rename the java package from "com.ht.l10n" to "com.ht.localizer" for consistency.
+   * rename the localizer System class to something else, maybe LocalizerSystem since there is
+     naming conflict with java.lang.System which is annoying to have to resolve manually every time
+     by providing the fully qualified name.
+   * You should move all the acceptance testing related to the UID utility to the UID acceptance
+     tests, which don't actually exist at this point, then delete all the UID testing from the
+     individual Localizer class acceptance/unit test modules.  It's all the same, anyway, and the
+     UID behaviour is independent of the component it represents, by design.
+   * StubLocalizerFactory:
+      * This would be useful for integrating into the rest of the parser.
+      * The stub localizer factory should really implement the same interface as the internal localizer
+        factory.  It may have its own methods beyond that, but it should, at the very least, implement
+        the same interface for the sake of interchangeability.
+      * You should implement the LocalizerStubFactory similar to the WrapperStubFactory.
 
-   * What should happen if you try and create a localizer bundle/type/field that is not unique?  Error?  Return
-     reference to already existing type?
-   * What happens when you add the same bundle, type, or field multiple times? Not sure if
-     these scenarios tested sufficiently.  Check the existing test cases first.
-   * There is some mention above about what happens if multiple of one or another LocalizerXXX
-     instance is created.  You should consider carefully what the behaviour should be.  For
-     example, it is conceivable that multiple client modules will use the same LocalizerBundle,
-     consequently since their L10N definitions are all in the same file.  It would not necessarily
-     make sense for each of these modules to have their own instance since the resource bundles
-     cache and I'm not sure the Java implementation is smart enough to reuse the same ResourceBundle
-     instance if the same resource is instantiated/loaded by two separate modules.  This would
-     imply that some modules should be cached by the Factory which in turn implies that the
-     Factory should be a singleton.  I think it is already, but double check.  How do you test
-     this, though?
+
      
      
 ## Rough Notes

@@ -1,7 +1,6 @@
 package com.ht.l10n;
 
 import com.ht.wrap.ResourceBundleWrapper;
-
 import java.util.Locale;
 import java.util.MissingResourceException;
 
@@ -22,6 +21,8 @@ final class LocalizerBundleInternalImp implements LocalizerBundleInternal {
     if (obj == null) {
       return false;
     }
+
+
     if (getClass() != obj.getClass()) {
       return false;
     }
@@ -35,12 +36,12 @@ final class LocalizerBundleInternalImp implements LocalizerBundleInternal {
     }
     return true;
   }
-  
-  
-  @Override
-  public String toString() {
-    return "LocalizerBundleInternalImp [resourceBundleName=" + resourceBundleName + "]";
-  }
+
+
+  // @Override
+  // public String toString() {
+  // return "LocalizerBundleInternalImp [resourceBundleName=" + resourceBundleName + "]";
+  // }
 
 
   private final LocalizerFactoryInternal factoryInternal;

@@ -2,8 +2,11 @@ package com.ht.l10n.acceptance;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
+import java.util.Collections;
+import java.util.Locale;
+import java.util.Set;
+import org.junit.Before;
+import org.junit.Test;
 import com.ht.l10n.Assert;
 import com.ht.l10n.Localizer;
 import com.ht.l10n.LocalizerBundle;
@@ -15,13 +18,6 @@ import com.ht.l10n.TestableLocalizerFactory;
 import com.ht.uid.UID;
 import com.ht.wrap.ResourceBundleWrapperConfigurator;
 import com.ht.wrap.StubWrapperFactory;
-
-import java.util.Collections;
-import java.util.Locale;
-import java.util.Set;
-
-import org.junit.Before;
-import org.junit.Test;
 
 public class LocalizerFactoryAcceptanceTest {
 
@@ -438,10 +434,8 @@ public class LocalizerFactoryAcceptanceTest {
         testableLocalizerFactory.createLocalizer("same.localizer", Locale.CANADA_FRENCH);
     final String expectedResourceBundleBaseName = "some.test.ResourceBundle";
 
-    System.out.println("first");
     LocalizerBundle firstLocalizerBundle =
         testableLocalizerFactory.createLocalizerBundle(localizer, expectedResourceBundleBaseName);
-    System.out.println("second");
     LocalizerBundle secondLocalizerBundle =
         testableLocalizerFactory.createLocalizerBundle(localizer, expectedResourceBundleBaseName);
 
