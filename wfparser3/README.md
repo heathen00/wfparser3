@@ -198,6 +198,7 @@ HERE:
      tests, which don't actually exist at this point, then delete all the UID testing from the
      individual Localizer class acceptance/unit test modules.  It's all the same, anyway, and the
      UID behaviour is independent of the component it represents, by design.
+   * Rewrite test cases for exceptions to use a rule.
    * StubLocalizerFactory:
       * This would be useful for integrating into the rest of the parser.
       * The stub localizer factory should really implement the same interface as the internal localizer
