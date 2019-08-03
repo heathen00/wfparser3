@@ -1,10 +1,10 @@
 package com.ht.uid;
 
-final class UIDImp<T> implements UID<T> {
+final class UidInternalImp<T> implements UidInternal<T> {
   private final T component;
   private final String key;
 
-  UIDImp(String key, T component) {
+  UidInternalImp(String key, T component) {
     this.component = component;
     this.key = key;
   }
@@ -12,6 +12,11 @@ final class UIDImp<T> implements UID<T> {
   @Override
   public String getKey() {
     return key;
+  }
+
+  @Override
+  public T getComponent() {
+    return component;
   }
 
   @Override
@@ -31,7 +36,7 @@ final class UIDImp<T> implements UID<T> {
     if (getClass() != obj.getClass())
       return false;
     @SuppressWarnings("rawtypes")
-    UIDImp other = (UIDImp) obj;
+    UidInternalImp other = (UidInternalImp) obj;
     if (key == null) {
       if (other.key != null)
         return false;

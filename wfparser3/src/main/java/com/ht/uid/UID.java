@@ -14,7 +14,11 @@ package com.ht.uid;
  */
 public interface UID<T> extends Comparable<UID<T>> {
   public static <T> UID<T> createUid(String key, T component) {
-    return new UIDImp<T>(key, component);
+    return UidFactory.getUidFactory().createUid(key, component);
+  }
+  
+  public static void resetUidFactory() {
+    UidFactory.getUidFactory().resetAll();
   }
 
   /**

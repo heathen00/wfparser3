@@ -190,10 +190,10 @@ There are a number of problems with the localization implementation I currently 
 
      
 HERE:
-   * You should move all the acceptance testing related to the UID utility to the UID acceptance
-     tests, which don't actually exist at this point, then delete all the UID testing from the
-     individual Localizer class acceptance/unit test modules.  It's all the same, anyway, and the
-     UID behaviour is independent of the component it represents, by design.
+   * Moving UID acceptance tests into UID testing modules and out of other modules' tests:
+      * implement the UID acceptance tests.  DONE.
+      * fix any broken testcases.  NOT DONE, HERE.
+      * remove UID related acceptance tests out of other modules' tests.  NOT DONE.
    * Rewrite test cases for exceptions to use a rule.  Start with Localizer.
    * StubLocalizerFactory:
       * This would be useful for integrating into the rest of the parser.
