@@ -7,41 +7,45 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 import com.ht.uid.StubUniqueComponent;
+import com.ht.uid.TestableUidFactory;
 import com.ht.uid.UID;
 
 public class UidAcceptanceTest {
+  private TestableUidFactory testableUidFactory;
 
   @Before
   public void setup() {
-    UID.resetUidFactory();
+    testableUidFactory = TestableUidFactory.getTestableUidFactory();
+    testableUidFactory.resetAll();
   }
 
   @Test(expected = NullPointerException.class)
   public void UID_createUidWithNullKeyString_nullPointerExceptionIsThrown() {
-    UID.createUid(null, StubUniqueComponent.createStubUniqueComponent("test.unique.component"));
+    testableUidFactory.createUid(null,
+        StubUniqueComponent.createStubUniqueComponent("test.unique.component"));
   }
 
   @Test(expected = NullPointerException.class)
   public void UID_createUidWithNullComponent_nullPointerExceptionIsThrown() {
-    UID.createUid("test.uid.key", null);
+    testableUidFactory.createUid("test.uid.key", null);
   }
 
   @Test(expected = UnsupportedOperationException.class)
   public void UID_createUidWithEmptyKeyString_unsupportedOperationExceptionIsThrown() {
-    UID.createUid(" \t\t \n  ",
+    testableUidFactory.createUid(" \t\t \n  ",
         StubUniqueComponent.createStubUniqueComponent("test.unique.component"));
   }
 
   @Test(expected = UnsupportedOperationException.class)
   public void UID_createUidWithComponentThatDoesNotImplementUniqueComponent_unsupportedOperationExceptionIsThrown() {
-    UID.createUid("test.uid.key", new Object());
+    testableUidFactory.createUid("test.uid.key", new Object());
   }
 
   @Test(expected = UnsupportedOperationException.class)
   public void UID_createUidWithSameKeyTwiceButDifferentComponent_unsupportedOperationExceptionIsThrown() {
-    UID.createUid("duplicate.uid.key",
+    testableUidFactory.createUid("duplicate.uid.key",
         StubUniqueComponent.createStubUniqueComponent("test.unique.component.01"));
-    UID.createUid("duplicate.uid.key",
+    testableUidFactory.createUid("duplicate.uid.key",
         StubUniqueComponent.createStubUniqueComponent("test.unique.component.02"));
   }
 
@@ -51,7 +55,7 @@ public class UidAcceptanceTest {
     final StubUniqueComponent expectedComponent =
         StubUniqueComponent.createStubUniqueComponent("test.component.name");
 
-    UID<StubUniqueComponent> uid = UID.createUid(expectedKey, expectedComponent);
+    UID<StubUniqueComponent> uid = testableUidFactory.createUid(expectedKey, expectedComponent);
 
     assertNotNull(uid);
     assertEquals(expectedKey, uid.getKey());
@@ -67,9 +71,9 @@ public class UidAcceptanceTest {
         StubUniqueComponent.createStubUniqueComponent(duplicateComponentName);
 
     UID<StubUniqueComponent> firstComponentUid =
-        UID.createUid(expectedDuplicateKey, firstComponent);
+        testableUidFactory.createUid(expectedDuplicateKey, firstComponent);
     UID<StubUniqueComponent> secondComponentUid =
-        UID.createUid(expectedDuplicateKey, secondComponent);
+        testableUidFactory.createUid(expectedDuplicateKey, secondComponent);
 
     assertNotNull(firstComponentUid);
     assertNotNull(secondComponentUid);
@@ -82,10 +86,10 @@ public class UidAcceptanceTest {
     UID<StubUniqueComponent> second = null;
 
     // Equals
-    UID.resetUidFactory();
-    first = UID.createUid("test.uid.key",
+    testableUidFactory.resetAll();
+    first = testableUidFactory.createUid("test.uid.key",
         StubUniqueComponent.createStubUniqueComponent("test.component.name"));
-    second = UID.createUid("test.uid.key",
+    second = testableUidFactory.createUid("test.uid.key",
         StubUniqueComponent.createStubUniqueComponent("test.component.name"));
 
     assertTrue(first.equals(second));
@@ -95,10 +99,10 @@ public class UidAcceptanceTest {
     assertTrue(first.compareTo(second) == 0);
 
     // Not equals.
-    UID.resetUidFactory();
-    first = UID.createUid("test.uid.key.00",
+    testableUidFactory.resetAll();
+    first = testableUidFactory.createUid("test.uid.key.00",
         StubUniqueComponent.createStubUniqueComponent("test.component.name"));
-    second = UID.createUid("test.uid.key.01",
+    second = testableUidFactory.createUid("test.uid.key.01",
         StubUniqueComponent.createStubUniqueComponent("test.component.name"));
 
     assertFalse(first.equals(second));
@@ -107,8 +111,8 @@ public class UidAcceptanceTest {
     assertTrue(first.compareTo(second) < 0);
 
     // Null.
-    UID.resetUidFactory();
-    first = UID.createUid("test.uid.key",
+    testableUidFactory.resetAll();
+    first = testableUidFactory.createUid("test.uid.key",
         StubUniqueComponent.createStubUniqueComponent("test.component.name"));
 
     assertFalse(first.equals(null));

@@ -13,12 +13,8 @@ package com.ht.uid;
  * @param <T>
  */
 public interface UID<T> extends Comparable<UID<T>> {
-  public static <T> UID<T> createUid(String key, T component) {
-    return UidFactory.getUidFactory().createUid(key, component);
-  }
-  
-  public static void resetUidFactory() {
-    UidFactory.getUidFactory().resetAll();
+  static UidFactory getUidFactory() {
+    return UidFactoryInternal.getUidFactoryInternal();
   }
 
   /**
