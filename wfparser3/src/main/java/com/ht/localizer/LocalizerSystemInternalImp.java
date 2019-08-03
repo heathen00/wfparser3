@@ -4,26 +4,26 @@ import com.ht.uid.UID;
 
 import java.util.Set;
 
-final class SystemInternalImp implements SystemInternal {
-  private static SystemInternalImp SYSTEM_INTERNAL_IMP_SINGLETON = new SystemInternalImp();
+final class LocalizerSystemInternalImp implements LocalizerSystemInternal {
+  private static LocalizerSystemInternalImp LOCALIZER_SYSTEM_INTERNAL_IMP_SINGLETON = new LocalizerSystemInternalImp();
 
-  public static SystemInternalImp getSystemInternalImpSingleton() {
-    return SYSTEM_INTERNAL_IMP_SINGLETON;
+  public static LocalizerSystemInternalImp getLocalizerSystemInternalImpSingleton() {
+    return LOCALIZER_SYSTEM_INTERNAL_IMP_SINGLETON;
   }
 
   private final LocalizerFactoryInternal factoryInternal;
 
-  private SystemInternalImp() {
+  private LocalizerSystemInternalImp() {
     factoryInternal = new LocalizerFactoryInternalImp();
   }
 
   @Override
-  public LocalizerFactory getFactory() {
-    return getFactoryInternal();
+  public LocalizerFactory getLocalizerFactory() {
+    return getLocalizerFactoryInternal();
   }
 
   @Override
-  public LocalizerFactoryInternal getFactoryInternal() {
+  public LocalizerFactoryInternal getLocalizerFactoryInternal() {
     return factoryInternal;
   }
 

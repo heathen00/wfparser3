@@ -11,7 +11,7 @@ import com.ht.localizer.LocalizerFactoryInternal;
 import com.ht.localizer.LocalizerInstance;
 import com.ht.localizer.LocalizerInternal;
 import com.ht.localizer.LocalizerType;
-import com.ht.localizer.SystemInternal;
+import com.ht.localizer.LocalizerSystemInternal;
 import com.ht.uid.UID;
 import com.ht.wrap.ResourceBundleWrapperConfigurator;
 import com.ht.wrap.StubWrapperFactory;
@@ -27,7 +27,7 @@ public class LocalizerFactoryUnitTest {
 
   @Before
   public void setup() {
-    localizerFactoryInternal = SystemInternal.getSystemInternal().getFactoryInternal();
+    localizerFactoryInternal = LocalizerSystemInternal.getSystemInternal().getLocalizerFactoryInternal();
     localizerFactoryInternal.resetAll();
     stubLocalizerFactory = StubLocalizerFactory.createStubLocalizerFactory();
     stubWrapperFactory = StubWrapperFactory.createStubWrapperFactory();

@@ -5,7 +5,7 @@ import com.ht.localizer.Localizer;
 import com.ht.localizer.LocalizerFactoryInternal;
 import com.ht.localizer.LocalizerInstance;
 import com.ht.localizer.LocalizerType;
-import com.ht.localizer.SystemInternal;
+import com.ht.localizer.LocalizerSystemInternal;
 import com.ht.wrap.ResourceBundleWrapperConfigurator;
 import com.ht.wrap.StubWrapperFactory;
 
@@ -22,7 +22,7 @@ public class LocalizerUnitTest {
 
   @Before
   public void setUp() throws Exception {
-    localizerFactoryInternal = SystemInternal.getSystemInternal().getFactoryInternal();
+    localizerFactoryInternal = LocalizerSystemInternal.getSystemInternal().getLocalizerFactoryInternal();
     localizerFactoryInternal.resetAll();
     stubWrapperFactory = StubWrapperFactory.createStubWrapperFactory();
     resourceBundleWrapperForLocaleConfigurator =

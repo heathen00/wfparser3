@@ -9,7 +9,7 @@ import com.ht.localizer.LocalizerInstanceInternal;
 import com.ht.localizer.LocalizerInternal;
 import com.ht.localizer.LocalizerType;
 import com.ht.localizer.LocalizerTypeInternal;
-import com.ht.localizer.SystemInternal;
+import com.ht.localizer.LocalizerSystemInternal;
 import com.ht.uid.UID;
 
 import java.util.Collections;
@@ -54,7 +54,7 @@ public final class StubLocalizerFactory {
       @Override
       public LocalizerInstanceInternal getLocalizerInstanceInternal(
           UID<LocalizerInstance> instanceUid) {
-        return SystemInternal.getSystemInternal().getFactoryInternal().createUndefinedLocalizer()
+        return LocalizerSystemInternal.getSystemInternal().getLocalizerFactoryInternal().createUndefinedLocalizer()
             .getLocalizerTypeInternal(null).getLocalizerInstanceInternal(null);
       }
 
@@ -408,6 +408,6 @@ public final class StubLocalizerFactory {
   }
 
   public Localizer createUndefinedLocalizer() {
-    return SystemInternal.getSystemInternal().getFactoryInternal().createUndefinedLocalizer();
+    return LocalizerSystemInternal.getSystemInternal().getLocalizerFactoryInternal().createUndefinedLocalizer();
   }
 }

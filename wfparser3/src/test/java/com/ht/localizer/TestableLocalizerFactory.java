@@ -9,7 +9,7 @@ import com.ht.localizer.LocalizerFactory;
 import com.ht.localizer.LocalizerFactoryInternal;
 import com.ht.localizer.LocalizerInstance;
 import com.ht.localizer.LocalizerType;
-import com.ht.localizer.SystemInternal;
+import com.ht.localizer.LocalizerSystemInternal;
 import com.ht.wrap.WrapperFactory;
 
 import java.util.Locale;
@@ -26,7 +26,7 @@ public final class TestableLocalizerFactory
   private final LocalizerFactoryInternal localizerFactoryInternal;
 
   private TestableLocalizerFactory() {
-    localizerFactoryInternal = SystemInternal.getSystemInternal().getFactoryInternal();
+    localizerFactoryInternal = LocalizerSystemInternal.getSystemInternal().getLocalizerFactoryInternal();
   }
 
   @Override

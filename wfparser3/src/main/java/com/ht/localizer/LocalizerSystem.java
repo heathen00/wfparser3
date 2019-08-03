@@ -4,12 +4,12 @@ import com.ht.uid.UID;
 
 import java.util.Set;
 
-public interface System {
-  static System getSystem() {
-    return SystemInternal.getSystemInternal();
+public interface LocalizerSystem {
+  static LocalizerSystem getSystem() {
+    return LocalizerSystemInternal.getSystemInternal();
   }
 
-  LocalizerFactory getFactory();
+  LocalizerFactory getLocalizerFactory();
 
   Set<UID<Localizer>> getLocalizerUidSet();
 

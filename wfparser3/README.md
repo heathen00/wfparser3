@@ -190,10 +190,6 @@ There are a number of problems with the localization implementation I currently 
 
      
 HERE:
-   * you should rename the java package from "com.ht.l10n" to "com.ht.localizer" for consistency.
-   * rename the localizer System class to something else, maybe LocalizerSystem since there is
-     naming conflict with java.lang.System which is annoying to have to resolve manually every time
-     by providing the fully qualified name.
    * You should move all the acceptance testing related to the UID utility to the UID acceptance
      tests, which don't actually exist at this point, then delete all the UID testing from the
      individual Localizer class acceptance/unit test modules.  It's all the same, anyway, and the

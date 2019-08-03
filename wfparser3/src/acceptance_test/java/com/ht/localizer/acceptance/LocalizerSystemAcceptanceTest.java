@@ -7,7 +7,7 @@ import com.ht.localizer.Assert;
 import com.ht.localizer.Localizer;
 import com.ht.localizer.LocalizerFactory;
 import com.ht.localizer.StubLocalizerFactory;
-import com.ht.localizer.System;
+import com.ht.localizer.LocalizerSystem;
 import com.ht.uid.UID;
 
 import java.util.Locale;
@@ -16,8 +16,8 @@ import java.util.Set;
 import org.junit.Before;
 import org.junit.Test;
 
-public class SystemAcceptanceTest {
-  private System localizerSystem;
+public class LocalizerSystemAcceptanceTest {
+  private LocalizerSystem localizerSystem;
   private LocalizerFactory localizerFactory;
   private StubLocalizerFactory stubLocalizerFactory;
   private Assert localizerAssert;
@@ -25,9 +25,9 @@ public class SystemAcceptanceTest {
 
   @Before
   public void setUp() throws Exception {
-    localizerSystem = System.getSystem();
+    localizerSystem = LocalizerSystem.getSystem();
     localizerSystem.resetAll();
-    localizerFactory = localizerSystem.getFactory();
+    localizerFactory = localizerSystem.getLocalizerFactory();
     stubLocalizerFactory = StubLocalizerFactory.createStubLocalizerFactory();
     localizerAssert = Assert.createAssert();
 

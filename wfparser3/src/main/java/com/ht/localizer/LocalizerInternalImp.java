@@ -119,7 +119,6 @@ final class LocalizerInternalImp implements LocalizerInternal {
       }
     }
     if (newLocalizerBundleInternal == localizerBundleInternal) {
-      java.lang.System.out.println("yes");
       localizerBundleSet.add(newLocalizerBundleInternal);
     }
     return newLocalizerBundleInternal;
