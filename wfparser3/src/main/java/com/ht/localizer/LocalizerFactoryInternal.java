@@ -2,11 +2,11 @@ package com.ht.localizer;
 
 import com.ht.uid.UID;
 import com.ht.wrap.ResourceBundleWrapper;
-
 import java.util.Locale;
 import java.util.Set;
 
-interface LocalizerFactoryInternal extends LocalizerFactory, CanReset, ConfigurableWrapperFactory {
+interface LocalizerFactoryInternal
+    extends LocalizerFactory, CanReset, ConfigurableWrapperFactory, ConfigurableUidFactory {
   LocalizerInternal createLocalizerInternal(String name, Locale locale) throws LocalizerException;
 
   LocalizerBundleInternal createTargetLocalizerBundle(LocalizerInternal localizer,

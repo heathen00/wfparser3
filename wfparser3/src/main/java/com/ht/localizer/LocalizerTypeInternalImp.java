@@ -1,14 +1,13 @@
 package com.ht.localizer;
 
 import com.ht.uid.UID;
-
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
 final class LocalizerTypeInternalImp implements LocalizerTypeInternal {
-  private final LocalizerFactoryInternal factoryInternal;
+  private final LocalizerFactoryInternal localizerFactoryInternal;
   private final LocalizerInternal localizerInternal;
   private final String groupName;
   private final String typeName;
@@ -16,15 +15,16 @@ final class LocalizerTypeInternalImp implements LocalizerTypeInternal {
   private final Map<UID<LocalizerInstance>, LocalizerInstanceInternal> localizerInstanceMap;
   private final UID<LocalizerType> localizerTypeUid;
 
-  LocalizerTypeInternalImp(LocalizerFactoryInternal factoryInternal,
+  LocalizerTypeInternalImp(LocalizerFactoryInternal localizerFactoryInternal,
       LocalizerInternal localizerInternal, String groupName, String typeName, String methodName) {
-    this.factoryInternal = factoryInternal;
+    this.localizerFactoryInternal = localizerFactoryInternal;
     this.localizerInternal = localizerInternal;
     this.groupName = groupName;
     this.typeName = typeName;
     this.methodName = methodName;
     localizerInstanceMap = new HashMap<>();
-    localizerTypeUid = UID.createUid(getFullyQualifiedName(), this);
+    localizerTypeUid =
+        this.localizerFactoryInternal.getUidFactory().createUid(getFullyQualifiedName(), this);
   }
 
   @Override
@@ -55,8 +55,8 @@ final class LocalizerTypeInternalImp implements LocalizerTypeInternal {
     }
     LocalizerInstanceInternal localizerInstance = localizerInstanceMap.get(instanceUid);
     if (null == localizerInstance) {
-      localizerInstance = factoryInternal.createUndefinedLocalizer().getLocalizerTypeInternal(null)
-          .getLocalizerInstanceInternal(null);
+      localizerInstance = localizerFactoryInternal.createUndefinedLocalizer()
+          .getLocalizerTypeInternal(null).getLocalizerInstanceInternal(null);
     }
     return localizerInstance;
   }

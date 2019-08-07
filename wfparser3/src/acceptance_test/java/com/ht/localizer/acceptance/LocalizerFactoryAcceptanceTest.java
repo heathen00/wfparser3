@@ -79,8 +79,8 @@ public class LocalizerFactoryAcceptanceTest {
   @Test
   public void LocalizerFactory_createLocalizerWithLocale_localizeIsCreated() throws Exception {
     String expectedName = "localizer.name";
-    UID<Localizer> expectedLocalizerUid =
-        UID.createUid(expectedName, stubLocalizerFactory.createDefaultStubLocalizer());
+    UID<Localizer> expectedLocalizerUid = testableLocalizerFactory.getUidFactory()
+        .createUid(expectedName, stubLocalizerFactory.createDefaultStubLocalizer());
     Locale expectedLocale = Locale.CANADA_FRENCH;
     boolean expectedIsDefined = true;
 
@@ -325,8 +325,8 @@ public class LocalizerFactoryAcceptanceTest {
     final String expectedMethodName = "expected.method.name";
     final Set<UID<LocalizerInstance>> expectedLocalizerInstanceKeySet = Collections.emptySet();
     final Localizer expectedLocalizer = stubLocalizerFactory.createDefaultStubLocalizer();
-    final UID<LocalizerType> expectedLocalizerTypeUid =
-        UID.createUid(String.join(".", expectedGroupName, expectedTypeName, expectedMethodName),
+    final UID<LocalizerType> expectedLocalizerTypeUid = testableLocalizerFactory.getUidFactory()
+        .createUid(String.join(".", expectedGroupName, expectedTypeName, expectedMethodName),
             stubLocalizerFactory.createStubLocalizerType(expectedGroupName, expectedTypeName,
                 expectedMethodName));
     final boolean expectedIsDefined = true;

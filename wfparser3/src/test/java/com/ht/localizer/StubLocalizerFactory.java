@@ -11,7 +11,7 @@ import com.ht.localizer.LocalizerType;
 import com.ht.localizer.LocalizerTypeInternal;
 import com.ht.localizer.LocalizerSystemInternal;
 import com.ht.uid.UID;
-
+import com.ht.uid.UidFactory;
 import java.util.Collections;
 import java.util.Locale;
 import java.util.Set;
@@ -21,11 +21,15 @@ import java.util.TreeSet;
 public final class StubLocalizerFactory {
   private static final StubLocalizerFactory STUB_FACTORY_SINGLETON = new StubLocalizerFactory();
 
+  private final UidFactory uidFactory;
+
   public static StubLocalizerFactory createStubLocalizerFactory() {
     return STUB_FACTORY_SINGLETON;
   }
 
-  private StubLocalizerFactory() {}
+  private StubLocalizerFactory() {
+    uidFactory = UID.createUidFactory();
+  }
 
   private void operationNotSupported() {
     throw new UnsupportedOperationException("operation not supported by stub");
@@ -54,8 +58,9 @@ public final class StubLocalizerFactory {
       @Override
       public LocalizerInstanceInternal getLocalizerInstanceInternal(
           UID<LocalizerInstance> instanceUid) {
-        return LocalizerSystemInternal.getSystemInternal().getLocalizerFactoryInternal().createUndefinedLocalizer()
-            .getLocalizerTypeInternal(null).getLocalizerInstanceInternal(null);
+        return LocalizerSystemInternal.getSystemInternal().getLocalizerFactoryInternal()
+            .createUndefinedLocalizer().getLocalizerTypeInternal(null)
+            .getLocalizerInstanceInternal(null);
       }
 
       @Override
@@ -117,7 +122,7 @@ public final class StubLocalizerFactory {
 
       @Override
       public UID<LocalizerType> getUid() {
-        return UID.createUid(getFullyQualifiedName(), this);
+        return uidFactory.createUid(getFullyQualifiedName(), this);
       }
 
       @Override
@@ -408,6 +413,7 @@ public final class StubLocalizerFactory {
   }
 
   public Localizer createUndefinedLocalizer() {
-    return LocalizerSystemInternal.getSystemInternal().getLocalizerFactoryInternal().createUndefinedLocalizer();
+    return LocalizerSystemInternal.getSystemInternal().getLocalizerFactoryInternal()
+        .createUndefinedLocalizer();
   }
 }

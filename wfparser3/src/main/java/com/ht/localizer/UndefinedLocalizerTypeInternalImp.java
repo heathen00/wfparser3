@@ -1,12 +1,12 @@
 package com.ht.localizer;
 
 import com.ht.uid.UID;
-
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
 final class UndefinedLocalizerTypeInternalImp implements LocalizerTypeInternal {
+  private final LocalizerFactoryInternal localizerFactoryInternal;
   private final UndefinedLocalizerInternalImp undefinedLocalizer;
   private final String groupName;
   private final String typeName;
@@ -15,14 +15,17 @@ final class UndefinedLocalizerTypeInternalImp implements LocalizerTypeInternal {
   private final LocalizerInstanceInternal undefinedLocalizerInstance;
   private final Set<UID<LocalizerInstance>> undefinedLocalizerInstanceUidSet;
 
-  UndefinedLocalizerTypeInternalImp(UndefinedLocalizerInternalImp undefinedLocalizer) {
+  UndefinedLocalizerTypeInternalImp(LocalizerFactoryInternal localizerFactoryInternal,
+      UndefinedLocalizerInternalImp undefinedLocalizer) {
+    this.localizerFactoryInternal = localizerFactoryInternal;
     this.undefinedLocalizer = undefinedLocalizer;
     groupName = "undef.group";
     typeName = "undef.type";
     methodName = "undef.method";
-    undefinedLocalizerTypeUid =
-        UID.createUid(String.join(".", groupName, typeName, methodName), this);
-    undefinedLocalizerInstance = new UndefinedLocalizerInstanceInternalImp(this);
+    undefinedLocalizerTypeUid = this.localizerFactoryInternal.getUidFactory()
+        .createUid(String.join(".", groupName, typeName, methodName), this);
+    undefinedLocalizerInstance =
+        new UndefinedLocalizerInstanceInternalImp(this.localizerFactoryInternal, this);
     undefinedLocalizerInstanceUidSet = new HashSet<>();
     undefinedLocalizerInstanceUidSet.add(undefinedLocalizerInstance.getUid());
   }

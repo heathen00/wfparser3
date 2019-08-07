@@ -9,13 +9,13 @@ import com.ht.localizer.LocalizerFactory;
 import com.ht.localizer.LocalizerFactoryInternal;
 import com.ht.localizer.LocalizerInstance;
 import com.ht.localizer.LocalizerType;
+import com.ht.uid.UidFactory;
 import com.ht.localizer.LocalizerSystemInternal;
 import com.ht.wrap.WrapperFactory;
-
 import java.util.Locale;
 
 public final class TestableLocalizerFactory
-    implements LocalizerFactory, CanReset, ConfigurableWrapperFactory {
+    implements LocalizerFactory, CanReset, ConfigurableWrapperFactory, ConfigurableUidFactory {
   private static final TestableLocalizerFactory TESTABLE_LOCALIZER_FACTORY_SIGNLETON =
       new TestableLocalizerFactory();
 
@@ -26,7 +26,8 @@ public final class TestableLocalizerFactory
   private final LocalizerFactoryInternal localizerFactoryInternal;
 
   private TestableLocalizerFactory() {
-    localizerFactoryInternal = LocalizerSystemInternal.getSystemInternal().getLocalizerFactoryInternal();
+    localizerFactoryInternal =
+        LocalizerSystemInternal.getSystemInternal().getLocalizerFactoryInternal();
   }
 
   @Override
@@ -65,5 +66,15 @@ public final class TestableLocalizerFactory
   public LocalizerInstance createLocalizerInstance(LocalizerType localizerType, String instanceName)
       throws LocalizerException {
     return localizerFactoryInternal.createLocalizerInstance(localizerType, instanceName);
+  }
+
+  @Override
+  public void setUidFactory(UidFactory uidFactory) {
+    localizerFactoryInternal.setUidFactory(uidFactory);
+  }
+
+  @Override
+  public UidFactory getUidFactory() {
+    return localizerFactoryInternal.getUidFactory();
   }
 }

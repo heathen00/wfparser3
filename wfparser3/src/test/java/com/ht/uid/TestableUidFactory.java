@@ -10,7 +10,7 @@ public class TestableUidFactory implements UidFactory, CanReset {
   private final UidFactoryInternal uidFactoryInternal;
 
   TestableUidFactory() {
-    uidFactoryInternal = UidFactoryInternal.getUidFactoryInternal();
+    uidFactoryInternal = UidFactoryInternal.createUidFactoryInternal();
   }
 
   @Override

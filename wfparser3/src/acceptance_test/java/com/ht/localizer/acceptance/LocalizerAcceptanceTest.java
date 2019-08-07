@@ -15,12 +15,10 @@ import com.ht.localizer.TestableLocalizerFactory;
 import com.ht.uid.UID;
 import com.ht.wrap.ResourceBundleWrapperConfigurator;
 import com.ht.wrap.StubWrapperFactory;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
-
 import org.junit.Before;
 import org.junit.Test;
 
@@ -66,8 +64,8 @@ public class LocalizerAcceptanceTest {
   @Test
   public void Localizer_setLocaleToANewLocale_localeChangedToNewLocale() throws Exception {
     final String expectedName = "localizer.name";
-    final UID<Localizer> expectedLocalizerUid =
-        UID.createUid(expectedName, stubLocalizerFactory.createDefaultStubLocalizer());
+    final UID<Localizer> expectedLocalizerUid = testableLocalizerFactory.getUidFactory()
+        .createUid(expectedName, stubLocalizerFactory.createDefaultStubLocalizer());
     final Locale originalLocale = Locale.CHINESE;
     final Locale newLocale = Locale.CANADA_FRENCH;
     final boolean expectedIsDefined = true;

@@ -4,15 +4,19 @@ import com.ht.uid.UID;
 
 final class UndefinedLocalizerInstanceInternalImp implements LocalizerInstanceInternal {
   private static final String UNDEFINED_LOCALIZED_STRING = "UNDEFINED";
+
+  private final LocalizerFactoryInternal localizerFactoryInternal;
   private final UndefinedLocalizerTypeInternalImp undefinedLocalizerTypeInternalImp;
   private final String instanceName;
   private final UID<LocalizerInstance> undefinedLocalizerInstanceUid;
 
-  UndefinedLocalizerInstanceInternalImp(
+  UndefinedLocalizerInstanceInternalImp(LocalizerFactoryInternal localizerFactoryInternal,
       UndefinedLocalizerTypeInternalImp undefinedLocalizerTypeImp) {
+    this.localizerFactoryInternal = localizerFactoryInternal;
     undefinedLocalizerTypeInternalImp = undefinedLocalizerTypeImp;
     instanceName = "undef.instance";
-    undefinedLocalizerInstanceUid = UID.createUid(getFullyQualifiedName(), this);
+    undefinedLocalizerInstanceUid =
+        this.localizerFactoryInternal.getUidFactory().createUid(getFullyQualifiedName(), this);
   }
 
   @Override

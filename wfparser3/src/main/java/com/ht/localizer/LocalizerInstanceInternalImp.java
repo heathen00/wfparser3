@@ -3,14 +3,18 @@ package com.ht.localizer;
 import com.ht.uid.UID;
 
 final class LocalizerInstanceInternalImp implements LocalizerInstanceInternal {
+  private final LocalizerFactoryInternal localizerFactoryInternal;
   private final UID<LocalizerInstance> localizerInstanceUid;
   private final LocalizerTypeInternal localizerTypeInternal;
   private final String instanceName;
 
-  LocalizerInstanceInternalImp(LocalizerTypeInternal localizerTypeInternal, String instanceName) {
+  LocalizerInstanceInternalImp(LocalizerFactoryInternal localizerFactoryInternal,
+      LocalizerTypeInternal localizerTypeInternal, String instanceName) {
+    this.localizerFactoryInternal = localizerFactoryInternal;
     this.localizerTypeInternal = localizerTypeInternal;
     this.instanceName = instanceName;
-    localizerInstanceUid = UID.createUid(getFullyQualifiedName(), this);
+    localizerInstanceUid =
+        this.localizerFactoryInternal.getUidFactory().createUid(getFullyQualifiedName(), this);
   }
 
   @Override

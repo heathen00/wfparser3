@@ -1,6 +1,7 @@
 package com.ht.localizer;
 
 import com.ht.uid.UID;
+import com.ht.uid.UidFactory;
 import com.ht.wrap.WrapperFactory;
 import com.ht.wrap.ResourceBundleWrapper;
 import java.util.Collections;
@@ -12,13 +13,14 @@ import java.util.Set;
 
 final class LocalizerFactoryInternalImp implements LocalizerFactoryInternal {
   private WrapperFactory wrapperFactory;
+  private UidFactory uidFactory;
   private final Map<UID<Localizer>, LocalizerInternal> localizerInternalMap;
   private final LocalizerInternal undefinedLocalizer;
 
   LocalizerFactoryInternalImp() {
-    wrapperFactory = WrapperFactory.createWrapperFactory();
     localizerInternalMap = new HashMap<>();
-    undefinedLocalizer = new UndefinedLocalizerInternalImp();
+    undefinedLocalizer = new UndefinedLocalizerInternalImp(this);
+    resetAllInternal();
   }
 
   private void guardNotNull(String parameterName, Object parameter) {
@@ -148,7 +150,7 @@ final class LocalizerFactoryInternalImp implements LocalizerFactoryInternal {
       throw new LocalizerException("unknown LocalizerType implementation");
     }
     LocalizerInstanceInternal newLocalizerInstanceInternal =
-        new LocalizerInstanceInternalImp((LocalizerTypeInternal) localizerType, instanceName);
+        new LocalizerInstanceInternalImp(this, (LocalizerTypeInternal) localizerType, instanceName);
     return localizerTypeInternal.addLocalizerInstanceInternal(newLocalizerInstanceInternal);
   }
 
@@ -190,8 +192,13 @@ final class LocalizerFactoryInternalImp implements LocalizerFactoryInternal {
 
   @Override
   public void resetAll() {
+    resetAllInternal();
+  }
+
+  private void resetAllInternal() {
     localizerInternalMap.clear();
     wrapperFactory = WrapperFactory.createWrapperFactory();
+    uidFactory = UID.createUidFactory();
   }
 
   @Override
@@ -205,5 +212,18 @@ final class LocalizerFactoryInternalImp implements LocalizerFactoryInternal {
   @Override
   public WrapperFactory getWrapperFactory() {
     return wrapperFactory;
+  }
+
+  @Override
+  public void setUidFactory(UidFactory uidFactory) {
+    if (null == uidFactory) {
+      throw new NullPointerException("uidFactory cannot be null");
+    }
+    this.uidFactory = uidFactory;
+  }
+
+  @Override
+  public UidFactory getUidFactory() {
+    return uidFactory;
   }
 }

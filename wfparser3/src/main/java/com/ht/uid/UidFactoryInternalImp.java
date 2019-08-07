@@ -5,15 +5,9 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 
 final class UidFactoryInternalImp implements UidFactoryInternal {
-  private static final UidFactoryInternalImp UID_FACTORY_SINGLETON = new UidFactoryInternalImp();
-
-  static UidFactoryInternalImp getUidFactory() {
-    return UID_FACTORY_SINGLETON;
-  }
-
   private final Map<String, UidInternalImp<? extends Object>> uidMap;
 
-  private UidFactoryInternalImp() {
+  UidFactoryInternalImp() {
     uidMap = new HashMap<>();
   }
 

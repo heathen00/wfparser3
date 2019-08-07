@@ -27,7 +27,8 @@ public class LocalizerFactoryUnitTest {
 
   @Before
   public void setup() {
-    localizerFactoryInternal = LocalizerSystemInternal.getSystemInternal().getLocalizerFactoryInternal();
+    localizerFactoryInternal =
+        LocalizerSystemInternal.getSystemInternal().getLocalizerFactoryInternal();
     localizerFactoryInternal.resetAll();
     stubLocalizerFactory = StubLocalizerFactory.createStubLocalizerFactory();
     stubWrapperFactory = StubWrapperFactory.createStubWrapperFactory();
@@ -70,8 +71,8 @@ public class LocalizerFactoryUnitTest {
   @Test
   public void LocalizerFactory_createUndefinedLocalizer_undefinedLocalizerCreated() {
     final String expectedName = "UNDEFINED";
-    final UID<Localizer> expectedLocalizerUid =
-        UID.createUid(expectedName, stubLocalizerFactory.createDefaultStubLocalizer());
+    final UID<Localizer> expectedLocalizerUid = localizerFactoryInternal.getUidFactory()
+        .createUid(expectedName, stubLocalizerFactory.createDefaultStubLocalizer());
     final boolean expectedIsDefined = false;
 
     Localizer localizer = localizerFactoryInternal.createUndefinedLocalizer();

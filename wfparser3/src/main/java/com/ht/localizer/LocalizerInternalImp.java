@@ -24,7 +24,7 @@ final class LocalizerInternalImp implements LocalizerInternal {
     this.factoryInternal = factoryInternal;
     this.name = name;
     this.locale = locale;
-    localizerUid = UID.createUid(name, this);
+    localizerUid = factoryInternal.getUidFactory().createUid(name, this);
     localizerBundleSet = new TreeSet<>();
     localizerTypeMap = new HashMap<>();
   }

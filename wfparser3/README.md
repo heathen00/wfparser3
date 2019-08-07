@@ -187,6 +187,7 @@ There are a number of problems with the localization implementation I currently 
      that independent subsystems of the whole solution work together as expected.  The testing
      should not be too extensive to reduce redundancy and should only indicate that ... what?
      Think about what the integration testing should prove in more concrete and limited terms.
+   * You overuse Singleton pattern.
 
      
 HERE:
@@ -194,6 +195,9 @@ HERE:
       * implement the UID acceptance tests.  DONE.
       * fix any broken testcases.  NOT DONE, HERE.
       * remove UID related acceptance tests out of other modules' tests.  NOT DONE.
+      * to make UID more consistent with other subsystems, move the initial "createFactory()"
+        from the UID interface to the UidFactory interface.
+      * Rename UID to Uid.  Might as well follow standard Java naming conventions consistently.
    * Rewrite test cases for exceptions to use a rule.  Start with Localizer.
    * StubLocalizerFactory:
       * This would be useful for integrating into the rest of the parser.
