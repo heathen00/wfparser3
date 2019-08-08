@@ -5,33 +5,35 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import com.ht.localizer.Assert;
 import com.ht.localizer.LocalizerInstance;
+import com.ht.localizer.LocalizerSystem;
 import com.ht.localizer.LocalizerType;
 import com.ht.localizer.StubLocalizerFactory;
 import com.ht.localizer.TestableLocalizerFactory;
 import com.ht.uid.UID;
-
 import java.util.Arrays;
 import java.util.Set;
-
 import org.junit.Before;
 import org.junit.Test;
 
 public class LocalizerTypeAcceptanceTest {
-
+  private LocalizerSystem localizerSystem;
   private TestableLocalizerFactory testableLocalizerFactory;
   private StubLocalizerFactory stubLocalizerFactory;
   private Assert localizerAssert;
 
   @Before
   public void setup() {
-    testableLocalizerFactory = TestableLocalizerFactory.getTestableLocalizerFactory();
+    localizerSystem = LocalizerSystem.getSystem();
+    testableLocalizerFactory =
+        TestableLocalizerFactory.getTestableLocalizerFactory(localizerSystem);
     testableLocalizerFactory.resetAll();
-    stubLocalizerFactory = StubLocalizerFactory.createStubLocalizerFactory();
+    stubLocalizerFactory = StubLocalizerFactory.createStubLocalizerFactory(localizerSystem);
     localizerAssert = Assert.createAssert();
   }
 
   @Test
   public void LocalizerType_createFactories_factoriesCreated() {
+    assertNotNull(localizerSystem);
     assertNotNull(testableLocalizerFactory);
     assertNotNull(stubLocalizerFactory);
     assertNotNull(localizerAssert);

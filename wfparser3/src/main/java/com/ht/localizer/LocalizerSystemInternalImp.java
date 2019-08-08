@@ -1,20 +1,15 @@
 package com.ht.localizer;
 
 import com.ht.uid.UID;
-
+import com.ht.uid.UidFactory;
+import com.ht.wrap.WrapperFactory;
 import java.util.Set;
 
 final class LocalizerSystemInternalImp implements LocalizerSystemInternal {
-  private static LocalizerSystemInternalImp LOCALIZER_SYSTEM_INTERNAL_IMP_SINGLETON = new LocalizerSystemInternalImp();
-
-  public static LocalizerSystemInternalImp getLocalizerSystemInternalImpSingleton() {
-    return LOCALIZER_SYSTEM_INTERNAL_IMP_SINGLETON;
-  }
-
   private final LocalizerFactoryInternal factoryInternal;
 
-  private LocalizerSystemInternalImp() {
-    factoryInternal = new LocalizerFactoryInternalImp();
+  LocalizerSystemInternalImp() {
+    factoryInternal = new LocalizerFactoryInternalImp(this);
   }
 
   @Override
@@ -40,5 +35,15 @@ final class LocalizerSystemInternalImp implements LocalizerSystemInternal {
   @Override
   public void resetAll() {
     factoryInternal.resetAll();
+  }
+
+  @Override
+  public WrapperFactory createWrapperFactory() {
+    return WrapperFactory.createWrapperFactory();
+  }
+
+  @Override
+  public UidFactory createUidFactory() {
+    return UID.createUidFactory();
   }
 }

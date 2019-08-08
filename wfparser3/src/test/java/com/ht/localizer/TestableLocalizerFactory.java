@@ -1,80 +1,71 @@
 package com.ht.localizer;
 
-import com.ht.localizer.CanReset;
-import com.ht.localizer.ConfigurableWrapperFactory;
-import com.ht.localizer.Localizer;
-import com.ht.localizer.LocalizerBundle;
-import com.ht.localizer.LocalizerException;
-import com.ht.localizer.LocalizerFactory;
-import com.ht.localizer.LocalizerFactoryInternal;
-import com.ht.localizer.LocalizerInstance;
-import com.ht.localizer.LocalizerType;
-import com.ht.uid.UidFactory;
-import com.ht.localizer.LocalizerSystemInternal;
-import com.ht.wrap.WrapperFactory;
 import java.util.Locale;
+import com.ht.uid.UidFactory;
+import com.ht.wrap.WrapperFactory;
 
 public final class TestableLocalizerFactory
     implements LocalizerFactory, CanReset, ConfigurableWrapperFactory, ConfigurableUidFactory {
-  private static final TestableLocalizerFactory TESTABLE_LOCALIZER_FACTORY_SIGNLETON =
-      new TestableLocalizerFactory();
 
-  public static TestableLocalizerFactory getTestableLocalizerFactory() {
-    return TESTABLE_LOCALIZER_FACTORY_SIGNLETON;
+  public static TestableLocalizerFactory getTestableLocalizerFactory(
+      final LocalizerSystem localizerSystem) {
+    return new TestableLocalizerFactory((LocalizerSystemInternal) localizerSystem);
   }
 
-  private final LocalizerFactoryInternal localizerFactoryInternal;
+  private final LocalizerSystemInternal localizerSystemInternal;
 
-  private TestableLocalizerFactory() {
-    localizerFactoryInternal =
-        LocalizerSystemInternal.getSystemInternal().getLocalizerFactoryInternal();
+  private TestableLocalizerFactory(final LocalizerSystemInternal localizerSystemInternal) {
+    this.localizerSystemInternal = localizerSystemInternal;
   }
 
   @Override
   public void setWrapperFactory(WrapperFactory wrapperFactory) {
-    localizerFactoryInternal.setWrapperFactory(wrapperFactory);
+    localizerSystemInternal.getLocalizerFactoryInternal().setWrapperFactory(wrapperFactory);
   }
 
   @Override
   public WrapperFactory getWrapperFactory() {
-    return localizerFactoryInternal.getWrapperFactory();
+    return localizerSystemInternal.getLocalizerFactoryInternal().getWrapperFactory();
   }
 
   @Override
   public void resetAll() {
-    localizerFactoryInternal.resetAll();
+    localizerSystemInternal.getLocalizerFactoryInternal().resetAll();
   }
 
   @Override
   public Localizer createLocalizer(String name, Locale locale) throws LocalizerException {
-    return localizerFactoryInternal.createLocalizer(name, locale);
+    return localizerSystemInternal.getLocalizerFactoryInternal().createLocalizer(name, locale);
   }
 
   @Override
   public LocalizerBundle createLocalizerBundle(Localizer localizer, String resourceBundleName)
       throws LocalizerException {
-    return localizerFactoryInternal.createLocalizerBundle(localizer, resourceBundleName);
+    return localizerSystemInternal.getLocalizerFactoryInternal().createLocalizerBundle(localizer,
+        resourceBundleName);
   }
 
   @Override
   public LocalizerType createLocalizerType(Localizer localizer, String groupName, String typeName,
       String methodName) throws LocalizerException {
-    return localizerFactoryInternal.createLocalizerType(localizer, groupName, typeName, methodName);
+    return localizerSystemInternal.getLocalizerFactoryInternal().createLocalizerType(localizer,
+        groupName, typeName, methodName);
   }
 
   @Override
   public LocalizerInstance createLocalizerInstance(LocalizerType localizerType, String instanceName)
       throws LocalizerException {
-    return localizerFactoryInternal.createLocalizerInstance(localizerType, instanceName);
+    return localizerSystemInternal.getLocalizerFactoryInternal()
+        .createLocalizerInstance(localizerType, instanceName);
   }
 
   @Override
   public void setUidFactory(UidFactory uidFactory) {
-    localizerFactoryInternal.setUidFactory(uidFactory);
+    localizerSystemInternal.getLocalizerFactoryInternal().setUidFactory(uidFactory);
   }
 
   @Override
   public UidFactory getUidFactory() {
-    return localizerFactoryInternal.getUidFactory();
+    return localizerSystemInternal.getLocalizerFactoryInternal().getUidFactory();
   }
 }

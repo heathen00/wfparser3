@@ -12,15 +12,16 @@ import java.util.MissingResourceException;
 import java.util.Set;
 
 final class LocalizerFactoryInternalImp implements LocalizerFactoryInternal {
+  private final LocalizerSystemInternal localizerSystemInternal;
   private WrapperFactory wrapperFactory;
   private UidFactory uidFactory;
   private final Map<UID<Localizer>, LocalizerInternal> localizerInternalMap;
   private final LocalizerInternal undefinedLocalizer;
 
-  LocalizerFactoryInternalImp() {
+  LocalizerFactoryInternalImp(LocalizerSystemInternal localizerSystemInternal) {
+    this.localizerSystemInternal = localizerSystemInternal;
     localizerInternalMap = new HashMap<>();
-    undefinedLocalizer = new UndefinedLocalizerInternalImp(this);
-    resetAllInternal();
+    undefinedLocalizer = new UndefinedLocalizerInternalImp(localizerSystemInternal, this);
   }
 
   private void guardNotNull(String parameterName, Object parameter) {
@@ -197,8 +198,8 @@ final class LocalizerFactoryInternalImp implements LocalizerFactoryInternal {
 
   private void resetAllInternal() {
     localizerInternalMap.clear();
-    wrapperFactory = WrapperFactory.createWrapperFactory();
-    uidFactory = UID.createUidFactory();
+    wrapperFactory = localizerSystemInternal.createWrapperFactory();
+    uidFactory = localizerSystemInternal.createUidFactory();
   }
 
   @Override

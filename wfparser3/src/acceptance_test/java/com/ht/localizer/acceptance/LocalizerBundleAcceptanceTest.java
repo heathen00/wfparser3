@@ -2,23 +2,22 @@ package com.ht.localizer.acceptance;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import java.util.Locale;
+import org.junit.Before;
+import org.junit.Test;
 import com.ht.localizer.Assert;
+import com.ht.localizer.Assert.LocalizationTester;
 import com.ht.localizer.Localizer;
 import com.ht.localizer.LocalizerBundle;
 import com.ht.localizer.LocalizerInstance;
+import com.ht.localizer.LocalizerSystem;
 import com.ht.localizer.StubLocalizerFactory;
 import com.ht.localizer.TestableLocalizerFactory;
-import com.ht.localizer.Assert.LocalizationTester;
 import com.ht.wrap.ResourceBundleWrapperConfigurator;
 import com.ht.wrap.StubWrapperFactory;
 
-import java.util.Locale;
-
-import org.junit.Before;
-import org.junit.Test;
-
 public class LocalizerBundleAcceptanceTest {
-
+  private LocalizerSystem localizerSystem;
   private TestableLocalizerFactory testableLocalizerFactory;
   private StubLocalizerFactory stubLocalizerFactory;
   private StubWrapperFactory stubWrapperFactory;
@@ -37,9 +36,11 @@ public class LocalizerBundleAcceptanceTest {
 
   @Before
   public void setup() throws Exception {
-    testableLocalizerFactory = TestableLocalizerFactory.getTestableLocalizerFactory();
+    localizerSystem = LocalizerSystem.getSystem();
+    testableLocalizerFactory =
+        TestableLocalizerFactory.getTestableLocalizerFactory(localizerSystem);
     testableLocalizerFactory.resetAll();
-    stubLocalizerFactory = StubLocalizerFactory.createStubLocalizerFactory();
+    stubLocalizerFactory = StubLocalizerFactory.createStubLocalizerFactory(localizerSystem);
     stubWrapperFactory = StubWrapperFactory.createStubWrapperFactory();
     testableLocalizerFactory.setWrapperFactory(stubWrapperFactory);
     resourceBundleWrapperForLocaleConfigurator =
@@ -63,6 +64,7 @@ public class LocalizerBundleAcceptanceTest {
 
   @Test
   public void LocalizerBundle_createTestingAssets_testingAssetsCreated() {
+    assertNotNull(localizerSystem);
     assertNotNull(testableLocalizerFactory);
     assertNotNull(stubLocalizerFactory);
     assertNotNull(stubWrapperFactory);

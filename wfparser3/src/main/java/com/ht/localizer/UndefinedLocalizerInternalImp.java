@@ -9,6 +9,7 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 final class UndefinedLocalizerInternalImp implements LocalizerInternal {
+  private final LocalizerSystemInternal localizerSystemInternal;
   private final LocalizerFactoryInternal localizerFactoryInternal;
   private final String undefinedName;
   private final Locale undefinedLocale;
@@ -17,17 +18,22 @@ final class UndefinedLocalizerInternalImp implements LocalizerInternal {
   private final SortedSet<LocalizerBundle> undefinedLocalizerBundleSet;
   private final UID<Localizer> undefinedLocalizerUid;
 
-  UndefinedLocalizerInternalImp(LocalizerFactoryInternal localizerFactoryInternal) {
+  UndefinedLocalizerInternalImp(LocalizerSystemInternal localizerSystemInternal,
+      LocalizerFactoryInternal localizerFactoryInternal) {
+    this.localizerSystemInternal = localizerSystemInternal;
     this.localizerFactoryInternal = localizerFactoryInternal;
     undefinedName = "UNDEFINED";
     undefinedLocalizerUid =
-        this.localizerFactoryInternal.getUidFactory().createUid(undefinedName, this);
+        this.localizerSystemInternal.createUidFactory().createUid(undefinedName, this);
+
+
+    // this.localizerFactoryInternal.getUidFactory().createUid(undefinedName, this);
     final String undefinedLanguage = "xx";
     final String undefinedRegion = "ZZ";
     undefinedLocale =
         (new Locale.Builder()).setLanguage(undefinedLanguage).setRegion(undefinedRegion).build();
-    undefinedLocalizerTypeInternalImp =
-        new UndefinedLocalizerTypeInternalImp(this.localizerFactoryInternal, this);
+    undefinedLocalizerTypeInternalImp = new UndefinedLocalizerTypeInternalImp(
+        this.localizerSystemInternal, this.localizerFactoryInternal, this);
     undefinedLocalizerTypeUidSet = new HashSet<>();
     undefinedLocalizerTypeUidSet.add(undefinedLocalizerTypeInternalImp.getUid());
     undefinedLocalizerBundleSet = new TreeSet<>();

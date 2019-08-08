@@ -1,34 +1,22 @@
 package com.ht.localizer;
 
-import com.ht.localizer.Localizer;
-import com.ht.localizer.LocalizerBundle;
-import com.ht.localizer.LocalizerBundleInternal;
-import com.ht.localizer.LocalizerException;
-import com.ht.localizer.LocalizerInstance;
-import com.ht.localizer.LocalizerInstanceInternal;
-import com.ht.localizer.LocalizerInternal;
-import com.ht.localizer.LocalizerType;
-import com.ht.localizer.LocalizerTypeInternal;
-import com.ht.localizer.LocalizerSystemInternal;
-import com.ht.uid.UID;
-import com.ht.uid.UidFactory;
 import java.util.Collections;
 import java.util.Locale;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import com.ht.uid.UID;
 
 public final class StubLocalizerFactory {
-  private static final StubLocalizerFactory STUB_FACTORY_SINGLETON = new StubLocalizerFactory();
+  private final LocalizerSystemInternal localizerSystemInternal;
 
-  private final UidFactory uidFactory;
-
-  public static StubLocalizerFactory createStubLocalizerFactory() {
-    return STUB_FACTORY_SINGLETON;
+  public static StubLocalizerFactory createStubLocalizerFactory(
+      final LocalizerSystem localizerSystem) {
+    return new StubLocalizerFactory((LocalizerSystemInternal) localizerSystem);
   }
 
-  private StubLocalizerFactory() {
-    uidFactory = UID.createUidFactory();
+  private StubLocalizerFactory(final LocalizerSystemInternal localizerSystemInternal) {
+    this.localizerSystemInternal = localizerSystemInternal;
   }
 
   private void operationNotSupported() {
@@ -58,9 +46,8 @@ public final class StubLocalizerFactory {
       @Override
       public LocalizerInstanceInternal getLocalizerInstanceInternal(
           UID<LocalizerInstance> instanceUid) {
-        return LocalizerSystemInternal.getSystemInternal().getLocalizerFactoryInternal()
-            .createUndefinedLocalizer().getLocalizerTypeInternal(null)
-            .getLocalizerInstanceInternal(null);
+        return localizerSystemInternal.getLocalizerFactoryInternal().createUndefinedLocalizer()
+            .getLocalizerTypeInternal(null).getLocalizerInstanceInternal(null);
       }
 
       @Override
@@ -122,7 +109,8 @@ public final class StubLocalizerFactory {
 
       @Override
       public UID<LocalizerType> getUid() {
-        return uidFactory.createUid(getFullyQualifiedName(), this);
+        return localizerSystemInternal.getLocalizerFactoryInternal().getUidFactory()
+            .createUid(getFullyQualifiedName(), this);
       }
 
       @Override
@@ -413,7 +401,6 @@ public final class StubLocalizerFactory {
   }
 
   public Localizer createUndefinedLocalizer() {
-    return LocalizerSystemInternal.getSystemInternal().getLocalizerFactoryInternal()
-        .createUndefinedLocalizer();
+    return localizerSystemInternal.getLocalizerFactoryInternal().createUndefinedLocalizer();
   }
 }

@@ -11,13 +11,12 @@ import com.ht.localizer.LocalizerInternal;
 import com.ht.localizer.LocalizerSystemInternal;
 import com.ht.wrap.ResourceBundleWrapperConfigurator;
 import com.ht.wrap.StubWrapperFactory;
-
 import java.util.Locale;
-
 import org.junit.Before;
 import org.junit.Test;
 
 public class LocalizerBundleUnitTest {
+  private LocalizerSystemInternal localizerSystemInternal;
   private LocalizerFactoryInternal localizerFactoryInternal;
   private StubLocalizerFactory stubLocalizerFactory;
   private StubWrapperFactory stubWrapperFactory;
@@ -27,9 +26,10 @@ public class LocalizerBundleUnitTest {
 
   @Before
   public void setup() {
-    localizerFactoryInternal = LocalizerSystemInternal.getSystemInternal().getLocalizerFactoryInternal();
+    localizerSystemInternal = LocalizerSystemInternal.getSystemInternal();
+    localizerFactoryInternal = localizerSystemInternal.getLocalizerFactoryInternal();
     localizerFactoryInternal.resetAll();
-    stubLocalizerFactory = StubLocalizerFactory.createStubLocalizerFactory();
+    stubLocalizerFactory = StubLocalizerFactory.createStubLocalizerFactory(localizerSystemInternal);
     stubWrapperFactory = StubWrapperFactory.createStubWrapperFactory();
     localizerFactoryInternal.setWrapperFactory(stubWrapperFactory);
     resourceBundleWrapperForLocaleConfigurator =
@@ -41,6 +41,7 @@ public class LocalizerBundleUnitTest {
 
   @Test
   public void Factory_createTestingAssetts_testingAssetsAreCreated() {
+    assertNotNull(localizerSystemInternal);
     assertNotNull(localizerFactoryInternal);
     assertNotNull(stubLocalizerFactory);
     assertNotNull(stubWrapperFactory);

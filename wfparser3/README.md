@@ -188,6 +188,9 @@ There are a number of problems with the localization implementation I currently 
      should not be too extensive to reduce redundancy and should only indicate that ... what?
      Think about what the integration testing should prove in more concrete and limited terms.
    * You overuse Singleton pattern.
+   * If all implementations of subsystem factories implemented the same interface, then you could
+     switch out factories in the LocalizerSystem at run time to change behaviour.  At least the
+     StubLocalizerFactory does not implement its equivalent production Factory interface.
 
      
 HERE:
