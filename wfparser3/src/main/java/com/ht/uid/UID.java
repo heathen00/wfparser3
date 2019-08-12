@@ -13,9 +13,6 @@ package com.ht.uid;
  * @param <T>
  */
 public interface UID<T> extends Comparable<UID<T>> {
-  static UidFactory createUidFactory() {
-    return UidFactoryInternal.createUidFactoryInternal();
-  }
 
   /**
    * The unique identifier for this component. Must be unique within its context. It does not

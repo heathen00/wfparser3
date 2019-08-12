@@ -44,6 +44,6 @@ final class LocalizerSystemInternalImp implements LocalizerSystemInternal {
 
   @Override
   public UidFactory createUidFactory() {
-    return UID.createUidFactory();
+    return UidFactory.createUidFactory();
   }
 }

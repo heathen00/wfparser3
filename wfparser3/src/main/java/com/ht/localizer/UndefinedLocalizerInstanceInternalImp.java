@@ -6,7 +6,6 @@ final class UndefinedLocalizerInstanceInternalImp implements LocalizerInstanceIn
   private static final String UNDEFINED_LOCALIZED_STRING = "UNDEFINED";
 
   private final LocalizerSystemInternal localizerSystemInternal;
-  private final LocalizerFactoryInternal localizerFactoryInternal;
   private final UndefinedLocalizerTypeInternalImp undefinedLocalizerTypeInternalImp;
   private final String instanceName;
   private final UID<LocalizerInstance> undefinedLocalizerInstanceUid;
@@ -15,7 +14,6 @@ final class UndefinedLocalizerInstanceInternalImp implements LocalizerInstanceIn
       LocalizerFactoryInternal localizerFactoryInternal,
       UndefinedLocalizerTypeInternalImp undefinedLocalizerTypeImp) {
     this.localizerSystemInternal = localizerSystemInternal;
-    this.localizerFactoryInternal = localizerFactoryInternal;
     undefinedLocalizerTypeInternalImp = undefinedLocalizerTypeImp;
     instanceName = "undef.instance";
     undefinedLocalizerInstanceUid =
@@ -58,5 +56,4 @@ final class UndefinedLocalizerInstanceInternalImp implements LocalizerInstanceIn
   public boolean isDefined() {
     return false;
   }
-
 }
