@@ -3,10 +3,8 @@ package com.ht.wrap;
 import java.util.Locale;
 
 public final class StubWrapperFactory implements WrapperFactory {
-  private static final StubWrapperFactory STUB_WRAPPER_FACTORY_SINGLETON = new StubWrapperFactory();
-
   public static StubWrapperFactory createStubWrapperFactory() {
-    return STUB_WRAPPER_FACTORY_SINGLETON;
+    return new StubWrapperFactory();
   }
 
   private final ResourceBundleWrapperConfigurator resourceBundleWrapperForLocaleConfigurator;

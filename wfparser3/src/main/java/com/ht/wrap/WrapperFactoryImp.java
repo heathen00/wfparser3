@@ -1,14 +1,11 @@
 package com.ht.wrap;
 
 import java.util.Locale;
-
 import org.apache.commons.lang3.StringUtils;
 
 final class WrapperFactoryImp implements WrapperFactory {
-  private static final WrapperFactoryImp WRAPPER_FACTORY_SINGLETON = new WrapperFactoryImp();
-
-  public static WrapperFactoryImp getFactorySingleton() {
-    return WRAPPER_FACTORY_SINGLETON;
+  public static WrapperFactoryImp createWrapperFactoryImp() {
+    return new WrapperFactoryImp();
   }
 
   private void guardNotNull(String parameterName, Object parameter) {

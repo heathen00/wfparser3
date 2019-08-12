@@ -4,7 +4,7 @@ import java.util.Locale;
 
 public interface WrapperFactory {
   static WrapperFactory createWrapperFactory() {
-    return WrapperFactoryImp.getFactorySingleton();
+    return WrapperFactoryImp.createWrapperFactoryImp();
   }
 
   ResourceBundleWrapper createResourceBundleWrapperForLocale(String resourceBundleName,
