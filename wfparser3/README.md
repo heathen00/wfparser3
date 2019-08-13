@@ -201,6 +201,15 @@ HERE:
       * to make UID more consistent with other subsystems, move the initial "createFactory()"
         from the UID interface to the UidFactory interface.
       * Rename UID to Uid.  Might as well follow standard Java naming conventions consistently.
+      
+        // TODO You will need to add some functionality to some of these factories to access the connector
+  // to get access to the factories since some
+  // subsystems are used by multiple other subsystems.
+  
+  Also, get rid of LocalizerSystem, if you can, so that all subsystems are as similar as possible.  I think
+  most of its functionality is being replaced by the connector, anyway.
+      
+      
    * Rewrite test cases for exceptions to use a rule.  Start with Localizer.
    * StubLocalizerFactory:
       * This would be useful for integrating into the rest of the parser.

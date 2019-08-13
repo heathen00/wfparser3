@@ -8,15 +8,16 @@ import org.junit.Ignore;
 import org.junit.Test;
 import com.ht.connect.Connector;
 import com.ht.connect.ConnectorFactory;
+import com.ht.localizer.LocalizerFactory;
+import com.ht.localizer.LocalizerSystem;
+import com.ht.localizer.StubLocalizerFactory;
+import com.ht.localizer.TestableLocalizerFactory;
 import com.ht.uid.TestableUidFactory;
 import com.ht.uid.UidFactory;
+import com.ht.wrap.StubWrapperFactory;
+import com.ht.wrap.WrapperFactory;
 
 public class ConnectorAcceptanceTest {
-
-  // TODO You will need to add some functionality to some of these factories to access the connector
-  // to get access to the factories since some
-  // subsystems are used by multiple other subsystems.
-
   private ConnectorFactory connectorFactory;
   private Connector connector;
 
@@ -49,6 +50,7 @@ public class ConnectorAcceptanceTest {
     connector.setUidFactory(expectedProductionUidFactory);
     UidFactory uidFactory = connector.getUidFactory();
 
+    assertNotNull(uidFactory);
     assertEquals(expectedProductionUidFactory, uidFactory);
   }
 
@@ -59,71 +61,116 @@ public class ConnectorAcceptanceTest {
     connector.setUidFactory(expectedTestableUidFactory);
     UidFactory uidFactory = connector.getUidFactory();
 
+    assertNotNull(uidFactory);
     assertEquals(expectedTestableUidFactory, uidFactory);
   }
 
   @Test
   public void Connector_setProductionUidFactoryThenregisterTestableUidFactory_productionUidFactoryIsSetThenTestableUidFactoryIsSet() {
-    fail("Not yet implemented");
+    UidFactory expectedProductionUidFactory = UidFactory.createUidFactory();
+    UidFactory expectedTestableUidFactory = TestableUidFactory.getTestableUidFactory();
+
+    connector.setUidFactory(expectedProductionUidFactory);
+    UidFactory uidFactory = connector.getUidFactory();
+
+    assertNotNull(uidFactory);
+    assertEquals(expectedProductionUidFactory, uidFactory);
+
+    connector.setUidFactory(expectedTestableUidFactory);
+    uidFactory = connector.getUidFactory();
+
+    assertNotNull(uidFactory);
+    assertEquals(expectedTestableUidFactory, uidFactory);
   }
 
-  @Test
-  @Ignore("Not worked on yet")
+  @Test(expected = NullPointerException.class)
   public void Connector_setWrapperFactoryWithNullParameter_nullPointerExceptionIsThrown() {
-    fail("Not yet implemented");
+    connector.setWrapperFactory(null);
   }
 
-  @Test
-  @Ignore("Not worked on yet")
+  @Test(expected = UnsupportedOperationException.class)
   public void Connector_getWrapperFactoryWithoutFirstSettingWrapperFactory_unsupportedOperationExceptionIsThrown() {
-    fail("Not yet implemented");
+    connector.getWrapperFactory();
   }
 
   @Test
-  @Ignore("Not worked on yet")
   public void Connector_setProductionWrapperFactory_productionWrapperFactoryIsSet() {
-    fail("Not yet implemented");
+    WrapperFactory expectedProductionWrapperFactory = WrapperFactory.createWrapperFactory();
+    connector.setWrapperFactory(expectedProductionWrapperFactory);
+
+    WrapperFactory wrapperFactory = connector.getWrapperFactory();
+
+    assertNotNull(wrapperFactory);
+    assertEquals(expectedProductionWrapperFactory, wrapperFactory);
   }
 
   @Test
-  @Ignore("Not worked on yet")
   public void Connector_setStubWrapperFactory_stubWrapperFactoryIsSet() {
-    fail("Not yet implemented");
+    WrapperFactory expectedStubWrapperFactory = StubWrapperFactory.createStubWrapperFactory();
+    connector.setWrapperFactory(expectedStubWrapperFactory);
+
+    WrapperFactory wrapperFactory = connector.getWrapperFactory();
+
+    assertNotNull(wrapperFactory);
+    assertEquals(expectedStubWrapperFactory, wrapperFactory);
   }
 
   @Test
-  @Ignore("Not worked on yet")
   public void Connector_setProductionWrapperFactoryThenSetStubWrapperFactory_productionWrapperFactoryIsSetThenStubWrapperFactoryIsSet() {
-    fail("Not yet implemented");
+    WrapperFactory expectedProductionWrapperFactory = WrapperFactory.createWrapperFactory();
+    WrapperFactory expectedStubWrapperFactory = StubWrapperFactory.createStubWrapperFactory();
+
+    connector.setWrapperFactory(expectedProductionWrapperFactory);
+    WrapperFactory wrapperFactory = connector.getWrapperFactory();
+
+    assertNotNull(wrapperFactory);
+    assertEquals(expectedProductionWrapperFactory, wrapperFactory);
+
+    connector.setWrapperFactory(expectedStubWrapperFactory);
+    wrapperFactory = connector.getWrapperFactory();
+
+    assertNotNull(wrapperFactory);
+    assertEquals(expectedStubWrapperFactory, wrapperFactory);
   }
 
-  @Test
-  @Ignore("Not worked on yet")
+  @Test(expected = NullPointerException.class)
   public void Connector_setLocalizerFactoryWithNullParameter_nullPointerExceptionIsThrown() {
-    fail("Not yet implemented");
+    connector.setLocalizerFactory(null);
   }
 
-  @Test
-  @Ignore("Not worked on yet")
+  @Test(expected = UnsupportedOperationException.class)
   public void Connector_getLocalizerFactoryWithoutFirstSettingLocalizerFactory_unsupportedOperationExceptionIsThrown() {
-    fail("Not yet implemented");
+    connector.getLocalizerFactory();
   }
 
   @Test
-  @Ignore("Not worked on yet")
   public void Connector_setProductionLocalizerFactory_productionLocalizerFactoryIsSet() {
-    fail("Not yet implemented");
+    LocalizerFactory expectedProductionLocalizerFactory =
+        LocalizerSystem.getSystem().getLocalizerFactory();
+
+    connector.setLocalizerFactory(expectedProductionLocalizerFactory);
+    LocalizerFactory localizerFactory = connector.getLocalizerFactory();
+
+    assertNotNull(localizerFactory);
+    assertEquals(expectedProductionLocalizerFactory, localizerFactory);
   }
 
   @Test
-  @Ignore("Not worked on yet")
   public void Connector_setTestableLocalizerFactory_testableLocalizerFactoryIsSet() {
-    fail("Not yet implemented");
+    LocalizerFactory expectedTestableLocalizerFactory =
+        TestableLocalizerFactory.getTestableLocalizerFactory(LocalizerSystem.getSystem());
+
+    connector.setLocalizerFactory(expectedTestableLocalizerFactory);
+    LocalizerFactory localizerFactory = connector.getLocalizerFactory();
+
+    assertNotNull(localizerFactory);
+    assertEquals(expectedTestableLocalizerFactory, localizerFactory);
   }
 
   @Test
-  @Ignore("Not worked on yet")
   public void Connector_setStubLocalizerFactory_stubLocalizerFactoryIsSet() {
+    // LocalizerFactory expectedStubLocalizerFactory =
+    // StubLocalizerFactory.createStubLocalizerFactory(LocalizerSystem.getSystem());
     fail("Not yet implemented");
   }
 
