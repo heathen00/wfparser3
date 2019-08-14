@@ -11,6 +11,7 @@ import com.ht.localizer.Localizer;
 import com.ht.localizer.LocalizerBundle;
 import com.ht.localizer.LocalizerInstance;
 import com.ht.localizer.LocalizerSystem;
+import com.ht.localizer.LocalizerType;
 import com.ht.localizer.StubLocalizerFactory;
 import com.ht.localizer.TestableLocalizerFactory;
 import com.ht.wrap.ResourceBundleWrapperConfigurator;
@@ -27,6 +28,7 @@ public class LocalizerBundleAcceptanceTest {
   private Locale defaultTestingLocale;
   private String defaultTestingResourceBundleName;
   private Localizer defaultTestingLocalizer;
+  private LocalizerType defaultTestingLocalizerType;
   private LocalizerInstance defaultTestingUnformattedLocalizerInstance;
   private LocalizerInstance defaultTestingFormattedLocalizerInstance;
   private String defaultTestingUnformattedString;
@@ -40,7 +42,7 @@ public class LocalizerBundleAcceptanceTest {
     testableLocalizerFactory =
         TestableLocalizerFactory.getTestableLocalizerFactory(localizerSystem);
     testableLocalizerFactory.resetAll();
-    stubLocalizerFactory = StubLocalizerFactory.createStubLocalizerFactory(localizerSystem);
+    stubLocalizerFactory = StubLocalizerFactory.createStubLocalizerFactory();
     stubWrapperFactory = StubWrapperFactory.createStubWrapperFactory();
     testableLocalizerFactory.setWrapperFactory(stubWrapperFactory);
     resourceBundleWrapperForLocaleConfigurator =
@@ -52,10 +54,13 @@ public class LocalizerBundleAcceptanceTest {
     defaultTestingResourceBundleName = "com.ht.l10n.test.resource.TestResourceBundle";
     defaultTestingLocalizer =
         testableLocalizerFactory.createLocalizer("testing.localizer.name", defaultTestingLocale);
+    defaultTestingLocalizerType = testableLocalizerFactory.createLocalizerType(
+        defaultTestingLocalizer, "testing.group", "testing.type", "testing.method");
     defaultTestingUnformattedLocalizerInstance =
-        stubLocalizerFactory.createStubLocalizerInstance("unformatted", "testing.instance");
+
+        stubLocalizerFactory.createLocalizerInstance(defaultTestingLocalizerType, "unformatted");
     defaultTestingFormattedLocalizerInstance =
-        stubLocalizerFactory.createStubLocalizerInstance("formatted", "testing.instance");
+        stubLocalizerFactory.createLocalizerInstance(defaultTestingLocalizerType, "formatted");
     defaultTestingUnformattedString = "test unformatted string";
     defaultTestingUnformattedFormattedString = "test formatted string: %s, %d";
     defaultTestingFormattedString = "test formatted string: test_parameter, 33";

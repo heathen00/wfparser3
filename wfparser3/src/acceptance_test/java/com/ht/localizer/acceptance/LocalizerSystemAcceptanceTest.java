@@ -18,6 +18,7 @@ public class LocalizerSystemAcceptanceTest {
   private LocalizerSystem localizerSystem;
   private TestableLocalizerFactory testableLocalizerFactory;
   private StubLocalizerFactory stubLocalizerFactory;
+  private Localizer stubLocalizer;
   private Assert localizerAssert;
   private Localizer undefinedLocalizer;
 
@@ -27,10 +28,11 @@ public class LocalizerSystemAcceptanceTest {
     localizerSystem.resetAll();
     testableLocalizerFactory =
         TestableLocalizerFactory.getTestableLocalizerFactory(localizerSystem);
-    stubLocalizerFactory = StubLocalizerFactory.createStubLocalizerFactory(localizerSystem);
+    stubLocalizerFactory = StubLocalizerFactory.createStubLocalizerFactory();
+    stubLocalizer = stubLocalizerFactory.createLocalizer("stub.localizer", Locale.CANADA_FRENCH);
     localizerAssert = Assert.createAssert();
 
-    undefinedLocalizer = stubLocalizerFactory.createUndefinedLocalizer();
+    undefinedLocalizer = testableLocalizerFactory.getUndefinedLocalizer();
   }
 
   @Test
@@ -58,12 +60,12 @@ public class LocalizerSystemAcceptanceTest {
   @Test
   public void System_getLocalizerWithLocalizerUIDWhenNoLocalizersDefined_undefinedLocalizerIsReturned() {
     String expectedName = "UNDEFINED";
-    UID<Localizer> expectedLocalizerUid = testableLocalizerFactory.getUidFactory()
-        .createUid(expectedName, stubLocalizerFactory.createDefaultStubLocalizer());
+    UID<Localizer> expectedLocalizerUid =
+        testableLocalizerFactory.getUidFactory().createUid(expectedName, stubLocalizer);
     Locale expectedLocale = undefinedLocalizer.getLocale();
     boolean expectedIsDefined = false;
-    UID<Localizer> nonExistentLocalizerUid = testableLocalizerFactory.getUidFactory()
-        .createUid("not.important", stubLocalizerFactory.createDefaultStubLocalizer());
+    UID<Localizer> nonExistentLocalizerUid =
+        testableLocalizerFactory.getUidFactory().createUid("not.important", stubLocalizer);
 
     Localizer localizer = localizerSystem.getLocalizer(nonExistentLocalizerUid);
 
@@ -106,7 +108,7 @@ public class LocalizerSystemAcceptanceTest {
     testableLocalizerFactory.createLocalizer("test.localizer.name.01", Locale.CANADA_FRENCH);
     final Localizer expectedLocalizer = undefinedLocalizer;
     final UID<Localizer> localizerUid = testableLocalizerFactory.getUidFactory()
-        .createUid("non.existent.localizer.uid", stubLocalizerFactory.createDefaultStubLocalizer());
+        .createUid("non.existent.localizer.uid", stubLocalizer);
 
     Localizer localizer = localizerSystem.getLocalizer(localizerUid);
 

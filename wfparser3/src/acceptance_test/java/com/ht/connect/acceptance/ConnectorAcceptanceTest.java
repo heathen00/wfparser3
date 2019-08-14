@@ -10,7 +10,6 @@ import com.ht.connect.Connector;
 import com.ht.connect.ConnectorFactory;
 import com.ht.localizer.LocalizerFactory;
 import com.ht.localizer.LocalizerSystem;
-import com.ht.localizer.StubLocalizerFactory;
 import com.ht.localizer.TestableLocalizerFactory;
 import com.ht.uid.TestableUidFactory;
 import com.ht.uid.UidFactory;

@@ -25,18 +25,23 @@ public class LocalizerFactoryAcceptanceTest {
   private LocalizerSystem localizerSystem;
   private TestableLocalizerFactory testableLocalizerFactory;
   private StubLocalizerFactory stubLocalizerFactory;
+  private Localizer stubLocalizer;
+  private LocalizerType stubLocalizerType;
   private StubWrapperFactory stubWrapperFactory;
   private ResourceBundleWrapperConfigurator resourceBundleWrapperForLocaleConfigurator;
   private ResourceBundleWrapperConfigurator resourceBundleWrapperForRootLocaleConfigurator;
   private Assert localizerAssert;
 
   @Before
-  public void setup() {
+  public void setup() throws Exception {
     localizerSystem = LocalizerSystem.getSystem();
     testableLocalizerFactory =
         TestableLocalizerFactory.getTestableLocalizerFactory(localizerSystem);
     testableLocalizerFactory.resetAll();
-    stubLocalizerFactory = StubLocalizerFactory.createStubLocalizerFactory(localizerSystem);
+    stubLocalizerFactory = StubLocalizerFactory.createStubLocalizerFactory();
+    stubLocalizer = stubLocalizerFactory.createLocalizer("stub.name", Locale.CANADA_FRENCH);
+    stubLocalizerType = stubLocalizerFactory.createLocalizerType(stubLocalizer, "stub.group",
+        "stub.type", "stub.method.name");
     stubWrapperFactory = StubWrapperFactory.createStubWrapperFactory();
     resourceBundleWrapperForLocaleConfigurator =
         stubWrapperFactory.getResourceBundleWrapperForLocaleConfigurator();
@@ -84,9 +89,9 @@ public class LocalizerFactoryAcceptanceTest {
   @Test
   public void LocalizerFactory_createLocalizerWithLocale_localizeIsCreated() throws Exception {
     String expectedName = "localizer.name";
-    UID<Localizer> expectedLocalizerUid = testableLocalizerFactory.getUidFactory()
-        .createUid(expectedName, stubLocalizerFactory.createDefaultStubLocalizer());
     Locale expectedLocale = Locale.CANADA_FRENCH;
+    UID<Localizer> expectedLocalizerUid =
+        testableLocalizerFactory.getUidFactory().createUid(expectedName, stubLocalizer);
     boolean expectedIsDefined = true;
 
     Localizer localizer = testableLocalizerFactory.createLocalizer(expectedName, expectedLocale);
@@ -150,40 +155,33 @@ public class LocalizerFactoryAcceptanceTest {
   @Test(expected = NullPointerException.class)
   public void LocalizerFactory_createLocalizerInstanceWithNullInstanceName_nullPointerExceptionIsThrown()
       throws Exception {
-    testableLocalizerFactory.createLocalizerInstance(
-        stubLocalizerFactory.createStubLocalizerType("test.group", "test.type", "test.method"),
-        null);
+    testableLocalizerFactory.createLocalizerInstance(stubLocalizerType, null);
   }
 
   @Test(expected = LocalizerException.class)
   public void LocalizerFactory_createLocalizerInstanceWithEmptyInstanceName_localizerExceptionIsThrown()
       throws Exception {
-    testableLocalizerFactory.createLocalizerInstance(
-        stubLocalizerFactory.createStubLocalizerType("test.group", "test.type", "test.method"), "");
+    testableLocalizerFactory.createLocalizerInstance(stubLocalizerType, "");
   }
 
   @Test(expected = LocalizerException.class)
   public void LocalizerFactory_createLocalizerInstanceWithUnsupportedCharactersInInstanceName_localizerExceptionIsThrown()
       throws Exception {
-    testableLocalizerFactory.createLocalizerInstance(
-        stubLocalizerFactory.createStubLocalizerType("test.group", "test.type", "test.method"),
+    testableLocalizerFactory.createLocalizerInstance(stubLocalizerType,
         "SOME UNSUPPORTED\tCHARACTERS\n");
   }
 
   @Test(expected = LocalizerException.class)
   public void LocalizerFactory_createLocalizerInstanceWithInstanceNameBeginningWithAPeriod_localizerExceptionIsThrown()
       throws Exception {
-    testableLocalizerFactory.createLocalizerInstance(
-        stubLocalizerFactory.createStubLocalizerType("test.group", "test.type", "test.method"),
+    testableLocalizerFactory.createLocalizerInstance(stubLocalizerType,
         ".invalid.period.at.begging");
   }
 
   @Test(expected = LocalizerException.class)
   public void LocalizerFactory_createLocalizerInstanceWithInstanceNameEndingWithAPeriod_localizerExceptionIsThrown()
       throws Exception {
-    testableLocalizerFactory.createLocalizerInstance(
-        stubLocalizerFactory.createStubLocalizerType("test.group", "test.type", "test.method"),
-        "invalid.period.at.end.");
+    testableLocalizerFactory.createLocalizerInstance(stubLocalizerType, "invalid.period.at.end.");
   }
 
   @Test
@@ -195,8 +193,8 @@ public class LocalizerFactoryAcceptanceTest {
     final String expectedInstanceName = "valid.instance.name.00";
     final String expectedFullyQualifiedName = String.join(".", expectedGroupName, expectedTypeName,
         expectedMethodName, expectedInstanceName);
-    final LocalizerType expectedLocalizerType =
-        stubLocalizerFactory.createStubLocalizerType("test.group", "test.type", "test.method");
+    final LocalizerType expectedLocalizerType = stubLocalizerFactory
+        .createLocalizerType(stubLocalizer, "test.group", "test.type", "test.method");
     final String expectedUnformattedString =
         "test unformatted string for localizerInstance with instanceName " + expectedInstanceName;
     final String expectedFormattedString =
@@ -220,106 +218,100 @@ public class LocalizerFactoryAcceptanceTest {
   @Test(expected = NullPointerException.class)
   public void LocalizerFactory_createLocalizerTypeWithNullGroupName_nullPointerExceptionIsThrown()
       throws Exception {
-    testableLocalizerFactory.createLocalizerType(stubLocalizerFactory.createDefaultStubLocalizer(),
-        null, "test.type", "test.method");
+    testableLocalizerFactory.createLocalizerType(stubLocalizer, null, "test.type", "test.method");
   }
 
   @Test(expected = LocalizerException.class)
   public void LocalizerFactory_createLocalizerTypeWithEmptyGroupName_localizerExceptionIsThrown()
       throws Exception {
-    testableLocalizerFactory.createLocalizerType(stubLocalizerFactory.createDefaultStubLocalizer(),
-        "", "test.type", "test.method");
+    testableLocalizerFactory.createLocalizerType(stubLocalizer, "", "test.type", "test.method");
   }
 
   @Test(expected = LocalizerException.class)
   public void LocalizerFactory_createLocalizerTypeWithUnsupportedCharactersInGroupName_localizerExceptionIsThrown()
       throws Exception {
-    testableLocalizerFactory.createLocalizerType(stubLocalizerFactory.createDefaultStubLocalizer(),
-        "unsupported\ncharacters", "test.type", "test.method");
+    testableLocalizerFactory.createLocalizerType(stubLocalizer, "unsupported\ncharacters",
+        "test.type", "test.method");
   }
 
   @Test(expected = LocalizerException.class)
   public void LocalizerFactory_createLocalizerTypeWithGroupNameBeginningWithAPeriod_localizerExceptionIsThrown()
       throws Exception {
-    testableLocalizerFactory.createLocalizerType(stubLocalizerFactory.createDefaultStubLocalizer(),
-        ".invalid.starts.with.period", "test.type", "test.method");
+    testableLocalizerFactory.createLocalizerType(stubLocalizer, ".invalid.starts.with.period",
+        "test.type", "test.method");
   }
 
   @Test(expected = LocalizerException.class)
   public void LocalizerFactory_createLocalizerTypeWithGroupNameEndingWithAPeriod_localizerExceptionIsThrown()
       throws Exception {
-    testableLocalizerFactory.createLocalizerType(stubLocalizerFactory.createDefaultStubLocalizer(),
-        "invalid.ends.with.period.", "test.type", "test.method");
+    testableLocalizerFactory.createLocalizerType(stubLocalizer, "invalid.ends.with.period.",
+        "test.type", "test.method");
   }
 
   @Test(expected = NullPointerException.class)
   public void LocalizerFactory_createLocalizerTypeWithNullTypeName_nullPointerExceptionIsThrown()
       throws Exception {
-    testableLocalizerFactory.createLocalizerType(stubLocalizerFactory.createDefaultStubLocalizer(),
-        "test.group", null, "test.method");
+    testableLocalizerFactory.createLocalizerType(stubLocalizer, "test.group", null, "test.method");
   }
 
   @Test(expected = LocalizerException.class)
   public void LocalizerFactory_createLocalizerTypeWithEmptyTypeName_localizerExceptionIsThrown()
       throws Exception {
-    testableLocalizerFactory.createLocalizerType(stubLocalizerFactory.createDefaultStubLocalizer(),
-        "test.group", "", "test.method");
+    testableLocalizerFactory.createLocalizerType(stubLocalizer, "test.group", "", "test.method");
   }
 
   @Test(expected = LocalizerException.class)
   public void LocalizerFactory_createLocalizerTypeWithUnsupportedCharactersInTypeName_localizerExceptionIsThrown()
       throws Exception {
-    testableLocalizerFactory.createLocalizerType(stubLocalizerFactory.createDefaultStubLocalizer(),
-        "test.group", "unsupported characters", "test.method");
+    testableLocalizerFactory.createLocalizerType(stubLocalizer, "test.group",
+        "unsupported characters", "test.method");
   }
 
   @Test(expected = LocalizerException.class)
   public void LocalizerFactory_createLocalizerTypeWithTypeNameBeginningWithAPeriod_localizerExceptionIsThrown()
       throws Exception {
-    testableLocalizerFactory.createLocalizerType(stubLocalizerFactory.createDefaultStubLocalizer(),
-        "test.group", ".invalid.starts.with.period", "test.method");
+    testableLocalizerFactory.createLocalizerType(stubLocalizer, "test.group",
+        ".invalid.starts.with.period", "test.method");
   }
 
   @Test(expected = LocalizerException.class)
   public void LocalizerFactory_createLocalizerTypeWithTypeNameEndingWithAPeriod_localizerExceptionIsThrown()
       throws Exception {
-    testableLocalizerFactory.createLocalizerType(stubLocalizerFactory.createDefaultStubLocalizer(),
-        "test.group", "invalid.ends.with.period.", "test.method");
+    testableLocalizerFactory.createLocalizerType(stubLocalizer, "test.group",
+        "invalid.ends.with.period.", "test.method");
   }
 
   @Test(expected = NullPointerException.class)
   public void LocalizerFactory_createLocalizerTypeWithNullMethodName_nullPointerExceptionIsThrown()
       throws Exception {
-    testableLocalizerFactory.createLocalizerType(stubLocalizerFactory.createDefaultStubLocalizer(),
-        "test.group", "test.type", null);
+    testableLocalizerFactory.createLocalizerType(stubLocalizer, "test.group", "test.type", null);
   }
 
   @Test(expected = LocalizerException.class)
   public void LocalizerFactory_createLocalizerTypeWithEmptyMethodName_localizerExceptionIsThrown()
       throws Exception {
-    testableLocalizerFactory.createLocalizerType(stubLocalizerFactory.createDefaultStubLocalizer(),
-        "test.group", "test.type", "");
+    testableLocalizerFactory.createLocalizerType(stubLocalizer, "test.group", "test.type", "");
   }
 
   @Test(expected = LocalizerException.class)
   public void LocalizerFactory_createLocalizerTypeWithUnsupportedCharactersInMethodName_localizerExceptionIsThrown()
       throws Exception {
-    testableLocalizerFactory.createLocalizerType(stubLocalizerFactory.createDefaultStubLocalizer(),
-        "test.group", "test.type", "unsupported!characters");
+    testableLocalizerFactory.createLocalizerType(stubLocalizer, "test.group", "test.type",
+        "unsupported!characters");
   }
 
   @Test(expected = LocalizerException.class)
   public void LocalizerFactory_createLocalizerTypeWithMethodNameBeginningWithAPeriod_localizerExceptionIsThrown()
       throws Exception {
-    testableLocalizerFactory.createLocalizerType(stubLocalizerFactory.createDefaultStubLocalizer(),
-        "test.group", "test.type", ".invalid.starts.with.period");
+    testableLocalizerFactory.createLocalizerType(stubLocalizer, "test.group", "test.type",
+        ".invalid.starts.with.period");
   }
 
   @Test(expected = LocalizerException.class)
   public void LocalizerFactory_createLocalizerTypeWithMethodNameEndingWithAPeriod_localizerExceptionIsThrown()
       throws Exception {
-    testableLocalizerFactory.createLocalizerType(stubLocalizerFactory.createDefaultStubLocalizer(),
-        "test.group", "test.type", "invalid.ends.with.period.");
+    testableLocalizerFactory.createLocalizerType(stubLocalizer, "test.group", "test.type",
+        "invalid.ends.with.period.");
   }
 
   @Test
@@ -329,11 +321,11 @@ public class LocalizerFactoryAcceptanceTest {
     final String expectedTypeName = "expected.type.name";
     final String expectedMethodName = "expected.method.name";
     final Set<UID<LocalizerInstance>> expectedLocalizerInstanceKeySet = Collections.emptySet();
-    final Localizer expectedLocalizer = stubLocalizerFactory.createDefaultStubLocalizer();
+    final Localizer expectedLocalizer = stubLocalizer;
     final UID<LocalizerType> expectedLocalizerTypeUid = testableLocalizerFactory.getUidFactory()
         .createUid(String.join(".", expectedGroupName, expectedTypeName, expectedMethodName),
-            stubLocalizerFactory.createStubLocalizerType(expectedGroupName, expectedTypeName,
-                expectedMethodName));
+            stubLocalizerFactory.createLocalizerType(stubLocalizer, expectedGroupName,
+                expectedTypeName, expectedMethodName));
     final boolean expectedIsDefined = true;
 
     LocalizerType localizerType = testableLocalizerFactory.createLocalizerType(expectedLocalizer,
@@ -347,8 +339,8 @@ public class LocalizerFactoryAcceptanceTest {
   @Test(expected = LocalizerException.class)
   public void LocalizerFactory_createLocalizerInstanceWhereLocalizerTypeParameterIsUnknownExternalImplementation_localizerExceptionIsThrown()
       throws Exception {
-    LocalizerType externalLocalizerType = stubLocalizerFactory
-        .createExternalStubLocalizerType("some.group", "some.type", "some.method");
+    LocalizerType externalLocalizerType = stubLocalizerFactory.createLocalizerType(stubLocalizer,
+        "some.group", "some.type", "some.method");
 
     testableLocalizerFactory.createLocalizerInstance(externalLocalizerType, "some.instance");
   }
@@ -356,7 +348,7 @@ public class LocalizerFactoryAcceptanceTest {
   @Test(expected = LocalizerException.class)
   public void LocalizerFactory_createLocalizerBundleWhereLocalizerTypeParameterIsUnknownExternalImplementation_localizerExceptionIsThrown()
       throws Exception {
-    Localizer externalLocalizer = stubLocalizerFactory.createPublishedStubLocalizer();
+    Localizer externalLocalizer = stubLocalizer;
 
     testableLocalizerFactory.createLocalizerBundle(externalLocalizer, "com.does.not.Matter");
   }
@@ -364,7 +356,7 @@ public class LocalizerFactoryAcceptanceTest {
   @Test(expected = LocalizerException.class)
   public void LocalizerFactory_createLocalizerTypeWhereLocalizerTypeParameterIsUnknownExternalImplementation_localizerExceptionIsThrown()
       throws Exception {
-    Localizer externalLocalizer = stubLocalizerFactory.createPublishedStubLocalizer();
+    Localizer externalLocalizer = stubLocalizer;
 
     testableLocalizerFactory.createLocalizerType(externalLocalizer, "some.group", "some.type",
         "some.method");

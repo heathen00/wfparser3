@@ -68,4 +68,8 @@ public final class TestableLocalizerFactory
   public UidFactory getUidFactory() {
     return localizerSystemInternal.getLocalizerFactoryInternal().getUidFactory();
   }
+
+  public Localizer getUndefinedLocalizer() {
+    return localizerSystemInternal.getLocalizerFactoryInternal().createUndefinedLocalizer();
+  }
 }

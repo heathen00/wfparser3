@@ -4,8 +4,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import java.util.Locale;
 import org.junit.Before;
 import org.junit.Test;
+import com.ht.localizer.Localizer;
 import com.ht.localizer.LocalizerInstance;
 import com.ht.localizer.LocalizerSystem;
 import com.ht.localizer.LocalizerType;
@@ -17,14 +19,19 @@ public class LocalizerInstanceAcceptanceTest {
   private LocalizerSystem localizerSystem;
   private TestableLocalizerFactory testableLocalizerFactory;
   private StubLocalizerFactory stubLocalizerFactory;
+  private Localizer stubLocalizer;
+  private LocalizerType stubLocalizerType;
 
   @Before
-  public void setup() {
+  public void setup() throws Exception {
     localizerSystem = LocalizerSystem.getSystem();
     testableLocalizerFactory =
         TestableLocalizerFactory.getTestableLocalizerFactory(localizerSystem);
     testableLocalizerFactory.resetAll();
-    stubLocalizerFactory = StubLocalizerFactory.createStubLocalizerFactory(localizerSystem);
+    stubLocalizerFactory = StubLocalizerFactory.createStubLocalizerFactory();
+    stubLocalizer = stubLocalizerFactory.createLocalizer("stub.localizer", Locale.CANADA_FRENCH);
+    stubLocalizerType = stubLocalizerFactory.createLocalizerType(stubLocalizer, "stub.group",
+        "stub.type", "stub.method");
   }
 
   @Test
@@ -43,8 +50,7 @@ public class LocalizerInstanceAcceptanceTest {
     final String expectedInstanceName = "valid.instance.name.00";
     final String expectedFullyQualifiedName = String.join(".", expectedGroupName, expectedTypeName,
         expectedMethodName, expectedInstanceName);
-    final LocalizerType expectedLocalizerType = stubLocalizerFactory
-        .createStubLocalizerType(expectedGroupName, expectedTypeName, expectedMethodName);
+    final LocalizerType expectedLocalizerType = stubLocalizerType;
 
     LocalizerInstance localizerInstance = testableLocalizerFactory
         .createLocalizerInstance(expectedLocalizerType, expectedInstanceName);
@@ -60,8 +66,7 @@ public class LocalizerInstanceAcceptanceTest {
       throws Exception {
     UID<LocalizerInstance> first;
     UID<LocalizerInstance> second;
-    LocalizerType localizerType =
-        stubLocalizerFactory.createStubLocalizerType("test.group", "test.type", "test.method");
+    LocalizerType localizerType = stubLocalizerType;
 
     // Equals.
     first = testableLocalizerFactory.createLocalizerInstance(localizerType, "test.same").getUid();

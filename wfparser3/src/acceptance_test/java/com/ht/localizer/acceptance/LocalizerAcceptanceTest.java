@@ -27,6 +27,7 @@ public class LocalizerAcceptanceTest {
   private LocalizerSystem localizerSystem;
   private TestableLocalizerFactory testableLocalizerFactory;
   private StubLocalizerFactory stubLocalizerFactory;
+  private Localizer stubLocalizer;
   private StubWrapperFactory stubWrapperFactory;
   private Assert localizerAssert;
   private ResourceBundleWrapperConfigurator resourceBundleWrapperForLocaleConfigurator;
@@ -34,12 +35,13 @@ public class LocalizerAcceptanceTest {
 
 
   @Before
-  public void setup() {
+  public void setup() throws Exception {
     localizerSystem = LocalizerSystem.getSystem();
     testableLocalizerFactory =
         TestableLocalizerFactory.getTestableLocalizerFactory(localizerSystem);
     testableLocalizerFactory.resetAll();
-    stubLocalizerFactory = StubLocalizerFactory.createStubLocalizerFactory(localizerSystem);
+    stubLocalizerFactory = StubLocalizerFactory.createStubLocalizerFactory();
+    stubLocalizer = stubLocalizerFactory.createLocalizer("stub.localizer", Locale.CANADA_FRENCH);
     stubWrapperFactory = StubWrapperFactory.createStubWrapperFactory();
     resourceBundleWrapperForLocaleConfigurator =
         stubWrapperFactory.getResourceBundleWrapperForLocaleConfigurator();
@@ -54,6 +56,7 @@ public class LocalizerAcceptanceTest {
     assertNotNull(localizerSystem);
     assertNotNull(testableLocalizerFactory);
     assertNotNull(stubLocalizerFactory);
+    assertNotNull(stubLocalizer);
     assertNotNull(stubWrapperFactory);
     assertNotNull(resourceBundleWrapperForLocaleConfigurator);
     assertNotNull(resourceBundleWrapperForRootLocaleConfigurator);
@@ -69,8 +72,8 @@ public class LocalizerAcceptanceTest {
   @Test
   public void Localizer_setLocaleToANewLocale_localeChangedToNewLocale() throws Exception {
     final String expectedName = "localizer.name";
-    final UID<Localizer> expectedLocalizerUid = testableLocalizerFactory.getUidFactory()
-        .createUid(expectedName, stubLocalizerFactory.createDefaultStubLocalizer());
+    final UID<Localizer> expectedLocalizerUid =
+        testableLocalizerFactory.getUidFactory().createUid(expectedName, stubLocalizer);
     final Locale originalLocale = Locale.CHINESE;
     final Locale newLocale = Locale.CANADA_FRENCH;
     final boolean expectedIsDefined = true;

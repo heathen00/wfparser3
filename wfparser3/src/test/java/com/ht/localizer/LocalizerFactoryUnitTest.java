@@ -12,6 +12,7 @@ public class LocalizerFactoryUnitTest {
   private LocalizerSystemInternal localizerSystemInternal;
   private LocalizerFactoryInternal localizerFactoryInternal;
   private StubLocalizerFactory stubLocalizerFactory;
+  private Localizer stubLocalizer;
   private StubWrapperFactory stubWrapperFactory;
   private Assert localizerAssert;
   private Locale expectedUndefinedLocale;
@@ -19,11 +20,12 @@ public class LocalizerFactoryUnitTest {
   private ResourceBundleWrapperConfigurator resourceBundleWrapperForRootLocaleConfigurator;
 
   @Before
-  public void setup() {
+  public void setup() throws Exception {
     localizerSystemInternal = LocalizerSystemInternal.getSystemInternal();
     localizerFactoryInternal = localizerSystemInternal.getLocalizerFactoryInternal();
     localizerFactoryInternal.resetAll();
-    stubLocalizerFactory = StubLocalizerFactory.createStubLocalizerFactory(localizerSystemInternal);
+    stubLocalizerFactory = StubLocalizerFactory.createStubLocalizerFactory();
+    stubLocalizer = stubLocalizerFactory.createLocalizer("stub.localizer", Locale.CANADA_FRENCH);
     stubWrapperFactory = StubWrapperFactory.createStubWrapperFactory();
     resourceBundleWrapperForLocaleConfigurator =
         stubWrapperFactory.getResourceBundleWrapperForLocaleConfigurator();
@@ -43,6 +45,7 @@ public class LocalizerFactoryUnitTest {
     assertNotNull(localizerSystemInternal);
     assertNotNull(localizerFactoryInternal);
     assertNotNull(stubLocalizerFactory);
+    assertNotNull(stubLocalizer);
     assertNotNull(stubWrapperFactory);
     assertNotNull(resourceBundleWrapperForLocaleConfigurator);
     assertNotNull(resourceBundleWrapperForRootLocaleConfigurator);
@@ -65,8 +68,8 @@ public class LocalizerFactoryUnitTest {
   @Test
   public void LocalizerFactory_createUndefinedLocalizer_undefinedLocalizerCreated() {
     final String expectedName = "UNDEFINED";
-    final UID<Localizer> expectedLocalizerUid = localizerFactoryInternal.getUidFactory()
-        .createUid(expectedName, stubLocalizerFactory.createDefaultStubLocalizer());
+    final UID<Localizer> expectedLocalizerUid =
+        localizerFactoryInternal.getUidFactory().createUid(expectedName, stubLocalizer);
     final boolean expectedIsDefined = false;
 
     Localizer localizer = localizerFactoryInternal.createUndefinedLocalizer();
