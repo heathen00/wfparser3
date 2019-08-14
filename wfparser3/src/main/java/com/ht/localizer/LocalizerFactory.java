@@ -1,8 +1,15 @@
 package com.ht.localizer;
 
 import java.util.Locale;
+import com.ht.uid.UidFactory;
+import com.ht.wrap.WrapperFactory;
 
-public interface LocalizerFactory {
+public interface LocalizerFactory extends CanReset {
+  static LocalizerFactory createLocalizerFactory(WrapperFactory wrapperFactory,
+      UidFactory uidFactory) {
+    return new LocalizerFactoryInternalImp(wrapperFactory, uidFactory);
+  }
+
   Localizer createLocalizer(String name, Locale locale) throws LocalizerException;
 
   LocalizerBundle createLocalizerBundle(Localizer localizer, String resourceBundleName)

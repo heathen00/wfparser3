@@ -1,16 +1,12 @@
 package com.ht.localizer;
 
 import static org.junit.Assert.assertNotNull;
-import com.ht.localizer.Localizer;
-import com.ht.localizer.LocalizerFactoryInternal;
-import com.ht.localizer.LocalizerInstance;
-import com.ht.localizer.LocalizerType;
-import com.ht.localizer.LocalizerSystemInternal;
-import com.ht.wrap.ResourceBundleWrapperConfigurator;
-import com.ht.wrap.StubWrapperFactory;
-
 import org.junit.Before;
 import org.junit.Test;
+import com.ht.uid.UidFactory;
+import com.ht.wrap.ResourceBundleWrapperConfigurator;
+import com.ht.wrap.StubWrapperFactory;
+import com.ht.wrap.WrapperFactory;
 
 public class LocalizerUnitTest {
   private LocalizerFactoryInternal localizerFactoryInternal;
@@ -22,7 +18,8 @@ public class LocalizerUnitTest {
 
   @Before
   public void setUp() throws Exception {
-    localizerFactoryInternal = LocalizerSystemInternal.getSystemInternal().getLocalizerFactoryInternal();
+    localizerFactoryInternal = new LocalizerFactoryInternalImp(
+        WrapperFactory.createWrapperFactory(), UidFactory.createUidFactory());
     localizerFactoryInternal.resetAll();
     stubWrapperFactory = StubWrapperFactory.createStubWrapperFactory();
     resourceBundleWrapperForLocaleConfigurator =

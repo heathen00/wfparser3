@@ -37,4 +37,10 @@ public final class StubWrapperFactory implements WrapperFactory {
   public ResourceBundleWrapperConfigurator getResourceBundleWrapperForRootLocaleConfigurator() {
     return resourceBundleWrapperForRootLocaleConfigurator;
   }
+
+  @Override
+  public void resetAll() {
+    resourceBundleWrapperForLocaleConfigurator.resetAll();
+    resourceBundleWrapperForRootLocaleConfigurator.resetAll();
+  }
 }

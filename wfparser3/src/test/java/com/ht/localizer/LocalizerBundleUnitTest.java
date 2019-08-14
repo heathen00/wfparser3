@@ -6,11 +6,12 @@ import static org.junit.Assert.fail;
 import java.util.Locale;
 import org.junit.Before;
 import org.junit.Test;
+import com.ht.uid.UidFactory;
 import com.ht.wrap.ResourceBundleWrapperConfigurator;
 import com.ht.wrap.StubWrapperFactory;
+import com.ht.wrap.WrapperFactory;
 
 public class LocalizerBundleUnitTest {
-  private LocalizerSystemInternal localizerSystemInternal;
   private LocalizerFactoryInternal localizerFactoryInternal;
   private StubLocalizerFactory stubLocalizerFactory;
   private Localizer stubLocalizer;
@@ -22,8 +23,8 @@ public class LocalizerBundleUnitTest {
 
   @Before
   public void setup() throws Exception {
-    localizerSystemInternal = LocalizerSystemInternal.getSystemInternal();
-    localizerFactoryInternal = localizerSystemInternal.getLocalizerFactoryInternal();
+    localizerFactoryInternal = new LocalizerFactoryInternalImp(
+        WrapperFactory.createWrapperFactory(), UidFactory.createUidFactory());
     localizerFactoryInternal.resetAll();
     stubLocalizerFactory = StubLocalizerFactory.createStubLocalizerFactory();
     stubLocalizer = stubLocalizerFactory.createLocalizer("stub.localizer", Locale.CANADA_FRENCH);
@@ -40,7 +41,6 @@ public class LocalizerBundleUnitTest {
 
   @Test
   public void Factory_createTestingAssetts_testingAssetsAreCreated() {
-    assertNotNull(localizerSystemInternal);
     assertNotNull(localizerFactoryInternal);
     assertNotNull(stubLocalizerFactory);
     assertNotNull(stubLocalizer);

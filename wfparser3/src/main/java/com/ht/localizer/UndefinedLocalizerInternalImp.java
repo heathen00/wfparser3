@@ -1,16 +1,15 @@
 package com.ht.localizer;
 
-import com.ht.uid.UID;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import com.ht.uid.UID;
+import com.ht.uid.UidFactory;
 
 final class UndefinedLocalizerInternalImp implements LocalizerInternal {
-  private final LocalizerSystemInternal localizerSystemInternal;
-  private final LocalizerFactoryInternal localizerFactoryInternal;
   private final String undefinedName;
   private final Locale undefinedLocale;
   private final UndefinedLocalizerTypeInternalImp undefinedLocalizerTypeInternalImp;
@@ -18,13 +17,9 @@ final class UndefinedLocalizerInternalImp implements LocalizerInternal {
   private final SortedSet<LocalizerBundle> undefinedLocalizerBundleSet;
   private final UID<Localizer> undefinedLocalizerUid;
 
-  UndefinedLocalizerInternalImp(LocalizerSystemInternal localizerSystemInternal,
-      LocalizerFactoryInternal localizerFactoryInternal) {
-    this.localizerSystemInternal = localizerSystemInternal;
-    this.localizerFactoryInternal = localizerFactoryInternal;
+  UndefinedLocalizerInternalImp(UidFactory uidFactory) {
     undefinedName = "UNDEFINED";
-    undefinedLocalizerUid =
-        this.localizerSystemInternal.createUidFactory().createUid(undefinedName, this);
+    undefinedLocalizerUid = uidFactory.createUid(undefinedName, this);
 
 
     // this.localizerFactoryInternal.getUidFactory().createUid(undefinedName, this);
@@ -32,8 +27,7 @@ final class UndefinedLocalizerInternalImp implements LocalizerInternal {
     final String undefinedRegion = "ZZ";
     undefinedLocale =
         (new Locale.Builder()).setLanguage(undefinedLanguage).setRegion(undefinedRegion).build();
-    undefinedLocalizerTypeInternalImp = new UndefinedLocalizerTypeInternalImp(
-        this.localizerSystemInternal, this.localizerFactoryInternal, this);
+    undefinedLocalizerTypeInternalImp = new UndefinedLocalizerTypeInternalImp(uidFactory, this);
     undefinedLocalizerTypeUidSet = new HashSet<>();
     undefinedLocalizerTypeUidSet.add(undefinedLocalizerTypeInternalImp.getUid());
     undefinedLocalizerBundleSet = new TreeSet<>();

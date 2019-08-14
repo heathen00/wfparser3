@@ -11,4 +11,6 @@ public interface WrapperFactory {
       Locale locale);
 
   ResourceBundleWrapper createResourceBundleWrapperForRootLocale(String resourceBundleName);
+
+  void resetAll();
 }

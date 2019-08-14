@@ -3,8 +3,7 @@ package com.ht.localizer;
 import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
-import com.ht.localizer.LocalizerFactoryInternal;
-import com.ht.localizer.LocalizerSystemInternal;
+import com.ht.uid.UidFactory;
 import com.ht.wrap.StubWrapperFactory;
 import com.ht.wrap.WrapperFactory;
 
@@ -15,7 +14,8 @@ public class LocalizerFactoryAndStubWrapperFactoryUnitTest {
 
   @Before
   public void setup() {
-    localizerFactoryInternal = LocalizerSystemInternal.getSystemInternal().getLocalizerFactoryInternal();
+    localizerFactoryInternal = new LocalizerFactoryInternalImp(
+        WrapperFactory.createWrapperFactory(), UidFactory.createUidFactory());
     localizerFactoryInternal.resetAll();
     stubWrapperFactory = StubWrapperFactory.createStubWrapperFactory();
   }

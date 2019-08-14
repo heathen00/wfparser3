@@ -29,4 +29,7 @@ final class WrapperFactoryImp implements WrapperFactory {
   public ResourceBundleWrapper createResourceBundleWrapperForRootLocale(String resourceBundleName) {
     return createResourceBundleWrapperForLocale(resourceBundleName, Locale.ROOT);
   }
+
+  @Override
+  public void resetAll() {}
 }

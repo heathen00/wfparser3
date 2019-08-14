@@ -9,7 +9,6 @@ import org.junit.Test;
 import com.ht.connect.Connector;
 import com.ht.connect.ConnectorFactory;
 import com.ht.localizer.LocalizerFactory;
-import com.ht.localizer.LocalizerSystem;
 import com.ht.localizer.TestableLocalizerFactory;
 import com.ht.uid.TestableUidFactory;
 import com.ht.uid.UidFactory;
@@ -19,6 +18,8 @@ import com.ht.wrap.WrapperFactory;
 public class ConnectorAcceptanceTest {
   private ConnectorFactory connectorFactory;
   private Connector connector;
+  private UidFactory expectedProductionUidFactory = UidFactory.createUidFactory();
+  private WrapperFactory expectedProductionWrapperFactory = WrapperFactory.createWrapperFactory();
 
   @Before
   public void setup() {
@@ -144,8 +145,8 @@ public class ConnectorAcceptanceTest {
 
   @Test
   public void Connector_setProductionLocalizerFactory_productionLocalizerFactoryIsSet() {
-    LocalizerFactory expectedProductionLocalizerFactory =
-        LocalizerSystem.getSystem().getLocalizerFactory();
+    LocalizerFactory expectedProductionLocalizerFactory = LocalizerFactory
+        .createLocalizerFactory(expectedProductionWrapperFactory, expectedProductionUidFactory);
 
     connector.setLocalizerFactory(expectedProductionLocalizerFactory);
     LocalizerFactory localizerFactory = connector.getLocalizerFactory();
@@ -157,7 +158,8 @@ public class ConnectorAcceptanceTest {
   @Test
   public void Connector_setTestableLocalizerFactory_testableLocalizerFactoryIsSet() {
     LocalizerFactory expectedTestableLocalizerFactory =
-        TestableLocalizerFactory.getTestableLocalizerFactory(LocalizerSystem.getSystem());
+        TestableLocalizerFactory.getTestableLocalizerFactory(expectedProductionWrapperFactory,
+            expectedProductionUidFactory);
 
     connector.setLocalizerFactory(expectedTestableLocalizerFactory);
     LocalizerFactory localizerFactory = connector.getLocalizerFactory();

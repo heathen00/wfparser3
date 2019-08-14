@@ -1,6 +1,6 @@
 package com.ht.uid;
 
-public interface UidFactory {
+public interface UidFactory extends CanReset {
   static UidFactory createUidFactory() {
     return UidFactoryInternal.createUidFactoryInternal();
   }

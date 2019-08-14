@@ -6,7 +6,7 @@ import java.util.Locale;
 import java.util.Set;
 
 interface LocalizerFactoryInternal
-    extends LocalizerFactory, CanReset, ConfigurableWrapperFactory, ConfigurableUidFactory {
+    extends LocalizerFactory, ConfigurableWrapperFactory, ConfigurableUidFactory {
   LocalizerInternal createLocalizerInternal(String name, Locale locale) throws LocalizerException;
 
   LocalizerBundleInternal createTargetLocalizerBundle(LocalizerInternal localizer,

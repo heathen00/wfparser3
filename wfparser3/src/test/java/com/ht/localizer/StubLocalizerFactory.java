@@ -251,4 +251,7 @@ public final class StubLocalizerFactory implements LocalizerFactory {
   public static StubLocalizerFactory createStubLocalizerFactory() {
     return new StubLocalizerFactory();
   }
+
+  @Override
+  public void resetAll() {}
 }
