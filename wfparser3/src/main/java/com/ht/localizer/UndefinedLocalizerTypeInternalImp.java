@@ -3,7 +3,7 @@ package com.ht.localizer;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
-import com.ht.uid.UID;
+import com.ht.uid.Uid;
 import com.ht.uid.UidFactory;
 
 final class UndefinedLocalizerTypeInternalImp implements LocalizerTypeInternal {
@@ -11,9 +11,9 @@ final class UndefinedLocalizerTypeInternalImp implements LocalizerTypeInternal {
   private final String groupName;
   private final String typeName;
   private final String methodName;
-  private final UID<LocalizerType> undefinedLocalizerTypeUid;
+  private final Uid<LocalizerType> undefinedLocalizerTypeUid;
   private final LocalizerInstanceInternal undefinedLocalizerInstance;
-  private final Set<UID<LocalizerInstance>> undefinedLocalizerInstanceUidSet;
+  private final Set<Uid<LocalizerInstance>> undefinedLocalizerInstanceUidSet;
 
   UndefinedLocalizerTypeInternalImp(UidFactory uidFactory,
       UndefinedLocalizerInternalImp undefinedLocalizer) {
@@ -29,7 +29,7 @@ final class UndefinedLocalizerTypeInternalImp implements LocalizerTypeInternal {
   }
 
   @Override
-  public UID<LocalizerType> getUid() {
+  public Uid<LocalizerType> getUid() {
     return undefinedLocalizerTypeUid;
   }
 
@@ -55,17 +55,17 @@ final class UndefinedLocalizerTypeInternalImp implements LocalizerTypeInternal {
 
   @Override
   public LocalizerInstanceInternal getLocalizerInstanceInternal(
-      UID<LocalizerInstance> instanceUid) {
+      Uid<LocalizerInstance> instanceUid) {
     return undefinedLocalizerInstance;
   }
 
   @Override
-  public LocalizerInstance getLocalizerInstance(UID<LocalizerInstance> instanceUid) {
+  public LocalizerInstance getLocalizerInstance(Uid<LocalizerInstance> instanceUid) {
     return getLocalizerInstanceInternal(instanceUid);
   }
 
   @Override
-  public Set<UID<LocalizerInstance>> getLocalizerInstanceUidSet() {
+  public Set<Uid<LocalizerInstance>> getLocalizerInstanceUidSet() {
     return Collections.unmodifiableSet(undefinedLocalizerInstanceUidSet);
   }
 

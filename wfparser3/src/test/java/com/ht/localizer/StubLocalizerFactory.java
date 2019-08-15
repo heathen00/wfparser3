@@ -3,7 +3,7 @@ package com.ht.localizer;
 import java.util.Locale;
 import java.util.Set;
 import java.util.SortedSet;
-import com.ht.uid.UID;
+import com.ht.uid.Uid;
 
 public final class StubLocalizerFactory implements LocalizerFactory {
   private void operationNotSupported() {
@@ -21,7 +21,7 @@ public final class StubLocalizerFactory implements LocalizerFactory {
       }
 
       @Override
-      public UID<Localizer> getUid() {
+      public Uid<Localizer> getUid() {
         operationNotSupported();
         return null;
       }
@@ -38,25 +38,25 @@ public final class StubLocalizerFactory implements LocalizerFactory {
       }
 
       @Override
-      public Set<UID<LocalizerType>> getLocalizerTypeUidSet() {
+      public Set<Uid<LocalizerType>> getLocalizerTypeUidSet() {
         operationNotSupported();
         return null;
       }
 
       @Override
-      public LocalizerType getLocalizerType(UID<LocalizerType> typeUid) {
+      public LocalizerType getLocalizerType(Uid<LocalizerType> typeUid) {
         operationNotSupported();
         return null;
       }
 
       @Override
-      public Set<UID<LocalizerInstance>> getLocalizerInstanceUidSet() {
+      public Set<Uid<LocalizerInstance>> getLocalizerInstanceUidSet() {
         operationNotSupported();
         return null;
       }
 
       @Override
-      public LocalizerInstance getLocalizerInstance(UID<LocalizerInstance> instanceUid) {
+      public LocalizerInstance getLocalizerInstance(Uid<LocalizerInstance> instanceUid) {
         operationNotSupported();
         return null;
       }
@@ -73,7 +73,7 @@ public final class StubLocalizerFactory implements LocalizerFactory {
       }
 
       @Override
-      public LocalizerTypeInternal getLocalizerTypeInternal(UID<LocalizerType> typeUid) {
+      public LocalizerTypeInternal getLocalizerTypeInternal(Uid<LocalizerType> typeUid) {
         operationNotSupported();
         return null;
       }
@@ -160,7 +160,7 @@ public final class StubLocalizerFactory implements LocalizerFactory {
       }
 
       @Override
-      public Set<UID<LocalizerInstance>> getLocalizerInstanceUidSet() {
+      public Set<Uid<LocalizerInstance>> getLocalizerInstanceUidSet() {
         operationNotSupported();
         return null;
       }
@@ -168,13 +168,13 @@ public final class StubLocalizerFactory implements LocalizerFactory {
 
       @Override
       public LocalizerInstanceInternal getLocalizerInstanceInternal(
-          UID<LocalizerInstance> instanceUid) {
+          Uid<LocalizerInstance> instanceUid) {
         operationNotSupported();
         return null;
       }
 
       @Override
-      public LocalizerInstance getLocalizerInstance(UID<LocalizerInstance> instanceUid) {
+      public LocalizerInstance getLocalizerInstance(Uid<LocalizerInstance> instanceUid) {
         return getLocalizerInstanceInternal(instanceUid);
       }
 
@@ -194,7 +194,7 @@ public final class StubLocalizerFactory implements LocalizerFactory {
       }
 
       @Override
-      public UID<LocalizerType> getUid() {
+      public Uid<LocalizerType> getUid() {
         operationNotSupported();
         return null;
       }
@@ -255,7 +255,7 @@ public final class StubLocalizerFactory implements LocalizerFactory {
       }
 
       @Override
-      public UID<LocalizerInstance> getUid() {
+      public Uid<LocalizerInstance> getUid() {
         operationNotSupported();
         return null;
       }

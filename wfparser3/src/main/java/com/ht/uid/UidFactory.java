@@ -5,5 +5,5 @@ public interface UidFactory extends CanReset {
     return UidFactoryInternal.createUidFactoryInternal();
   }
 
-  <T> UID<T> createUid(String key, T component);
+  <T> Uid<T> createUid(String key, T component);
 }

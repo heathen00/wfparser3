@@ -1,6 +1,6 @@
 package com.ht.localizer;
 
-import com.ht.uid.UID;
+import com.ht.uid.Uid;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -12,8 +12,8 @@ final class LocalizerTypeInternalImp implements LocalizerTypeInternal {
   private final String groupName;
   private final String typeName;
   private final String methodName;
-  private final Map<UID<LocalizerInstance>, LocalizerInstanceInternal> localizerInstanceMap;
-  private final UID<LocalizerType> localizerTypeUid;
+  private final Map<Uid<LocalizerInstance>, LocalizerInstanceInternal> localizerInstanceMap;
+  private final Uid<LocalizerType> localizerTypeUid;
 
   LocalizerTypeInternalImp(LocalizerFactoryInternal localizerFactoryInternal,
       LocalizerInternal localizerInternal, String groupName, String typeName, String methodName) {
@@ -49,7 +49,7 @@ final class LocalizerTypeInternalImp implements LocalizerTypeInternal {
 
   @Override
   public LocalizerInstanceInternal getLocalizerInstanceInternal(
-      UID<LocalizerInstance> instanceUid) {
+      Uid<LocalizerInstance> instanceUid) {
     if (null == instanceUid) {
       throw new NullPointerException("instanceUid cannot be null");
     }
@@ -62,17 +62,17 @@ final class LocalizerTypeInternalImp implements LocalizerTypeInternal {
   }
 
   @Override
-  public LocalizerInstance getLocalizerInstance(UID<LocalizerInstance> instanceUid) {
+  public LocalizerInstance getLocalizerInstance(Uid<LocalizerInstance> instanceUid) {
     return getLocalizerInstanceInternal(instanceUid);
   }
 
   @Override
-  public Set<UID<LocalizerInstance>> getLocalizerInstanceUidSet() {
+  public Set<Uid<LocalizerInstance>> getLocalizerInstanceUidSet() {
     return Collections.unmodifiableSet(localizerInstanceMap.keySet());
   }
 
   @Override
-  public UID<LocalizerType> getUid() {
+  public Uid<LocalizerType> getUid() {
     return localizerTypeUid;
   }
 

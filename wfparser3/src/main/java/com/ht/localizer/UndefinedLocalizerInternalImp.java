@@ -6,16 +6,16 @@ import java.util.Locale;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
-import com.ht.uid.UID;
+import com.ht.uid.Uid;
 import com.ht.uid.UidFactory;
 
 final class UndefinedLocalizerInternalImp implements LocalizerInternal {
   private final String undefinedName;
   private final Locale undefinedLocale;
   private final UndefinedLocalizerTypeInternalImp undefinedLocalizerTypeInternalImp;
-  private final Set<UID<LocalizerType>> undefinedLocalizerTypeUidSet;
+  private final Set<Uid<LocalizerType>> undefinedLocalizerTypeUidSet;
   private final SortedSet<LocalizerBundle> undefinedLocalizerBundleSet;
-  private final UID<Localizer> undefinedLocalizerUid;
+  private final Uid<Localizer> undefinedLocalizerUid;
 
   UndefinedLocalizerInternalImp(UidFactory uidFactory) {
     undefinedName = "UNDEFINED";
@@ -48,27 +48,27 @@ final class UndefinedLocalizerInternalImp implements LocalizerInternal {
   }
 
   @Override
-  public LocalizerTypeInternal getLocalizerTypeInternal(UID<LocalizerType> typeUid) {
+  public LocalizerTypeInternal getLocalizerTypeInternal(Uid<LocalizerType> typeUid) {
     return undefinedLocalizerTypeInternalImp;
   }
 
   @Override
-  public LocalizerType getLocalizerType(UID<LocalizerType> typeUid) {
+  public LocalizerType getLocalizerType(Uid<LocalizerType> typeUid) {
     return getLocalizerTypeInternal(typeUid);
   }
 
   @Override
-  public Set<UID<LocalizerType>> getLocalizerTypeUidSet() {
+  public Set<Uid<LocalizerType>> getLocalizerTypeUidSet() {
     return Collections.unmodifiableSet(undefinedLocalizerTypeUidSet);
   }
 
   @Override
-  public LocalizerInstance getLocalizerInstance(UID<LocalizerInstance> instanceUid) {
+  public LocalizerInstance getLocalizerInstance(Uid<LocalizerInstance> instanceUid) {
     return undefinedLocalizerTypeInternalImp.getLocalizerInstance(instanceUid);
   }
 
   @Override
-  public Set<UID<LocalizerInstance>> getLocalizerInstanceUidSet() {
+  public Set<Uid<LocalizerInstance>> getLocalizerInstanceUidSet() {
     return undefinedLocalizerTypeInternalImp.getLocalizerInstanceUidSet();
   }
 
@@ -95,7 +95,7 @@ final class UndefinedLocalizerInternalImp implements LocalizerInternal {
   }
 
   @Override
-  public UID<Localizer> getUid() {
+  public Uid<Localizer> getUid() {
     return undefinedLocalizerUid;
   }
 }

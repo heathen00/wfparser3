@@ -32,7 +32,7 @@ final class UidFactoryInternalImp implements UidFactoryInternal {
 
   @Override
   @SuppressWarnings("unchecked")
-  public <T> UID<T> createUid(String key, T component) {
+  public <T> Uid<T> createUid(String key, T component) {
     guardNotNull("key", key);
     guardNotNull("component", component);
     guardNamingConvention("key", key);

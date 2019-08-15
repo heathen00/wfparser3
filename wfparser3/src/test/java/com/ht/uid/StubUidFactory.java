@@ -11,7 +11,7 @@ public final class StubUidFactory implements UidFactory {
   public void resetAll() {}
 
   @Override
-  public <T> UID<T> createUid(String key, T component) {
+  public <T> Uid<T> createUid(String key, T component) {
     return new UidInternalImp<T>(key, component);
   }
 }

@@ -8,7 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 import com.ht.uid.StubUniqueComponent;
 import com.ht.uid.TestableUidFactory;
-import com.ht.uid.UID;
+import com.ht.uid.Uid;
 
 public class UidAcceptanceTest {
   private TestableUidFactory testableUidFactory;
@@ -55,7 +55,7 @@ public class UidAcceptanceTest {
     final StubUniqueComponent expectedComponent =
         StubUniqueComponent.createStubUniqueComponent("test.component.name");
 
-    UID<StubUniqueComponent> uid = testableUidFactory.createUid(expectedKey, expectedComponent);
+    Uid<StubUniqueComponent> uid = testableUidFactory.createUid(expectedKey, expectedComponent);
 
     assertNotNull(uid);
     assertEquals(expectedKey, uid.getKey());
@@ -70,9 +70,9 @@ public class UidAcceptanceTest {
     final StubUniqueComponent secondComponent =
         StubUniqueComponent.createStubUniqueComponent(duplicateComponentName);
 
-    UID<StubUniqueComponent> firstComponentUid =
+    Uid<StubUniqueComponent> firstComponentUid =
         testableUidFactory.createUid(expectedDuplicateKey, firstComponent);
-    UID<StubUniqueComponent> secondComponentUid =
+    Uid<StubUniqueComponent> secondComponentUid =
         testableUidFactory.createUid(expectedDuplicateKey, secondComponent);
 
     assertNotNull(firstComponentUid);
@@ -82,8 +82,8 @@ public class UidAcceptanceTest {
 
   @Test
   public void UID_ensureUidRespectsEqualsHashcodeAndCompareToContracts_contractsRespected() {
-    UID<StubUniqueComponent> first = null;
-    UID<StubUniqueComponent> second = null;
+    Uid<StubUniqueComponent> first = null;
+    Uid<StubUniqueComponent> second = null;
 
     // Equals
     testableUidFactory.resetAll();

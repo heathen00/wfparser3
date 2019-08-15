@@ -1,6 +1,6 @@
 package com.ht.localizer;
 
-import com.ht.uid.UID;
+import com.ht.uid.Uid;
 import com.ht.uid.UniqueComponent;
 
 import java.util.Set;
@@ -16,7 +16,7 @@ public interface LocalizerType extends UniqueComponent<LocalizerType>, DefinedOb
 
   String getFullyQualifiedName();
 
-  LocalizerInstance getLocalizerInstance(UID<LocalizerInstance> instanceUid);
+  LocalizerInstance getLocalizerInstance(Uid<LocalizerInstance> instanceUid);
 
-  Set<UID<LocalizerInstance>> getLocalizerInstanceUidSet();
+  Set<Uid<LocalizerInstance>> getLocalizerInstanceUidSet();
 }

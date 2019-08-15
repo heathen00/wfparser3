@@ -12,7 +12,7 @@ public class StubUniqueComponent implements UniqueComponent<StubUniqueComponent>
   }
 
   @Override
-  public UID<StubUniqueComponent> getUid() {
+  public Uid<StubUniqueComponent> getUid() {
     throw new UnsupportedOperationException("operation not supported by stub");
   }
 

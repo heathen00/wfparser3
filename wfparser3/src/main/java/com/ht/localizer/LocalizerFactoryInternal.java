@@ -1,6 +1,6 @@
 package com.ht.localizer;
 
-import com.ht.uid.UID;
+import com.ht.uid.Uid;
 import com.ht.wrap.ResourceBundleWrapper;
 import java.util.Locale;
 import java.util.Set;
@@ -22,7 +22,7 @@ interface LocalizerFactoryInternal
   ResourceBundleWrapper createResourceBundleWrapperForLocalizerBundle(String resourceBundleName,
       Locale targetLocale) throws LocalizerException;
 
-  Set<UID<Localizer>> getLocalizerUidSet();
+  Set<Uid<Localizer>> getLocalizerUidSet();
 
-  Localizer getLocalizer(UID<Localizer> localizerUid);
+  Localizer getLocalizer(Uid<Localizer> localizerUid);
 }

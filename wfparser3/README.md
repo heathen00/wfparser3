@@ -193,21 +193,8 @@ There are a number of problems with the localization implementation I currently 
      StubLocalizerFactory does not implement its equivalent production Factory interface.
 
      
-HERE:
-   * Moving UID acceptance tests into UID testing modules and out of other modules' tests:
-      * implement the UID acceptance tests.  DONE.
-      * fix any broken testcases.  NOT DONE, HERE.
-      * remove UID related acceptance tests out of other modules' tests.  NOT DONE.
-      * to make UID more consistent with other subsystems, move the initial "createFactory()"
-        from the UID interface to the UidFactory interface.
-      * Rename UID to Uid.  Might as well follow standard Java naming conventions consistently.      
+HERE:  
    * Rewrite test cases for exceptions to use a rule.  Start with Localizer.
-   * StubLocalizerFactory:
-      * This would be useful for integrating into the rest of the parser.
-      * The stub localizer factory should really implement the same interface as the internal localizer
-        factory.  It may have its own methods beyond that, but it should, at the very least, implement
-        the same interface for the sake of interchangeability.
-      * You should implement the LocalizerStubFactory similar to the WrapperStubFactory.
 
 
      

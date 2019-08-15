@@ -1,10 +1,10 @@
 package com.ht.localizer;
 
-import com.ht.uid.UID;
+import com.ht.uid.Uid;
 
 final class LocalizerInstanceInternalImp implements LocalizerInstanceInternal {
   private final LocalizerFactoryInternal localizerFactoryInternal;
-  private final UID<LocalizerInstance> localizerInstanceUid;
+  private final Uid<LocalizerInstance> localizerInstanceUid;
   private final LocalizerTypeInternal localizerTypeInternal;
   private final String instanceName;
 
@@ -55,7 +55,7 @@ final class LocalizerInstanceInternalImp implements LocalizerInstanceInternal {
   }
 
   @Override
-  public UID<LocalizerInstance> getUid() {
+  public Uid<LocalizerInstance> getUid() {
     return localizerInstanceUid;
   }
 

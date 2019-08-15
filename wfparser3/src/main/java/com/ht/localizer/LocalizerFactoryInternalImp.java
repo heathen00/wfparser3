@@ -1,6 +1,6 @@
 package com.ht.localizer;
 
-import com.ht.uid.UID;
+import com.ht.uid.Uid;
 import com.ht.uid.UidFactory;
 import com.ht.wrap.WrapperFactory;
 import com.ht.wrap.ResourceBundleWrapper;
@@ -14,7 +14,7 @@ import java.util.Set;
 final class LocalizerFactoryInternalImp implements LocalizerFactoryInternal {
   private WrapperFactory wrapperFactory;
   private UidFactory uidFactory;
-  private final Map<UID<Localizer>, LocalizerInternal> localizerInternalMap;
+  private final Map<Uid<Localizer>, LocalizerInternal> localizerInternalMap;
   private final LocalizerInternal undefinedLocalizer;
 
   LocalizerFactoryInternalImp(WrapperFactory wrapperFactory, UidFactory uidFactory) {
@@ -174,12 +174,12 @@ final class LocalizerFactoryInternalImp implements LocalizerFactoryInternal {
   }
 
   @Override
-  public Set<UID<Localizer>> getLocalizerUidSet() {
+  public Set<Uid<Localizer>> getLocalizerUidSet() {
     return Collections.unmodifiableSet(localizerInternalMap.keySet());
   }
 
   @Override
-  public Localizer getLocalizer(UID<Localizer> localizerUid) {
+  public Localizer getLocalizer(Uid<Localizer> localizerUid) {
     guardNotNull("localizerUid", localizerUid);
     if (null == localizerUid) {
       throw new NullPointerException("localizerUid cannot be null");

@@ -46,7 +46,7 @@ final class UidInternalImp<T> implements UidInternal<T> {
   }
 
   @Override
-  public int compareTo(UID<T> o) {
+  public int compareTo(Uid<T> o) {
     return key.compareTo(o.getKey());
   }
 

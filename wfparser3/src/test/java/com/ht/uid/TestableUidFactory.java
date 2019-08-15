@@ -19,7 +19,7 @@ public class TestableUidFactory implements UidFactory, CanReset {
   }
 
   @Override
-  public <T> UID<T> createUid(String key, T component) {
+  public <T> Uid<T> createUid(String key, T component) {
     return uidFactoryInternal.createUid(key, component);
   }
 }

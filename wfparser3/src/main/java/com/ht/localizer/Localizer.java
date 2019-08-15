@@ -1,6 +1,6 @@
 package com.ht.localizer;
 
-import com.ht.uid.UID;
+import com.ht.uid.Uid;
 import com.ht.uid.UniqueComponent;
 
 import java.util.Locale;
@@ -14,13 +14,13 @@ public interface Localizer extends UniqueComponent<Localizer>, DefinedObject {
 
   SortedSet<LocalizerBundle> getLocalizerBundleSet();
 
-  LocalizerType getLocalizerType(UID<LocalizerType> typeUid);
+  LocalizerType getLocalizerType(Uid<LocalizerType> typeUid);
 
-  Set<UID<LocalizerType>> getLocalizerTypeUidSet();
+  Set<Uid<LocalizerType>> getLocalizerTypeUidSet();
 
-  LocalizerInstance getLocalizerInstance(UID<LocalizerInstance> instanceUid);
+  LocalizerInstance getLocalizerInstance(Uid<LocalizerInstance> instanceUid);
 
-  Set<UID<LocalizerInstance>> getLocalizerInstanceUidSet();
+  Set<Uid<LocalizerInstance>> getLocalizerInstanceUidSet();
 
   String getName();
 }

@@ -10,7 +10,7 @@ import com.ht.localizer.LocalizerBundleInternal;
 import com.ht.localizer.LocalizerException;
 import com.ht.localizer.LocalizerInstance;
 import com.ht.localizer.LocalizerType;
-import com.ht.uid.UID;
+import com.ht.uid.Uid;
 
 import java.util.Locale;
 import java.util.Set;
@@ -114,8 +114,8 @@ public final class Assert {
 
   public void assertExpectedLocalizerType(final String expectedGroupName,
       final String expectedTypeName, final String expectedMethodName,
-      final Set<UID<LocalizerInstance>> expectedLocalizerInstanceKeySet,
-      final Localizer expectedLocalizer, final UID<LocalizerType> expectedLocalizerTypeUid,
+      final Set<Uid<LocalizerInstance>> expectedLocalizerInstanceKeySet,
+      final Localizer expectedLocalizer, final Uid<LocalizerType> expectedLocalizerTypeUid,
       boolean expectedIsDefined, LocalizerType localizerType) {
     assertExpectedLocalizerType(expectedGroupName, expectedTypeName, expectedMethodName,
         expectedIsDefined, localizerType);
@@ -139,7 +139,7 @@ public final class Assert {
     assertSetIsUnmodifiable(localizerType.getLocalizerInstanceUidSet());
   }
 
-  public void assertExpectedLocalizer(String expectedName, UID<Localizer> expectedLocalizerUid,
+  public void assertExpectedLocalizer(String expectedName, Uid<Localizer> expectedLocalizerUid,
       Locale expectedLocale, boolean expectedIsDefined, Localizer localizer) {
     assertNotNull(localizer);
     assertEquals(expectedName, localizer.getName());

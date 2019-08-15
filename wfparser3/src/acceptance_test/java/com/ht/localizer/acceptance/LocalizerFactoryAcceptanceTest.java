@@ -17,7 +17,7 @@ import com.ht.localizer.LocalizerType;
 import com.ht.localizer.StubLocalizerFactory;
 import com.ht.localizer.TestableLocalizerFactory;
 import com.ht.uid.StubUidFactory;
-import com.ht.uid.UID;
+import com.ht.uid.Uid;
 import com.ht.uid.UidFactory;
 import com.ht.wrap.ResourceBundleWrapperConfigurator;
 import com.ht.wrap.StubWrapperFactory;
@@ -94,7 +94,7 @@ public class LocalizerFactoryAcceptanceTest {
   public void LocalizerFactory_createLocalizerWithLocale_localizeIsCreated() throws Exception {
     String expectedName = "localizer.name";
     Locale expectedLocale = Locale.CANADA_FRENCH;
-    UID<Localizer> expectedLocalizerUid =
+    Uid<Localizer> expectedLocalizerUid =
         UidFactory.createUidFactory().createUid(expectedName, stubLocalizer);
     boolean expectedIsDefined = true;
 
@@ -320,9 +320,9 @@ public class LocalizerFactoryAcceptanceTest {
     final String expectedGroupName = "expected.group.name";
     final String expectedTypeName = "expected.type.name";
     final String expectedMethodName = "expected.method.name";
-    final Set<UID<LocalizerInstance>> expectedLocalizerInstanceKeySet = Collections.emptySet();
+    final Set<Uid<LocalizerInstance>> expectedLocalizerInstanceKeySet = Collections.emptySet();
     final Localizer expectedLocalizer = stubLocalizer;
-    final UID<LocalizerType> expectedLocalizerTypeUid = UidFactory.createUidFactory().createUid(
+    final Uid<LocalizerType> expectedLocalizerTypeUid = UidFactory.createUidFactory().createUid(
         String.join(".", expectedGroupName, expectedTypeName, expectedMethodName),
         stubLocalizerFactory.createLocalizerType(stubLocalizer, expectedGroupName, expectedTypeName,
             expectedMethodName));

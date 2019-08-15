@@ -15,7 +15,7 @@ import com.ht.localizer.LocalizerType;
 import com.ht.localizer.StubLocalizerFactory;
 import com.ht.localizer.TestableLocalizerFactory;
 import com.ht.uid.StubUidFactory;
-import com.ht.uid.UID;
+import com.ht.uid.Uid;
 import com.ht.uid.UidFactory;
 import com.ht.wrap.WrapperFactory;
 
@@ -121,7 +121,7 @@ public class LocalizerTypeAcceptanceTest {
     final LocalizerType localizerType = testableLocalizerFactory.createLocalizerType(stubLocalizer,
         expectedGroup, expectedType, expectedInstance);
 
-    Set<UID<LocalizerInstance>> localizerFieldKeySet = localizerType.getLocalizerInstanceUidSet();
+    Set<Uid<LocalizerInstance>> localizerFieldKeySet = localizerType.getLocalizerInstanceUidSet();
 
     assertNotNull(localizerFieldKeySet);
     assertTrue(localizerFieldKeySet.isEmpty());
@@ -140,7 +140,7 @@ public class LocalizerTypeAcceptanceTest {
     final LocalizerInstance expectedLocalizerField =
         testableLocalizerFactory.createLocalizerInstance(localizerType, expectedField);
 
-    Set<UID<LocalizerInstance>> localizerFieldKeySet = localizerType.getLocalizerInstanceUidSet();
+    Set<Uid<LocalizerInstance>> localizerFieldKeySet = localizerType.getLocalizerInstanceUidSet();
 
     assertNotNull(localizerFieldKeySet);
     assertTrue(localizerFieldKeySet.size() == expectedLocalizerFieldKeySetSize);
@@ -170,7 +170,7 @@ public class LocalizerTypeAcceptanceTest {
     final LocalizerInstance expectedLocalizerFieldTwo =
         testableLocalizerFactory.createLocalizerInstance(localizerType, expectedFieldTwo);
 
-    Set<UID<LocalizerInstance>> localizerFieldKeySet = localizerType.getLocalizerInstanceUidSet();
+    Set<Uid<LocalizerInstance>> localizerFieldKeySet = localizerType.getLocalizerInstanceUidSet();
 
     assertNotNull(localizerFieldKeySet);
     assertTrue(localizerFieldKeySet.size() == expectedLocalizerFieldKeySetSize);
@@ -200,7 +200,7 @@ public class LocalizerTypeAcceptanceTest {
     final LocalizerInstance localizerFieldTwo =
         testableLocalizerFactory.createLocalizerInstance(localizerType, expectedField);
 
-    Set<UID<LocalizerInstance>> localizerFieldKeySet = localizerType.getLocalizerInstanceUidSet();
+    Set<Uid<LocalizerInstance>> localizerFieldKeySet = localizerType.getLocalizerInstanceUidSet();
 
     assertTrue(localizerFieldOne == localizerFieldTwo);
     assertNotNull(localizerFieldKeySet);

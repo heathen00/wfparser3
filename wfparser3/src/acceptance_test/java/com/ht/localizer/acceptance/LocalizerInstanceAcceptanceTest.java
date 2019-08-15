@@ -12,7 +12,7 @@ import com.ht.localizer.LocalizerInstance;
 import com.ht.localizer.LocalizerType;
 import com.ht.localizer.StubLocalizerFactory;
 import com.ht.localizer.TestableLocalizerFactory;
-import com.ht.uid.UID;
+import com.ht.uid.Uid;
 import com.ht.uid.UidFactory;
 import com.ht.wrap.WrapperFactory;
 
@@ -54,41 +54,9 @@ public class LocalizerInstanceAcceptanceTest {
     LocalizerInstance localizerInstance = testableLocalizerFactory
         .createLocalizerInstance(expectedLocalizerType, expectedInstanceName);
     assertNotNull(localizerInstance);
-    UID<LocalizerInstance> localizerInstanceUid = localizerInstance.getUid();
+    Uid<LocalizerInstance> localizerInstanceUid = localizerInstance.getUid();
 
     assertNotNull(localizerInstanceUid);
     assertEquals(expectedFullyQualifiedName, localizerInstanceUid.getKey());
-  }
-
-  @Test
-  public void LocalizerInstance_validateEqualsHashCodeAndCompareToMethodsForUid_theirContractsAreRespected()
-      throws Exception {
-    UID<LocalizerInstance> first;
-    UID<LocalizerInstance> second;
-    LocalizerType localizerType = stubLocalizerType;
-
-    // Equals.
-    first = testableLocalizerFactory.createLocalizerInstance(localizerType, "test.same").getUid();
-    second = testableLocalizerFactory.createLocalizerInstance(localizerType, "test.same").getUid();
-
-    assertTrue(first.equals(second));
-    assertTrue(second.equals(first));
-    assertTrue(first.hashCode() == second.hashCode());
-    assertTrue(first.compareTo(second) == 0);
-    assertTrue(second.compareTo(first) == 0);
-
-    // Not equal: different keys.
-    first = testableLocalizerFactory.createLocalizerInstance(localizerType, "test.first").getUid();
-    second =
-        testableLocalizerFactory.createLocalizerInstance(localizerType, "test.second").getUid();
-
-    assertFalse(first.equals(second));
-    assertFalse(second.equals(first));
-    assertFalse(first.hashCode() == second.hashCode());
-    assertTrue(first.compareTo(second) < 0);
-    assertTrue(second.compareTo(first) > 0);
-
-    // Not equal: null
-    assertFalse(first.equals(null));
   }
 }

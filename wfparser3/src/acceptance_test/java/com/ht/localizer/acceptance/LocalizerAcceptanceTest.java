@@ -18,7 +18,7 @@ import com.ht.localizer.LocalizerInstance;
 import com.ht.localizer.LocalizerType;
 import com.ht.localizer.StubLocalizerFactory;
 import com.ht.localizer.TestableLocalizerFactory;
-import com.ht.uid.UID;
+import com.ht.uid.Uid;
 import com.ht.uid.UidFactory;
 import com.ht.wrap.ResourceBundleWrapperConfigurator;
 import com.ht.wrap.StubWrapperFactory;
@@ -70,7 +70,7 @@ public class LocalizerAcceptanceTest {
   @Test
   public void Localizer_setLocaleToANewLocale_localeChangedToNewLocale() throws Exception {
     final String expectedName = "localizer.name";
-    final UID<Localizer> expectedLocalizerUid =
+    final Uid<Localizer> expectedLocalizerUid =
         UidFactory.createUidFactory().createUid(expectedName, stubLocalizer);
     final Locale originalLocale = Locale.CHINESE;
     final Locale newLocale = Locale.CANADA_FRENCH;
@@ -144,7 +144,7 @@ public class LocalizerAcceptanceTest {
         testableLocalizerFactory.createLocalizer("localizer.name.one", Locale.CANADA_FRENCH);
     LocalizerType someOtherocalizerType = testableLocalizerFactory
         .createLocalizerType(someOtherLocalizer, "test.group", "test.type", "test.method");
-    UID<LocalizerType> localizerTypeUid = someOtherocalizerType.getUid();
+    Uid<LocalizerType> localizerTypeUid = someOtherocalizerType.getUid();
     Localizer localizer =
         testableLocalizerFactory.createLocalizer("localizer.name.two", Locale.CANADA_FRENCH);
 
@@ -188,7 +188,7 @@ public class LocalizerAcceptanceTest {
     LocalizerType expectedLocalizerType01 = testableLocalizerFactory.createLocalizerType(localizer,
         "test.group", "test.name", "test.method.01");
 
-    Set<UID<LocalizerType>> localizerTypeUidSet = localizer.getLocalizerTypeUidSet();
+    Set<Uid<LocalizerType>> localizerTypeUidSet = localizer.getLocalizerTypeUidSet();
 
     assertNotNull(localizerTypeUidSet);
     assertTrue(localizerTypeUidSet.contains(expectedLocalizerType00.getUid()));
@@ -281,7 +281,7 @@ public class LocalizerAcceptanceTest {
     testableLocalizerFactory.createLocalizerType(localizer, "test.group", "test.type",
         "test.method.02");
 
-    Set<UID<LocalizerInstance>> localizerInstanceUidSet = localizer.getLocalizerInstanceUidSet();
+    Set<Uid<LocalizerInstance>> localizerInstanceUidSet = localizer.getLocalizerInstanceUidSet();
 
     assertNotNull(localizerInstanceUidSet);
     assertTrue(localizerInstanceUidSet.isEmpty());
@@ -293,7 +293,7 @@ public class LocalizerAcceptanceTest {
     Localizer localizer =
         testableLocalizerFactory.createLocalizer("localizer.name", Locale.CANADA_FRENCH);
 
-    Set<UID<LocalizerInstance>> localizerInstanceUidSet = localizer.getLocalizerInstanceUidSet();
+    Set<Uid<LocalizerInstance>> localizerInstanceUidSet = localizer.getLocalizerInstanceUidSet();
 
     assertNotNull(localizerInstanceUidSet);
     assertTrue(localizerInstanceUidSet.isEmpty());
@@ -315,10 +315,10 @@ public class LocalizerAcceptanceTest {
     LocalizerInstance localizerInstance02 =
         testableLocalizerFactory.createLocalizerInstance(localizerType01, "test.instance.02");
 
-    Set<UID<LocalizerInstance>> localizerInstanceUidSet = localizer.getLocalizerInstanceUidSet();
+    Set<Uid<LocalizerInstance>> localizerInstanceUidSet = localizer.getLocalizerInstanceUidSet();
 
     assertNotNull(localizerInstanceUidSet);
-    for (UID<LocalizerInstance> expectedLocalizerInstanceUid : Arrays.asList(
+    for (Uid<LocalizerInstance> expectedLocalizerInstanceUid : Arrays.asList(
         localizerInstance00.getUid(), localizerInstance01.getUid(), localizerInstance02.getUid())) {
       assertTrue(localizerInstanceUidSet.contains(expectedLocalizerInstanceUid));
     }

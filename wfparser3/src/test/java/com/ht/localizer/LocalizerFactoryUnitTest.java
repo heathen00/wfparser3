@@ -4,7 +4,7 @@ import static org.junit.Assert.assertNotNull;
 import java.util.Locale;
 import org.junit.Before;
 import org.junit.Test;
-import com.ht.uid.UID;
+import com.ht.uid.Uid;
 import com.ht.uid.UidFactory;
 import com.ht.wrap.ResourceBundleWrapperConfigurator;
 import com.ht.wrap.StubWrapperFactory;
@@ -68,7 +68,7 @@ public class LocalizerFactoryUnitTest {
   @Test
   public void LocalizerFactory_createUndefinedLocalizer_undefinedLocalizerCreated() {
     final String expectedName = "UNDEFINED";
-    final UID<Localizer> expectedLocalizerUid =
+    final Uid<Localizer> expectedLocalizerUid =
         localizerFactoryInternal.getUidFactory().createUid(expectedName, stubLocalizer);
     final boolean expectedIsDefined = false;
 
