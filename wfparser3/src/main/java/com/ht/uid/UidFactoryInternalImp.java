@@ -38,12 +38,6 @@ final class UidFactoryInternalImp implements UidFactoryInternal {
     guardNamingConvention("key", key);
     guardImplementsUniqueComponent("component", component);
     UidInternalImp<? extends Object> existingUid = uidMap.get(key);
-    System.out.println("component class: " + component.getClass());
-    System.out.println("existingUid component class: "
-        + (null == existingUid ? null : existingUid.getComponent().getClass()));
-    if (existingUid != null) {
-      System.out.println("equals: " + component.equals(existingUid.getComponent()));
-    }
     UidInternalImp<T> newUidImp = null;
     if (null != existingUid) {
       if (!existingUid.getComponent().getClass().equals(component.getClass())
@@ -52,7 +46,6 @@ final class UidFactoryInternalImp implements UidFactoryInternal {
             "UniqueComponent with key " + key + " already exists but with different component");
       }
       newUidImp = (UidInternalImp<T>) existingUid;
-      System.out.println("here");
     } else {
       newUidImp = new UidInternalImp<T>(key, component);
       uidMap.put(key, newUidImp);

@@ -48,7 +48,8 @@ public class LocalizerInstanceAcceptanceTest {
     final String expectedInstanceName = "valid.instance.name.00";
     final String expectedFullyQualifiedName = String.join(".", expectedGroupName, expectedTypeName,
         expectedMethodName, expectedInstanceName);
-    final LocalizerType expectedLocalizerType = stubLocalizerType;
+    final LocalizerType expectedLocalizerType = stubLocalizerFactory.createLocalizerType(
+        stubLocalizer, expectedGroupName, expectedTypeName, expectedMethodName);
 
     LocalizerInstance localizerInstance = testableLocalizerFactory
         .createLocalizerInstance(expectedLocalizerType, expectedInstanceName);

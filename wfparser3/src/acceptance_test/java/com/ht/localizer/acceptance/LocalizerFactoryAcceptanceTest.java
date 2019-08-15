@@ -32,6 +32,10 @@ public class LocalizerFactoryAcceptanceTest {
   private ResourceBundleWrapperConfigurator resourceBundleWrapperForRootLocaleConfigurator;
   private Assert localizerAssert;
 
+  private Localizer createExternalLocalizerImplementation() {
+    throw new UnsupportedOperationException("this method needs to be replaced");
+  }
+
   @Before
   public void setup() throws Exception {
     testableLocalizerFactory = TestableLocalizerFactory.getTestableLocalizerFactory(
@@ -89,7 +93,7 @@ public class LocalizerFactoryAcceptanceTest {
     String expectedName = "localizer.name";
     Locale expectedLocale = Locale.CANADA_FRENCH;
     UID<Localizer> expectedLocalizerUid =
-        testableLocalizerFactory.getUidFactory().createUid(expectedName, stubLocalizer);
+        UidFactory.createUidFactory().createUid(expectedName, stubLocalizer);
     boolean expectedIsDefined = true;
 
     Localizer localizer = testableLocalizerFactory.createLocalizer(expectedName, expectedLocale);
@@ -320,10 +324,10 @@ public class LocalizerFactoryAcceptanceTest {
     final String expectedMethodName = "expected.method.name";
     final Set<UID<LocalizerInstance>> expectedLocalizerInstanceKeySet = Collections.emptySet();
     final Localizer expectedLocalizer = stubLocalizer;
-    final UID<LocalizerType> expectedLocalizerTypeUid = testableLocalizerFactory.getUidFactory()
-        .createUid(String.join(".", expectedGroupName, expectedTypeName, expectedMethodName),
-            stubLocalizerFactory.createLocalizerType(stubLocalizer, expectedGroupName,
-                expectedTypeName, expectedMethodName));
+    final UID<LocalizerType> expectedLocalizerTypeUid = UidFactory.createUidFactory().createUid(
+        String.join(".", expectedGroupName, expectedTypeName, expectedMethodName),
+        stubLocalizerFactory.createLocalizerType(stubLocalizer, expectedGroupName, expectedTypeName,
+            expectedMethodName));
     final boolean expectedIsDefined = true;
 
     LocalizerType localizerType = testableLocalizerFactory.createLocalizerType(expectedLocalizer,
@@ -354,8 +358,7 @@ public class LocalizerFactoryAcceptanceTest {
   @Test(expected = LocalizerException.class)
   public void LocalizerFactory_createLocalizerTypeWhereLocalizerTypeParameterIsUnknownExternalImplementation_localizerExceptionIsThrown()
       throws Exception {
-    Localizer externalLocalizer = stubLocalizer;
-
+    Localizer externalLocalizer = createExternalLocalizerImplementation();
     testableLocalizerFactory.createLocalizerType(externalLocalizer, "some.group", "some.type",
         "some.method");
   }

@@ -12,7 +12,8 @@ public final class StubLocalizerFactory implements LocalizerFactory {
 
   @Override
   public Localizer createLocalizer(String name, Locale locale) throws LocalizerException {
-    return new Localizer() {
+    return new LocalizerInternal() {
+      private final Locale myLocale = locale;
 
       @Override
       public boolean isDefined() {
@@ -20,8 +21,20 @@ public final class StubLocalizerFactory implements LocalizerFactory {
       }
 
       @Override
+      public UID<Localizer> getUid() {
+        operationNotSupported();
+        return null;
+      }
+
+      @Override
       public void setLocale(Locale locale) throws LocalizerException {
         operationNotSupported();
+      }
+
+      @Override
+      public String getName() {
+        operationNotSupported();
+        return null;
       }
 
       @Override
@@ -56,18 +69,24 @@ public final class StubLocalizerFactory implements LocalizerFactory {
 
       @Override
       public Locale getLocale() {
+        return myLocale;
+      }
+
+      @Override
+      public LocalizerTypeInternal getLocalizerTypeInternal(UID<LocalizerType> typeUid) {
         operationNotSupported();
         return null;
       }
 
       @Override
-      public String getName() {
-        operationNotSupported();
-        return null;
+      public LocalizerTypeInternal addLocalizerTypeInternal(
+          LocalizerTypeInternal localizerTypeInternal) {
+        return localizerTypeInternal;
       }
 
       @Override
-      public UID<Localizer> getUid() {
+      public LocalizerBundleInternal addLocalizerBundleInternal(
+          LocalizerBundleInternal localizerBundleInternal) {
         operationNotSupported();
         return null;
       }

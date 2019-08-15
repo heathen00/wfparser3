@@ -45,7 +45,6 @@ final class MessageSystemInternalImp implements MessageSystemInternal {
       UID<Description> undefinedDescriptionUid = messageFactory.addDescription("undefined");
       messageFactory.addMessage(undefinedTopicUid, undefinedPriorityUid, undefinedDescriptionUid);
     } catch (ConstraintViolationException cve) {
-      System.out.println("cve: " + cve);
       messageFactory = new NullMessageFactoryImp();
     }
   }

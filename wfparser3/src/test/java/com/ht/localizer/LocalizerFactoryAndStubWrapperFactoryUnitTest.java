@@ -10,16 +10,13 @@ import com.ht.wrap.WrapperFactory;
 public class LocalizerFactoryAndStubWrapperFactoryUnitTest {
 
   private LocalizerFactoryInternal localizerFactoryInternal;
-  private StubWrapperFactory stubWrapperFactory;
 
   @Before
   public void setup() {
     localizerFactoryInternal = new LocalizerFactoryInternalImp(
         WrapperFactory.createWrapperFactory(), UidFactory.createUidFactory());
     localizerFactoryInternal.resetAll();
-    stubWrapperFactory = StubWrapperFactory.createStubWrapperFactory();
   }
-
 
   @Test(expected = NullPointerException.class)
   public void LocalizerFactory_setWrapperFactoryWithNullParameter_nullPointerExceptionIsThrown() {
@@ -30,7 +27,7 @@ public class LocalizerFactoryAndStubWrapperFactoryUnitTest {
   public void LocalizerFactory_setWrapperFactoryWithStubWrapperFactory_stubWrapperFactoryIsSet() {
     WrapperFactory expectedWrapperFactory = StubWrapperFactory.createStubWrapperFactory();
 
-    localizerFactoryInternal.setWrapperFactory(stubWrapperFactory);
+    localizerFactoryInternal.setWrapperFactory(expectedWrapperFactory);
 
     assertEquals(expectedWrapperFactory, localizerFactoryInternal.getWrapperFactory());
   }
@@ -46,22 +43,4 @@ public class LocalizerFactoryAndStubWrapperFactoryUnitTest {
 
     assertEquals(expectedWrapperFactory, localizerFactoryInternal.getWrapperFactory());
   }
-
-  @Test
-  public void LocalizerFactory_doNotSetWrapperFactory_productionWrapperFactoryIsSet() {
-    WrapperFactory myWrapperFactory = localizerFactoryInternal.getWrapperFactory();
-
-    assertEquals(WrapperFactory.createWrapperFactory(), myWrapperFactory);
-  }
-
-  @Test
-  public void LocalizerFactory_resetAll_productionWrapperFactoryIsSet() {
-    final WrapperFactory expectedWrapperFactory = WrapperFactory.createWrapperFactory();
-    localizerFactoryInternal.setWrapperFactory(stubWrapperFactory);
-
-    localizerFactoryInternal.resetAll();
-
-    assertEquals(expectedWrapperFactory, localizerFactoryInternal.getWrapperFactory());
-  }
-
 }

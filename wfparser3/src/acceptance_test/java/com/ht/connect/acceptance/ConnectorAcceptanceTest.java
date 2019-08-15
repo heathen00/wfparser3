@@ -9,6 +9,7 @@ import org.junit.Test;
 import com.ht.connect.Connector;
 import com.ht.connect.ConnectorFactory;
 import com.ht.localizer.LocalizerFactory;
+import com.ht.localizer.StubLocalizerFactory;
 import com.ht.localizer.TestableLocalizerFactory;
 import com.ht.uid.TestableUidFactory;
 import com.ht.uid.UidFactory;
@@ -170,14 +171,33 @@ public class ConnectorAcceptanceTest {
 
   @Test
   public void Connector_setStubLocalizerFactory_stubLocalizerFactoryIsSet() {
-    // LocalizerFactory expectedStubLocalizerFactory =
-    // StubLocalizerFactory.createStubLocalizerFactory(LocalizerSystem.getSystem());
-    fail("Not yet implemented");
+    LocalizerFactory expectedStubLocalizerFactory =
+        StubLocalizerFactory.createStubLocalizerFactory();
+
+    connector.setLocalizerFactory(expectedStubLocalizerFactory);
+    LocalizerFactory localizeractory = connector.getLocalizerFactory();
+
+    assertNotNull(localizeractory);
+    assertEquals(expectedStubLocalizerFactory, localizeractory);
   }
 
   @Test
-  @Ignore("Not worked on yet")
   public void Connector_setProductionLocalizerFactoryThenTestableLocalizerFactory_productionLocalizerFactoryIsSetThenTestableLocalizerFactoryIsSet() {
-    fail("Not yet implemented");
+    LocalizerFactory expectedProductionLocalizerFactory = LocalizerFactory
+        .createLocalizerFactory(expectedProductionWrapperFactory, expectedProductionUidFactory);
+    LocalizerFactory expectedTestableLocalizerFactory =
+        StubLocalizerFactory.createStubLocalizerFactory();
+
+    connector.setLocalizerFactory(expectedProductionLocalizerFactory);
+    LocalizerFactory localizerFactory = connector.getLocalizerFactory();
+
+    assertNotNull(localizerFactory);
+    assertEquals(expectedProductionLocalizerFactory, localizerFactory);
+
+    connector.setLocalizerFactory(expectedTestableLocalizerFactory);
+    localizerFactory = connector.getLocalizerFactory();
+
+    assertNotNull(localizerFactory);
+    assertEquals(expectedTestableLocalizerFactory, localizerFactory);
   }
 }

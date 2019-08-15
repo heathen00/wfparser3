@@ -71,7 +71,7 @@ public class LocalizerAcceptanceTest {
   public void Localizer_setLocaleToANewLocale_localeChangedToNewLocale() throws Exception {
     final String expectedName = "localizer.name";
     final UID<Localizer> expectedLocalizerUid =
-        testableLocalizerFactory.getUidFactory().createUid(expectedName, stubLocalizer);
+        UidFactory.createUidFactory().createUid(expectedName, stubLocalizer);
     final Locale originalLocale = Locale.CHINESE;
     final Locale newLocale = Locale.CANADA_FRENCH;
     final boolean expectedIsDefined = true;
