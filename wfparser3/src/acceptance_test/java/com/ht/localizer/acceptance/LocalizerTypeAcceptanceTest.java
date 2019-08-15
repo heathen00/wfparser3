@@ -14,6 +14,7 @@ import com.ht.localizer.LocalizerInstance;
 import com.ht.localizer.LocalizerType;
 import com.ht.localizer.StubLocalizerFactory;
 import com.ht.localizer.TestableLocalizerFactory;
+import com.ht.uid.StubUidFactory;
 import com.ht.uid.UID;
 import com.ht.uid.UidFactory;
 import com.ht.wrap.WrapperFactory;
@@ -21,6 +22,7 @@ import com.ht.wrap.WrapperFactory;
 public class LocalizerTypeAcceptanceTest {
   private TestableLocalizerFactory testableLocalizerFactory;
   private StubLocalizerFactory stubLocalizerFactory;
+  private StubUidFactory stubUidFactory;
   private Localizer stubLocalizer;
   private Assert localizerAssert;
 
@@ -28,6 +30,8 @@ public class LocalizerTypeAcceptanceTest {
   public void setup() throws Exception {
     testableLocalizerFactory = TestableLocalizerFactory.getTestableLocalizerFactory(
         WrapperFactory.createWrapperFactory(), UidFactory.createUidFactory());
+    stubUidFactory = StubUidFactory.createStubUidFactory();
+    testableLocalizerFactory.setUidFactory(stubUidFactory);
     testableLocalizerFactory.resetAll();
     stubLocalizerFactory = StubLocalizerFactory.createStubLocalizerFactory();
     stubLocalizer = stubLocalizerFactory.createLocalizer("stub.localizer", Locale.CANADA_FRENCH);
@@ -37,6 +41,7 @@ public class LocalizerTypeAcceptanceTest {
   @Test
   public void LocalizerType_createTestingAssets_testingAssetsCreated() {
     assertNotNull(testableLocalizerFactory);
+    assertNotNull(stubUidFactory);
     assertNotNull(stubLocalizerFactory);
     assertNotNull(stubLocalizer);
     assertNotNull(localizerAssert);

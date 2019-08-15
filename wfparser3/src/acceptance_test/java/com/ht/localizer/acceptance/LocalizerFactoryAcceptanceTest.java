@@ -15,6 +15,7 @@ import com.ht.localizer.LocalizerInstance;
 import com.ht.localizer.LocalizerType;
 import com.ht.localizer.StubLocalizerFactory;
 import com.ht.localizer.TestableLocalizerFactory;
+import com.ht.uid.StubUidFactory;
 import com.ht.uid.UID;
 import com.ht.uid.UidFactory;
 import com.ht.wrap.ResourceBundleWrapperConfigurator;
@@ -28,6 +29,7 @@ public class LocalizerFactoryAcceptanceTest {
   private Localizer stubLocalizer;
   private LocalizerType stubLocalizerType;
   private StubWrapperFactory stubWrapperFactory;
+  private StubUidFactory stubUidFactory;
   private ResourceBundleWrapperConfigurator resourceBundleWrapperForLocaleConfigurator;
   private ResourceBundleWrapperConfigurator resourceBundleWrapperForRootLocaleConfigurator;
   private Assert localizerAssert;
@@ -46,11 +48,13 @@ public class LocalizerFactoryAcceptanceTest {
     stubLocalizerType = stubLocalizerFactory.createLocalizerType(stubLocalizer, "stub.group",
         "stub.type", "stub.method.name");
     stubWrapperFactory = StubWrapperFactory.createStubWrapperFactory();
+    stubUidFactory = StubUidFactory.createStubUidFactory();
     resourceBundleWrapperForLocaleConfigurator =
         stubWrapperFactory.getResourceBundleWrapperForLocaleConfigurator();
     resourceBundleWrapperForRootLocaleConfigurator =
         stubWrapperFactory.getResourceBundleWrapperForRootLocaleConfigurator();
     testableLocalizerFactory.setWrapperFactory(stubWrapperFactory);
+    testableLocalizerFactory.setUidFactory(stubUidFactory);
     localizerAssert = Assert.createAssert();
   }
 
@@ -60,6 +64,7 @@ public class LocalizerFactoryAcceptanceTest {
     assertNotNull(stubLocalizerFactory);
     assertNotNull(localizerAssert);
     assertNotNull(stubWrapperFactory);
+    assertNotNull(stubUidFactory);
     assertNotNull(resourceBundleWrapperForLocaleConfigurator);
     assertNotNull(resourceBundleWrapperForRootLocaleConfigurator);
   }
