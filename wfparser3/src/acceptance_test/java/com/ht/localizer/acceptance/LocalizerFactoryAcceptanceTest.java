@@ -7,6 +7,7 @@ import java.util.Locale;
 import java.util.Set;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 import com.ht.localizer.Assert;
 import com.ht.localizer.Localizer;
 import com.ht.localizer.LocalizerBundle;
@@ -33,10 +34,6 @@ public class LocalizerFactoryAcceptanceTest {
   private ResourceBundleWrapperConfigurator resourceBundleWrapperForLocaleConfigurator;
   private ResourceBundleWrapperConfigurator resourceBundleWrapperForRootLocaleConfigurator;
   private Assert localizerAssert;
-
-  private Localizer createExternalLocalizerImplementation() {
-    throw new UnsupportedOperationException("this method needs to be replaced");
-  }
 
   @Before
   public void setup() throws Exception {
@@ -200,20 +197,16 @@ public class LocalizerFactoryAcceptanceTest {
     final String expectedInstanceName = "valid.instance.name.00";
     final String expectedFullyQualifiedName = String.join(".", expectedGroupName, expectedTypeName,
         expectedMethodName, expectedInstanceName);
+    final String expectedUidKey = expectedFullyQualifiedName;
     final LocalizerType expectedLocalizerType = stubLocalizerFactory
         .createLocalizerType(stubLocalizer, "test.group", "test.type", "test.method");
-    final String expectedUnformattedString =
-        "test unformatted string for localizerInstance with instanceName " + expectedInstanceName;
-    final String expectedFormattedString =
-        "test formatted string for localizerInstance with instanceName " + expectedInstanceName;
     final boolean expectedIsDefined = true;
 
     LocalizerInstance localizerInstance = testableLocalizerFactory
         .createLocalizerInstance(expectedLocalizerType, expectedInstanceName);
 
     localizerAssert.assertExpectedLocalizerInstance(expectedInstanceName,
-        expectedFullyQualifiedName, expectedLocalizerType, expectedUnformattedString,
-        expectedFormattedString, expectedIsDefined, localizerInstance);
+        expectedFullyQualifiedName, expectedUidKey, expectedIsDefined, localizerInstance);
   }
 
   @Test(expected = NullPointerException.class)
@@ -346,9 +339,7 @@ public class LocalizerFactoryAcceptanceTest {
   @Test(expected = LocalizerException.class)
   public void LocalizerFactory_createLocalizerInstanceWhereLocalizerTypeParameterIsUnknownExternalImplementation_localizerExceptionIsThrown()
       throws Exception {
-    LocalizerType externalLocalizerType = stubLocalizerFactory.createLocalizerType(stubLocalizer,
-        "some.group", "some.type", "some.method");
-
+    LocalizerType externalLocalizerType = Mockito.mock(LocalizerType.class);
     testableLocalizerFactory.createLocalizerInstance(externalLocalizerType, "some.instance");
   }
 
@@ -363,7 +354,7 @@ public class LocalizerFactoryAcceptanceTest {
   @Test(expected = LocalizerException.class)
   public void LocalizerFactory_createLocalizerTypeWhereLocalizerTypeParameterIsUnknownExternalImplementation_localizerExceptionIsThrown()
       throws Exception {
-    Localizer externalLocalizer = createExternalLocalizerImplementation();
+    Localizer externalLocalizer = Mockito.mock(Localizer.class);
     testableLocalizerFactory.createLocalizerType(externalLocalizer, "some.group", "some.type",
         "some.method");
   }

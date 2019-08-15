@@ -87,13 +87,13 @@ public final class Assert {
     assertEquals(expectedIsDefined, localizerBundle.isDefined());
   }
 
-  public void assertExpectedLocalizerInstance(final String expectedFieldName,
+  public void assertExpectedLocalizerInstance(final String expectedInstanceName,
       final String expectedFullyQualifiedName, final LocalizerType expectedLocalizerType,
       final String expectedUnformattedString, final String expectedFormattedString,
       final boolean expectedIsDefined, LocalizerInstance localizerInstance)
       throws LocalizerException {
 
-    assertExpectedLocalizerInstance(expectedFieldName, expectedFullyQualifiedName,
+    assertExpectedLocalizerInstance(expectedInstanceName, expectedFullyQualifiedName,
         expectedFullyQualifiedName, expectedIsDefined, localizerInstance);
     assertEquals(expectedLocalizerType, localizerInstance.getLocalizerType());
     assertEquals(expectedUnformattedString, localizerInstance.getUnformattedString());
@@ -101,11 +101,11 @@ public final class Assert {
     assertEquals(expectedIsDefined, localizerInstance.isDefined());
   }
 
-  public void assertExpectedLocalizerInstance(final String expectedFieldName,
+  public void assertExpectedLocalizerInstance(final String expectedInstanceName,
       final String expectedFullyQualifiedName, final String expectedUidKey,
       final boolean expectedIsDefined, final LocalizerInstance localizerInstance) {
     assertNotNull(localizerInstance);
-    assertEquals(expectedFieldName, localizerInstance.getInstanceName());
+    assertEquals(expectedInstanceName, localizerInstance.getInstanceName());
     assertEquals(expectedFullyQualifiedName, localizerInstance.getFullyQualifiedName());
     assertNotNull(localizerInstance.getUid());
     assertEquals(expectedUidKey, localizerInstance.getUid().getKey());
