@@ -203,7 +203,7 @@ There are a number of problems with the localization implementation I currently 
 
      
 HERE:  
-   * Rewrite test cases for exceptions to use a rule.  Start with Localizer.
+   * Rewrite test cases for exceptions to use a rule.
 
 
      

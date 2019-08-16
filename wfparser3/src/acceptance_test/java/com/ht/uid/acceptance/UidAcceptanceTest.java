@@ -5,12 +5,18 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
+
 import com.ht.uid.StubUniqueComponent;
 import com.ht.uid.TestableUidFactory;
 import com.ht.uid.Uid;
 
 public class UidAcceptanceTest {
+  @Rule
+  public ExpectedException thrown = ExpectedException.none();
+
   private TestableUidFactory testableUidFactory;
 
   @Before
@@ -19,30 +25,45 @@ public class UidAcceptanceTest {
     testableUidFactory.resetAll();
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void UID_createUidWithNullKeyString_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("key cannot be null");
+
     testableUidFactory.createUid(null,
         StubUniqueComponent.createStubUniqueComponent("test.unique.component"));
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void UID_createUidWithNullComponent_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("component cannot be null");
+
     testableUidFactory.createUid("test.uid.key", null);
   }
 
-  @Test(expected = UnsupportedOperationException.class)
+  @Test
   public void UID_createUidWithEmptyKeyString_unsupportedOperationExceptionIsThrown() {
+    thrown.expect(UnsupportedOperationException.class);
+    thrown.expectMessage("key cannot be empty");
+
     testableUidFactory.createUid(" \t\t \n  ",
         StubUniqueComponent.createStubUniqueComponent("test.unique.component"));
   }
 
-  @Test(expected = UnsupportedOperationException.class)
+  @Test
   public void UID_createUidWithComponentThatDoesNotImplementUniqueComponent_unsupportedOperationExceptionIsThrown() {
+    thrown.expect(UnsupportedOperationException.class);
+    thrown.expectMessage("component must implement");
+
     testableUidFactory.createUid("test.uid.key", new Object());
   }
 
-  @Test(expected = UnsupportedOperationException.class)
+  @Test
   public void UID_createUidWithSameKeyTwiceButDifferentComponent_unsupportedOperationExceptionIsThrown() {
+    thrown.expect(UnsupportedOperationException.class);
+    thrown.expectMessage("already exists but with different component");
+
     testableUidFactory.createUid("duplicate.uid.key",
         StubUniqueComponent.createStubUniqueComponent("test.unique.component.01"));
     testableUidFactory.createUid("duplicate.uid.key",
