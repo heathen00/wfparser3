@@ -187,10 +187,19 @@ There are a number of problems with the localization implementation I currently 
      that independent subsystems of the whole solution work together as expected.  The testing
      should not be too extensive to reduce redundancy and should only indicate that ... what?
      Think about what the integration testing should prove in more concrete and limited terms.
-   * You overuse Singleton pattern.
-   * If all implementations of subsystem factories implemented the same interface, then you could
-     switch out factories in the LocalizerSystem at run time to change behaviour.  At least the
-     StubLocalizerFactory does not implement its equivalent production Factory interface.
+   * There is an issue in the UID subsystem that will cause an integration problem when it is
+     integrated with the Localizer subsystem.  The scenario where you try and recreate the same
+     UID using "UidFactory.createUid(...)" twice in a row with the same parameters will fail the
+     second time.  What it should do is return the same instance the second time that was created
+     the first.
+   * NOTE: While writing the StubUidFactory, it occurred to me that the primary difference between
+     the StubUidFactory and the UidFactory is that the latter validates its inputs and the former
+     does not.  Looking at the structure of the code, it would be easy to separate the validation
+     from the creation using a simple Decorator pattern to wrap the creator factor with the
+     validator factory.  This same concept could be further used to wrap the creator with a
+     caching factory and then the validator.  The validator first validates the input, the caching
+     factory checks to see if an instance with the given input parameters already exists, and if
+     not, the creator factory creates one!  All with very clear roles and responsibilities.
 
      
 HERE:  
