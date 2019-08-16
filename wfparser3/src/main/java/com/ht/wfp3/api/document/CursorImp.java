@@ -9,7 +9,7 @@ class CursorImp implements Cursor {
 
   CursorImp(DocumentViewImp documentView) {
     if (null == documentView) {
-      throw new NullPointerException("document cannot be null.");
+      throw new NullPointerException("document cannot be null");
     }
     this.currentLine = 1;
     this.documentView = documentView;
@@ -31,10 +31,10 @@ class CursorImp implements Cursor {
   @Override
   public void toCursor(Cursor cursor) throws IllegalArgumentException {
     if (null == cursor) {
-      throw new NullPointerException("cursor is null");
+      throw new NullPointerException("cursor cannot be null");
     }
     if (!documentView.equals(((CursorImp) cursor).getDocumentImp())) {
-      throw new IllegalArgumentException("Cursor " + cursor + " is from another document.");
+      throw new IllegalArgumentException("Cursor " + cursor + " is from another document");
     }
     currentLine = cursor.getLineNumber().intValue();
   }
@@ -46,7 +46,7 @@ class CursorImp implements Cursor {
     }
     if (lineNumber.intValue() < FIRST_LINE
         || lineNumber.intValue() > documentView.getLineNumberAtEof()) {
-      throw new NonExistentLineException("Line " + lineNumber + " is invalid.");
+      throw new NonExistentLineException("line " + lineNumber + " is invalid");
     }
     currentLine = lineNumber.intValue();
   }
@@ -54,7 +54,7 @@ class CursorImp implements Cursor {
   @Override
   public void toPreviousLine() throws NonExistentLineException {
     if (!hasPreviousLine()) {
-      throw new NonExistentLineException("Cannot iterate before first line of document.");
+      throw new NonExistentLineException("cannot iterate before first line of document");
     }
     currentLine--;
   }
@@ -62,7 +62,7 @@ class CursorImp implements Cursor {
   @Override
   public void toNextLine() throws NonExistentLineException {
     if (!hasNextLine()) {
-      throw new NonExistentLineException("Cannot iterate beyond last line of document.");
+      throw new NonExistentLineException("cannot iterate beyond last line of document");
     }
     currentLine++;
   }

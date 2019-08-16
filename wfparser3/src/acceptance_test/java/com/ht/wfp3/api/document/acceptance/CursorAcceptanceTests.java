@@ -8,7 +8,9 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -20,6 +22,9 @@ import com.ht.wfp3.api.document.VisibleDocumentImp;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CursorAcceptanceTests {
+
+  @Rule
+  public ExpectedException thrown = ExpectedException.none();
 
   @Mock
   private VisibleDocumentImp mockDocument;
@@ -129,32 +134,47 @@ public class CursorAcceptanceTests {
     assertEquals(initialCursor.getLineNumber(), cursor.getLineNumber());
   }
 
-  @Test(expected = NonExistentLineException.class)
+  @Test
   public void Cursor_setToNextLineWhenAtEof_nonExistentLineExceptionIsThrown() throws Exception {
+    thrown.expect(NonExistentLineException.class);
+    thrown.expectMessage("cannot iterate beyond last line of document");
+
     cursor.toEof();
     cursor.toNextLine();
   }
 
-  @Test(expected = NonExistentLineException.class)
+  @Test
   public void Cursor_setToPreviousLineWhenAtBof_nonExistentLineExceptionIsThrown()
       throws Exception {
+    thrown.expect(NonExistentLineException.class);
+    thrown.expectMessage("cannot iterate before first line of document");
+
     cursor.toBof();
     cursor.toPreviousLine();
   }
 
-  @Test(expected = NonExistentLineException.class)
+  @Test
   public void Cursor_setToLineNumberIsZero_nonExistentLineExceptionIsThrown() throws Exception {
+    thrown.expect(NonExistentLineException.class);
+    thrown.expectMessage(" is invalid");
+
     cursor.toLineNumber(Integer.valueOf(0));
   }
 
-  @Test(expected = NonExistentLineException.class)
+  @Test
   public void Cursor_setToLineNumberIsGreaterThanNumberOfLines_nonExistentLineExceptionIsThrown()
       throws Exception {
+    thrown.expect(NonExistentLineException.class);
+    thrown.expectMessage(" is invalid");
+
     cursor.toLineNumber(Integer.valueOf(mockDocument.getNumberOfLines().intValue() + 1));
   }
 
-  @Test(expected = NonExistentLineException.class)
+  @Test
   public void Cursor_setToNegativeLineNumber_nonExistentLineExceptionIsThrown() throws Exception {
+    thrown.expect(NonExistentLineException.class);
+    thrown.expectMessage(" is invalid");
+
     cursor.toLineNumber(Integer.valueOf(-1));
   }
 
@@ -198,9 +218,12 @@ public class CursorAcceptanceTests {
     assertNotEquals(anotherCursor.hashCode(), cursor.hashCode());
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void Cursor_setToCursorToCursorFromAnotherDocument_IllegalArgumentExceptionIsThrown()
       throws Exception {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage(" from another document");
+
     Integer lineNumber = Integer.valueOf(2);
     VisibleDocumentImp anotherMockDocument = mock(VisibleDocumentImp.class);
     when(anotherMockDocument.getLineNumberAtEof()).thenReturn(23);
@@ -210,13 +233,19 @@ public class CursorAcceptanceTests {
     cursor.toCursor(anotherCursor);
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void Cursor_toCursorPassedANull_NullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("cursor cannot be null");
+
     cursor.toCursor(null);
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void Cursor_toLineNumberPassedANull_NullPointerExceptionIsThrown() throws Exception {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("lineNumber is null");
+
     cursor.toLineNumber(null);
   }
 }

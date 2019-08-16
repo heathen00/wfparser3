@@ -8,7 +8,9 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import com.ht.wfp3.api.document.Cursor;
 import com.ht.wfp3.api.document.DocumentFactory;
 import com.ht.wfp3.api.document.DocumentView;
@@ -69,6 +71,10 @@ import com.ht.wfp3.api.statement.VertexReferenceGroup;
 import com.ht.wfp3.api.statement.VertexReferenceGroupBuilder;
 
 public class DocumentViewStatementCreationAcceptanceTests {
+
+  @Rule
+  public ExpectedException thrown = ExpectedException.none();
+
   private StatementFactory statementFactory;
 
   private VisibleDocumentImp objDocument;
@@ -114,16 +120,22 @@ public class DocumentViewStatementCreationAcceptanceTests {
 
   // Error scenarios.
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void DocumentView_appendApiGuardIsPassedANullCursor_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("cursor cannot be null");
+
     GeoVertex geoVertex = statementFactory.createGeoVertex(BigDecimal.valueOf(5.555),
         BigDecimal.valueOf(5.555), BigDecimal.valueOf(5.555), BigDecimal.valueOf(5.555));
 
     objDocument.guardAppendApis(geoVertex, null);
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void DocumentView_appendApiGuardIsPassedCursorFromAnotherDocumentView_illegalArgumentExceptionIsThrown() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("cursor not from this document");
+
     VisibleDocumentImp otherDocument = new VisibleDocumentImp();
     Cursor otherCursor = otherDocument.createCursor();
     GeoVertex geoVertex = statementFactory.createGeoVertex(BigDecimal.valueOf(5.555),
@@ -132,33 +144,48 @@ public class DocumentViewStatementCreationAcceptanceTests {
     objDocument.guardAppendApis(geoVertex, otherCursor);
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void DocumentView_appendApiGuardIsPassedANullStatement_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("statement cannot be null");
+
     objDocument.guardAppendApis(null, cursor);
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void DocumentView_appendApiGuardIsPassedAnUnknownStatement_illegalArgumentExceptionIsThrown() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("unsupported statement");
+
     UnknownStatementStub unknownStatement = new UnknownStatementStub();
 
     objDocument.guardAppendApis(unknownStatement, cursor);
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void DocumentView_peekAtDocumentLineWithNullCursor_nullPointerExceptionIsThrown()
       throws Exception {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("cursor cannot be null");
+
     objDocument.peek(null);
   }
 
-  @Test(expected = EmptyDocumentException.class)
+  @Test
   public void DocumentView_peekInEmptyDocumentView_emptyDocumentExceptionIsThrown()
       throws Exception {
+    thrown.expect(EmptyDocumentException.class);
+    thrown.expectMessage("document is empty");
+
     objDocument.peek(cursor);
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void DocumentView_peekUsingCursorFromAnotherDocumentView_illegalArgumentExceptionIsThrown()
       throws Exception {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("cursor not from this document");
+
     VisibleDocumentImp otherDocument = new VisibleDocumentImp();
     Cursor otherCursor = otherDocument.createCursor();
     otherCursor.toEof();

@@ -68,16 +68,16 @@ class DocumentViewImp implements DocumentView {
   @VisibleForTesting
   public void guardAppendApis(Statement statement, Cursor cursor) {
     if (null == cursor) {
-      throw new NullPointerException("cursor cannot be null.");
+      throw new NullPointerException("cursor cannot be null");
     }
     if (null == statement) {
       throw new NullPointerException("statement cannot be null");
     }
     if (!cursorImpList.contains(cursor)) {
-      throw new IllegalArgumentException("cursor not from this document.");
+      throw new IllegalArgumentException("cursor not from this document");
     }
     if (!statementFactory.isSupportedStatement(statement)) {
-      throw new IllegalArgumentException("unsupported statement.");
+      throw new IllegalArgumentException("unsupported statement");
     }
   }
 
@@ -97,13 +97,13 @@ class DocumentViewImp implements DocumentView {
   @Override
   public DocumentLine peek(Cursor cursor) throws EmptyDocumentException {
     if (null == cursor) {
-      throw new NullPointerException("cursor cannot be null.");
+      throw new NullPointerException("cursor cannot be null");
     }
     if (!cursorImpList.contains(cursor)) {
-      throw new IllegalArgumentException("cursor not from this document.");
+      throw new IllegalArgumentException("cursor not from this document");
     }
     if (linesMap.size() == 0) {
-      throw new EmptyDocumentException("the document is empty");
+      throw new EmptyDocumentException("document is empty");
     }
     return linesMap.get(cursor.getLineNumber());
   }

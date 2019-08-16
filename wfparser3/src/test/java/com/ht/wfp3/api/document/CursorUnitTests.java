@@ -3,7 +3,9 @@ package com.ht.wfp3.api.document;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -11,6 +13,9 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CursorUnitTests {
+
+  @Rule
+  public ExpectedException thrown = ExpectedException.none();
 
   @Mock
   private VisibleDocumentImp mockDocument;
@@ -44,9 +49,11 @@ public class CursorUnitTests {
     assertEquals(cursor, cursor);
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void Cursor_createCursorImpWithNullDocument_NullPointerExceptionIsThrown() {
-    @SuppressWarnings("unused")
-    VisibleCursorImp cursorToTest = new VisibleCursorImp(null);
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("document cannot be null");
+
+    new VisibleCursorImp(null);
   }
 }
