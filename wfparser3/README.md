@@ -200,6 +200,10 @@ There are a number of problems with the localization implementation I currently 
      caching factory and then the validator.  The validator first validates the input, the caching
      factory checks to see if an instance with the given input parameters already exists, and if
      not, the creator factory creates one!  All with very clear roles and responsibilities.
+   * I like the validation implementation in the Localizer more than the validation implementation
+     for the "statement" or "document" subsystems.  I think it makes more sense since I get better
+     code reuse and having all the validation in the factory instead of the constructors means
+     that no memory allocation is incurred until after I know the data being used is valid.
 
      
 HERE:  

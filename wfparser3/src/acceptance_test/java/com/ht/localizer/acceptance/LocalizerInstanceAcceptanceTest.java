@@ -1,9 +1,7 @@
 package com.ht.localizer.acceptance;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 import java.util.Locale;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,7 +18,6 @@ public class LocalizerInstanceAcceptanceTest {
   private TestableLocalizerFactory testableLocalizerFactory;
   private StubLocalizerFactory stubLocalizerFactory;
   private Localizer stubLocalizer;
-  private LocalizerType stubLocalizerType;
 
   @Before
   public void setup() throws Exception {
@@ -29,12 +26,10 @@ public class LocalizerInstanceAcceptanceTest {
     testableLocalizerFactory.resetAll();
     stubLocalizerFactory = StubLocalizerFactory.createStubLocalizerFactory();
     stubLocalizer = stubLocalizerFactory.createLocalizer("stub.localizer", Locale.CANADA_FRENCH);
-    stubLocalizerType = stubLocalizerFactory.createLocalizerType(stubLocalizer, "stub.group",
-        "stub.type", "stub.method");
   }
 
   @Test
-  public void LocalizerInstance_createFactories_factoriesCreated() {
+  public void LocalizerInstance_createTestingAssets_testingAssetsCreated() {
     assertNotNull(testableLocalizerFactory);
     assertNotNull(stubLocalizerFactory);
   }
