@@ -4,8 +4,8 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
 import com.ht.wrap.Assert;
-import com.ht.wrap.WrapperFactory;
 import com.ht.wrap.ResourceBundleWrapper;
+import com.ht.wrap.WrapperFactory;
 
 import java.util.IllegalFormatConversionException;
 import java.util.Locale;
@@ -13,18 +13,24 @@ import java.util.MissingFormatArgumentException;
 import java.util.MissingResourceException;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 public class ResourceBundleWrapperAcceptanceTest {
+
+  @Rule
+  public ExpectedException thrown = ExpectedException.none();
+
   private WrapperFactory wrapperFactory;
   private Assert wrapperAssert;
 
-  private final Locale defaultExpectedLocale = Locale.CANADA_FRENCH;
-  private final String defaultExistingUnformattedKey = "test.unformatted.key";
-  private final String defaultExistingFormattedKey = "test.formatted.key";
-  private final Object[] defaultExpectedFormatObjectsArray = { "some string", Integer.valueOf(33) };
-  private final String defaultNonexistentUnformattedKey = "non.existent.unformatted.key";
-  private final String defaultNonexistentFormattedKey = "non.existent.formatted.key";
+  private Locale defaultExpectedLocale;
+  private String defaultExistingUnformattedKey;
+  private String defaultExistingFormattedKey;
+  private Object[] defaultExpectedFormatObjectsArray;
+  private String defaultNonexistentUnformattedKey;
+  private String defaultNonexistentFormattedKey;
 
 
   private String generateResourceBundleStringToCheck(String rootString,
@@ -37,19 +43,35 @@ public class ResourceBundleWrapperAcceptanceTest {
   }
 
   @Before
-  public void setUp() throws Exception {
+  public void setUp() {
     wrapperFactory = WrapperFactory.createWrapperFactory();
     wrapperAssert = Assert.createWrapperAssert();
+
+    defaultExpectedLocale = Locale.CANADA_FRENCH;
+    defaultExistingUnformattedKey = "test.unformatted.key";
+    defaultExistingFormattedKey = "test.formatted.key";
+    defaultExpectedFormatObjectsArray = new Object[] { "some string", Integer.valueOf(33) };
+    defaultNonexistentUnformattedKey = "non.existent.unformatted.key";
+    defaultNonexistentFormattedKey = "non.existent.formatted.key";
   }
 
   @Test
   public void ResourceBundleWrapper_createTestingAssets_testingAssetsAreCreated() {
     assertNotNull(wrapperFactory);
     assertNotNull(wrapperAssert);
+    assertNotNull(defaultExpectedLocale);
+    assertNotNull(defaultExistingUnformattedKey);
+    assertNotNull(defaultExistingFormattedKey);
+    assertNotNull(defaultExpectedFormatObjectsArray);
+    assertNotNull(defaultNonexistentUnformattedKey);
+    assertNotNull(defaultNonexistentFormattedKey);
   }
 
-  @Test(expected = MissingResourceException.class)
+  @Test
   public void ResourceBundleWrapper_loadResourceBundleThatDoesNotExistForSpecificLocale_MissingResourceExceptionIsThrown() {
+    thrown.expect(MissingResourceException.class);
+    thrown.expectMessage("Can't find bundle for base name");
+
     ResourceBundleWrapper resourceBundleWrapper =
         wrapperFactory.createResourceBundleWrapperForLocale("resource.bundle.does.not.Exist",
             Locale.CANADA_FRENCH);
@@ -57,8 +79,11 @@ public class ResourceBundleWrapperAcceptanceTest {
     resourceBundleWrapper.loadResourceBundle();
   }
 
-  @Test(expected = MissingResourceException.class)
+  @Test
   public void ResourceBundleWraper_loadResourceBundleThatDoesNotExistForDefaultLocale_missingResourceExceptionIsThrown() {
+    thrown.expect(MissingResourceException.class);
+    thrown.expectMessage("Can't find bundle for base name");
+
     ResourceBundleWrapper resourceBundleWrapper =
         wrapperFactory.createResourceBundleWrapperForLocale("resource.bundle.does.not.Exist",
             Locale.getDefault());
@@ -66,8 +91,11 @@ public class ResourceBundleWrapperAcceptanceTest {
     resourceBundleWrapper.loadResourceBundle();
   }
 
-  @Test(expected = MissingResourceException.class)
+  @Test
   public void ResourceBundleWrapper_loadResourceBundleThatDoesNotExistForRootLocale_missingResourceExceptionIsThrown() {
+    thrown.expect(MissingResourceException.class);
+    thrown.expectMessage("Can't find bundle for base name");
+
     ResourceBundleWrapper resourceBundleWrapper = wrapperFactory
         .createResourceBundleWrapperForLocale("resource.bundle.does.not.Exist", Locale.ROOT);
 
@@ -244,8 +272,11 @@ public class ResourceBundleWrapperAcceptanceTest {
         defaultExistingUnformattedKey, defaultExistingFormattedKey, resourceBundleWrapper);
   }
 
-  @Test(expected = MissingResourceException.class)
+  @Test
   public void ResourceBundleWrapper_getUnformattedStringThatDoesNotExistInResourceBundle_missingResourceExceptionIsThrown() {
+    thrown.expect(MissingResourceException.class);
+    thrown.expectMessage("Can't find resource for bundle ");
+
     final String expectedResourceBundleBaseName =
         "com.ht.wrap.test.resource.ResourceBundleWrapperExistsNonExistentStringDefinitions";
     ResourceBundleWrapper resourceBundleWrapper =
@@ -260,8 +291,11 @@ public class ResourceBundleWrapperAcceptanceTest {
     resourceBundleWrapper.getUnformattedString(defaultNonexistentUnformattedKey);
   }
 
-  @Test(expected = MissingResourceException.class)
+  @Test
   public void ResourceBundleWrapper_getFormattedStringThatDoesNotExistInResourceBundle_missingResourceExceptionIsThrown() {
+    thrown.expect(MissingResourceException.class);
+    thrown.expectMessage("Can't find resource for bundle");
+
     final String expectedResourceBundleBaseName =
         "com.ht.wrap.test.resource.ResourceBundleWrapperExistsNonExistentStringDefinitions";
     ResourceBundleWrapper resourceBundleWrapper =
@@ -295,8 +329,11 @@ public class ResourceBundleWrapperAcceptanceTest {
         defaultExistingUnformattedKey, defaultExistingFormattedKey, resourceBundleWrapper);
   }
 
-  @Test(expected = MissingFormatArgumentException.class)
+  @Test
   public void ResourceBundleWrapper_getFormattedStringButNoFormatObjectsSpecified_missingFormatArgumentExceptionIsThrown() {
+    thrown.expect(MissingFormatArgumentException.class);
+    thrown.expectMessage("Format specifier ");
+
     final String expectedResourceBundleBaseName =
         "com.ht.wrap.test.resource.ResourceBundleWrapperExistsStringDefinitionsExist";
     ResourceBundleWrapper resourceBundleWrapper =
@@ -307,8 +344,10 @@ public class ResourceBundleWrapperAcceptanceTest {
     resourceBundleWrapper.getFormattedString(defaultExistingFormattedKey);
   }
 
-  @Test(expected = IllegalFormatConversionException.class)
+  @Test
   public void ResourceBundleWrapper_getFormattedStringButWrongObjectTypesSpecifiedForFormatObjects_IllegalFormatConversionExceptionIsThrown() {
+    thrown.expect(IllegalFormatConversionException.class);
+
     final String expectedResourceBundleBaseName =
         "com.ht.wrap.test.resource.ResourceBundleWrapperExistsStringDefinitionsExist";
     ResourceBundleWrapper resourceBundleWrapper =

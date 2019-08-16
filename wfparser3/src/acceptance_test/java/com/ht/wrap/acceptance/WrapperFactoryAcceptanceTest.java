@@ -9,9 +9,15 @@ import com.ht.wrap.WrapperFactory;
 import java.util.Locale;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 public class WrapperFactoryAcceptanceTest {
+
+  @Rule
+  public ExpectedException thrown = ExpectedException.none();
+
   private WrapperFactory wrapperFactory;
   private Assert wrapperAssert;
 
@@ -27,18 +33,27 @@ public class WrapperFactoryAcceptanceTest {
     assertNotNull(wrapperAssert);
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void WrapperFactory_createResourceBundleWrapperForLocaleWithNullResourceName_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("baseBundleName cannot be null");
+
     wrapperFactory.createResourceBundleWrapperForLocale((String) null, Locale.CANADA_FRENCH);
   }
 
-  @Test(expected = UnsupportedOperationException.class)
+  @Test
   public void WrapperFactory_createResourceBundleWraperForLocaleWithEmptyResourceName_unsupportedOperationExceptionIsThrown() {
+    thrown.expect(UnsupportedOperationException.class);
+    thrown.expectMessage("baseBundleName cannot be empty");
+
     wrapperFactory.createResourceBundleWrapperForLocale("   ", Locale.CANADA_FRENCH);
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void WrapperFactory_createResourceBundleWrapperForLocaleWithNullLocale_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("locale cannot be null");
+
     wrapperFactory.createResourceBundleWrapperForLocale("com.resource.name.is.NotImportant", null);
   }
 
@@ -54,13 +69,19 @@ public class WrapperFactoryAcceptanceTest {
         resourceBundleWrapper);
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void WrapperFactory_createResourceBundleWrapperForRootLocaleWithNullResourceName_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("baseBundleName cannot be null");
+
     wrapperFactory.createResourceBundleWrapperForRootLocale((String) null);
   }
 
-  @Test(expected = UnsupportedOperationException.class)
+  @Test
   public void WrapperFactory_createResourceBundleWrapperForRootLocaleWithEmptyResourceName_unsupportedOperationExceptionIsThrown() {
+    thrown.expect(UnsupportedOperationException.class);
+    thrown.expectMessage("baseBundleName cannot be empty");
+
     wrapperFactory.createResourceBundleWrapperForRootLocale("   ");
   }
 
