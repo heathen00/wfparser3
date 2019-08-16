@@ -8,9 +8,14 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 public class MessageFactoryTest {
+
+  @Rule
+  public ExpectedException thrown = ExpectedException.none();
 
   private MessageSystemInternal messageSystemInternal;
   private MessageFactory messageFactory;
@@ -22,36 +27,49 @@ public class MessageFactoryTest {
     messageFactory = messageSystemInternal.getMessageFactory();
   }
 
-  // TODO you should research more detailed exception testing since in this case you need to ensure
-  // The correct behaviour of the exception, too. There is something about Rules.
-  @Test(expected = ConstraintViolationException.class)
+  @Test
   public void MessageFactory_addPriorityWithNullUidKey_constraintViolationExceptionIsThrown()
       throws Exception {
+    thrown.expect(ConstraintViolationException.class);
+    thrown.expectMessage("uidKey cannot be null");
+
     messageFactory.addPriority(null);
   }
 
-  @Test(expected = ConstraintViolationException.class)
+  @Test
   public void MessageFactory_addPriorityWithEmptyUidKey_constraintViolationExceptionIsThrown()
       throws Exception {
+    thrown.expect(ConstraintViolationException.class);
+    thrown.expectMessage("uidKey can only contain");
+
     messageFactory.addPriority("   \t");
   }
 
-  @Test(expected = ConstraintViolationException.class)
+  @Test
   public void MessageFactory_addPriorityWithUidKeyContainingWhitespaceOrNewLines_constraintViolationExceptionIsThrown()
       throws Exception {
+    thrown.expect(ConstraintViolationException.class);
+    thrown.expectMessage("uidKey can only contain ");
+
     messageFactory.addPriority("not\tvalid");
   }
 
-  @Test(expected = ConstraintViolationException.class)
+  @Test
   public void MessageFactory_addPriorityWithUidKeyIsTooLong_constraintViolationExceptionIsThrown()
       throws Exception {
+    thrown.expect(ConstraintViolationException.class);
+    thrown.expectMessage("uidKey length must be less than or equal to ");
+
     messageFactory.addPriority(
         "uidkey.cannot.be.too.long.or.the.message.system.will.throw.a.constraint.violation");
   }
 
-  @Test(expected = ConstraintViolationException.class)
+  @Test
   public void MessageFactory_addPriorityWithUidKeyContainingInvalidCharacters_constraintViolationExceptionIsThrown()
       throws Exception {
+    thrown.expect(ConstraintViolationException.class);
+    thrown.expectMessage("uidKey can only contain");
+
     messageFactory.addPriority("Invalid_Key_012345");
   }
 
@@ -64,9 +82,12 @@ public class MessageFactoryTest {
     assertNotNull(testingPriority);
   }
 
-  @Test(expected = ConstraintViolationException.class)
+  @Test
   public void MessageFactory_addPriorityWithDuplicateUidKey_constraintViolationExceptionIsThrown()
       throws Exception {
+    thrown.expect(ConstraintViolationException.class);
+    thrown.expectMessage("already exists");
+
     String testingUidKey = "testing";
     messageFactory.addPriority(testingUidKey);
 
@@ -129,35 +150,50 @@ public class MessageFactoryTest {
     }
   }
 
-  @Test(expected = ConstraintViolationException.class)
+  @Test
   public void MessageFactory_addTopicWithNullUidKey_constraintViolationExceptionIsThrown()
       throws Exception {
+    thrown.expect(ConstraintViolationException.class);
+    thrown.expectMessage("uidKey cannot be null");
+
     messageFactory.addTopic(null);
   }
 
-  @Test(expected = ConstraintViolationException.class)
+  @Test
   public void MessageFactory_addTopicWithEmptyUidKey_constraintViolationExceptionIsThrown()
       throws Exception {
+    thrown.expect(ConstraintViolationException.class);
+    thrown.expectMessage("uidKey can only contain ");
+
     messageFactory.addTopic(" \t");
   }
 
-  @Test(expected = ConstraintViolationException.class)
+  @Test
   public void MessageFactory_addTopicWithUidKeyContainingWhitespaceOrNewLines_constraintViolationExceptionIsThrown()
       throws Exception {
+    thrown.expect(ConstraintViolationException.class);
+    thrown.expectMessage("uidKey can only contain ");
+
     messageFactory.addTopic("not\tvalid");
   }
 
-  @Test(expected = ConstraintViolationException.class)
+  @Test
   public void MessageFactory_addTopicWithUidKeyIsTooLong_constraintViolationExceptionIsThrown()
       throws Exception {
+    thrown.expect(ConstraintViolationException.class);
+    thrown.expectMessage("uidKey length must be less than or equal to ");
+
     messageFactory.addTopic(
         "uidkey.cannot.be.too.long.or.the.message.system.will.throw.a.constraint.violation");
 
   }
 
-  @Test(expected = ConstraintViolationException.class)
+  @Test
   public void MessageFactory_addTopicWithUidKeyContainingInvalidCharacters_constraintViolationExceptionIsThrown()
       throws Exception {
+    thrown.expect(ConstraintViolationException.class);
+    thrown.expectMessage("uidKey can only contain");
+
     messageFactory.addTopic("invalid_key_012345");
   }
 
@@ -170,9 +206,12 @@ public class MessageFactoryTest {
     assertNotNull(testingTopic);
   }
 
-  @Test(expected = ConstraintViolationException.class)
+  @Test
   public void MessageFactory_addTopicWithDuplicateUidKey_constraintViolationExceptionIsThrown()
       throws Exception {
+    thrown.expect(ConstraintViolationException.class);
+    thrown.expectMessage(" already exists");
+
     String testingUidKey = "testing";
     messageFactory.addTopic(testingUidKey);
 
@@ -235,34 +274,49 @@ public class MessageFactoryTest {
     }
   }
 
-  @Test(expected = ConstraintViolationException.class)
+  @Test
   public void MessageFactory_addDescriptionWithNullUidKey_constraintViolationExceptionIsThrown()
       throws Exception {
+    thrown.expect(ConstraintViolationException.class);
+    thrown.expectMessage("uidKey cannot be null");
+
     messageFactory.addDescription(null);
   }
 
-  @Test(expected = ConstraintViolationException.class)
+  @Test
   public void MessageFactory_addDescriptionWithEmptyUidKey_constraintViolationExceptionIsThrown()
       throws Exception {
+    thrown.expect(ConstraintViolationException.class);
+    thrown.expectMessage("uidKey can only contain lower case letters and periods");
+
     messageFactory.addDescription(" \t");
   }
 
-  @Test(expected = ConstraintViolationException.class)
+  @Test
   public void MessageFactory_addDescriptionWithUidKeyContainingWhitespaceOrNewLines_constraintViolationExceptionIsThrown()
       throws Exception {
+    thrown.expect(ConstraintViolationException.class);
+    thrown.expectMessage("uidKey can only contain ");
+
     messageFactory.addDescription("not\nvalid");
   }
 
-  @Test(expected = ConstraintViolationException.class)
+  @Test
   public void MessageFactory_addDescriptionWithUidKeyIsTooLong_constraintViolationExceptionIsThrown()
       throws Exception {
+    thrown.expect(ConstraintViolationException.class);
+    thrown.expectMessage("uidKey length must be less than or equal to 50");
+
     messageFactory.addDescription(
         "uidkey.cannot.be.too.long.or.the.message.system.will.throw.a.constraint.violation");
   }
 
-  @Test(expected = ConstraintViolationException.class)
+  @Test
   public void MessageFactory_addDescriptionWithUidKeyContainingInvalidCharacters_constraintViolationExceptionIsThrown()
       throws Exception {
+    thrown.expect(ConstraintViolationException.class);
+    thrown.expectMessage("uidKey can only contain ");
+
     messageFactory.addDescription("invalidkey012345");
   }
 
@@ -275,9 +329,12 @@ public class MessageFactoryTest {
     assertNotNull(testingDescription);
   }
 
-  @Test(expected = ConstraintViolationException.class)
+  @Test
   public void MessageFactory_addDescriptionWithDuplicateUidKey_constraintViolationExceptionIsThrown()
       throws Exception {
+    thrown.expect(ConstraintViolationException.class);
+    thrown.expectMessage("already exists");
+
     String testingUidKey = "testing";
     messageFactory.addDescription(testingUidKey);
 
@@ -386,23 +443,32 @@ public class MessageFactoryTest {
     }
   }
 
-  @Test(expected = ConstraintViolationException.class)
+  @Test
   public void MessageFactory_addMessageWithNullTopicUid_constraintViolationExceptionIsThrown()
       throws Exception {
+    thrown.expect(ConstraintViolationException.class);
+    thrown.expectMessage("topicUid cannot be null");
+
     messageFactory.addMessage(null, messageFactory.addPriority("testing"),
         messageFactory.addDescription("testing.unformatted"));
   }
 
-  @Test(expected = ConstraintViolationException.class)
+  @Test
   public void MessageFactory_addMessageWithNullPriorityUid_constraintViolationExceptionIsThrown()
       throws Exception {
+    thrown.expect(ConstraintViolationException.class);
+    thrown.expectMessage("priorityUid cannot be null");
+
     messageFactory.addMessage(messageFactory.addTopic("testing"), null,
         messageFactory.addDescription("testing.unformatted"));
   }
 
-  @Test(expected = ConstraintViolationException.class)
+  @Test
   public void MessageFactory_addMessageWithNullDescriptionUid_constraintViolationExceptionIsThrown()
       throws Exception {
+    thrown.expect(ConstraintViolationException.class);
+    thrown.expectMessage("descriptionUid cannot be null");
+
     messageFactory.addMessage(messageFactory.addTopic("testing"),
         messageFactory.addPriority("testing"), null);
   }
@@ -484,9 +550,12 @@ public class MessageFactoryTest {
     assertEquals(expectedDescriptionUid, secondMessage.getDescription().getUid());
   }
 
-  @Test(expected = ConstraintViolationException.class)
+  @Test
   public void MessageFactory_addMultipleMessagesWithSameTopicSameDescriptionButDifferentPriorities_constraintViolationExceptionIsThrown()
       throws Exception {
+    thrown.expect(ConstraintViolationException.class);
+    thrown.expectMessage("already exists");
+
     UID<Topic> expectedTopicUid = messageFactory.addTopic("testing");
     UID<Priority> expectedFirstPriorityUid = messageFactory.addPriority("testing");
     UID<Priority> expectedSecondPriorityUid = messageFactory.addPriority("testing.two");

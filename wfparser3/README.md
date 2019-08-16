@@ -204,6 +204,8 @@ There are a number of problems with the localization implementation I currently 
      for the "statement" or "document" subsystems.  I think it makes more sense since I get better
      code reuse and having all the validation in the factory instead of the constructors means
      that no memory allocation is incurred until after I know the data being used is valid.
+   * The message subsystem unit tests look like acceptance tests.  Maybe you should move them to
+     the correct location.
 
      
 HERE:  
