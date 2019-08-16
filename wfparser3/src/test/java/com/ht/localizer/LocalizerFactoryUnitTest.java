@@ -3,7 +3,9 @@ package com.ht.localizer;
 import static org.junit.Assert.assertNotNull;
 import java.util.Locale;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import com.ht.uid.Uid;
 import com.ht.uid.UidFactory;
 import com.ht.wrap.ResourceBundleWrapperConfigurator;
@@ -11,6 +13,10 @@ import com.ht.wrap.StubWrapperFactory;
 import com.ht.wrap.WrapperFactory;
 
 public class LocalizerFactoryUnitTest {
+
+  @Rule
+  public ExpectedException thrown = ExpectedException.none();
+
   private LocalizerFactoryInternal localizerFactoryInternal;
   private StubLocalizerFactory stubLocalizerFactory;
   private Localizer stubLocalizer;
@@ -111,24 +117,33 @@ public class LocalizerFactoryUnitTest {
         expectedMethodName, expectedIsDefined, localizerType);
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void LocalizerFactory_createRootLocaleLocalizerBundleWithNullLocalizer_nullPointerExceptionIsThrown()
       throws Exception {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("localizerInternal cannot be null");
+
     localizerFactoryInternal.createRootLocaleLocalizerBundle(null,
         "com.resource.bundle.name.DoesNotMatter");
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void LocalizerFactory_createRootLocaleLocalizerBundleWithNullResourceBundleName_nullPointerExceptionIsThrown()
       throws Exception {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("resourceBundleName cannot be null");
+
     localizerFactoryInternal.createRootLocaleLocalizerBundle(
         localizerFactoryInternal.createLocalizerInternal("localizer.name", Locale.CANADA_FRENCH),
         null);
   }
 
-  @Test(expected = LocalizerException.class)
+  @Test
   public void LocalizerFactory_createRootLocaleLocalizerBundleWithNonExistentResourceBundle_localizerExceptionIsThrown()
       throws Exception {
+    thrown.expect(LocalizerException.class);
+    thrown.expectMessage("resource bundle does not exist");
+
     resourceBundleWrapperForRootLocaleConfigurator.resetAll().doesResourceBundleExist(false);
     LocalizerInternal localizerInternal =
         localizerFactoryInternal.createLocalizerInternal("localizer.name", Locale.CANADA_FRENCH);
@@ -156,24 +171,33 @@ public class LocalizerFactoryUnitTest {
         expectedResourceBundleName, expectedIsDefined, localizerIntrnal, localizerBundle);
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void LocalizerFactory_createLocalizerBundleWithNullLocalizer_nullPointerExceptionIsThrown()
       throws Exception {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("localizerInternal cannot be null");
+
     localizerFactoryInternal.createTargetLocalizerBundle(null,
         "com.resource.bundle.name.DoesNotMatter");
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void LocalizerFactory_createLocalizerBundleWithNullResourceBundleName_nullPointerExceptionIsThrown()
       throws Exception {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("resourceBundleName cannot be null");
+
     localizerFactoryInternal.createTargetLocalizerBundle(
         localizerFactoryInternal.createLocalizerInternal("localizer.name", Locale.CANADA_FRENCH),
         null);
   }
 
-  @Test(expected = LocalizerException.class)
+  @Test
   public void LocalizerFactory_createLocalizerBundleWithNonExistentResourceBundle_localizerExceptionIsThrown()
       throws Exception {
+    thrown.expect(LocalizerException.class);
+    thrown.expectMessage("resource bundle does not exist");
+
     resourceBundleWrapperForLocaleConfigurator.resetAll().doesResourceBundleExist(false);
     LocalizerInternal localizerInternal =
         localizerFactoryInternal.createLocalizerInternal("localizer.name", Locale.CANADA_FRENCH);

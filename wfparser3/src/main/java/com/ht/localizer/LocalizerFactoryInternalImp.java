@@ -206,7 +206,7 @@ final class LocalizerFactoryInternalImp implements LocalizerFactoryInternal {
   @Override
   public void setWrapperFactory(WrapperFactory wrapperFactory) {
     if (null == wrapperFactory) {
-      throw new NullPointerException("wrapperFactory parameter cannot be null");
+      throw new NullPointerException("wrapperFactory cannot be null");
     }
     this.wrapperFactory = wrapperFactory;
   }

@@ -5,13 +5,19 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 import java.util.Locale;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import com.ht.uid.UidFactory;
 import com.ht.wrap.ResourceBundleWrapperConfigurator;
 import com.ht.wrap.StubWrapperFactory;
 import com.ht.wrap.WrapperFactory;
 
 public class LocalizerBundleUnitTest {
+
+  @Rule
+  public ExpectedException thrown = ExpectedException.none();
+
   private LocalizerFactoryInternal localizerFactoryInternal;
   private StubLocalizerFactory stubLocalizerFactory;
   private Localizer stubLocalizer;
@@ -136,9 +142,12 @@ public class LocalizerBundleUnitTest {
         .getFormattedString(unformattedInstance, "another_parameter", Double.valueOf(33.4d)));
   }
 
-  @Test(expected = LocalizerException.class)
+  @Test
   public void LocalizerBundle_getNonExistentUnformattedStringFromRootLocalizerBundle_localizerExceptionIsThrown()
       throws Exception {
+    thrown.expect(LocalizerException.class);
+    thrown.expectMessage("unformatted localized string does not exist");
+
     resourceBundleWrapperForRootLocaleConfigurator.resetAll().doesResourceBundleExist(true)
         .doesLocalizedStringExist(false);
     final LocalizerInternal localizerInternal =
@@ -158,9 +167,12 @@ public class LocalizerBundleUnitTest {
     rootLocalizerBundle.getUnformattedString(nonExistentUnformattedInstance);
   }
 
-  @Test(expected = LocalizerException.class)
+  @Test
   public void LocalizerBundle_getNonExistentFormattedStringFromRootLocalizerBundle_localizerExceptionIsThrown()
       throws Exception {
+    thrown.expect(LocalizerException.class);
+    thrown.expectMessage("formatted localized string does not exist");
+
     resourceBundleWrapperForRootLocaleConfigurator.resetAll().doesResourceBundleExist(true)
         .doesLocalizedStringExist(false);
     final LocalizerInternal localizerInternal =
@@ -220,9 +232,12 @@ public class LocalizerBundleUnitTest {
         "another_parameter", Double.valueOf(33.4d)));
   }
 
-  @Test(expected = LocalizerException.class)
+  @Test
   public void LocalizerBundle_getNonExistentUnformattedStringFromLocalizerBundleForLocale_localizerExceptionIsThrown()
       throws Exception {
+    thrown.expect(LocalizerException.class);
+    thrown.expectMessage("unformatted localized string does not exist");
+
     resourceBundleWrapperForLocaleConfigurator.resetAll().doesResourceBundleExist(true)
         .doesLocalizedStringExist(false);
     final LocalizerInternal localizerInternal =
@@ -242,9 +257,12 @@ public class LocalizerBundleUnitTest {
     localizerBundle.getUnformattedString(nonExistentUnformattedInstance);
   }
 
-  @Test(expected = LocalizerException.class)
+  @Test
   public void LocalizerBundle_getNonExistentformattedStringFromLocalizerBundleForLocale_localizerExceptionIsThrown()
       throws Exception {
+    thrown.expect(LocalizerException.class);
+    thrown.expectMessage("formatted localized string does not exist");
+
     resourceBundleWrapperForLocaleConfigurator.resetAll().doesResourceBundleExist(true)
         .doesLocalizedStringExist(false);
     final LocalizerInternal localizerInternal =

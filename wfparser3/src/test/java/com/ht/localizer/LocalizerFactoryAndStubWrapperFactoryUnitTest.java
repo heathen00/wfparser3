@@ -2,12 +2,17 @@ package com.ht.localizer;
 
 import static org.junit.Assert.assertEquals;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import com.ht.uid.UidFactory;
 import com.ht.wrap.StubWrapperFactory;
 import com.ht.wrap.WrapperFactory;
 
 public class LocalizerFactoryAndStubWrapperFactoryUnitTest {
+
+  @Rule
+  public ExpectedException thrown = ExpectedException.none();
 
   private LocalizerFactoryInternal localizerFactoryInternal;
 
@@ -18,8 +23,11 @@ public class LocalizerFactoryAndStubWrapperFactoryUnitTest {
     localizerFactoryInternal.resetAll();
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void LocalizerFactory_setWrapperFactoryWithNullParameter_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("wrapperFactory cannot be null");
+
     localizerFactoryInternal.setWrapperFactory((com.ht.wrap.WrapperFactory) null);
   }
 

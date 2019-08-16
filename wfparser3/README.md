@@ -210,6 +210,8 @@ HERE:
    * Rewrite test cases for exceptions to use a rule.
    * After converting all the tests for exceptions to use a rule, double check by searching for
      the string "expected " to ensure you did not miss any.
+   * Then you should review again to ensure that ONLY the code that you want the exception from can throw the
+     exception.
 
 
      

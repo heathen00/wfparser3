@@ -2,13 +2,19 @@ package com.ht.localizer;
 
 import static org.junit.Assert.assertNotNull;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import com.ht.uid.UidFactory;
 import com.ht.wrap.ResourceBundleWrapperConfigurator;
 import com.ht.wrap.StubWrapperFactory;
 import com.ht.wrap.WrapperFactory;
 
 public class LocalizerUnitTest {
+
+  @Rule
+  public ExpectedException thrown = ExpectedException.none();
+
   private LocalizerFactoryInternal localizerFactoryInternal;
   private StubWrapperFactory stubWrapperFactory;
   private Assert localizerAssert;
@@ -39,9 +45,12 @@ public class LocalizerUnitTest {
     assertNotNull(localizerAssert);
   }
 
-  @Test(expected = UnsupportedOperationException.class)
+  @Test
   public void Localizer_addLocalizerInstanceToUndefinedLocalizerType_unsupportedOperationExceptionIsThrown()
       throws Exception {
+    thrown.expect(UnsupportedOperationException.class);
+    thrown.expectMessage("cannot add localizer instance to undefined localizer type");
+
     LocalizerType localizerType =
         localizerFactoryInternal.createUndefinedLocalizer().getLocalizerTypeInternal(null);
 
@@ -76,18 +85,24 @@ public class LocalizerUnitTest {
         expectedFullyQualifiedName, expectedUidKey, expectedIsDefined, localizerInstance);
   }
 
-  @Test(expected = UnsupportedOperationException.class)
+  @Test
   public void Localizer_addLocalizerTypeToUndefinedLocalizer_unsupportedOperationExceptionIsThrown()
       throws Exception {
+    thrown.expect(UnsupportedOperationException.class);
+    thrown.expectMessage("cannot add localizer type to undefined localizer");
+
     Localizer localizer = localizerFactoryInternal.createUndefinedLocalizer();
 
     localizerFactoryInternal.createLocalizerType(localizer, "does.not.matter", "does.not.matter",
         "does.not.matter");
   }
 
-  @Test(expected = UnsupportedOperationException.class)
+  @Test
   public void Localizer_addLocalizerBundleToUndefinedLocalizer_unsupportedOperationExceptionIsThrown()
       throws Exception {
+    thrown.expect(UnsupportedOperationException.class);
+    thrown.expectMessage("cannot add localizer bundle to undefined localizer");
+
     resourceBundleWrapperForLocaleConfigurator.resetAll().doesResourceBundleExist(true);
     resourceBundleWrapperForRootLocaleConfigurator.resetAll().doesResourceBundleExist(true);
     Localizer localizer = localizerFactoryInternal.createUndefinedLocalizer();
