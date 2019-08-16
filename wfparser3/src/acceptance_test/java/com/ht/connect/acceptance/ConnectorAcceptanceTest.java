@@ -2,10 +2,7 @@ package com.ht.connect.acceptance;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
+
 import com.ht.connect.Connector;
 import com.ht.connect.ConnectorFactory;
 import com.ht.localizer.LocalizerFactory;
@@ -16,7 +13,16 @@ import com.ht.uid.UidFactory;
 import com.ht.wrap.StubWrapperFactory;
 import com.ht.wrap.WrapperFactory;
 
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.ExpectedException;
+
 public class ConnectorAcceptanceTest {
+
+  @Rule
+  public ExpectedException thrown = ExpectedException.none();
+
   private ConnectorFactory connectorFactory;
   private Connector connector;
   private UidFactory expectedProductionUidFactory = UidFactory.createUidFactory();
@@ -34,13 +40,19 @@ public class ConnectorAcceptanceTest {
     assertNotNull(connector);
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void Connector_setUidFactoryWithNullParameter_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("uidFactory cannot be null");
+
     connector.setUidFactory(null);
   }
 
-  @Test(expected = UnsupportedOperationException.class)
+  @Test
   public void Connector_getUidFactoryWithoutFirstSettingUidFactory_unsupportedOperationExceptionIsThrown() {
+    thrown.expect(UnsupportedOperationException.class);
+    thrown.expectMessage("uidFactory must be set before getting it");
+
     connector.getUidFactory();
   }
 
@@ -84,13 +96,19 @@ public class ConnectorAcceptanceTest {
     assertEquals(expectedTestableUidFactory, uidFactory);
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void Connector_setWrapperFactoryWithNullParameter_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("wrapperFactory cannot be null");
+
     connector.setWrapperFactory(null);
   }
 
-  @Test(expected = UnsupportedOperationException.class)
+  @Test
   public void Connector_getWrapperFactoryWithoutFirstSettingWrapperFactory_unsupportedOperationExceptionIsThrown() {
+    thrown.expect(UnsupportedOperationException.class);
+    thrown.expectMessage("wrapperFactory must be set before getting it");
+
     connector.getWrapperFactory();
   }
 
@@ -134,13 +152,19 @@ public class ConnectorAcceptanceTest {
     assertEquals(expectedStubWrapperFactory, wrapperFactory);
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void Connector_setLocalizerFactoryWithNullParameter_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("localizerFactory cannot be null");
+
     connector.setLocalizerFactory(null);
   }
 
-  @Test(expected = UnsupportedOperationException.class)
+  @Test
   public void Connector_getLocalizerFactoryWithoutFirstSettingLocalizerFactory_unsupportedOperationExceptionIsThrown() {
+    thrown.expect(UnsupportedOperationException.class);
+    thrown.expectMessage("localizerFactory must be set before getting it");
+
     connector.getLocalizerFactory();
   }
 

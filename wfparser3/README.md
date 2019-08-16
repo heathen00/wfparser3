@@ -204,6 +204,8 @@ There are a number of problems with the localization implementation I currently 
      
 HERE:  
    * Rewrite test cases for exceptions to use a rule.
+   * After converting all the tests for exceptions to use a rule, double check by searching for
+     the string "expected " to ensure you did not miss any.
 
 
      
