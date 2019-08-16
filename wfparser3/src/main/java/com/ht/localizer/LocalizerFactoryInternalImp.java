@@ -73,7 +73,7 @@ final class LocalizerFactoryInternalImp implements LocalizerFactoryInternal {
     if (null != currentLocalizerInternal) {
       if (!newLocalizerInternal.getLocale().equals(currentLocalizerInternal.getLocale())) {
         throw new LocalizerException(
-            "attempt to create existing Localizer but with different Locale.");
+            "attempt to create existing Localizer but with different Locale");
       }
       newLocalizerInternal = currentLocalizerInternal;
     } else {
@@ -143,6 +143,7 @@ final class LocalizerFactoryInternalImp implements LocalizerFactoryInternal {
   public LocalizerInstance createLocalizerInstance(LocalizerType localizerType, String instanceName)
       throws LocalizerException {
     guardNotNull("localizerType", localizerType);
+    guardNotNull("instanceName", instanceName);
     guardNamingConvention("instanceName", instanceName);
     LocalizerTypeInternal localizerTypeInternal = null;
     if (localizerType instanceof LocalizerTypeInternal) {

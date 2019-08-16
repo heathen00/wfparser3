@@ -9,7 +9,10 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
+
 import com.ht.localizer.Assert;
 import com.ht.localizer.Localizer;
 import com.ht.localizer.LocalizerBundle;
@@ -25,6 +28,10 @@ import com.ht.wrap.StubWrapperFactory;
 import com.ht.wrap.WrapperFactory;
 
 public class LocalizerAcceptanceTest {
+
+  @Rule
+  public ExpectedException thrown = ExpectedException.none();
+
   private TestableLocalizerFactory testableLocalizerFactory;
   private StubLocalizerFactory stubLocalizerFactory;
   private Localizer stubLocalizer;
@@ -61,8 +68,11 @@ public class LocalizerAcceptanceTest {
     assertNotNull(localizerAssert);
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void Localizer_setLocaleToNull_nullPointerExceptionIsThrown() throws Exception {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("locale cannot be null");
+
     Localizer localize = testableLocalizerFactory.createLocalizer("localizer.name", Locale.CHINESE);
     localize.setLocale(null);
   }
@@ -128,9 +138,12 @@ public class LocalizerAcceptanceTest {
     localizerAssert.assertSetIsUnmodifiable(localizer.getLocalizerBundleSet());
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void Localizer_getLocalizerTypeWithNullParameter_nullPointerExceptionIsThrown()
       throws Exception {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("typeUid cannot be null");
+
     Localizer localizer =
         testableLocalizerFactory.createLocalizer("localizer.name", Locale.CANADA_FRENCH);
 
@@ -202,9 +215,12 @@ public class LocalizerAcceptanceTest {
     assertFalse(isModifiable);
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void Localizer_getLocalizerInstanceWithNullParameter_nullPointerExceptionIsThrown()
       throws Exception {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("instanceUid cannot be null");
+
     Localizer localizer =
         testableLocalizerFactory.createLocalizer("localizer.name", Locale.CANADA_FRENCH);
 
