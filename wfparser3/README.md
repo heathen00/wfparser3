@@ -182,7 +182,11 @@ There are a number of problems with the localization implementation I currently 
      naming convention you want to specify as compatible with Java package, class, and data field
      names for group, type, and field names respectively.  This would permit you to potentially
      defined annotations that automatically determined most of the data.  The only thing not set
-     is the instance name which would be set in the annotation.
+     is the instance name which would be set in the annotation.  You should look at the Java
+     validation framework.  It is an annotation based solution that you could potentially
+     base your solution on.  At least some of the default annotations can be applied to
+     method parameters.  Would be interesting to see if these or annotations of your own
+     creation could be used.
    * You should consider adding yet another layer of testing: integration, which tests to ensure
      that independent subsystems of the whole solution work together as expected.  The testing
      should not be too extensive to reduce redundancy and should only indicate that ... what?
@@ -206,6 +210,10 @@ There are a number of problems with the localization implementation I currently 
      that no memory allocation is incurred until after I know the data being used is valid.
    * The message subsystem unit tests look like acceptance tests.  Maybe you should move them to
      the correct location.
+   * For LocalizerBundle, I am using an OrderedSet as the data structure.  I think that is wrong.
+     I think what I want is for the LocalizerBundle to maintain the order in which they are added
+     to the Localizer.  This would be different from OrderedSet which will order the
+     LocalizerBundle instances according to their natural order.  Very different.
 
      
 HERE:  

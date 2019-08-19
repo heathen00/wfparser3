@@ -4,7 +4,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import java.math.BigDecimal;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import com.ht.wfp3.api.statement.Connect;
 import com.ht.wfp3.api.statement.Curve2DReference;
 import com.ht.wfp3.api.statement.EqualsHashCodeAndCompareToTester;
@@ -12,6 +14,9 @@ import com.ht.wfp3.api.statement.StatementFactory;
 
 public class ConnectAcceptanceTests {
   private static final String CONNECT_KEYWORD = "con";
+
+  @Rule
+  public ExpectedException thrown = ExpectedException.none();
 
   private StatementFactory statementFactory;
 
@@ -35,38 +40,56 @@ public class ConnectAcceptanceTests {
     statementFactory = StatementFactory.createStatementFactory();
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void Connect_createConnectWithNullFirstSurfaceIndexAllOtherParametersValid_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("firstSurfaceIndex cannot be null");
+
     statementFactory.createConnect(null, createFirstDefaultCurve2DReference(), Integer.valueOf(2),
         createSecondDefaultCurve2DReference());
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void Connect_createConnectWithNullFirstSurfaceCurve2dReferenceAllOtherParametersValid_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("firstSurfaceCurve2dReference cannot be null");
+
     statementFactory.createConnect(Integer.valueOf(1), null, Integer.valueOf(2),
         createSecondDefaultCurve2DReference());
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void Connect_createConnectWithNullSecondSurfaceIndexAllOtherParametersValid_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("secondSurfaceIndex cannot be null");
+
     statementFactory.createConnect(Integer.valueOf(1), createFirstDefaultCurve2DReference(), null,
         createSecondDefaultCurve2DReference());
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void Connect_createConnectWithNullSecondSurfaceCurve2dReferenceAllOtherParametersValid_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("secondSurfaceCurve2dReference cannot be null");
+
     statementFactory.createConnect(Integer.valueOf(1), createFirstDefaultCurve2DReference(),
         Integer.valueOf(2), null);
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void Connect_createConnectWithFirstSurfaceIndexEqualsZero_illegalArgumentExceptionIsThrown() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("firstSurfaceIndex cannot equal zero");
+
     statementFactory.createConnect(Integer.valueOf(0), createFirstDefaultCurve2DReference(),
         Integer.valueOf(2), createSecondDefaultCurve2DReference());
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void Connect_createConnectWithSecondSurfaceIndexEqualsZero_illegalArgumentExceptionIsThrown() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("secondSurfaceIndex cannot equal zero");
+
     statementFactory.createConnect(Integer.valueOf(2), createFirstDefaultCurve2DReference(),
         Integer.valueOf(0), createSecondDefaultCurve2DReference());
   }
@@ -89,8 +112,11 @@ public class ConnectAcceptanceTests {
     assertEquals(secondSurfaceCurve2dReference, connect.getSecondSurfaceCurve2DReference());
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void Connect_copyConnectWithNullParameter_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("con cannot be null");
+
     statementFactory.copyConnect(null);
   }
 

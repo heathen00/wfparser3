@@ -4,7 +4,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import java.math.BigDecimal;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import com.ht.wfp3.api.statement.EqualsHashCodeAndCompareToTester;
 import com.ht.wfp3.api.statement.StatementFactory;
 import com.ht.wfp3.api.statement.SurfaceApproxCspaceTechnique;
@@ -13,6 +15,9 @@ public class SurfaceApproxCspaceTechniqueAcceptanceTests {
 
   private static final String STECH_KEYWORD = "stech";
   private static final String CSPACE_KEYWORD = "cspace";
+
+  @Rule
+  public ExpectedException thrown = ExpectedException.none();
 
   private StatementFactory statementFactory;
 
@@ -29,18 +34,27 @@ public class SurfaceApproxCspaceTechniqueAcceptanceTests {
     statementFactory = StatementFactory.createStatementFactory();
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void SurfaceApproxCspaceTechnique_createSurfaceApproxCspaceTechniqueWithNullMaxLength_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("maxLength cannot be null");
+
     statementFactory.createSurfaceApproxCspaceTechnique(null);
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void SurfaceApproxCspaceTechnique_createSurfaceApproxCspaceTechniqueWithMaxLengthBelowMinimum_illegalArgumentExceptionIsThrown() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("maxLength must be greater than ");
+
     statementFactory.createSurfaceApproxCspaceTechnique(BigDecimal.valueOf(-55.4d));
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void SurfaceApproxCspaceTechnique_createSurfaceApproxCspaceTechniqueWithMaxLengthAtMinimum_illegalArgumentExceptionIsThrown() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("maxLength must be greater than ");
+
     statementFactory.createSurfaceApproxCspaceTechnique(BigDecimal.valueOf(0.0d));
   }
 
@@ -54,8 +68,11 @@ public class SurfaceApproxCspaceTechniqueAcceptanceTests {
     assertValidSurfaceApproxCspaceTechnique(maxLength, surfaceApproxCspaceTechnique);
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void SurfaceApproxCspaceTechnique_copySurfaceApproxCspaceTechniqueWithNullParameter_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("surfaceApproxCspaceTechnique cannot be null");
+
     statementFactory.copySurfaceApproxCspaceTechnique(null);
   }
 

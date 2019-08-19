@@ -3,12 +3,17 @@ package com.ht.wfp3.api.statement.acceptance;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import com.ht.wfp3.api.statement.EqualsHashCodeAndCompareToTester;
 import com.ht.wfp3.api.statement.GeoVertexReference;
 import com.ht.wfp3.api.statement.StatementFactory;
 
 public class GeoVertexReferenceAcceptanceTests {
+
+  @Rule
+  public ExpectedException thrown = ExpectedException.none();
 
   private StatementFactory statementFactory;
 
@@ -25,13 +30,19 @@ public class GeoVertexReferenceAcceptanceTests {
     statementFactory = StatementFactory.createStatementFactory();
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void GeoVertexReference_createGeoVertexReferenceWithNullVertexIndex_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("vertexIndex cannot be null");
+
     statementFactory.createGeoVertexReference(null);
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void GeoVertexReference_createGeoVertexReferenceWithZeroValueVertexIndex_illegalArgumentExceptionIsThrown() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("vertexIndex cannot equal 0");
+
     statementFactory.createGeoVertexReference(Integer.valueOf(0));
   }
 
@@ -55,8 +66,11 @@ public class GeoVertexReferenceAcceptanceTests {
     assertValidGeoVertexReference(expectedIsSet, vertexIndex, geoVertexReference);
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void GeoVertexReference_copyGeoVertexReferenceWithNullParameter_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("geoVertexReference cannot be null");
+
     statementFactory.copyGeoVertexReference(null);
   }
 

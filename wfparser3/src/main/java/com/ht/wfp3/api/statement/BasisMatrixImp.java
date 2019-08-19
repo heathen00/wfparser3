@@ -9,10 +9,10 @@ class BasisMatrixImp extends StatementImp implements BasisMatrix {
   BasisMatrixImp(Axis axis, Matrix matrix) {
     super(KEYWORD);
     if (null == axis) {
-      throw new NullPointerException("axis constructor parameter cannot be null");
+      throw new NullPointerException("axis cannot be null");
     }
     if (null == matrix) {
-      throw new NullPointerException("matrix constructor parameter cannot be null");
+      throw new NullPointerException("matrix cannot be null");
     }
     this.axis = axis;
     this.matrix = matrix;

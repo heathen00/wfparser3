@@ -4,14 +4,19 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import com.ht.wfp3.api.statement.EqualsHashCodeAndCompareToTester;
 import com.ht.wfp3.api.statement.RayTracingObject;
 import com.ht.wfp3.api.statement.StatementFactory;
 
 public class RayTracingObjectAcceptanceTests {
-
   private static final String TRACE_OBJ_KEYWORD = "trace_obj";
+
+  @Rule
+  public ExpectedException thrown = ExpectedException.none();
+
   private StatementFactory statementFactory = StatementFactory.createStatementFactory();
 
 
@@ -22,13 +27,19 @@ public class RayTracingObjectAcceptanceTests {
     assertEquals(expectedRayTracingObjectFileName, rayTracingObject.getRayTracingObjectFileName());
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void RayTracingObject_createRayTracingObjectWithNullFileName_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("rayTracingObjectFileName cannot be null");
+
     statementFactory.createRayTracingObject(null);
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void RayTracingObject_createRayTracingObjectWithFileNameWithUnsupportedExtension_invalidArgumentExceptionIsThrown() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("rayTracingObjectFileName must have extension ");
+
     statementFactory.createRayTracingObject(Paths.get("home", "My Document.doc"));
   }
 
@@ -63,8 +74,11 @@ public class RayTracingObjectAcceptanceTests {
     assertValidRayTracingObject(rayTracingObjectFileName, rayTracingObject);
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void RayTracingObject_copyRayTracingObjectWithNullParameter_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("trace_obj cannot be null");
+
     statementFactory.copyRayTracingObject(null);
   }
 

@@ -10,11 +10,11 @@ class UseMapImp extends StatementImp implements UseMap {
   UseMapImp(String mapNameOrOff) {
     super(KEYWORD);
     if (null == mapNameOrOff) {
-      throw new NullPointerException("mapNameOrOff constructor parameter cannot be null");
+      throw new NullPointerException("mapNameOrOff cannot be null");
     }
     if (!mapNameOrOff.matches("^\\w+$")) {
       throw new IllegalArgumentException(
-          "mapNameOrOff constructor parameter may only contain one or more alphanumeric or underscore characters");
+          "mapNameOrOff may only contain one or more alphanumeric or underscore characters");
     }
     this.isEnabled = (mapNameOrOff.equalsIgnoreCase(OFF) ? false : true);
     this.mapName = (mapNameOrOff.equalsIgnoreCase(OFF) ? OFF : mapNameOrOff);

@@ -3,14 +3,18 @@ package com.ht.wfp3.api.statement.acceptance;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import com.ht.wfp3.api.statement.EqualsHashCodeAndCompareToTester;
 import com.ht.wfp3.api.statement.SmoothingGroup;
 import com.ht.wfp3.api.statement.StatementFactory;
 
 public class SmoothingGroupAcceptanceTests {
-
   private static final String SMOOTHING_GROUP_KEYWORD = "s";
+
+  @Rule
+  public ExpectedException thrown = ExpectedException.none();
 
   private StatementFactory statementFactory;
 
@@ -27,13 +31,19 @@ public class SmoothingGroupAcceptanceTests {
     statementFactory = StatementFactory.createStatementFactory();
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void SmoothingGroup_createSmoothingGroupWithNullGroupNumber_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("smoothingGroupNumber cannot be null");
+
     statementFactory.createSmoothingGroup(null);
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void SmoothingGroup_createSmoothingGorupWithGroupNumberLessThanZero_illegalArgumentExceptionIsThrown() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("smoothingGroupNumber must be greater or equal to ");
+
     statementFactory.createSmoothingGroup(Integer.valueOf(-1));
   }
 
@@ -57,8 +67,11 @@ public class SmoothingGroupAcceptanceTests {
     assertValidSmoothingGroup(smoothingGroupNumber, expectedIsEnabled, smoothingGroup);
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void SmoothingGroup_copySmoothingGroupWithNullParameter_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("s cannot be null");
+
     statementFactory.copySmoothingGroup(null);
   }
 

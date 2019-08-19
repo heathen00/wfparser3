@@ -4,7 +4,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import java.math.BigDecimal;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import com.ht.wfp3.api.statement.EqualsHashCodeAndCompareToTester;
 import com.ht.wfp3.api.statement.StatementFactory;
 import com.ht.wfp3.api.statement.SurfaceApproxCurvTechnique;
@@ -13,6 +15,9 @@ public class SurfaceApproxCurvTechniqueAcceptanceTests {
 
   private static final String STECH_KEYWORD = "stech";
   private static final String CURV_KEYWORD = "curv";
+
+  @Rule
+  public ExpectedException thrown = ExpectedException.none();
 
   private StatementFactory statementFactory;
 
@@ -30,36 +35,54 @@ public class SurfaceApproxCurvTechniqueAcceptanceTests {
     statementFactory = StatementFactory.createStatementFactory();
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void SurfaceApproxCurvTechnique_createSurfaceApproxCurvTechniqueWithNullMaxDistance_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("maxDistance cannot be null");
+
     statementFactory.createSurfaceApproxCurvTechnique(null, BigDecimal.valueOf(33.3d));
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void SurfaceApproxCurvTechnique_createSurfaceApproxCurvTechniqueWithNullMaxAngle_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("maxAngleInDegrees cannot be null");
+
     statementFactory.createSurfaceApproxCurvTechnique(BigDecimal.valueOf(44.4d), null);
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void SurfaceApproxCurvTechnique_createSurfaceApproxCurvTechniqueWithMaxDistanceBelowMinimum_illegalArgumentExceptionIsThrown() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("maxDistance must be greater than ");
+
     statementFactory.createSurfaceApproxCurvTechnique(BigDecimal.valueOf(-1.1d),
         BigDecimal.valueOf(5.5d));
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void SurfaceApproxCurvTechnique_createSurfaceApproxCurvTechniqueWithMaxAngleBelowMinimum_illegalArgumentExceptionIsThrown() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("maxAngleInDegrees must be greater than ");
+
     statementFactory.createSurfaceApproxCurvTechnique(BigDecimal.valueOf(5.5d),
         BigDecimal.valueOf(-1.1d));
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void SurfaceApproxCurvTechnique_createSurfaceApproxCurvTechniqueWithMaxDistanceAtMinimum_illegalArgumentExceptionIsThrown() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("maxDistance must be greater than ");
+
     statementFactory.createSurfaceApproxCurvTechnique(BigDecimal.valueOf(0.0d),
         BigDecimal.valueOf(5.5d));
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void SurfaceApproxCurvTechnique_createSurfaceApproxCurvTechniqueWithMaxAngleAtMinimum_illegalArgumentExceptionIsThrown() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("maxAngleInDegrees must be greater than ");
+
     statementFactory.createSurfaceApproxCurvTechnique(BigDecimal.valueOf(5.5d),
         BigDecimal.valueOf(0.0d));
   }
@@ -76,8 +99,11 @@ public class SurfaceApproxCurvTechniqueAcceptanceTests {
         surfaceApproxCurvTechnique);
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void SurfaceApproxCurvTechnique_copySurfaceApproxCurvTechniqueWithNullParameter_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("surfaceApproxCurvTechnique cannot be null");
+
     statementFactory.copySurfaceApproxCurvTechnique(null);
   }
 

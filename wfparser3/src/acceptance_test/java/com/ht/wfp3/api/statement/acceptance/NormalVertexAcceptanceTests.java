@@ -4,14 +4,18 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import java.math.BigDecimal;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import com.ht.wfp3.api.statement.EqualsHashCodeAndCompareToTester;
 import com.ht.wfp3.api.statement.NormalVertex;
 import com.ht.wfp3.api.statement.StatementFactory;
 
 public class NormalVertexAcceptanceTests {
-
   private static final String NORMAL_VERTEX_KEYWORD = "vn";
+
+  @Rule
+  public ExpectedException thrown = ExpectedException.none();
 
   private StatementFactory statementFactory;
 
@@ -29,18 +33,27 @@ public class NormalVertexAcceptanceTests {
     statementFactory = StatementFactory.createStatementFactory();
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void NormalVertex_createNormalVertexWithNullICoord_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("iCoord cannot be null");
+
     statementFactory.createNormalVertex(null, BigDecimal.valueOf(2.2d), BigDecimal.valueOf(3.3d));
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void NormalVertex_createNormalVertexWithNullJCoord_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("jCoord cannot be null");
+
     statementFactory.createNormalVertex(BigDecimal.valueOf(1.1d), null, BigDecimal.valueOf(3.3d));
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void NormalVertex_createNormalVertexWithNullKCoord_nullPointerExceptinIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("kCoord cannot be null");
+
     statementFactory.createNormalVertex(BigDecimal.valueOf(1.1d), BigDecimal.valueOf(2.2d), null);
   }
 
@@ -55,8 +68,11 @@ public class NormalVertexAcceptanceTests {
     assertValidNormalVertex(iCoord, jCoord, kCoord, normalVertex);
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void NoramlVertex_copyNormalVertexWithNullParameter_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("normalVertex cannot be null");
+
     statementFactory.copyNormalVertex(null);
   }
 

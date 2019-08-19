@@ -5,15 +5,19 @@ import static org.junit.Assert.assertNotNull;
 import java.util.Arrays;
 import java.util.List;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import com.ht.wfp3.api.statement.EqualsHashCodeAndCompareToTester;
 import com.ht.wfp3.api.statement.Line;
 import com.ht.wfp3.api.statement.StatementFactory;
 import com.ht.wfp3.api.statement.VertexReferenceGroup;
 
 public class LineAcceptanceTests {
-
   private static final String LINE_KEYWORD = "l";
+
+  @Rule
+  public ExpectedException thrown = ExpectedException.none();
 
   private StatementFactory statementFactory;
 
@@ -35,21 +39,30 @@ public class LineAcceptanceTests {
     statementFactory = StatementFactory.createStatementFactory();
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void Line_createLineWithNullVertexReferenceGroupList_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("vertexReferenceGroupList ");
+
     statementFactory.createLine(null);
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void Line_createLineWithLessThanTwoVertexReferenceGroupsInVertexReferenceGroupList_illegalArgumentExceptionIsThrown() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("vertexReferenceGroupList must have more than ");
+
     List<VertexReferenceGroup> vertexReferenceGroupList =
         Arrays.asList(createVertexReferenceGroup(1, 1));
 
     statementFactory.createLine(vertexReferenceGroupList);
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void Line_createLineWithVertexReferenceGroupListContainingNullMembers_illegalArgumentExceptionIsThrown() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("vertexReferenceGroupList cannot contain null members");
+
     statementFactory.createLine(
         Arrays.asList(createVertexReferenceGroup(1, 1), null, createVertexReferenceGroup(3, 3)));
   }
@@ -75,8 +88,11 @@ public class LineAcceptanceTests {
     assertValidLine(vertexReferenceGroupList, line);
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void Line_copyLineWithNullParameter_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("line cannot be null");
+
     statementFactory.copyLine(null);
   }
 

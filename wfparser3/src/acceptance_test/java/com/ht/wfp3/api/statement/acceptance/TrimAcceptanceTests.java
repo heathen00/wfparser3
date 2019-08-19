@@ -7,7 +7,9 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import com.ht.wfp3.api.statement.Curve2DReference;
 import com.ht.wfp3.api.statement.EqualsHashCodeAndCompareToTester;
 import com.ht.wfp3.api.statement.StatementFactory;
@@ -16,6 +18,9 @@ import com.ht.wfp3.api.statement.Trim;
 public class TrimAcceptanceTests {
 
   private static final String TRIM_KEYWORD = "trim";
+
+  @Rule
+  public ExpectedException thrown = ExpectedException.none();
 
   private StatementFactory statementFactory;
 
@@ -36,18 +41,27 @@ public class TrimAcceptanceTests {
     statementFactory = StatementFactory.createStatementFactory();
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void Trim_createTrimWithNullCurve2DReferenceList_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("curve2DReferenceList cannot be null");
+
     statementFactory.createTrim(null);
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void Trim_createTrimWithCurve2DReferenceListWithLessThanMinimumMembers_illegalArgumentExceptionIsThrown() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("curve2DReferenceList must contain at least ");
+
     statementFactory.createTrim(Collections.emptyList());
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void Trim_createTrimWithCurve2DReferenceListsContainingNullMembers_illegalArgumentExceptionIsThrown() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("curve2DReferenceList cannot contain null members");
+
     statementFactory.createTrim(Arrays.asList(createCurve2DReference(1.1d, 2.2d, 1), null,
         createCurve2DReference(3.3d, 4.4d, 2)));
   }
@@ -73,8 +87,11 @@ public class TrimAcceptanceTests {
     assertValidTrim(curve2DReferenceList, trim);
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void Trim_copyTrimWithNullParameter_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("trim cannot be null");
+
     statementFactory.copyTrim(null);
   }
 

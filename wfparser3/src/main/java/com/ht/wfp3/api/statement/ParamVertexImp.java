@@ -17,13 +17,13 @@ class ParamVertexImp extends StatementImp implements ParamVertex {
       boolean vCoordIsSet, boolean wCoordIsSet) {
     super(KEYWORD);
     if (null == uCoord) {
-      throw new NullPointerException("uCoord constructor parameter cannot be null");
+      throw new NullPointerException("uCoord cannot be null");
     }
     if (null == vCoord) {
-      throw new NullPointerException("vCoord constructor parameter cannot be null");
+      throw new NullPointerException("vCoord cannot be null");
     }
     if (null == wCoord) {
-      throw new NullPointerException("wCoord constructor parameter cannot be null");
+      throw new NullPointerException("wCoord cannot be null");
     }
     this.uCoord = uCoord;
     this.vCoord = vCoord;

@@ -7,15 +7,19 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import com.ht.wfp3.api.statement.Axis;
 import com.ht.wfp3.api.statement.EqualsHashCodeAndCompareToTester;
 import com.ht.wfp3.api.statement.Parm;
 import com.ht.wfp3.api.statement.StatementFactory;
 
 public class ParmAcceptanceTests {
-
   private static final String PARM_KEYWORD = "parm";
+
+  @Rule
+  public ExpectedException thrown = ExpectedException.none();
 
   private StatementFactory statementFactory;
 
@@ -31,30 +35,45 @@ public class ParmAcceptanceTests {
     statementFactory = StatementFactory.createStatementFactory();
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void Parm_createParmWithNullAxis_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("axis cannot be null");
+
     statementFactory.createParm(null,
         Arrays.asList(BigDecimal.valueOf(1.1d), BigDecimal.valueOf(2.2d)));
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void Parm_createParmWithNullParameterList_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("parameterList cannot be null");
+
     statementFactory.createParm(Axis.U, null);
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void Parm_createParmWithEmptyParameterList_illegalArgumentExceptionIsThrown() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("parameterList must contain at least ");
+
     statementFactory.createParm(Axis.V, Collections.emptyList());
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void Parm_createParmWithParameterListContainingNullMembers_illegalArgumentExceptionIsThrown() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("parameterList cannot contain null members");
+
     statementFactory.createParm(Axis.U,
         Arrays.asList(BigDecimal.valueOf(1.1d), null, BigDecimal.valueOf(3d)));
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void Parm_createParmWithLessThanTwoParametersInParameterList_illegalArgumentExceptionIsthrown() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("parameterList must contain at least ");
+
     statementFactory.createParm(Axis.V, Arrays.asList(BigDecimal.valueOf(1.1d)));
   }
 
@@ -80,8 +99,11 @@ public class ParmAcceptanceTests {
     assertValidParm(axis, parameterList, parm);
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void Parm_copyParmWithNullParameter_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("parm cannot be null");
+
     statementFactory.copyParm(null);
   }
 

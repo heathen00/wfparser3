@@ -3,12 +3,17 @@ package com.ht.wfp3.api.statement.acceptance;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import com.ht.wfp3.api.statement.EqualsHashCodeAndCompareToTester;
 import com.ht.wfp3.api.statement.NormalVertexReference;
 import com.ht.wfp3.api.statement.StatementFactory;
 
 public class NormalVertexReferenceAcceptanceTests {
+
+  @Rule
+  public ExpectedException thrown = ExpectedException.none();
 
   private StatementFactory statementFactory;
 
@@ -24,13 +29,19 @@ public class NormalVertexReferenceAcceptanceTests {
     statementFactory = StatementFactory.createStatementFactory();
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void NormalVertexReference_createNormalVertexReferenceWithNullVertexIndex_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("vertexIndex cannot be null");
+
     statementFactory.createNormalVertexReference(null);
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void NormalVertexReference_createNormalVertexReferenceWithVertexIndexEqualToZero_illegalArgumentExceptionIsThrown() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("vertexIndex constructor parameter cannot equal ");
+
     statementFactory.createNormalVertexReference(Integer.valueOf(0));
   }
 
@@ -56,8 +67,11 @@ public class NormalVertexReferenceAcceptanceTests {
     assertValidNormalVertexReference(vertexIndex, expectedIsSet, normalVertexReference);
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void NormalVertexReference_copyNormalVertexReferenceWithNullParameter_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("normalVertexReference cannot be null");
+
     statementFactory.copyNormalVertexReference(null);
   }
 

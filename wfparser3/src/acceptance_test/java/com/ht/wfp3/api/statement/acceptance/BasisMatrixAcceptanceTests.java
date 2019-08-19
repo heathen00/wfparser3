@@ -7,7 +7,9 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import com.ht.wfp3.api.statement.Axis;
 import com.ht.wfp3.api.statement.BasisMatrix;
 import com.ht.wfp3.api.statement.EqualsHashCodeAndCompareToTester;
@@ -20,8 +22,10 @@ import com.ht.wfp3.api.statement.StatementFactory;
 public class BasisMatrixAcceptanceTests {
   private static final String BASIS_MATRIX_KEYWORD = "bmat";
 
-  private StatementFactory statementFactory;
+  @Rule
+  public ExpectedException thrown = ExpectedException.none();
 
+  private StatementFactory statementFactory;
   private MatrixBuilder matrixBuilder;
 
   @Before
@@ -36,20 +40,29 @@ public class BasisMatrixAcceptanceTests {
     return matrix;
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void BasisMatrix_createBasisMatrixWithNullAxisParameter_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("axis cannot be null");
+
     Matrix matrix = buildDefaultMatrix();
 
     statementFactory.createBasisMatrix(null, matrix);
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void BasisMatrix_createBasisMatrixWithNullMatrixParameter_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("matrix cannot be null");
+
     statementFactory.createBasisMatrix(Axis.U, null);
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void BasisMatrix_copyBasisMatrixWithNullBasisMatrixParameter_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("bmat cannot be null");
+
     statementFactory.copyBasisMatrix(null);
   }
 

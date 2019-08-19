@@ -11,12 +11,11 @@ class SpecialPointImp extends StatementImp implements SpecialPoint {
   SpecialPointImp(List<ParamVertexReference> vertexReferenceList) {
     super(KEYWORD);
     if (null == vertexReferenceList) {
-      throw new NullPointerException("vertexReferenceList constructor parameter cannot be null");
+      throw new NullPointerException("vertexReferenceList cannot be null");
     }
     if (MINIMUM_VERTEX_REFERENCES.compareTo(vertexReferenceList.size()) > 0) {
       throw new IllegalArgumentException(
-          "vertexReferenceList constructor parameter must contain at least "
-              + MINIMUM_VERTEX_REFERENCES + " members");
+          "vertexReferenceList must contain at least " + MINIMUM_VERTEX_REFERENCES + " members");
     }
     if (vertexReferenceList.contains(null)) {
       throw new IllegalArgumentException("vertexReferenceList cannot contain null members");

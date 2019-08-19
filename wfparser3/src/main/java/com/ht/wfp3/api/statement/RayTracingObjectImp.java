@@ -12,8 +12,7 @@ class RayTracingObjectImp extends StatementImp implements RayTracingObject {
   RayTracingObjectImp(Path rayTracingObjectFileName) {
     super(KEYWORD);
     if (null == rayTracingObjectFileName) {
-      throw new NullPointerException(
-          "rayTracingObjectFileName constructor parameter cannot be null");
+      throw new NullPointerException("rayTracingObjectFileName cannot be null");
     }
     if (!rayTracingObjectFileName.getFileName().toFile().getName().contains(".")) {
       rayTracingObjectFileName =
@@ -23,7 +22,7 @@ class RayTracingObjectImp extends StatementImp implements RayTracingObject {
         FileSystems.getDefault().getPathMatcher("glob:*.{" + OBJ_EXT + "," + MOD_EXT + "}");
     if (!supportedExtensionsMatcher.matches(rayTracingObjectFileName.getFileName())) {
       throw new IllegalArgumentException(
-          "fileName must have extension '" + OBJ_EXT + "' or '" + MOD_EXT + "'");
+          "rayTracingObjectFileName must have extension '" + OBJ_EXT + "' or '" + MOD_EXT + "'");
     }
     this.rayTracingObjectFileName = rayTracingObjectFileName;
   }

@@ -11,17 +11,15 @@ class Curve2DImp extends StatementImp implements Curve2D {
   Curve2DImp(List<ParamVertexReference> controlPointVertexReferenceList) {
     super(KEYWORD);
     if (null == controlPointVertexReferenceList) {
-      throw new NullPointerException(
-          "controlPointVertexReferenceList constructor parameter cannot be null");
+      throw new NullPointerException("controlPointVertexReferenceList cannot be null");
     }
     if (controlPointVertexReferenceList.contains(null)) {
       throw new IllegalArgumentException(
-          "controlPoinVertexReferenceList constructor parameter cannot contain null members");
+          "controlPointVertexReferenceList cannot contain null members");
     }
     if (controlPointVertexReferenceList.size() < MINIMUM_CONTROL_POINTS) {
-      throw new IllegalArgumentException(
-          "controlPointVertexReferenceList constructor parameter requires a minimum of "
-              + MINIMUM_CONTROL_POINTS + " control points");
+      throw new IllegalArgumentException("controlPointVertexReferenceList requires a minimum of "
+          + MINIMUM_CONTROL_POINTS + " control points");
     }
     this.controlPointVertexReferenceList = new ArrayList<>(controlPointVertexReferenceList);
   }

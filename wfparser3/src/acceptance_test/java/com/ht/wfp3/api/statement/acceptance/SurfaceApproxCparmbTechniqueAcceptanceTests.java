@@ -4,7 +4,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import java.math.BigDecimal;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import com.ht.wfp3.api.statement.EqualsHashCodeAndCompareToTester;
 import com.ht.wfp3.api.statement.StatementFactory;
 import com.ht.wfp3.api.statement.SurfaceApproxCparmbTechnique;
@@ -13,6 +15,9 @@ public class SurfaceApproxCparmbTechniqueAcceptanceTests {
 
   private static final String STECH_KEYWORD = "stech";
   private static final String CPARMB_KEYWORD = "cparmb";
+
+  @Rule
+  public ExpectedException thrown = ExpectedException.none();
 
   private StatementFactory statementFactory;
 
@@ -29,13 +34,19 @@ public class SurfaceApproxCparmbTechniqueAcceptanceTests {
     statementFactory = StatementFactory.createStatementFactory();
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void SurfaceApproxCparmbTechnique_createSurfaceApproxCparmbTechniqueWithNullResolution_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("resolutionForUAndVAxes cannot be null");
+
     statementFactory.createSurfaceApproxCparmbTechnique(null);
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void SurfaceApproxCparmbTechnique_createSurfaceApproxCparmbTechniqueWithResolutionBelowMinimum_illegalArgumentExceptionIsThrown() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("resolutionForUAndVAxes must be greater or equal to ");
+
     statementFactory.createSurfaceApproxCparmbTechnique(BigDecimal.valueOf(-1.1d));
   }
 
@@ -59,8 +70,11 @@ public class SurfaceApproxCparmbTechniqueAcceptanceTests {
     assertValidSurfaceApproxCparmbTechnique(resolutionForUAndVAxes, surfaceApproxCparmbTechnique);
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void SurfaceApproxCparmbTechnique_copySurfaceApproxCparmbTechniqueWithNullParameter_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("surfaceApproxCparmbTechnique cannot be null");
+
     statementFactory.copySurfaceApproxCparmbTechnique(null);
   }
 

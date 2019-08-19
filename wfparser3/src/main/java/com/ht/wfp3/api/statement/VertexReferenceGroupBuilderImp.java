@@ -59,8 +59,7 @@ class VertexReferenceGroupBuilderImp implements VertexReferenceGroupBuilder {
   @Override
   public VertexReferenceGroup build() {
     if (!isGeoRefSet) {
-      throw new UnsupportedOperationException(
-          "geometricVertexReferenceNumber must be set at least");
+      throw new UnsupportedOperationException("geometricVertexReferenceNumber must be set");
     }
     GeoVertexReference geometricVertexReference =
         (isGeoRefSet ? statementFactory.createGeoVertexReference(geometricVertexReferenceNumber)

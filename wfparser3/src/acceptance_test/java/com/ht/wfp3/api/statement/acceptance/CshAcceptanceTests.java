@@ -3,14 +3,19 @@ package com.ht.wfp3.api.statement.acceptance;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import com.ht.wfp3.api.statement.Csh;
 import com.ht.wfp3.api.statement.EqualsHashCodeAndCompareToTester;
 import com.ht.wfp3.api.statement.StatementFactory;
 
 public class CshAcceptanceTests {
-
   private static final String CSH_KEYWORD = "csh";
+
+  @Rule
+  public ExpectedException thrown = ExpectedException.none();
+
   private StatementFactory statementFactory;
 
   @Before
@@ -18,18 +23,27 @@ public class CshAcceptanceTests {
     statementFactory = StatementFactory.createStatementFactory();
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void Csh_createCshWithNullCommandParameter_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("command cannot be null");
+
     statementFactory.createCsh(false, null);
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void Csh_createCshWithEmptyCommandParameterString_illegalArgumentExceptionIsThrown() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("command cannot be empty or whitespace only");
+
     statementFactory.createCsh(false, "");
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void Csh_createCshWithCommandParameterStringContainingOnlyWhitespace_illegalArgumentExceptionIsThrown() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("command cannot be empty or whitespace only");
+
     statementFactory.createCsh(false, "    ");
   }
 
@@ -48,8 +62,11 @@ public class CshAcceptanceTests {
     assertEquals(command, csh.getCommand());
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void Csh_copyCshWithNullParameter_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("csh cannot be null");
+
     statementFactory.copyCsh(null);
   }
 

@@ -4,14 +4,18 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import java.math.BigDecimal;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import com.ht.wfp3.api.statement.EqualsHashCodeAndCompareToTester;
 import com.ht.wfp3.api.statement.ParamVertex;
 import com.ht.wfp3.api.statement.StatementFactory;
 
 public class ParamVertexAcceptanceTests {
-
   private static final String PARAM_VERTEX_KEYWORD = "vp";
+
+  @Rule
+  public ExpectedException thrown = ExpectedException.none();
 
   private StatementFactory statementFactory;
 
@@ -43,19 +47,28 @@ public class ParamVertexAcceptanceTests {
     statementFactory = StatementFactory.createStatementFactory();
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void ParamVertex_createParamVertexWithNullUCoord_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("uCoord cannot be null");
+
     statementFactory.createParamVertex(null, BigDecimal.valueOf(2.2d), BigDecimal.valueOf(-3.3d));
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void ParamVertex_createParamVertexWithNullVCoord_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("vCoord cannot be null");
+
     statementFactory.createParamVertex(BigDecimal.valueOf(-1.1d), null,
         BigDecimal.valueOf(333.33d));
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void ParamVertex_createParamVertexWithNullWCoord_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("wCoord cannot be null");
+
     statementFactory.createParamVertex(BigDecimal.valueOf(1.1d), BigDecimal.valueOf(-34.87d), null);
   }
 
@@ -89,8 +102,11 @@ public class ParamVertexAcceptanceTests {
     assertValidParamVertex(uCoord, vCoord, wCoord, paramVertex);
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void ParamVertex_copyParamVertexWithNullParameter_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("paramVertex cannot be null");
+
     statementFactory.copyParamVertex(null);
   }
 
@@ -127,8 +143,11 @@ public class ParamVertexAcceptanceTests {
     assertValidParamVertex(uCoord, vCoord, wCoord, copiedParamVertex);
   }
 
-  @Test(expected = UnsupportedOperationException.class)
+  @Test
   public void ParamVertex_accessVCoordWhenNotSet_unsupportedOperationExceptionIsThrown() {
+    thrown.expect(UnsupportedOperationException.class);
+    thrown.expectMessage("cannot access v coordinate when it is not set");
+
     BigDecimal uCoord = BigDecimal.valueOf(33.3d);
 
     ParamVertex paramVertex = statementFactory.createParamVertex(uCoord);
@@ -138,8 +157,11 @@ public class ParamVertexAcceptanceTests {
     paramVertex.getVCoord();
   }
 
-  @Test(expected = UnsupportedOperationException.class)
+  @Test
   public void ParamVertex_accessWCoordWhenNotSet_unsupportedOperationExceptionIsThrown() {
+    thrown.expect(UnsupportedOperationException.class);
+    thrown.expectMessage("cannot access w coordinate when it is not set");
+
     BigDecimal uCoord = BigDecimal.valueOf(99.99d);
     BigDecimal vCoord = BigDecimal.valueOf(-55.123d);
 

@@ -4,14 +4,19 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import com.ht.wfp3.api.statement.Degree;
 import com.ht.wfp3.api.statement.EqualsHashCodeAndCompareToTester;
 import com.ht.wfp3.api.statement.StatementFactory;
 
 public class DegreeAcceptanceTests {
-
   private static final String DEGREE_KEYWORD = "deg";
+
+  @Rule
+  public ExpectedException thrown = ExpectedException.none();
+
   private StatementFactory statementFactory;
 
   @Before
@@ -19,33 +24,51 @@ public class DegreeAcceptanceTests {
     statementFactory = StatementFactory.createStatementFactory();
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void Degree_createDegreeWithNullUAxisDegreeValue_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("uAxisDegree cannot be null");
+
     statementFactory.createDegree(null, Integer.valueOf(3));
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void Degree_createDegreeWithNullVAxisDegreeValue_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("vAxisDegree cannot be null");
+
     statementFactory.createDegree(Integer.valueOf(3), null);
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void Degree_createDegreeWithZeroUAxisDegreeValue_illegalArgumentExceptionIsThrown() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("uAxisDegree must be greater than ");
+
     statementFactory.createDegree(Integer.valueOf(0), Integer.valueOf(3));
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void Degree_createDegreeWithNegativeUAxisDegreeValue_illegalArgumentExceptionIsThrown() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("uAxisDegree must be greater than ");
+
     statementFactory.createDegree(Integer.valueOf(-1), Integer.valueOf(3));
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void Degree_createDegreeWithZeroVAxisDegreeValue_illegalArgumentExceptionIsThrown() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("vAxisDegree must be greater than ");
+
     statementFactory.createDegree(Integer.valueOf(3), Integer.valueOf(0));
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void Degree_createDegreeWithNegativeVAxisDegreeValue_illegalArgumentExceptionIsThrown() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("vAxisDegree must be greater than ");
+
     statementFactory.createDegree(Integer.valueOf(3), Integer.valueOf(-88));
   }
 
@@ -73,8 +96,11 @@ public class DegreeAcceptanceTests {
     assertEquals(uAxisDegree, degree.getUAxisDegree());
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void Degree_copyDegreeWithNullParameter_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("deg cannot be null");
+
     statementFactory.copyDegree(null);
   }
 
@@ -104,8 +130,11 @@ public class DegreeAcceptanceTests {
     assertEquals(uAxisDegree, copiedDegree.getUAxisDegree());
   }
 
-  @Test(expected = UnsupportedOperationException.class)
+  @Test
   public void Degree_accessVAxisDegreeWhenItWasNotSet_unsupportedOperationExceptionIsThrown() {
+    thrown.expect(UnsupportedOperationException.class);
+    thrown.expectMessage("v axis degree is not set");
+
     Integer uAxisDegree = Integer.valueOf(3);
     Degree degree = statementFactory.createDegree(uAxisDegree);
 

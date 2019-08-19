@@ -7,7 +7,9 @@ import static org.junit.Assert.assertTrue;
 import java.util.HashMap;
 import java.util.Map;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import com.ht.wfp3.api.statement.Bevel;
 import com.ht.wfp3.api.statement.EqualsHashCodeAndCompareToTester;
 import com.ht.wfp3.api.statement.MutabilityTester;
@@ -16,6 +18,9 @@ import com.ht.wfp3.api.statement.StatementFactory;
 
 public class BevelAcceptanceTests {
   private static final String BEVEL_KEYWORD = "bevel";
+
+  @Rule
+  public ExpectedException thrown = ExpectedException.none();
 
   private StatementFactory statementFactory;
 
@@ -45,8 +50,11 @@ public class BevelAcceptanceTests {
     assertFalse(bevel.isEnabled());
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void Bevel_copyBevelWithNullParameter_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("bevel cannot be null");
+
     statementFactory.copyBevel(null);
   }
 

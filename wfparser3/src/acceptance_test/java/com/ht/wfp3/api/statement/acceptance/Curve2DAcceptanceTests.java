@@ -6,15 +6,20 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import com.ht.wfp3.api.statement.Curve2D;
 import com.ht.wfp3.api.statement.EqualsHashCodeAndCompareToTester;
 import com.ht.wfp3.api.statement.ParamVertexReference;
 import com.ht.wfp3.api.statement.StatementFactory;
 
 public class Curve2DAcceptanceTests {
-
   private static final Object CURVE2D_KEYWORD = "curv2";
+
+  @Rule
+  public ExpectedException thrown = ExpectedException.none();
+
   private StatementFactory statementFactory;
 
   @Before
@@ -22,23 +27,35 @@ public class Curve2DAcceptanceTests {
     statementFactory = StatementFactory.createStatementFactory();
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void Curve2D_createCurve2DWithNullControlPointVertexReferenceListParameter_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("controlPointVertexReferenceList cannot be null");
+
     statementFactory.createCurve2D(null);
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void Curve2D_createCurve2DWithEmptyControlPointVertexReferenceListParameter_illegalArgumentExceptionIsThrown() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("controlPointVertexReferenceList requires a minimum of 2 control points");
+
     statementFactory.createCurve2D(Collections.emptyList());
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void Curve2D_createCurve2DWithOneControlPointInVertexReferenceListParameter_illegalArgumentExceptionIsThrown() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("controlPointVertexReferenceList requires a minimum of 2 control points");
+
     statementFactory.createCurve2D(Arrays.asList(statementFactory.createParamVertexReference(1)));
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void Curve2D_createCurve2DWithVertexReferenceListContainingNullMembers_illegalArgumentExceptionIsThrown() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("controlPointVertexReferenceList cannot contain null members");
+
     statementFactory.createCurve2D(Arrays.asList(statementFactory.createParamVertexReference(1),
         null, statementFactory.createParamVertexReference(3)));
   }
@@ -56,8 +73,11 @@ public class Curve2DAcceptanceTests {
     assertEquals(controlPointerVertexReferenceList, curve2D.getControlPointVertexReferences());
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void Curve2D_copyCurve2DWithNullParameter_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("curv2 cannot be null");
+
     statementFactory.copyCurve2D(null);
   }
 

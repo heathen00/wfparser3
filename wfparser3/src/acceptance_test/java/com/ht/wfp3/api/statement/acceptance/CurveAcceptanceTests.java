@@ -8,15 +8,20 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import com.ht.wfp3.api.statement.Curve;
 import com.ht.wfp3.api.statement.EqualsHashCodeAndCompareToTester;
 import com.ht.wfp3.api.statement.GeoVertexReference;
 import com.ht.wfp3.api.statement.StatementFactory;
 
 public class CurveAcceptanceTests {
-
   private static final String CURVE_KEYWORD = "curv";
+
+  @Rule
+  public ExpectedException thrown = ExpectedException.none();
+
   private StatementFactory statementFactory;
 
   private List<GeoVertexReference> createGeoVertexReferenceList(Integer... geoVertexReferences) {
@@ -35,44 +40,65 @@ public class CurveAcceptanceTests {
     statementFactory = StatementFactory.createStatementFactory();
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void Curve_createCurveWithNullStartingParameterValue_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("startingParameterValue cannot be null");
+
     statementFactory.createCurve(null, BigDecimal.valueOf(5.5d),
         createGeoVertexReferenceList(1, 2, 3));
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void Curve_createCurveWithNullEndingParameterValue_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("endingParameterValue cannot be null");
+
     statementFactory.createCurve(BigDecimal.valueOf(4.44444d), null,
         createGeoVertexReferenceList(1, 2, 3));
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void Curve_createCurveWithNullVertexReferenceGroupList_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("controlPointVertexReferenceList cannot be null");
+
     statementFactory.createCurve(BigDecimal.valueOf(5.678d), BigDecimal.valueOf(6789.1234d), null);
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void Curve_createCurveWithEmptyVertexReferenceGroupList_illegalArgumentExceptionIsThrown() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("controlPointVertexReferenceList requires at least ");
+
     statementFactory.createCurve(BigDecimal.valueOf(5.678d), BigDecimal.valueOf(3.3333d),
         Collections.emptyList());
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void Curve_createCurveWithGeoVertexReferenceListContainingNullMembers_illegalArgumentExceptionIsThrown() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("controlPointVertexReferenceList cannot contain null members");
+
     statementFactory.createCurve(BigDecimal.valueOf(4.567d), BigDecimal.valueOf(3.1235d),
         Arrays.asList(statementFactory.createGeoVertexReference(1), null,
             statementFactory.createGeoVertexReference(56)));
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void Curve_createCurveWithOneControlPointInVertexReferenceGroupList_illegalArgumentExceptionIsThrown() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("controlPointVertexReferenceList requires at least ");
+
     statementFactory.createCurve(BigDecimal.valueOf(3.456d), BigDecimal.valueOf(4.678d),
         createGeoVertexReferenceList(67));
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void Curve_copyCurveWithNullParameter_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("curv cannot be null");
+
     statementFactory.copyCurve(null);
   }
 

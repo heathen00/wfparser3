@@ -12,7 +12,7 @@ class ShadowObjectImp extends StatementImp implements ShadowObject {
   ShadowObjectImp(Path shadowObjectFileName) {
     super(KEYWORD);
     if (null == shadowObjectFileName) {
-      throw new NullPointerException("shadowObjectFileName constructor parameter cannot be null");
+      throw new NullPointerException("shadowObjectFileName cannot be null");
     }
     if (!shadowObjectFileName.getFileName().toFile().getName().contains(".")) {
       shadowObjectFileName =
@@ -22,7 +22,7 @@ class ShadowObjectImp extends StatementImp implements ShadowObject {
         FileSystems.getDefault().getPathMatcher("glob:*.{" + OBJ_EXT + "," + MOD_EXT + "}");
     if (!supportedExtensionsMatcher.matches(shadowObjectFileName.getFileName())) {
       throw new IllegalArgumentException(
-          "fileName must have extension '" + OBJ_EXT + "' or '" + MOD_EXT + "'");
+          "shadowObjectFileName must have extension '" + OBJ_EXT + "' or '" + MOD_EXT + "'");
     }
     this.shadowObjectFileName = shadowObjectFileName;
   }

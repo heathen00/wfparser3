@@ -3,14 +3,19 @@ package com.ht.wfp3.api.statement.acceptance;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import com.ht.wfp3.api.statement.End;
 import com.ht.wfp3.api.statement.EqualsHashCodeAndCompareToTester;
 import com.ht.wfp3.api.statement.StatementFactory;
 
 public class EndAcceptanceTests {
-
   private static final String END_KEYWORD = "end";
+
+  @Rule
+  public ExpectedException thrown = ExpectedException.none();
+
   private StatementFactory statementFactory;
 
   @Before
@@ -26,8 +31,11 @@ public class EndAcceptanceTests {
     assertEquals(END_KEYWORD, end.getKeyword());
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void End_copyEndWithNullParameter_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("end cannot be null");
+
     statementFactory.copyEnd(null);
   }
 

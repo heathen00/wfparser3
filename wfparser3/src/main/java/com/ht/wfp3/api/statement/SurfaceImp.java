@@ -15,20 +15,16 @@ class SurfaceImp extends StatementsUsingVertexReferenceGroupsImp implements Surf
       List<VertexReferenceGroup> vertexReferenceGroupList) {
     super(KEYWORD, MINIMUM_VERTEX_REFERENCE_GROUPS, vertexReferenceGroupList);
     if (null == startingParameterValueUAxis) {
-      throw new NullPointerException(
-          "startingParameterValueUAxis constructor parameter cannot be null");
+      throw new NullPointerException("startingParameterValueUAxis cannot be null");
     }
     if (null == endingParameterValueUAxis) {
-      throw new NullPointerException(
-          "endingParameterValueUAxis constructor parameter cannot be null");
+      throw new NullPointerException("endingParameterValueUAxis cannot be null");
     }
     if (null == startingParameterValueVAxis) {
-      throw new NullPointerException(
-          "startingParameterValueVAxis constructor parameter cannot be null");
+      throw new NullPointerException("startingParameterValueVAxis cannot be null");
     }
     if (null == endingParameterValueVAxis) {
-      throw new NullPointerException(
-          "endingParameterValueVAxis constructor parameter cannot be null");
+      throw new NullPointerException("endingParameterValueVAxis cannot be null");
     }
     this.startingParameterValueUAxis = startingParameterValueUAxis;
     this.endingParameterValueUAxis = endingParameterValueUAxis;

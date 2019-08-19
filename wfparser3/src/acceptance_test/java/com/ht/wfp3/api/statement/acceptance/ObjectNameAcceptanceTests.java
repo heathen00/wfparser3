@@ -3,14 +3,18 @@ package com.ht.wfp3.api.statement.acceptance;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import com.ht.wfp3.api.statement.EqualsHashCodeAndCompareToTester;
 import com.ht.wfp3.api.statement.ObjectName;
 import com.ht.wfp3.api.statement.StatementFactory;
 
 public class ObjectNameAcceptanceTests {
-
   private static final String OBJECT_NAME_KEYWORD = "o";
+
+  @Rule
+  public ExpectedException thrown = ExpectedException.none();
 
   private StatementFactory statementFactory;
 
@@ -25,23 +29,35 @@ public class ObjectNameAcceptanceTests {
     statementFactory = StatementFactory.createStatementFactory();
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void ObjectName_createObjectNameWithNullObjectName_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("objectName cannot be null");
+
     statementFactory.createObjectName(null);
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void ObjectName_createObjectNameWithEmptyObjectName_illegalArgumentExceptionIsThrown() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("objectName can only contain ");
+
     statementFactory.createObjectName("");
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void ObjectName_createObjectNameWithWhitespaceObjectName_illegalArgumentExceptionIsThrown() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("objectName can only contain ");
+
     statementFactory.createObjectName("   \t ");
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void ObjectName_createObjectNameContainingWhitespaceObjectName_illegalArgumentExceptionIsThrown() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("objectName can only contain ");
+
     statementFactory.createObjectName("one two\tthree ");
   }
 
@@ -54,8 +70,11 @@ public class ObjectNameAcceptanceTests {
     assertValidObjectName(objectNameParameter, objectName);
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void ObjectName_copyObjectNameWithNullParameter_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("o cannot be null");
+
     statementFactory.copyObjectName(null);
   }
 

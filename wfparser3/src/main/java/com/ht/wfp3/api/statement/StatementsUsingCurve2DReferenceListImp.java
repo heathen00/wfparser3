@@ -12,15 +12,14 @@ abstract class StatementsUsingCurve2DReferenceListImp extends StatementImp
       List<Curve2DReference> curve2DReferenceList) {
     super(keyword);
     if (null == curve2DReferenceList) {
-      throw new NullPointerException("curve2DReferenceList constructor parameter cannot be null");
+      throw new NullPointerException("curve2DReferenceList cannot be null");
     }
     if (curve2DReferenceList.contains(null)) {
-      throw new IllegalArgumentException(
-          "curve2DReferenceList constructor parameter cannot contain null members");
+      throw new IllegalArgumentException("curve2DReferenceList cannot contain null members");
     }
     if (minimumCurve2DReferences.compareTo(curve2DReferenceList.size()) > 0) {
       throw new IllegalArgumentException(
-          "curve2DReferenceList constructor parameter must contain at least one curve2DReference");
+          "curve2DReferenceList must contain at least one curve2DReference");
     }
     this.curve2DReferenceList = new ArrayList<Curve2DReference>(curve2DReferenceList);
   }

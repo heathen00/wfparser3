@@ -7,15 +7,19 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import com.ht.wfp3.api.statement.Curve2DReference;
 import com.ht.wfp3.api.statement.EqualsHashCodeAndCompareToTester;
 import com.ht.wfp3.api.statement.Hole;
 import com.ht.wfp3.api.statement.StatementFactory;
 
 public class HoleAcceptanceTests {
-
   private static final Object HOLE_KEYWORD = "hole";
+
+  @Rule
+  public ExpectedException thrown = ExpectedException.none();
 
   private StatementFactory statementFactory;
 
@@ -36,18 +40,27 @@ public class HoleAcceptanceTests {
     statementFactory = StatementFactory.createStatementFactory();
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void Hole_createHoleWithNullCurve2DReferenceListParamter_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("curve2DReferenceList cannot be null");
+
     statementFactory.createHole(null);
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void Hole_createHoleWithEmptyCurve2DReferenceList_illegalArgumentExceptionIsThrown() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("curve2DReferenceList must contain at least ");
+
     statementFactory.createHole(Collections.emptyList());
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void Hole_createHoleWithCurve2DReferenceListContainingNullMembers_illegalArgumentExceptionIsThrown() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("curve2DReferenceList cannot contain null members");
+
     statementFactory.createHole(Arrays.asList(createCurve2DReference(1.1d, 2.2d, 1), null,
         createCurve2DReference(3.3d, 4.4d, 2)));
   }
@@ -62,8 +75,11 @@ public class HoleAcceptanceTests {
     assertValidHole(curve2DReferenceList, hole);
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void Hole_copyHoleWithNullParameter_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("hole cannot be null");
+
     statementFactory.copyHole(null);
   }
 

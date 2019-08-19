@@ -4,14 +4,18 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import java.math.BigDecimal;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import com.ht.wfp3.api.statement.EqualsHashCodeAndCompareToTester;
 import com.ht.wfp3.api.statement.StatementFactory;
 import com.ht.wfp3.api.statement.TexVertex;
 
 public class TexVertexAcceptanceTests {
-
   private static final String TEX_VERTEX_KEYWORD = "vt";
+
+  @Rule
+  public ExpectedException thrown = ExpectedException.none();
 
   private StatementFactory statementFactory;
 
@@ -29,18 +33,27 @@ public class TexVertexAcceptanceTests {
     statementFactory = StatementFactory.createStatementFactory();
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void TexVertex_createTexVertexWithNullUCoord_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("uCoord cannot be null");
+
     statementFactory.createTexVertex(null, BigDecimal.valueOf(2.2d), BigDecimal.valueOf(3.3d));
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void TexVertex_createTexVertexWithNullVCoord_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("vCoord cannot be null");
+
     statementFactory.createTexVertex(BigDecimal.valueOf(1.1d), null, BigDecimal.valueOf(3.3d));
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void TexVertex_createTexVertexWithNullWCoord_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("wCoord cannot be null");
+
     statementFactory.createTexVertex(BigDecimal.valueOf(1.1d), BigDecimal.valueOf(2.2d), null);
   }
 
@@ -77,8 +90,11 @@ public class TexVertexAcceptanceTests {
     assertValidTexVertex(uCoord, expectedVCoord, expectedWCoord, texVertex);
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void TexVertex_copyTexVertexWithNullParameter_texVertexIsCreated() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("texVertex cannot be null");
+
     statementFactory.copyTexVertex(null);
   }
 

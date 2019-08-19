@@ -13,20 +13,18 @@ class StepSizeImp extends StatementImp implements StepSize {
     super(KEYWORD);
     this.isStepSizeInVAxisUsed = isStepSizeInVAxisUsed;
     if (null == stepSizeInUAxis) {
-      throw new NullPointerException("stepSizeInUAxis constructor parameter cannot be null");
+      throw new NullPointerException("stepSizeInUAxis cannot be null");
     }
     if (null == stepSizeInVAxis) {
-      throw new NullPointerException("stepSizeInVAxis constructor parameter cannot be null");
+      throw new NullPointerException("stepSizeInVAxis cannot be null");
     }
     if (MINIMUM_STEP_SIZE_IN_U_AXIS.compareTo(stepSizeInUAxis) > 0) {
       throw new IllegalArgumentException(
-          "stepSizeInUAxis constructor parameter must be greater than "
-              + MINIMUM_STEP_SIZE_IN_U_AXIS);
+          "stepSizeInUAxis must be greater than " + MINIMUM_STEP_SIZE_IN_U_AXIS);
     }
     if (this.isStepSizeInVAxisUsed && MINIMUM_STEP_SIZE_IN_V_AXIS.compareTo(stepSizeInVAxis) > 0) {
       throw new IllegalArgumentException(
-          "stepSizeInVAxis constructor parameter must be greater than "
-              + MINIMUM_STEP_SIZE_IN_V_AXIS);
+          "stepSizeInVAxis must be greater than " + MINIMUM_STEP_SIZE_IN_V_AXIS);
     }
     this.stepSizeInUAxis = stepSizeInUAxis;
     this.stepSizeInVAxis = stepSizeInVAxis;
@@ -48,7 +46,7 @@ class StepSizeImp extends StatementImp implements StepSize {
   @Override
   public Integer getStepSizeInVAxis() {
     if (!isStepSizeInVAxisUsed) {
-      throw new UnsupportedOperationException("cannot access steSizeInVAxis when it is not set");
+      throw new UnsupportedOperationException("cannot access stepSizeInVAxis when it is not set");
     }
     return stepSizeInVAxis;
   }

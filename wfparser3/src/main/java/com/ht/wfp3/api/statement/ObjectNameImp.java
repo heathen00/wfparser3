@@ -8,11 +8,11 @@ class ObjectNameImp extends StatementImp implements ObjectName {
   ObjectNameImp(String objectName) {
     super(KEYWORD);
     if (null == objectName) {
-      throw new NullPointerException("objectName constructor parameter cannot be null");
+      throw new NullPointerException("objectName cannot be null");
     }
     if (!objectName.matches("^[\\d\\w]+$")) {
       throw new IllegalArgumentException(
-          "objectName constructor parameter can only contain upper/lower case characters, numbers, and underscore");
+          "objectName can only contain upper/lower case characters, numbers, and underscore");
     }
     this.objectName = objectName;
   }

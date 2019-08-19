@@ -3,14 +3,19 @@ package com.ht.wfp3.api.statement.acceptance;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import com.ht.wfp3.api.statement.DissolveInterpolation;
 import com.ht.wfp3.api.statement.EqualsHashCodeAndCompareToTester;
 import com.ht.wfp3.api.statement.StatementFactory;
 
 public class DissolveInterpolationAcceptanceTests {
-
   private static final String D_INTERP_KEYWORD = "d_interp";
+
+  @Rule
+  public ExpectedException thrown = ExpectedException.none();
+
   private StatementFactory statementFactory;
 
   private void assertValidDissolveInterpolation(boolean expectedIsEnabled,
@@ -45,8 +50,11 @@ public class DissolveInterpolationAcceptanceTests {
     assertValidDissolveInterpolation(isEnabled, dissolveInterpolation);
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void DissolveInterpolation_copyDissolveInterpolationWithNullParameter_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("d_interp cannot be null");
+
     statementFactory.copyDissolveInterpolation(null);
   }
 

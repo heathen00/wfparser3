@@ -8,14 +8,18 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import com.ht.wfp3.api.statement.EqualsHashCodeAndCompareToTester;
 import com.ht.wfp3.api.statement.MapLib;
 import com.ht.wfp3.api.statement.StatementFactory;
 
 public class MapLibAcceptanceTests {
-
   private static final String MAPLIB_KEYWORD = "maplib";
+
+  @Rule
+  public ExpectedException thrown = ExpectedException.none();
 
   private StatementFactory statementFactory;
 
@@ -30,18 +34,27 @@ public class MapLibAcceptanceTests {
     statementFactory = StatementFactory.createStatementFactory();
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void MapLib_createMapLibWithNullMapLibFileNameList_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("mapLibFileNameList cannot be null");
+
     statementFactory.createMapLib(null);
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void MapLib_createMapLibWithEmptyMapLibFileNameList_illegalArgumentExceptionIsThrown() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("mapLibFileNameList must contain at least ");
+
     statementFactory.createMapLib(Collections.emptyList());
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void MapLib_createMapLibWithMapLibFileNameListContainingNullMembers_illegalArgumentExceptionIsThrown() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("mapLibFileNameList cannot contain null members");
+
     statementFactory.createMapLib(
         Arrays.asList(Paths.get("home", "tex_map.lib"), null, Paths.get("foo", "bar.lib")));
   }
@@ -65,8 +78,11 @@ public class MapLibAcceptanceTests {
     assertValidMapLib(mapLibFileNameList, mapLib);
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void MapLib_copyMapLibWithNullParameter_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("maplib cannot be null");
+
     statementFactory.copyMapLib(null);
   }
 

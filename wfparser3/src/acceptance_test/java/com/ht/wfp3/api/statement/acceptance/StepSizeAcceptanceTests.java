@@ -5,14 +5,18 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import com.ht.wfp3.api.statement.EqualsHashCodeAndCompareToTester;
 import com.ht.wfp3.api.statement.StatementFactory;
 import com.ht.wfp3.api.statement.StepSize;
 
 public class StepSizeAcceptanceTests {
-
   private static final String STEP_KEYWORD = "step";
+
+  @Rule
+  public ExpectedException thrown = ExpectedException.none();
 
   private StatementFactory statementFactory;
 
@@ -37,23 +41,35 @@ public class StepSizeAcceptanceTests {
     statementFactory = StatementFactory.createStatementFactory();
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void StepSize_createStepSizeWithNullStepSizeInUAxis_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("stepSizeInUAxis cannot be null");
+
     statementFactory.createStepSize(null, Integer.valueOf(5));
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void StepSize_createStepSizeWithNullStepSizeInVAxis_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("stepSizeInVAxis cannot be null");
+
     statementFactory.createStepSize(Integer.valueOf(33), null);
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void StepSize_createStepSizeWithStepSizeInUAxisLessThanTheMinimum_illegalArgumentExceptionIsThrown() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("stepSizeInUAxis must be greater than ");
+
     statementFactory.createStepSize(Integer.valueOf(0), Integer.valueOf(5));
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void StepSize_createStepSizeWithStepSizeInVAxisLessThanTheMinimum_illegalArgumentExceptionIsThrown() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("stepSizeInVAxis must be greater than ");
+
     statementFactory.createStepSize(Integer.valueOf(3), Integer.valueOf(0));
   }
 
@@ -86,8 +102,11 @@ public class StepSizeAcceptanceTests {
     assertValidStepSize(stepSizeInUAxis, stepSize);
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void StepSize_copyStepSizeWithNullParameter_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("step cannot be null");
+
     statementFactory.copyStepSize(null);
   }
 
@@ -112,8 +131,12 @@ public class StepSizeAcceptanceTests {
     assertValidStepSize(stepSizeInUAxis, copiedStepSize);
   }
 
-  @Test(expected = UnsupportedOperationException.class)
+  @Test
   public void StepSize_accessStepSizeInVAxisWhenNotSet_unsupportedOperationExceptionIsThrown() {
+    thrown.expect(UnsupportedOperationException.class);
+    thrown.expectMessage("cannot access stepSizeInVAxis when it is not set");
+
+
     StepSize stepSize = statementFactory.createStepSize(Integer.valueOf(33));
     stepSize.getStepSizeInVAxis();
   }

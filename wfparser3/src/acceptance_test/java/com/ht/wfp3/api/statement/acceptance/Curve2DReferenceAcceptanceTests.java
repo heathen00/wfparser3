@@ -4,12 +4,18 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import java.math.BigDecimal;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import com.ht.wfp3.api.statement.Curve2DReference;
 import com.ht.wfp3.api.statement.EqualsHashCodeAndCompareToTester;
 import com.ht.wfp3.api.statement.StatementFactory;
 
 public class Curve2DReferenceAcceptanceTests {
+
+  @Rule
+  public ExpectedException thrown = ExpectedException.none();
+
   private StatementFactory statementFactory;
 
   @Before
@@ -17,24 +23,36 @@ public class Curve2DReferenceAcceptanceTests {
     statementFactory = StatementFactory.createStatementFactory();
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void Curve2DReference_createCurve2DReferenceWithNullStartingParameterValue_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("startingParameterValue cannot be null");
+
     statementFactory.createCurve2DReference(null, BigDecimal.valueOf(1.1d), Integer.valueOf(45));
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void Curve2DReference_createCurve2DReferenceWithNullEndingParameterValue_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("endingParameterValue cannot be null");
+
     statementFactory.createCurve2DReference(BigDecimal.valueOf(3.567d), null, Integer.valueOf(33));
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void Curve2DReference_createCurve2DReferenceWithNullCurve2DIndex_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("curve2DIndex cannot be null");
+
     statementFactory.createCurve2DReference(BigDecimal.valueOf(2.345d), BigDecimal.valueOf(6.712d),
         null);
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void Curve2DReference_createCurve2DReferenceWithZeroCurve2DIndex_illegalArgumentExceptionIsThrown() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("curve2DIndex cannot be zero");
+
     statementFactory.createCurve2DReference(BigDecimal.valueOf(3.456d), BigDecimal.valueOf(999.87d),
         Integer.valueOf(0));
   }
@@ -54,8 +72,11 @@ public class Curve2DReferenceAcceptanceTests {
     assertEquals(curve2DIndex, curve2DReference.getCurve2DIndex());
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void Curve2DReference_copyCurve2DReferenceWithNullParameter_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("curve2DReference cannot be null");
+
     statementFactory.copyCurve2DReference(null);
   }
 

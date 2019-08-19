@@ -4,14 +4,18 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import java.math.BigDecimal;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import com.ht.wfp3.api.statement.EqualsHashCodeAndCompareToTester;
 import com.ht.wfp3.api.statement.MergingGroup;
 import com.ht.wfp3.api.statement.StatementFactory;
 
 public class MergingGroupAcceptanceTests {
-
   private static final Object MERGING_GROUP_KEYWORD = "mg";
+
+  @Rule
+  public ExpectedException thrown = ExpectedException.none();
 
   private StatementFactory statementFactory;
 
@@ -29,18 +33,27 @@ public class MergingGroupAcceptanceTests {
     statementFactory = StatementFactory.createStatementFactory();
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void MergingGroup_createMergingGroupWithNullGroupNumber_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("mergingGroupNumber cannot be null");
+
     statementFactory.createMergingGroup(null, BigDecimal.valueOf(1.1d));
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void MergingGroup_createMergingGroupWithNullResolution_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("mergingGroupResolution cannot be null");
+
     statementFactory.createMergingGroup(Integer.valueOf(23), null);
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void MergingGroup_createMergingGroupWithGroupNumberLessThanZero_illegalArgumentExceptionIsThrown() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("mergingGroupNumber must be greater or equal to ");
+
     statementFactory.createMergingGroup(Integer.valueOf(-1), BigDecimal.valueOf(3.3d));
   }
 
@@ -70,8 +83,11 @@ public class MergingGroupAcceptanceTests {
         mergingGroup);
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void MergingGroup_createMergingGroupWithResolutionLessThanOrEqualToZero_illegalArgumentExceptionIsThrown() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("mergingGroupResolution must be greater than ");
+
     statementFactory.createMergingGroup(Integer.valueOf(53), BigDecimal.valueOf(-00000046d));
   }
 
@@ -88,8 +104,11 @@ public class MergingGroupAcceptanceTests {
         mergingGroup);
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void MergingGroup_copyMergingGroupWithNullParameter_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("mg cannot be null");
+
     statementFactory.copyMergingGroup(null);
   }
 

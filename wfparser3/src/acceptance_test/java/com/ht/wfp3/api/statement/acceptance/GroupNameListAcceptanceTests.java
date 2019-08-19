@@ -6,13 +6,18 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import com.ht.wfp3.api.statement.EqualsHashCodeAndCompareToTester;
 import com.ht.wfp3.api.statement.GroupNameList;
 import com.ht.wfp3.api.statement.StatementFactory;
 
 public class GroupNameListAcceptanceTests {
   private static final Object GROUP_NAME_LIST_KEYWORD = "g";
+
+  @Rule
+  public ExpectedException thrown = ExpectedException.none();
 
   private StatementFactory statementFactory;
 
@@ -29,18 +34,27 @@ public class GroupNameListAcceptanceTests {
   }
 
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void GroupNameList_createGroupNameListWithNullGroupNameListParameter_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("groupNameList cannot be null");
+
     statementFactory.createGroupNameList(null);
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void GroupNameLIst_createGroupNameListWithEmptyGroupNameList_illegalArgumentExceptionIsThrown() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("groupNameList must contain at least ");
+
     statementFactory.createGroupNameList(Collections.emptyList());
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void GroupNameList_createGroupNameListWithNameListContainingNullMembers_illegalArgumentExceptionIsThrown() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("groupNameList cannot contain null members");
+
     statementFactory.createGroupNameList(Arrays.asList("group_00", null, "group_02"));
   }
 
@@ -63,8 +77,11 @@ public class GroupNameListAcceptanceTests {
     assertValidGroupNameList(groupNameListParameter, groupNameList);
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void GroupNameList_copyGroupNameListWithNullParameter_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("g cannot be null");
+
     statementFactory.copyGroupNameList(null);
   }
 

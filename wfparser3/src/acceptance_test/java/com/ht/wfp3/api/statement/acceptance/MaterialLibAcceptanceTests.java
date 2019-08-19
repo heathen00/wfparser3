@@ -8,14 +8,18 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import com.ht.wfp3.api.statement.EqualsHashCodeAndCompareToTester;
 import com.ht.wfp3.api.statement.MaterialLib;
 import com.ht.wfp3.api.statement.StatementFactory;
 
 public class MaterialLibAcceptanceTests {
-
   private static final String MTLLIB_KEYWORD = "mtllib";
+
+  @Rule
+  public ExpectedException thrown = ExpectedException.none();
 
   private StatementFactory statementFactory;
 
@@ -30,18 +34,27 @@ public class MaterialLibAcceptanceTests {
     statementFactory = StatementFactory.createStatementFactory();
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void MaterialLib_createMaterialLibWithNullMaterialLibFileNameList_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("materialLibFileNameList cannot be null");
+
     statementFactory.createMaterialLib(null);
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void MaterialLib_createMaterialLibWithEmptyMaterialLibFileNameList_illegalArgumentExceptionIsThrown() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("materialLibFileNameList must contain at least ");
+
     statementFactory.createMaterialLib(Collections.emptyList());
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void MaterialLib_createMaterialLibWithMaterialLibFileNameListContainingNullMembers_illegalArgumentExceptionIsThrown() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("materialLibFileNameList cannot contain null members");
+
     statementFactory.createMaterialLib(
         Arrays.asList(Paths.get("home", "foo.mtl"), null, Paths.get("home", "bar.mtl")));
   }
@@ -65,8 +78,11 @@ public class MaterialLibAcceptanceTests {
     assertValidMaterialLib(materialLibFileNameList, materialLib);
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void MaterialLib_copyMaterialLibWithNullParameter_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("mtllib cannot be null");
+
     statementFactory.copyMaterialLib(null);
   }
 

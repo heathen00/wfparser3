@@ -9,7 +9,7 @@ class CurveOrSurfaceTypeImp extends StatementImp implements CurveOrSurfaceType {
   CurveOrSurfaceTypeImp(boolean isRational, Key key) {
     super(KEYWORD);
     if (null == key) {
-      throw new NullPointerException("key constructor parameter cannot be null");
+      throw new NullPointerException("key cannot be null");
     }
     this.isRational = isRational;
     this.key = key;

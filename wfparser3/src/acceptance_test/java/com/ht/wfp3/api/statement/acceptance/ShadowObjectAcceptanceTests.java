@@ -5,14 +5,18 @@ import static org.junit.Assert.assertNotNull;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import com.ht.wfp3.api.statement.EqualsHashCodeAndCompareToTester;
 import com.ht.wfp3.api.statement.ShadowObject;
 import com.ht.wfp3.api.statement.StatementFactory;
 
 public class ShadowObjectAcceptanceTests {
-
   private static final String SHADOW_OBJ_KEYWORD = "shadow_obj";
+
+  @Rule
+  public ExpectedException thrown = ExpectedException.none();
 
   private StatementFactory statementFactory;
 
@@ -27,13 +31,19 @@ public class ShadowObjectAcceptanceTests {
     statementFactory = StatementFactory.createStatementFactory();
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void ShadowObject_createShadowObjectWithNullFileName_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("shadowObjectFileName cannot be null");
+
     statementFactory.createShadowObject(null);
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void ShadowObject_createShadowObjectWithFileNameWithUnsupportedExtension_illegalArgumentExceptionIsThrown() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("shadowObjectFileName must have extension ");
+
     statementFactory.createShadowObject(Paths.get("home", "some_document.pdf"));
   }
 
@@ -65,8 +75,11 @@ public class ShadowObjectAcceptanceTests {
     assertValidShadowObject(expectedShadowObjectFileName, shadowObject);
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void ShadowObject_copyShadowObjectWithNullParameter_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("shadow_obj cannot be null");
+
     statementFactory.copyShadowObject(null);
   }
 

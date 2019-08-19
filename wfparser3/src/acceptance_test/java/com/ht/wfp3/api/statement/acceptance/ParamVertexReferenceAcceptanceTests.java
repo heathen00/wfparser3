@@ -3,12 +3,17 @@ package com.ht.wfp3.api.statement.acceptance;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import com.ht.wfp3.api.statement.EqualsHashCodeAndCompareToTester;
 import com.ht.wfp3.api.statement.ParamVertexReference;
 import com.ht.wfp3.api.statement.StatementFactory;
 
 public class ParamVertexReferenceAcceptanceTests {
+
+  @Rule
+  public ExpectedException thrown = ExpectedException.none();
 
   private StatementFactory statementFactory;
 
@@ -24,13 +29,19 @@ public class ParamVertexReferenceAcceptanceTests {
     statementFactory = StatementFactory.createStatementFactory();
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void ParamVertexReference_createParamVertexReferenceWithNullVertexIndex_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("vertexIndex cannot be null");
+
     statementFactory.createParamVertexReference(null);
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void ParamVertexReference_createParamVertexReferenceWithZeroValueVertexIndex_illegalParameterExceptionIsThrown() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("vertexIndex cannot equal ");
+
     statementFactory.createParamVertexReference(Integer.valueOf(0));
   }
 
@@ -56,8 +67,11 @@ public class ParamVertexReferenceAcceptanceTests {
     assertValidParamVertexReference(vertexIndex, expectedIsSet, paramVertexReference);
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void ParamVertexReference_copyParamVertexReferenceWithNullParameter_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("paramVertexReference cannot be null");
+
     statementFactory.copyParamVertexReference(null);
   }
 

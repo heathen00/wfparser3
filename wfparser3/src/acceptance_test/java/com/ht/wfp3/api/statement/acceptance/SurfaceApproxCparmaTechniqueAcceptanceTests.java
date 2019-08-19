@@ -4,7 +4,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import java.math.BigDecimal;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import com.ht.wfp3.api.statement.EqualsHashCodeAndCompareToTester;
 import com.ht.wfp3.api.statement.StatementFactory;
 import com.ht.wfp3.api.statement.SurfaceApproxCparmaTechnique;
@@ -12,6 +14,9 @@ import com.ht.wfp3.api.statement.SurfaceApproxCparmaTechnique;
 public class SurfaceApproxCparmaTechniqueAcceptanceTests {
   private static final String STECH_KEYWORD = "stech";
   private static final String CPARMA_KEYWORD = "cparma";
+
+  @Rule
+  public ExpectedException thrown = ExpectedException.none();
 
   private StatementFactory statementFactory;
 
@@ -29,24 +34,36 @@ public class SurfaceApproxCparmaTechniqueAcceptanceTests {
     statementFactory = StatementFactory.createStatementFactory();
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void SurfaceApproxCparmaTechnique_createSurfaceApproxCparmaTechniqueWithNullResolutionForUAxis_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("resolutionForUAxis cannot be null");
+
     statementFactory.createSurfaceApproxCparmaTechnique(null, BigDecimal.valueOf(2.2d));
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void SurfaceApproxCparmaTechnique_createSurfaceApproxCparmaTechniqueWithNullResolutionForVAxis_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("resolutionForVAxis cannot be null");
+
     statementFactory.createSurfaceApproxCparmaTechnique(BigDecimal.valueOf(1.1d), null);
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void SurfaceApproxCparmaTechnique_createSurfaceApproxCparmaTechniqueWithResolutionForUAxisBelowMinimum_illegalArgumentExceptionIsThrown() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("resolutionForUAxis must be greater or equal to ");
+
     statementFactory.createSurfaceApproxCparmaTechnique(BigDecimal.valueOf(-0.000001d),
         BigDecimal.valueOf(2.2d));
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void SurfaceApproxCparmaTechnique_createSurfaceApproxCparmaTechniqueWithResolutionForVAxisBelowMinimum_illegalArgumentExceptionIsThrown() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("resolutionForVAxis must be greater or equal to ");
+
     statementFactory.createSurfaceApproxCparmaTechnique(BigDecimal.valueOf(1.1d),
         BigDecimal.valueOf(-1000000.55));
   }
@@ -87,8 +104,11 @@ public class SurfaceApproxCparmaTechniqueAcceptanceTests {
         surfaceApproxCparmaTechnique);
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void SurfaceApproxCparmaTechnique_copySurfaceApproxCparmaTechniqueWithNullParameter_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("surfaceApproxCparmaTechnique cannot be null");
+
     statementFactory.copySurfaceApproxCparmaTechnique(null);
   }
 

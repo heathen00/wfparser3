@@ -14,17 +14,14 @@ abstract class StatementsUsingVertexReferenceGroupsImp extends StatementImp
     super(keyword);
     statementFactory = StatementFactory.createStatementFactory();
     if (null == vertexReferenceGroupList) {
-      throw new NullPointerException(
-          "vertexReferenceGroupList constructor parameter cannot be null");
+      throw new NullPointerException("vertexReferenceGroupList cannot be null");
     }
     if (vertexReferenceGroupList.contains(null)) {
-      throw new IllegalArgumentException(
-          "vertexReferenceGroupList constructor parameter cannot contain null members");
+      throw new IllegalArgumentException("vertexReferenceGroupList cannot contain null members");
     }
     if (vertexReferenceGroupList.size() < minimumNumberOfVertexReferenceGroups) {
-      throw new IllegalArgumentException(
-          "vertexReferenceGroupList constructor parameter must have more than "
-              + minimumNumberOfVertexReferenceGroups + " vertex reference groups");
+      throw new IllegalArgumentException("vertexReferenceGroupList must have more than "
+          + minimumNumberOfVertexReferenceGroups + " vertex reference groups");
     }
     this.vertexReferenceGroupList = new ArrayList<>();
     for (VertexReferenceGroup vertexReferenceGroup : vertexReferenceGroupList) {

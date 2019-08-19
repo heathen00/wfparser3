@@ -13,16 +13,16 @@ class GeoVertexImp extends StatementImp implements GeoVertex {
   GeoVertexImp(BigDecimal xCoord, BigDecimal yCoord, BigDecimal zCoord, BigDecimal wCoord) {
     super(KEYWORD);
     if (null == xCoord) {
-      throw new NullPointerException("xCoord constructor parameter cannot be null");
+      throw new NullPointerException("xCoord cannot be null");
     }
     if (null == yCoord) {
-      throw new NullPointerException("yCoord constructor parameter cannot be null");
+      throw new NullPointerException("yCoord cannot be null");
     }
     if (null == zCoord) {
-      throw new NullPointerException("zCoord constructor parameter cannot be null");
+      throw new NullPointerException("zCoord cannot be null");
     }
     if (null == wCoord) {
-      throw new NullPointerException("wCoord constructor parameter cannot be null");
+      throw new NullPointerException("wCoord cannot be null");
     }
     this.xCoord = defensiveCopy(xCoord);
     this.yCoord = defensiveCopy(yCoord);

@@ -7,7 +7,9 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import com.ht.wfp3.api.statement.EqualsHashCodeAndCompareToTester;
 import com.ht.wfp3.api.statement.StatementFactory;
 import com.ht.wfp3.api.statement.Surface;
@@ -16,6 +18,9 @@ import com.ht.wfp3.api.statement.VertexReferenceGroupBuilder;
 
 public class SurfaceAcceptanceTests {
   private static final String SURFACE_KEYWORD = "surf";
+
+  @Rule
+  public ExpectedException thrown = ExpectedException.none();
 
   private StatementFactory statementFactory;
   private VertexReferenceGroupBuilder vertexReferenceGroupBuilder;
@@ -46,44 +51,65 @@ public class SurfaceAcceptanceTests {
     vertexReferenceGroupBuilder = statementFactory.createVertexReferenceGroupBuilder();
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void Surface_createSurfaceWithNullStartingParameterValueUAxis_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("startingParameterValueUAxis cannot be null");
+
     statementFactory.createSurface(null, BigDecimal.valueOf(2.2d), BigDecimal.valueOf(3.3d),
         BigDecimal.valueOf(4.4d), Arrays.asList(createVertexReferenceGroup(1, 1, 1)));
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void Surface_createSurfaceWithNullEndingParameterValueUAxis_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("endingParameterValueUAxis cannot be null");
+
     statementFactory.createSurface(BigDecimal.valueOf(1.1d), null, BigDecimal.valueOf(3.3d),
         BigDecimal.valueOf(4.4d), Arrays.asList(createVertexReferenceGroup(1, 1, 1)));
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void Surface_createSurfaceWithNullStartingParamterValueVAxis_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("startingParameterValueVAxis cannot be null");
+
     statementFactory.createSurface(BigDecimal.valueOf(1.1d), BigDecimal.valueOf(2.2d), null,
         BigDecimal.valueOf(4.4d), Arrays.asList(createVertexReferenceGroup(1, 1, 1)));
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void Surface_createSurfaceWithNullEndingParameterValueVAxis_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("endingParameterValueVAxis cannot be null");
+
     statementFactory.createSurface(BigDecimal.valueOf(1.1d), BigDecimal.valueOf(2.2d),
         BigDecimal.valueOf(3.3d), null, Arrays.asList(createVertexReferenceGroup(1, 1, 1)));
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void Surface_createSurfaceWithNullVertexReferenceGroupList_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("vertexReferenceGroupList cannot be null");
+
     statementFactory.createSurface(BigDecimal.valueOf(1.1d), BigDecimal.valueOf(2.2d),
         BigDecimal.valueOf(3.3d), BigDecimal.valueOf(4.4d), null);
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void Surface_createSurfaceWithVertexReferenceGroupListLessThanMinimumMembers_illegalArgumentExceptionIsThrown() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("vertexReferenceGroupList must have more than ");
+
     statementFactory.createSurface(BigDecimal.valueOf(1.1d), BigDecimal.valueOf(2.2d),
         BigDecimal.valueOf(3.3d), BigDecimal.valueOf(4.4d), Collections.emptyList());
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void Surface_createSurfaceWithVertexReferenceGroupListContainingNullMembers_illegalArgumentExceptionIsThrown() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("vertexReferenceGroupList cannot contain null members");
+
     statementFactory.createSurface(BigDecimal.valueOf(1.1d), BigDecimal.valueOf(2.2d),
         BigDecimal.valueOf(3.3d), BigDecimal.valueOf(4.4d), Arrays.asList(
             createVertexReferenceGroup(1, 1, 1), null, createVertexReferenceGroup(2, 2, 2)));

@@ -3,15 +3,20 @@ package com.ht.wfp3.api.statement.acceptance;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import com.ht.wfp3.api.statement.CurveOrSurfaceType;
 import com.ht.wfp3.api.statement.CurveOrSurfaceType.Key;
 import com.ht.wfp3.api.statement.EqualsHashCodeAndCompareToTester;
 import com.ht.wfp3.api.statement.StatementFactory;
 
 public class CurveOrSurfaceTypeAcceptanceTests {
-
   private static final String CSTYPE_KEYWORD = "cstype";
+
+  @Rule
+  public ExpectedException thrown = ExpectedException.none();
+
   private StatementFactory statementFactory;
 
   @Before
@@ -19,8 +24,11 @@ public class CurveOrSurfaceTypeAcceptanceTests {
     statementFactory = StatementFactory.createStatementFactory();
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void CurveOrSurfaceType_createCurveOrSurfaceTypeWithNullTypeKeyParameter_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("key cannot be null");
+
     statementFactory.createCurveOrSurface(false, null);
   }
 
@@ -38,8 +46,11 @@ public class CurveOrSurfaceTypeAcceptanceTests {
     assertEquals(typeKey, curveOrSurfaceType.getTypeKey());
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void CurveOrSurfaceType_copyCurveOrSurfaceTypeWithNullParameter_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("cstype cannot be null");
+
     statementFactory.copyCurveOrSurfaceType(null);
   }
 

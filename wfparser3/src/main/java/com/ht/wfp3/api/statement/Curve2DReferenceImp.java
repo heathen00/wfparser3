@@ -10,16 +10,16 @@ class Curve2DReferenceImp implements Curve2DReference {
   Curve2DReferenceImp(BigDecimal startingParameterValue, BigDecimal endingParameterValue,
       Integer curve2DIndex) {
     if (null == startingParameterValue) {
-      throw new NullPointerException("startingParameterValue constructor parameter cannot be null");
+      throw new NullPointerException("startingParameterValue cannot be null");
     }
     if (null == endingParameterValue) {
-      throw new NullPointerException("endingParameterValue constructor parameter cannot be null");
+      throw new NullPointerException("endingParameterValue cannot be null");
     }
     if (null == curve2DIndex) {
-      throw new NullPointerException("curve2DIndex constructor parameter cannot be null");
+      throw new NullPointerException("curve2DIndex cannot be null");
     }
     if (0 == curve2DIndex.intValue()) {
-      throw new IllegalArgumentException("curve2DIndex constructor parameter cannot be zero");
+      throw new IllegalArgumentException("curve2DIndex cannot be zero");
     }
     this.startingParameterValue = startingParameterValue;
     this.endingParameterValue = endingParameterValue;
@@ -100,6 +100,6 @@ class Curve2DReferenceImp implements Curve2DReference {
   @Override
   public String toString() {
     return "Curve2DReferenceImp [startingParameterValue=" + startingParameterValue
-        + ", endingParameterValue=" + endingParameterValue + ", curve2DIndex=" + curve2DIndex + "]";
+        + ", endingParameterValue=" + endingParameterValue + ", curve2dIndex=" + curve2DIndex + "]";
   }
 }

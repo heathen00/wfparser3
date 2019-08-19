@@ -4,7 +4,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import java.math.BigDecimal;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import com.ht.wfp3.api.statement.CurveApproxCspaceTechnique;
 import com.ht.wfp3.api.statement.EqualsHashCodeAndCompareToTester;
 import com.ht.wfp3.api.statement.StatementFactory;
@@ -13,6 +15,9 @@ public class CurveApproxCspaceTechniqueAcceptanceTests {
   private static final String CTECH_KEYWORD = "ctech";
   private static final String CSPACE_KEYWORD = "cspace";
 
+  @Rule
+  public ExpectedException thrown = ExpectedException.none();
+
   private StatementFactory statementFactory;
 
   @Before
@@ -20,18 +25,27 @@ public class CurveApproxCspaceTechniqueAcceptanceTests {
     statementFactory = StatementFactory.createStatementFactory();
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void CurveApproxCspaceTechnique_createCurveApproxCspaceTechniqueWithNullMaxLengthParameter_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("maxLength cannot be null");
+
     statementFactory.createCurveApproxCspaceTechnique(null);
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void CurveApproxCspaceTechnique_createCurveApproxCspaceTechniqueWithZeroValueMaxLengthParameter_illegalArgumentExceptionIsThrown() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("maxLength must be greater than ");
+
     statementFactory.createCurveApproxCspaceTechnique(BigDecimal.ZERO);
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void CurveApproxCspaceTechnique_createCurveApproxCspaceTechniqueWithNegativeValueMaxLengthParameter_illegalArgumentExceptionIsThrown() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("maxLength must be greater than ");
+
     statementFactory.createCurveApproxCspaceTechnique(BigDecimal.valueOf(-0.00000001f));
   }
 
@@ -48,8 +62,11 @@ public class CurveApproxCspaceTechniqueAcceptanceTests {
     assertEquals(maxLength, curveApproxCspaceTechnique.getMaxLength());
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void CurveApproxCspaceTechnique_copyCurveApproxCspaceTechniqueWithNullParameter_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("maxLength cannot be null");
+
     statementFactory.createCurveApproxCspaceTechnique(null);
   }
 

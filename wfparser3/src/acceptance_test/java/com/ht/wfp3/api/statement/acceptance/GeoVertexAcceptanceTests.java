@@ -6,7 +6,9 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import com.ht.wfp3.api.statement.EqualsHashCodeAndCompareToTester;
 import com.ht.wfp3.api.statement.GeoVertex;
 import com.ht.wfp3.api.statement.MutabilityTester;
@@ -14,8 +16,11 @@ import com.ht.wfp3.api.statement.MutabilityTester.Creator;
 import com.ht.wfp3.api.statement.StatementFactory;
 
 public class GeoVertexAcceptanceTests {
-
   private static final Object GEO_VERTEX_KEYWORD = "v";
+
+  @Rule
+  public ExpectedException thrown = ExpectedException.none();
+
   private StatementFactory statementFactory;
 
   private void assertValidGeoVertex(BigDecimal expectedXCoord, BigDecimal expectedYCoord,
@@ -33,26 +38,38 @@ public class GeoVertexAcceptanceTests {
     statementFactory = StatementFactory.createStatementFactory();
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void GeoVertex_createGeoVertexWithNullXCoord_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("xCoord cannot be null");
+
     statementFactory.createGeoVertex(null, BigDecimal.valueOf(2.2d), BigDecimal.valueOf(3.3d),
         BigDecimal.valueOf(4.4d));
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void GeoVertex_createGeoVertexWithNullYCoord_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("yCoord cannot be null");
+
     statementFactory.createGeoVertex(BigDecimal.valueOf(1.1d), null, BigDecimal.valueOf(3.3d),
         BigDecimal.valueOf(4.4d));
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void GeoVertex_createGeoVertexWithNullZCoord_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("zCoord cannot be null");
+
     statementFactory.createGeoVertex(BigDecimal.valueOf(1.1d), BigDecimal.valueOf(2.2d), null,
         BigDecimal.valueOf(4.4d));
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void GeoVertex_createGeoVertexWithNullWCoord_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("wCoord cannot be null");
+
     statementFactory.createGeoVertex(BigDecimal.valueOf(1.1d), BigDecimal.valueOf(2.2d),
         BigDecimal.valueOf(3.3d), null);
   }
@@ -81,8 +98,11 @@ public class GeoVertexAcceptanceTests {
     assertValidGeoVertex(xCoord, yCoord, zCoord, expectedWCoord, geoVertex);
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void GeoVertex_copyGeoVertexWithNullParameter_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("geoVertex cannot be null");
+
     statementFactory.copyGeoVertex(null);
   }
 

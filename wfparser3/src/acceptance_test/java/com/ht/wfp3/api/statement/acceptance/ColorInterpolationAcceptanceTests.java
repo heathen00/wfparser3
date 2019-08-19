@@ -7,7 +7,9 @@ import static org.junit.Assert.assertTrue;
 import java.util.HashMap;
 import java.util.Map;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import com.ht.wfp3.api.statement.ColorInterpolation;
 import com.ht.wfp3.api.statement.EqualsHashCodeAndCompareToTester;
 import com.ht.wfp3.api.statement.MutabilityTester;
@@ -16,6 +18,9 @@ import com.ht.wfp3.api.statement.StatementFactory;
 
 public class ColorInterpolationAcceptanceTests {
   private static final String COLOR_INTERPOLATION_KEYWORD = "c_interp";
+
+  @Rule
+  public ExpectedException thrown = ExpectedException.none();
 
   private StatementFactory statementFactory;
 
@@ -49,8 +54,11 @@ public class ColorInterpolationAcceptanceTests {
     assertFalse(colorInterpolation.isEnabled());
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void ColorInterpolation_copyColorInterpolationWithNullParameter_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("c_interp cannot be null");
+
     statementFactory.copyColorInterpolation(null);
   }
 

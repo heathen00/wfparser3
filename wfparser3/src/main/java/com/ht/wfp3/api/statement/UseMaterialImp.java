@@ -8,11 +8,11 @@ class UseMaterialImp extends StatementImp implements UseMaterial {
   UseMaterialImp(String materialName) {
     super(KEYWORD);
     if (null == materialName) {
-      throw new NullPointerException("materialName constructor parameter cannot be null");
+      throw new NullPointerException("materialName cannot be null");
     }
     if (!materialName.matches("^\\w+$")) {
       throw new IllegalArgumentException(
-          "materialName constructor parameter may only contain one or more alphanumeric and underscore characters");
+          "materialName may only contain one or more alphanumeric and underscore characters");
     }
     this.materialName = materialName;
   }

@@ -11,18 +11,16 @@ class DegreeImp extends StatementImp implements Degree {
   DegreeImp(Integer uAxisDegree, Integer vAxisDegree) {
     super(KEYWORD);
     if (null == uAxisDegree) {
-      throw new NullPointerException("uAxisDegree constructor parameter cannot be null");
+      throw new NullPointerException("uAxisDegree cannot be null");
     }
     if (null == vAxisDegree) {
-      throw new NullPointerException("vAxisDegree constructor parameter cannot be null");
+      throw new NullPointerException("vAxisDegree cannot be null");
     }
     if (MINIMUM_DEGREE.compareTo(uAxisDegree) > 0) {
-      throw new IllegalArgumentException(
-          "uAxisDegree constructor parameter must be greater than " + MINIMUM_DEGREE);
+      throw new IllegalArgumentException("uAxisDegree must be greater than " + MINIMUM_DEGREE);
     }
     if (MINIMUM_DEGREE.compareTo(vAxisDegree) > 0 && !V_AXIS_NOT_SET.equals(vAxisDegree)) {
-      throw new IllegalArgumentException(
-          "vAxisDegree constructor parameter must be greater than " + MINIMUM_DEGREE);
+      throw new IllegalArgumentException("vAxisDegree must be greater than " + MINIMUM_DEGREE);
     }
     this.uAxisDegree = uAxisDegree;
     this.vAxisDegree = vAxisDegree;

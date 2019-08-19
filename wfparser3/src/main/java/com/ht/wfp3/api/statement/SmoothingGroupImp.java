@@ -10,11 +10,10 @@ class SmoothingGroupImp extends StatementImp implements SmoothingGroup {
   SmoothingGroupImp(Integer smoothingGroupNumber) {
     super(KEYWORD);
     if (null == smoothingGroupNumber) {
-      throw new NullPointerException("smoothingGroupNumber constructor parameter cannot be null");
+      throw new NullPointerException("smoothingGroupNumber cannot be null");
     }
     if (OFF.compareTo(smoothingGroupNumber) > 0) {
-      throw new IllegalArgumentException(
-          "smoothingGroupNumber constructor parameter must be greater or equal to " + OFF);
+      throw new IllegalArgumentException("smoothingGroupNumber must be greater or equal to " + OFF);
     }
     this.isEnabled = (smoothingGroupNumber == OFF ? false : true);
     this.smoothingGroupNumber = smoothingGroupNumber;

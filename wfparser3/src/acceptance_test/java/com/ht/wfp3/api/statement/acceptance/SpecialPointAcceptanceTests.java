@@ -6,15 +6,20 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import com.ht.wfp3.api.statement.EqualsHashCodeAndCompareToTester;
 import com.ht.wfp3.api.statement.ParamVertexReference;
 import com.ht.wfp3.api.statement.SpecialPoint;
 import com.ht.wfp3.api.statement.StatementFactory;
 
 public class SpecialPointAcceptanceTests {
-
   private static final String SP_KEYWORD = "sp";
+
+  @Rule
+  public ExpectedException thrown = ExpectedException.none();
+
   private StatementFactory statementFactory;
 
   private ParamVertexReference createParamVertexReference(int vertexIndex) {
@@ -33,18 +38,27 @@ public class SpecialPointAcceptanceTests {
     statementFactory = StatementFactory.createStatementFactory();
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void SpecialPoint_createSpecialPointWithNullVertexReferenceList_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("vertexReferenceList cannot be null");
+
     statementFactory.createSpecialPoint(null);
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void SpecialPoint_createSpecialPointWithVertexReferenceListContainingLessThanTheMinimumMembers_illegalArgumentExceptionIsThrown() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("vertexReferenceList must contain at least ");
+
     statementFactory.createSpecialPoint(Collections.emptyList());
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void SpecialPoint_createSpecialPointWithVertexReferenceListContainingNullMembers_illegalArgumentExceptionIsThrown() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("vertexReferenceList cannot contain null members");
+
     statementFactory.createSpecialPoint(
         Arrays.asList(createParamVertexReference(1), null, createParamVertexReference(2)));
   }
@@ -68,8 +82,11 @@ public class SpecialPointAcceptanceTests {
     assertValidSpecialPoint(vertexReferenceList, specialPoint);
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void SpecialPoint_copySpecialPointWithNullParameter_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("sp cannot be null");
+
     statementFactory.copySpecialPoint(null);
   }
 

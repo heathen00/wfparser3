@@ -13,16 +13,14 @@ class MaterialLibImp extends StatementImp implements MaterialLib {
   MaterialLibImp(List<Path> materialLibFileNameList) {
     super(KEYWORD);
     if (null == materialLibFileNameList) {
-      throw new NullPointerException(
-          "materialLibFileNameList constructor parameter cannot be null");
+      throw new NullPointerException("materialLibFileNameList cannot be null");
     }
     if (MINIMUM_FILE_NAMES.compareTo(materialLibFileNameList.size()) > 0) {
       throw new IllegalArgumentException(
-          "materialLibFileNameList constructor parameter must contain at least one material lib file name");
+          "materialLibFileNameList must contain at least one material lib file name");
     }
     if (materialLibFileNameList.contains(null)) {
-      throw new IllegalArgumentException(
-          "materialLibFileNameList constructor parameter cannot contain null parameters");
+      throw new IllegalArgumentException("materialLibFileNameList cannot contain null members");
     }
     this.materialLibFileNameList = new ArrayList<>(materialLibFileNameList);
   }

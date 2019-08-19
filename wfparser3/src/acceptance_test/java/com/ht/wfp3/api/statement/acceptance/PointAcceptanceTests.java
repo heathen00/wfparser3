@@ -6,7 +6,9 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import com.ht.wfp3.api.statement.EqualsHashCodeAndCompareToTester;
 import com.ht.wfp3.api.statement.Point;
 import com.ht.wfp3.api.statement.StatementFactory;
@@ -14,8 +16,11 @@ import com.ht.wfp3.api.statement.VertexReferenceGroup;
 import com.ht.wfp3.api.statement.VertexReferenceGroupBuilder;
 
 public class PointAcceptanceTests {
-
   private static final String POINT_KEYWORD = "p";
+
+  @Rule
+  public ExpectedException thrown = ExpectedException.none();
+
   private StatementFactory statementFactory;
   private VertexReferenceGroupBuilder vertexReferenceGroupBuilder;
 
@@ -36,18 +41,27 @@ public class PointAcceptanceTests {
     vertexReferenceGroupBuilder = statementFactory.createVertexReferenceGroupBuilder();
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void Point_createPointWithNullVertexReferenceGroupList_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("vertexReferenceGroupList cannot be null");
+
     statementFactory.createPoint(null);
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void Point_createPointWithEmptyVertexReferenceGroupList_illegalArgumentExceptionIsThrown() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("vertexReferenceGroupList must have more than ");
+
     statementFactory.createPoint(Collections.emptyList());
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void Point_createPointWithVertexReferenceGroupListContainingNullMembers_illegalARgumentExceptionIsThrown() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("vertexReferenceGroupList cannot contain null members");
+
     statementFactory.createPoint(
         Arrays.asList(buildPointVertexReferenceGroup(1), null, buildPointVertexReferenceGroup(2)));
   }
@@ -72,8 +86,11 @@ public class PointAcceptanceTests {
     assertValidPoint(vertexReferenceGroupList, point);
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void Point_copyPointWithNullParameter_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("point cannot be null");
+
     statementFactory.copyPoint(null);
   }
 

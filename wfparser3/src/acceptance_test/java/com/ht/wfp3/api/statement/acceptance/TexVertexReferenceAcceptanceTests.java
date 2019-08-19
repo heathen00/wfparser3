@@ -4,12 +4,17 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import com.ht.wfp3.api.statement.EqualsHashCodeAndCompareToTester;
 import com.ht.wfp3.api.statement.StatementFactory;
 import com.ht.wfp3.api.statement.TexVertexReference;
 
 public class TexVertexReferenceAcceptanceTests {
+
+  @Rule
+  public ExpectedException thrown = ExpectedException.none();
 
   private StatementFactory statementFactory;
 
@@ -25,13 +30,19 @@ public class TexVertexReferenceAcceptanceTests {
     statementFactory = StatementFactory.createStatementFactory();
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void TexVertexReference_createTexVertexReferenceWithNullVertexIndex_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("vertexIndex cannot be null");
+
     statementFactory.createTexVertexReference(null);
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void TexVertexReference_createTexVertexReferenceWithVertexIndexEqualToZero_invalidArgumentExceptionIsThrown() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("vertexIndex cannot equal 0");
+
     statementFactory.createTexVertexReference(Integer.valueOf(0));
   }
 
@@ -53,8 +64,11 @@ public class TexVertexReferenceAcceptanceTests {
     assertValidTexVertexReference(vertexIndex, texVertexReference);
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void TexVertexReference_copyTexVertexReferenceWithNullParameter_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("texVertexReference cannot be null");
+
     statementFactory.copyTexVertexReference(null);
   }
 

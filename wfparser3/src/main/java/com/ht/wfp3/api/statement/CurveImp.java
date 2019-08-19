@@ -16,23 +16,21 @@ class CurveImp extends StatementImp implements Curve {
       List<GeoVertexReference> controlPointVertexReferenceList) {
     super(KEYWORD);
     if (null == startingParameterValue) {
-      throw new NullPointerException("startingParameterValue constructor parameter cannot be null");
+      throw new NullPointerException("startingParameterValue cannot be null");
     }
     if (null == endingParameterValue) {
-      throw new NullPointerException("endingParameterVAlue constructor parameter cannot be null");
+      throw new NullPointerException("endingParameterValue cannot be null");
     }
     if (null == controlPointVertexReferenceList) {
-      throw new NullPointerException(
-          "controlPointVertexReferenceList constructor parameter cannot be null");
+      throw new NullPointerException("controlPointVertexReferenceList cannot be null");
     }
     if (controlPointVertexReferenceList.contains(null)) {
       throw new IllegalArgumentException(
-          "controlPointVertexReferenceList constructor parameter cannot contain null members");
+          "controlPointVertexReferenceList cannot contain null members");
     }
     if (controlPointVertexReferenceList.size() < MINIMUM_CONTROL_POINTS) {
-      throw new IllegalArgumentException(
-          "controlPointVretexReferenceList constructor parameter requires at least "
-              + MINIMUM_CONTROL_POINTS + " control points.");
+      throw new IllegalArgumentException("controlPointVertexReferenceList requires at least "
+          + MINIMUM_CONTROL_POINTS + " control points.");
     }
     this.startingParameterValue = startingParameterValue;
     this.endingParameterValue = endingParameterValue;

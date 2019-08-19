@@ -3,7 +3,9 @@ package com.ht.wfp3.api.statement.acceptance;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import com.ht.wfp3.api.statement.EqualsHashCodeAndCompareToTester;
 import com.ht.wfp3.api.statement.StatementFactory;
 import com.ht.wfp3.api.statement.UseMaterial;
@@ -11,6 +13,9 @@ import com.ht.wfp3.api.statement.UseMaterial;
 public class UseMaterialAcceptanceTests {
 
   private static final String USEMTL_KEYWORD = "usemtl";
+
+  @Rule
+  public ExpectedException thrown = ExpectedException.none();
 
   private StatementFactory statementFactory;
 
@@ -25,28 +30,43 @@ public class UseMaterialAcceptanceTests {
     statementFactory = StatementFactory.createStatementFactory();
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void UseMaterial_createUseMaterialWithNullMaterialName_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("materialName cannot be null");
+
     statementFactory.createUseMaterial(null);
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void UseMaterial_createUseMaterialWithEmptyMaterialName_illegalArgumentExceptionIsThrown() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("materialName may only contain ");
+
     statementFactory.createUseMaterial("   ");
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void UseMaterial_createUseMaterialWithMaterialNameContainingWhitespace_illegalArgumentExceptionIsThrown() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("materialName may only contain ");
+
     statementFactory.createUseMaterial("this is illegal");
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void UseMaterial_createUseMaterialWithMaterialNameContainingNewline_illegalArgumentExceptionIsThrown() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("materialName may only contain ");
+
     statementFactory.createUseMaterial("this\nis\nalso\nillegal");
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void UseMaterial_createUseMaterialWithMaterialNameContainingInvalidCharacters_illegalArgumentExceptionIsThrown() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("materialName may only contain ");
+
     statementFactory.createUseMaterial("no$Invalid%Characters!");
   }
 
@@ -59,8 +79,11 @@ public class UseMaterialAcceptanceTests {
     assertValidUseMaterial(materialName, useMaterial);
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void UseMaterial_copyUseMaterialWithNullParameter_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("usemtl cannot be null");
+
     statementFactory.copyUseMaterial(null);
   }
 

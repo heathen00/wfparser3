@@ -6,15 +6,20 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import com.ht.wfp3.api.statement.EqualsHashCodeAndCompareToTester;
 import com.ht.wfp3.api.statement.Face;
 import com.ht.wfp3.api.statement.StatementFactory;
 import com.ht.wfp3.api.statement.VertexReferenceGroup;
 
 public class FaceAcceptanceTests {
-
   private static final String FACE_KEYWORD = "f";
+
+  @Rule
+  public ExpectedException thrown = ExpectedException.none();
+
   private StatementFactory statementFactory;
 
   private VertexReferenceGroup createTestVertexReferenceGroup(int geoVertexRef, int texVertexRef,
@@ -35,24 +40,36 @@ public class FaceAcceptanceTests {
     statementFactory = StatementFactory.createStatementFactory();
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void Face_createFaceWithNullVertexReferenceGroupList_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("vertexReferenceGroupList cannot be null");
+
     statementFactory.createFace(null);
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void Face_createFaceWithEmptyVertexReferenceGroupList_illegalArgumentExceptionIsThrown() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("vertexReferenceGroupList must have more than ");
+
     statementFactory.createFace(Collections.emptyList());
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void Face_createFaceWithLessThanThreeVertexReferenceGroupsInList_illegalArgumentExceptionIsThrown() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("vertexReferenceGroupList must have more than ");
+
     statementFactory.createFace(Arrays.asList(createTestVertexReferenceGroup(1, 1, 1),
         createTestVertexReferenceGroup(2, 2, 2)));
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void Face_createFaceWithVertexReferenceGroupsListContainingNullMembers_illegalArgumentExceptionIsThrown() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("vertexReferenceGroupList cannot contain null members");
+
     statementFactory.createFace(Arrays.asList(createTestVertexReferenceGroup(1, 1, 1), null,
         createTestVertexReferenceGroup(3, 3, 3)));
   }
@@ -80,8 +97,11 @@ public class FaceAcceptanceTests {
     assertValidFace(vertexReferenceGroupList, face);
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void Face_copyFaceWithNullParameter_nullPointerExpressionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("face cannot be null");
+
     statementFactory.copyFace(null);
   }
 

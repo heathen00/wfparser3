@@ -3,7 +3,9 @@ package com.ht.wfp3.api.statement.acceptance;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import com.ht.wfp3.api.statement.EqualsHashCodeAndCompareToTester;
 import com.ht.wfp3.api.statement.GeoVertexReference;
 import com.ht.wfp3.api.statement.NormalVertexReference;
@@ -13,6 +15,9 @@ import com.ht.wfp3.api.statement.VertexReferenceGroup;
 import com.ht.wfp3.api.statement.VertexReferenceGroupBuilder;
 
 public class VertexReferenceGroupAcceptanceTests {
+
+  @Rule
+  public ExpectedException thrown = ExpectedException.none();
 
   private StatementFactory statementFactory;
   private VertexReferenceGroupBuilder vertexReferenceGroupBuilder;
@@ -77,23 +82,35 @@ public class VertexReferenceGroupAcceptanceTests {
     assertNotNull(vertexReferenceGroupBuilder);
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void VertexReferenceGroup_geoVertexIsNull_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("geometricVertexReferenceNumber cannot be null");
+
     vertexReferenceGroupBuilder.geoVertexRef(null);
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void VertexReferenceGroup_texVertexIsNull_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("textureVertexReferenceNumber cannot be null");
+
     vertexReferenceGroupBuilder.texVertexRef(null);
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void VertexReferenceGroup_normalVertexIsNull_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("normalVertexReferenceNumber cannot be null");
+
     vertexReferenceGroupBuilder.normalVertexRef(null);
   }
 
-  @Test(expected = UnsupportedOperationException.class)
+  @Test
   public void VertexReferenceGroup_clearVertexReferenceGroupAndBuild_unsupportedOperationExceptionIsThrown() {
+    thrown.expect(UnsupportedOperationException.class);
+    thrown.expectMessage("geometricVertexReferenceNumber must be set");
+
     vertexReferenceGroupBuilder.clear().build();
   }
 
@@ -160,24 +177,36 @@ public class VertexReferenceGroupAcceptanceTests {
         vertexReferenceGroup);
   }
 
-  @Test(expected = UnsupportedOperationException.class)
+  @Test
   public void VertexReferenceGroup_setTexVertexAndBuild_unsupportedOperationExceptionIsThrown() {
+    thrown.expect(UnsupportedOperationException.class);
+    thrown.expectMessage("geometricVertexReferenceNumber must be set");
+
     vertexReferenceGroupBuilder.clear().texVertexRef(Integer.valueOf(33)).build();
   }
 
-  @Test(expected = UnsupportedOperationException.class)
+  @Test
   public void VertexReferenceGroup_setNormalVertexAndBuild_unsupportedOperationExceptionIsThrown() {
+    thrown.expect(UnsupportedOperationException.class);
+    thrown.expectMessage("geometricVertexReferenceNumber must be set");
+
     vertexReferenceGroupBuilder.clear().normalVertexRef(Integer.valueOf(-101)).build();
   }
 
-  @Test(expected = UnsupportedOperationException.class)
+  @Test
   public void VertexReferenceGroup_setTexVertexAndNormalVertexAndBuild_unsupportedOperationExceptionIsThrown() {
+    thrown.expect(UnsupportedOperationException.class);
+    thrown.expectMessage("geometricVertexReferenceNumber must be set");
+
     vertexReferenceGroupBuilder.clear().texVertexRef(Integer.valueOf(22))
         .normalVertexRef(Integer.valueOf(33)).build();
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void VertexReferenceGroup_copyVertexReferenceGroupWithNullParameter_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("vertexReferenceGroup cannot be null");
+
     statementFactory.copyVertexReferenceGroup(null);
   }
 
@@ -203,8 +232,11 @@ public class VertexReferenceGroupAcceptanceTests {
         copiedVertexReferenceGroup);
   }
 
-  @Test(expected = UnsupportedOperationException.class)
+  @Test
   public void VertexReferenceGroup_accessTexVertexWhenItIsNotSet_unsupportedOperationException() {
+    thrown.expect(UnsupportedOperationException.class);
+    thrown.expectMessage("cannot access texture vertex reference when it is not set");
+
     Integer geoVertexIndex = Integer.valueOf(1);
     GeoVertexReference geoVertexReference =
         statementFactory.createGeoVertexReference(geoVertexIndex);
@@ -216,8 +248,11 @@ public class VertexReferenceGroupAcceptanceTests {
     vertexReferenceGroup.getTexVertexRef();
   }
 
-  @Test(expected = UnsupportedOperationException.class)
+  @Test
   public void VertexReferenceGroup_accessNormalVertexWhenItIsNotSet_unspportedOperationException() {
+    thrown.expect(UnsupportedOperationException.class);
+    thrown.expectMessage("cannot access normal vertex reference when it is not set");
+
     Integer geoVertexIndex = Integer.valueOf(1);
     GeoVertexReference geoVertexReference =
         statementFactory.createGeoVertexReference(geoVertexIndex);

@@ -3,7 +3,9 @@ package com.ht.wfp3.api.statement.acceptance;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import com.ht.wfp3.api.statement.EqualsHashCodeAndCompareToTester;
 import com.ht.wfp3.api.statement.StatementFactory;
 import com.ht.wfp3.api.statement.UseMap;
@@ -11,6 +13,9 @@ import com.ht.wfp3.api.statement.UseMap;
 public class UseMapAcceptanceTests {
 
   private static final String USE_MAP_KEYWORD = "usemap";
+
+  @Rule
+  public ExpectedException thrown = ExpectedException.none();
 
   private StatementFactory statementFactory;
 
@@ -25,28 +30,43 @@ public class UseMapAcceptanceTests {
     statementFactory = StatementFactory.createStatementFactory();
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void UseMap_createUseMapWithNullMapName_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("mapNameOrOff cannot be null");
+
     statementFactory.createUseMap(null);
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void UseMap_createUseMapWithEmptyMapName_illegalArgumentExceptionIsThrown() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("mapNameOrOff may only contain ");
+
     statementFactory.createUseMap("");
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void UseMap_createUseMapWithMapNameContainingWhitespace_illegalArgumentExceptinIsThrown() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("mapNameOrOff may only contain ");
+
     statementFactory.createUseMap("one two c");
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void UseMap_createUseMapWithMapNameContainingNewlines_illegalArgumentExceptionIsThrown() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("mapNameOrOff may only contain ");
+
     statementFactory.createUseMap("firstLine\nsecondLine");
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void UseMap_createUeMapWithMapNameContainingInvalidCharacters_illegalArgumentExceptionIsThrown() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("mapNameOrOff may only contain ");
+
     statementFactory.createUseMap("!#%abc[]{}");
   }
 
@@ -71,8 +91,11 @@ public class UseMapAcceptanceTests {
     assertValidUseMap(mapName, expectedIsEnabled, useMap);
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void UseMap_copyUseMapWithNullParameter_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("usemap cannot be null");
+
     statementFactory.copyUseMap(null);
   }
 

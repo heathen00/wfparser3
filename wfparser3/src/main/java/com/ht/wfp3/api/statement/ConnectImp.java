@@ -12,26 +12,22 @@ class ConnectImp extends StatementImp implements Connect {
       Integer secondSurfaceIndex, Curve2DReference secondSurfaceCurve2DReference) {
     super(KEYWORD);
     if (null == firstSurfaceIndex) {
-      throw new NullPointerException("firstSurfaceIndex constructor parameter cannot be null");
+      throw new NullPointerException("firstSurfaceIndex cannot be null");
     }
     if (null == firstSurfaceCurve2DReference) {
-      throw new NullPointerException(
-          "firstSurfaceCurve2DReference constructor paramter cannot be null");
+      throw new NullPointerException("firstSurfaceCurve2dReference cannot be null");
     }
     if (null == secondSurfaceIndex) {
-      throw new NullPointerException("secondSurfaceIndex constructor parameter cannot be null");
+      throw new NullPointerException("secondSurfaceIndex cannot be null");
     }
     if (null == secondSurfaceCurve2DReference) {
-      throw new NullPointerException(
-          "secondSurfaceCurve2Dreference constructor parameter cannot be null");
+      throw new NullPointerException("secondSurfaceCurve2dReference cannot be null");
     }
     if (Integer.valueOf(0).equals(firstSurfaceIndex)) {
-      throw new IllegalArgumentException(
-          "firstSurfaceIndex constructor parameter cannot equal zero");
+      throw new IllegalArgumentException("firstSurfaceIndex cannot equal zero");
     }
     if (Integer.valueOf(0).equals(secondSurfaceIndex)) {
-      throw new IllegalArgumentException(
-          "secondSurfaceIndex constructor parameter cannot equal zero");
+      throw new IllegalArgumentException("secondSurfaceIndex cannot equal zero");
     }
     this.firstSurfaceIndex = firstSurfaceIndex;
     this.firstSurfaceCurve2DReference = firstSurfaceCurve2DReference;

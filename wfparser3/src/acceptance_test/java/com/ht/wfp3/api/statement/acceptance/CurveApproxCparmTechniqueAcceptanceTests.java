@@ -4,15 +4,20 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import java.math.BigDecimal;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import com.ht.wfp3.api.statement.CurveApproxCparmTechnique;
 import com.ht.wfp3.api.statement.EqualsHashCodeAndCompareToTester;
 import com.ht.wfp3.api.statement.StatementFactory;
 
 public class CurveApproxCparmTechniqueAcceptanceTests {
-
   private static final String CTECH_KEYWORD = "ctech";
   private static final Object CTECH_CPARM_KEYWORD = "cparm";
+
+  @Rule
+  public ExpectedException thrown = ExpectedException.none();
+
   private StatementFactory statementFactory;
 
   @Before
@@ -20,13 +25,19 @@ public class CurveApproxCparmTechniqueAcceptanceTests {
     statementFactory = StatementFactory.createStatementFactory();
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void CurveApproxCparmTechnique_createCurveApproxCparmTechniqueWithNullResolution_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("resolution cannot be null");
+
     statementFactory.createCurveApproxCparmTechnique(null);
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void CurveApproxCparmTechnique_createCurveApproxCparmTechniqueWithResolutionLessThanZero_illegalArguementExceptionIsThrown() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("resolution must be greater or equal to ");
+
     statementFactory.createCurveApproxCparmTechnique(BigDecimal.valueOf(-0.000000001d));
   }
 
@@ -56,8 +67,11 @@ public class CurveApproxCparmTechniqueAcceptanceTests {
     assertEquals(resolution, curveApproxCparmTechnique.getResolution());
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void CurveApproxCparmTechnique_copyCurveApproxCparmTechniqueWithNullParameter_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("curveApproxCparmTechnique cannot be null");
+
     statementFactory.copyCurveApproxCparmTechnique(null);
   }
 

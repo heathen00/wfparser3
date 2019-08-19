@@ -3,14 +3,18 @@ package com.ht.wfp3.api.statement.acceptance;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import com.ht.wfp3.api.statement.EqualsHashCodeAndCompareToTester;
 import com.ht.wfp3.api.statement.LevelOfDetail;
 import com.ht.wfp3.api.statement.StatementFactory;
 
 public class LevelOfDetailAcceptanceTests {
-
   private static final String LEVEL_OF_DETAIL_KEYWORD = "lod";
+
+  @Rule
+  public ExpectedException thrown = ExpectedException.none();
 
   private StatementFactory statementFactory;
 
@@ -26,18 +30,27 @@ public class LevelOfDetailAcceptanceTests {
     statementFactory = StatementFactory.createStatementFactory();
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void LevelOfDetail_createLevelOfDetailWithNullParameter_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("levelOfDetail cannot be null");
+
     statementFactory.createLevelOfDetail(null);
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void LevelOfDetail_createLevelOfDetailWithLevelOfDetailParameterLessThanZero_illegalArgumentExceptionIsThrown() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("levelOfDetail cannot be less than ");
+
     statementFactory.createLevelOfDetail(Integer.valueOf(-1));
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void LevelOfDetail_createLevelOFDetailWithLevelOfDetailParameterGreatherThenOneHundred_illegalArgumentExceptionIsThrown() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("levelOfDetail cannot be greater than ");
+
     statementFactory.createLevelOfDetail(Integer.valueOf(101));
   }
 
@@ -59,8 +72,11 @@ public class LevelOfDetailAcceptanceTests {
     assertValidLevelOfDetail(levelOfDetailParameter, levelOfDetail);
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void LevelOfDeail_copyLevelOfDetailWithNullParameter_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("lod cannot be null");
+
     statementFactory.copyLevelOfDetail(null);
   }
 

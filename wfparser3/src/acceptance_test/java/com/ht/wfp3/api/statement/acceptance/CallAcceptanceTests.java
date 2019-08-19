@@ -12,7 +12,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import com.ht.wfp3.api.statement.Call;
 import com.ht.wfp3.api.statement.EqualsHashCodeAndCompareToTester;
 import com.ht.wfp3.api.statement.MutabilityTester;
@@ -21,6 +23,9 @@ import com.ht.wfp3.api.statement.StatementFactory;
 
 public class CallAcceptanceTests {
   private static final String CALL_KEYWORD = "call";
+
+  @Rule
+  public ExpectedException thrown = ExpectedException.none();
 
   private StatementFactory statementFactory;
 
@@ -38,23 +43,35 @@ public class CallAcceptanceTests {
     statementFactory = StatementFactory.createStatementFactory();
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void Call_createCallWithNullFileNameParameter_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("fileName cannot be null");
+
     statementFactory.createCall(false, null, new ArrayList<>());
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void Call_createCallWithNullArgumentsListParameter_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("arguments cannot be null");
+
     statementFactory.createCall(false, Paths.get("test.obj"), null);
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void Call_copyCallWithNullCallParameter_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("call cannot be null");
+
     statementFactory.copyCall(null);
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void Call_createCallWithArgumentsListContainingNulls_illegalArgumentExceptionIsThrown() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("arguments cannot contain null members");
+
     statementFactory.createCall(true, Paths.get("Downloads", "foo.obj"),
         Arrays.asList(Integer.valueOf(1), null, Integer.valueOf(45)));
   }
@@ -111,8 +128,11 @@ public class CallAcceptanceTests {
     assertValidCall(isFrameNumberRequired, testPath, arguments, copiedCall);
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void Call_createCallWithFilenameParameterHasNoFileExtension_illegalArgumentExceptionIsThrown() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("fileName must have extension ");
+
     boolean isFrameNumberRequired = false;
     Path testPath = Paths.get("home", "this_file_has_no_extension");
     List<Integer> arguments = Collections.emptyList();
@@ -120,8 +140,11 @@ public class CallAcceptanceTests {
     statementFactory.createCall(isFrameNumberRequired, testPath, arguments);
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void Call_createCallWithFilenameParameterHasUnsupportedFileExtension_illegalArgumentExceptionIsThrown() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("fileName must have extension ");
+
     boolean isFrameNumberRequired = false;
     Path testPath = Paths.get("home", "file_has_illegal_extension.doc");
     List<Integer> arguments = Collections.emptyList();
