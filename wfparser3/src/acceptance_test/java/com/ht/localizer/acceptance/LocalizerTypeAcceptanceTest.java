@@ -7,7 +7,9 @@ import java.util.Arrays;
 import java.util.Locale;
 import java.util.Set;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import com.ht.localizer.Assert;
 import com.ht.localizer.Localizer;
 import com.ht.localizer.LocalizerInstance;
@@ -20,6 +22,10 @@ import com.ht.uid.UidFactory;
 import com.ht.wrap.WrapperFactory;
 
 public class LocalizerTypeAcceptanceTest {
+
+  @Rule
+  public ExpectedException thrown = ExpectedException.none();
+
   private TestableLocalizerFactory testableLocalizerFactory;
   private StubLocalizerFactory stubLocalizerFactory;
   private StubUidFactory stubUidFactory;
@@ -47,9 +53,12 @@ public class LocalizerTypeAcceptanceTest {
     assertNotNull(localizerAssert);
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void LocalizerType_getLocalizerFieldWithNullUid_nullPointerExceptionThrown()
       throws Exception {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("instanceUid cannot be null");
+
     LocalizerType localizerType = testableLocalizerFactory.createLocalizerType(stubLocalizer,
         "test.group", "test.type", "test.instance");
 
