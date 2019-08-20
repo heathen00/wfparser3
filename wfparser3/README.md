@@ -214,14 +214,15 @@ There are a number of problems with the localization implementation I currently 
      I think what I want is for the LocalizerBundle to maintain the order in which they are added
      to the Localizer.  This would be different from OrderedSet which will order the
      LocalizerBundle instances according to their natural order.  Very different.
-
      
-HERE:  
-   * Rewrite test cases for exceptions to use a rule.  DONE.
-   * After converting all the tests for exceptions to use a rule, double check by searching for
-     the string "expected " to ensure you did not miss any.  DONE.
-   * Then you should review again to ensure that ONLY the code that you want the exception from can throw the
-     exception.
+HERE:
+   * Integrate the localizer and UID subsystems back into the messaging subsystem.
+   * Start with UID subsystem since I essentially pulled it right out of the messaging subsystem.
+   * Ensure that the messaging subsystem has a similar interface to the other subsystems so that they are
+     easier to integrate together.
+   * Move/Remove testcases from the message subsystem that are more appropriate in either the UID or
+     localizer subsystems.
+   * Afterwards, review the accumulated work items, above and delete all those that you've completed.
 
 
      

@@ -2,8 +2,15 @@ package com.ht.localizer.acceptance;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
+import java.util.Collections;
+import java.util.Locale;
+import java.util.Set;
+import java.util.SortedSet;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.ExpectedException;
+import org.mockito.Mockito;
 import com.ht.localizer.Assert;
 import com.ht.localizer.Localizer;
 import com.ht.localizer.LocalizerBundle;
@@ -17,16 +24,6 @@ import com.ht.uid.Uid;
 import com.ht.uid.UidFactory;
 import com.ht.wrap.ResourceBundleWrapperConfigurator;
 import com.ht.wrap.StubWrapperFactory;
-
-import java.util.Collections;
-import java.util.Locale;
-import java.util.Set;
-
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
-import org.mockito.Mockito;
 
 public class LocalizerFactoryAcceptanceTest {
 
@@ -449,14 +446,63 @@ public class LocalizerFactoryAcceptanceTest {
   }
 
   @Test
-  public void LocalizerFactory_createLocalizerBundleWhereLocalizerTypeParameterIsUnknownExternalImplementation_localizerExceptionIsThrown()
+  public void LocalizerFactory_createLocalizerBundleWhereLocalizerParameterIsUnknownExternalImplementation_localizerExceptionIsThrown()
       throws Exception {
-    fail("not getting expected exception, so probably an error.");
-
     thrown.expect(LocalizerException.class);
-    thrown.expectMessage("dsfsdf");
+    thrown.expectMessage("unknown Localizer implementation");
 
-    Localizer externalLocalizer = stubLocalizer;
+    Localizer externalLocalizer = new Localizer() {
+
+      @Override
+      public boolean isDefined() {
+        return false;
+      }
+
+      @Override
+      public Uid<Localizer> getUid() {
+        throw new UnsupportedOperationException("method not supported by stub");
+      }
+
+      @Override
+      public void setLocale(Locale locale) throws LocalizerException {
+        throw new UnsupportedOperationException("method not supported by stub");
+      }
+
+      @Override
+      public String getName() {
+        throw new UnsupportedOperationException("method not supported by stub");
+      }
+
+      @Override
+      public Set<Uid<LocalizerType>> getLocalizerTypeUidSet() {
+        throw new UnsupportedOperationException("method not supported by stub");
+      }
+
+      @Override
+      public LocalizerType getLocalizerType(Uid<LocalizerType> typeUid) {
+        throw new UnsupportedOperationException("method not supported by stub");
+      }
+
+      @Override
+      public Set<Uid<LocalizerInstance>> getLocalizerInstanceUidSet() {
+        throw new UnsupportedOperationException("method not supported by stub");
+      }
+
+      @Override
+      public LocalizerInstance getLocalizerInstance(Uid<LocalizerInstance> instanceUid) {
+        throw new UnsupportedOperationException("method not supported by stub");
+      }
+
+      @Override
+      public SortedSet<LocalizerBundle> getLocalizerBundleSet() {
+        throw new UnsupportedOperationException("method not supported by stub");
+      }
+
+      @Override
+      public Locale getLocale() {
+        throw new UnsupportedOperationException("method not supported by stub");
+      }
+    };
 
     testableLocalizerFactory.createLocalizerBundle(externalLocalizer, "com.does.not.Matter");
   }
