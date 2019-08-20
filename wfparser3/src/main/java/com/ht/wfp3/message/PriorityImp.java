@@ -1,17 +1,20 @@
 package com.ht.wfp3.message;
 
+import com.ht.uid.Uid;
+import com.ht.uid.UidFactory;
+
 final class PriorityImp implements Priority {
 
   private final MessageSystem messageSystem;
-  private final UID<Priority> uid;
+  private final Uid<Priority> uid;
 
-  PriorityImp(MessageSystem messageSystem, String priorityUidKey) {
+  PriorityImp(UidFactory uidFactory, MessageSystem messageSystem, String priorityUidKey) {
     this.messageSystem = messageSystem;
-    uid = new UIDImp<Priority>(this, priorityUidKey);
+    uid = uidFactory.createUid(priorityUidKey, this);
   }
 
   @Override
-  public UID<Priority> getUid() {
+  public Uid<Priority> getUid() {
     return uid;
   }
 

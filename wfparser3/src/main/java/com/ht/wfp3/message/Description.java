@@ -1,5 +1,7 @@
 package com.ht.wfp3.message;
 
+import com.ht.uid.UniqueComponent;
+
 /**
  * The message description. The description contains a human readable string that supports i18n with
  * a defined limited length. The message string is optionally parameterized. The message string is

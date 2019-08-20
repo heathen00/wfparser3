@@ -1,9 +1,11 @@
 package com.ht.wfp3.message;
 
+import com.ht.uid.Uid;
+
 final class MessageImp implements Message {
 
   private final MessageSystem messageSystem;
-  private final UID<Message> messageUid;
+  private final Uid<Message> messageUid;
   private final Topic topic;
   private Priority priority;
   private final Description description;
@@ -13,11 +15,11 @@ final class MessageImp implements Message {
     this.topic = topic;
     this.priority = priority;
     this.description = description;
-    this.messageUid = new MessageUidImp<Message>(this);
+    this.messageUid = new MessageUidInternalImp(this);
   }
 
   @Override
-  public UID<Message> getUid() {
+  public Uid<Message> getUid() {
     return messageUid;
   }
 
@@ -27,7 +29,7 @@ final class MessageImp implements Message {
   }
 
   @Override
-  public void setPriority(UID<Priority> priorityUid) {
+  public void setPriority(Uid<Priority> priorityUid) {
     priority = ((MessageSystemInternal) messageSystem).getMessageFactory().getPriority(priorityUid);
   }
 

@@ -4,19 +4,24 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import com.ht.uid.Uid;
+import com.ht.uid.UidFactory;
 
 final class MessageFactoryImp implements MessageFactory {
+  private UidFactory uidFactory;
   private final MessageSystem messageSystem;
-  private final Map<UID<Priority>, Priority> priorityMap;
-  private final Map<String, UID<Priority>> priorityKeyMap;
-  private final Map<UID<Topic>, Topic> topicMap;
-  private final Map<String, UID<Topic>> topicKeyMap;
-  private final Map<UID<Description>, Description> descriptionMap;
-  private final Map<String, UID<Description>> descriptionKeyMap;
-  private final Map<UID<Message>, Message> messageMap;
-  private final Map<String, UID<Message>> messageKeyMap;
+  private final Map<Uid<Priority>, Priority> priorityMap;
+  private final Map<String, Uid<Priority>> priorityKeyMap;
+  private final Map<Uid<Topic>, Topic> topicMap;
+  private final Map<String, Uid<Topic>> topicKeyMap;
+  private final Map<Uid<Description>, Description> descriptionMap;
+  private final Map<String, Uid<Description>> descriptionKeyMap;
+  private final Map<Uid<Message>, Message> messageMap;
+  private final Map<String, Uid<Message>> messageKeyMap;
 
-  MessageFactoryImp(MessageSystem messageSystem) throws ConstraintViolationException {
+  MessageFactoryImp(UidFactory uidFactory, MessageSystem messageSystem)
+      throws ConstraintViolationException {
+    this.uidFactory = uidFactory;
     this.messageSystem = messageSystem;
     priorityMap = new HashMap<>();
     priorityKeyMap = new HashMap<>();
@@ -43,15 +48,15 @@ final class MessageFactoryImp implements MessageFactory {
     }
   }
 
-  public UID<Priority> addPriority(String priorityUidKey) throws ConstraintViolationException {
+  public Uid<Priority> addPriority(String priorityUidKey) throws ConstraintViolationException {
     uidKeyValidationGuard(priorityUidKey);
     if (Localization.UNKNOWN_L10N_KEY
         .equals(messageSystem.getConfig().getLocalization().getPriorityName(priorityUidKey))) {
       throw new ConstraintViolationException(
           "localization not defined for priority uidKey '" + priorityUidKey + "'");
     }
-    Priority priority = new PriorityImp(messageSystem, priorityUidKey);
-    UID<Priority> priorityUid = priority.getUid();
+    Priority priority = new PriorityImp(uidFactory, messageSystem, priorityUidKey);
+    Uid<Priority> priorityUid = priority.getUid();
     if (null != priorityMap.get(priorityUid)) {
       throw new ConstraintViolationException(
           "priority with uid " + priorityUidKey + " already exists");
@@ -61,29 +66,29 @@ final class MessageFactoryImp implements MessageFactory {
     return priorityUid;
   }
 
-  public UID<Priority> getPriorityUid(String uidKey) {
+  public Uid<Priority> getPriorityUid(String uidKey) {
     return priorityKeyMap.get(uidKey);
   }
 
-  public Priority getPriority(UID<Priority> priorityUid) {
+  public Priority getPriority(Uid<Priority> priorityUid) {
     return priorityMap.get(priorityUid);
   }
 
   @Override
-  public Set<UID<Priority>> getPriorityUidSet() {
+  public Set<Uid<Priority>> getPriorityUidSet() {
     return Collections.unmodifiableSet(priorityMap.keySet());
   }
 
   @Override
-  public UID<Topic> addTopic(String topicUidKey) throws ConstraintViolationException {
+  public Uid<Topic> addTopic(String topicUidKey) throws ConstraintViolationException {
     uidKeyValidationGuard(topicUidKey);
     if (Localization.UNKNOWN_L10N_KEY
         .equals(messageSystem.getConfig().getLocalization().getTopicName(topicUidKey))) {
       throw new ConstraintViolationException(
           "localization not defined for topic uidKey '" + topicUidKey + "'");
     }
-    Topic topic = new TopicImp(messageSystem, topicUidKey);
-    UID<Topic> topicUid = topic.getUid();
+    Topic topic = new TopicImp(uidFactory, messageSystem, topicUidKey);
+    Uid<Topic> topicUid = topic.getUid();
     if (null != topicMap.get(topicUid)) {
       throw new ConstraintViolationException("topic with uid " + topicUidKey + " already exists");
     }
@@ -93,26 +98,26 @@ final class MessageFactoryImp implements MessageFactory {
   }
 
   @Override
-  public Topic getTopic(UID<Topic> topicUid) {
+  public Topic getTopic(Uid<Topic> topicUid) {
     return topicMap.get(topicUid);
   }
 
   @Override
-  public UID<Topic> getTopicUid(String topicUidKey) {
+  public Uid<Topic> getTopicUid(String topicUidKey) {
     return topicKeyMap.get(topicUidKey);
   }
 
   @Override
-  public Set<UID<Topic>> getTopicUidSet() {
+  public Set<Uid<Topic>> getTopicUidSet() {
     return Collections.unmodifiableSet(topicMap.keySet());
   }
 
   @Override
-  public UID<Description> addDescription(String descriptionUidKey)
+  public Uid<Description> addDescription(String descriptionUidKey)
       throws ConstraintViolationException {
     uidKeyValidationGuard(descriptionUidKey);
-    Description description = new DescriptionImp(messageSystem, descriptionUidKey);
-    UID<Description> descriptionUid = description.getUid();
+    Description description = new DescriptionImp(uidFactory, messageSystem, descriptionUidKey);
+    Uid<Description> descriptionUid = description.getUid();
     if (null != descriptionMap.get(descriptionUid)) {
       throw new ConstraintViolationException(
           "description with uid " + descriptionUidKey + " already exists");
@@ -123,23 +128,23 @@ final class MessageFactoryImp implements MessageFactory {
   }
 
   @Override
-  public Description getDescription(UID<Description> descriptionUid) {
+  public Description getDescription(Uid<Description> descriptionUid) {
     return descriptionMap.get(descriptionUid);
   }
 
   @Override
-  public UID<Description> getDescriptionUid(String descriptionUidKey) {
+  public Uid<Description> getDescriptionUid(String descriptionUidKey) {
     return descriptionKeyMap.get(descriptionUidKey);
   }
 
   @Override
-  public Set<UID<Description>> getDescriptionUidSet() {
+  public Set<Uid<Description>> getDescriptionUidSet() {
     return Collections.unmodifiableSet(descriptionMap.keySet());
   }
 
   @Override
-  public UID<Message> addMessage(UID<Topic> topicUid, UID<Priority> priorityUid,
-      UID<Description> descriptionUid) throws ConstraintViolationException {
+  public Uid<Message> addMessage(Uid<Topic> topicUid, Uid<Priority> priorityUid,
+      Uid<Description> descriptionUid) throws ConstraintViolationException {
     if (null == topicUid) {
       throw new ConstraintViolationException("topicUid cannot be null");
     }
@@ -151,7 +156,7 @@ final class MessageFactoryImp implements MessageFactory {
     }
     Message message = new MessageImp(messageSystem, getTopic(topicUid), getPriority(priorityUid),
         getDescription(descriptionUid));
-    UID<Message> messageUid = message.getUid();
+    Uid<Message> messageUid = message.getUid();
     if (null != messageMap.get(messageUid)) {
       throw new ConstraintViolationException("message with uid " + messageUid + " already exists");
     }
@@ -161,17 +166,17 @@ final class MessageFactoryImp implements MessageFactory {
   }
 
   @Override
-  public Message getMessage(UID<Message> messageUid) {
+  public Message getMessage(Uid<Message> messageUid) {
     return messageMap.get(messageUid);
   }
 
   @Override
-  public UID<Message> getMessageUid(String messageUidKey) {
+  public Uid<Message> getMessageUid(String messageUidKey) {
     return messageKeyMap.get(messageUidKey);
   }
 
   @Override
-  public Set<UID<Message>> getMessageUidSet() {
+  public Set<Uid<Message>> getMessageUidSet() {
     return Collections.unmodifiableSet(messageMap.keySet());
   }
 }

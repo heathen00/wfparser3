@@ -1,5 +1,7 @@
 package com.ht.wfp3.message;
 
+import com.ht.uid.Uid;
+
 /**
  * The messenger is the client interface used to send messages in the messaging system.
  * 
@@ -16,9 +18,9 @@ public interface Messenger {
    * @param messageKey
    * @return
    */
-  UID<Message> getMessageUid(String topicName, String messageKey);
+  Uid<Message> getMessageUid(String topicName, String messageKey);
 
-  void sendMessage(UID<Message> messageUID, Object... parameters);
+  void sendMessage(Uid<Message> messageUid, Object... parameters);
 
-  void deleteMessage(UID<Message> messageUID);
+  void deleteMessage(Uid<Message> messageUid);
 }

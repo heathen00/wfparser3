@@ -1,89 +1,90 @@
 package com.ht.wfp3.message;
 
 import java.util.Set;
+import com.ht.uid.Uid;
 
 final class NullMessageFactoryImp implements MessageFactory {
 
   @Override
-  public UID<Priority> getPriorityUid(String string) {
+  public Uid<Priority> getPriorityUid(String string) {
     throw new UnsupportedOperationException("message system failed to initialize properly");
   }
 
   @Override
-  public UID<Priority> addPriority(String uidKey) throws ConstraintViolationException {
+  public Uid<Priority> addPriority(String uidKey) throws ConstraintViolationException {
     throw new UnsupportedOperationException("message system failed to initialize properly");
   }
 
   @Override
-  public Priority getPriority(UID<Priority> priorityUid) {
+  public Priority getPriority(Uid<Priority> priorityUid) {
     throw new UnsupportedOperationException("message system failed to initialize properly");
   }
 
   @Override
-  public Set<UID<Priority>> getPriorityUidSet() {
+  public Set<Uid<Priority>> getPriorityUidSet() {
     throw new UnsupportedOperationException("message system failed to initialize properly");
 
   }
 
   @Override
-  public UID<Topic> addTopic(String topicUidKey) throws ConstraintViolationException {
+  public Uid<Topic> addTopic(String topicUidKey) throws ConstraintViolationException {
     throw new UnsupportedOperationException("message system failed to initialize properly");
   }
 
   @Override
-  public Topic getTopic(UID<Topic> topicUid) {
+  public Topic getTopic(Uid<Topic> topicUid) {
     throw new UnsupportedOperationException("message system failed to initialize properly");
   }
 
   @Override
-  public UID<Topic> getTopicUid(String topicUidKey) {
+  public Uid<Topic> getTopicUid(String topicUidKey) {
     throw new UnsupportedOperationException("message system failed to initialize properly");
   }
 
   @Override
-  public Set<UID<Topic>> getTopicUidSet() {
+  public Set<Uid<Topic>> getTopicUidSet() {
     throw new UnsupportedOperationException("message system failed to initialize properly");
   }
 
   @Override
-  public UID<Description> addDescription(String descriptionUidKey)
+  public Uid<Description> addDescription(String descriptionUidKey)
       throws ConstraintViolationException {
     throw new UnsupportedOperationException("message system failed to initialize properly");
   }
 
   @Override
-  public Description getDescription(UID<Description> descriptionUid) {
+  public Description getDescription(Uid<Description> descriptionUid) {
     throw new UnsupportedOperationException("message system failed to initialize properly");
   }
 
   @Override
-  public UID<Description> getDescriptionUid(String descriptionUidKey) {
+  public Uid<Description> getDescriptionUid(String descriptionUidKey) {
     throw new UnsupportedOperationException("message system failed to initialize properly");
   }
 
   @Override
-  public Set<UID<Description>> getDescriptionUidSet() {
+  public Set<Uid<Description>> getDescriptionUidSet() {
     throw new UnsupportedOperationException("message system failed to initialize properly");
   }
 
   @Override
-  public UID<Message> addMessage(UID<Topic> topicUid, UID<Priority> priorityUid,
-      UID<Description> descriptionUid) throws ConstraintViolationException {
+  public Uid<Message> addMessage(Uid<Topic> topicUid, Uid<Priority> priorityUid,
+      Uid<Description> descriptionUid) throws ConstraintViolationException {
     throw new UnsupportedOperationException("message system failed to initialize properly");
   }
 
   @Override
-  public Message getMessage(UID<Message> messageUid) {
+  public Message getMessage(Uid<Message> messageUid) {
     throw new UnsupportedOperationException("message system failed to initialize properly");
   }
 
   @Override
-  public UID<Message> getMessageUid(String messageUidKey) {
+  public Uid<Message> getMessageUid(String messageUidKey) {
     throw new UnsupportedOperationException("message system failed to initialize properly");
   }
 
   @Override
-  public Set<UID<Message>> getMessageUidSet() {
+  public Set<Uid<Message>> getMessageUidSet() {
     throw new UnsupportedOperationException("message system failed to initialize properly");
   }
 }

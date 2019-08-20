@@ -1,17 +1,20 @@
 package com.ht.wfp3.message;
 
+import com.ht.uid.Uid;
+import com.ht.uid.UidFactory;
+
 class TopicImp implements Topic {
 
   private final MessageSystem messageSystem;
-  private final UID<Topic> uid;
+  private final Uid<Topic> uid;
 
-  TopicImp(MessageSystem messageSystem, String topicUidKey) {
+  TopicImp(UidFactory uidFactory, MessageSystem messageSystem, String topicUidKey) {
     this.messageSystem = messageSystem;
-    this.uid = new UIDImp<Topic>(this, topicUidKey);
+    this.uid = uidFactory.createUid(topicUidKey, this);
   }
 
   @Override
-  public UID<Topic> getUid() {
+  public Uid<Topic> getUid() {
     return uid;
   }
 

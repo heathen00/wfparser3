@@ -1,38 +1,39 @@
 package com.ht.wfp3.message;
 
 import java.util.Set;
+import com.ht.uid.Uid;
 
 interface MessageFactory {
-  UID<Priority> addPriority(String priorityUidKey) throws ConstraintViolationException;
+  Uid<Priority> addPriority(String priorityUidKey) throws ConstraintViolationException;
 
-  Priority getPriority(UID<Priority> priorityUid);
+  Priority getPriority(Uid<Priority> priorityUid);
 
-  UID<Priority> getPriorityUid(String priorityUidKey);
+  Uid<Priority> getPriorityUid(String priorityUidKey);
 
-  Set<UID<Priority>> getPriorityUidSet();
+  Set<Uid<Priority>> getPriorityUidSet();
 
-  UID<Topic> addTopic(String topicUidKey) throws ConstraintViolationException;
+  Uid<Topic> addTopic(String topicUidKey) throws ConstraintViolationException;
 
-  Topic getTopic(UID<Topic> topicUid);
+  Topic getTopic(Uid<Topic> topicUid);
 
-  UID<Topic> getTopicUid(String topicUidKey);
+  Uid<Topic> getTopicUid(String topicUidKey);
 
-  Set<UID<Topic>> getTopicUidSet();
+  Set<Uid<Topic>> getTopicUidSet();
 
-  UID<Description> addDescription(String descriptionUidKey) throws ConstraintViolationException;
+  Uid<Description> addDescription(String descriptionUidKey) throws ConstraintViolationException;
 
-  Description getDescription(UID<Description> descriptionUid);
+  Description getDescription(Uid<Description> descriptionUid);
 
-  UID<Description> getDescriptionUid(String descriptionUidKey);
+  Uid<Description> getDescriptionUid(String descriptionUidKey);
 
-  Set<UID<Description>> getDescriptionUidSet();
+  Set<Uid<Description>> getDescriptionUidSet();
 
-  UID<Message> addMessage(UID<Topic> topicUid, UID<Priority> priorityUid,
-      UID<Description> descriptionUid) throws ConstraintViolationException;
+  Uid<Message> addMessage(Uid<Topic> topicUid, Uid<Priority> priorityUid,
+      Uid<Description> descriptionUid) throws ConstraintViolationException;
 
-  Message getMessage(UID<Message> messageUid);
+  Message getMessage(Uid<Message> messageUid);
 
-  UID<Message> getMessageUid(String messageUidKey);
+  Uid<Message> getMessageUid(String messageUidKey);
 
-  Set<UID<Message>> getMessageUidSet();
+  Set<Uid<Message>> getMessageUidSet();
 }

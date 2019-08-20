@@ -1,5 +1,7 @@
 package com.ht.wfp3.message;
 
+import com.ht.uid.UniqueComponent;
+
 /**
  * 
  * The message topic. The topic is used to group related messages according to what task the system

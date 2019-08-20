@@ -11,6 +11,7 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import com.ht.uid.Uid;
 
 public class MessageFactoryTest {
 
@@ -76,7 +77,7 @@ public class MessageFactoryTest {
   @Test
   public void MessageFactory_addTheTestingPriority_testingPriorityIsAdded() throws Exception {
     String testingUidKey = "testing";
-    UID<Priority> priorityUid = messageFactory.addPriority(testingUidKey);
+    Uid<Priority> priorityUid = messageFactory.addPriority(testingUidKey);
     assertNotNull(priorityUid);
     Priority testingPriority = messageFactory.getPriority(priorityUid);
     assertNotNull(testingPriority);
@@ -99,7 +100,7 @@ public class MessageFactoryTest {
       throws Exception {
     messageSystemInternal.getConfig().getLocalization().setLocale(Locale.CANADA_FRENCH);
     String testingUidKey = "testing";
-    UID<Priority> priorityUid = messageFactory.addPriority(testingUidKey);
+    Uid<Priority> priorityUid = messageFactory.addPriority(testingUidKey);
     Priority priority = messageFactory.getPriority(priorityUid);
     assertNotNull(priority);
     assertTrue(priority.getName().matches("^.*fr\\.CA.*$"));
@@ -113,7 +114,7 @@ public class MessageFactoryTest {
       throws Exception {
     messageSystemInternal.getConfig().getLocalization().setLocale(Locale.TRADITIONAL_CHINESE);
     String testingUidKey = "testing";
-    UID<Priority> priorityUid = messageFactory.addPriority(testingUidKey);
+    Uid<Priority> priorityUid = messageFactory.addPriority(testingUidKey);
     Priority priority = messageFactory.getPriority(priorityUid);
     assertNotNull(priority);
     assertTrue(priority.getName().matches("^.*default.*$"));
@@ -127,7 +128,7 @@ public class MessageFactoryTest {
       throws Exception {
     messageSystemInternal.getConfig().getLocalization().setLocale(Locale.CANADA_FRENCH);
     String testingUidKey = "testing";
-    UID<Priority> priorityUid = messageFactory.addPriority(testingUidKey);
+    Uid<Priority> priorityUid = messageFactory.addPriority(testingUidKey);
     Priority priority = messageFactory.getPriority(priorityUid);
     assertNotNull(priority);
     assertTrue(priority.getName().matches("^.*fr\\.CA.*$"));
@@ -140,11 +141,11 @@ public class MessageFactoryTest {
   public void MessageFactory_checkAllDefaultSystemPriorities_allDefaultPrioritiesAreAdded() {
     List<String> expectedPriorityKeyList =
         Arrays.asList("undefined", "debug", "info", "warn", "error");
-    Set<UID<Priority>> priorityUidList = messageFactory.getPriorityUidSet();
+    Set<Uid<Priority>> priorityUidList = messageFactory.getPriorityUidSet();
 
     assertNotNull(priorityUidList);
     for (String expectedPriorityUidKey : expectedPriorityKeyList) {
-      UID<Priority> expectedPriorityUid = messageFactory.getPriorityUid(expectedPriorityUidKey);
+      Uid<Priority> expectedPriorityUid = messageFactory.getPriorityUid(expectedPriorityUidKey);
       assertNotNull(expectedPriorityUidKey, expectedPriorityUid);
       assertTrue(expectedPriorityUidKey, priorityUidList.contains(expectedPriorityUid));
     }
@@ -200,7 +201,7 @@ public class MessageFactoryTest {
   @Test
   public void MessageFactory_addTheTestingTopic_testingTopicIsAdded() throws Exception {
     String testingUidKey = "testing";
-    UID<Topic> topicUid = messageFactory.addTopic(testingUidKey);
+    Uid<Topic> topicUid = messageFactory.addTopic(testingUidKey);
     assertNotNull(topicUid);
     Topic testingTopic = messageFactory.getTopic(topicUid);
     assertNotNull(testingTopic);
@@ -223,7 +224,7 @@ public class MessageFactoryTest {
       throws Exception {
     messageSystemInternal.getConfig().getLocalization().setLocale(Locale.CANADA_FRENCH);
     String testingUidKey = "testing";
-    UID<Topic> topicUid = messageFactory.addTopic(testingUidKey);
+    Uid<Topic> topicUid = messageFactory.addTopic(testingUidKey);
     Topic topic = messageFactory.getTopic(topicUid);
     assertNotNull(topic);
     assertNotNull(topic.getName());
@@ -238,7 +239,7 @@ public class MessageFactoryTest {
       throws Exception {
     messageSystemInternal.getConfig().getLocalization().setLocale(Locale.TRADITIONAL_CHINESE);
     String testingUidKey = "testing";
-    UID<Topic> topicUid = messageFactory.addTopic(testingUidKey);
+    Uid<Topic> topicUid = messageFactory.addTopic(testingUidKey);
     Topic topic = messageFactory.getTopic(topicUid);
     assertNotNull(topic);
     assertTrue(topic.getName().matches("^.*default.*$"));
@@ -252,7 +253,7 @@ public class MessageFactoryTest {
       throws Exception {
     messageSystemInternal.getConfig().getLocalization().setLocale(Locale.CANADA_FRENCH);
     String testingUidKey = "testing";
-    UID<Topic> topicUid = messageFactory.addTopic(testingUidKey);
+    Uid<Topic> topicUid = messageFactory.addTopic(testingUidKey);
     Topic topic = messageFactory.getTopic(topicUid);
     assertNotNull(topic);
     assertTrue(topic.getName().matches("^.*fr\\.CA.*$"));
@@ -264,11 +265,11 @@ public class MessageFactoryTest {
   @Test
   public void MessageFactory_checkAllDefaultSystemTopic_allDefaultTopicsAreAdded() {
     List<String> expectedTopicKeyList = Arrays.asList("undefined", "system");
-    Set<UID<Topic>> topicUidList = messageFactory.getTopicUidSet();
+    Set<Uid<Topic>> topicUidList = messageFactory.getTopicUidSet();
 
     assertNotNull(topicUidList);
     for (String expectedTopicUidKey : expectedTopicKeyList) {
-      UID<Topic> expectedTopicUid = messageFactory.getTopicUid(expectedTopicUidKey);
+      Uid<Topic> expectedTopicUid = messageFactory.getTopicUid(expectedTopicUidKey);
       assertNotNull(expectedTopicUidKey, expectedTopicUid);
       assertTrue(expectedTopicUidKey, topicUidList.contains(expectedTopicUid));
     }
@@ -323,7 +324,7 @@ public class MessageFactoryTest {
   @Test
   public void MessageFactory_addTheTestingDescription_testingTopicIsAdded() throws Exception {
     String testingUidKey = "testing";
-    UID<Description> descriptionUid = messageFactory.addDescription(testingUidKey);
+    Uid<Description> descriptionUid = messageFactory.addDescription(testingUidKey);
     assertNotNull(descriptionUid);
     Description testingDescription = messageFactory.getDescription(descriptionUid);
     assertNotNull(testingDescription);
@@ -350,14 +351,14 @@ public class MessageFactoryTest {
     String testingString = "Test Parameter";
     Integer testingInteger = Integer.valueOf(10);
 
-    UID<Description> unformattedDescriptionUid =
+    Uid<Description> unformattedDescriptionUid =
         messageFactory.addDescription(testingUnformattedUidKey);
     Description unformattedDescription = messageFactory.getDescription(unformattedDescriptionUid);
     assertNotNull(unformattedDescription);
     assertNotNull(unformattedDescription.getUnformattedText());
     assertTrue(unformattedDescription.getUnformattedText().matches("^.*fr\\.CA.*$"));
 
-    UID<Description> formattedDescriptionUid =
+    Uid<Description> formattedDescriptionUid =
         messageFactory.addDescription(testingFormattedUidKey);
     Description formattedDescription = messageFactory.getDescription(formattedDescriptionUid);
     assertNotNull(formattedDescription);
@@ -380,13 +381,13 @@ public class MessageFactoryTest {
     String testingString = "Test Parameter";
     Integer testingInteger = Integer.valueOf(10);
 
-    UID<Description> unformattedDescriptionUid =
+    Uid<Description> unformattedDescriptionUid =
         messageFactory.addDescription(testingUnformattedUidKey);
     Description unformattedDescription = messageFactory.getDescription(unformattedDescriptionUid);
     assertNotNull(unformattedDescription);
     assertTrue(unformattedDescription.getUnformattedText().matches("^.*default.*$"));
 
-    UID<Description> formattedDescriptionUid =
+    Uid<Description> formattedDescriptionUid =
         messageFactory.addDescription(testingFormattedUidKey);
     Description formattedDescription = messageFactory.getDescription(formattedDescriptionUid);
     assertNotNull(formattedDescription);
@@ -409,13 +410,13 @@ public class MessageFactoryTest {
     String testingString = "Test Parameter";
     Integer testingInteger = Integer.valueOf(10);
 
-    UID<Description> unformattedDescriptionUid =
+    Uid<Description> unformattedDescriptionUid =
         messageFactory.addDescription(testingUnformattedUidKey);
     Description unformattedDescription = messageFactory.getDescription(unformattedDescriptionUid);
     assertNotNull(unformattedDescription);
     assertTrue(unformattedDescription.getUnformattedText().matches("^.*fr\\.CA.*$"));
 
-    UID<Description> formattedDescriptionUid =
+    Uid<Description> formattedDescriptionUid =
         messageFactory.addDescription(testingFormattedUidKey);
     Description formattedDescription = messageFactory.getDescription(formattedDescriptionUid);
     assertNotNull(formattedDescription);
@@ -432,11 +433,11 @@ public class MessageFactoryTest {
   @Test
   public void MessageFactory_checkAllDefaultSystemDescriptions_allDefaultTopicsAreAdded() {
     List<String> expectedDescriptionKeyList = Arrays.asList("undefined");
-    Set<UID<Description>> descriptionUidList = messageFactory.getDescriptionUidSet();
+    Set<Uid<Description>> descriptionUidList = messageFactory.getDescriptionUidSet();
 
     assertNotNull(descriptionUidList);
     for (String expectedDescriptionUidKey : expectedDescriptionKeyList) {
-      UID<Description> expectedDescriptionUid =
+      Uid<Description> expectedDescriptionUid =
           messageFactory.getDescriptionUid(expectedDescriptionUidKey);
       assertNotNull(expectedDescriptionUidKey, expectedDescriptionUid);
       assertTrue(expectedDescriptionUidKey, descriptionUidList.contains(expectedDescriptionUid));
@@ -475,11 +476,11 @@ public class MessageFactoryTest {
 
   @Test
   public void MessageFactory_addOneMessageWithValidParameters_oneMessageIsAdded() throws Exception {
-    UID<Topic> expectedTopicUid = messageFactory.addTopic("testing");
-    UID<Priority> expectedPriorityUid = messageFactory.addPriority("testing");
-    UID<Description> expectedDescriptionUid = messageFactory.addDescription("testing.unformatted");
+    Uid<Topic> expectedTopicUid = messageFactory.addTopic("testing");
+    Uid<Priority> expectedPriorityUid = messageFactory.addPriority("testing");
+    Uid<Description> expectedDescriptionUid = messageFactory.addDescription("testing.unformatted");
 
-    UID<Message> messageUid =
+    Uid<Message> messageUid =
         messageFactory.addMessage(expectedTopicUid, expectedPriorityUid, expectedDescriptionUid);
 
     assertNotNull(messageUid);
@@ -493,16 +494,16 @@ public class MessageFactoryTest {
   @Test
   public void MessageFactory_addMultipleMessagesWithSameTopicButDifferentDescriptions_allMessagesAddedSuccessfully()
       throws Exception {
-    UID<Topic> expectedTopicUid = messageFactory.addTopic("testing");
-    UID<Priority> expectedPriorityUid = messageFactory.addPriority("testing");
-    UID<Description> expectedFirstDescriptionUid =
+    Uid<Topic> expectedTopicUid = messageFactory.addTopic("testing");
+    Uid<Priority> expectedPriorityUid = messageFactory.addPriority("testing");
+    Uid<Description> expectedFirstDescriptionUid =
         messageFactory.addDescription("testing.unformatted");
-    UID<Description> expectedSecondDescriptionUid =
+    Uid<Description> expectedSecondDescriptionUid =
         messageFactory.addDescription("testing.formatted");
 
-    UID<Message> firstMessageUid = messageFactory.addMessage(expectedTopicUid, expectedPriorityUid,
+    Uid<Message> firstMessageUid = messageFactory.addMessage(expectedTopicUid, expectedPriorityUid,
         expectedFirstDescriptionUid);
-    UID<Message> secondMessageUid = messageFactory.addMessage(expectedTopicUid, expectedPriorityUid,
+    Uid<Message> secondMessageUid = messageFactory.addMessage(expectedTopicUid, expectedPriorityUid,
         expectedSecondDescriptionUid);
 
     assertNotNull(firstMessageUid);
@@ -524,14 +525,14 @@ public class MessageFactoryTest {
   @Test
   public void MessageFactory_addMultipleMessagesWithDifferentTopicsButSameDescriptions_allMessagesAddedSuccessfully()
       throws Exception {
-    UID<Topic> expectedFirstTopicUid = messageFactory.addTopic("testing");
-    UID<Topic> expectedSecondTopicUid = messageFactory.addTopic("testing.two");
-    UID<Priority> expectedPriorityUid = messageFactory.addPriority("testing");
-    UID<Description> expectedDescriptionUid = messageFactory.addDescription("testing.unformatted");
+    Uid<Topic> expectedFirstTopicUid = messageFactory.addTopic("testing");
+    Uid<Topic> expectedSecondTopicUid = messageFactory.addTopic("testing.two");
+    Uid<Priority> expectedPriorityUid = messageFactory.addPriority("testing");
+    Uid<Description> expectedDescriptionUid = messageFactory.addDescription("testing.unformatted");
 
-    UID<Message> firstMessageUid = messageFactory.addMessage(expectedFirstTopicUid,
+    Uid<Message> firstMessageUid = messageFactory.addMessage(expectedFirstTopicUid,
         expectedPriorityUid, expectedDescriptionUid);
-    UID<Message> secondMessageUid = messageFactory.addMessage(expectedSecondTopicUid,
+    Uid<Message> secondMessageUid = messageFactory.addMessage(expectedSecondTopicUid,
         expectedPriorityUid, expectedDescriptionUid);
 
     assertNotNull(firstMessageUid);
@@ -556,10 +557,10 @@ public class MessageFactoryTest {
     thrown.expect(ConstraintViolationException.class);
     thrown.expectMessage("already exists");
 
-    UID<Topic> expectedTopicUid = messageFactory.addTopic("testing");
-    UID<Priority> expectedFirstPriorityUid = messageFactory.addPriority("testing");
-    UID<Priority> expectedSecondPriorityUid = messageFactory.addPriority("testing.two");
-    UID<Description> expectedDescriptionUid = messageFactory.addDescription("testing.unformatted");
+    Uid<Topic> expectedTopicUid = messageFactory.addTopic("testing");
+    Uid<Priority> expectedFirstPriorityUid = messageFactory.addPriority("testing");
+    Uid<Priority> expectedSecondPriorityUid = messageFactory.addPriority("testing.two");
+    Uid<Description> expectedDescriptionUid = messageFactory.addDescription("testing.unformatted");
 
     messageFactory.addMessage(expectedTopicUid, expectedFirstPriorityUid, expectedDescriptionUid);
     messageFactory.addMessage(expectedTopicUid, expectedSecondPriorityUid, expectedDescriptionUid);
@@ -568,11 +569,11 @@ public class MessageFactoryTest {
   @Test
   public void MessageFactory_checkAllDefaultSystemMessages_allDefaultMessagesAreAdded() {
     List<String> expectedMessageKeyList = Arrays.asList("undefined.undefined");
-    Set<UID<Message>> messageUidSet = messageFactory.getMessageUidSet();
+    Set<Uid<Message>> messageUidSet = messageFactory.getMessageUidSet();
 
     assertNotNull(messageUidSet);
     for (String expectedMessageUidKey : expectedMessageKeyList) {
-      UID<Message> expectedMessageUid = messageFactory.getMessageUid(expectedMessageUidKey);
+      Uid<Message> expectedMessageUid = messageFactory.getMessageUid(expectedMessageUidKey);
       assertNotNull(expectedMessageUidKey, expectedMessageUid);
       assertTrue(expectedMessageUidKey, messageUidSet.contains(expectedMessageUid));
     }

@@ -1,5 +1,7 @@
 package com.ht.wfp3.message;
 
+import com.ht.uid.UniqueComponent;
+
 /**
  * The message priority. The priority has a human readable string name that supports i18n and has a
  * system wide defined maximum string length. The priority has a unique key. The first reserved
