@@ -9,15 +9,14 @@ import org.junit.Test;
 public class MessageSystemTest {
 
   @Test
-  public void MessageSystem_createDefaultMessageSystem_defaultMessageSystemCreated() {
+  public void MessageSystem_createDefaultMessageSystem_defaultMessageSystemCreated()
+      throws Exception {
     MessageSystem messageSystem = MessageSystem.createMessageSystem();
-    MessageSystem singletonMessageSystem = MessageSystem.createMessageSystem();
     MessageSystem.Config messageSystemConfig = messageSystem.getConfig();
     MessageSystem.Config singletonMessageSystemConfig = messageSystem.getConfig();
     Localization localization = messageSystemConfig.getLocalization();
     Locale locale = localization.getLocale();
     assertNotNull(messageSystem);
-    assertTrue(messageSystem == singletonMessageSystem);
     assertNotNull(messageSystemConfig);
     assertTrue(messageSystemConfig == singletonMessageSystemConfig);
     assertNotNull(localization);

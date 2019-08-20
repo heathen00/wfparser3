@@ -25,16 +25,14 @@ final class MessageSystemInternalImp implements MessageSystemInternal {
     }
   }
 
-  static final MessageSystem SINGLETON = new MessageSystemInternalImp();
-
   private MessageFactory messageFactory;
   private MessageSystem.Config config;
 
-  MessageSystemInternalImp() {
+  MessageSystemInternalImp() throws ConstraintViolationException {
     internalResetToDefault();
   }
 
-  private void internalResetToDefault() {
+  private void internalResetToDefault() throws ConstraintViolationException {
     config = new MessageSystemInternalImp.ConfigImp();
     try {
       messageFactory = new MessageFactoryImp(UidFactory.createUidFactory(), this);
@@ -69,7 +67,7 @@ final class MessageSystemInternalImp implements MessageSystemInternal {
   }
 
   @Override
-  public void resetToDefault() {
+  public void resetToDefault() throws ConstraintViolationException {
     internalResetToDefault();
   }
 }

@@ -22,7 +22,7 @@ public class MessageFactoryTest {
   private MessageFactory messageFactory;
 
   @Before
-  public void setup() {
+  public void setup() throws Exception {
     messageSystemInternal = (MessageSystemInternal) MessageSystem.createMessageSystem();
     messageSystemInternal.resetToDefault();
     messageFactory = messageSystemInternal.getMessageFactory();
@@ -527,6 +527,7 @@ public class MessageFactoryTest {
       throws Exception {
     Uid<Topic> expectedFirstTopicUid = messageFactory.addTopic("testing");
     Uid<Topic> expectedSecondTopicUid = messageFactory.addTopic("testing.two");
+
     Uid<Priority> expectedPriorityUid = messageFactory.addPriority("testing");
     Uid<Description> expectedDescriptionUid = messageFactory.addDescription("testing.unformatted");
 
@@ -568,7 +569,8 @@ public class MessageFactoryTest {
 
   @Test
   public void MessageFactory_checkAllDefaultSystemMessages_allDefaultMessagesAreAdded() {
-    List<String> expectedMessageKeyList = Arrays.asList("undefined.undefined");
+    List<String> expectedMessageKeyList =
+        Arrays.asList("system.topic.undefined.00.system.description.undefined.00");
     Set<Uid<Message>> messageUidSet = messageFactory.getMessageUidSet();
 
     assertNotNull(messageUidSet);

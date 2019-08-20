@@ -14,11 +14,11 @@ public interface MessageSystem {
     Localization getLocalization();
   }
 
-  static MessageSystem createMessageSystem() {
-    return MessageSystemInternalImp.SINGLETON;
+  static MessageSystem createMessageSystem() throws ConstraintViolationException {
+    return new MessageSystemInternalImp();
   }
 
-  void resetToDefault();
+  void resetToDefault() throws ConstraintViolationException;
 
   Config getConfig();
 
