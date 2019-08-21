@@ -5,14 +5,14 @@ import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 final class LocalizationImp implements Localization {
-  private static final String SYSTEM_L10N_BUNDLE_BASENAME = "com.ht.wfp3.message.SystemL10nBundle";
+  private static final String MESSAGE_L10N_BUNDLE_BASENAME = "com.ht.wfp3.message.MessageL10nBundle";
 
   private Locale locale;
-  private ResourceBundle systemResourceBundle;
+  private ResourceBundle messageResourceBundle;
 
   LocalizationImp() {
     locale = Locale.getDefault();
-    systemResourceBundle = ResourceBundle.getBundle(SYSTEM_L10N_BUNDLE_BASENAME, locale);
+    messageResourceBundle = ResourceBundle.getBundle(MESSAGE_L10N_BUNDLE_BASENAME, locale);
   }
 
   @Override
@@ -23,20 +23,20 @@ final class LocalizationImp implements Localization {
   @Override
   public void setLocale(Locale locale) {
     this.locale = locale;
-    systemResourceBundle = ResourceBundle.getBundle(SYSTEM_L10N_BUNDLE_BASENAME, locale);
+    messageResourceBundle = ResourceBundle.getBundle(MESSAGE_L10N_BUNDLE_BASENAME, locale);
   }
 
   @Override
   public void setDefaultLocale() {
     locale = Locale.getDefault();
-    systemResourceBundle = ResourceBundle.getBundle(SYSTEM_L10N_BUNDLE_BASENAME, locale);
+    messageResourceBundle = ResourceBundle.getBundle(MESSAGE_L10N_BUNDLE_BASENAME, locale);
   }
 
   @Override
   public String getPriorityName(String priorityUidKey) {
     String l10NValue = null;
     try {
-      l10NValue = systemResourceBundle.getString(priorityUidKey);
+      l10NValue = messageResourceBundle.getString(priorityUidKey);
     } catch (MissingResourceException mre) {
       l10NValue = Localization.UNKNOWN_L10N_KEY;
     }
@@ -47,7 +47,7 @@ final class LocalizationImp implements Localization {
   public String getTopicName(String topicUidKey) {
     String l10NValue = null;
     try {
-      l10NValue = systemResourceBundle.getString(topicUidKey);
+      l10NValue = messageResourceBundle.getString(topicUidKey);
     } catch (MissingResourceException mre) {
       l10NValue = Localization.UNKNOWN_L10N_KEY;
     }
@@ -58,7 +58,7 @@ final class LocalizationImp implements Localization {
   public String getDescriptionUnformattedText(String descriptionUidKey) {
     String l10NValue = null;
     try {
-      l10NValue = systemResourceBundle.getString(descriptionUidKey);
+      l10NValue = messageResourceBundle.getString(descriptionUidKey);
     } catch (MissingResourceException mre) {
       l10NValue = Localization.UNKNOWN_L10N_KEY;
     }
@@ -70,7 +70,7 @@ final class LocalizationImp implements Localization {
     String l10NValue = null;
     try {
       l10NValue =
-          String.format(locale, systemResourceBundle.getString(descriptionUidKey), parameters);
+          String.format(locale, messageResourceBundle.getString(descriptionUidKey), parameters);
     } catch (MissingResourceException mre) {
       l10NValue = Localization.UNKNOWN_L10N_KEY;
     }

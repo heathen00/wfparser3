@@ -26,9 +26,9 @@ final class MessageFactoryImp implements MessageFactory {
       throws ConstraintViolationException {
     this.uidFactory = uidFactory;
     this.messageSystem = messageSystem;
-    priorityNameMapper = new NameMapper("system", "priority", "00");
-    topicNameMapper = new NameMapper("system", "topic", "00");
-    descriptionNameMapper = new NameMapper("system", "description", "00");
+    priorityNameMapper = new NameMapper("message", "priority", "00");
+    topicNameMapper = new NameMapper("message", "topic", "00");
+    descriptionNameMapper = new NameMapper("message", "description", "00");
     priorityMap = new HashMap<>();
     priorityKeyMap = new HashMap<>();
     topicMap = new HashMap<>();

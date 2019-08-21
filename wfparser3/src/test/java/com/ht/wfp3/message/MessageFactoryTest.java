@@ -570,7 +570,7 @@ public class MessageFactoryTest {
   @Test
   public void MessageFactory_checkAllDefaultSystemMessages_allDefaultMessagesAreAdded() {
     List<String> expectedMessageKeyList =
-        Arrays.asList("system.topic.undefined.00.system.description.undefined.00");
+        Arrays.asList("message.topic.undefined.00.message.description.undefined.00");
     Set<Uid<Message>> messageUidSet = messageFactory.getMessageUidSet();
 
     assertNotNull(messageUidSet);

@@ -214,6 +214,11 @@ There are a number of problems with the localization implementation I currently 
      I think what I want is for the LocalizerBundle to maintain the order in which they are added
      to the Localizer.  This would be different from OrderedSet which will order the
      LocalizerBundle instances according to their natural order.  Very different.
+   * The message subsystem contains "Constraint" and "ConstraintViolation" implementations that
+     really don't belong in the message subsystem.  This is a similar concept to the "guard"
+     subsystem I've mentioned previously and maybe should be rolled into that.  I'll leave it for
+     now since I'm busy replacing the localization implementation at the moment but maybe after
+     that the next step is to build the guard / constraints solution.
      
 HERE:
    * Integrate the localizer and UID subsystems back into the messaging subsystem.
