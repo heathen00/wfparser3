@@ -1,4 +1,4 @@
-package com.ht.wfp3.message;
+package com.ht.wfp3.message.OLD;
 
 import java.util.Locale;
 

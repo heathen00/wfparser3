@@ -1,4 +1,4 @@
-package com.ht.wfp3.message;
+package com.ht.wfp3.message.OLD;
 
 /**
  * The message system represents the system used for messaging. This is the starting point for

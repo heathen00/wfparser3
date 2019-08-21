@@ -1,10 +1,12 @@
-package com.ht.wfp3.message;
+package com.ht.wfp3.message.OLD;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import java.util.Locale;
 import org.junit.Test;
+import com.ht.wfp3.message.OLD.Localization;
+import com.ht.wfp3.message.OLD.MessageSystem;
 
 public class MessageSystemTest {
 

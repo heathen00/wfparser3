@@ -1,11 +1,12 @@
-package com.ht.wfp3.message;
+package com.ht.wfp3.message.OLD;
 
 import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 final class LocalizationImp implements Localization {
-  private static final String MESSAGE_L10N_BUNDLE_BASENAME = "com.ht.wfp3.message.MessageL10nBundle";
+  private static final String MESSAGE_L10N_BUNDLE_BASENAME =
+      "com.ht.wfp3.message.OLD.MessageL10nBundle";
 
   private Locale locale;
   private ResourceBundle messageResourceBundle;

@@ -18,10 +18,11 @@ stories acceptance criteria for visible behaviour, and all published API classes
 is associated with a published class is required to be defined by the acceptance tests, even if the user stories do
 not explicitly state the behaviour in their acceptance criteria.
 
+
 ## Subsystems
 
 
-### Subsystems: Common Status Reporting
+### Subsystems: Message Subsystem
 
 The following description is just a set of guidelines for how I envision this subsystem to work.  Once you
 implement the system, then delete this section since the software should be descriptive enough on its own.
@@ -115,42 +116,15 @@ generate the report by appending the messages to an appropriate, simple data str
 It may be necessary to provide the ability to disable / enable events for scenarios like a given event was
 incorrectly defined (or something) and should not be used anymore.
 
-There are a number of problems with the localization implementation I currently have:
-   * The fact that I need to write in the "undefined" configuration for each localized string is time consuming.
-     But on the other hand, since it is defined, for all of the Priority, Topic, and Description objects, then
-     I should not need to write it again.  Still, it must go into every defined localization otherwise it does
-     not work.  This is the bigger problem since it makes the system fragile.  You should have a more robust and
-     general mechanism for handling when a given locale configuration is missing on a string by string basis.
-   * The localization functionality needs to know too much about the Priority, Topic, and Description objects
-     since the localization functionality contains methods to localize all fields for each of these objects.  It
-     would be better if the Priority, Topic, and Description classes implemented an interface published by the
-     localization system for each of their fields that need to be localized.
-   * you should consider re-implementing the localization so that their are three tiers.  The first tier is the
-     user defined localization configuration(s) and it can be fully configuration based.  It is searched first for
-     the localization data.  The second tier is the system tier and it is hard coded.  This is to get around the
-     chicken and egg situation related to using the same interfaces that may require localized data from the
-     "system" topic while setting up the "system".  The third and last tier is to handle scenarios when the
-     localization data is missing from the two previous tiers.  Instead of halting the system due to a localization
-     misconfiguration, you can just report that the localization data is missing.  This would be less prone to
-     runtime errors.
-   * You should go through the implementation and mark method parameters as final to indicate that none of
-     them will be modified.
-   * You should also just look through the code for instances of duplication and remove them using
-     inheritance, pulling out duplicate code into its own class and use composition, instead.
-   * You should consider adding yet another layer of testing: integration, which tests to ensure
-     that independent subsystems of the whole solution work together as expected.  The testing
-     should not be too extensive to reduce redundancy and should only indicate that ... what?
-     Think about what the integration testing should prove in more concrete and limited terms.
-   * There is an issue in the UID subsystem that will cause an integration problem when it is
-     integrated with the Localizer subsystem.  The scenario where you try and recreate the same
-     UID using "UidFactory.createUid(...)" twice in a row with the same parameters will fail the
-     second time.  What it should do is return the same instance the second time that was created
-     the first.
-   * Also, continue to define very similar interfaces at a subsystem level.  Eventually, I would
-     like to implement what I intended to implement in the "connect" subsystem.  It is just too
-     soon, right now, because I don't see the requirements, yet.
      
 HERE:
+   * You'll need to implement an "undefined" Priority, Topic, Description, and Message.
+   * When mapping the "undefined" entities to localization configuration, you should not need to define any
+     configuration, not for the root locale nor any other locale.  Not for any new resource bundle being added.
+   * When implementing the message system, ensure that it continues to function even if the localization is not
+     working 100% properly, at run time.  Remember, the objective is to decouple the message subsystem from the
+     localization as much as possible.  The message system just passes around codified messages, like UIDs for
+     messages.
    * I think the message subsystem's current design is deficient and irrecoverable.  There are
      a number of problems.  First, it contains concepts that are not relevant to messaging
      (localization, constraints, ...).  And second, it is too coupled to these subsystems.  The
@@ -238,11 +212,17 @@ work:
      API since it does not make sense for them to implement them.  You cannot invert the inheritance
      hierarchy between the published and internal interfaces since this would cause the internal methods
      to be visible in the published API.
+   * I think it was a mistake to enforce a specific naming convention / structure within the localizer
+     subsystem.  The naming convention should be defined by the system that uses it.  At most the localizer
+     should have something like the LocalizerType with one named field and MAYBE the LocalizerInstance.
+     Maybe the localizer instance does not even use its name when resolving the localized resource.  The
+     role of the LocalizerInstance is just to mark where class data fields use a localized resource.  The
+     actual localized resource is defined in the LocalizerType (whatever it should be called) instances.
 
 
 ### Subsystems: The Connect Subsystem
 
-Rough description:
+Rough:
   * very poorly defined at the moment.
   * the idea is to have similar interfaces between subsystems to simplify integrating them.  The problem is that
     I don't have a good idea how to do this yet.  So, thus far, I am just implementing similar interfaces between
@@ -254,7 +234,32 @@ Rough description:
     each subsystem is required to provide.
   * The connection subsystem would be like the "wrap" subsystem.  In fact, the "wrap" subsystem should just
     implement the appropriate connection interfaces.
+  * Also, continue to define very similar interfaces at a subsystem level.  Eventually, I would
+    like to implement what I intended to implement in the "connect" subsystem.  It is just too
+    soon, right now, because I don't see the requirements, yet.
+
+
+### Subsystems: The UID Subsystem
+
+Rough:
+   * There is an issue in the UID subsystem that will cause an integration problem when it is
+     integrated with the Localizer subsystem.  The scenario where you try and recreate the same
+     UID using "UidFactory.createUid(...)" twice in a row with the same parameters will fail the
+     second time.  What it should do is return the same instance the second time that was created
+     the first.
+     
   
+### Subsystems: All Subsystems In General
+
+Rough:
+   * You should go through the implementation and mark method parameters as final to indicate that none of
+     them will be modified.
+   * You should also just look through the code for instances of duplication and remove them using
+     inheritance, pulling out duplicate code into its own class and use composition, instead.
+   * You should consider adding yet another layer of testing: integration, which tests to ensure
+     that independent subsystems of the whole solution work together as expected.  The testing
+     should not be too extensive to reduce redundancy and should only indicate that ... what?
+     Think about what the integration testing should prove in more concrete and limited terms.
      
 ## Rough Notes
 

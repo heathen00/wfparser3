@@ -1,4 +1,4 @@
-package com.ht.wfp3.message;
+package com.ht.wfp3.message.OLD;
 
 class NameMapper {
   private final String group;

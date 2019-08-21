@@ -1,4 +1,4 @@
-package com.ht.wfp3.message;
+package com.ht.wfp3.message.OLD;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -12,6 +12,14 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import com.ht.uid.Uid;
+import com.ht.wfp3.message.OLD.ConstraintViolationException;
+import com.ht.wfp3.message.OLD.Description;
+import com.ht.wfp3.message.OLD.Message;
+import com.ht.wfp3.message.OLD.MessageFactory;
+import com.ht.wfp3.message.OLD.MessageSystem;
+import com.ht.wfp3.message.OLD.MessageSystemInternal;
+import com.ht.wfp3.message.OLD.Priority;
+import com.ht.wfp3.message.OLD.Topic;
 
 public class MessageFactoryTest {
 

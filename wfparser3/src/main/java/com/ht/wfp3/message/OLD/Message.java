@@ -1,4 +1,4 @@
-package com.ht.wfp3.message;
+package com.ht.wfp3.message.OLD;
 
 import com.ht.uid.Uid;
 import com.ht.uid.UniqueComponent;
