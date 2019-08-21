@@ -133,19 +133,92 @@ There are a number of problems with the localization implementation I currently 
      localization data is missing from the two previous tiers.  Instead of halting the system due to a localization
      misconfiguration, you can just report that the localization data is missing.  This would be less prone to
      runtime errors.
-   * I don't like Java properties files and never have.  You should implement the localization resource bundle data
-     as a JSON file, or something, so that it has more structure and internal validation.  But how would it be
-     extendible if someone wants to localize existing data to yet another locale?
-   * perhaps the localization functionality should be moved to its own Java package, too?  It it more of a system
-     level set of functionality and does not really belong to the message subsystem, conceptually.
-   * You should also move all the localization related test cases from where they are into their own set of test
-     cases.  Or maybe not?  Maybe you should separate between acceptance tests and unit tests, first, then see
-     what should be where.  It would be acceptable to Mock the localization functionality when testing other things.
-   * objects within the message system package that need to access the message factory should maintain a reference to
-     the message system internal interface and NOT the message system interface.
+   * You should go through the implementation and mark method parameters as final to indicate that none of
+     them will be modified.
+   * You should also just look through the code for instances of duplication and remove them using
+     inheritance, pulling out duplicate code into its own class and use composition, instead.
+   * You should consider adding yet another layer of testing: integration, which tests to ensure
+     that independent subsystems of the whole solution work together as expected.  The testing
+     should not be too extensive to reduce redundancy and should only indicate that ... what?
+     Think about what the integration testing should prove in more concrete and limited terms.
+   * There is an issue in the UID subsystem that will cause an integration problem when it is
+     integrated with the Localizer subsystem.  The scenario where you try and recreate the same
+     UID using "UidFactory.createUid(...)" twice in a row with the same parameters will fail the
+     second time.  What it should do is return the same instance the second time that was created
+     the first.
+   * Also, continue to define very similar interfaces at a subsystem level.  Eventually, I would
+     like to implement what I intended to implement in the "connect" subsystem.  It is just too
+     soon, right now, because I don't see the requirements, yet.
+     
+HERE:
+   * I think the message subsystem's current design is deficient and irrecoverable.  There are
+     a number of problems.  First, it contains concepts that are not relevant to messaging
+     (localization, constraints, ...).  And second, it is too coupled to these subsystems.  The
+     messaging system should JUST have messages that consist of UIDs to priorities, topics, and
+     descriptions.  That would be the CORE of the system (...message.core).  Then, it would have
+     its own internally defined messages for message subsystem events (errors, etc).  And on top
+     of that, it would be loosely coupled to the constraints, localization, etc., solutions.  So,
+     I will cease working on the current solution and restart with a new one with these additional
+     architectural considerations.
+   * As such, I will see how much of the current implementation I can recover and fit into the "core"
+     message subsystem.  This subsystem should be completely decoupled from both the localization
+     and the guard/validation.
+     
+
+### Subsystems: The Guard And Constraint Subsystem
+  
+Rough description
+   * I want to create another small subsystem in a package called "com.ht.guard" that provides
+     reusable guard code that can be used throughout all other subsystems, but I am having a
+     difficult time figuring out how to structure the code so that the guard code supports optionally
+     throwing exceptions, especially checked exceptions, without explicitly adding a generic
+     "throws Exception" to the method interface.  I probably need to implement two interfaces within
+     the subsystem.  One to mark a parameter to check for a specific condition.  Another to perform
+     a specific action when that condition occurs.  The former method would never need to specify
+     a throws clause.  The latter method would be implementation specific and might specify a
+     throws clause.  I'm not sure that gets me any further ahead ...  Leave this until later.  If
+     you do write this, make it a whitelist instead of a blacklist.  Also, you should set the
+     naming convention you want to specify as compatible with Java package, class, and data field
+     names for group, type, and field names respectively.  This would permit you to potentially
+     defined annotations that automatically determined most of the data.  The only thing not set
+     is the instance name which would be set in the annotation.  You should look at the Java
+     validation framework.  It is an annotation based solution that you could potentially
+     base your solution on.  At least some of the default annotations can be applied to
+     method parameters.  Would be interesting to see if these or annotations of your own
+     creation could be used.
+   * The message subsystem contains "Constraint" and "ConstraintViolation" implementations that
+     really don't belong in the message subsystem.  This is a similar concept to the "guard"
+     subsystem I've mentioned previously and maybe should be rolled into that.  I'll leave it for
+     now since I'm busy replacing the localization implementation at the moment but maybe after
+     that the next step is to build the guard / constraints solution.  The constraints are things
+     like the length of UIDs, length of descriptions, naming conventions, ...
+   * I like the validation implementation in the Localizer more than the validation implementation
+     for the "statement" or "document" subsystems.  I think it makes more sense since I get better
+     code reuse and having all the validation in the factory instead of the constructors means
+     that no memory allocation is incurred until after I know the data being used is valid.
+   * NOTE: While writing the StubUidFactory, it occurred to me that the primary difference between
+     the StubUidFactory and the UidFactory is that the latter validates its inputs and the former
+     does not.  Looking at the structure of the code, it would be easy to separate the validation
+     from the creation using a simple Decorator pattern to wrap the creator factor with the
+     validator factory.  This same concept could be further used to wrap the creator with a
+     caching factory and then the validator.  The validator first validates the input, the caching
+     factory checks to see if an instance with the given input parameters already exists, and if
+     not, the creator factory creates one!  All with very clear roles and responsibilities.
+
+
+### Subsystems: The Localizer Subsystem
+
+work:
+   * For LocalizerBundle, I am using an OrderedSet as the data structure.  I think that is wrong.
+     I think what I want is for the LocalizerBundle to maintain the order in which they are added
+     to the Localizer.  This would be different from OrderedSet which will order the
+     LocalizerBundle instances according to their natural order.  Very different.
    * I want some means to validate the localization at test time so that I can compare all defined field instances
      against the configured localization and know EXACTLY where each field is defined AND be able to easily compare
      to ensure it is defined as expected.
+   * I don't like Java properties files and never have.  You should implement the localization resource bundle data
+     as a JSON file, or something, so that it has more structure and internal validation.  But how would it be
+     extendible if someone wants to localize existing data to yet another locale?
    * Not sure I like using a checked exception.  Finish implementation and review.  The objective of the new Localizer
      implementation is to ensure there are no unneeded exceptions during runtime.  This also applies to casting errors.
      From a reuse perspective, it makes more sense to use the standard, conventional Java casting exception instead
@@ -165,72 +238,23 @@ There are a number of problems with the localization implementation I currently 
      API since it does not make sense for them to implement them.  You cannot invert the inheritance
      hierarchy between the published and internal interfaces since this would cause the internal methods
      to be visible in the published API.
-   * You should go through the implementation and mark method parameters as final to indicate that none of
-     them will be modified.
-   * You should also just look through the code for instances of duplication and remove them using
-     inheritance, pulling out duplicate code into its own class and use composition, instead.
-   * I want to create another small subsystem in a package called "com.ht.guard" that provides
-     reusable guard code that can be used throughout all other subsystems, but I am having a
-     difficult time figuring out how to structure the code so that the guard code supports optionally
-     throwing exceptions, especially checked exceptions, without explicitly adding a generic
-     "throws Exception" to the method interface.  I probably need to implement two interfaces within
-     the subsystem.  One to mark a parameter to check for a specific condition.  Another to perform
-     a specific action when that condition occurs.  The former method would never need to specify
-     a throws clause.  The latter method would be implementation specific and might specify a
-     throws clause.  I'm not sure that gets me any further ahead ...  Leave this until later.  If
-     you do write this, make it a whitelist instead of a blacklist.  Also, you should set the
-     naming convention you want to specify as compatible with Java package, class, and data field
-     names for group, type, and field names respectively.  This would permit you to potentially
-     defined annotations that automatically determined most of the data.  The only thing not set
-     is the instance name which would be set in the annotation.  You should look at the Java
-     validation framework.  It is an annotation based solution that you could potentially
-     base your solution on.  At least some of the default annotations can be applied to
-     method parameters.  Would be interesting to see if these or annotations of your own
-     creation could be used.
-   * You should consider adding yet another layer of testing: integration, which tests to ensure
-     that independent subsystems of the whole solution work together as expected.  The testing
-     should not be too extensive to reduce redundancy and should only indicate that ... what?
-     Think about what the integration testing should prove in more concrete and limited terms.
-   * There is an issue in the UID subsystem that will cause an integration problem when it is
-     integrated with the Localizer subsystem.  The scenario where you try and recreate the same
-     UID using "UidFactory.createUid(...)" twice in a row with the same parameters will fail the
-     second time.  What it should do is return the same instance the second time that was created
-     the first.
-   * NOTE: While writing the StubUidFactory, it occurred to me that the primary difference between
-     the StubUidFactory and the UidFactory is that the latter validates its inputs and the former
-     does not.  Looking at the structure of the code, it would be easy to separate the validation
-     from the creation using a simple Decorator pattern to wrap the creator factor with the
-     validator factory.  This same concept could be further used to wrap the creator with a
-     caching factory and then the validator.  The validator first validates the input, the caching
-     factory checks to see if an instance with the given input parameters already exists, and if
-     not, the creator factory creates one!  All with very clear roles and responsibilities.
-   * I like the validation implementation in the Localizer more than the validation implementation
-     for the "statement" or "document" subsystems.  I think it makes more sense since I get better
-     code reuse and having all the validation in the factory instead of the constructors means
-     that no memory allocation is incurred until after I know the data being used is valid.
-   * The message subsystem unit tests look like acceptance tests.  Maybe you should move them to
-     the correct location.
-   * For LocalizerBundle, I am using an OrderedSet as the data structure.  I think that is wrong.
-     I think what I want is for the LocalizerBundle to maintain the order in which they are added
-     to the Localizer.  This would be different from OrderedSet which will order the
-     LocalizerBundle instances according to their natural order.  Very different.
-   * The message subsystem contains "Constraint" and "ConstraintViolation" implementations that
-     really don't belong in the message subsystem.  This is a similar concept to the "guard"
-     subsystem I've mentioned previously and maybe should be rolled into that.  I'll leave it for
-     now since I'm busy replacing the localization implementation at the moment but maybe after
-     that the next step is to build the guard / constraints solution.
-     
-HERE:
-   * Integrate the localizer and UID subsystems back into the messaging subsystem.
-   * Start with UID subsystem since I essentially pulled it right out of the messaging subsystem.
-   * Ensure that the messaging subsystem has a similar interface to the other subsystems so that they are
-     easier to integrate together.
-   * Move/Remove testcases from the message subsystem that are more appropriate in either the UID or
-     localizer subsystems.
-   * Afterwards, review the accumulated work items, above and delete all those that you've completed.
 
 
-     
+### Subsystems: The Connect Subsystem
+
+Rough description:
+  * very poorly defined at the moment.
+  * the idea is to have similar interfaces between subsystems to simplify integrating them.  The problem is that
+    I don't have a good idea how to do this yet.  So, thus far, I am just implementing similar interfaces between
+    subsystems to see if anything can be done to make them consistent enough.
+  * All the subsystem interconnection logic MUST (by definition practically) be defined outside those subsystems.
+    You'd have one subsystem that defines the connections points and the connections in a generic way.  Possibly
+    only interfaces.  Then for the overall software system, an "integration" subsystem that implements all the
+    connection points and connections.  The connection points and connections would define the services that
+    each subsystem is required to provide.
+  * The connection subsystem would be like the "wrap" subsystem.  In fact, the "wrap" subsystem should just
+    implement the appropriate connection interfaces.
+  
      
 ## Rough Notes
 
