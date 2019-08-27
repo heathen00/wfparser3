@@ -12,9 +12,7 @@ public interface Channel extends UniqueComponent<Channel> {
 
   List<Uid<Event>> getEventUidList();
 
-  List<SubscriberPublished> getSubscriberList();
+  List<Subscriber> getSubscriberList();
 
   List<Publisher> getPublisherList();
-
-  void registerSubscriber(SubscriberPublished subscriber);
 }

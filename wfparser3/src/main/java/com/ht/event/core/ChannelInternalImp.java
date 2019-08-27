@@ -13,7 +13,7 @@ public final class ChannelInternalImp implements ChannelInternal {
   private final Uid<Channel> channelUid;
   private final Map<Uid<Event>, Event> channelEventMap;
   private final List<Publisher> channelPublisherList;
-  private final List<SubscriberPublished> channelSubscriberList;
+  private final List<Subscriber> channelSubscriberList;
 
   ChannelInternalImp(EventFactoryInternal eventFactoryInternal, String channelName) {
     this.eventFactoryInternal = eventFactoryInternal;
@@ -40,7 +40,7 @@ public final class ChannelInternalImp implements ChannelInternal {
   }
 
   @Override
-  public List<SubscriberPublished> getSubscriberList() {
+  public List<Subscriber> getSubscriberList() {
     return Collections.unmodifiableList(channelSubscriberList);
   }
 
@@ -62,7 +62,7 @@ public final class ChannelInternalImp implements ChannelInternal {
   }
 
   @Override
-  public void registerSubscriber(SubscriberPublished subscriber) {
+  public void addSubscriber(Subscriber subscriber) {
     channelSubscriberList.add(subscriber);
   }
 

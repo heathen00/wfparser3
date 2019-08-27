@@ -122,12 +122,12 @@ incorrectly defined (or something) and should not be used anymore.
 
 #### Subsystems: Event Subsystem: Core
 
-The Purpose of the event subsystem, overall, is to publish and process events.  These events (messages) are
+The Purpose of the event subsystem, overall, is to publish and process events.  These events are
 identified by unique IDs (UID).  The purpose of the core message subsystem is to implement the core functionality
-with as few external dependencies as possible.  In particular, the core message subsystem is completely unaware
-of the localization functionality.  It will require the UID subsystem.  The core messaging subsystem responsibilities
-can be divided into two top level categories: defining messages and processing messages.  Although not enforced,
-defining and processing messages can occur at the same time as long as a message being processed has already been
+with as few external dependencies as possible.  In particular, the core event subsystem is completely unaware
+of the localization functionality.  It will require the UID subsystem.  The core event subsystem responsibilities
+can be divided into two top level categories: defining events and processing events.  Although not enforced,
+defining and processing events can occur at the same time as long as a message being processed has already been
 defined.  However, it would likely be more useful and efficient if all messages are created at initialization time
 and then then processed afterwards.  The message processing can be further subdivided to publishing and consuming
 messages.  In terms of architecture, the message core subsystem will be an event driven architecture.  For the message
@@ -159,6 +159,76 @@ HERE:
    * As such, I will see how much of the current implementation I can recover and fit into the "core"
      message subsystem.  This subsystem should be completely decoupled from both the localization
      and the guard/validation.
+     
+Copy and Paste from the EventCoreAcceptanceTests.java module:
+
+I see the use of this API from three different roles:
+
+Initializer: The person who creates the Event and Channel definitions.
+
+Publisher: The person who sends the predefined events created by the EventInitializer to a
+specified Channel.
+
+Subscriber: The person who receives messages sent on a channel.
+
+
+And here are the Event subsystem model concepts and how they relate to one another:
+
+Channel: A communications Channel of interest between like minded Publishers and Subscribers. It
+is identified by a name (String) and can have any number of Publishers and Subscribers
+subscribed. It can also have any number of Events defined for it. Events from one Channel cannot
+be sent to another Channel. Sending the same Event over the Channel does nothing.
+
+Event: A "happening" of interest to like minded Publishers and Subscribers. It is only defined
+within a given Channel. The Event is defined based on a Family and Name. The Family accumulates
+related Events together (I don't want to use the name Group because that implies incorrectly that
+subscribers and not the events are being grouped). The Name is the unique name for that event
+within the given Channel and Family. Thus, two different Events may have the same Family and Name
+if they belong to different Channels. And two different Events may have the same Name if they are
+in the same Channel BUT different Families. Optionally, an Event may also have a Subject that
+identifies that a given Event occurred with respect to that Subject. Thus if the same Event is
+sent on the Channel twice, but the Event specifies two distinct Subjects then the Events are
+treated as separate Events within that channel. Events must be initialized before they can be
+processed in a Channel, however Subjects are specified when the Event is published.
+
+Family: An accumulation of related Event instances. The idea comes from the HTTP protocol where
+the HTTP response codes are subdivided into 5 Families as identified by the first digit of the
+HTTP response code, so (2XX for success cases, 5XX for internal server errors, 4XX for client
+errors, etc).
+
+Name: A unique identifier for an Event within the context of the Event's Channel and Family. In
+the absence of a Subject registered with the event, the Name is the only attribute that uniquely
+identifies an Event on a Channel for a given Family. And the Subject differentiates two Events
+that have the same Channel, Family, and Name assuming the Subjects are themselves unique.
+
+Subscriber: A Subscriber receives Events published on a Channel. A Subscriber can only register
+to a single Channel. Multiple Subscribers can register to the same Channel. All Subscribers
+receive all Events published on the Channel. Optionally, a Subscriber can request all Events
+currently published on its Channel.
+
+Publisher: A Publisher publishes and unpublishes Events to a Channel. A Publisher can only
+register with a single Channel. Multiple Publishers can register to the same Channel.
+
+
+Implementation Notes:
+
+Subscribers are interfaces that must be implemented and registered.
+
+Subjects are interfaces that must be implemented.
+
+There must be some standard means of comparing Subjects. I will also define an interface that is
+called "NaturalOrder" that accumulates the "equals", "hashCode", and "compareTo" interfaces since
+I like to keep them all consistent, anyway. That should make testing easier, since I could just
+send in "NaturalOrder" instances into an "AssertNaturalOrder" instance to ensure the contract is
+respected for all defined test scenarios.
+
+To be consistent with the Localizer subsystem that you will be integrating with, you should use
+the ID subsystem.
+
+For the factory, ensure you separate out the creation, the validationm and the caching.
+
+For initialization, use ONLY the actual instances of Channel, Event, when creating the instances.
+However, for processing requests, use ONLY the UIDs.
      
 
 ### Subsystems: The Guard And Constraint Subsystem

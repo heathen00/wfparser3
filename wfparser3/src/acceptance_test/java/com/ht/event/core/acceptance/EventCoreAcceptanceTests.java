@@ -15,76 +15,6 @@ import com.ht.event.core.Publisher;
 import com.ht.event.core.Subscriber;
 import com.ht.uid.UidFactory;
 
-/*
- * I see the use of this API from three different roles:
- * 
- * Initializer: The person who creates the Event and Channel definitions.
- * 
- * Publisher: The person who sends the predefined events created by the EventInitializer to a
- * specified Channel.
- * 
- * Subscriber: The person who receives messages sent on a channel.
- * 
- * 
- * And here are the Event subsystem model concepts and how they relate to one another:
- * 
- * Channel: A communications Channel of interest between like minded Publishers and Subscribers. It
- * is identified by a name (String) and can have any number of Publishers and Subscribers
- * subscribed. It can also have any number of Events defined for it. Events from one Channel cannot
- * be sent to another Channel. Sending the same Event over the Channel does nothing.
- * 
- * Event: A "happening" of interest to like minded Publishers and Subscribers. It is only defined
- * within a given Channel. The Event is defined based on a Family and Name. The Family accumulates
- * related Events together (I don't want to use the name Group because that implies incorrectly that
- * subscribers and not the events are being grouped). The Name is the unique name for that event
- * within the given Channel and Family. Thus, two different Events may have the same Family and Name
- * if they belong to different Channels. And two different Events may have the same Name if they are
- * in the same Channel BUT different Families. Optionally, an Event may also have a Subject that
- * identifies that a given Event occurred with respect to that Subject. Thus if the same Event is
- * sent on the Channel twice, but the Event specifies two distinct Subjects then the Events are
- * treated as separate Events within that channel. Events must be initialized before they can be
- * processed in a Channel, however Subjects are specified when the Event is published.
- * 
- * Family: An accumulation of related Event instances. The idea comes from the HTTP protocol where
- * the HTTP response codes are subdivided into 5 Families as identified by the first digit of the
- * HTTP response code, so (2XX for success cases, 5XX for internal server errors, 4XX for client
- * errors, etc).
- * 
- * Name: A unique identifier for an Event within the context of the Event's Channel and Family. In
- * the absence of a Subject registered with the event, the Name is the only attribute that uniquely
- * identifies an Event on a Channel for a given Family. And the Subject differentiates two Events
- * that have the same Channel, Family, and Name assuming the Subjects are themselves unique.
- * 
- * Subscriber: A Subscriber receives Events published on a Channel. A Subscriber can only register
- * to a single Channel. Multiple Subscribers can register to the same Channel. All Subscribers
- * receive all Events published on the Channel. Optionally, a Subscriber can request all Events
- * currently published on its Channel.
- * 
- * Publisher: A Publisher publishes and unpublishes Events to a Channel. A Publisher can only
- * register with a single Channel. Multiple Publishers can register to the same Channel.
- * 
- * 
- * Implementation Notes:
- * 
- * Subscribers are interfaces that must be implemented and registered.
- * 
- * Subjects are interfaces that must be implemented.
- * 
- * There must be some standard means of comparing Subjects. I will also define an interface that is
- * called "NaturalOrder" that accumulates the "equals", "hashCode", and "compareTo" interfaces since
- * I like to keep them all consistent, anyway. That should make testing easier, since I could just
- * send in "NaturalOrder" instances into an "AssertNaturalOrder" instance to ensure the contract is
- * respected for all defined test scenarios.
- * 
- * To be consistent with the Localizer subsystem that you will be integrating with, you should use
- * the ID subsystem.
- * 
- * For the factory, ensure you separate out the creation, the validationm and the caching.
- * 
- * For initialization, use ONLY the actual instances of Channel, Event, when creating the instances.
- * However, for processing requests, use ONLY the UIDs.
- * 
- */
 public class EventCoreAcceptanceTests {
 
   private EventFactory eventFactory;
@@ -157,7 +87,7 @@ public class EventCoreAcceptanceTests {
     final int expectedSubscriberListSize = 1;
     Channel channel = eventFactory.createChannel("test.channel");
 
-    channel.registerSubscriber(expectedSubscriber);
+    eventFactory.addSubscriber(channel, expectedSubscriber);
 
     assertTrue(channel.getSubscriberList().contains(expectedSubscriber));
     assertEquals(expectedSubscriberListSize, channel.getSubscriberList().size());
@@ -179,7 +109,7 @@ public class EventCoreAcceptanceTests {
       @Override
       public void processUnpublishEvent(Event event) {}
     };
-    channel.registerSubscriber(subscriber);
+    eventFactory.addSubscriber(channel, subscriber);
 
     publisher.publish(expectedEvent.getUid());
 
@@ -204,7 +134,7 @@ public class EventCoreAcceptanceTests {
         expectedProcessedEventList.add(event.getFullyQualifiedName());
       }
     };
-    channel.registerSubscriber(subscriber);
+    eventFactory.addSubscriber(channel, subscriber);
 
     publisher.publish(expectedEvent.getUid());
     assertTrue(expectedProcessedEventList.contains(expectedEvent.getFullyQualifiedName()));
@@ -212,4 +142,89 @@ public class EventCoreAcceptanceTests {
     publisher.unpublish(expectedEvent.getUid());
     assertFalse(expectedProcessedEventList.contains(expectedEvent.getFullyQualifiedName()));
   }
+
+
+  /*
+   * Rough list of test scenarios:
+   * 
+   * Parameter validation for creating Channel instances
+   * 
+   * Parameter validation for creating Event instances
+   * 
+   * Parameter validation for creating Publisher instances.
+   * 
+   * Parameter validation for registering Subscriber instances.
+   * 
+   * Publish the same event twice. Ensure the event is only published once.
+   * 
+   * Unpublish an event that is not published. Ensure the unpublish does not happen.
+   * 
+   * Register multiple publishers and have them all publish different events. Ensure all events are
+   * published.
+   * 
+   * Register multiple publishers and have them all publish the same event. Ensure the event is only
+   * published once.
+   * 
+   * Register multiple subscribers and have the publisher publish an event. Ensure all subscribers
+   * receive the event.
+   * 
+   * Register multiple subscribers and multiple publishers and have the publishers send multiple
+   * events. Ensure all events are sent.
+   * 
+   * Send event from one Channel on another Channel. UnsupportedOperationException is thrown.
+   * 
+   * Register subscriber to multiple Channels. UnsupportedOperationException is thrown.
+   * 
+   * Register the same subscriber to a channel multiple times. Subscriber only registered once.
+   * 
+   * Register the same publisher to a channel multiple times. Publisher only registered once.
+   * 
+   * NOTE: I want some way to differentiate between setting up a Channel and using a Channel. Why
+   * not "enable()"? Before enable, you can create events but you cannot send events. After enable,
+   * you can send events, but you cannot create new events. Also, you can only create / register
+   * publishers and subscribers, respectively, before the Channel is enabled.
+   * 
+   * Send event on Channel before enabling channel. UnsupportedOperationException is thrown.
+   * 
+   * Create and register publisher before Channel is enabled. Publisher is registered.
+   * 
+   * Create and register publisher after Channel is enabled. Unsupported ... is thrown.
+   * 
+   * Register subscriber before Channel is enabled. Subscriber is registered.
+   * 
+   * Register subscriber after Channel is enabled. Unsupported ... is thrown.
+   * 
+   * Register two subscribers. Publish a number of events. First subscriber requests a resend of all
+   * published events. First subscriber receives all published events in the order they were
+   * originally sent. Second subscriber does not.
+   * 
+   * Register two publishers. First publisher publishes multiple events. Second publisher publishes
+   * multiple events. The first and second publishers share some events in common. First publisher
+   * requests to unpublish all its published events. All events that are exclusive to the first
+   * publisher are unpublished. All events that are exclusive to the second publisher are NOT
+   * unpublished. All events that are shared between the first and second publisher are NOT
+   * unpublished.
+   * 
+   * publish event with a subject. Event with subject is received by subscribers in channel.
+   * 
+   * publish event with a null subject. Same behaviour as publishing event without subject.
+   * 
+   * publish same event with same subject multiple times. Event with subject is received by
+   * subscribers only once.
+   * 
+   * publish same event with different subjects multiple times. Event with different subjects
+   * received by subscribers as many times as there are different subjects.
+   * 
+   * publish different event with same subject multiple times. All events with the same subject are
+   * received by subscribers.
+   * 
+   * Also, it would be useful for testing and debugging to get a list of published events and who
+   * published them. Maybe a single method to get an event report for a given channel that lists all
+   * defined events, whether the events are currently published and who published them.
+   * 
+   * Maybe you should also have a ChannelEvent and handler specifically for handling Channel
+   * lifecycle events, such as being enabled and disabled.
+   * 
+   */
+
 }

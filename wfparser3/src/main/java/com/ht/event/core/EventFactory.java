@@ -3,7 +3,6 @@ package com.ht.event.core;
 import com.ht.uid.UidFactory;
 
 public interface EventFactory {
-
   static EventFactory createFactory(UidFactory uidFactory) {
     return new EventFactoryInternalImp(uidFactory);
   }
@@ -14,4 +13,5 @@ public interface EventFactory {
 
   Publisher createPublisher(Channel eventChannel);
 
+  void addSubscriber(Channel eventChannel, Subscriber eventSubscriber);
 }
