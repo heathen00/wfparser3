@@ -2,6 +2,8 @@ package com.ht.event.core;
 
 import com.ht.uid.UidFactory;
 
+import java.security.InvalidParameterException;
+
 final class EventFactoryInternalValidatorImp implements EventFactoryInternal {
   private final EventFactoryInternal eventFactoryInternal;
 
@@ -21,9 +23,18 @@ final class EventFactoryInternalValidatorImp implements EventFactoryInternal {
     }
   }
 
+  private void ensureExpectedNamingConvention(String parameterName, String parameter) {
+    if (!parameter.matches("^[a-z0-9.]+$") || parameter.startsWith(".")
+        || parameter.endsWith(".")) {
+      throw new InvalidParameterException(parameterName
+          + " can only contain lower case letters, numbers, and periods, and cannot start or end with a period");
+    }
+  }
+
   @Override
   public Channel createChannel(String channelName) {
     ensureParameterNotNull("channelName", channelName);
+    ensureExpectedNamingConvention("channelName", channelName);
     return eventFactoryInternal.createChannel(channelName);
   }
 
@@ -32,7 +43,9 @@ final class EventFactoryInternalValidatorImp implements EventFactoryInternal {
     ensureParameterNotNull("eventChannel", eventChannel);
     ensureChannelEnabled(eventChannel, "cannot create events after enabling channel");
     ensureParameterNotNull("eventFamily", eventFamily);
+    ensureExpectedNamingConvention("eventFamily", eventFamily);
     ensureParameterNotNull("eventName", eventName);
+    ensureExpectedNamingConvention("eventName", eventName);
     return eventFactoryInternal.createEvent(eventChannel, eventFamily, eventName);
   }
 
@@ -53,6 +66,7 @@ final class EventFactoryInternalValidatorImp implements EventFactoryInternal {
 
   @Override
   public void enableChannel(Channel eventChannel) {
+    ensureParameterNotNull("eventChannel", eventChannel);
     eventFactoryInternal.enableChannel(eventChannel);
   }
 

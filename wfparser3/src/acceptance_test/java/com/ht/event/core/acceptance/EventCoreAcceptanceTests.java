@@ -5,6 +5,8 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.Before;
@@ -163,15 +165,21 @@ public class EventCoreAcceptanceTests {
   }
 
   @Test
-  @Ignore("not worked on yet")
   public void EventCore_createChannelWithEmptyChannelName_invalidParameterExceptionIsThrown() {
-    fail("not implemented yet");
+    thrown.expect(InvalidParameterException.class);
+    thrown.expectMessage(
+        "channelName can only contain lower case letters, numbers, and periods, and cannot start or end with a period");
+
+    Channel channel = eventFactory.createChannel("\n");
   }
 
   @Test
-  @Ignore("not worked on yet")
   public void EventCore_createChannelWithInvalidCharactersInChannelName_invalidParameterExceptionIsThrown() {
-    fail("not implemented yet");
+    thrown.expect(InvalidParameterException.class);
+    thrown.expectMessage(
+        "channelName can only contain lower case letters, numbers, and periods, and cannot start or end with a period");
+
+    eventFactory.createChannel("test.#@#@$channel");
   }
 
   @Test
@@ -199,15 +207,25 @@ public class EventCoreAcceptanceTests {
   }
 
   @Test
-  @Ignore("not worked on yet")
   public void EventCore_createEventWithEmptyFamilyParameter_invalidParameterExceptionIsThrown() {
-    fail("not implemented yet");
+    thrown.expect(InvalidParameterException.class);
+    thrown.expectMessage(
+        "eventFamily can only contain lower case letters, numbers, and periods, and cannot start or end with a period");
+
+    Channel channel = eventFactory.createChannel("test.channel");
+
+    eventFactory.createEvent(channel, "", "test.name");
   }
 
   @Test
-  @Ignore("not worked on yet")
   public void EventCore_createEventWithInvalidCharactersInFamilyParameter_invalidParameterExceptionIsThrown() {
-    fail("not implemented yet");
+    thrown.expect(InvalidParameterException.class);
+    thrown.expectMessage(
+        "eventFamily can only contain lower case letters, numbers, and periods, and cannot start or end with a period");
+
+    Channel channel = eventFactory.createChannel("test.channel");
+
+    eventFactory.createEvent(channel, ".not.valid", "test.name");
   }
 
   @Test
@@ -221,15 +239,25 @@ public class EventCoreAcceptanceTests {
   }
 
   @Test
-  @Ignore("not worked on yet")
   public void EventCore_createEventWithEmptyNameParameter_invalidParameterExceptionIsThrown() {
-    fail("not implemented yet");
+    thrown.expect(InvalidParameterException.class);
+    thrown.expectMessage(
+        "eventName can only contain lower case letters, numbers, and periods, and cannot start or end with a period");
+
+    Channel channel = eventFactory.createChannel("test.channel");
+
+    eventFactory.createEvent(channel, "test.family", " \n \t");
   }
 
   @Test
-  @Ignore("not worked on yet")
   public void EventCore_createEventWithInvalidCharactersInNameParameter_invalidParameterExceptionIsThrown() {
-    fail("not implemented yet");
+    thrown.expect(InvalidParameterException.class);
+    thrown.expectMessage(
+        "eventName can only contain lower case letters, numbers, and periods, and cannot start or end with a period");
+
+    Channel channel = eventFactory.createChannel("test.channel");
+
+    eventFactory.createEvent(channel, "test.family", "invalid.name.");
   }
 
   @Test
@@ -267,6 +295,14 @@ public class EventCoreAcceptanceTests {
     Channel channel = eventFactory.createChannel("test.channel");
 
     eventFactory.addSubscriber(channel, null);
+  }
+
+  @Test
+  public void EventCore_enableChannelWithNullChannelParameter_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("eventChannel cannot equal null");
+
+    eventFactory.enableChannel(null);
   }
 
   @Test
