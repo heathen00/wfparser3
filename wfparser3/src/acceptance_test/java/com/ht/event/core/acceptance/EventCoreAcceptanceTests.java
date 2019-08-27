@@ -4,9 +4,11 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import com.ht.event.core.Channel;
 import com.ht.event.core.Event;
@@ -48,7 +50,8 @@ public class EventCoreAcceptanceTests {
   }
 
   @Test
-  public void EventCore_createEventWithValidChannelFamilyAndName_eventCreated() {
+  public void EventCore_createEventWithValidChannelFamilyAndNameBeforeChannelIsEnabled_eventCreated() {
+    // TODO will need to add functionality to handle disabled / enabled channel.
     final Channel expectedChannel = eventFactory.createChannel("test.channel");
     final String expectedEventFamily = "test.family";
     final String expectedEventName = "test.name";
@@ -69,7 +72,8 @@ public class EventCoreAcceptanceTests {
   }
 
   @Test
-  public void EventCore_createPublisherWithValidChannel_publisherCreated() {
+  public void EventCore_createPublisherWithValidChannelBeforeChannelIsEnabled_publisherCreated() {
+    // TODO will need to add functionality to handle disabled / enabled channel.
     final Channel expectedChannel = eventFactory.createChannel("test.channel");
     final int expectedPublisherListSize = 1;
 
@@ -82,7 +86,8 @@ public class EventCoreAcceptanceTests {
   }
 
   @Test
-  public void EventCore_registerValidSubscriberToChannel_subscriberSuccessfullyRegistered() {
+  public void EventCore_addValidSubscriberToChannelBeforeChannelIsEnabled_subscriberSuccessfullyRegistered() {
+    // TODO will need to add functionality to handle disabled / enabled channel.
     final Subscriber expectedSubscriber = createSubscriberStub();
     final int expectedSubscriberListSize = 1;
     Channel channel = eventFactory.createChannel("test.channel");
@@ -95,6 +100,7 @@ public class EventCoreAcceptanceTests {
 
   @Test
   public void EventCore_publishValidEvent_subscriberReceivesEventPublish() {
+    // TODO will need to add functionality to handle disabled / enabled channel.
     Channel channel = eventFactory.createChannel("test.channel");
     Event expectedEvent = eventFactory.createEvent(channel, "test.family", "test.name");
     Publisher publisher = eventFactory.createPublisher(channel);
@@ -118,6 +124,7 @@ public class EventCoreAcceptanceTests {
 
   @Test
   public void EventCore_unpublishValidEvent_subscriberReceivesEventUnPublish() {
+    // TODO will need to add functionality to handle disabled / enabled channel.
     Channel channel = eventFactory.createChannel("test.channel");
     Event expectedEvent = eventFactory.createEvent(channel, "test.family", "test.name");
     Publisher publisher = eventFactory.createPublisher(channel);
@@ -143,67 +150,168 @@ public class EventCoreAcceptanceTests {
     assertFalse(expectedProcessedEventList.contains(expectedEvent.getFullyQualifiedName()));
   }
 
+  @Test
+  @Ignore("not worked on yet")
+  public void EventCore_createChannelWithNullChannelName_nullPointerExceptionIsThrown() {
+    fail("not implemented yet");
+  }
+
+  @Test
+  @Ignore("not worked on yet")
+  public void EventCore_createChannelWithEmptyChannelName_invalidParameterExceptionIsThrown() {
+    fail("not implemented yet");
+  }
+
+  @Test
+  @Ignore("not worked on yet")
+  public void EventCore_createChannelWithInvalidCharactersInChannelName_invalidParameterExceptionIsThrown() {
+    fail("not implemented yet");
+  }
+
+  @Test
+  @Ignore("not worked on yet")
+  public void EventCore_createEventWithNullChannelParameter_nullPointerExceptionIsThrown() {
+    fail("not implemented yet");
+  }
+
+  @Test
+  @Ignore("not worked on yet")
+  public void EventCore_createEventWithUnknownExternalChannelImplementation_invalidParameterExceptionIsThrown() {
+    fail("not implemented yet");
+  }
+
+  @Test
+  @Ignore("not worked on yet")
+  public void EventCore_createEventWithNullFamilyParameter_nullPointerExceptionIsThrown() {
+    fail("not implemented yet");
+  }
+
+  @Test
+  @Ignore("not worked on yet")
+  public void EventCore_createEventWithEmptyFamilyParameter_invalidParameterExceptionIsThrown() {
+    fail("not implemented yet");
+  }
+
+  @Test
+  @Ignore("not worked on yet")
+  public void EventCore_createEventWithInvalidCharactersInFamilyParameter_invalidParameterExceptionIsThrown() {
+    fail("not implemented yet");
+  }
+
+  @Test
+  @Ignore("not worked on yet")
+  public void EventCore_createEventWithNullNameParameter_nullPointerExceptionIsThrown() {
+    fail("not implemented yet");
+  }
+
+  @Test
+  @Ignore("not worked on yet")
+  public void EventCore_createEventWithEmptyNameParameter_invalidParameterExceptionIsThrown() {
+    fail("not implemented yet");
+  }
+
+  @Test
+  @Ignore("not worked on yet")
+  public void EventCore_createEventWithInvalidCharactersInNameParameter_invalidParameterExceptionIsThrown() {
+    fail("not implemented yet");
+  }
+
+  @Test
+  @Ignore("not worked on yet")
+  public void EventCore_createPublisherWithNullChannelParameter_nullPointerExceptionIsThrown() {
+    fail("not implemented yet");
+  }
+
+  @Test
+  @Ignore("not worked on yet")
+  public void EventCore_createPublisherWithUnknownExternalChannelImplementation_invalidParameterExceptionIsThrown() {
+    fail("not implemented yet");
+  }
+
+  @Test
+  @Ignore("not worked on yet")
+  public void EventCore_addSubscriberWithNullChannelParameter_nullPointerExceptionIsThrown() {
+    fail("not implemented yet");
+  }
+
+  @Test
+  @Ignore("not worked on yet")
+  public void EventCore_addSubscriberWithUnknownExternalChannelImplementation_invalidParameterExceptionIsThrown() {
+    fail("not implemented yet");
+  }
+
+  @Test
+  @Ignore("not worked on yet")
+  public void EventCore_addSubscriberWithNullSubscriberParameter_nullPointerExceptionIsThrown() {
+    fail("not implemented yet");
+  }
+
+  @Test
+  @Ignore("not worked on yet")
+  public void EventCore_createSameEventMultipleTimes_eventOnlyCreatedOnce() {
+    fail("not implemented yet");
+  }
+
+  @Test
+  @Ignore("not worked on yet")
+  public void EventCore_addSameSubscriberToChannelMultipleTimes_subscriberOnlyAddedOnce() {
+    fail("not implemented yet");
+  }
+
+  @Test
+  @Ignore("not worked on yet")
+  public void EventCore_addSameSubscriberToMultipleChannels_unsupportedOperationExceptionIsThrown() {
+    fail("not implemented yet");
+  }
+
+  // TODO Implement the Channel enable/isEnabled functionality next since requires refactoring. This
+  // would be start of validation, too.
+  @Test
+  public void EventCore_publishEventOnChannelBeforeEnablingChannel_unsupportedOperationExceptionIsThrown() {
+    fail("not implemented yet");
+  }
+
+  @Test
+  @Ignore("not worked on yet")
+  public void EventCore_createEventForChannelAfterEnablingChannel_unsupportedOperationExceptionIsThrown() {
+    fail("not implemented yet");
+  }
+
+  @Test
+  @Ignore("not worked on yet")
+  public void EventCore_createPublisherForChannelAfterEnablingChannel_unsupportedOperationExceptionIsThrown() {
+    fail("not implemented yet");
+  }
+
+  @Test
+  @Ignore("not worked on yet")
+  public void EventCore_addSubscriberForChannelAfterEnablingChannel_unsupportedOperationExceptionIsThrown() {
+    fail("not implemented yet");
+  }
+
+  @Test
+  @Ignore("not worked on yet")
+  public void EventCore_publishSameValidEventTwice_subscriberOnlyNotifiedOfEventOnce() {
+    fail("not implemented yet");
+  }
+
+  @Test
+  @Ignore("not worked on yet")
+  public void EventCore_publishEventFromOneChannelToAnotherChannel_unsupportedOperationExceptionIsThrown() {
+    fail("not implemented yet");
+  }
+
+  @Test
+  @Ignore("not worked on yet")
+  public void EventCore_unpublishEventThatWasNeverPublished_subscribersReceiveNoNotification() {
+    fail("not implemented yet");
+  }
 
   /*
    * Rough list of test scenarios:
    * 
-   * Parameter validation for creating Channel instances
-   * 
-   * Parameter validation for creating Event instances
-   * 
-   * Parameter validation for creating Publisher instances.
-   * 
-   * Parameter validation for registering Subscriber instances.
-   * 
-   * Publish the same event twice. Ensure the event is only published once.
-   * 
-   * Unpublish an event that is not published. Ensure the unpublish does not happen.
-   * 
-   * Register multiple publishers and have them all publish different events. Ensure all events are
-   * published.
-   * 
-   * Register multiple publishers and have them all publish the same event. Ensure the event is only
-   * published once.
-   * 
-   * Register multiple subscribers and have the publisher publish an event. Ensure all subscribers
-   * receive the event.
-   * 
-   * Register multiple subscribers and multiple publishers and have the publishers send multiple
-   * events. Ensure all events are sent.
-   * 
-   * Send event from one Channel on another Channel. UnsupportedOperationException is thrown.
-   * 
-   * Register subscriber to multiple Channels. UnsupportedOperationException is thrown.
-   * 
-   * Register the same subscriber to a channel multiple times. Subscriber only registered once.
-   * 
-   * Register the same publisher to a channel multiple times. Publisher only registered once.
-   * 
-   * NOTE: I want some way to differentiate between setting up a Channel and using a Channel. Why
-   * not "enable()"? Before enable, you can create events but you cannot send events. After enable,
-   * you can send events, but you cannot create new events. Also, you can only create / register
-   * publishers and subscribers, respectively, before the Channel is enabled.
-   * 
-   * Send event on Channel before enabling channel. UnsupportedOperationException is thrown.
-   * 
-   * Create and register publisher before Channel is enabled. Publisher is registered.
-   * 
-   * Create and register publisher after Channel is enabled. Unsupported ... is thrown.
-   * 
-   * Register subscriber before Channel is enabled. Subscriber is registered.
-   * 
-   * Register subscriber after Channel is enabled. Unsupported ... is thrown.
-   * 
-   * Register two subscribers. Publish a number of events. First subscriber requests a resend of all
-   * published events. First subscriber receives all published events in the order they were
-   * originally sent. Second subscriber does not.
-   * 
-   * Register two publishers. First publisher publishes multiple events. Second publisher publishes
-   * multiple events. The first and second publishers share some events in common. First publisher
-   * requests to unpublish all its published events. All events that are exclusive to the first
-   * publisher are unpublished. All events that are exclusive to the second publisher are NOT
-   * unpublished. All events that are shared between the first and second publisher are NOT
-   * unpublished.
+   * !!! MORE TEST SCENARIOS!!!: creating Event instances with different combinations of Channel,
+   * Family, and Name to ensure they are handle properly, i.e. unique / not unique, as appropriate.
    * 
    * publish event with a subject. Event with subject is received by subscribers in channel.
    * 
@@ -217,6 +325,29 @@ public class EventCoreAcceptanceTests {
    * 
    * publish different event with same subject multiple times. All events with the same subject are
    * received by subscribers.
+   * 
+   * Register multiple publishers and have them all publish different events. Ensure all events are
+   * published.
+   * 
+   * Register multiple publishers and have them all publish the same event. Ensure the event is only
+   * published once.
+   * 
+   * Register multiple subscribers and have the publisher publish an event. Ensure all subscribers
+   * receive the event.
+   * 
+   * Register multiple subscribers and multiple publishers and have the publishers send multiple
+   * events. Ensure all events are sent.
+   * 
+   * Register two subscribers. Publish a number of events. First subscriber requests a resend of all
+   * published events. First subscriber receives all published events in the order they were
+   * originally sent. Second subscriber does not.
+   * 
+   * Register two publishers. First publisher publishes multiple events. Second publisher publishes
+   * multiple events. The first and second publishers share some events in common. First publisher
+   * requests to unpublish all its published events. All events that are exclusive to the first
+   * publisher are unpublished. All events that are exclusive to the second publisher are NOT
+   * unpublished. All events that are shared between the first and second publisher are NOT
+   * unpublished.
    * 
    * Also, it would be useful for testing and debugging to get a list of published events and who
    * published them. Maybe a single method to get an event report for a given channel that lists all
