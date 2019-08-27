@@ -20,6 +20,7 @@ import com.ht.event.core.Event;
 import com.ht.event.core.EventFactory;
 import com.ht.event.core.Publisher;
 import com.ht.event.core.Subscriber;
+import com.ht.uid.Uid;
 import com.ht.uid.UidFactory;
 
 public class EventCoreAcceptanceTests {
@@ -31,6 +32,41 @@ public class EventCoreAcceptanceTests {
 
   private Subscriber createSubscriberStub() {
     return new Subscriber();
+  }
+
+  private Channel createUnsupportedExternalChannelImplementation() {
+    return new Channel() {
+
+      @Override
+      public boolean isEnabled() {
+        throw new UnsupportedOperationException("method not supported by stub");
+      }
+
+      @Override
+      public Uid<Channel> getUid() {
+        throw new UnsupportedOperationException("method not supported by stub");
+      }
+
+      @Override
+      public List<Subscriber> getSubscriberList() {
+        throw new UnsupportedOperationException("method not supported by stub");
+      }
+
+      @Override
+      public List<Publisher> getPublisherList() {
+        throw new UnsupportedOperationException("method not supported by stub");
+      }
+
+      @Override
+      public String getName() {
+        throw new UnsupportedOperationException("method not supported by stub");
+      }
+
+      @Override
+      public List<Uid<Event>> getEventUidList() {
+        throw new UnsupportedOperationException("method not supported by stub");
+      }
+    };
   }
 
   @Before
@@ -170,7 +206,7 @@ public class EventCoreAcceptanceTests {
     thrown.expectMessage(
         "channelName can only contain lower case letters, numbers, and periods, and cannot start or end with a period");
 
-    Channel channel = eventFactory.createChannel("\n");
+    eventFactory.createChannel("\n");
   }
 
   @Test
@@ -191,9 +227,12 @@ public class EventCoreAcceptanceTests {
   }
 
   @Test
-  @Ignore("not worked on yet")
   public void EventCore_createEventWithUnknownExternalChannelImplementation_invalidParameterExceptionIsThrown() {
-    fail("not implemented yet");
+    thrown.expect(InvalidParameterException.class);
+    thrown.expectMessage("unknown eventChannel implementation");
+
+    eventFactory.createEvent(createUnsupportedExternalChannelImplementation(), "test.family",
+        "test.name");
   }
 
   @Test
@@ -269,9 +308,11 @@ public class EventCoreAcceptanceTests {
   }
 
   @Test
-  @Ignore("not worked on yet")
   public void EventCore_createPublisherWithUnknownExternalChannelImplementation_invalidParameterExceptionIsThrown() {
-    fail("not implemented yet");
+    thrown.expect(InvalidParameterException.class);
+    thrown.expectMessage("unknown eventChannel implementation");
+
+    eventFactory.createPublisher(createUnsupportedExternalChannelImplementation());
   }
 
   @Test
@@ -283,9 +324,12 @@ public class EventCoreAcceptanceTests {
   }
 
   @Test
-  @Ignore("not worked on yet")
   public void EventCore_addSubscriberWithUnknownExternalChannelImplementation_invalidParameterExceptionIsThrown() {
-    fail("not implemented yet");
+    thrown.expect(InvalidParameterException.class);
+    thrown.expectMessage("unknown eventChannel implementation");
+
+    eventFactory.addSubscriber(createUnsupportedExternalChannelImplementation(),
+        createSubscriberStub());
   }
 
   @Test
@@ -303,6 +347,14 @@ public class EventCoreAcceptanceTests {
     thrown.expectMessage("eventChannel cannot equal null");
 
     eventFactory.enableChannel(null);
+  }
+
+  @Test
+  public void EventCore_enableChannelWithUnknownExternalChannelImplementation_invalidParameterExceptionIsThrown() {
+    thrown.expect(InvalidParameterException.class);
+    thrown.expectMessage("unknown eventChannel implementation");
+
+    eventFactory.enableChannel(createUnsupportedExternalChannelImplementation());
   }
 
   @Test
