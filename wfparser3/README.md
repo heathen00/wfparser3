@@ -22,7 +22,10 @@ not explicitly state the behaviour in their acceptance criteria.
 ## Subsystems
 
 
-### Subsystems: Message Subsystem
+### Subsystems: Event Subsystem
+
+WARN: I renamed the "message" subsystem to "event" but did not update the notes in this section.  The subsystem
+is more accurately implemented as an event system and follows a simple event driven architecture.
 
 The following description is just a set of guidelines for how I envision this subsystem to work.  Once you
 implement the system, then delete this section since the software should be descriptive enough on its own.
@@ -116,8 +119,27 @@ generate the report by appending the messages to an appropriate, simple data str
 It may be necessary to provide the ability to disable / enable events for scenarios like a given event was
 incorrectly defined (or something) and should not be used anymore.
 
+
+#### Subsystems: Event Subsystem: Core
+
+The Purpose of the event subsystem, overall, is to publish and process events.  These events (messages) are
+identified by unique IDs (UID).  The purpose of the core message subsystem is to implement the core functionality
+with as few external dependencies as possible.  In particular, the core message subsystem is completely unaware
+of the localization functionality.  It will require the UID subsystem.  The core messaging subsystem responsibilities
+can be divided into two top level categories: defining messages and processing messages.  Although not enforced,
+defining and processing messages can occur at the same time as long as a message being processed has already been
+defined.  However, it would likely be more useful and efficient if all messages are created at initialization time
+and then then processed afterwards.  The message processing can be further subdivided to publishing and consuming
+messages.  In terms of architecture, the message core subsystem will be an event driven architecture.  For the message
+creation, I want to follow the decorator pattern to separate concerns between:
+  * input data validation.
+  * message caching for reuse.
+  * message creation.
+
+
      
 HERE:
+   * DON'T USE CHECKED EXCEPTIONS EVER!!  It messes up the interface.
    * You'll need to implement an "undefined" Priority, Topic, Description, and Message.
    * When mapping the "undefined" entities to localization configuration, you should not need to define any
      configuration, not for the root locale nor any other locale.  Not for any new resource bundle being added.
