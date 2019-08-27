@@ -155,9 +155,11 @@ public class EventCoreAcceptanceTests {
   }
 
   @Test
-  @Ignore("not worked on yet")
   public void EventCore_createChannelWithNullChannelName_nullPointerExceptionIsThrown() {
-    fail("not implemented yet");
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("channelName cannot equal null");
+
+    eventFactory.createChannel(null);
   }
 
   @Test
@@ -173,9 +175,11 @@ public class EventCoreAcceptanceTests {
   }
 
   @Test
-  @Ignore("not worked on yet")
   public void EventCore_createEventWithNullChannelParameter_nullPointerExceptionIsThrown() {
-    fail("not implemented yet");
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("eventChannel cannot equal null");
+
+    eventFactory.createEvent(null, "test.family", "test.name");
   }
 
   @Test
@@ -185,9 +189,13 @@ public class EventCoreAcceptanceTests {
   }
 
   @Test
-  @Ignore("not worked on yet")
   public void EventCore_createEventWithNullFamilyParameter_nullPointerExceptionIsThrown() {
-    fail("not implemented yet");
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("eventFamily cannot equal null");
+
+    Channel channel = eventFactory.createChannel("test.channel");
+
+    eventFactory.createEvent(channel, null, "test.name");
   }
 
   @Test
@@ -203,9 +211,13 @@ public class EventCoreAcceptanceTests {
   }
 
   @Test
-  @Ignore("not worked on yet")
   public void EventCore_createEventWithNullNameParameter_nullPointerExceptionIsThrown() {
-    fail("not implemented yet");
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("eventName cannot equal null");
+
+    Channel channel = eventFactory.createChannel("test.channel");
+
+    eventFactory.createEvent(channel, "test.family", null);
   }
 
   @Test
@@ -221,9 +233,11 @@ public class EventCoreAcceptanceTests {
   }
 
   @Test
-  @Ignore("not worked on yet")
   public void EventCore_createPublisherWithNullChannelParameter_nullPointerExceptionIsThrown() {
-    fail("not implemented yet");
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("eventChannel cannot equal null");
+
+    eventFactory.createPublisher(null);
   }
 
   @Test
@@ -233,9 +247,11 @@ public class EventCoreAcceptanceTests {
   }
 
   @Test
-  @Ignore("not worked on yet")
   public void EventCore_addSubscriberWithNullChannelParameter_nullPointerExceptionIsThrown() {
-    fail("not implemented yet");
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("eventChannel cannot equal null");
+
+    eventFactory.addSubscriber(null, createSubscriberStub());
   }
 
   @Test
@@ -245,9 +261,12 @@ public class EventCoreAcceptanceTests {
   }
 
   @Test
-  @Ignore("not worked on yet")
   public void EventCore_addSubscriberWithNullSubscriberParameter_nullPointerExceptionIsThrown() {
-    fail("not implemented yet");
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("eventSubscriber cannot equal null");
+    Channel channel = eventFactory.createChannel("test.channel");
+
+    eventFactory.addSubscriber(channel, null);
   }
 
   @Test
@@ -326,9 +345,6 @@ public class EventCoreAcceptanceTests {
 
     eventFactory.addSubscriber(channel, createSubscriberStub());
   }
-
-  // TODO When you get here, refactor the eventFactory code so that the validation is
-  // separate from the actual functionality.
 
   @Test
   @Ignore("not worked on yet")
