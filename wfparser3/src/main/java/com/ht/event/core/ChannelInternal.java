@@ -12,4 +12,6 @@ interface ChannelInternal extends Channel {
   void publish(Uid<Event> eventUid);
 
   void unpublish(Uid<Event> eventUid);
+
+  void enable();
 }

@@ -15,4 +15,6 @@ public interface Channel extends UniqueComponent<Channel> {
   List<Subscriber> getSubscriberList();
 
   List<Publisher> getPublisherList();
+
+  boolean isEnabled();
 }

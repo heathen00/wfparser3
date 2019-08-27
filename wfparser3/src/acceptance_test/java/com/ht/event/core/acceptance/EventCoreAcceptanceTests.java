@@ -9,7 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 import org.junit.Before;
 import org.junit.Ignore;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
+
 import com.ht.event.core.Channel;
 import com.ht.event.core.Event;
 import com.ht.event.core.EventFactory;
@@ -18,6 +21,9 @@ import com.ht.event.core.Subscriber;
 import com.ht.uid.UidFactory;
 
 public class EventCoreAcceptanceTests {
+
+  @Rule
+  public ExpectedException thrown = ExpectedException.none();
 
   private EventFactory eventFactory;
 
@@ -47,11 +53,11 @@ public class EventCoreAcceptanceTests {
     assertTrue(channel.getEventUidList().isEmpty());
     assertTrue(channel.getPublisherList().isEmpty());
     assertTrue(channel.getSubscriberList().isEmpty());
+    assertFalse(channel.isEnabled());
   }
 
   @Test
   public void EventCore_createEventWithValidChannelFamilyAndNameBeforeChannelIsEnabled_eventCreated() {
-    // TODO will need to add functionality to handle disabled / enabled channel.
     final Channel expectedChannel = eventFactory.createChannel("test.channel");
     final String expectedEventFamily = "test.family";
     final String expectedEventName = "test.name";
@@ -73,7 +79,6 @@ public class EventCoreAcceptanceTests {
 
   @Test
   public void EventCore_createPublisherWithValidChannelBeforeChannelIsEnabled_publisherCreated() {
-    // TODO will need to add functionality to handle disabled / enabled channel.
     final Channel expectedChannel = eventFactory.createChannel("test.channel");
     final int expectedPublisherListSize = 1;
 
@@ -87,7 +92,6 @@ public class EventCoreAcceptanceTests {
 
   @Test
   public void EventCore_addValidSubscriberToChannelBeforeChannelIsEnabled_subscriberSuccessfullyRegistered() {
-    // TODO will need to add functionality to handle disabled / enabled channel.
     final Subscriber expectedSubscriber = createSubscriberStub();
     final int expectedSubscriberListSize = 1;
     Channel channel = eventFactory.createChannel("test.channel");
@@ -100,7 +104,6 @@ public class EventCoreAcceptanceTests {
 
   @Test
   public void EventCore_publishValidEvent_subscriberReceivesEventPublish() {
-    // TODO will need to add functionality to handle disabled / enabled channel.
     Channel channel = eventFactory.createChannel("test.channel");
     Event expectedEvent = eventFactory.createEvent(channel, "test.family", "test.name");
     Publisher publisher = eventFactory.createPublisher(channel);
@@ -116,6 +119,7 @@ public class EventCoreAcceptanceTests {
       public void processUnpublishEvent(Event event) {}
     };
     eventFactory.addSubscriber(channel, subscriber);
+    eventFactory.enableChannel(channel);
 
     publisher.publish(expectedEvent.getUid());
 
@@ -124,7 +128,6 @@ public class EventCoreAcceptanceTests {
 
   @Test
   public void EventCore_unpublishValidEvent_subscriberReceivesEventUnPublish() {
-    // TODO will need to add functionality to handle disabled / enabled channel.
     Channel channel = eventFactory.createChannel("test.channel");
     Event expectedEvent = eventFactory.createEvent(channel, "test.family", "test.name");
     Publisher publisher = eventFactory.createPublisher(channel);
@@ -142,6 +145,7 @@ public class EventCoreAcceptanceTests {
       }
     };
     eventFactory.addSubscriber(channel, subscriber);
+    eventFactory.enableChannel(channel);
 
     publisher.publish(expectedEvent.getUid());
     assertTrue(expectedProcessedEventList.contains(expectedEvent.getFullyQualifiedName()));
@@ -264,30 +268,67 @@ public class EventCoreAcceptanceTests {
     fail("not implemented yet");
   }
 
-  // TODO Implement the Channel enable/isEnabled functionality next since requires refactoring. This
-  // would be start of validation, too.
   @Test
   public void EventCore_publishEventOnChannelBeforeEnablingChannel_unsupportedOperationExceptionIsThrown() {
-    fail("not implemented yet");
+    thrown.expect(UnsupportedOperationException.class);
+    thrown.expectMessage("cannot publish events unless channel enabled");
+
+    Channel channel = eventFactory.createChannel("disabled.channel");
+    Event event = eventFactory.createEvent(channel, "test.family", "test.name");
+    Publisher publisher = eventFactory.createPublisher(channel);
+    assertFalse(channel.isEnabled());
+
+    publisher.publish(event.getUid());
   }
 
   @Test
-  @Ignore("not worked on yet")
+  public void EventCore_unpublishEventOnChannelBeforeEnablingChannel_unsupportedOperationExceptionIsThrown() {
+    thrown.expect(UnsupportedOperationException.class);
+    thrown.expectMessage("cannot unpublish events unless channel enabled");
+
+    Channel channel = eventFactory.createChannel("disabled.channel");
+    Event event = eventFactory.createEvent(channel, "test.family", "test.name");
+    Publisher publisher = eventFactory.createPublisher(channel);
+    assertFalse(channel.isEnabled());
+
+    publisher.unpublish(event.getUid());
+  }
+
+  @Test
   public void EventCore_createEventForChannelAfterEnablingChannel_unsupportedOperationExceptionIsThrown() {
-    fail("not implemented yet");
+    thrown.expect(UnsupportedOperationException.class);
+    thrown.expectMessage("cannot create events after enabling channel");
+
+    Channel channel = eventFactory.createChannel("test.channel");
+    eventFactory.enableChannel(channel);
+
+    eventFactory.createEvent(channel, "test.family", "test.name");
   }
 
   @Test
-  @Ignore("not worked on yet")
   public void EventCore_createPublisherForChannelAfterEnablingChannel_unsupportedOperationExceptionIsThrown() {
-    fail("not implemented yet");
+    thrown.expect(UnsupportedOperationException.class);
+    thrown.expectMessage("cannot create publishers after enabling channel");
+
+    Channel channel = eventFactory.createChannel("test.channel");
+    eventFactory.enableChannel(channel);
+
+    eventFactory.createPublisher(channel);
   }
 
   @Test
-  @Ignore("not worked on yet")
   public void EventCore_addSubscriberForChannelAfterEnablingChannel_unsupportedOperationExceptionIsThrown() {
-    fail("not implemented yet");
+    thrown.expect(UnsupportedOperationException.class);
+    thrown.expectMessage("cannot add subscribers after enabling channel");
+
+    Channel channel = eventFactory.createChannel("test.channel");
+    eventFactory.enableChannel(channel);
+
+    eventFactory.addSubscriber(channel, createSubscriberStub());
   }
+
+  // TODO When you get here, refactor the eventFactory code so that the validation is
+  // separate from the actual functionality.
 
   @Test
   @Ignore("not worked on yet")

@@ -14,6 +14,7 @@ public final class ChannelInternalImp implements ChannelInternal {
   private final Map<Uid<Event>, Event> channelEventMap;
   private final List<Publisher> channelPublisherList;
   private final List<Subscriber> channelSubscriberList;
+  private boolean isEnabled;
 
   ChannelInternalImp(EventFactoryInternal eventFactoryInternal, String channelName) {
     this.eventFactoryInternal = eventFactoryInternal;
@@ -68,6 +69,9 @@ public final class ChannelInternalImp implements ChannelInternal {
 
   @Override
   public void publish(Uid<Event> eventUid) {
+    if (!isEnabled()) {
+      throw new UnsupportedOperationException("cannot publish events unless channel enabled");
+    }
     Event event = channelEventMap.get(eventUid);
     for (SubscriberPublished subscriber : channelSubscriberList) {
       subscriber.processPublishEvent(event);
@@ -76,9 +80,22 @@ public final class ChannelInternalImp implements ChannelInternal {
 
   @Override
   public void unpublish(Uid<Event> eventUid) {
+    if (!isEnabled()) {
+      throw new UnsupportedOperationException("cannot unpublish events unless channel enabled");
+    }
     Event event = channelEventMap.get(eventUid);
     for (SubscriberPublished subscriber : channelSubscriberList) {
       subscriber.processUnpublishEvent(event);
     }
+  }
+
+  @Override
+  public void enable() {
+    isEnabled = true;
+  }
+
+  @Override
+  public boolean isEnabled() {
+    return isEnabled;
   }
 }

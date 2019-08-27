@@ -14,4 +14,6 @@ public interface EventFactory {
   Publisher createPublisher(Channel eventChannel);
 
   void addSubscriber(Channel eventChannel, Subscriber eventSubscriber);
+
+  void enableChannel(Channel eventChannel);
 }
