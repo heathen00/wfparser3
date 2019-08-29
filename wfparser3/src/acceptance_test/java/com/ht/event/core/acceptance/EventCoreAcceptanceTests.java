@@ -43,11 +43,6 @@ public class EventCoreAcceptanceTests {
       }
 
       @Override
-      public Uid<Channel> getUid() {
-        throw new UnsupportedOperationException("method not supported by stub");
-      }
-
-      @Override
       public List<Subscriber> getSubscriberList() {
         throw new UnsupportedOperationException("method not supported by stub");
       }
@@ -64,6 +59,11 @@ public class EventCoreAcceptanceTests {
 
       @Override
       public List<Uid<Event>> getEventUidList() {
+        throw new UnsupportedOperationException("method not supported by stub");
+      }
+
+      @Override
+      public int compareTo(Channel o) {
         throw new UnsupportedOperationException("method not supported by stub");
       }
     };
@@ -86,8 +86,6 @@ public class EventCoreAcceptanceTests {
 
     assertNotNull(channel);
     assertEquals(expectedChannelName, channel.getName());
-    assertNotNull(channel.getUid());
-    assertEquals(expectedChannelName, channel.getUid().getKey());
     assertTrue(channel.getEventUidList().isEmpty());
     assertTrue(channel.getPublisherList().isEmpty());
     assertTrue(channel.getSubscriberList().isEmpty());

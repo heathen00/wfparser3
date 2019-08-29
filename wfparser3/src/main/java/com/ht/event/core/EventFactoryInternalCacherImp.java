@@ -8,7 +8,7 @@ import java.util.Map;
 
 final class EventFactoryInternalCacherImp implements EventFactoryInternal {
   private final EventFactoryInternal eventFactoryInternal;
-  private final Map<Uid<Channel>, ChannelCache> channelCacheMap;
+  private final Map<String, ChannelCache> channelCacheMap;
 
   EventFactoryInternalCacherImp(EventFactoryInternal eventFactoryInternal) {
     this.eventFactoryInternal = eventFactoryInternal;
@@ -17,11 +17,14 @@ final class EventFactoryInternalCacherImp implements EventFactoryInternal {
 
   @Override
   public Channel createChannel(String channelName) {
-    Channel newChannel = eventFactoryInternal.createChannel(channelName);
-    if (!channelCacheMap.containsKey(newChannel.getUid())) {
-      channelCacheMap.put(newChannel.getUid(), new ChannelCacheImp((ChannelInternal) newChannel));
+    ChannelInternal channelInternal = null;
+    if (!channelCacheMap.containsKey(channelName)) {
+      channelInternal = (ChannelInternal) eventFactoryInternal.createChannel(channelName);
+      channelCacheMap.put(channelName, new ChannelCacheImp(channelInternal));
+    } else {
+      channelInternal = channelCacheMap.get(channelName).getChannelInternal();
     }
-    return newChannel;
+    return channelInternal;
   }
 
   @Override

@@ -7,10 +7,9 @@ import java.util.List;
 import java.util.Map;
 import com.ht.uid.Uid;
 
-public final class ChannelInternalImp implements ChannelInternal {
+final class ChannelInternalImp implements ChannelInternal {
   private final EventFactoryInternal eventFactoryInternal;
   private final String channelName;
-  private final Uid<Channel> channelUid;
   private final Map<Uid<Event>, Event> channelEventMap;
   private final List<Publisher> channelPublisherList;
   private final List<Subscriber> channelSubscriberList;
@@ -19,7 +18,6 @@ public final class ChannelInternalImp implements ChannelInternal {
   ChannelInternalImp(EventFactoryInternal eventFactoryInternal, String channelName) {
     this.eventFactoryInternal = eventFactoryInternal;
     this.channelName = channelName;
-    this.channelUid = this.eventFactoryInternal.getUidFactory().createUid(this.channelName, this);
     channelEventMap = new HashMap<>();
     channelPublisherList = new ArrayList<>();
     channelSubscriberList = new ArrayList<>();
@@ -28,11 +26,6 @@ public final class ChannelInternalImp implements ChannelInternal {
   @Override
   public String getName() {
     return channelName;
-  }
-
-  @Override
-  public Uid<Channel> getUid() {
-    return channelUid;
   }
 
   @Override
@@ -97,5 +90,40 @@ public final class ChannelInternalImp implements ChannelInternal {
   @Override
   public boolean isEnabled() {
     return isEnabled;
+  }
+
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + ((channelName == null) ? 0 : channelName.hashCode());
+    return result;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    ChannelInternalImp other = (ChannelInternalImp) obj;
+    if (channelName == null) {
+      if (other.channelName != null) {
+        return false;
+      }
+    } else if (!channelName.equals(other.channelName)) {
+      return false;
+    }
+    return true;
+  }
+
+  @Override
+  public int compareTo(Channel o) {
+    return getName().compareTo(o.getName());
   }
 }

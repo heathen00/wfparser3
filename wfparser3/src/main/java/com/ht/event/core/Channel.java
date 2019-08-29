@@ -1,14 +1,11 @@
 package com.ht.event.core;
 
-import java.util.List;
 import com.ht.uid.Uid;
-import com.ht.uid.UniqueComponent;
 
-public interface Channel extends UniqueComponent<Channel> {
+import java.util.List;
 
+public interface Channel extends Comparable<Channel> {
   String getName();
-
-  Uid<Channel> getUid();
 
   List<Uid<Event>> getEventUidList();
 

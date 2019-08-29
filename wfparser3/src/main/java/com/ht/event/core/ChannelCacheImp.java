@@ -6,4 +6,8 @@ class ChannelCacheImp implements ChannelCache {
   ChannelCacheImp(ChannelInternal channelInternal) {
     this.channelInternal = channelInternal;
   }
+
+  public ChannelInternal getChannelInternal() {
+    return channelInternal;
+  }
 }
