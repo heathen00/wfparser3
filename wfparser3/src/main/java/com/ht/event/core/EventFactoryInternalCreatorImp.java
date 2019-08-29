@@ -1,11 +1,15 @@
 package com.ht.event.core;
 
 final class EventFactoryInternalCreatorImp implements EventFactoryInternal {
-  public EventFactoryInternalCreatorImp() {}
+  private final EventFactoryInternal rootEventFactoryInternal;
+
+  public EventFactoryInternalCreatorImp(EventFactoryInternal rootEventFactoryInternal) {
+    this.rootEventFactoryInternal = rootEventFactoryInternal;
+  }
 
   @Override
   public Channel createChannel(String channelName) {
-    return new ChannelInternalImp(this, channelName);
+    return new ChannelInternalImp(getRootEventFactoryInternal(), channelName);
   }
 
   @Override
@@ -22,7 +26,7 @@ final class EventFactoryInternalCreatorImp implements EventFactoryInternal {
 
   @Override
   public void addSubscriber(Channel eventChannel, Subscriber eventSubscriber) {
-    ((ChannelInternal) eventChannel).addSubscriber(eventSubscriber);
+    throw new UnsupportedOperationException("EventFactory creator does not create subscribers");
   }
 
   @Override
@@ -33,5 +37,10 @@ final class EventFactoryInternalCreatorImp implements EventFactoryInternal {
   @Override
   public ChannelCache getChannelCache(String channelName) {
     throw new UnsupportedOperationException("EventFactory creator does not cache instances");
+  }
+
+  @Override
+  public EventFactoryInternal getRootEventFactoryInternal() {
+    return rootEventFactoryInternal;
   }
 }

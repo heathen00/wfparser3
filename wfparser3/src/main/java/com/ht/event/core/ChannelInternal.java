@@ -5,8 +5,6 @@ interface ChannelInternal extends Channel {
 
   Publisher addPublisher(Publisher publisher);
 
-  void addSubscriber(Subscriber subscriber);
-
   void publish(Event event);
 
   void unpublish(Event event);

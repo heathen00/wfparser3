@@ -9,7 +9,6 @@ final class ChannelInternalImp implements ChannelInternal {
   private final String channelName;
   private final List<Event> channelEventList;
   private final List<Publisher> channelPublisherList;
-  private final List<Subscriber> channelSubscriberList;
   private boolean isEnabled;
 
   ChannelInternalImp(EventFactoryInternal eventFactoryInternal, String channelName) {
@@ -17,7 +16,6 @@ final class ChannelInternalImp implements ChannelInternal {
     this.channelName = channelName;
     channelEventList = new ArrayList<>();
     channelPublisherList = new ArrayList<>();
-    channelSubscriberList = new ArrayList<>();
   }
 
   @Override
@@ -32,7 +30,7 @@ final class ChannelInternalImp implements ChannelInternal {
 
   @Override
   public List<Subscriber> getSubscriberList() {
-    return Collections.unmodifiableList(channelSubscriberList);
+    return eventFactoryInternal.getChannelCache(getName()).getSubscriberList();
   }
 
   @Override
@@ -53,16 +51,12 @@ final class ChannelInternalImp implements ChannelInternal {
   }
 
   @Override
-  public void addSubscriber(Subscriber subscriber) {
-    channelSubscriberList.add(subscriber);
-  }
-
-  @Override
   public void publish(Event event) {
     if (!isEnabled()) {
       throw new UnsupportedOperationException("cannot publish events unless channel enabled");
     }
-    for (SubscriberPublished subscriber : channelSubscriberList) {
+    for (SubscriberPublished subscriber : eventFactoryInternal.getChannelCache(getName())
+        .getSubscriberList()) {
       subscriber.processPublishEvent(event);
     }
   }
@@ -72,7 +66,8 @@ final class ChannelInternalImp implements ChannelInternal {
     if (!isEnabled()) {
       throw new UnsupportedOperationException("cannot unpublish events unless channel enabled");
     }
-    for (SubscriberPublished subscriber : channelSubscriberList) {
+    for (SubscriberPublished subscriber : eventFactoryInternal.getChannelCache(getName())
+        .getSubscriberList()) {
       subscriber.processUnpublishEvent(event);
     }
   }

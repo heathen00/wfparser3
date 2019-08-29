@@ -3,10 +3,13 @@ package com.ht.event.core;
 import java.security.InvalidParameterException;
 
 final class EventFactoryInternalValidatorImp implements EventFactoryInternal {
-  private final EventFactoryInternal eventFactoryInternal;
+  private final EventFactoryInternal nextEventFactoryInternal;
+  private final EventFactoryInternal rootEventFactoryInternal;
 
-  EventFactoryInternalValidatorImp(EventFactoryInternal eventFactoryInternal) {
-    this.eventFactoryInternal = eventFactoryInternal;
+  EventFactoryInternalValidatorImp(EventFactoryInternal rootEventFactoryInternal,
+      EventFactoryInternal nextEventFactoryInternal) {
+    this.rootEventFactoryInternal = rootEventFactoryInternal;
+    this.nextEventFactoryInternal = nextEventFactoryInternal;
   }
 
   private void ensureParameterNotNull(String parameterName, Object parameter) {
@@ -40,7 +43,7 @@ final class EventFactoryInternalValidatorImp implements EventFactoryInternal {
   public Channel createChannel(String channelName) {
     ensureParameterNotNull("channelName", channelName);
     ensureExpectedNamingConvention("channelName", channelName);
-    return eventFactoryInternal.createChannel(channelName);
+    return nextEventFactoryInternal.createChannel(channelName);
   }
 
   @Override
@@ -52,7 +55,7 @@ final class EventFactoryInternalValidatorImp implements EventFactoryInternal {
     ensureExpectedNamingConvention("eventFamily", eventFamily);
     ensureParameterNotNull("eventName", eventName);
     ensureExpectedNamingConvention("eventName", eventName);
-    return eventFactoryInternal.createEvent(eventChannel, eventFamily, eventName);
+    return nextEventFactoryInternal.createEvent(eventChannel, eventFamily, eventName);
   }
 
   @Override
@@ -60,7 +63,7 @@ final class EventFactoryInternalValidatorImp implements EventFactoryInternal {
     ensureParameterNotNull("eventChannel", eventChannel);
     ensureExpectedImplementation("eventChannel", ChannelInternal.class, eventChannel);
     ensureChannelEnabled(eventChannel, "cannot create publishers after enabling channel");
-    return eventFactoryInternal.createPublisher(eventChannel);
+    return nextEventFactoryInternal.createPublisher(eventChannel);
   }
 
   @Override
@@ -69,18 +72,23 @@ final class EventFactoryInternalValidatorImp implements EventFactoryInternal {
     ensureExpectedImplementation("eventChannel", ChannelInternal.class, eventChannel);
     ensureChannelEnabled(eventChannel, "cannot add subscribers after enabling channel");
     ensureParameterNotNull("eventSubscriber", eventSubscriber);
-    eventFactoryInternal.addSubscriber(eventChannel, eventSubscriber);
+    nextEventFactoryInternal.addSubscriber(eventChannel, eventSubscriber);
   }
 
   @Override
   public void enableChannel(Channel eventChannel) {
     ensureParameterNotNull("eventChannel", eventChannel);
     ensureExpectedImplementation("eventChannel", ChannelInternal.class, eventChannel);
-    eventFactoryInternal.enableChannel(eventChannel);
+    nextEventFactoryInternal.enableChannel(eventChannel);
   }
 
   @Override
   public ChannelCache getChannelCache(String channelName) {
-    return eventFactoryInternal.getChannelCache(channelName);
+    return nextEventFactoryInternal.getChannelCache(channelName);
+  }
+
+  @Override
+  public EventFactoryInternal getRootEventFactoryInternal() {
+    return rootEventFactoryInternal;
   }
 }

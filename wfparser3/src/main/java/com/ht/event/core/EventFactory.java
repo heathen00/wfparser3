@@ -2,8 +2,7 @@ package com.ht.event.core;
 
 public interface EventFactory {
   static EventFactory createFactory() {
-    return new EventFactoryInternalValidatorImp(
-        new EventFactoryInternalCacherImp(new EventFactoryInternalCreatorImp()));
+    return new EventFactoryInternalRootImp();
   }
 
   Channel createChannel(String channelName);

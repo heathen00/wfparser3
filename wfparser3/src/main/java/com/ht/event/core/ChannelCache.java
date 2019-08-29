@@ -1,6 +1,12 @@
 package com.ht.event.core;
 
+import java.util.List;
+
 interface ChannelCache {
   ChannelInternal getChannelInternal();
+
+  List<Subscriber> getSubscriberList();
+
+  void addSubscriber(Subscriber eventSubscriber);
 }
 
