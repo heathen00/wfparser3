@@ -3,7 +3,7 @@ package com.ht.event.core;
 public interface Publisher {
   Channel getChannel();
 
-  void publish(String eventFullyQualifiedName);
+  void publish(Event event);
 
-  void unpublish(String eventFullyQualifiedName);
+  void unpublish(Event event);
 }

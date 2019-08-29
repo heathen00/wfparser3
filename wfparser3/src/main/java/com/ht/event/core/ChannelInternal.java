@@ -7,9 +7,9 @@ interface ChannelInternal extends Channel {
 
   void addSubscriber(Subscriber subscriber);
 
-  void publish(String eventFullyQualifiedName);
+  void publish(Event event);
 
-  void unpublish(String eventFullyQualifiedName);
+  void unpublish(Event event);
 
   void enable();
 }

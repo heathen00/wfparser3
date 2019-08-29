@@ -5,7 +5,7 @@ import java.util.List;
 public interface Channel extends Comparable<Channel> {
   String getName();
 
-  List<String> getEventFullyQualifiedNameList();
+  List<Event> getEventList();
 
   List<Subscriber> getSubscriberList();
 

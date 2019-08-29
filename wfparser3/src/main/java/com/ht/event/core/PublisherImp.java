@@ -15,12 +15,12 @@ public final class PublisherImp implements Publisher {
   }
 
   @Override
-  public void publish(String eventFullyQualifiedName) {
-    eventChannelInternal.publish(eventFullyQualifiedName);
+  public void publish(Event event) {
+    eventChannelInternal.publish(event);
   }
 
   @Override
-  public void unpublish(String eventFullyQualifiedName) {
-    eventChannelInternal.unpublish(eventFullyQualifiedName);
+  public void unpublish(Event event) {
+    eventChannelInternal.unpublish(event);
   }
 }

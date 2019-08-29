@@ -57,7 +57,7 @@ public class EventCoreAcceptanceTests {
       }
 
       @Override
-      public List<String> getEventFullyQualifiedNameList() {
+      public List<Event> getEventList() {
         throw new UnsupportedOperationException("method not supported by stub");
       }
 
@@ -85,7 +85,7 @@ public class EventCoreAcceptanceTests {
 
     assertNotNull(channel);
     assertEquals(expectedChannelName, channel.getName());
-    assertTrue(channel.getEventFullyQualifiedNameList().isEmpty());
+    assertTrue(channel.getEventList().isEmpty());
     assertTrue(channel.getPublisherList().isEmpty());
     assertTrue(channel.getSubscriberList().isEmpty());
     assertFalse(channel.isEnabled());
@@ -104,10 +104,8 @@ public class EventCoreAcceptanceTests {
     assertEquals(expectedChannel, event.getChannel());
     assertEquals(expectedEventFamily, event.getFamily());
     assertEquals(expectedEventName, event.getName());
-    assertTrue(
-        expectedChannel.getEventFullyQualifiedNameList().contains(event.getFullyQualifiedName()));
-    assertEquals(expectedEventFullyQualifiedNameListSize,
-        expectedChannel.getEventFullyQualifiedNameList().size());
+    assertTrue(expectedChannel.getEventList().contains(event));
+    assertEquals(expectedEventFullyQualifiedNameListSize, expectedChannel.getEventList().size());
   }
 
   @Test
@@ -154,7 +152,7 @@ public class EventCoreAcceptanceTests {
     eventFactory.addSubscriber(channel, subscriber);
     eventFactory.enableChannel(channel);
 
-    publisher.publish(expectedEvent.getFullyQualifiedName());
+    publisher.publish(expectedEvent);
 
     assertTrue(expectedProcessedEventList.contains(expectedEvent.getFullyQualifiedName()));
   }
@@ -180,10 +178,10 @@ public class EventCoreAcceptanceTests {
     eventFactory.addSubscriber(channel, subscriber);
     eventFactory.enableChannel(channel);
 
-    publisher.publish(expectedEvent.getFullyQualifiedName());
+    publisher.publish(expectedEvent);
     assertTrue(expectedProcessedEventList.contains(expectedEvent.getFullyQualifiedName()));
 
-    publisher.unpublish(expectedEvent.getFullyQualifiedName());
+    publisher.unpublish(expectedEvent);
     assertFalse(expectedProcessedEventList.contains(expectedEvent.getFullyQualifiedName()));
   }
 
@@ -380,7 +378,7 @@ public class EventCoreAcceptanceTests {
     Publisher publisher = eventFactory.createPublisher(channel);
     assertFalse(channel.isEnabled());
 
-    publisher.publish(event.getFullyQualifiedName());
+    publisher.publish(event);
   }
 
   @Test
@@ -393,7 +391,7 @@ public class EventCoreAcceptanceTests {
     Publisher publisher = eventFactory.createPublisher(channel);
     assertFalse(channel.isEnabled());
 
-    publisher.unpublish(event.getFullyQualifiedName());
+    publisher.unpublish(event);
   }
 
   @Test

@@ -2,14 +2,12 @@ package com.ht.event.core;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 final class ChannelInternalImp implements ChannelInternal {
   private final EventFactoryInternal eventFactoryInternal;
   private final String channelName;
-  private final Map<String, Event> channelEventMap;
+  private final List<Event> channelEventList;
   private final List<Publisher> channelPublisherList;
   private final List<Subscriber> channelSubscriberList;
   private boolean isEnabled;
@@ -17,7 +15,7 @@ final class ChannelInternalImp implements ChannelInternal {
   ChannelInternalImp(EventFactoryInternal eventFactoryInternal, String channelName) {
     this.eventFactoryInternal = eventFactoryInternal;
     this.channelName = channelName;
-    channelEventMap = new HashMap<>();
+    channelEventList = new ArrayList<>();
     channelPublisherList = new ArrayList<>();
     channelSubscriberList = new ArrayList<>();
   }
@@ -28,8 +26,8 @@ final class ChannelInternalImp implements ChannelInternal {
   }
 
   @Override
-  public List<String> getEventFullyQualifiedNameList() {
-    return Collections.unmodifiableList(new ArrayList<>(channelEventMap.keySet()));
+  public List<Event> getEventList() {
+    return Collections.unmodifiableList(new ArrayList<>(channelEventList));
   }
 
   @Override
@@ -44,7 +42,7 @@ final class ChannelInternalImp implements ChannelInternal {
 
   @Override
   public Event addEvent(Event event) {
-    channelEventMap.put(event.getFullyQualifiedName(), event);
+    channelEventList.add(event);
     return event;
   }
 
@@ -60,22 +58,20 @@ final class ChannelInternalImp implements ChannelInternal {
   }
 
   @Override
-  public void publish(String eventFullyQualifiedName) {
+  public void publish(Event event) {
     if (!isEnabled()) {
       throw new UnsupportedOperationException("cannot publish events unless channel enabled");
     }
-    Event event = channelEventMap.get(eventFullyQualifiedName);
     for (SubscriberPublished subscriber : channelSubscriberList) {
       subscriber.processPublishEvent(event);
     }
   }
 
   @Override
-  public void unpublish(String eventFullyQualifiedName) {
+  public void unpublish(Event event) {
     if (!isEnabled()) {
       throw new UnsupportedOperationException("cannot unpublish events unless channel enabled");
     }
-    Event event = channelEventMap.get(eventFullyQualifiedName);
     for (SubscriberPublished subscriber : channelSubscriberList) {
       subscriber.processUnpublishEvent(event);
     }
