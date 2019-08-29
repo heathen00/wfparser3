@@ -5,12 +5,11 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import com.ht.uid.Uid;
 
 final class ChannelInternalImp implements ChannelInternal {
   private final EventFactoryInternal eventFactoryInternal;
   private final String channelName;
-  private final Map<Uid<Event>, Event> channelEventMap;
+  private final Map<String, Event> channelEventMap;
   private final List<Publisher> channelPublisherList;
   private final List<Subscriber> channelSubscriberList;
   private boolean isEnabled;
@@ -29,7 +28,7 @@ final class ChannelInternalImp implements ChannelInternal {
   }
 
   @Override
-  public List<Uid<Event>> getEventUidList() {
+  public List<String> getEventFullyQualifiedNameList() {
     return Collections.unmodifiableList(new ArrayList<>(channelEventMap.keySet()));
   }
 
@@ -45,7 +44,7 @@ final class ChannelInternalImp implements ChannelInternal {
 
   @Override
   public Event addEvent(Event event) {
-    channelEventMap.put(event.getUid(), event);
+    channelEventMap.put(event.getFullyQualifiedName(), event);
     return event;
   }
 
@@ -61,22 +60,22 @@ final class ChannelInternalImp implements ChannelInternal {
   }
 
   @Override
-  public void publish(Uid<Event> eventUid) {
+  public void publish(String eventFullyQualifiedName) {
     if (!isEnabled()) {
       throw new UnsupportedOperationException("cannot publish events unless channel enabled");
     }
-    Event event = channelEventMap.get(eventUid);
+    Event event = channelEventMap.get(eventFullyQualifiedName);
     for (SubscriberPublished subscriber : channelSubscriberList) {
       subscriber.processPublishEvent(event);
     }
   }
 
   @Override
-  public void unpublish(Uid<Event> eventUid) {
+  public void unpublish(String eventFullyQualifiedName) {
     if (!isEnabled()) {
       throw new UnsupportedOperationException("cannot unpublish events unless channel enabled");
     }
-    Event event = channelEventMap.get(eventUid);
+    Event event = channelEventMap.get(eventFullyQualifiedName);
     for (SubscriberPublished subscriber : channelSubscriberList) {
       subscriber.processUnpublishEvent(event);
     }

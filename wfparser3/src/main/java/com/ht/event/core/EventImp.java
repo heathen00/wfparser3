@@ -1,13 +1,10 @@
 package com.ht.event.core;
 
-import com.ht.uid.Uid;
-
 public final class EventImp implements Event {
   private final EventFactoryInternal eventFactoryInternal;
   private final Channel eventChannel;
   private final String eventFamily;
   private final String eventName;
-  private final Uid<Event> eventUid;
 
   EventImp(EventFactoryInternal eventFactoryInternal, Channel eventChannel, String eventFamily,
       String eventName) {
@@ -15,8 +12,6 @@ public final class EventImp implements Event {
     this.eventChannel = eventChannel;
     this.eventFamily = eventFamily;
     this.eventName = eventName;
-    this.eventUid =
-        this.eventFactoryInternal.getUidFactory().createUid(getFullyQualifiedName(), this);
   }
 
   @Override
@@ -39,8 +34,36 @@ public final class EventImp implements Event {
     return String.join(".", eventChannel.getName(), getFamily(), getName());
   }
 
+
+
   @Override
-  public Uid<Event> getUid() {
-    return eventUid;
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + getFullyQualifiedName().hashCode();
+    return result;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    EventImp other = (EventImp) obj;
+    if (!getFullyQualifiedName().equals(other.getFullyQualifiedName())) {
+      return false;
+    }
+    return true;
+  }
+
+  @Override
+  public int compareTo(Event o) {
+    return getFullyQualifiedName().compareTo(o.getFullyQualifiedName());
   }
 }

@@ -6,22 +6,21 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import java.security.InvalidParameterException;
-import java.util.ArrayList;
-import java.util.List;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
-
 import com.ht.event.core.Channel;
 import com.ht.event.core.Event;
 import com.ht.event.core.EventFactory;
 import com.ht.event.core.Publisher;
 import com.ht.event.core.Subscriber;
-import com.ht.uid.Uid;
-import com.ht.uid.UidFactory;
+
+import java.security.InvalidParameterException;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.junit.Before;
+import org.junit.Ignore;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 public class EventCoreAcceptanceTests {
 
@@ -58,7 +57,7 @@ public class EventCoreAcceptanceTests {
       }
 
       @Override
-      public List<Uid<Event>> getEventUidList() {
+      public List<String> getEventFullyQualifiedNameList() {
         throw new UnsupportedOperationException("method not supported by stub");
       }
 
@@ -71,7 +70,7 @@ public class EventCoreAcceptanceTests {
 
   @Before
   public void setup() {
-    eventFactory = EventFactory.createFactory(UidFactory.createUidFactory());
+    eventFactory = EventFactory.createFactory();
   }
 
   @Test
@@ -86,7 +85,7 @@ public class EventCoreAcceptanceTests {
 
     assertNotNull(channel);
     assertEquals(expectedChannelName, channel.getName());
-    assertTrue(channel.getEventUidList().isEmpty());
+    assertTrue(channel.getEventFullyQualifiedNameList().isEmpty());
     assertTrue(channel.getPublisherList().isEmpty());
     assertTrue(channel.getSubscriberList().isEmpty());
     assertFalse(channel.isEnabled());
@@ -97,9 +96,7 @@ public class EventCoreAcceptanceTests {
     final Channel expectedChannel = eventFactory.createChannel("test.channel");
     final String expectedEventFamily = "test.family";
     final String expectedEventName = "test.name";
-    final String expectedUidKey =
-        String.join(".", expectedChannel.getName(), expectedEventFamily, expectedEventName);
-    final int expectedEvenUidListSize = 1;
+    final int expectedEventFullyQualifiedNameListSize = 1;
 
     Event event = eventFactory.createEvent(expectedChannel, expectedEventFamily, expectedEventName);
 
@@ -107,10 +104,10 @@ public class EventCoreAcceptanceTests {
     assertEquals(expectedChannel, event.getChannel());
     assertEquals(expectedEventFamily, event.getFamily());
     assertEquals(expectedEventName, event.getName());
-    assertNotNull(event.getUid());
-    assertEquals(expectedUidKey, event.getUid().getKey());
-    assertTrue(expectedChannel.getEventUidList().contains(event.getUid()));
-    assertEquals(expectedEvenUidListSize, expectedChannel.getEventUidList().size());
+    assertTrue(
+        expectedChannel.getEventFullyQualifiedNameList().contains(event.getFullyQualifiedName()));
+    assertEquals(expectedEventFullyQualifiedNameListSize,
+        expectedChannel.getEventFullyQualifiedNameList().size());
   }
 
   @Test
@@ -157,7 +154,7 @@ public class EventCoreAcceptanceTests {
     eventFactory.addSubscriber(channel, subscriber);
     eventFactory.enableChannel(channel);
 
-    publisher.publish(expectedEvent.getUid());
+    publisher.publish(expectedEvent.getFullyQualifiedName());
 
     assertTrue(expectedProcessedEventList.contains(expectedEvent.getFullyQualifiedName()));
   }
@@ -183,10 +180,10 @@ public class EventCoreAcceptanceTests {
     eventFactory.addSubscriber(channel, subscriber);
     eventFactory.enableChannel(channel);
 
-    publisher.publish(expectedEvent.getUid());
+    publisher.publish(expectedEvent.getFullyQualifiedName());
     assertTrue(expectedProcessedEventList.contains(expectedEvent.getFullyQualifiedName()));
 
-    publisher.unpublish(expectedEvent.getUid());
+    publisher.unpublish(expectedEvent.getFullyQualifiedName());
     assertFalse(expectedProcessedEventList.contains(expectedEvent.getFullyQualifiedName()));
   }
 
@@ -383,7 +380,7 @@ public class EventCoreAcceptanceTests {
     Publisher publisher = eventFactory.createPublisher(channel);
     assertFalse(channel.isEnabled());
 
-    publisher.publish(event.getUid());
+    publisher.publish(event.getFullyQualifiedName());
   }
 
   @Test
@@ -396,7 +393,7 @@ public class EventCoreAcceptanceTests {
     Publisher publisher = eventFactory.createPublisher(channel);
     assertFalse(channel.isEnabled());
 
-    publisher.unpublish(event.getUid());
+    publisher.unpublish(event.getFullyQualifiedName());
   }
 
   @Test

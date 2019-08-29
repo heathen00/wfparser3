@@ -1,11 +1,9 @@
 package com.ht.event.core;
 
-import com.ht.uid.UidFactory;
-
 public interface EventFactory {
-  static EventFactory createFactory(UidFactory uidFactory) {
+  static EventFactory createFactory() {
     return new EventFactoryInternalValidatorImp(
-        new EventFactoryInternalCacherImp(new EventFactoryInternalCreatorImp(uidFactory)));
+        new EventFactoryInternalCacherImp(new EventFactoryInternalCreatorImp()));
   }
 
   Channel createChannel(String channelName);

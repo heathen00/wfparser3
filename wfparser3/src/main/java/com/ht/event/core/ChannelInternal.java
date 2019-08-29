@@ -1,7 +1,5 @@
 package com.ht.event.core;
 
-import com.ht.uid.Uid;
-
 interface ChannelInternal extends Channel {
   Event addEvent(Event event);
 
@@ -9,9 +7,9 @@ interface ChannelInternal extends Channel {
 
   void addSubscriber(Subscriber subscriber);
 
-  void publish(Uid<Event> eventUid);
+  void publish(String eventFullyQualifiedName);
 
-  void unpublish(Uid<Event> eventUid);
+  void unpublish(String eventFullyQualifiedName);
 
   void enable();
 }

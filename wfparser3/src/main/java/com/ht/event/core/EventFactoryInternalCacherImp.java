@@ -1,8 +1,5 @@
 package com.ht.event.core;
 
-import com.ht.uid.Uid;
-import com.ht.uid.UidFactory;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -48,12 +45,7 @@ final class EventFactoryInternalCacherImp implements EventFactoryInternal {
   }
 
   @Override
-  public UidFactory getUidFactory() {
-    return eventFactoryInternal.getUidFactory();
-  }
-
-  @Override
-  public ChannelCache getChannelCache(Uid<Channel> channelUid) {
-    throw new UnsupportedOperationException("NOT IMPLEMENTED YET");
+  public ChannelCache getChannelCache(String channelName) {
+    return channelCacheMap.get(channelName);
   }
 }

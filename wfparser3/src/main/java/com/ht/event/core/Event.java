@@ -1,10 +1,6 @@
 package com.ht.event.core;
 
-import com.ht.uid.Uid;
-import com.ht.uid.UniqueComponent;
-
-public interface Event extends UniqueComponent<Event> {
-
+public interface Event extends Comparable<Event> {
   Channel getChannel();
 
   String getFamily();
@@ -12,6 +8,4 @@ public interface Event extends UniqueComponent<Event> {
   String getName();
 
   String getFullyQualifiedName();
-
-  Uid<Event> getUid();
 }

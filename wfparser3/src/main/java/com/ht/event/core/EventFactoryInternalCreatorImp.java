@@ -1,23 +1,11 @@
 package com.ht.event.core;
 
-import com.ht.uid.Uid;
-import com.ht.uid.UidFactory;
-
 final class EventFactoryInternalCreatorImp implements EventFactoryInternal {
-  private final UidFactory uidFactory;
-
-  public EventFactoryInternalCreatorImp(UidFactory uidFactory) {
-    this.uidFactory = uidFactory;
-  }
+  public EventFactoryInternalCreatorImp() {}
 
   @Override
   public Channel createChannel(String channelName) {
     return new ChannelInternalImp(this, channelName);
-  }
-
-  @Override
-  public UidFactory getUidFactory() {
-    return uidFactory;
   }
 
   @Override
@@ -43,7 +31,7 @@ final class EventFactoryInternalCreatorImp implements EventFactoryInternal {
   }
 
   @Override
-  public ChannelCache getChannelCache(Uid<Channel> channelUid) {
+  public ChannelCache getChannelCache(String channelName) {
     throw new UnsupportedOperationException("EventFactory creator does not cache instances");
   }
 }
