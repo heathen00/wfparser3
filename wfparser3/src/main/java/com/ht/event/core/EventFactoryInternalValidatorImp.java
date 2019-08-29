@@ -1,5 +1,6 @@
 package com.ht.event.core;
 
+import com.ht.uid.Uid;
 import com.ht.uid.UidFactory;
 
 import java.security.InvalidParameterException;
@@ -84,5 +85,10 @@ final class EventFactoryInternalValidatorImp implements EventFactoryInternal {
   @Override
   public UidFactory getUidFactory() {
     return eventFactoryInternal.getUidFactory();
+  }
+
+  @Override
+  public ChannelCache getChannelCache(Uid<Channel> channelUid) {
+    return eventFactoryInternal.getChannelCache(channelUid);
   }
 }

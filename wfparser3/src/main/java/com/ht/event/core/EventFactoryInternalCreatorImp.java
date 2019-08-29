@@ -1,5 +1,6 @@
 package com.ht.event.core;
 
+import com.ht.uid.Uid;
 import com.ht.uid.UidFactory;
 
 final class EventFactoryInternalCreatorImp implements EventFactoryInternal {
@@ -39,5 +40,10 @@ final class EventFactoryInternalCreatorImp implements EventFactoryInternal {
   @Override
   public void enableChannel(Channel eventChannel) {
     ((ChannelInternal) eventChannel).enable();
+  }
+
+  @Override
+  public ChannelCache getChannelCache(Uid<Channel> channelUid) {
+    throw new UnsupportedOperationException("EventFactory creator does not cache instances");
   }
 }
