@@ -6,23 +6,23 @@ import java.util.Map;
 final class EventFactoryInternalCacherImp implements EventFactoryInternal {
   private final EventFactoryInternal rootEventFactoryInternal;
   private final EventFactoryInternal nextEventFactoryInternal;
-  private final Map<String, ChannelCache> channelCacheMap;
+  private final Map<String, ChannelCache> channelNameToChannelCacheMap;
 
   EventFactoryInternalCacherImp(EventFactoryInternal rootEventFactoryInternal,
       EventFactoryInternal nextEventFactoryInternal) {
     this.rootEventFactoryInternal = rootEventFactoryInternal;
     this.nextEventFactoryInternal = nextEventFactoryInternal;
-    this.channelCacheMap = new HashMap<>();
+    this.channelNameToChannelCacheMap = new HashMap<>();
   }
 
   @Override
   public Channel createChannel(String channelName) {
     ChannelInternal channelInternal = null;
-    if (!channelCacheMap.containsKey(channelName)) {
+    if (!channelNameToChannelCacheMap.containsKey(channelName)) {
       channelInternal = (ChannelInternal) nextEventFactoryInternal.createChannel(channelName);
-      channelCacheMap.put(channelName, new ChannelCacheImp(channelInternal));
+      channelNameToChannelCacheMap.put(channelName, new ChannelCacheImp(channelInternal));
     } else {
-      channelInternal = channelCacheMap.get(channelName).getChannelInternal();
+      channelInternal = channelNameToChannelCacheMap.get(channelName).getChannelInternal();
     }
     return channelInternal;
   }
@@ -34,14 +34,16 @@ final class EventFactoryInternalCacherImp implements EventFactoryInternal {
 
   @Override
   public Publisher createPublisher(Channel eventChannel) {
-    return nextEventFactoryInternal.createPublisher(eventChannel);
+    Publisher newPublisher = nextEventFactoryInternal.createPublisher(eventChannel);
+    channelNameToChannelCacheMap.get(eventChannel.getName()).addPublisher(newPublisher);
+    return newPublisher;
   }
 
   @Override
   public void addSubscriber(Channel eventChannel, Subscriber eventSubscriber) {
-    if (!channelCacheMap.get(eventChannel.getName()).getSubscriberList()
+    if (!channelNameToChannelCacheMap.get(eventChannel.getName()).getSubscriberList()
         .contains(eventSubscriber)) {
-      channelCacheMap.get(eventChannel.getName()).addSubscriber(eventSubscriber);
+      channelNameToChannelCacheMap.get(eventChannel.getName()).addSubscriber(eventSubscriber);
     }
   }
 
@@ -52,7 +54,7 @@ final class EventFactoryInternalCacherImp implements EventFactoryInternal {
 
   @Override
   public ChannelCache getChannelCache(String channelName) {
-    return channelCacheMap.get(channelName);
+    return channelNameToChannelCacheMap.get(channelName);
   }
 
   @Override

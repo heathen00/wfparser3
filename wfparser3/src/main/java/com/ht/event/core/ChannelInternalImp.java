@@ -8,14 +8,12 @@ final class ChannelInternalImp implements ChannelInternal {
   private final EventFactoryInternal eventFactoryInternal;
   private final String channelName;
   private final List<Event> channelEventList;
-  private final List<Publisher> channelPublisherList;
   private boolean isEnabled;
 
   ChannelInternalImp(EventFactoryInternal eventFactoryInternal, String channelName) {
     this.eventFactoryInternal = eventFactoryInternal;
     this.channelName = channelName;
     channelEventList = new ArrayList<>();
-    channelPublisherList = new ArrayList<>();
   }
 
   @Override
@@ -35,19 +33,13 @@ final class ChannelInternalImp implements ChannelInternal {
 
   @Override
   public List<Publisher> getPublisherList() {
-    return Collections.unmodifiableList(channelPublisherList);
+    return eventFactoryInternal.getChannelCache(getName()).getPublisherList();
   }
 
   @Override
   public Event addEvent(Event event) {
     channelEventList.add(event);
     return event;
-  }
-
-  @Override
-  public Publisher addPublisher(Publisher publisher) {
-    channelPublisherList.add(publisher);
-    return publisher;
   }
 
   @Override

@@ -8,5 +8,9 @@ interface ChannelCache {
   List<Subscriber> getSubscriberList();
 
   void addSubscriber(Subscriber eventSubscriber);
+
+  List<Publisher> getPublisherList();
+
+  void addPublisher(Publisher eventPublisher);
 }
 

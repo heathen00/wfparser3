@@ -449,6 +449,9 @@ public class EventCoreAcceptanceTests {
    * Rough list of test scenarios:
    * 
    * !!! MORE TEST SCENARIOS!!!: creating Event instances with different combinations of Channel,
+   * 
+   * Create publisher with unknown external channel implementation.
+   * 
    * Family, and Name to ensure they are handle properly, i.e. unique / not unique, as appropriate.
    * 
    * publish event with a subject. Event with subject is received by subscribers in channel.

@@ -20,8 +20,7 @@ final class EventFactoryInternalCreatorImp implements EventFactoryInternal {
 
   @Override
   public Publisher createPublisher(Channel eventChannel) {
-    Publisher newPublisher = new PublisherImp(this, (ChannelInternal) eventChannel);
-    return ((ChannelInternal) eventChannel).addPublisher(newPublisher);
+    return new PublisherImp(this, (ChannelInternal) eventChannel);
   }
 
   @Override

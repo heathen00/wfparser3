@@ -3,8 +3,8 @@ package com.ht.event.core;
 import java.security.InvalidParameterException;
 
 final class EventFactoryInternalValidatorImp implements EventFactoryInternal {
-  private final EventFactoryInternal nextEventFactoryInternal;
   private final EventFactoryInternal rootEventFactoryInternal;
+  private final EventFactoryInternal nextEventFactoryInternal;
 
   EventFactoryInternalValidatorImp(EventFactoryInternal rootEventFactoryInternal,
       EventFactoryInternal nextEventFactoryInternal) {
