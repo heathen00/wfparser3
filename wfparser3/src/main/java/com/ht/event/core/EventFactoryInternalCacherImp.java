@@ -29,7 +29,16 @@ final class EventFactoryInternalCacherImp implements EventFactoryInternal {
 
   @Override
   public Event createEvent(Channel eventChannel, String eventFamily, String eventName) {
-    return nextEventFactoryInternal.createEvent(eventChannel, eventFamily, eventName);
+    Event newEvent = nextEventFactoryInternal.createEvent(eventChannel, eventFamily, eventName);
+    int existingEventIndex =
+        channelNameToChannelCacheMap.get(eventChannel.getName()).getEventList().indexOf(newEvent);
+    if (-1 == existingEventIndex) {
+      channelNameToChannelCacheMap.get(eventChannel.getName()).addEvent(newEvent);
+    } else {
+      newEvent = channelNameToChannelCacheMap.get(eventChannel.getName()).getEventList()
+          .get(existingEventIndex);
+    }
+    return newEvent;
   }
 
   @Override

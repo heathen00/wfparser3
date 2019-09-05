@@ -1,19 +1,15 @@
 package com.ht.event.core;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 final class ChannelInternalImp implements ChannelInternal {
   private final EventFactoryInternal eventFactoryInternal;
   private final String channelName;
-  private final List<Event> channelEventList;
   private boolean isEnabled;
 
   ChannelInternalImp(EventFactoryInternal eventFactoryInternal, String channelName) {
     this.eventFactoryInternal = eventFactoryInternal;
     this.channelName = channelName;
-    channelEventList = new ArrayList<>();
   }
 
   @Override
@@ -23,7 +19,7 @@ final class ChannelInternalImp implements ChannelInternal {
 
   @Override
   public List<Event> getEventList() {
-    return Collections.unmodifiableList(new ArrayList<>(channelEventList));
+    return eventFactoryInternal.getChannelCache(getName()).getEventList();
   }
 
   @Override
@@ -34,12 +30,6 @@ final class ChannelInternalImp implements ChannelInternal {
   @Override
   public List<Publisher> getPublisherList() {
     return eventFactoryInternal.getChannelCache(getName()).getPublisherList();
-  }
-
-  @Override
-  public Event addEvent(Event event) {
-    channelEventList.add(event);
-    return event;
   }
 
   @Override

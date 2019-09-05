@@ -12,5 +12,9 @@ interface ChannelCache {
   List<Publisher> getPublisherList();
 
   void addPublisher(Publisher eventPublisher);
+
+  List<Event> getEventList();
+
+  void addEvent(Event event);
 }
 

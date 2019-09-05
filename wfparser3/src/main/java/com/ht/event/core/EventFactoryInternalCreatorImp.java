@@ -14,8 +14,7 @@ final class EventFactoryInternalCreatorImp implements EventFactoryInternal {
 
   @Override
   public Event createEvent(Channel eventChannel, String eventFamily, String eventName) {
-    Event newEvent = new EventImp(this, eventChannel, eventFamily, eventName);
-    return ((ChannelInternal) eventChannel).addEvent(newEvent);
+    return new EventImp(this, eventChannel, eventFamily, eventName);
   }
 
   @Override

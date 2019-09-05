@@ -8,11 +8,13 @@ final class ChannelCacheImp implements ChannelCache {
   private final ChannelInternal channelInternal;
   private final List<Subscriber> subscriberList;
   private final List<Publisher> publisherList;
+  private final List<Event> eventList;
 
   ChannelCacheImp(ChannelInternal channelInternal) {
     this.channelInternal = channelInternal;
     subscriberList = new ArrayList<>();
     publisherList = new ArrayList<>();
+    eventList = new ArrayList<>();
   }
 
   public ChannelInternal getChannelInternal() {
@@ -37,5 +39,15 @@ final class ChannelCacheImp implements ChannelCache {
   @Override
   public List<Publisher> getPublisherList() {
     return Collections.unmodifiableList(publisherList);
+  }
+
+  @Override
+  public List<Event> getEventList() {
+    return Collections.unmodifiableList(eventList);
+  }
+
+  @Override
+  public void addEvent(Event event) {
+    eventList.add(event);
   }
 }
