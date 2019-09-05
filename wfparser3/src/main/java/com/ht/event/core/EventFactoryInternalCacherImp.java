@@ -29,16 +29,12 @@ final class EventFactoryInternalCacherImp implements EventFactoryInternal {
 
   @Override
   public Event createEvent(Channel eventChannel, String eventFamily, String eventName) {
-    Event newEvent = nextEventFactoryInternal.createEvent(eventChannel, eventFamily, eventName);
-    int existingEventIndex =
-        channelNameToChannelCacheMap.get(eventChannel.getName()).getEventList().indexOf(newEvent);
-    if (-1 == existingEventIndex) {
-      channelNameToChannelCacheMap.get(eventChannel.getName()).addEvent(newEvent);
-    } else {
-      newEvent = channelNameToChannelCacheMap.get(eventChannel.getName()).getEventList()
-          .get(existingEventIndex);
+    Event event = getChannelCache(eventChannel).getEvent(eventChannel, eventFamily, eventName);
+    if (null == event) {
+      event = nextEventFactoryInternal.createEvent(eventChannel, eventFamily, eventName);
+      getChannelCache(eventChannel).addEvent(event);
     }
-    return newEvent;
+    return event;
   }
 
   @Override
@@ -50,15 +46,18 @@ final class EventFactoryInternalCacherImp implements EventFactoryInternal {
 
   @Override
   public void addSubscriber(Channel eventChannel, Subscriber eventSubscriber) {
-    if (!channelNameToChannelCacheMap.get(eventChannel.getName()).getSubscriberList()
-        .contains(eventSubscriber)) {
-      channelNameToChannelCacheMap.get(eventChannel.getName()).addSubscriber(eventSubscriber);
+    if (!getChannelCache(eventChannel).getSubscriberList().contains(eventSubscriber)) {
+      getChannelCache(eventChannel).addSubscriber(eventSubscriber);
     }
   }
 
   @Override
   public void enableChannel(Channel eventChannel) {
-    channelNameToChannelCacheMap.get(eventChannel.getName()).getChannelInternal().enable();
+    getChannelCache(eventChannel).getChannelInternal().enable();
+  }
+
+  private ChannelCache getChannelCache(Channel eventChannel) {
+    return channelNameToChannelCacheMap.get(eventChannel.getName());
   }
 
   @Override

@@ -9,12 +9,14 @@ final class ChannelCacheImp implements ChannelCache {
   private final List<Subscriber> subscriberList;
   private final List<Publisher> publisherList;
   private final List<Event> eventList;
+  private final EventForComparison eventForComparison;
 
   ChannelCacheImp(ChannelInternal channelInternal) {
     this.channelInternal = channelInternal;
     subscriberList = new ArrayList<>();
     publisherList = new ArrayList<>();
     eventList = new ArrayList<>();
+    eventForComparison = new EventForComparison();
   }
 
   public ChannelInternal getChannelInternal() {
@@ -49,5 +51,18 @@ final class ChannelCacheImp implements ChannelCache {
   @Override
   public void addEvent(Event event) {
     eventList.add(event);
+  }
+
+  @Override
+  public Event getEvent(Channel eventChannel, String eventFamily, String eventName) {
+    Event event = null;
+    eventForComparison.setChannel(eventChannel);
+    eventForComparison.setFamily(eventFamily);
+    eventForComparison.setName(eventName);
+    int existingEventIndex = eventList.indexOf(eventForComparison);
+    if (-1 != existingEventIndex) {
+      event = eventList.get(existingEventIndex);
+    }
+    return event;
   }
 }
