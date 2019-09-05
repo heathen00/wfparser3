@@ -29,7 +29,7 @@ final class EventFactoryInternalCreatorImp implements EventFactoryInternal {
 
   @Override
   public void enableChannel(Channel eventChannel) {
-    ((ChannelInternal) eventChannel).enable();
+    throw new UnsupportedOperationException("EventFactory creator does not enable event channels");
   }
 
   @Override

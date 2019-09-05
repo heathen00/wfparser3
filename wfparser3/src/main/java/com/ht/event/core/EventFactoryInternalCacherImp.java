@@ -58,7 +58,7 @@ final class EventFactoryInternalCacherImp implements EventFactoryInternal {
 
   @Override
   public void enableChannel(Channel eventChannel) {
-    nextEventFactoryInternal.enableChannel(eventChannel);
+    channelNameToChannelCacheMap.get(eventChannel.getName()).getChannelInternal().enable();
   }
 
   @Override
