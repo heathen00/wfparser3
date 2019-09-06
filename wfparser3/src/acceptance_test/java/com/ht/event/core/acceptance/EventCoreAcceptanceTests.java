@@ -6,6 +6,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import com.ht.event.core.AssertEventCore;
 import com.ht.event.core.Channel;
 import com.ht.event.core.Event;
 import com.ht.event.core.EventFactory;
@@ -14,6 +15,8 @@ import com.ht.event.core.Subscriber;
 
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.junit.Before;
@@ -28,6 +31,7 @@ public class EventCoreAcceptanceTests {
   public ExpectedException thrown = ExpectedException.none();
 
   private EventFactory eventFactory;
+  private AssertEventCore assertEventCore;
 
   private Subscriber createSubscriberStub() {
     return new Subscriber();
@@ -71,66 +75,74 @@ public class EventCoreAcceptanceTests {
   @Before
   public void setup() {
     eventFactory = EventFactory.createFactory();
+    assertEventCore = AssertEventCore.createAssertEventCore();
   }
 
   @Test
   public void EventCore_createTestingAssets_testingAssetsCreated() {
     assertNotNull(eventFactory);
+    assertNotNull(assertEventCore);
   }
 
   @Test
   public void EventCore_createChannelWithValidChannelName_channelCreated() {
     final String expectedChannelName = "test.channel";
+    boolean expectedIsEnabled = false;
+    List<Event> expectedEventsList = Collections.emptyList();
+    List<Publisher> expectedPublishersList = Collections.emptyList();
+    List<Subscriber> expectedSubscribersList = Collections.emptyList();
     final Channel channel = eventFactory.createChannel(expectedChannelName);
 
-    assertNotNull(channel);
-    assertEquals(expectedChannelName, channel.getName());
-    assertTrue(channel.getEventList().isEmpty());
-    assertTrue(channel.getPublisherList().isEmpty());
-    assertTrue(channel.getSubscriberList().isEmpty());
-    assertFalse(channel.isEnabled());
+    assertEventCore.assertExpectedChannel(expectedChannelName, expectedIsEnabled,
+        expectedEventsList, expectedPublishersList, expectedSubscribersList, channel);
   }
 
   @Test
   public void EventCore_createEventWithValidChannelFamilyAndNameBeforeChannelIsEnabled_eventCreated() {
-    final Channel expectedChannel = eventFactory.createChannel("test.channel");
+    final String expectedChannelName = "test.channel";
+    boolean expectedIsEnabled = false;
+    List<Publisher> expectedPublishersList = Collections.emptyList();
+    List<Subscriber> expectedSubscribersList = Collections.emptyList();
+    final Channel expectedChannel = eventFactory.createChannel(expectedChannelName);
     final String expectedEventFamily = "test.family";
     final String expectedEventName = "test.name";
-    final int expectedEventFullyQualifiedNameListSize = 1;
 
     Event event = eventFactory.createEvent(expectedChannel, expectedEventFamily, expectedEventName);
 
-    assertNotNull(event);
-    assertEquals(expectedChannel, event.getChannel());
-    assertEquals(expectedEventFamily, event.getFamily());
-    assertEquals(expectedEventName, event.getName());
-    assertTrue(expectedChannel.getEventList().contains(event));
-    assertEquals(expectedEventFullyQualifiedNameListSize, expectedChannel.getEventList().size());
+    assertEventCore.assertExpectedEvent(expectedChannel, expectedEventFamily, expectedEventName,
+        event);
+    assertEventCore.assertExpectedChannel(expectedChannelName, expectedIsEnabled,
+        Arrays.asList(event), expectedPublishersList, expectedSubscribersList, expectedChannel);
   }
 
   @Test
   public void EventCore_createPublisherWithValidChannelBeforeChannelIsEnabled_publisherCreated() {
-    final Channel expectedChannel = eventFactory.createChannel("test.channel");
-    final int expectedPublisherListSize = 1;
+    final String expectedChannelName = "test.channel";
+    final boolean expectedIsEnabled = false;
+    final List<Event> expectedEventsList = Collections.emptyList();
+    final List<Subscriber> expectedSubscribersList = Collections.emptyList();
+    final Channel expectedChannel = eventFactory.createChannel(expectedChannelName);
 
     Publisher publisher = eventFactory.createPublisher(expectedChannel);
 
-    assertNotNull(publisher);
-    assertEquals(expectedChannel, publisher.getChannel());
-    assertTrue(expectedChannel.getPublisherList().contains(publisher));
-    assertEquals(expectedPublisherListSize, expectedChannel.getPublisherList().size());
+    assertEventCore.assertExpectedPublisher(expectedChannel, publisher);
+    assertEventCore.assertExpectedChannel(expectedChannelName, expectedIsEnabled,
+        expectedEventsList, Arrays.asList(publisher), expectedSubscribersList, expectedChannel);
   }
 
   @Test
   public void EventCore_addValidSubscriberToChannelBeforeChannelIsEnabled_subscriberSuccessfullyRegistered() {
     final Subscriber expectedSubscriber = createSubscriberStub();
-    final int expectedSubscriberListSize = 1;
-    Channel channel = eventFactory.createChannel("test.channel");
+    final String expectedChannelName = "test.channel";
+    final boolean expectedIsEnabled = false;
+    final List<Event> expectedEventsList = Collections.emptyList();
+    final List<Publisher> expectedPublishersList = Collections.emptyList();
+    Channel channel = eventFactory.createChannel(expectedChannelName);
 
     eventFactory.addSubscriber(channel, expectedSubscriber);
 
-    assertTrue(channel.getSubscriberList().contains(expectedSubscriber));
-    assertEquals(expectedSubscriberListSize, channel.getSubscriberList().size());
+    assertEventCore.assertExpectedChannel(expectedChannelName, expectedIsEnabled,
+        expectedEventsList, expectedPublishersList, Arrays.asList(expectedSubscriber), channel);
   }
 
   @Test
@@ -351,24 +363,6 @@ public class EventCoreAcceptanceTests {
   }
 
   @Test
-  @Ignore("not worked on yet")
-  public void EventCore_createSameEventMultipleTimes_eventOnlyCreatedOnce() {
-    fail("not implemented yet");
-  }
-
-  @Test
-  @Ignore("not worked on yet")
-  public void EventCore_addSameSubscriberToChannelMultipleTimes_subscriberOnlyAddedOnce() {
-    fail("not implemented yet");
-  }
-
-  @Test
-  @Ignore("not worked on yet")
-  public void EventCore_addSameSubscriberToMultipleChannels_unsupportedOperationExceptionIsThrown() {
-    fail("not implemented yet");
-  }
-
-  @Test
   public void EventCore_publishEventOnChannelBeforeEnablingChannel_unsupportedOperationExceptionIsThrown() {
     thrown.expect(UnsupportedOperationException.class);
     thrown.expectMessage("cannot publish events unless channel enabled");
@@ -428,6 +422,60 @@ public class EventCoreAcceptanceTests {
   }
 
   @Test
+  public void EventCore_createSameEventMultipleTimes_eventOnlyCreatedOnce() {
+    final String expectedChannelName = "test.channel";
+    final boolean expectedIsChannelEnabled = false;
+    final List<Publisher> expectedPublishersList = Collections.emptyList();
+    final List<Subscriber> expectedSubscribers = Collections.emptyList();
+    final String expectedEventFamily = "test.family";
+    final String expectedEventName = "test.name";
+    Channel expectedEventChannel = eventFactory.createChannel(expectedChannelName);
+    Event firstEvent =
+        eventFactory.createEvent(expectedEventChannel, expectedEventFamily, expectedEventName);
+
+    Event secondEvent =
+        eventFactory.createEvent(expectedEventChannel, expectedEventFamily, expectedEventName);
+
+    assertEventCore.assertExpectedEvent(expectedEventChannel, expectedEventFamily,
+        expectedEventName, firstEvent);
+    assertEventCore.assertExpectedEvent(expectedEventChannel, expectedEventFamily,
+        expectedEventName, secondEvent);
+    assertEventCore.assertExpectedChannel(expectedChannelName, expectedIsChannelEnabled,
+        Arrays.asList(firstEvent), expectedPublishersList, expectedSubscribers,
+        expectedEventChannel);
+    assertEquals(firstEvent, secondEvent);
+    assertTrue(firstEvent == secondEvent);
+  }
+
+  @Test
+  public void EventCore_addSameSubscriberToChannelMultipleTimes_subscriberOnlyAddedOnce() {
+    final Subscriber expectedSubscriber = createSubscriberStub();
+    final String expectedChannelName = "test.channel";
+    final boolean expectedIsEnabled = false;
+    final List<Event> expectedEventsList = Collections.emptyList();
+    final List<Publisher> expectedPublishersList = Collections.emptyList();
+    Channel channel = eventFactory.createChannel(expectedChannelName);
+
+    eventFactory.addSubscriber(channel, expectedSubscriber);
+    eventFactory.addSubscriber(channel, expectedSubscriber);
+
+    assertEventCore.assertExpectedChannel(expectedChannelName, expectedIsEnabled,
+        expectedEventsList, expectedPublishersList, Arrays.asList(expectedSubscriber), channel);
+  }
+
+  @Test
+  public void EventCore_addSameSubscriberToMultipleChannels_unsupportedOperationExceptionIsThrown() {
+    thrown.expect(UnsupportedOperationException.class);
+    thrown.expectMessage("subscriber already subscribed to channel ");
+    Channel firstChannel = eventFactory.createChannel("first.channel");
+    Channel secondChannel = eventFactory.createChannel("second.channel");
+    Subscriber subscriber = createSubscriberStub();
+
+    eventFactory.addSubscriber(firstChannel, subscriber);
+    eventFactory.addSubscriber(secondChannel, subscriber);
+  }
+
+  @Test
   @Ignore("not worked on yet")
   public void EventCore_publishSameValidEventTwice_subscriberOnlyNotifiedOfEventOnce() {
     fail("not implemented yet");
@@ -449,8 +497,6 @@ public class EventCoreAcceptanceTests {
    * Rough list of test scenarios:
    * 
    * !!! MORE TEST SCENARIOS!!!: creating Event instances with different combinations of Channel,
-   * 
-   * Create publisher with unknown external channel implementation.
    * 
    * Family, and Name to ensure they are handle properly, i.e. unique / not unique, as appropriate.
    * 

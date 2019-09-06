@@ -2,39 +2,37 @@ package com.ht.event.core;
 
 public final class EventImp implements Event {
   private final EventFactoryInternal eventFactoryInternal;
-  private final Channel eventChannel;
-  private final String eventFamily;
-  private final String eventName;
+  private final Channel channel;
+  private final String family;
+  private final String name;
 
   EventImp(EventFactoryInternal eventFactoryInternal, Channel eventChannel, String eventFamily,
       String eventName) {
     this.eventFactoryInternal = eventFactoryInternal;
-    this.eventChannel = eventChannel;
-    this.eventFamily = eventFamily;
-    this.eventName = eventName;
+    this.channel = eventChannel;
+    this.family = eventFamily;
+    this.name = eventName;
   }
 
   @Override
   public Channel getChannel() {
-    return eventChannel;
+    return channel;
   }
 
   @Override
   public String getFamily() {
-    return eventFamily;
+    return family;
   }
 
   @Override
   public String getName() {
-    return eventName;
+    return name;
   }
 
   @Override
   public String getFullyQualifiedName() {
-    return String.join(".", eventChannel.getName(), getFamily(), getName());
+    return String.join(".", channel.getName(), getFamily(), getName());
   }
-
-
 
   @Override
   public int hashCode() {
@@ -52,10 +50,10 @@ public final class EventImp implements Event {
     if (obj == null) {
       return false;
     }
-    if (getClass() != obj.getClass()) {
+    if (!Event.class.isInstance(obj)) {
       return false;
     }
-    EventImp other = (EventImp) obj;
+    Event other = (Event) obj;
     if (!getFullyQualifiedName().equals(other.getFullyQualifiedName())) {
       return false;
     }
@@ -65,5 +63,10 @@ public final class EventImp implements Event {
   @Override
   public int compareTo(Event o) {
     return getFullyQualifiedName().compareTo(o.getFullyQualifiedName());
+  }
+
+  @Override
+  public String toString() {
+    return "EventImp [getFullyQualifiedName()=" + getFullyQualifiedName() + "]";
   }
 }

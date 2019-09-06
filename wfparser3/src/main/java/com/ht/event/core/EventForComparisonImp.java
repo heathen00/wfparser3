@@ -1,6 +1,6 @@
 package com.ht.event.core;
 
-final class EventForComparison implements Event {
+final class EventForComparisonImp implements Event {
   private Channel channel;
   private String family;
   private String name;
@@ -53,10 +53,10 @@ final class EventForComparison implements Event {
     if (obj == null) {
       return false;
     }
-    if (getClass() != obj.getClass()) {
+    if (!Event.class.isInstance(obj)) {
       return false;
     }
-    EventImp other = (EventImp) obj;
+    Event other = (Event) obj;
     if (!getFullyQualifiedName().equals(other.getFullyQualifiedName())) {
       return false;
     }
@@ -66,5 +66,10 @@ final class EventForComparison implements Event {
   @Override
   public int compareTo(Event o) {
     return getFullyQualifiedName().compareTo(o.getFullyQualifiedName());
+  }
+
+  @Override
+  public String toString() {
+    return "EventForComparisonImp [getFullyQualifiedName()=" + getFullyQualifiedName() + "]";
   }
 }

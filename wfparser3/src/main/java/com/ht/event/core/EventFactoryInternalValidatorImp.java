@@ -39,6 +39,13 @@ final class EventFactoryInternalValidatorImp implements EventFactoryInternal {
     }
   }
 
+
+  private void ensureSubscriberNotAlreadySubscribedToAnotherChannel(Channel eventChannel,
+      Subscriber eventSubscriber) {
+    // TODO not implemented.
+
+  }
+
   @Override
   public Channel createChannel(String channelName) {
     ensureParameterNotNull("channelName", channelName);
@@ -72,6 +79,7 @@ final class EventFactoryInternalValidatorImp implements EventFactoryInternal {
     ensureExpectedImplementation("eventChannel", ChannelInternal.class, eventChannel);
     ensureChannelEnabled(eventChannel, "cannot add subscribers after enabling channel");
     ensureParameterNotNull("eventSubscriber", eventSubscriber);
+    ensureSubscriberNotAlreadySubscribedToAnotherChannel(eventChannel, eventSubscriber);
     nextEventFactoryInternal.addSubscriber(eventChannel, eventSubscriber);
   }
 

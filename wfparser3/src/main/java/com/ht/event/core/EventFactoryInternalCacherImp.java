@@ -46,9 +46,7 @@ final class EventFactoryInternalCacherImp implements EventFactoryInternal {
 
   @Override
   public void addSubscriber(Channel eventChannel, Subscriber eventSubscriber) {
-    if (!getChannelCache(eventChannel).getSubscriberList().contains(eventSubscriber)) {
-      getChannelCache(eventChannel).addSubscriber(eventSubscriber);
-    }
+    getChannelCache(eventChannel).addSubscriber(eventSubscriber);
   }
 
   @Override
