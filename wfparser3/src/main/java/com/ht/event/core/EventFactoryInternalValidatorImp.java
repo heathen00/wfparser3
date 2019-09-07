@@ -91,12 +91,12 @@ final class EventFactoryInternalValidatorImp implements EventFactoryInternal {
   }
 
   @Override
-  public ChannelCache getChannelCache(String channelName) {
-    return nextEventFactoryInternal.getChannelCache(channelName);
+  public EventFactoryInternal getRootEventFactoryInternal() {
+    return rootEventFactoryInternal;
   }
 
   @Override
-  public EventFactoryInternal getRootEventFactoryInternal() {
-    return rootEventFactoryInternal;
+  public InstanceCache getInstanceCache() {
+    return nextEventFactoryInternal.getInstanceCache();
   }
 }

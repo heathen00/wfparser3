@@ -1,28 +1,25 @@
 package com.ht.event.core;
 
-import java.util.HashMap;
-import java.util.Map;
-
 final class EventFactoryInternalCacherImp implements EventFactoryInternal {
   private final EventFactoryInternal rootEventFactoryInternal;
   private final EventFactoryInternal nextEventFactoryInternal;
-  private final Map<String, ChannelCache> channelNameToChannelCacheMap;
+  private final InstanceCache instanceCache;
 
   EventFactoryInternalCacherImp(EventFactoryInternal rootEventFactoryInternal,
       EventFactoryInternal nextEventFactoryInternal) {
     this.rootEventFactoryInternal = rootEventFactoryInternal;
     this.nextEventFactoryInternal = nextEventFactoryInternal;
-    this.channelNameToChannelCacheMap = new HashMap<>();
+    this.instanceCache = InstanceCache.createInstanceCache();
   }
 
   @Override
   public Channel createChannel(String channelName) {
     ChannelInternal channelInternal = null;
-    if (!channelNameToChannelCacheMap.containsKey(channelName)) {
+    if (null == instanceCache.getChannelCache(channelName)) {
       channelInternal = (ChannelInternal) nextEventFactoryInternal.createChannel(channelName);
-      channelNameToChannelCacheMap.put(channelName, new ChannelCacheImp(channelInternal));
+      instanceCache.addChannelCache(channelName, channelInternal);
     } else {
-      channelInternal = channelNameToChannelCacheMap.get(channelName).getChannelInternal();
+      channelInternal = instanceCache.getChannelCache(channelName).getChannelInternal();
     }
     return channelInternal;
   }
@@ -40,7 +37,7 @@ final class EventFactoryInternalCacherImp implements EventFactoryInternal {
   @Override
   public Publisher createPublisher(Channel eventChannel) {
     Publisher newPublisher = nextEventFactoryInternal.createPublisher(eventChannel);
-    channelNameToChannelCacheMap.get(eventChannel.getName()).addPublisher(newPublisher);
+    getChannelCache(eventChannel).addPublisher(newPublisher);
     return newPublisher;
   }
 
@@ -55,12 +52,12 @@ final class EventFactoryInternalCacherImp implements EventFactoryInternal {
   }
 
   private ChannelCache getChannelCache(Channel eventChannel) {
-    return channelNameToChannelCacheMap.get(eventChannel.getName());
+    return instanceCache.getChannelCache(eventChannel.getName());
   }
 
   @Override
-  public ChannelCache getChannelCache(String channelName) {
-    return channelNameToChannelCacheMap.get(channelName);
+  public InstanceCache getInstanceCache() {
+    return instanceCache;
   }
 
   @Override

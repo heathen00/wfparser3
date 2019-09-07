@@ -34,12 +34,12 @@ final class EventFactoryInternalRootImp implements EventFactoryInternal {
   }
 
   @Override
-  public ChannelCache getChannelCache(String channelName) {
-    return nextEventFactoryInternal.getChannelCache(channelName);
+  public EventFactoryInternal getRootEventFactoryInternal() {
+    return this;
   }
 
   @Override
-  public EventFactoryInternal getRootEventFactoryInternal() {
-    return this;
+  public InstanceCache getInstanceCache() {
+    return nextEventFactoryInternal.getInstanceCache();
   }
 }

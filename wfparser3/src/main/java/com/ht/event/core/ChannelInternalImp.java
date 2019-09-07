@@ -12,6 +12,10 @@ final class ChannelInternalImp implements ChannelInternal {
     this.channelName = channelName;
   }
 
+  private ChannelCache getChannelCache() {
+    return eventFactoryInternal.getInstanceCache().getChannelCache(getName());
+  }
+
   @Override
   public String getName() {
     return channelName;
@@ -19,17 +23,17 @@ final class ChannelInternalImp implements ChannelInternal {
 
   @Override
   public List<Event> getEventList() {
-    return eventFactoryInternal.getChannelCache(getName()).getEventList();
+    return getChannelCache().getEventList();
   }
 
   @Override
   public List<Subscriber> getSubscriberList() {
-    return eventFactoryInternal.getChannelCache(getName()).getSubscriberList();
+    return getChannelCache().getSubscriberList();
   }
 
   @Override
   public List<Publisher> getPublisherList() {
-    return eventFactoryInternal.getChannelCache(getName()).getPublisherList();
+    return getChannelCache().getPublisherList();
   }
 
   @Override
@@ -37,8 +41,7 @@ final class ChannelInternalImp implements ChannelInternal {
     if (!isEnabled()) {
       throw new UnsupportedOperationException("cannot publish events unless channel enabled");
     }
-    for (SubscriberPublished subscriber : eventFactoryInternal.getChannelCache(getName())
-        .getSubscriberList()) {
+    for (SubscriberPublished subscriber : getChannelCache().getSubscriberList()) {
       subscriber.processPublishEvent(event);
     }
   }
@@ -48,8 +51,7 @@ final class ChannelInternalImp implements ChannelInternal {
     if (!isEnabled()) {
       throw new UnsupportedOperationException("cannot unpublish events unless channel enabled");
     }
-    for (SubscriberPublished subscriber : eventFactoryInternal.getChannelCache(getName())
-        .getSubscriberList()) {
+    for (SubscriberPublished subscriber : getChannelCache().getSubscriberList()) {
       subscriber.processUnpublishEvent(event);
     }
   }

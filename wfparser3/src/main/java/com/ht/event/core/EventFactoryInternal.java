@@ -1,7 +1,7 @@
 package com.ht.event.core;
 
 interface EventFactoryInternal extends EventFactory {
-  ChannelCache getChannelCache(String channelName);
+  InstanceCache getInstanceCache();
 
   EventFactoryInternal getRootEventFactoryInternal();
 }

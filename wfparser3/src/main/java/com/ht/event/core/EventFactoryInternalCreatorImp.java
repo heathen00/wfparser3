@@ -33,12 +33,12 @@ final class EventFactoryInternalCreatorImp implements EventFactoryInternal {
   }
 
   @Override
-  public ChannelCache getChannelCache(String channelName) {
-    throw new UnsupportedOperationException("EventFactory creator does not cache instances");
+  public EventFactoryInternal getRootEventFactoryInternal() {
+    return rootEventFactoryInternal;
   }
 
   @Override
-  public EventFactoryInternal getRootEventFactoryInternal() {
-    return rootEventFactoryInternal;
+  public InstanceCache getInstanceCache() {
+    throw new UnsupportedOperationException("EventFactory creator does not cache instances");
   }
 }
