@@ -4,7 +4,7 @@ final class EventFactoryInternalRootImp implements EventFactoryInternal {
   private final EventFactoryInternal nextEventFactoryInternal;
 
   EventFactoryInternalRootImp() {
-    nextEventFactoryInternal = new EventFactoryInternalValidatorImp(this,
+    nextEventFactoryInternal = new EventFactoryInternalParameterValidatorImp(this,
         new EventFactoryInternalCacherImp(this, new EventFactoryInternalCreatorImp(this)));
   }
 

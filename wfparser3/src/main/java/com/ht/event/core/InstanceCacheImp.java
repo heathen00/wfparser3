@@ -19,4 +19,16 @@ final class InstanceCacheImp implements InstanceCache {
   public void addChannelCache(String channelName, ChannelInternal channelInternal) {
     channelNameToChannelCacheMap.put(channelName, new ChannelCacheImp(channelInternal));
   }
+
+  @Override
+  public ChannelInternal getChannelInternalForSubscriber(Subscriber eventSubscriber) {
+    ChannelInternal subscribersChannel = null;
+    for (String channelName : channelNameToChannelCacheMap.keySet()) {
+      if (channelNameToChannelCacheMap.get(channelName).getSubscriberList()
+          .contains(eventSubscriber)) {
+        subscribersChannel = channelNameToChannelCacheMap.get(channelName).getChannelInternal();
+      }
+    }
+    return subscribersChannel;
+  }
 }

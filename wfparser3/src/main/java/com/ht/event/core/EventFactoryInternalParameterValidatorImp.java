@@ -2,11 +2,11 @@ package com.ht.event.core;
 
 import java.security.InvalidParameterException;
 
-final class EventFactoryInternalValidatorImp implements EventFactoryInternal {
+final class EventFactoryInternalParameterValidatorImp implements EventFactoryInternal {
   private final EventFactoryInternal rootEventFactoryInternal;
   private final EventFactoryInternal nextEventFactoryInternal;
 
-  EventFactoryInternalValidatorImp(EventFactoryInternal rootEventFactoryInternal,
+  EventFactoryInternalParameterValidatorImp(EventFactoryInternal rootEventFactoryInternal,
       EventFactoryInternal nextEventFactoryInternal) {
     this.rootEventFactoryInternal = rootEventFactoryInternal;
     this.nextEventFactoryInternal = nextEventFactoryInternal;
@@ -18,7 +18,7 @@ final class EventFactoryInternalValidatorImp implements EventFactoryInternal {
     }
   }
 
-  private void ensureChannelEnabled(Channel eventChannel, String message) {
+  private void ensureChannelDisabled(Channel eventChannel, String message) {
     if (eventChannel.isEnabled()) {
       throw new UnsupportedOperationException(message);
     }
@@ -39,13 +39,6 @@ final class EventFactoryInternalValidatorImp implements EventFactoryInternal {
     }
   }
 
-
-  private void ensureSubscriberNotAlreadySubscribedToAnotherChannel(Channel eventChannel,
-      Subscriber eventSubscriber) {
-    // TODO not implemented.
-
-  }
-
   @Override
   public Channel createChannel(String channelName) {
     ensureParameterNotNull("channelName", channelName);
@@ -57,7 +50,7 @@ final class EventFactoryInternalValidatorImp implements EventFactoryInternal {
   public Event createEvent(Channel eventChannel, String eventFamily, String eventName) {
     ensureParameterNotNull("eventChannel", eventChannel);
     ensureExpectedImplementation("eventChannel", ChannelInternal.class, eventChannel);
-    ensureChannelEnabled(eventChannel, "cannot create events after enabling channel");
+    ensureChannelDisabled(eventChannel, "cannot create events after enabling channel");
     ensureParameterNotNull("eventFamily", eventFamily);
     ensureExpectedNamingConvention("eventFamily", eventFamily);
     ensureParameterNotNull("eventName", eventName);
@@ -69,7 +62,7 @@ final class EventFactoryInternalValidatorImp implements EventFactoryInternal {
   public Publisher createPublisher(Channel eventChannel) {
     ensureParameterNotNull("eventChannel", eventChannel);
     ensureExpectedImplementation("eventChannel", ChannelInternal.class, eventChannel);
-    ensureChannelEnabled(eventChannel, "cannot create publishers after enabling channel");
+    ensureChannelDisabled(eventChannel, "cannot create publishers after enabling channel");
     return nextEventFactoryInternal.createPublisher(eventChannel);
   }
 
@@ -77,9 +70,8 @@ final class EventFactoryInternalValidatorImp implements EventFactoryInternal {
   public void addSubscriber(Channel eventChannel, Subscriber eventSubscriber) {
     ensureParameterNotNull("eventChannel", eventChannel);
     ensureExpectedImplementation("eventChannel", ChannelInternal.class, eventChannel);
-    ensureChannelEnabled(eventChannel, "cannot add subscribers after enabling channel");
+    ensureChannelDisabled(eventChannel, "cannot add subscribers after enabling channel");
     ensureParameterNotNull("eventSubscriber", eventSubscriber);
-    ensureSubscriberNotAlreadySubscribedToAnotherChannel(eventChannel, eventSubscriber);
     nextEventFactoryInternal.addSubscriber(eventChannel, eventSubscriber);
   }
 
