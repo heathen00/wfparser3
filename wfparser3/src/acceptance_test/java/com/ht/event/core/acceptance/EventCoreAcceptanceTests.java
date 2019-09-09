@@ -5,25 +5,21 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-
+import java.security.InvalidParameterException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import com.ht.event.core.AssertEventCore;
 import com.ht.event.core.Channel;
 import com.ht.event.core.Event;
 import com.ht.event.core.EventFactory;
 import com.ht.event.core.Publisher;
 import com.ht.event.core.Subscriber;
-
-import java.security.InvalidParameterException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 public class EventCoreAcceptanceTests {
 
@@ -365,7 +361,7 @@ public class EventCoreAcceptanceTests {
   @Test
   public void EventCore_publishEventOnChannelBeforeEnablingChannel_unsupportedOperationExceptionIsThrown() {
     thrown.expect(UnsupportedOperationException.class);
-    thrown.expectMessage("cannot publish events unless channel enabled");
+    thrown.expectMessage("channel is not enabled");
 
     Channel channel = eventFactory.createChannel("disabled.channel");
     Event event = eventFactory.createEvent(channel, "test.family", "test.name");
@@ -378,7 +374,7 @@ public class EventCoreAcceptanceTests {
   @Test
   public void EventCore_unpublishEventOnChannelBeforeEnablingChannel_unsupportedOperationExceptionIsThrown() {
     thrown.expect(UnsupportedOperationException.class);
-    thrown.expectMessage("cannot unpublish events unless channel enabled");
+    thrown.expectMessage("channel is not enabled");
 
     Channel channel = eventFactory.createChannel("disabled.channel");
     Event event = eventFactory.createEvent(channel, "test.family", "test.name");
@@ -476,29 +472,136 @@ public class EventCoreAcceptanceTests {
   }
 
   @Test
-  @Ignore("not worked on yet")
   public void EventCore_publishSameValidEventTwice_subscriberOnlyNotifiedOfEventOnce() {
-    fail("not implemented yet");
+    final int expectedSubscriberProcessedPublishedEventsSize = 1;
+    Channel channel = eventFactory.createChannel("test.channel");
+    Event event = eventFactory.createEvent(channel, "test.family", "test.name");
+    String expectedEventFullyQualifiedName = event.getFullyQualifiedName();
+    Publisher publisher = eventFactory.createPublisher(channel);
+    List<String> subscriberProcessedPublishedEvents = new ArrayList<>();
+    Subscriber subscriber = new Subscriber() {
+
+      @Override
+      public void processPublishEvent(Event event) {
+        subscriberProcessedPublishedEvents.add(event.getFullyQualifiedName());
+      }
+
+      @Override
+      public void processUnpublishEvent(Event event) {
+        fail("should not receive unpublish event");
+      }
+    };
+    eventFactory.addSubscriber(channel, subscriber);
+    eventFactory.enableChannel(channel);
+
+    publisher.publish(event);
+    publisher.publish(event);
+
+    assertEquals(expectedSubscriberProcessedPublishedEventsSize,
+        subscriberProcessedPublishedEvents.size());
+    assertEquals(expectedEventFullyQualifiedName, subscriberProcessedPublishedEvents.get(0));
   }
 
   @Test
-  @Ignore("not worked on yet")
+  public void EventCore_unpublishSameValidEventTwice_subscriberOnlyNotifiedOfUnbpublishOnce() {
+    final int expectedSubscriberProcessedUnpublishedEventsSize = 1;
+    Channel channel = eventFactory.createChannel("test.channel");
+    Event event = eventFactory.createEvent(channel, "test.family", "test.name");
+    String expectedEventFullyQualifiedName = event.getFullyQualifiedName();
+    Publisher publisher = eventFactory.createPublisher(channel);
+    List<String> subscriberProcessedUnpublishedEvents = new ArrayList<>();
+    Subscriber subscriber = new Subscriber() {
+
+      @Override
+      public void processPublishEvent(Event event) {}
+
+      @Override
+      public void processUnpublishEvent(Event event) {
+        subscriberProcessedUnpublishedEvents.add(event.getFullyQualifiedName());
+
+      }
+    };
+    eventFactory.addSubscriber(channel, subscriber);
+    eventFactory.enableChannel(channel);
+    publisher.publish(event);
+
+    publisher.unpublish(event);
+    publisher.unpublish(event);
+
+    assertEquals(expectedSubscriberProcessedUnpublishedEventsSize,
+        subscriberProcessedUnpublishedEvents.size());
+    assertEquals(expectedEventFullyQualifiedName, subscriberProcessedUnpublishedEvents.get(0));
+  }
+
+  @Test
   public void EventCore_publishEventFromOneChannelToAnotherChannel_unsupportedOperationExceptionIsThrown() {
-    fail("not implemented yet");
+    thrown.expect(UnsupportedOperationException.class);
+    thrown.expectMessage(" is not defined in this channel");
+    Channel channelOne = eventFactory.createChannel("test.channel.one");
+    Channel channelTwo = eventFactory.createChannel("test.channel.two");
+    Event eventForChannelOne = eventFactory.createEvent(channelOne, "test.family", "test.name");
+    eventFactory.createEvent(channelTwo, "test.family", "test.name");
+    Publisher publisherForChannelTwo = eventFactory.createPublisher(channelTwo);
+    eventFactory.enableChannel(channelTwo);
+
+    publisherForChannelTwo.publish(eventForChannelOne);
   }
 
   @Test
-  @Ignore("not worked on yet")
+  public void EventCore_unpublishEventFromOneChannelInAnotherChannel_unsupportedOperationExceptionIsThrown() {
+    thrown.expect(UnsupportedOperationException.class);
+    thrown.expectMessage(" is not defined in this channel");
+    Channel channelOne = eventFactory.createChannel("test.channel.one");
+    Channel channelTwo = eventFactory.createChannel("test.channel.two");
+    Event eventForChannelOne = eventFactory.createEvent(channelOne, "test.family", "test.name");
+    eventFactory.createEvent(channelTwo, "test.family", "test.name");
+    Publisher publisherForChannelTwo = eventFactory.createPublisher(channelTwo);
+    eventFactory.enableChannel(channelTwo);
+
+    publisherForChannelTwo.unpublish(eventForChannelOne);
+  }
+
+  @Test
   public void EventCore_unpublishEventThatWasNeverPublished_subscribersReceiveNoNotification() {
-    fail("not implemented yet");
+    final int expectedSubscriberProcessedUnpublishedEventsSize = 0;
+    Channel channel = eventFactory.createChannel("test.channel");
+    Event event = eventFactory.createEvent(channel, "test.family", "test.name");
+    Publisher publisher = eventFactory.createPublisher(channel);
+    List<String> subscriberProcessedUnpublishedEvents = new ArrayList<>();
+    Subscriber subscriber = new Subscriber() {
+
+      @Override
+      public void processPublishEvent(Event event) {}
+
+      @Override
+      public void processUnpublishEvent(Event event) {
+        subscriberProcessedUnpublishedEvents.add(event.getFullyQualifiedName());
+
+      }
+    };
+    eventFactory.addSubscriber(channel, subscriber);
+    eventFactory.enableChannel(channel);
+
+    publisher.unpublish(event);
+
+    assertEquals(expectedSubscriberProcessedUnpublishedEventsSize,
+        subscriberProcessedUnpublishedEvents.size());
   }
 
   /*
    * Rough list of test scenarios:
    * 
    * !!! MORE TEST SCENARIOS!!!: creating Event instances with different combinations of Channel,
-   * 
    * Family, and Name to ensure they are handle properly, i.e. unique / not unique, as appropriate.
+   * 
+   * !!! MORE TEST SCENARIOS!!!: The factories are no longer singletons. What if you use an instance
+   * of ANY of the classes in EventCore from one factory in another factory?
+   * 
+   * !!! MORE TEST SCENARIOS!!!: Publish event, unpublish event, then publish event again. Ensure
+   * that the event is successfully published, unpublished, then published again.
+   * 
+   * !!! MORE TEST SCENARIOS!!! What if the subscriber process of publish / unpublish event throws
+   * an exception?
    * 
    * publish event with a subject. Event with subject is received by subscribers in channel.
    * 

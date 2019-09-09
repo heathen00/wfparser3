@@ -1,15 +1,33 @@
 package com.ht.event.core;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 final class ChannelInternalImp implements ChannelInternal {
   private final EventFactoryInternal eventFactoryInternal;
   private final String channelName;
+  private final Set<Event> publishedEventSet;
   private boolean isEnabled;
 
   ChannelInternalImp(EventFactoryInternal eventFactoryInternal, String channelName) {
     this.eventFactoryInternal = eventFactoryInternal;
     this.channelName = channelName;
+    publishedEventSet = new HashSet<>();
+    isEnabled = false;
+  }
+
+  private void ensureChannelIsEnabled() {
+    if (!isEnabled()) {
+      throw new UnsupportedOperationException("channel is not enabled");
+    }
+  }
+
+  private void ensureEventDefinedInChannel(Event event) {
+    if (!getChannelCache().getEventList().contains(event)) {
+      throw new UnsupportedOperationException(
+          "event " + event.getFullyQualifiedName() + " is not defined in this channel");
+    }
   }
 
   private ChannelCache getChannelCache() {
@@ -38,22 +56,28 @@ final class ChannelInternalImp implements ChannelInternal {
 
   @Override
   public void publish(Event event) {
-    if (!isEnabled()) {
-      throw new UnsupportedOperationException("cannot publish events unless channel enabled");
+    ensureChannelIsEnabled();
+    ensureEventDefinedInChannel(event);
+    if (publishedEventSet.contains(event)) {
+      return;
     }
     for (SubscriberPublished subscriber : getChannelCache().getSubscriberList()) {
       subscriber.processPublishEvent(event);
     }
+    publishedEventSet.add(event);
   }
 
   @Override
   public void unpublish(Event event) {
-    if (!isEnabled()) {
-      throw new UnsupportedOperationException("cannot unpublish events unless channel enabled");
+    ensureChannelIsEnabled();
+    ensureEventDefinedInChannel(event);
+    if (!publishedEventSet.contains(event)) {
+      return;
     }
     for (SubscriberPublished subscriber : getChannelCache().getSubscriberList()) {
       subscriber.processUnpublishEvent(event);
     }
+    publishedEventSet.remove(event);
   }
 
   @Override
