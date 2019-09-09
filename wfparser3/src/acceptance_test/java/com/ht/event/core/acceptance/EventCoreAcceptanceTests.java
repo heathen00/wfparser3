@@ -11,6 +11,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -588,33 +589,79 @@ public class EventCoreAcceptanceTests {
         subscriberProcessedUnpublishedEvents.size());
   }
 
+  @Test
+  public void EventCore_publishEventWithNullSubject_nullPointerExceptionIsThrown() {
+    fail("not implemented yet");
+  }
+
+  @Test
+  @Ignore("not worked on yet")
+  public void EventCore_unpublishEventWithNullSubject_nullPointerExceptionIsThrown() {
+    fail("not implemented yet");
+  }
+
+  @Test
+  @Ignore("not worked on yet")
+  public void EventCore_publishValidEventWithValidSubject_publishEventWithSubjectReceivedBySubscribers() {
+    fail("not implemented yet");
+  }
+
+  @Test
+  @Ignore("not worked on yet")
+  public void EventCore_unpublishValidPublishedEventWithValidSubject_unpublishEventWithSubjectReceivedBySubscribers() {
+    fail("not implemented yet");
+  }
+
+  @Test
+  @Ignore("not worked on yet")
+  public void EventCore_publishSameEventWithSameSubjectTwice_publishEventWithSubjectReceivedOnceBySubscribers() {
+    fail("not implemented yet");
+  }
+
+  @Test
+  @Ignore("not worked on yet")
+  public void EventCore_unpublishSamePublishedEventWithSameSubjectTwice_unpublishEventWithSubjectReceivedOnceBySubscribers() {
+    fail("not implemented yet");
+  }
+
+  @Test
+  @Ignore("not worked on yet")
+  public void EventCore_publishSameEventWithDifferentSubjects_publishForAllTheSameEventsWithDifferentSubjectsReceivedBySubscribers() {
+    fail("not implemented yet");
+  }
+
+  @Test
+  @Ignore("not worked on yet")
+  public void EventCore_unpublishSameEventWithDifferentSubjects_unpublishForAllTheSameEventsWithDifferentSubjectsReceivedBySubscribers() {
+    fail("not implemented yet");
+  }
+
+  @Test
+  @Ignore("not worked on yet")
+  public void EventCore_publishDifferentEventsWithTheSameSubjects_publishForAllDifferentEventsWithTheSameSubjectsReceivedBySubscribers() {
+    fail("not implemented yet");
+  }
+
+  @Test
+  @Ignore("not worked on yet")
+  public void EventCore_unpublishDifferentEventsWithTheSameSubjects_unpublishForAllDifferentEventsWithTheSameSubjectsReceivedBySubscribers() {
+    fail("not implemented yet");
+  }
+
+  @Test
+  @Ignore("not worked on yet")
+  public void EventCore_publishEventWithSubjectAndWithNoSubject_publishForBothEventWithSubjectAndNoSubjectReceivedBySubscribers() {
+    fail("not implemented yet");
+  }
+
+  @Test
+  @Ignore("not worked on yet")
+  public void EventCore_unpublishEventWithSubjectAndWithNoSubject_unpublishForBothEventWithSubjectAndNoSubjectReceivedBySubscribers() {
+    fail("not implemented yet");
+  }
+
   /*
    * Rough list of test scenarios:
-   * 
-   * !!! MORE TEST SCENARIOS!!!: creating Event instances with different combinations of Channel,
-   * Family, and Name to ensure they are handle properly, i.e. unique / not unique, as appropriate.
-   * 
-   * !!! MORE TEST SCENARIOS!!!: The factories are no longer singletons. What if you use an instance
-   * of ANY of the classes in EventCore from one factory in another factory?
-   * 
-   * !!! MORE TEST SCENARIOS!!!: Publish event, unpublish event, then publish event again. Ensure
-   * that the event is successfully published, unpublished, then published again.
-   * 
-   * !!! MORE TEST SCENARIOS!!! What if the subscriber process of publish / unpublish event throws
-   * an exception?
-   * 
-   * publish event with a subject. Event with subject is received by subscribers in channel.
-   * 
-   * publish event with a null subject. Same behaviour as publishing event without subject.
-   * 
-   * publish same event with same subject multiple times. Event with subject is received by
-   * subscribers only once.
-   * 
-   * publish same event with different subjects multiple times. Event with different subjects
-   * received by subscribers as many times as there are different subjects.
-   * 
-   * publish different event with same subject multiple times. All events with the same subject are
-   * received by subscribers.
    * 
    * Register multiple publishers and have them all publish different events. Ensure all events are
    * published.
@@ -638,6 +685,18 @@ public class EventCoreAcceptanceTests {
    * publisher are unpublished. All events that are exclusive to the second publisher are NOT
    * unpublished. All events that are shared between the first and second publisher are NOT
    * unpublished.
+   * 
+   * !!! MORE TEST SCENARIOS!!!: creating Event instances with different combinations of Channel,
+   * Family, and Name to ensure they are handle properly, i.e. unique / not unique, as appropriate.
+   * 
+   * !!! MORE TEST SCENARIOS!!!: The factories are no longer singletons. What if you use an instance
+   * of ANY of the classes in EventCore from one factory in another factory?
+   * 
+   * !!! MORE TEST SCENARIOS!!!: Publish event, unpublish event, then publish event again. Ensure
+   * that the event is successfully published, unpublished, then published again.
+   * 
+   * !!! MORE TEST SCENARIOS!!! What if the subscriber process of publish / unpublish event throws
+   * an exception?
    * 
    * Also, it would be useful for testing and debugging to get a list of published events and who
    * published them. Maybe a single method to get an event report for a given channel that lists all
