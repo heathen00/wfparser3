@@ -2,6 +2,7 @@ package com.ht.event.core.acceptance;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -20,6 +21,8 @@ import com.ht.event.core.Channel;
 import com.ht.event.core.Event;
 import com.ht.event.core.EventFactory;
 import com.ht.event.core.Publisher;
+import com.ht.event.core.Subject;
+import com.ht.event.core.SubjectStub;
 import com.ht.event.core.Subscriber;
 
 public class EventCoreAcceptanceTests {
@@ -67,6 +70,10 @@ public class EventCoreAcceptanceTests {
         throw new UnsupportedOperationException("method not supported by stub");
       }
     };
+  }
+
+  private Subject createSubjectStub(String subjectName) {
+    return new SubjectStub(subjectName);
   }
 
   @Before
@@ -590,20 +597,119 @@ public class EventCoreAcceptanceTests {
   }
 
   @Test
+  public void EventCore_publishNullEvent_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("event cannot be null");
+    Channel channel = eventFactory.createChannel("test.channel");
+    eventFactory.createEvent(channel, "test.family", "test.name");
+    Publisher publisher = eventFactory.createPublisher(channel);
+    Subscriber subscriber = createSubscriberStub();
+    eventFactory.addSubscriber(channel, subscriber);
+    eventFactory.enableChannel(channel);
+
+    publisher.publish(null);
+  }
+
+  @Test
+  public void EventCore_unpublishNullEvent_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("event cannot be null");
+    Channel channel = eventFactory.createChannel("test.channel");
+    eventFactory.createEvent(channel, "test.family", "test.name");
+    Publisher publisher = eventFactory.createPublisher(channel);
+    Subscriber subscriber = createSubscriberStub();
+    eventFactory.addSubscriber(channel, subscriber);
+    eventFactory.enableChannel(channel);
+
+    publisher.unpublish(null);
+  }
+
+  @Test
   public void EventCore_publishEventWithNullSubject_nullPointerExceptionIsThrown() {
-    fail("not implemented yet");
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("subject cannot be null");
+    Channel channel = eventFactory.createChannel("test.channel");
+    Event event = eventFactory.createEvent(channel, "test.family", "test.name");
+    Publisher publisher = eventFactory.createPublisher(channel);
+    Subscriber subscriber = createSubscriberStub();
+    eventFactory.addSubscriber(channel, subscriber);
+    eventFactory.enableChannel(channel);
+
+    publisher.publish(event, (Subject) null);
   }
 
   @Test
-  @Ignore("not worked on yet")
   public void EventCore_unpublishEventWithNullSubject_nullPointerExceptionIsThrown() {
-    fail("not implemented yet");
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("subject cannot be null");
+    Channel channel = eventFactory.createChannel("test.channel");
+    Event event = eventFactory.createEvent(channel, "test.family", "test.name");
+    Publisher publisher = eventFactory.createPublisher(channel);
+    Subscriber subscriber = createSubscriberStub();
+    eventFactory.addSubscriber(channel, subscriber);
+    eventFactory.enableChannel(channel);
+
+    publisher.unpublish(event, (Subject) null);
   }
 
   @Test
-  @Ignore("not worked on yet")
+  public void EventCore_publishNullEventWithValidSubject_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("event cannot be null");
+    Channel channel = eventFactory.createChannel("test.channel");
+    Publisher publisher = eventFactory.createPublisher(channel);
+    Subscriber subscriber = createSubscriberStub();
+    eventFactory.addSubscriber(channel, subscriber);
+    eventFactory.enableChannel(channel);
+
+    publisher.publish(null, createSubjectStub("test.subject"));
+  }
+
+  @Test
+  public void EventCore_unpublishNullEventWithValidSubject_nullPointerExceptionIsThrown() {
+    thrown.expect(NullPointerException.class);
+    thrown.expectMessage("event cannot be null");
+    Channel channel = eventFactory.createChannel("test.channel");
+    Publisher publisher = eventFactory.createPublisher(channel);
+    Subscriber subscriber = createSubscriberStub();
+    eventFactory.addSubscriber(channel, subscriber);
+    eventFactory.enableChannel(channel);
+
+    publisher.unpublish(null, createSubjectStub("test.subject"));
+  }
+
+  @Test
+  @Ignore("YOU ARE HERE: But refactoring is needed to proceed")
   public void EventCore_publishValidEventWithValidSubject_publishEventWithSubjectReceivedBySubscribers() {
-    fail("not implemented yet");
+    int expectedProcessedPubishedEventsSize = 1;
+    Channel channel = eventFactory.createChannel("test.channel");
+    Event event = eventFactory.createEvent(channel, "test.family", "test.name");
+    Subject subject = createSubjectStub("test.subject");
+    Publisher publisher = eventFactory.createPublisher(channel);
+    List<Event> processedPublishedEvents = new ArrayList<>();
+    Subscriber subscriber = new Subscriber() {
+
+      @Override
+      public void processPublishEvent(Event event) {
+        processedPublishedEvents.add(event);
+      }
+
+      @Override
+      public void processUnpublishEvent(Event event) {
+        fail("should not receive event unpublish");
+      }
+
+    };
+    eventFactory.addSubscriber(channel, subscriber);
+    eventFactory.enableChannel(channel);
+
+    publisher.publish(event, subject);
+
+    assertEquals(expectedProcessedPubishedEventsSize, processedPublishedEvents.size());
+    assertEquals(subject, processedPublishedEvents.get(0).getSubject());
+    assertEquals(event.getFullyQualifiedName(),
+        processedPublishedEvents.get(0).getFullyQualifiedName());
+    assertNotEquals(event, processedPublishedEvents.get(0));
   }
 
   @Test

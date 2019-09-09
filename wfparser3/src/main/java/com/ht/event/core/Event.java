@@ -8,4 +8,6 @@ public interface Event extends Comparable<Event> {
   String getName();
 
   String getFullyQualifiedName();
+
+  Subject getSubject();
 }

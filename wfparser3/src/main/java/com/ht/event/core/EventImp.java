@@ -69,4 +69,10 @@ public final class EventImp implements Event {
   public String toString() {
     return "EventImp [getFullyQualifiedName()=" + getFullyQualifiedName() + "]";
   }
+
+  @Override
+  public Subject getSubject() {
+    // TODO Auto-generated method stub
+    return null;
+  }
 }

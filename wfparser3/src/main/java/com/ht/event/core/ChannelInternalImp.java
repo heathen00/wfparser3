@@ -17,6 +17,12 @@ final class ChannelInternalImp implements ChannelInternal {
     isEnabled = false;
   }
 
+  private void ensureParameterIsNotNull(String parameterName, Object parameter) {
+    if (null == parameter) {
+      throw new NullPointerException(parameterName + " cannot be null");
+    }
+  }
+
   private void ensureChannelIsEnabled() {
     if (!isEnabled()) {
       throw new UnsupportedOperationException("channel is not enabled");
@@ -56,6 +62,7 @@ final class ChannelInternalImp implements ChannelInternal {
 
   @Override
   public void publish(Event event) {
+    ensureParameterIsNotNull("event", event);
     ensureChannelIsEnabled();
     ensureEventDefinedInChannel(event);
     if (publishedEventSet.contains(event)) {
@@ -68,7 +75,14 @@ final class ChannelInternalImp implements ChannelInternal {
   }
 
   @Override
+  public void publish(Event event, Subject subject) {
+    ensureParameterIsNotNull("event", event);
+    ensureParameterIsNotNull("subject", subject);
+  }
+
+  @Override
   public void unpublish(Event event) {
+    ensureParameterIsNotNull("event", event);
     ensureChannelIsEnabled();
     ensureEventDefinedInChannel(event);
     if (!publishedEventSet.contains(event)) {
@@ -78,6 +92,12 @@ final class ChannelInternalImp implements ChannelInternal {
       subscriber.processUnpublishEvent(event);
     }
     publishedEventSet.remove(event);
+  }
+
+  @Override
+  public void unpublish(Event event, Subject subject) {
+    ensureParameterIsNotNull("event", event);
+    ensureParameterIsNotNull("subject", subject);
   }
 
   @Override

@@ -72,4 +72,10 @@ final class EventForComparisonImp implements Event {
   public String toString() {
     return "EventForComparisonImp [getFullyQualifiedName()=" + getFullyQualifiedName() + "]";
   }
+
+  @Override
+  public Subject getSubject() {
+    // TODO Auto-generated method stub
+    return null;
+  }
 }
