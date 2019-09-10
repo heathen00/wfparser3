@@ -7,7 +7,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import java.security.InvalidParameterException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -685,7 +684,6 @@ public class EventCoreAcceptanceTests {
     Subject subject = createSubjectStub("test.subject");
     Publisher publisher = eventFactory.createPublisher(channel);
     eventFactory.addSubscriber(channel, countingSubscriberStub);
-
     eventFactory.enableChannel(channel);
     publisher.publish(event, subject);
 
@@ -703,51 +701,254 @@ public class EventCoreAcceptanceTests {
   }
 
   @Test
-  @Ignore("not worked on yet")
   public void EventCore_publishSameEventWithSameSubjectTwice_publishEventWithSubjectReceivedOnceBySubscribers() {
-    fail("not implemented yet");
+    int expectedProcessedPublishedEventsSize = 1;
+    Channel channel = eventFactory.createChannel("test.channel");
+    Event event = eventFactory.createEvent(channel, "test.family", "test.name");
+    Subject subject = createSubjectStub("test.subject");
+    Publisher publisher = eventFactory.createPublisher(channel);
+    eventFactory.addSubscriber(channel, countingSubscriberStub);
+    eventFactory.enableChannel(channel);
+
+    publisher.publish(event, subject);
+    publisher.publish(event, subject);
+
+    assertEquals(expectedProcessedPublishedEventsSize,
+        countingSubscriberStub.getProcessedPublishedEventList().size());
+    assertEquals(subject,
+        countingSubscriberStub.getProcessedPublishedEventList().get(0).getSubject());
+    assertTrue(
+        countingSubscriberStub.getProcessedPublishedEventList().get(0).getSubject().isDefined());
+    assertEquals(event.getFullyQualifiedName(),
+        countingSubscriberStub.getProcessedPublishedEventList().get(0).getFullyQualifiedName());
+    assertNotEquals(event, countingSubscriberStub.getProcessedPublishedEventList().get(0));
   }
 
   @Test
-  @Ignore("not worked on yet")
   public void EventCore_unpublishSamePublishedEventWithSameSubjectTwice_unpublishEventWithSubjectReceivedOnceBySubscribers() {
-    fail("not implemented yet");
+    int expectedProcessedUnpublishedEventsSize = 1;
+    Channel channel = eventFactory.createChannel("test.channel");
+    Event event = eventFactory.createEvent(channel, "test.family", "test.name");
+    Subject subject = createSubjectStub("test.subject");
+    Publisher publisher = eventFactory.createPublisher(channel);
+    eventFactory.addSubscriber(channel, countingSubscriberStub);
+    eventFactory.enableChannel(channel);
+    publisher.publish(event, subject);
+
+    publisher.unpublish(event, subject);
+    publisher.unpublish(event, subject);
+
+    assertEquals(expectedProcessedUnpublishedEventsSize,
+        countingSubscriberStub.getProcessedUnpublishedEventList().size());
+    assertEquals(subject,
+        countingSubscriberStub.getProcessedUnpublishedEventList().get(0).getSubject());
+    assertTrue(
+        countingSubscriberStub.getProcessedUnpublishedEventList().get(0).getSubject().isDefined());
+    assertEquals(event.getFullyQualifiedName(),
+        countingSubscriberStub.getProcessedUnpublishedEventList().get(0).getFullyQualifiedName());
+    assertNotEquals(event, countingSubscriberStub.getProcessedUnpublishedEventList().get(0));
   }
 
   @Test
-  @Ignore("not worked on yet")
   public void EventCore_publishSameEventWithDifferentSubjects_publishForAllTheSameEventsWithDifferentSubjectsReceivedBySubscribers() {
-    fail("not implemented yet");
+    int expectedProcessedPublishedEventsSize = 2;
+    Channel channel = eventFactory.createChannel("test.channel");
+    Event event = eventFactory.createEvent(channel, "test.family", "test.name");
+    Subject subjectOne = createSubjectStub("test.subject.one");
+    Subject subjectTwo = createSubjectStub("test.subject.two");
+    Publisher publisher = eventFactory.createPublisher(channel);
+    eventFactory.addSubscriber(channel, countingSubscriberStub);
+    eventFactory.enableChannel(channel);
+
+    publisher.publish(event, subjectOne);
+    publisher.publish(event, subjectTwo);
+
+    assertEquals(expectedProcessedPublishedEventsSize,
+        countingSubscriberStub.getProcessedPublishedEventList().size());
+    assertEquals(subjectOne,
+        countingSubscriberStub.getProcessedPublishedEventList().get(0).getSubject());
+    assertTrue(
+        countingSubscriberStub.getProcessedPublishedEventList().get(0).getSubject().isDefined());
+    assertEquals(event.getFullyQualifiedName(),
+        countingSubscriberStub.getProcessedPublishedEventList().get(0).getFullyQualifiedName());
+    assertNotEquals(event, countingSubscriberStub.getProcessedPublishedEventList().get(0));
+
+    assertEquals(subjectTwo,
+        countingSubscriberStub.getProcessedPublishedEventList().get(1).getSubject());
+    assertTrue(
+        countingSubscriberStub.getProcessedPublishedEventList().get(1).getSubject().isDefined());
+    assertEquals(event.getFullyQualifiedName(),
+        countingSubscriberStub.getProcessedPublishedEventList().get(1).getFullyQualifiedName());
+    assertNotEquals(event, countingSubscriberStub.getProcessedPublishedEventList().get(1));
   }
 
   @Test
-  @Ignore("not worked on yet")
   public void EventCore_unpublishSameEventWithDifferentSubjects_unpublishForAllTheSameEventsWithDifferentSubjectsReceivedBySubscribers() {
-    fail("not implemented yet");
+    int expectedProcessedUnpublishedEventsSize = 2;
+    Channel channel = eventFactory.createChannel("test.channel");
+    Event event = eventFactory.createEvent(channel, "test.family", "test.name");
+    Subject subjectOne = createSubjectStub("test.subject.one");
+    Subject subjectTwo = createSubjectStub("test.subject.two");
+    Publisher publisher = eventFactory.createPublisher(channel);
+    eventFactory.addSubscriber(channel, countingSubscriberStub);
+    eventFactory.enableChannel(channel);
+    publisher.publish(event, subjectOne);
+    publisher.publish(event, subjectTwo);
+
+    publisher.unpublish(event, subjectOne);
+    publisher.unpublish(event, subjectTwo);
+
+    assertEquals(expectedProcessedUnpublishedEventsSize,
+        countingSubscriberStub.getProcessedUnpublishedEventList().size());
+    assertEquals(subjectOne,
+        countingSubscriberStub.getProcessedUnpublishedEventList().get(0).getSubject());
+    assertTrue(
+        countingSubscriberStub.getProcessedUnpublishedEventList().get(0).getSubject().isDefined());
+    assertEquals(event.getFullyQualifiedName(),
+        countingSubscriberStub.getProcessedUnpublishedEventList().get(0).getFullyQualifiedName());
+    assertNotEquals(event, countingSubscriberStub.getProcessedUnpublishedEventList().get(0));
+
+    assertEquals(subjectTwo,
+        countingSubscriberStub.getProcessedUnpublishedEventList().get(1).getSubject());
+    assertTrue(
+        countingSubscriberStub.getProcessedUnpublishedEventList().get(1).getSubject().isDefined());
+    assertEquals(event.getFullyQualifiedName(),
+        countingSubscriberStub.getProcessedUnpublishedEventList().get(1).getFullyQualifiedName());
+    assertNotEquals(event, countingSubscriberStub.getProcessedUnpublishedEventList().get(1));
   }
 
   @Test
-  @Ignore("not worked on yet")
   public void EventCore_publishDifferentEventsWithTheSameSubjects_publishForAllDifferentEventsWithTheSameSubjectsReceivedBySubscribers() {
-    fail("not implemented yet");
+    int expectedProcessedPublishedEventsSize = 2;
+    Channel channel = eventFactory.createChannel("test.channel");
+    Event eventOne = eventFactory.createEvent(channel, "test.family", "test.name.one");
+    Event eventTwo = eventFactory.createEvent(channel, "test.family", "test.name.two");
+    Subject subject = createSubjectStub("test.subject");
+    Publisher publisher = eventFactory.createPublisher(channel);
+    eventFactory.addSubscriber(channel, countingSubscriberStub);
+    eventFactory.enableChannel(channel);
+
+    publisher.publish(eventOne, subject);
+    publisher.publish(eventTwo, subject);
+
+    assertEquals(expectedProcessedPublishedEventsSize,
+        countingSubscriberStub.getProcessedPublishedEventList().size());
+    assertEquals(subject,
+        countingSubscriberStub.getProcessedPublishedEventList().get(0).getSubject());
+    assertTrue(
+        countingSubscriberStub.getProcessedPublishedEventList().get(0).getSubject().isDefined());
+    assertEquals(eventOne.getFullyQualifiedName(),
+        countingSubscriberStub.getProcessedPublishedEventList().get(0).getFullyQualifiedName());
+    assertNotEquals(eventOne, countingSubscriberStub.getProcessedPublishedEventList().get(0));
+
+    assertEquals(subject,
+        countingSubscriberStub.getProcessedPublishedEventList().get(1).getSubject());
+    assertTrue(
+        countingSubscriberStub.getProcessedPublishedEventList().get(1).getSubject().isDefined());
+    assertEquals(eventTwo.getFullyQualifiedName(),
+        countingSubscriberStub.getProcessedPublishedEventList().get(1).getFullyQualifiedName());
+    assertNotEquals(eventTwo, countingSubscriberStub.getProcessedPublishedEventList().get(1));
   }
 
   @Test
-  @Ignore("not worked on yet")
   public void EventCore_unpublishDifferentEventsWithTheSameSubjects_unpublishForAllDifferentEventsWithTheSameSubjectsReceivedBySubscribers() {
-    fail("not implemented yet");
+    int expectedProcessedUnpublishedEventsSize = 2;
+    Channel channel = eventFactory.createChannel("test.channel");
+    Event eventOne = eventFactory.createEvent(channel, "test.family", "test.name.one");
+    Event eventTwo = eventFactory.createEvent(channel, "test.family", "test.name.two");
+    Subject subject = createSubjectStub("test.subject");
+    Publisher publisher = eventFactory.createPublisher(channel);
+    eventFactory.addSubscriber(channel, countingSubscriberStub);
+    eventFactory.enableChannel(channel);
+    publisher.publish(eventOne, subject);
+    publisher.publish(eventTwo, subject);
+
+    publisher.unpublish(eventOne, subject);
+    publisher.unpublish(eventTwo, subject);
+
+    assertEquals(expectedProcessedUnpublishedEventsSize,
+        countingSubscriberStub.getProcessedUnpublishedEventList().size());
+    assertEquals(subject,
+        countingSubscriberStub.getProcessedUnpublishedEventList().get(0).getSubject());
+    assertTrue(
+        countingSubscriberStub.getProcessedUnpublishedEventList().get(0).getSubject().isDefined());
+    assertEquals(eventOne.getFullyQualifiedName(),
+        countingSubscriberStub.getProcessedUnpublishedEventList().get(0).getFullyQualifiedName());
+    assertNotEquals(eventOne, countingSubscriberStub.getProcessedUnpublishedEventList().get(0));
+
+    assertEquals(subject,
+        countingSubscriberStub.getProcessedUnpublishedEventList().get(1).getSubject());
+    assertTrue(
+        countingSubscriberStub.getProcessedUnpublishedEventList().get(1).getSubject().isDefined());
+    assertEquals(eventTwo.getFullyQualifiedName(),
+        countingSubscriberStub.getProcessedUnpublishedEventList().get(1).getFullyQualifiedName());
+    assertNotEquals(eventTwo, countingSubscriberStub.getProcessedUnpublishedEventList().get(1));
   }
 
   @Test
-  @Ignore("not worked on yet")
   public void EventCore_publishEventWithSubjectAndWithNoSubject_publishForBothEventWithSubjectAndNoSubjectReceivedBySubscribers() {
-    fail("not implemented yet");
+    int expectedProcessedPublishedEventsSize = 2;
+    Channel channel = eventFactory.createChannel("test.channel");
+    Event event = eventFactory.createEvent(channel, "test.family", "test.name");
+    Subject subject = createSubjectStub("test.subject");
+    Publisher publisher = eventFactory.createPublisher(channel);
+    eventFactory.addSubscriber(channel, countingSubscriberStub);
+    eventFactory.enableChannel(channel);
+
+    publisher.publish(event, subject);
+    publisher.publish(event);
+
+    assertEquals(expectedProcessedPublishedEventsSize,
+        countingSubscriberStub.getProcessedPublishedEventList().size());
+    assertEquals(subject,
+        countingSubscriberStub.getProcessedPublishedEventList().get(0).getSubject());
+    assertTrue(
+        countingSubscriberStub.getProcessedPublishedEventList().get(0).getSubject().isDefined());
+    assertEquals(event.getFullyQualifiedName(),
+        countingSubscriberStub.getProcessedPublishedEventList().get(0).getFullyQualifiedName());
+    assertNotEquals(event, countingSubscriberStub.getProcessedPublishedEventList().get(0));
+
+    assertEquals(event.getSubject(),
+        countingSubscriberStub.getProcessedPublishedEventList().get(1).getSubject());
+    assertFalse(
+        countingSubscriberStub.getProcessedPublishedEventList().get(1).getSubject().isDefined());
+    assertEquals(event.getFullyQualifiedName(),
+        countingSubscriberStub.getProcessedPublishedEventList().get(1).getFullyQualifiedName());
+    assertEquals(event, countingSubscriberStub.getProcessedPublishedEventList().get(1));
   }
 
   @Test
-  @Ignore("not worked on yet")
   public void EventCore_unpublishEventWithSubjectAndWithNoSubject_unpublishForBothEventWithSubjectAndNoSubjectReceivedBySubscribers() {
-    fail("not implemented yet");
+    int expectedProcessedUnpublishedEventsSize = 2;
+    Channel channel = eventFactory.createChannel("test.channel");
+    Event event = eventFactory.createEvent(channel, "test.family", "test.name");
+    Subject subject = createSubjectStub("test.subject");
+    Publisher publisher = eventFactory.createPublisher(channel);
+    eventFactory.addSubscriber(channel, countingSubscriberStub);
+    eventFactory.enableChannel(channel);
+    publisher.publish(event, subject);
+    publisher.publish(event);
+
+    publisher.unpublish(event, subject);
+    publisher.unpublish(event);
+
+    assertEquals(expectedProcessedUnpublishedEventsSize,
+        countingSubscriberStub.getProcessedUnpublishedEventList().size());
+    assertEquals(subject,
+        countingSubscriberStub.getProcessedUnpublishedEventList().get(0).getSubject());
+    assertTrue(
+        countingSubscriberStub.getProcessedUnpublishedEventList().get(0).getSubject().isDefined());
+    assertEquals(event.getFullyQualifiedName(),
+        countingSubscriberStub.getProcessedUnpublishedEventList().get(0).getFullyQualifiedName());
+    assertNotEquals(event, countingSubscriberStub.getProcessedUnpublishedEventList().get(0));
+
+    assertEquals(event.getSubject(),
+        countingSubscriberStub.getProcessedUnpublishedEventList().get(1).getSubject());
+    assertFalse(
+        countingSubscriberStub.getProcessedUnpublishedEventList().get(1).getSubject().isDefined());
+    assertEquals(event.getFullyQualifiedName(),
+        countingSubscriberStub.getProcessedUnpublishedEventList().get(1).getFullyQualifiedName());
+    assertEquals(event, countingSubscriberStub.getProcessedUnpublishedEventList().get(1));
   }
 
   /*
