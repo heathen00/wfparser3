@@ -5,7 +5,7 @@ public final class EventInternalImp implements EventInternal {
   private final Channel channel;
   private final String family;
   private final String name;
-  private Subject subject;
+  private final Subject subject;
 
   EventInternalImp(EventFactoryInternal eventFactoryInternal, Channel eventChannel,
       String eventFamily, String eventName, Subject subject) {
@@ -14,6 +14,12 @@ public final class EventInternalImp implements EventInternal {
     this.family = eventFamily;
     this.name = eventName;
     this.subject = subject;
+  }
+
+  EventInternalImp(EventFactoryInternalCreatorImp eventFactoryInternalCreatorImp, Event event,
+      Subject subject) {
+    this(eventFactoryInternalCreatorImp, event.getChannel(), event.getFamily(), event.getName(),
+        subject);
   }
 
   @Override
@@ -73,10 +79,11 @@ public final class EventInternalImp implements EventInternal {
     }
     return compareTo;
   }
-
+  
   @Override
   public String toString() {
-    return "EventImp [getFullyQualifiedName()=" + getFullyQualifiedName() + "]";
+    return "EventInternalImp [getFullyQualifiedName()=" + getFullyQualifiedName()
+        + ", getSubject()=" + getSubject() + "]";
   }
 
   @Override
@@ -86,6 +93,6 @@ public final class EventInternalImp implements EventInternal {
 
   @Override
   public void setSubject(Subject subject) {
-    this.subject = subject;
+    throw new UnsupportedOperationException("cannot set subject in no subject event");
   }
 }

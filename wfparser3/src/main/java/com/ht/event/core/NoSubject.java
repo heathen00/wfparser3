@@ -5,7 +5,7 @@ final class NoSubject extends Subject {
 
   @Override
   public int compareTo(Subject o) {
-    return -1;
+    return (this == o ? 0 : -1);
   }
 
   @Override
@@ -15,7 +15,7 @@ final class NoSubject extends Subject {
 
   @Override
   public boolean equals(Object obj) {
-    return false;
+    return (this == obj ? true : false);
   }
 
   @Override

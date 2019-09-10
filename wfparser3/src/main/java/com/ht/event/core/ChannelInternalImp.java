@@ -78,6 +78,13 @@ final class ChannelInternalImp implements ChannelInternal {
   public void publish(Event event, Subject subject) {
     ensureParameterIsNotNull("event", event);
     ensureParameterIsNotNull("subject", subject);
+    Event eventWithSubject = eventFactoryInternal.createEvent(event, subject);
+    if (publishedEventSet.contains(eventWithSubject)) {
+      return;
+    }
+    for (SubscriberPublished subscriber : getChannelCache().getSubscriberList()) {
+      subscriber.processPublishEvent(eventWithSubject);
+    }
   }
 
   @Override
@@ -143,5 +150,10 @@ final class ChannelInternalImp implements ChannelInternal {
   @Override
   public int compareTo(Channel o) {
     return getName().compareTo(o.getName());
+  }
+
+  @Override
+  public EventFactoryInternal getEventFactoryInternal() {
+    return eventFactoryInternal;
   }
 }

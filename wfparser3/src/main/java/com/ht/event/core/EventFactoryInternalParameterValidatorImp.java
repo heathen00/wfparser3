@@ -59,6 +59,11 @@ final class EventFactoryInternalParameterValidatorImp implements EventFactoryInt
   }
 
   @Override
+  public Event createEvent(Event event, Subject subject) {
+    return nextEventFactoryInternal.createEvent(event, subject);
+  }
+
+  @Override
   public Publisher createPublisher(Channel eventChannel) {
     ensureParameterNotNull("eventChannel", eventChannel);
     ensureExpectedImplementation("eventChannel", ChannelInternal.class, eventChannel);
@@ -90,5 +95,10 @@ final class EventFactoryInternalParameterValidatorImp implements EventFactoryInt
   @Override
   public InstanceCache getInstanceCache() {
     return nextEventFactoryInternal.getInstanceCache();
+  }
+
+  @Override
+  public Subject getNoSubject() {
+    return nextEventFactoryInternal.getNoSubject();
   }
 }

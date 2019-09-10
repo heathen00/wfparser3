@@ -20,6 +20,9 @@ public final class SubjectStub extends Subject {
 
   @Override
   public boolean equals(Object obj) {
+    if (!SubjectStub.class.isInstance(obj)) {
+      return false;
+    }
     SubjectStub other = (SubjectStub) obj;
     return getSubjectName().equals(other.getSubjectName());
   }
@@ -31,5 +34,11 @@ public final class SubjectStub extends Subject {
   @Override
   public boolean isDefined() {
     return true;
+  }
+
+  @Override
+  public String toString() {
+    return "SubjectStub [subjectName=" + subjectName + ", getSubjectName()=" + getSubjectName()
+        + ", isDefined()=" + isDefined() + "]";
   }
 }

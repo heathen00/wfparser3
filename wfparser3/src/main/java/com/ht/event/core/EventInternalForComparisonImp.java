@@ -1,9 +1,10 @@
 package com.ht.event.core;
 
-final class EventForComparisonImp implements Event {
+final class EventInternalForComparisonImp implements EventInternal {
   private Channel channel;
   private String family;
   private String name;
+  private Subject subject;
 
   @Override
   public Channel getChannel() {
@@ -41,7 +42,7 @@ final class EventForComparisonImp implements Event {
   public int hashCode() {
     final int prime = 31;
     int result = 1;
-    result = prime * result + getFullyQualifiedName().hashCode();
+    result = prime * result + getFullyQualifiedName().hashCode() + getSubject().hashCode();
     return result;
   }
 
@@ -60,22 +61,35 @@ final class EventForComparisonImp implements Event {
     if (!getFullyQualifiedName().equals(other.getFullyQualifiedName())) {
       return false;
     }
+    if (!getSubject().equals(other.getSubject())) {
+      return false;
+    }
     return true;
   }
 
   @Override
   public int compareTo(Event o) {
-    return getFullyQualifiedName().compareTo(o.getFullyQualifiedName());
+    int compareTo = getFullyQualifiedName().compareTo(o.getFullyQualifiedName());
+    if (0 == compareTo) {
+      compareTo = getSubject().compareTo(o.getSubject());
+    }
+    return compareTo;
   }
+
 
   @Override
   public String toString() {
-    return "EventForComparisonImp [getFullyQualifiedName()=" + getFullyQualifiedName() + "]";
+    return "EventInternalForComparisonImp [getFullyQualifiedName()=" + getFullyQualifiedName()
+        + ", getSubject()=" + getSubject() + "]";
   }
 
   @Override
   public Subject getSubject() {
-    // TODO Auto-generated method stub
-    return null;
+    return subject;
+  }
+
+  @Override
+  public void setSubject(Subject subject) {
+    this.subject = subject;
   }
 }

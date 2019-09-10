@@ -35,6 +35,16 @@ final class EventFactoryInternalCacherImp implements EventFactoryInternal {
   }
 
   @Override
+  public Event createEvent(Event event, Subject subject) {
+    Event eventWithSubject = getChannelCache(event.getChannel()).getEvent(event, subject);
+    if (null == eventWithSubject) {
+      eventWithSubject = nextEventFactoryInternal.createEvent(event, subject);
+      getChannelCache(eventWithSubject.getChannel()).addEvent(eventWithSubject);
+    }
+    return eventWithSubject;
+  }
+
+  @Override
   public Publisher createPublisher(Channel eventChannel) {
     Publisher newPublisher = nextEventFactoryInternal.createPublisher(eventChannel);
     getChannelCache(eventChannel).addPublisher(newPublisher);
@@ -70,5 +80,10 @@ final class EventFactoryInternalCacherImp implements EventFactoryInternal {
   @Override
   public EventFactoryInternal getRootEventFactoryInternal() {
     return rootEventFactoryInternal;
+  }
+
+  @Override
+  public Subject getNoSubject() {
+    return nextEventFactoryInternal.getNoSubject();
   }
 }

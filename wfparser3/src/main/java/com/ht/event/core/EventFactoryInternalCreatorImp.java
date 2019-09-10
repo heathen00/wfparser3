@@ -20,6 +20,11 @@ final class EventFactoryInternalCreatorImp implements EventFactoryInternal {
   }
 
   @Override
+  public Event createEvent(Event event, Subject subject) {
+    return new EventInternalImp(this, event, subject);
+  }
+
+  @Override
   public Publisher createPublisher(Channel eventChannel) {
     return new PublisherImp(this, (ChannelInternal) eventChannel);
   }
@@ -44,7 +49,8 @@ final class EventFactoryInternalCreatorImp implements EventFactoryInternal {
     throw new UnsupportedOperationException("EventFactory creator does not cache instances");
   }
 
-  private Subject getNoSubject() {
+  @Override
+  public Subject getNoSubject() {
     return NO_SUBJECT_SINGLETON;
   }
 }

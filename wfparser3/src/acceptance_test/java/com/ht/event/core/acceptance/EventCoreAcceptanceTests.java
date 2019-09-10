@@ -437,9 +437,9 @@ public class EventCoreAcceptanceTests {
     final String expectedEventName = "test.name";
     final boolean expectedIsDefined = false;
     Channel expectedEventChannel = eventFactory.createChannel(expectedChannelName);
+
     Event firstEvent =
         eventFactory.createEvent(expectedEventChannel, expectedEventFamily, expectedEventName);
-
     Event secondEvent =
         eventFactory.createEvent(expectedEventChannel, expectedEventFamily, expectedEventName);
 
@@ -684,7 +684,6 @@ public class EventCoreAcceptanceTests {
   }
 
   @Test
-  @Ignore("YOU ARE HERE: But refactoring is needed to proceed")
   public void EventCore_publishValidEventWithValidSubject_publishEventWithSubjectReceivedBySubscribers() {
     int expectedProcessedPubishedEventsSize = 1;
     Channel channel = eventFactory.createChannel("test.channel");
@@ -717,6 +716,8 @@ public class EventCoreAcceptanceTests {
         processedPublishedEvents.get(0).getFullyQualifiedName());
     assertNotEquals(event, processedPublishedEvents.get(0));
   }
+
+  // Publish / Unpublish events with subjects when channel not enabled.
 
   @Test
   @Ignore("not worked on yet")

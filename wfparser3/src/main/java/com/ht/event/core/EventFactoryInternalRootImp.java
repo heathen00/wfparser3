@@ -19,6 +19,11 @@ final class EventFactoryInternalRootImp implements EventFactoryInternal {
   }
 
   @Override
+  public Event createEvent(Event event, Subject subject) {
+    return nextEventFactoryInternal.createEvent(event, subject);
+  }
+
+  @Override
   public Publisher createPublisher(Channel eventChannel) {
     return nextEventFactoryInternal.createPublisher(eventChannel);
   }
@@ -41,5 +46,10 @@ final class EventFactoryInternalRootImp implements EventFactoryInternal {
   @Override
   public InstanceCache getInstanceCache() {
     return nextEventFactoryInternal.getInstanceCache();
+  }
+
+  @Override
+  public Subject getNoSubject() {
+    return nextEventFactoryInternal.getNoSubject();
   }
 }
