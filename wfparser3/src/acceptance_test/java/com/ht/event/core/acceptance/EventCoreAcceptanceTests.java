@@ -684,6 +684,32 @@ public class EventCoreAcceptanceTests {
   }
 
   @Test
+  public void EventCore_publishEventWithSubjectWhenChannelNotEnabled_unsupportedOperationExceptionIsThrown() {
+    thrown.expect(UnsupportedOperationException.class);
+    thrown.expectMessage("channel is not enabled");
+    Channel channel = eventFactory.createChannel("test.channel");
+    Event event = eventFactory.createEvent(channel, "test.family", "test.name");
+    Publisher publisher = eventFactory.createPublisher(channel);
+    Subscriber subscriber = createSubscriberStub();
+    eventFactory.addSubscriber(channel, subscriber);
+
+    publisher.publish(event, createSubjectStub("test.subject"));
+  }
+
+  @Test
+  public void EventCore_unpublishEventWithSubjectWhenChannelNotEnabled_unsupportedOperationExceptionIsThrown() {
+    thrown.expect(UnsupportedOperationException.class);
+    thrown.expectMessage("channel is not enabled");
+    Channel channel = eventFactory.createChannel("test.channel");
+    Event event = eventFactory.createEvent(channel, "test.family", "test.name");
+    Publisher publisher = eventFactory.createPublisher(channel);
+    Subscriber subscriber = createSubscriberStub();
+    eventFactory.addSubscriber(channel, subscriber);
+
+    publisher.unpublish(event, createSubjectStub("test.subject"));
+  }
+
+  @Test
   public void EventCore_publishValidEventWithValidSubject_publishEventWithSubjectReceivedBySubscribers() {
     int expectedProcessedPubishedEventsSize = 1;
     Channel channel = eventFactory.createChannel("test.channel");
@@ -717,12 +743,37 @@ public class EventCoreAcceptanceTests {
     assertNotEquals(event, processedPublishedEvents.get(0));
   }
 
-  // Publish / Unpublish events with subjects when channel not enabled.
-
   @Test
-  @Ignore("not worked on yet")
   public void EventCore_unpublishValidPublishedEventWithValidSubject_unpublishEventWithSubjectReceivedBySubscribers() {
-    fail("not implemented yet");
+    int expectedProcessedUnpubishedEventsSize = 1;
+    Channel channel = eventFactory.createChannel("test.channel");
+    Event event = eventFactory.createEvent(channel, "test.family", "test.name");
+    Subject subject = createSubjectStub("test.subject");
+    Publisher publisher = eventFactory.createPublisher(channel);
+    List<Event> processedUnpublishedEvents = new ArrayList<>();
+    Subscriber subscriber = new Subscriber() {
+
+      @Override
+      public void processPublishEvent(Event event) {}
+
+      @Override
+      public void processUnpublishEvent(Event event) {
+        processedUnpublishedEvents.add(event);
+      }
+
+    };
+    eventFactory.addSubscriber(channel, subscriber);
+    eventFactory.enableChannel(channel);
+    publisher.publish(event, subject);
+
+    publisher.unpublish(event, subject);
+
+    assertEquals(expectedProcessedUnpubishedEventsSize, processedUnpublishedEvents.size());
+    assertEquals(subject, processedUnpublishedEvents.get(0).getSubject());
+    assertTrue(processedUnpublishedEvents.get(0).getSubject().isDefined());
+    assertEquals(event.getFullyQualifiedName(),
+        processedUnpublishedEvents.get(0).getFullyQualifiedName());
+    assertNotEquals(event, processedUnpublishedEvents.get(0));
   }
 
   @Test

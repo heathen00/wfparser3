@@ -78,6 +78,7 @@ final class ChannelInternalImp implements ChannelInternal {
   public void publish(Event event, Subject subject) {
     ensureParameterIsNotNull("event", event);
     ensureParameterIsNotNull("subject", subject);
+    ensureChannelIsEnabled();
     Event eventWithSubject = eventFactoryInternal.createEvent(event, subject);
     if (publishedEventSet.contains(eventWithSubject)) {
       return;
@@ -85,6 +86,7 @@ final class ChannelInternalImp implements ChannelInternal {
     for (SubscriberPublished subscriber : getChannelCache().getSubscriberList()) {
       subscriber.processPublishEvent(eventWithSubject);
     }
+    publishedEventSet.add(eventWithSubject);
   }
 
   @Override
@@ -105,6 +107,15 @@ final class ChannelInternalImp implements ChannelInternal {
   public void unpublish(Event event, Subject subject) {
     ensureParameterIsNotNull("event", event);
     ensureParameterIsNotNull("subject", subject);
+    ensureChannelIsEnabled();
+    Event eventWithSubject = eventFactoryInternal.createEvent(event, subject);
+    if (!publishedEventSet.contains(eventWithSubject)) {
+      return;
+    }
+    for (SubscriberPublished subscriber : getChannelCache().getSubscriberList()) {
+      subscriber.processUnpublishEvent(eventWithSubject);
+    }
+    publishedEventSet.remove(eventWithSubject);
   }
 
   @Override
