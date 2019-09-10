@@ -3,7 +3,6 @@ package com.ht.event.core;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-
 import java.util.List;
 
 public class AssertEventCore {
@@ -33,6 +32,11 @@ public class AssertEventCore {
 
   public void assertExpectedPublisher(Channel expectedChannel, Publisher publisher) {
     assertNotNull(publisher);
-    assertEquals(expectedChannel, publisher.getChannel());    
+    assertEquals(expectedChannel, publisher.getChannel());
+  }
+
+  public void assertExpectedSubject(boolean expectedIsDefined, Subject subject) {
+    assertNotNull(subject);
+    assertEquals(expectedIsDefined, subject.isDefined());
   }
 }

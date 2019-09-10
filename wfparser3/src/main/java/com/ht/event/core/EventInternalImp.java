@@ -1,17 +1,19 @@
 package com.ht.event.core;
 
-public final class EventImp implements Event {
+public final class EventInternalImp implements EventInternal {
   private final EventFactoryInternal eventFactoryInternal;
   private final Channel channel;
   private final String family;
   private final String name;
+  private Subject subject;
 
-  EventImp(EventFactoryInternal eventFactoryInternal, Channel eventChannel, String eventFamily,
-      String eventName) {
+  EventInternalImp(EventFactoryInternal eventFactoryInternal, Channel eventChannel,
+      String eventFamily, String eventName, Subject subject) {
     this.eventFactoryInternal = eventFactoryInternal;
     this.channel = eventChannel;
     this.family = eventFamily;
     this.name = eventName;
+    this.subject = subject;
   }
 
   @Override
@@ -38,7 +40,7 @@ public final class EventImp implements Event {
   public int hashCode() {
     final int prime = 31;
     int result = 1;
-    result = prime * result + getFullyQualifiedName().hashCode();
+    result = prime * result + getFullyQualifiedName().hashCode() + getSubject().hashCode();
     return result;
   }
 
@@ -57,12 +59,19 @@ public final class EventImp implements Event {
     if (!getFullyQualifiedName().equals(other.getFullyQualifiedName())) {
       return false;
     }
+    if (!getSubject().equals(other.getSubject())) {
+      return false;
+    }
     return true;
   }
 
   @Override
   public int compareTo(Event o) {
-    return getFullyQualifiedName().compareTo(o.getFullyQualifiedName());
+    int compareTo = getFullyQualifiedName().compareTo(o.getFullyQualifiedName());
+    if (0 == compareTo) {
+      compareTo = getSubject().compareTo(o.getSubject());
+    }
+    return compareTo;
   }
 
   @Override
@@ -72,7 +81,11 @@ public final class EventImp implements Event {
 
   @Override
   public Subject getSubject() {
-    // TODO Auto-generated method stub
-    return null;
+    return subject;
+  }
+
+  @Override
+  public void setSubject(Subject subject) {
+    this.subject = subject;
   }
 }

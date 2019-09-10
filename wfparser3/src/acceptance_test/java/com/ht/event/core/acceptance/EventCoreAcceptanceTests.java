@@ -110,6 +110,7 @@ public class EventCoreAcceptanceTests {
     final Channel expectedChannel = eventFactory.createChannel(expectedChannelName);
     final String expectedEventFamily = "test.family";
     final String expectedEventName = "test.name";
+    final boolean expectedIsDefined = false;
 
     Event event = eventFactory.createEvent(expectedChannel, expectedEventFamily, expectedEventName);
 
@@ -117,6 +118,7 @@ public class EventCoreAcceptanceTests {
         event);
     assertEventCore.assertExpectedChannel(expectedChannelName, expectedIsEnabled,
         Arrays.asList(event), expectedPublishersList, expectedSubscribersList, expectedChannel);
+    assertEventCore.assertExpectedSubject(expectedIsDefined, event.getSubject());
   }
 
   @Test
@@ -433,6 +435,7 @@ public class EventCoreAcceptanceTests {
     final List<Subscriber> expectedSubscribers = Collections.emptyList();
     final String expectedEventFamily = "test.family";
     final String expectedEventName = "test.name";
+    final boolean expectedIsDefined = false;
     Channel expectedEventChannel = eventFactory.createChannel(expectedChannelName);
     Event firstEvent =
         eventFactory.createEvent(expectedEventChannel, expectedEventFamily, expectedEventName);
@@ -442,8 +445,10 @@ public class EventCoreAcceptanceTests {
 
     assertEventCore.assertExpectedEvent(expectedEventChannel, expectedEventFamily,
         expectedEventName, firstEvent);
+    assertEventCore.assertExpectedSubject(expectedIsDefined, firstEvent.getSubject());
     assertEventCore.assertExpectedEvent(expectedEventChannel, expectedEventFamily,
         expectedEventName, secondEvent);
+    assertEventCore.assertExpectedSubject(expectedIsDefined, secondEvent.getSubject());
     assertEventCore.assertExpectedChannel(expectedChannelName, expectedIsChannelEnabled,
         Arrays.asList(firstEvent), expectedPublishersList, expectedSubscribers,
         expectedEventChannel);
@@ -707,6 +712,7 @@ public class EventCoreAcceptanceTests {
 
     assertEquals(expectedProcessedPubishedEventsSize, processedPublishedEvents.size());
     assertEquals(subject, processedPublishedEvents.get(0).getSubject());
+    assertTrue(processedPublishedEvents.get(0).getSubject().isDefined());
     assertEquals(event.getFullyQualifiedName(),
         processedPublishedEvents.get(0).getFullyQualifiedName());
     assertNotEquals(event, processedPublishedEvents.get(0));

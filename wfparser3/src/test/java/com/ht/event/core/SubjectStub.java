@@ -27,4 +27,9 @@ public final class SubjectStub extends Subject {
   String getSubjectName() {
     return subjectName;
   }
+
+  @Override
+  public boolean isDefined() {
+    return true;
+  }
 }

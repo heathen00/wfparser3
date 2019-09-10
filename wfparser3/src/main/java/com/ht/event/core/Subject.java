@@ -10,4 +10,6 @@ public abstract class Subject implements Comparable<Subject> {
 
   @Override
   public abstract boolean equals(Object obj);
+
+  public abstract boolean isDefined();
 }

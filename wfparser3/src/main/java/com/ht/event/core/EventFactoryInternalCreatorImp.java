@@ -1,6 +1,8 @@
 package com.ht.event.core;
 
 final class EventFactoryInternalCreatorImp implements EventFactoryInternal {
+  private static final Subject NO_SUBJECT_SINGLETON = new NoSubject();
+
   private final EventFactoryInternal rootEventFactoryInternal;
 
   public EventFactoryInternalCreatorImp(EventFactoryInternal rootEventFactoryInternal) {
@@ -14,7 +16,7 @@ final class EventFactoryInternalCreatorImp implements EventFactoryInternal {
 
   @Override
   public Event createEvent(Channel eventChannel, String eventFamily, String eventName) {
-    return new EventImp(this, eventChannel, eventFamily, eventName);
+    return new EventInternalImp(this, eventChannel, eventFamily, eventName, getNoSubject());
   }
 
   @Override
@@ -40,5 +42,9 @@ final class EventFactoryInternalCreatorImp implements EventFactoryInternal {
   @Override
   public InstanceCache getInstanceCache() {
     throw new UnsupportedOperationException("EventFactory creator does not cache instances");
+  }
+
+  private Subject getNoSubject() {
+    return NO_SUBJECT_SINGLETON;
   }
 }
