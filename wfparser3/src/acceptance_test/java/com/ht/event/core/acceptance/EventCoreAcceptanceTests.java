@@ -18,6 +18,7 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import com.ht.event.core.AssertEventCore;
 import com.ht.event.core.Channel;
+import com.ht.event.core.CountingSubscriberStub;
 import com.ht.event.core.Event;
 import com.ht.event.core.EventFactory;
 import com.ht.event.core.Publisher;
@@ -32,6 +33,7 @@ public class EventCoreAcceptanceTests {
 
   private EventFactory eventFactory;
   private AssertEventCore assertEventCore;
+  private CountingSubscriberStub countingSubscriberStub;
 
   private Subscriber createSubscriberStub() {
     return new Subscriber();
@@ -80,12 +82,14 @@ public class EventCoreAcceptanceTests {
   public void setup() {
     eventFactory = EventFactory.createFactory();
     assertEventCore = AssertEventCore.createAssertEventCore();
+    countingSubscriberStub = new CountingSubscriberStub();
   }
 
   @Test
   public void EventCore_createTestingAssets_testingAssetsCreated() {
     assertNotNull(eventFactory);
     assertNotNull(assertEventCore);
+    assertNotNull(countingSubscriberStub);
   }
 
   @Test
@@ -156,23 +160,13 @@ public class EventCoreAcceptanceTests {
     Channel channel = eventFactory.createChannel("test.channel");
     Event expectedEvent = eventFactory.createEvent(channel, "test.family", "test.name");
     Publisher publisher = eventFactory.createPublisher(channel);
-    List<String> expectedProcessedEventList = new ArrayList<>();
-    Subscriber subscriber = new Subscriber() {
+    eventFactory.addSubscriber(channel, countingSubscriberStub);
 
-      @Override
-      public void processPublishEvent(Event event) {
-        expectedProcessedEventList.add(event.getFullyQualifiedName());
-      }
-
-      @Override
-      public void processUnpublishEvent(Event event) {}
-    };
-    eventFactory.addSubscriber(channel, subscriber);
     eventFactory.enableChannel(channel);
 
     publisher.publish(expectedEvent);
 
-    assertTrue(expectedProcessedEventList.contains(expectedEvent.getFullyQualifiedName()));
+    assertTrue(countingSubscriberStub.getProcessedPublishedEventList().contains(expectedEvent));
   }
 
   @Test
@@ -180,27 +174,14 @@ public class EventCoreAcceptanceTests {
     Channel channel = eventFactory.createChannel("test.channel");
     Event expectedEvent = eventFactory.createEvent(channel, "test.family", "test.name");
     Publisher publisher = eventFactory.createPublisher(channel);
-    List<String> expectedProcessedEventList = new ArrayList<>();
-    Subscriber subscriber = new Subscriber() {
-
-      @Override
-      public void processUnpublishEvent(Event event) {
-        expectedProcessedEventList.remove(event.getFullyQualifiedName());
-      }
-
-      @Override
-      public void processPublishEvent(Event event) {
-        expectedProcessedEventList.add(event.getFullyQualifiedName());
-      }
-    };
-    eventFactory.addSubscriber(channel, subscriber);
+    eventFactory.addSubscriber(channel, countingSubscriberStub);
     eventFactory.enableChannel(channel);
 
     publisher.publish(expectedEvent);
-    assertTrue(expectedProcessedEventList.contains(expectedEvent.getFullyQualifiedName()));
+    assertTrue(countingSubscriberStub.getProcessedPublishedEventList().contains(expectedEvent));
 
     publisher.unpublish(expectedEvent);
-    assertFalse(expectedProcessedEventList.contains(expectedEvent.getFullyQualifiedName()));
+    assertTrue(countingSubscriberStub.getProcessedUnpublishedEventList().contains(expectedEvent));
   }
 
   @Test
@@ -491,28 +472,16 @@ public class EventCoreAcceptanceTests {
     Event event = eventFactory.createEvent(channel, "test.family", "test.name");
     String expectedEventFullyQualifiedName = event.getFullyQualifiedName();
     Publisher publisher = eventFactory.createPublisher(channel);
-    List<String> subscriberProcessedPublishedEvents = new ArrayList<>();
-    Subscriber subscriber = new Subscriber() {
-
-      @Override
-      public void processPublishEvent(Event event) {
-        subscriberProcessedPublishedEvents.add(event.getFullyQualifiedName());
-      }
-
-      @Override
-      public void processUnpublishEvent(Event event) {
-        fail("should not receive unpublish event");
-      }
-    };
-    eventFactory.addSubscriber(channel, subscriber);
+    eventFactory.addSubscriber(channel, countingSubscriberStub);
     eventFactory.enableChannel(channel);
 
     publisher.publish(event);
     publisher.publish(event);
 
     assertEquals(expectedSubscriberProcessedPublishedEventsSize,
-        subscriberProcessedPublishedEvents.size());
-    assertEquals(expectedEventFullyQualifiedName, subscriberProcessedPublishedEvents.get(0));
+        countingSubscriberStub.getProcessedPublishedEventList().size());
+    assertEquals(expectedEventFullyQualifiedName,
+        countingSubscriberStub.getProcessedPublishedEventList().get(0).getFullyQualifiedName());
   }
 
   @Test
@@ -522,28 +491,16 @@ public class EventCoreAcceptanceTests {
     Event event = eventFactory.createEvent(channel, "test.family", "test.name");
     String expectedEventFullyQualifiedName = event.getFullyQualifiedName();
     Publisher publisher = eventFactory.createPublisher(channel);
-    List<String> subscriberProcessedUnpublishedEvents = new ArrayList<>();
-    Subscriber subscriber = new Subscriber() {
-
-      @Override
-      public void processPublishEvent(Event event) {}
-
-      @Override
-      public void processUnpublishEvent(Event event) {
-        subscriberProcessedUnpublishedEvents.add(event.getFullyQualifiedName());
-
-      }
-    };
-    eventFactory.addSubscriber(channel, subscriber);
+    eventFactory.addSubscriber(channel, countingSubscriberStub);
     eventFactory.enableChannel(channel);
     publisher.publish(event);
 
     publisher.unpublish(event);
     publisher.unpublish(event);
-
     assertEquals(expectedSubscriberProcessedUnpublishedEventsSize,
-        subscriberProcessedUnpublishedEvents.size());
-    assertEquals(expectedEventFullyQualifiedName, subscriberProcessedUnpublishedEvents.get(0));
+        countingSubscriberStub.getProcessedUnpublishedEventList().size());
+    assertEquals(expectedEventFullyQualifiedName,
+        countingSubscriberStub.getProcessedUnpublishedEventList().get(0).getFullyQualifiedName());
   }
 
   @Test
@@ -580,25 +537,13 @@ public class EventCoreAcceptanceTests {
     Channel channel = eventFactory.createChannel("test.channel");
     Event event = eventFactory.createEvent(channel, "test.family", "test.name");
     Publisher publisher = eventFactory.createPublisher(channel);
-    List<String> subscriberProcessedUnpublishedEvents = new ArrayList<>();
-    Subscriber subscriber = new Subscriber() {
-
-      @Override
-      public void processPublishEvent(Event event) {}
-
-      @Override
-      public void processUnpublishEvent(Event event) {
-        subscriberProcessedUnpublishedEvents.add(event.getFullyQualifiedName());
-
-      }
-    };
-    eventFactory.addSubscriber(channel, subscriber);
+    eventFactory.addSubscriber(channel, countingSubscriberStub);
     eventFactory.enableChannel(channel);
 
     publisher.unpublish(event);
 
     assertEquals(expectedSubscriberProcessedUnpublishedEventsSize,
-        subscriberProcessedUnpublishedEvents.size());
+        countingSubscriberStub.getProcessedUnpublishedEventList().size());
   }
 
   @Test
@@ -716,31 +661,20 @@ public class EventCoreAcceptanceTests {
     Event event = eventFactory.createEvent(channel, "test.family", "test.name");
     Subject subject = createSubjectStub("test.subject");
     Publisher publisher = eventFactory.createPublisher(channel);
-    List<Event> processedPublishedEvents = new ArrayList<>();
-    Subscriber subscriber = new Subscriber() {
-
-      @Override
-      public void processPublishEvent(Event event) {
-        processedPublishedEvents.add(event);
-      }
-
-      @Override
-      public void processUnpublishEvent(Event event) {
-        fail("should not receive event unpublish");
-      }
-
-    };
-    eventFactory.addSubscriber(channel, subscriber);
+    eventFactory.addSubscriber(channel, countingSubscriberStub);
     eventFactory.enableChannel(channel);
 
     publisher.publish(event, subject);
 
-    assertEquals(expectedProcessedPubishedEventsSize, processedPublishedEvents.size());
-    assertEquals(subject, processedPublishedEvents.get(0).getSubject());
-    assertTrue(processedPublishedEvents.get(0).getSubject().isDefined());
+    assertEquals(expectedProcessedPubishedEventsSize,
+        countingSubscriberStub.getProcessedPublishedEventList().size());
+    assertEquals(subject,
+        countingSubscriberStub.getProcessedPublishedEventList().get(0).getSubject());
+    assertTrue(
+        countingSubscriberStub.getProcessedPublishedEventList().get(0).getSubject().isDefined());
     assertEquals(event.getFullyQualifiedName(),
-        processedPublishedEvents.get(0).getFullyQualifiedName());
-    assertNotEquals(event, processedPublishedEvents.get(0));
+        countingSubscriberStub.getProcessedPublishedEventList().get(0).getFullyQualifiedName());
+    assertNotEquals(event, countingSubscriberStub.getProcessedPublishedEventList().get(0));
   }
 
   @Test
@@ -750,30 +684,22 @@ public class EventCoreAcceptanceTests {
     Event event = eventFactory.createEvent(channel, "test.family", "test.name");
     Subject subject = createSubjectStub("test.subject");
     Publisher publisher = eventFactory.createPublisher(channel);
-    List<Event> processedUnpublishedEvents = new ArrayList<>();
-    Subscriber subscriber = new Subscriber() {
+    eventFactory.addSubscriber(channel, countingSubscriberStub);
 
-      @Override
-      public void processPublishEvent(Event event) {}
-
-      @Override
-      public void processUnpublishEvent(Event event) {
-        processedUnpublishedEvents.add(event);
-      }
-
-    };
-    eventFactory.addSubscriber(channel, subscriber);
     eventFactory.enableChannel(channel);
     publisher.publish(event, subject);
 
     publisher.unpublish(event, subject);
 
-    assertEquals(expectedProcessedUnpubishedEventsSize, processedUnpublishedEvents.size());
-    assertEquals(subject, processedUnpublishedEvents.get(0).getSubject());
-    assertTrue(processedUnpublishedEvents.get(0).getSubject().isDefined());
+    assertEquals(expectedProcessedUnpubishedEventsSize,
+        countingSubscriberStub.getProcessedUnpublishedEventList().size());
+    assertEquals(subject,
+        countingSubscriberStub.getProcessedUnpublishedEventList().get(0).getSubject());
+    assertTrue(
+        countingSubscriberStub.getProcessedUnpublishedEventList().get(0).getSubject().isDefined());
     assertEquals(event.getFullyQualifiedName(),
-        processedUnpublishedEvents.get(0).getFullyQualifiedName());
-    assertNotEquals(event, processedUnpublishedEvents.get(0));
+        countingSubscriberStub.getProcessedUnpublishedEventList().get(0).getFullyQualifiedName());
+    assertNotEquals(event, countingSubscriberStub.getProcessedUnpublishedEventList().get(0));
   }
 
   @Test
