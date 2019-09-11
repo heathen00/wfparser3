@@ -1269,16 +1269,52 @@ public class EventCoreAcceptanceTests {
         accumulatorSubscriberStub.getProcessedPublishedEventList().get(1));
   }
 
+  @Test
+  public void EventCore_multiplePublishersPublishOverlappingEventsAndOnePublisherUnpublishesOverlappingEvents_overlappingEventsNotUnpublishedUntilUnpublishedByAllPublishers() {
+    Channel channel = eventFactory.createChannel("test.channel");
+    Event eventFromPublisherOne =
+        eventFactory.createEvent(channel, "test.family", "event.from.publisher.one");
+    Event eventFromPublisherTwo =
+        eventFactory.createEvent(channel, "test.family", "event.from.publisher.two");
+    Event eventFromBothPublishers =
+        eventFactory.createEvent(channel, "test.family", "event.from.both.publishers");
+    Publisher publisherOne = eventFactory.createPublisher(channel);
+    Publisher publisherTwo = eventFactory.createPublisher(channel);
+    eventFactory.addSubscriber(channel, accumulatorSubscriberStub);
+    eventFactory.enableChannel(channel);
+    publisherOne.publish(eventFromPublisherOne);
+    publisherOne.publish(eventFromBothPublishers);
+    publisherTwo.publish(eventFromPublisherTwo);
+    publisherTwo.publish(eventFromBothPublishers);
+
+    // Ensure correct preconditions
+    assertEquals(3, accumulatorSubscriberStub.getProcessedPublishedEventList().size());
+    assertEventCore.assertExpectedEvent(eventFromPublisherOne,
+        accumulatorSubscriberStub.getProcessedPublishedEventList().get(0));
+    assertEventCore.assertExpectedEvent(eventFromBothPublishers,
+        accumulatorSubscriberStub.getProcessedPublishedEventList().get(1));
+    assertEventCore.assertExpectedEvent(eventFromPublisherTwo,
+        accumulatorSubscriberStub.getProcessedPublishedEventList().get(2));
+
+    publisherOne.unpublish(eventFromPublisherOne);
+    publisherOne.unpublish(eventFromBothPublishers);
+
+    assertEquals(1, accumulatorSubscriberStub.getProcessedUnpublishedEventList().size());
+    assertEventCore.assertExpectedEvent(eventFromPublisherOne,
+        accumulatorSubscriberStub.getProcessedUnpublishedEventList().get(0));
+
+    publisherTwo.unpublish(eventFromBothPublishers);
+
+    assertEquals(1, accumulatorSubscriberStub.getProcessedUnpublishedEventList().size());
+    assertEventCore.assertExpectedEvent(eventFromBothPublishers,
+        accumulatorSubscriberStub.getProcessedUnpublishedEventList().get(1));
+  }
+
 
   /*
    * Rough list of test scenarios:
    * 
-   * Register two publishers. First publisher publishes multiple events. Second publisher publishes
-   * multiple events. The first and second publishers share some events in common. First publisher
-   * requests to unpublish all its published events. All events that are exclusive to the first
-   * publisher are unpublished. All events that are exclusive to the second publisher are NOT
-   * unpublished. All events that are shared between the first and second publisher are NOT
-   * unpublished.
+   * !!! MORE TEST SCENARIOS !!!: A publisher attempts to unpublish an event from another publisher.
    * 
    * !!! MORE TEST SCENARIOS!!!: The factories are no longer singletons. What if you use an instance
    * of ANY of the classes in EventCore from one factory in another factory?
