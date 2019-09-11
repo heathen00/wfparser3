@@ -12,6 +12,14 @@ final class EventFactoryInternalCacherImp implements EventFactoryInternal {
     this.instanceCache = InstanceCache.createInstanceCache();
   }
 
+
+  private void ensureChannelBelongsToFactory(Channel eventChannel) {
+    if (null == instanceCache.getChannelCache(eventChannel.getName())) {
+      throw new UnsupportedOperationException(
+          "channel " + eventChannel.getName() + " does not exist in this factory");
+    }
+  }
+
   @Override
   public Channel createChannel(String channelName) {
     ChannelInternal channelInternal = null;
@@ -26,6 +34,7 @@ final class EventFactoryInternalCacherImp implements EventFactoryInternal {
 
   @Override
   public Event createEvent(Channel eventChannel, String eventFamily, String eventName) {
+    ensureChannelBelongsToFactory(eventChannel);
     Event event = getChannelCache(eventChannel).getEvent(eventChannel, eventFamily, eventName);
     if (null == event) {
       event = nextEventFactoryInternal.createEvent(eventChannel, eventFamily, eventName);
@@ -46,6 +55,7 @@ final class EventFactoryInternalCacherImp implements EventFactoryInternal {
 
   @Override
   public Publisher createPublisher(Channel eventChannel) {
+    ensureChannelBelongsToFactory(eventChannel);
     Publisher newPublisher = nextEventFactoryInternal.createPublisher(eventChannel);
     getChannelCache(eventChannel).addPublisher(newPublisher);
     return newPublisher;
@@ -53,6 +63,7 @@ final class EventFactoryInternalCacherImp implements EventFactoryInternal {
 
   @Override
   public void addSubscriber(Channel eventChannel, Subscriber eventSubscriber) {
+    ensureChannelBelongsToFactory(eventChannel);
     ChannelInternal subscribersCurrentChannelInternal =
         getInstanceCache().getChannelInternalForSubscriber(eventSubscriber);
     if (null != subscribersCurrentChannelInternal
@@ -65,6 +76,7 @@ final class EventFactoryInternalCacherImp implements EventFactoryInternal {
 
   @Override
   public void enableChannel(Channel eventChannel) {
+    ensureChannelBelongsToFactory(eventChannel);
     getChannelCache(eventChannel).getChannelInternal().enable();
   }
 
