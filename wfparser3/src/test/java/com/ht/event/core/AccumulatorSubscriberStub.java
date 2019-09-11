@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public final class CountingSubscriberStub extends Subscriber {
+public final class AccumulatorSubscriberStub extends Subscriber {
   private final List<Event> processedPublishedEventList;
   private final List<Event> processedUnpublishedEventList;
 
-  public CountingSubscriberStub() {
+  public AccumulatorSubscriberStub() {
     processedPublishedEventList = new ArrayList<>();
     processedUnpublishedEventList = new ArrayList<>();
   }
