@@ -1,9 +1,8 @@
 package com.ht.event.core;
 
 final class EventFactoryInternalCreatorImp implements EventFactoryInternal {
-  private static final Subject NO_SUBJECT_SINGLETON = new NoSubject();
-
   private final EventFactoryInternal rootEventFactoryInternal;
+  private final Subject noSubjectSingleton = new NoSubject();
 
   public EventFactoryInternalCreatorImp(EventFactoryInternal rootEventFactoryInternal) {
     this.rootEventFactoryInternal = rootEventFactoryInternal;
@@ -51,6 +50,6 @@ final class EventFactoryInternalCreatorImp implements EventFactoryInternal {
 
   @Override
   public Subject getNoSubject() {
-    return NO_SUBJECT_SINGLETON;
+    return noSubjectSingleton;
   }
 }

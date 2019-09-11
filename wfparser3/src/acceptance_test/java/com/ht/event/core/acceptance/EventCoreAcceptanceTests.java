@@ -4,11 +4,13 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import java.security.InvalidParameterException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -879,24 +881,74 @@ public class EventCoreAcceptanceTests {
     assertEventCore.assertExpectedEvent(expectedEvent, event);
   }
 
+  @Test
+  public void EventCore_multiplePublishersPublishDifferentEventsToOneSubscriber_allPublishedEventsReceivedBySubscriber() {
+    fail("not implemented");
+  }
+
+  @Test
+  @Ignore("not worked on yet")
+  public void EventCore_multiplePublishersUnpublishDifferentEventsToOneSubscriber_allUnpublishedEventsReceivedBySubscriber() {
+    fail("not implemented");
+  }
+
+  @Test
+  @Ignore("not worked on yet")
+  public void EventCore_multiplePublishersPublishSameEventToOneSubscriber_onePublishedEventReceivedBySubscriber() {
+    fail("not implemented");
+  }
+
+  @Test
+  @Ignore("not worked on yet")
+  public void EventCore_multiplePublishersUnpublishSameEventToOneSubscriber_oneUnpublishedEventReceivedBySubscriber() {
+    fail("not implemented");
+  }
+
+  @Test
+  @Ignore("not worked on yet")
+  public void EventCore_onePublisherPublishesOneEventToMultipleSubscribers_onePublishedEventReceivedByAllSubscribers() {
+    fail("not implemented");
+  }
+
+  @Test
+  @Ignore("not worked on yet")
+  public void EventCore_onePublisherUnpublishesOneEventToMultipleSubscribers_oneUnpublishedEventReceivedByAllSubscribers() {
+    fail("not implemented");
+  }
+
+  @Test
+  @Ignore("not worked on yet")
+  public void EventCore_multiplePublishersPublishDifferentEventsToMultipleSubscribers_allPublishedEventsReceivedByAllSubscribers() {
+    fail("not implemented");
+  }
+
+  @Test
+  @Ignore("not worked on yet")
+  public void EventCore_multiplePublishersUnpublishDifferentEventsToMultipleSubscribers_allUnpublishedEventsReceivedByAllSubscribers() {
+    fail("not implemented");
+  }
+
+  @Test
+  @Ignore("not worked on yet")
+  public void EventCore_multiplePublishersPublisheSameEventToMultipleSubscribers_onePublishedEventReceivedByAllSubscribers() {
+    fail("not implemented");
+  }
+
+  @Test
+  @Ignore("not worked on yet")
+  public void EventCore_multiplePublishersUnpublisheSameEventToMultipleSubscribers_oneUnpublishedEventReceivedByAllSubscribers() {
+    fail("not implemented");
+  }
+
+  @Test
+  @Ignore("not worked on yet")
+  public void EventCore_publisherPublishesEventUnpublishesEventThenPublishesEventAgain_oneEachOfPublishedUnpublishedAndPublishedEventReceivedBySubscriber() {
+    fail("not implemented");
+  }
+
+
   /*
    * Rough list of test scenarios:
-   * 
-   * Register multiple publishers and have them all publish different events. Ensure all events are
-   * published.
-   * 
-   * Register multiple publishers and have them all publish the same event. Ensure the event is only
-   * published once.
-   * 
-   * Register multiple subscribers and have the publisher publish an event. Ensure all subscribers
-   * receive the event.
-   * 
-   * Register multiple subscribers and multiple publishers and have the publishers send multiple
-   * events. Ensure all events are sent.
-   * 
-   * Register two subscribers. Publish a number of events. First subscriber requests a resend of all
-   * published events. First subscriber receives all published events in the order they were
-   * originally sent. Second subscriber does not.
    * 
    * Register two publishers. First publisher publishes multiple events. Second publisher publishes
    * multiple events. The first and second publishers share some events in common. First publisher
@@ -905,17 +957,19 @@ public class EventCoreAcceptanceTests {
    * unpublished. All events that are shared between the first and second publisher are NOT
    * unpublished.
    * 
-   * !!! MORE TEST SCENARIOS!!!: creating Event instances with different combinations of Channel,
-   * Family, and Name to ensure they are handle properly, i.e. unique / not unique, as appropriate.
-   * 
    * !!! MORE TEST SCENARIOS!!!: The factories are no longer singletons. What if you use an instance
    * of ANY of the classes in EventCore from one factory in another factory?
    * 
-   * !!! MORE TEST SCENARIOS!!!: Publish event, unpublish event, then publish event again. Ensure
-   * that the event is successfully published, unpublished, then published again.
+   * !!! MORE TEST SCENARIOS!!!: creating Event instances with different combinations of Channel,
+   * Family, and Name to ensure they are handle properly, i.e. unique / not unique, as appropriate.
+   * Similar For Channel.
    * 
    * !!! MORE TEST SCENARIOS!!! What if the subscriber process of publish / unpublish event throws
    * an exception?
+   * 
+   * Register two subscribers. Publish a number of events. First subscriber requests a resend of all
+   * published events. First subscriber receives all published events in the order they were
+   * originally sent. Second subscriber does not.
    * 
    * Also, it would be useful for testing and debugging to get a list of published events and who
    * published them. Maybe a single method to get an event report for a given channel that lists all
