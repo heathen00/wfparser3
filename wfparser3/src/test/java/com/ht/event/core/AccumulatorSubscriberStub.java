@@ -8,7 +8,7 @@ public final class AccumulatorSubscriberStub extends Subscriber {
   private final List<Event> processedPublishedEventList;
   private final List<Event> processedUnpublishedEventList;
 
-  public AccumulatorSubscriberStub() {
+  AccumulatorSubscriberStub() {
     processedPublishedEventList = new ArrayList<>();
     processedUnpublishedEventList = new ArrayList<>();
   }
@@ -29,6 +29,10 @@ public final class AccumulatorSubscriberStub extends Subscriber {
 
   public List<Event> getProcessedUnpublishedEventList() {
     return Collections.unmodifiableList(processedUnpublishedEventList);
+  }
+
+  public static AccumulatorSubscriberStub createAccumulatorSubscriber() {
+    return new AccumulatorSubscriberStub();
   }
 }
 
