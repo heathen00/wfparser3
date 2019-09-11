@@ -1346,17 +1346,56 @@ public class EventCoreAcceptanceTests {
     assertEquals(0, accumulatorSubscriberStub.getProcessedUnpublishedEventList().size());
   }
 
+  @Test
+  public void createEventUsingChannelFromAnotherFactoryInstance_unsupportedOperationExceptionIsThrown() {
+    thrown.expect(UnsupportedOperationException.class);
+    thrown.expectMessage(" does not exist in this factory");
+    EventFactory eventFactoryOne = EventFactory.createFactory();
+    EventFactory eventFactoryTwo = EventFactory.createFactory();
+    Channel channel = eventFactoryOne.createChannel("test.channel");
+
+    eventFactoryTwo.createEvent(channel, "test.family", "test.name");
+  }
+
+  @Test
+  public void createPublisherUsingChannelFromAnotherFactoryInstance_unsupportedOperationExceptionIsThrown() {
+    thrown.expect(UnsupportedOperationException.class);
+    thrown.expectMessage(" does not exist in this factory");
+    EventFactory eventFactoryOne = EventFactory.createFactory();
+    EventFactory eventFactoryTwo = EventFactory.createFactory();
+    Channel channel = eventFactoryOne.createChannel("test.channel");
+
+    eventFactoryTwo.createPublisher(channel);
+  }
+
+  @Test
+  public void addSubscriberUsingChannelFromAnotherFactoryInstance_unsupportedOperationExceptionIsThrown() {
+    thrown.expect(UnsupportedOperationException.class);
+    thrown.expectMessage(" does not exist in this factory");
+    EventFactory eventFactoryOne = EventFactory.createFactory();
+    EventFactory eventFactoryTwo = EventFactory.createFactory();
+    Channel channel = eventFactoryOne.createChannel("test.channel");
+
+    eventFactoryTwo.addSubscriber(channel, accumulatorSubscriberStub);
+  }
+
+  @Test
+  public void enableChannelFromAnotherFactoryInstance_unsupportedOperationExceptionIsThrown() {
+    thrown.expect(UnsupportedOperationException.class);
+    thrown.expectMessage(" does not exist in this factory");
+    EventFactory eventFactoryOne = EventFactory.createFactory();
+    EventFactory eventFactoryTwo = EventFactory.createFactory();
+    Channel channel = eventFactoryOne.createChannel("test.channel");
+
+    eventFactoryTwo.enableChannel(channel);
+  }
 
   /*
    * Rough list of test scenarios:
    * 
-   * 
-   * !!! MORE TEST SCENARIOS!!!: The factories are no longer singletons. What if you use an instance
-   * of ANY of the classes in EventCore from one factory in another factory?
-   * 
    * !!! MORE TEST SCENARIOS!!!: creating Event instances with different combinations of Channel,
    * Family, and Name to ensure they are handle properly, i.e. unique / not unique, as appropriate.
-   * Similar For Channel.
+   * Similar For Channel. Different factories.
    * 
    * !!! MORE TEST SCENARIOS!!! What if the subscriber process of publish / unpublish event throws
    * an exception?
