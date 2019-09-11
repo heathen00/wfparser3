@@ -16,21 +16,21 @@ public final class PublisherImp implements Publisher {
 
   @Override
   public void publish(Event event) {
-    eventChannelInternal.publish(event);
+    eventChannelInternal.publish(this, event);
   }
 
   @Override
   public void publish(Event event, Subject subject) {
-    eventChannelInternal.publish(event, subject);
+    eventChannelInternal.publish(this, event, subject);
   }
 
   @Override
   public void unpublish(Event event) {
-    eventChannelInternal.unpublish(event);
+    eventChannelInternal.unpublish(this, event);
   }
 
   @Override
   public void unpublish(Event event, Subject subject) {
-    eventChannelInternal.unpublish(event, subject);
+    eventChannelInternal.unpublish(this, event, subject);
   }
 }

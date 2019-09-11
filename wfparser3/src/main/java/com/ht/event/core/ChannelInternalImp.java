@@ -1,19 +1,21 @@
 package com.ht.event.core;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 final class ChannelInternalImp implements ChannelInternal {
   private final EventFactoryInternal eventFactoryInternal;
   private final String channelName;
-  private final Set<Event> publishedEventSet;
+  private final Map<Event, Set<Publisher>> publishedEventToPublisherMap;
   private boolean isEnabled;
 
   ChannelInternalImp(EventFactoryInternal eventFactoryInternal, String channelName) {
     this.eventFactoryInternal = eventFactoryInternal;
     this.channelName = channelName;
-    publishedEventSet = new HashSet<>();
+    publishedEventToPublisherMap = new HashMap<>();
     isEnabled = false;
   }
 
@@ -61,61 +63,87 @@ final class ChannelInternalImp implements ChannelInternal {
   }
 
   @Override
-  public void publish(Event event) {
+  public void publish(Publisher publisher, Event event) {
     ensureParameterIsNotNull("event", event);
     ensureChannelIsEnabled();
     ensureEventDefinedInChannel(event);
-    if (publishedEventSet.contains(event)) {
+    if (publishedEventToPublisherMap.containsKey(event)) {
+      publishedEventToPublisherMap.get(event).add(publisher);
       return;
     }
     for (SubscriberPublished subscriber : getChannelCache().getSubscriberList()) {
       subscriber.processPublishEvent(event);
     }
-    publishedEventSet.add(event);
+    if (!publishedEventToPublisherMap.containsKey(event)) {
+      publishedEventToPublisherMap.put(event, new HashSet<>());
+    }
+    publishedEventToPublisherMap.get(event).add(publisher);
   }
 
   @Override
-  public void publish(Event event, Subject subject) {
+  public void publish(Publisher publisher, Event event, Subject subject) {
     ensureParameterIsNotNull("event", event);
     ensureParameterIsNotNull("subject", subject);
     ensureChannelIsEnabled();
     Event eventWithSubject = eventFactoryInternal.createEvent(event, subject);
-    if (publishedEventSet.contains(eventWithSubject)) {
+    if (publishedEventToPublisherMap.containsKey(eventWithSubject)) {
+      publishedEventToPublisherMap.get(eventWithSubject).add(publisher);
       return;
     }
     for (SubscriberPublished subscriber : getChannelCache().getSubscriberList()) {
       subscriber.processPublishEvent(eventWithSubject);
     }
-    publishedEventSet.add(eventWithSubject);
+    if (!publishedEventToPublisherMap.containsKey(eventWithSubject)) {
+      publishedEventToPublisherMap.put(eventWithSubject, new HashSet<>());
+    }
+    publishedEventToPublisherMap.get(eventWithSubject).add(publisher);
   }
 
   @Override
-  public void unpublish(Event event) {
+  public void unpublish(Publisher publisher, Event event) {
     ensureParameterIsNotNull("event", event);
     ensureChannelIsEnabled();
     ensureEventDefinedInChannel(event);
-    if (!publishedEventSet.contains(event)) {
+    if (!publishedEventToPublisherMap.containsKey(event)
+        || !publishedEventToPublisherMap.get(event).contains(publisher)) {
+      return;
+    }
+    if (1 < publishedEventToPublisherMap.get(event).size()
+        && publishedEventToPublisherMap.get(event).contains(publisher)) {
+      publishedEventToPublisherMap.get(event).remove(publisher);
       return;
     }
     for (SubscriberPublished subscriber : getChannelCache().getSubscriberList()) {
       subscriber.processUnpublishEvent(event);
     }
-    publishedEventSet.remove(event);
+    publishedEventToPublisherMap.get(event).remove(publisher);
+    if (0 == publishedEventToPublisherMap.get(event).size()) {
+      publishedEventToPublisherMap.remove(event);
+    }
   }
 
   @Override
-  public void unpublish(Event event, Subject subject) {
+  public void unpublish(Publisher publisher, Event event, Subject subject) {
     ensureParameterIsNotNull("event", event);
     ensureParameterIsNotNull("subject", subject);
     ensureChannelIsEnabled();
     Event eventWithSubject = eventFactoryInternal.createEvent(event, subject);
-    if (!publishedEventSet.contains(eventWithSubject)) {
+    if (!publishedEventToPublisherMap.containsKey(eventWithSubject)
+        || !publishedEventToPublisherMap.get(eventWithSubject).contains(publisher)) {
+      return;
+    }
+    if (1 < publishedEventToPublisherMap.get(eventWithSubject).size()
+        && publishedEventToPublisherMap.get(eventWithSubject).contains(publisher)) {
+      publishedEventToPublisherMap.get(eventWithSubject).remove(publisher);
       return;
     }
     for (SubscriberPublished subscriber : getChannelCache().getSubscriberList()) {
       subscriber.processUnpublishEvent(eventWithSubject);
     }
-    publishedEventSet.remove(eventWithSubject);
+    publishedEventToPublisherMap.get(eventWithSubject).remove(publisher);
+    if (0 == publishedEventToPublisherMap.get(eventWithSubject).size()) {
+      publishedEventToPublisherMap.remove(eventWithSubject);
+    }
   }
 
   @Override
