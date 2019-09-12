@@ -34,5 +34,10 @@ public final class AccumulatorSubscriberStub extends Subscriber {
   public static AccumulatorSubscriberStub createAccumulatorSubscriber() {
     return new AccumulatorSubscriberStub();
   }
+
+  @Override
+  public String toString() {
+    return "AccumulatorSubscriberStub [hashCode()=" + hashCode() + "]";
+  }
 }
 

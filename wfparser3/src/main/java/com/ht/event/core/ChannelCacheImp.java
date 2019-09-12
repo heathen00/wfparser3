@@ -79,4 +79,12 @@ final class ChannelCacheImp implements ChannelCache {
     }
     return event;
   }
+
+  @Override
+  public String toString() {
+    return "ChannelCacheImp [getChannelInternal()=" + getChannelInternal()
+        + ", getSubscriberList()=" + getSubscriberList() + ", getPublisherList()="
+        + getPublisherList() + ", getEventList()=" + getEventList() + ", hashCode()=" + hashCode()
+        + "]";
+  }
 }

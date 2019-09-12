@@ -456,10 +456,9 @@ public class EventCoreAcceptanceTests {
     thrown.expectMessage("subscriber already subscribed to channel ");
     Channel firstChannel = eventFactory.createChannel("first.channel");
     Channel secondChannel = eventFactory.createChannel("second.channel");
-    Subscriber subscriber = createSubscriberStub();
 
-    eventFactory.addSubscriber(firstChannel, subscriber);
-    eventFactory.addSubscriber(secondChannel, subscriber);
+    eventFactory.addSubscriber(firstChannel, accumulatorSubscriberStub);
+    eventFactory.addSubscriber(secondChannel, accumulatorSubscriberStub);
   }
 
   @Test
@@ -1390,15 +1389,75 @@ public class EventCoreAcceptanceTests {
     eventFactoryTwo.enableChannel(channel);
   }
 
+  @Test
+  public void publishValidEventAndOneSubscriberThrowsUncheckedException_eventCoreDoesNotDieAndAllOtherSubscribersReceiveEvent() {
+    Channel channel = eventFactory.createChannel("test.channel");
+    Event event = eventFactory.createEvent(channel, "test.family", "test.name");
+    Publisher publisher = eventFactory.createPublisher(channel);
+    AccumulatorSubscriberStub stableSubscriberOne =
+        AccumulatorSubscriberStub.createAccumulatorSubscriber();
+    Subscriber unstableSubscriber = new Subscriber() {
+
+      @Override
+      public void processPublishEvent(Event event) {
+        throw new NullPointerException();
+      }
+    };
+    AccumulatorSubscriberStub stableSubscriberTwo =
+        AccumulatorSubscriberStub.createAccumulatorSubscriber();
+    eventFactory.addSubscriber(channel, stableSubscriberOne);
+    eventFactory.addSubscriber(channel, unstableSubscriber);
+    eventFactory.addSubscriber(channel, stableSubscriberTwo);
+    eventFactory.enableChannel(channel);
+
+    publisher.publish(event);
+
+    assertEquals(1, stableSubscriberOne.getProcessedPublishedEventList().size());
+    assertEventCore.assertExpectedEvent(event,
+        stableSubscriberOne.getProcessedPublishedEventList().get(0));
+    assertEquals(1, stableSubscriberTwo.getProcessedPublishedEventList().size());
+    assertEventCore.assertExpectedEvent(event,
+        stableSubscriberTwo.getProcessedPublishedEventList().get(0));
+  }
+
+  @Test
+  public void unpublishValidEventAndOneSubscriberThrowsUncheckedException_eventCoreDoesNotDieAndAllOtherSubscribersReceiveEvent() {
+    Channel channel = eventFactory.createChannel("test.channel");
+    Event event = eventFactory.createEvent(channel, "test.family", "test.name");
+    Publisher publisher = eventFactory.createPublisher(channel);
+    AccumulatorSubscriberStub stableSubscriberOne =
+        AccumulatorSubscriberStub.createAccumulatorSubscriber();
+    Subscriber unstableSubscriber = new Subscriber() {
+
+      @Override
+      public void processUnpublishEvent(Event event) {
+        throw new NullPointerException();
+      }
+    };
+    AccumulatorSubscriberStub stableSubscriberTwo =
+        AccumulatorSubscriberStub.createAccumulatorSubscriber();
+    eventFactory.addSubscriber(channel, stableSubscriberOne);
+    eventFactory.addSubscriber(channel, unstableSubscriber);
+    eventFactory.addSubscriber(channel, stableSubscriberTwo);
+    eventFactory.enableChannel(channel);
+    publisher.publish(event);
+
+    publisher.unpublish(event);
+
+    assertEquals(1, stableSubscriberOne.getProcessedUnpublishedEventList().size());
+    assertEventCore.assertExpectedEvent(event,
+        stableSubscriberOne.getProcessedUnpublishedEventList().get(0));
+    assertEquals(1, stableSubscriberTwo.getProcessedUnpublishedEventList().size());
+    assertEventCore.assertExpectedEvent(event,
+        stableSubscriberTwo.getProcessedUnpublishedEventList().get(0));
+  }
+
   /*
    * Rough list of test scenarios:
    * 
    * !!! MORE TEST SCENARIOS!!!: creating Event instances with different combinations of Channel,
    * Family, and Name to ensure they are handle properly, i.e. unique / not unique, as appropriate.
    * Similar For Channel. Different factories.
-   * 
-   * !!! MORE TEST SCENARIOS!!! What if the subscriber process of publish / unpublish event throws
-   * an exception?
    * 
    * Register two subscribers. Publish a number of events. First subscriber requests a resend of all
    * published events. First subscriber receives all published events in the order they were
@@ -1447,6 +1506,9 @@ public class EventCoreAcceptanceTests {
    * 
    * Perhaps it would make more sense to use "open" and "close" for channels instead of
    * enabled/disabled since the terminology is more consistent.
+   * 
+   * Maybe rename things like "eventChannel" to just "channel", etc. The Event is pretty much
+   * implied.
    * 
    */
 
