@@ -1,6 +1,6 @@
 package com.ht.event.core;
 
-public interface Event extends Comparable<Event> {
+public interface Event extends NaturalOrder<Event> {
   Channel getChannel();
 
   String getFamily();

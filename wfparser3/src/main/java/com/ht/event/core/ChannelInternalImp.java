@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-final class ChannelInternalImp implements ChannelInternal {
+final class ChannelInternalImp extends NaturalOrderBase<Channel> implements ChannelInternal {
   private final EventFactoryInternal eventFactoryInternal;
   private final String channelName;
   private final Map<Event, Set<Publisher>> publishedEventToPublisherMap;

@@ -7,7 +7,6 @@ import static org.junit.Assert.assertTrue;
 import java.util.List;
 
 public class AssertEventCore {
-
   public static AssertEventCore createAssertEventCore() {
     return new AssertEventCore();
   }

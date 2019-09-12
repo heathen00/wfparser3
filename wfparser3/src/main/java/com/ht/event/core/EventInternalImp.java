@@ -1,6 +1,6 @@
 package com.ht.event.core;
 
-public final class EventInternalImp implements EventInternal {
+public final class EventInternalImp extends NaturalOrderBase<Event> implements EventInternal {
   private final EventFactoryInternal eventFactoryInternal;
   private final Channel channel;
   private final String family;
@@ -79,7 +79,7 @@ public final class EventInternalImp implements EventInternal {
     }
     return compareTo;
   }
-  
+
   @Override
   public String toString() {
     return "EventInternalImp [getFullyQualifiedName()=" + getFullyQualifiedName()

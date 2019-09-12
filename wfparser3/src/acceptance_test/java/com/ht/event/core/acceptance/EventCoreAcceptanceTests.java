@@ -14,6 +14,8 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import com.ht.event.core.AccumulatorSubscriberStub;
 import com.ht.event.core.AssertEventCore;
+import com.ht.event.core.AssertNaturalOrder;
+import com.ht.event.core.AssertNaturalOrder.Relation;
 import com.ht.event.core.Channel;
 import com.ht.event.core.Event;
 import com.ht.event.core.EventFactory;
@@ -30,6 +32,7 @@ public class EventCoreAcceptanceTests {
   private EventFactory eventFactory;
   private AssertEventCore assertEventCore;
   private AccumulatorSubscriberStub accumulatorSubscriberStub;
+  private AssertNaturalOrder assertNaturalOrder;
 
   private Subscriber createSubscriberStub() {
     return new Subscriber();
@@ -79,6 +82,7 @@ public class EventCoreAcceptanceTests {
     eventFactory = EventFactory.createFactory();
     assertEventCore = AssertEventCore.createAssertEventCore();
     accumulatorSubscriberStub = AccumulatorSubscriberStub.createAccumulatorSubscriber();
+    assertNaturalOrder = AssertNaturalOrder.createAssertNaturalOrder();
   }
 
   @Test
@@ -86,6 +90,7 @@ public class EventCoreAcceptanceTests {
     assertNotNull(eventFactory);
     assertNotNull(assertEventCore);
     assertNotNull(accumulatorSubscriberStub);
+    assertNotNull(assertNaturalOrder);
   }
 
   @Test
@@ -1452,12 +1457,70 @@ public class EventCoreAcceptanceTests {
         stableSubscriberTwo.getProcessedUnpublishedEventList().get(0));
   }
 
+  @Test
+  public void EventCore_ensureChannelRespectsNaturalOrderContract_naturalOrderContractRespected() {
+    Channel leftOperand;
+    Channel rightOperand;
+
+    leftOperand = eventFactory.createChannel("test.channel");
+    rightOperand = eventFactory.createChannel("test.channel");
+    assertNaturalOrder.assertExpectedRelation(leftOperand, Relation.EQ, rightOperand);
+
+    leftOperand = eventFactory.createChannel("aaa");
+    rightOperand = eventFactory.createChannel("bbb");
+    assertNaturalOrder.assertExpectedRelation(leftOperand, Relation.LT, rightOperand);
+
+    leftOperand = eventFactory.createChannel("zzz");
+    rightOperand = eventFactory.createChannel("yyy");
+    assertNaturalOrder.assertExpectedRelation(leftOperand, Relation.GT, rightOperand);
+  }
+
+  @Test
+  public void EventCore_ensureEventRespectsNaturalOrderContract_naturalOrderConstractRespected() {
+    Event leftOperand;
+    Event rightOperand;
+
+    leftOperand = eventFactory.createEvent(eventFactory.createChannel("same.channel"),
+        "same.family", "same.name");
+    rightOperand = eventFactory.createEvent(eventFactory.createChannel("same.channel"),
+        "same.family", "same.name");
+    assertNaturalOrder.assertExpectedRelation(leftOperand, Relation.EQ, rightOperand);
+
+    leftOperand =
+        eventFactory.createEvent(eventFactory.createChannel("same.channel"), "same.family", "aaa");
+    rightOperand =
+        eventFactory.createEvent(eventFactory.createChannel("same.channel"), "same.family", "zzz");
+    assertNaturalOrder.assertExpectedRelation(leftOperand, Relation.LT, rightOperand);
+
+    leftOperand =
+        eventFactory.createEvent(eventFactory.createChannel("same.channel"), "same.family", "zzz");
+    rightOperand =
+        eventFactory.createEvent(eventFactory.createChannel("same.channel"), "same.family", "aaa");
+    assertNaturalOrder.assertExpectedRelation(leftOperand, Relation.GT, rightOperand);
+
+    leftOperand =
+        eventFactory.createEvent(eventFactory.createChannel("same.channel"), "aaa", "zzz");
+    rightOperand =
+        eventFactory.createEvent(eventFactory.createChannel("same.channel"), "zzz", "aaa");
+    assertNaturalOrder.assertExpectedRelation(leftOperand, Relation.LT, rightOperand);
+
+    leftOperand =
+        eventFactory.createEvent(eventFactory.createChannel("same.channel"), "zzz", "aaa");
+    rightOperand =
+        eventFactory.createEvent(eventFactory.createChannel("same.channel"), "aaa", "zzz");
+    assertNaturalOrder.assertExpectedRelation(leftOperand, Relation.GT, rightOperand);
+
+    leftOperand = eventFactory.createEvent(eventFactory.createChannel("aaa"), "zzz", "zzz");
+    rightOperand = eventFactory.createEvent(eventFactory.createChannel("zzz"), "aaa", "aaa");
+    assertNaturalOrder.assertExpectedRelation(leftOperand, Relation.LT, rightOperand);
+
+    leftOperand = eventFactory.createEvent(eventFactory.createChannel("zzz"), "aaa", "aaa");
+    rightOperand = eventFactory.createEvent(eventFactory.createChannel("aaa"), "zzz", "zzz");
+    assertNaturalOrder.assertExpectedRelation(leftOperand, Relation.GT, rightOperand);
+  }
+
   /*
    * Rough list of test scenarios:
-   * 
-   * !!! MORE TEST SCENARIOS!!!: creating Event instances with different combinations of Channel,
-   * Family, and Name to ensure they are handle properly, i.e. unique / not unique, as appropriate.
-   * Similar For Channel. Different factories.
    * 
    * Register two subscribers. Publish a number of events. First subscriber requests a resend of all
    * published events. First subscriber receives all published events in the order they were
