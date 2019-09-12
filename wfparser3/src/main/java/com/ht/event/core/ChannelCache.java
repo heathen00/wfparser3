@@ -24,5 +24,7 @@ interface ChannelCache {
   EventDescription getEventDescription(Channel channel, String family, String name);
 
   void addEventDescription(EventDescription eventDescription);
+
+  List<EventDescription> getEventDescriptionList();
 }
 

@@ -108,4 +108,9 @@ final class ChannelCacheImp implements ChannelCache {
   public void addEventDescription(EventDescription eventDescription) {
     eventDescriptionList.add(eventDescription);
   }
+
+  @Override
+  public List<EventDescription> getEventDescriptionList() {
+    return Collections.unmodifiableList(eventDescriptionList);
+  }
 }

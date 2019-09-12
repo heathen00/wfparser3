@@ -12,4 +12,6 @@ public interface Channel extends NaturalOrder<Channel> {
   List<Publisher> getPublisherList();
 
   boolean isOpen();
+
+  List<EventDescription> getEventDescriptionList();
 }

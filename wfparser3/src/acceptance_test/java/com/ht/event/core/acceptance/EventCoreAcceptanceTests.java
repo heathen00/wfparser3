@@ -67,6 +67,11 @@ public class EventCoreAcceptanceTests {
       public int compareTo(Channel o) {
         throw new UnsupportedOperationException("method not supported by stub");
       }
+
+      @Override
+      public List<EventDescription> getEventDescriptionList() {
+        throw new UnsupportedOperationException("method not supported by stub");
+      }
     };
   }
 
@@ -120,8 +125,9 @@ public class EventCoreAcceptanceTests {
 
     assertEventCore.assertExpectedEventDescription(expectedChannel, expectedfamily,
         expectedEventName, event);
-//    assertEventCore.assertExpectedChannel(expectedChannelName, expectedIsOpen, Arrays.asList(event),
-//        expectedEvent, expectedPublishersList, expectedSubscribersList, expectedChannel);
+    assertEventCore.assertExpectedChannel_NEW(expectedChannelName, expectedIsOpen,
+        Arrays.asList(event), expectedEvent, expectedPublishersList, expectedSubscribersList,
+        expectedChannel);
   }
 
   @Test

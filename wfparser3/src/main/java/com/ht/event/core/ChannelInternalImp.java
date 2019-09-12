@@ -195,4 +195,9 @@ final class ChannelInternalImp extends NaturalOrderBase<Channel> implements Chan
   public EventFactoryInternal getEventFactoryInternal() {
     return eventFactoryInternal;
   }
+
+  @Override
+  public List<EventDescription> getEventDescriptionList() {
+    return getChannelCache().getEventDescriptionList();
+  }
 }

@@ -2,51 +2,50 @@ package com.ht.event.core;
 
 public final class EventInternalImp extends NaturalOrderBase<Event> implements EventInternal {
   private final EventFactoryInternal eventFactoryInternal;
-  private final Channel channel;
-  private final String family;
-  private final String name;
+  private final EventDescription eventDescription;
   private final Subject subject;
 
-  EventInternalImp(EventFactoryInternal eventFactoryInternal, Channel channel,
-      String family, String name, Subject subject) {
+  EventInternalImp(EventFactoryInternal eventFactoryInternal, EventDescription eventDescription,
+      Subject subject) {
     this.eventFactoryInternal = eventFactoryInternal;
-    this.channel = channel;
-    this.family = family;
-    this.name = name;
+    this.eventDescription = eventDescription;
     this.subject = subject;
   }
 
-  EventInternalImp(EventFactoryInternalCreatorImp eventFactoryInternalCreatorImp, Event event,
-      Subject subject) {
-    this(eventFactoryInternalCreatorImp, event.getChannel(), event.getFamily(), event.getName(),
-        subject);
+  EventInternalImp(EventFactoryInternal eventFactoryInternal, Event event, Subject subject) {
+    this(eventFactoryInternal, event.getEventDescription(), subject);
+  }
+
+  @Override
+  public EventDescription getEventDescription() {
+    return eventDescription;
   }
 
   @Override
   public Channel getChannel() {
-    return channel;
+    return eventDescription.getChannel();
   }
 
   @Override
   public String getFamily() {
-    return family;
+    return eventDescription.getFamily();
   }
 
   @Override
   public String getName() {
-    return name;
+    return eventDescription.getName();
   }
 
   @Override
   public String getFullyQualifiedName() {
-    return String.join(".", channel.getName(), getFamily(), getName());
+    return eventDescription.getFullyQualifiedName();
   }
 
   @Override
   public int hashCode() {
     final int prime = 31;
     int result = 1;
-    result = prime * result + getFullyQualifiedName().hashCode() + getSubject().hashCode();
+    result = prime * result + getEventDescription().hashCode() + getSubject().hashCode();
     return result;
   }
 
@@ -62,7 +61,7 @@ public final class EventInternalImp extends NaturalOrderBase<Event> implements E
       return false;
     }
     Event other = (Event) obj;
-    if (!getFullyQualifiedName().equals(other.getFullyQualifiedName())) {
+    if (!getEventDescription().equals(other.getEventDescription())) {
       return false;
     }
     if (!getSubject().equals(other.getSubject())) {
@@ -73,7 +72,7 @@ public final class EventInternalImp extends NaturalOrderBase<Event> implements E
 
   @Override
   public int compareTo(Event o) {
-    int compareTo = getFullyQualifiedName().compareTo(o.getFullyQualifiedName());
+    int compareTo = getEventDescription().compareTo(o.getEventDescription());
     if (0 == compareTo) {
       compareTo = getSubject().compareTo(o.getSubject());
     }
@@ -82,8 +81,8 @@ public final class EventInternalImp extends NaturalOrderBase<Event> implements E
 
   @Override
   public String toString() {
-    return "EventInternalImp [getFullyQualifiedName()=" + getFullyQualifiedName()
-        + ", getSubject()=" + getSubject() + "]";
+    return "EventInternalImp [getEventDescription()=" + getEventDescription() + ", getSubject()="
+        + getSubject() + "]";
   }
 
   @Override

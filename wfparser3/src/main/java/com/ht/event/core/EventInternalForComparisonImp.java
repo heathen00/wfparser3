@@ -92,4 +92,10 @@ final class EventInternalForComparisonImp implements EventInternal {
   public void setSubject(Subject subject) {
     this.subject = subject;
   }
+
+  @Override
+  public EventDescription getEventDescription() {
+    // TODO Auto-generated method stub
+    return null;
+  }
 }
