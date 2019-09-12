@@ -1402,14 +1402,51 @@ public class EventCoreAcceptanceTests {
    * 
    * Register two subscribers. Publish a number of events. First subscriber requests a resend of all
    * published events. First subscriber receives all published events in the order they were
-   * originally sent. Second subscriber does not.
+   * originally sent. Second subscriber does not. As a point of clarification, the objective is NOT
+   * to replay the entire publish/unpublish history for all events since the channel was opened. The
+   * objective is to simply send all current published events to the subscriber that requested it.
+   * 
+   * There is a lot of duplicate code in the EventChannel implementation. Or code that is mostly
+   * exactly the same. It could be generalized and the duplicates could be removed. It might be
+   * easier, though, if done after differentiating between Description and Event.
+   * 
+   * Could the EventChannel be broken down into parameter validation / cache / processing layers,
+   * too, using the decorator pattern in a similar way to the factory?
    * 
    * Also, it would be useful for testing and debugging to get a list of published events and who
    * published them. Maybe a single method to get an event report for a given channel that lists all
-   * defined events, whether the events are currently published and who published them.
+   * defined events, whether the events are currently published and who published them. This would
+   * be an internal interface for debugging purposes only.
    * 
-   * Maybe you should also have a ChannelEvent and handler specifically for handling Channel
-   * lifecycle events, such as being enabled and disabled.
+   * Maybe you should also have channel specific Events that are published in band in each channel
+   * so that clients can receive events like the channel is opened / closed. The events would be no
+   * different in type from standard client defined events. They could be differentiated from the
+   * client defined events by being in their own family. You could even enforce a specific naming
+   * convention like "event.core.*", so perhaps "event.core.channel.info",
+   * "event.core.system.error", etc.
+   * 
+   * Maybe implement an InternalSystem that is a singleton that is created on demand. This
+   * InternalSystem could have the instance cache and all factories could reference it, so for
+   * scenarios where Channels and Events are being created by different factories aren't an issue.
+   * The InternalSystem as its name implies would not be accessible by clients. Existing test cases
+   * where UnsupportedOperationExceptions are being thrown would need to be rewritten. There is some
+   * potential for a memory leak with this design since if nothing is referencing the factory, then
+   * all the resources created through this factory would still exist. I would need "delete" options
+   * at the Factory level which, in turn implies "disable". After that, I could potentially
+   * implement some intelligence in the InternalSystem itself for monitoring to ensure instances are
+   * still being used and closing them otherwise.
+   * 
+   * Looking at the current Event test cases, maybe it would make more sense to differentiate the
+   * types between when the Event instances are being created and when they are being processed
+   * since it seems a little awkward right now. Perhaps during creation the type could be
+   * Description and during processing it would remain Event. However, the Event would become a
+   * composite containing Description and optionally Subject. The behaviour would be more intuitive.
+   * 
+   * The isEnabled for Subject instances should be implemented in the Subject base class, final, and
+   * hard coded to true.
+   * 
+   * Perhaps it would make more sense to use "open" and "close" for channels instead of
+   * enabled/disabled since the terminology is more consistent.
    * 
    */
 
