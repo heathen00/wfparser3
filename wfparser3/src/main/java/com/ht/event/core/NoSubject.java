@@ -19,11 +19,6 @@ final class NoSubject extends Subject {
   }
 
   @Override
-  public boolean isDefined() {
-    return false;
-  }
-
-  @Override
   public String toString() {
     return "NoSubject [description=" + description + "]";
   }

@@ -28,19 +28,12 @@ final class SubscriberWrapper extends Subscriber {
   }
 
   @Override
-  public int hashCode() {
-    return wrappedSubscriber.hashCode();
-  }
-
-  @Override
-  public boolean equals(Object obj) {
-    SubscriberWrapper otherWrapper = (SubscriberWrapper) obj;
-    return wrappedSubscriber.equals(otherWrapper.getWrappedSubscriber());
-  }
-
-  @Override
   public String toString() {
-    return "SubscriberWrapper [wrapped.toString()=" + wrappedSubscriber.toString()
-        + ", super.hashCode(): " + super.hashCode() + "]";
+    return "SubscriberWrapper [wrapped.toString()=" + wrappedSubscriber.toString() + "]";
+  }
+
+  @Override
+  public String getName() {
+    return wrappedSubscriber.getName();
   }
 }

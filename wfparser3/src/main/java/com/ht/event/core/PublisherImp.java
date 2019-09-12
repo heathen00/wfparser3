@@ -2,35 +2,35 @@ package com.ht.event.core;
 
 public final class PublisherImp implements Publisher {
   private final EventFactoryInternal eventFactoryInternal;
-  private final ChannelInternal eventChannelInternal;
+  private final ChannelInternal channelInternal;
 
-  PublisherImp(EventFactoryInternal eventFactoryInternal, ChannelInternal eventChannelInternal) {
+  PublisherImp(EventFactoryInternal eventFactoryInternal, ChannelInternal channelInternal) {
     this.eventFactoryInternal = eventFactoryInternal;
-    this.eventChannelInternal = eventChannelInternal;
+    this.channelInternal = channelInternal;
   }
 
   @Override
   public Channel getChannel() {
-    return eventChannelInternal;
+    return channelInternal;
   }
 
   @Override
   public void publish(Event event) {
-    eventChannelInternal.publish(this, event);
+    channelInternal.publish(this, event);
   }
 
   @Override
   public void publish(Event event, Subject subject) {
-    eventChannelInternal.publish(this, event, subject);
+    channelInternal.publish(this, event, subject);
   }
 
   @Override
   public void unpublish(Event event) {
-    eventChannelInternal.unpublish(this, event);
+    channelInternal.unpublish(this, event);
   }
 
   @Override
   public void unpublish(Event event, Subject subject) {
-    eventChannelInternal.unpublish(this, event, subject);
+    channelInternal.unpublish(this, event, subject);
   }
 }

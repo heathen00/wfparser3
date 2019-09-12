@@ -17,7 +17,7 @@ interface ChannelCache {
 
   void addEvent(Event event);
 
-  Event getEvent(Channel eventChannel, String eventFamily, String eventName);
+  Event getEvent(Channel channel, String family, String name);
 
   Event getEvent(Event event, Subject subject);
 }

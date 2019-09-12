@@ -9,13 +9,13 @@ final class EventFactoryInternalRootImp implements EventFactoryInternal {
   }
 
   @Override
-  public Channel createChannel(String channelName) {
-    return nextEventFactoryInternal.createChannel(channelName);
+  public Channel createChannel(String name) {
+    return nextEventFactoryInternal.createChannel(name);
   }
 
   @Override
-  public Event createEvent(Channel eventChannel, String eventFamily, String eventName) {
-    return nextEventFactoryInternal.createEvent(eventChannel, eventFamily, eventName);
+  public Event createEvent(Channel channel, String family, String name) {
+    return nextEventFactoryInternal.createEvent(channel, family, name);
   }
 
   @Override
@@ -24,18 +24,18 @@ final class EventFactoryInternalRootImp implements EventFactoryInternal {
   }
 
   @Override
-  public Publisher createPublisher(Channel eventChannel) {
-    return nextEventFactoryInternal.createPublisher(eventChannel);
+  public Publisher createPublisher(Channel channel) {
+    return nextEventFactoryInternal.createPublisher(channel);
   }
 
   @Override
-  public void addSubscriber(Channel eventChannel, Subscriber eventSubscriber) {
-    nextEventFactoryInternal.addSubscriber(eventChannel, eventSubscriber);
+  public void addSubscriber(Channel channel, Subscriber eventSubscriber) {
+    nextEventFactoryInternal.addSubscriber(channel, eventSubscriber);
   }
 
   @Override
-  public void enableChannel(Channel eventChannel) {
-    nextEventFactoryInternal.enableChannel(eventChannel);
+  public void openChannel(Channel channel) {
+    nextEventFactoryInternal.openChannel(channel);
   }
 
   @Override

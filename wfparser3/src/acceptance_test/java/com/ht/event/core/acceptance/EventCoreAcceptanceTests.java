@@ -34,15 +34,11 @@ public class EventCoreAcceptanceTests {
   private AccumulatorSubscriberStub accumulatorSubscriberStub;
   private AssertNaturalOrder assertNaturalOrder;
 
-  private Subscriber createSubscriberStub() {
-    return new Subscriber();
-  }
-
   private Channel createUnsupportedExternalChannelImplementation() {
     return new Channel() {
 
       @Override
-      public boolean isEnabled() {
+      public boolean isOpen() {
         throw new UnsupportedOperationException("method not supported by stub");
       }
 
@@ -81,7 +77,8 @@ public class EventCoreAcceptanceTests {
   public void setup() {
     eventFactory = EventFactory.createFactory();
     assertEventCore = AssertEventCore.createAssertEventCore();
-    accumulatorSubscriberStub = AccumulatorSubscriberStub.createAccumulatorSubscriber();
+    accumulatorSubscriberStub =
+        AccumulatorSubscriberStub.createAccumulatorSubscriber("test.subscriber");
     assertNaturalOrder = AssertNaturalOrder.createAssertNaturalOrder();
   }
 
@@ -96,40 +93,39 @@ public class EventCoreAcceptanceTests {
   @Test
   public void EventCore_createChannelWithValidChannelName_channelCreated() {
     final String expectedChannelName = "test.channel";
-    boolean expectedIsEnabled = false;
+    boolean expectedIsOpen = false;
     List<Event> expectedEventsList = Collections.emptyList();
     List<Publisher> expectedPublishersList = Collections.emptyList();
     List<Subscriber> expectedSubscribersList = Collections.emptyList();
     final Channel channel = eventFactory.createChannel(expectedChannelName);
 
-    assertEventCore.assertExpectedChannel(expectedChannelName, expectedIsEnabled,
-        expectedEventsList, expectedPublishersList, expectedSubscribersList, channel);
+    assertEventCore.assertExpectedChannel(expectedChannelName, expectedIsOpen, expectedEventsList,
+        expectedPublishersList, expectedSubscribersList, channel);
   }
 
   @Test
-  public void EventCore_createEventWithValidChannelFamilyAndNameBeforeChannelIsEnabled_eventCreated() {
+  public void EventCore_createEventWithValidChannelFamilyAndNameBeforeChannelIsOpen_eventCreated() {
     final String expectedChannelName = "test.channel";
-    boolean expectedIsEnabled = false;
+    boolean expectedIsOpen = false;
     List<Publisher> expectedPublishersList = Collections.emptyList();
     List<Subscriber> expectedSubscribersList = Collections.emptyList();
     final Channel expectedChannel = eventFactory.createChannel(expectedChannelName);
-    final String expectedEventFamily = "test.family";
+    final String expectedfamily = "test.family";
     final String expectedEventName = "test.name";
     final boolean expectedIsDefined = false;
 
-    Event event = eventFactory.createEvent(expectedChannel, expectedEventFamily, expectedEventName);
+    Event event = eventFactory.createEvent(expectedChannel, expectedfamily, expectedEventName);
 
-    assertEventCore.assertExpectedEvent(expectedChannel, expectedEventFamily, expectedEventName,
-        event);
-    assertEventCore.assertExpectedChannel(expectedChannelName, expectedIsEnabled,
-        Arrays.asList(event), expectedPublishersList, expectedSubscribersList, expectedChannel);
+    assertEventCore.assertExpectedEvent(expectedChannel, expectedfamily, expectedEventName, event);
+    assertEventCore.assertExpectedChannel(expectedChannelName, expectedIsOpen, Arrays.asList(event),
+        expectedPublishersList, expectedSubscribersList, expectedChannel);
     assertEventCore.assertExpectedSubject(expectedIsDefined, event.getSubject());
   }
 
   @Test
-  public void EventCore_createPublisherWithValidChannelBeforeChannelIsEnabled_publisherCreated() {
+  public void EventCore_createPublisherWithValidChannelBeforeChannelIsOpen_publisherCreated() {
     final String expectedChannelName = "test.channel";
-    final boolean expectedIsEnabled = false;
+    final boolean expectedIsOpen = false;
     final List<Event> expectedEventsList = Collections.emptyList();
     final List<Subscriber> expectedSubscribersList = Collections.emptyList();
     final Channel expectedChannel = eventFactory.createChannel(expectedChannelName);
@@ -137,23 +133,23 @@ public class EventCoreAcceptanceTests {
     Publisher publisher = eventFactory.createPublisher(expectedChannel);
 
     assertEventCore.assertExpectedPublisher(expectedChannel, publisher);
-    assertEventCore.assertExpectedChannel(expectedChannelName, expectedIsEnabled,
-        expectedEventsList, Arrays.asList(publisher), expectedSubscribersList, expectedChannel);
+    assertEventCore.assertExpectedChannel(expectedChannelName, expectedIsOpen, expectedEventsList,
+        Arrays.asList(publisher), expectedSubscribersList, expectedChannel);
   }
 
   @Test
-  public void EventCore_addValidSubscriberToChannelBeforeChannelIsEnabled_subscriberSuccessfullyRegistered() {
-    final Subscriber expectedSubscriber = createSubscriberStub();
+  public void EventCore_addValidSubscriberToChannelBeforeChannelIsOpen_subscriberSuccessfullyRegistered() {
+    final Subscriber expectedSubscriber = accumulatorSubscriberStub;
     final String expectedChannelName = "test.channel";
-    final boolean expectedIsEnabled = false;
+    final boolean expectedIsOpen = false;
     final List<Event> expectedEventsList = Collections.emptyList();
     final List<Publisher> expectedPublishersList = Collections.emptyList();
     Channel channel = eventFactory.createChannel(expectedChannelName);
 
     eventFactory.addSubscriber(channel, expectedSubscriber);
 
-    assertEventCore.assertExpectedChannel(expectedChannelName, expectedIsEnabled,
-        expectedEventsList, expectedPublishersList, Arrays.asList(expectedSubscriber), channel);
+    assertEventCore.assertExpectedChannel(expectedChannelName, expectedIsOpen, expectedEventsList,
+        expectedPublishersList, Arrays.asList(expectedSubscriber), channel);
   }
 
   @Test
@@ -163,7 +159,7 @@ public class EventCoreAcceptanceTests {
     Publisher publisher = eventFactory.createPublisher(channel);
     eventFactory.addSubscriber(channel, accumulatorSubscriberStub);
 
-    eventFactory.enableChannel(channel);
+    eventFactory.openChannel(channel);
 
     publisher.publish(expectedEvent);
 
@@ -176,7 +172,7 @@ public class EventCoreAcceptanceTests {
     Event expectedEvent = eventFactory.createEvent(channel, "test.family", "test.name");
     Publisher publisher = eventFactory.createPublisher(channel);
     eventFactory.addSubscriber(channel, accumulatorSubscriberStub);
-    eventFactory.enableChannel(channel);
+    eventFactory.openChannel(channel);
 
     publisher.publish(expectedEvent);
     assertTrue(accumulatorSubscriberStub.getProcessedPublishedEventList().contains(expectedEvent));
@@ -189,7 +185,7 @@ public class EventCoreAcceptanceTests {
   @Test
   public void EventCore_createChannelWithNullChannelName_nullPointerExceptionIsThrown() {
     thrown.expect(NullPointerException.class);
-    thrown.expectMessage("channelName cannot equal null");
+    thrown.expectMessage("name cannot equal null");
 
     eventFactory.createChannel(null);
   }
@@ -198,7 +194,7 @@ public class EventCoreAcceptanceTests {
   public void EventCore_createChannelWithEmptyChannelName_invalidParameterExceptionIsThrown() {
     thrown.expect(InvalidParameterException.class);
     thrown.expectMessage(
-        "channelName can only contain lower case letters, numbers, and periods, and cannot start or end with a period");
+        "name can only contain lower case letters, numbers, and periods, and cannot start or end with a period");
 
     eventFactory.createChannel("\n");
   }
@@ -207,7 +203,7 @@ public class EventCoreAcceptanceTests {
   public void EventCore_createChannelWithInvalidCharactersInChannelName_invalidParameterExceptionIsThrown() {
     thrown.expect(InvalidParameterException.class);
     thrown.expectMessage(
-        "channelName can only contain lower case letters, numbers, and periods, and cannot start or end with a period");
+        "name can only contain lower case letters, numbers, and periods, and cannot start or end with a period");
 
     eventFactory.createChannel("test.#@#@$channel");
   }
@@ -215,7 +211,7 @@ public class EventCoreAcceptanceTests {
   @Test
   public void EventCore_createEventWithNullChannelParameter_nullPointerExceptionIsThrown() {
     thrown.expect(NullPointerException.class);
-    thrown.expectMessage("eventChannel cannot equal null");
+    thrown.expectMessage("channel cannot equal null");
 
     eventFactory.createEvent(null, "test.family", "test.name");
   }
@@ -223,7 +219,7 @@ public class EventCoreAcceptanceTests {
   @Test
   public void EventCore_createEventWithUnknownExternalChannelImplementation_invalidParameterExceptionIsThrown() {
     thrown.expect(InvalidParameterException.class);
-    thrown.expectMessage("unknown eventChannel implementation");
+    thrown.expectMessage("unknown channel implementation");
 
     eventFactory.createEvent(createUnsupportedExternalChannelImplementation(), "test.family",
         "test.name");
@@ -232,7 +228,7 @@ public class EventCoreAcceptanceTests {
   @Test
   public void EventCore_createEventWithNullFamilyParameter_nullPointerExceptionIsThrown() {
     thrown.expect(NullPointerException.class);
-    thrown.expectMessage("eventFamily cannot equal null");
+    thrown.expectMessage("family cannot equal null");
 
     Channel channel = eventFactory.createChannel("test.channel");
 
@@ -243,7 +239,7 @@ public class EventCoreAcceptanceTests {
   public void EventCore_createEventWithEmptyFamilyParameter_invalidParameterExceptionIsThrown() {
     thrown.expect(InvalidParameterException.class);
     thrown.expectMessage(
-        "eventFamily can only contain lower case letters, numbers, and periods, and cannot start or end with a period");
+        "family can only contain lower case letters, numbers, and periods, and cannot start or end with a period");
 
     Channel channel = eventFactory.createChannel("test.channel");
 
@@ -254,7 +250,7 @@ public class EventCoreAcceptanceTests {
   public void EventCore_createEventWithInvalidCharactersInFamilyParameter_invalidParameterExceptionIsThrown() {
     thrown.expect(InvalidParameterException.class);
     thrown.expectMessage(
-        "eventFamily can only contain lower case letters, numbers, and periods, and cannot start or end with a period");
+        "family can only contain lower case letters, numbers, and periods, and cannot start or end with a period");
 
     Channel channel = eventFactory.createChannel("test.channel");
 
@@ -264,7 +260,7 @@ public class EventCoreAcceptanceTests {
   @Test
   public void EventCore_createEventWithNullNameParameter_nullPointerExceptionIsThrown() {
     thrown.expect(NullPointerException.class);
-    thrown.expectMessage("eventName cannot equal null");
+    thrown.expectMessage("name cannot equal null");
 
     Channel channel = eventFactory.createChannel("test.channel");
 
@@ -275,7 +271,7 @@ public class EventCoreAcceptanceTests {
   public void EventCore_createEventWithEmptyNameParameter_invalidParameterExceptionIsThrown() {
     thrown.expect(InvalidParameterException.class);
     thrown.expectMessage(
-        "eventName can only contain lower case letters, numbers, and periods, and cannot start or end with a period");
+        "name can only contain lower case letters, numbers, and periods, and cannot start or end with a period");
 
     Channel channel = eventFactory.createChannel("test.channel");
 
@@ -286,7 +282,7 @@ public class EventCoreAcceptanceTests {
   public void EventCore_createEventWithInvalidCharactersInNameParameter_invalidParameterExceptionIsThrown() {
     thrown.expect(InvalidParameterException.class);
     thrown.expectMessage(
-        "eventName can only contain lower case letters, numbers, and periods, and cannot start or end with a period");
+        "name can only contain lower case letters, numbers, and periods, and cannot start or end with a period");
 
     Channel channel = eventFactory.createChannel("test.channel");
 
@@ -296,7 +292,7 @@ public class EventCoreAcceptanceTests {
   @Test
   public void EventCore_createPublisherWithNullChannelParameter_nullPointerExceptionIsThrown() {
     thrown.expect(NullPointerException.class);
-    thrown.expectMessage("eventChannel cannot equal null");
+    thrown.expectMessage("channel cannot equal null");
 
     eventFactory.createPublisher(null);
   }
@@ -304,7 +300,7 @@ public class EventCoreAcceptanceTests {
   @Test
   public void EventCore_createPublisherWithUnknownExternalChannelImplementation_invalidParameterExceptionIsThrown() {
     thrown.expect(InvalidParameterException.class);
-    thrown.expectMessage("unknown eventChannel implementation");
+    thrown.expectMessage("unknown channel implementation");
 
     eventFactory.createPublisher(createUnsupportedExternalChannelImplementation());
   }
@@ -312,18 +308,18 @@ public class EventCoreAcceptanceTests {
   @Test
   public void EventCore_addSubscriberWithNullChannelParameter_nullPointerExceptionIsThrown() {
     thrown.expect(NullPointerException.class);
-    thrown.expectMessage("eventChannel cannot equal null");
+    thrown.expectMessage("channel cannot equal null");
 
-    eventFactory.addSubscriber(null, createSubscriberStub());
+    eventFactory.addSubscriber(null, accumulatorSubscriberStub);
   }
 
   @Test
   public void EventCore_addSubscriberWithUnknownExternalChannelImplementation_invalidParameterExceptionIsThrown() {
     thrown.expect(InvalidParameterException.class);
-    thrown.expectMessage("unknown eventChannel implementation");
+    thrown.expectMessage("unknown channel implementation");
 
     eventFactory.addSubscriber(createUnsupportedExternalChannelImplementation(),
-        createSubscriberStub());
+        accumulatorSubscriberStub);
   }
 
   @Test
@@ -336,30 +332,30 @@ public class EventCoreAcceptanceTests {
   }
 
   @Test
-  public void EventCore_enableChannelWithNullChannelParameter_nullPointerExceptionIsThrown() {
+  public void EventCore_openChannelWithNullChannelParameter_nullPointerExceptionIsThrown() {
     thrown.expect(NullPointerException.class);
-    thrown.expectMessage("eventChannel cannot equal null");
+    thrown.expectMessage("channel cannot equal null");
 
-    eventFactory.enableChannel(null);
+    eventFactory.openChannel(null);
   }
 
   @Test
-  public void EventCore_enableChannelWithUnknownExternalChannelImplementation_invalidParameterExceptionIsThrown() {
+  public void EventCore_openChannelWithUnknownExternalChannelImplementation_invalidParameterExceptionIsThrown() {
     thrown.expect(InvalidParameterException.class);
-    thrown.expectMessage("unknown eventChannel implementation");
+    thrown.expectMessage("unknown channel implementation");
 
-    eventFactory.enableChannel(createUnsupportedExternalChannelImplementation());
+    eventFactory.openChannel(createUnsupportedExternalChannelImplementation());
   }
 
   @Test
   public void EventCore_publishEventOnChannelBeforeEnablingChannel_unsupportedOperationExceptionIsThrown() {
     thrown.expect(UnsupportedOperationException.class);
-    thrown.expectMessage("channel is not enabled");
+    thrown.expectMessage("channel is not open");
 
     Channel channel = eventFactory.createChannel("disabled.channel");
     Event event = eventFactory.createEvent(channel, "test.family", "test.name");
     Publisher publisher = eventFactory.createPublisher(channel);
-    assertFalse(channel.isEnabled());
+    assertFalse(channel.isOpen());
 
     publisher.publish(event);
   }
@@ -367,12 +363,12 @@ public class EventCoreAcceptanceTests {
   @Test
   public void EventCore_unpublishEventOnChannelBeforeEnablingChannel_unsupportedOperationExceptionIsThrown() {
     thrown.expect(UnsupportedOperationException.class);
-    thrown.expectMessage("channel is not enabled");
+    thrown.expectMessage("channel is not open");
 
     Channel channel = eventFactory.createChannel("disabled.channel");
     Event event = eventFactory.createEvent(channel, "test.family", "test.name");
     Publisher publisher = eventFactory.createPublisher(channel);
-    assertFalse(channel.isEnabled());
+    assertFalse(channel.isOpen());
 
     publisher.unpublish(event);
   }
@@ -383,7 +379,7 @@ public class EventCoreAcceptanceTests {
     thrown.expectMessage("cannot create events after enabling channel");
 
     Channel channel = eventFactory.createChannel("test.channel");
-    eventFactory.enableChannel(channel);
+    eventFactory.openChannel(channel);
 
     eventFactory.createEvent(channel, "test.family", "test.name");
   }
@@ -394,7 +390,7 @@ public class EventCoreAcceptanceTests {
     thrown.expectMessage("cannot create publishers after enabling channel");
 
     Channel channel = eventFactory.createChannel("test.channel");
-    eventFactory.enableChannel(channel);
+    eventFactory.openChannel(channel);
 
     eventFactory.createPublisher(channel);
   }
@@ -405,45 +401,43 @@ public class EventCoreAcceptanceTests {
     thrown.expectMessage("cannot add subscribers after enabling channel");
 
     Channel channel = eventFactory.createChannel("test.channel");
-    eventFactory.enableChannel(channel);
+    eventFactory.openChannel(channel);
 
-    eventFactory.addSubscriber(channel, createSubscriberStub());
+    eventFactory.addSubscriber(channel, accumulatorSubscriberStub);
   }
 
   @Test
   public void EventCore_createSameEventMultipleTimes_eventOnlyCreatedOnce() {
     final String expectedChannelName = "test.channel";
-    final boolean expectedIsChannelEnabled = false;
+    final boolean expectedIsChannelOpen = false;
     final List<Publisher> expectedPublishersList = Collections.emptyList();
     final List<Subscriber> expectedSubscribers = Collections.emptyList();
-    final String expectedEventFamily = "test.family";
+    final String expectedfamily = "test.family";
     final String expectedEventName = "test.name";
     final boolean expectedIsDefined = false;
-    Channel expectedEventChannel = eventFactory.createChannel(expectedChannelName);
+    Channel expectedchannel = eventFactory.createChannel(expectedChannelName);
 
-    Event firstEvent =
-        eventFactory.createEvent(expectedEventChannel, expectedEventFamily, expectedEventName);
+    Event firstEvent = eventFactory.createEvent(expectedchannel, expectedfamily, expectedEventName);
     Event secondEvent =
-        eventFactory.createEvent(expectedEventChannel, expectedEventFamily, expectedEventName);
+        eventFactory.createEvent(expectedchannel, expectedfamily, expectedEventName);
 
-    assertEventCore.assertExpectedEvent(expectedEventChannel, expectedEventFamily,
-        expectedEventName, firstEvent);
+    assertEventCore.assertExpectedEvent(expectedchannel, expectedfamily, expectedEventName,
+        firstEvent);
     assertEventCore.assertExpectedSubject(expectedIsDefined, firstEvent.getSubject());
-    assertEventCore.assertExpectedEvent(expectedEventChannel, expectedEventFamily,
-        expectedEventName, secondEvent);
+    assertEventCore.assertExpectedEvent(expectedchannel, expectedfamily, expectedEventName,
+        secondEvent);
     assertEventCore.assertExpectedSubject(expectedIsDefined, secondEvent.getSubject());
-    assertEventCore.assertExpectedChannel(expectedChannelName, expectedIsChannelEnabled,
-        Arrays.asList(firstEvent), expectedPublishersList, expectedSubscribers,
-        expectedEventChannel);
+    assertEventCore.assertExpectedChannel(expectedChannelName, expectedIsChannelOpen,
+        Arrays.asList(firstEvent), expectedPublishersList, expectedSubscribers, expectedchannel);
     assertEquals(firstEvent, secondEvent);
     assertTrue(firstEvent == secondEvent);
   }
 
   @Test
   public void EventCore_addSameSubscriberToChannelMultipleTimes_subscriberOnlyAddedOnce() {
-    final Subscriber expectedSubscriber = createSubscriberStub();
+    final Subscriber expectedSubscriber = accumulatorSubscriberStub;
     final String expectedChannelName = "test.channel";
-    final boolean expectedIsEnabled = false;
+    final boolean expectedIsOpen = false;
     final List<Event> expectedEventsList = Collections.emptyList();
     final List<Publisher> expectedPublishersList = Collections.emptyList();
     Channel channel = eventFactory.createChannel(expectedChannelName);
@@ -451,8 +445,8 @@ public class EventCoreAcceptanceTests {
     eventFactory.addSubscriber(channel, expectedSubscriber);
     eventFactory.addSubscriber(channel, expectedSubscriber);
 
-    assertEventCore.assertExpectedChannel(expectedChannelName, expectedIsEnabled,
-        expectedEventsList, expectedPublishersList, Arrays.asList(expectedSubscriber), channel);
+    assertEventCore.assertExpectedChannel(expectedChannelName, expectedIsOpen, expectedEventsList,
+        expectedPublishersList, Arrays.asList(expectedSubscriber), channel);
   }
 
   @Test
@@ -474,7 +468,7 @@ public class EventCoreAcceptanceTests {
     String expectedEventFullyQualifiedName = event.getFullyQualifiedName();
     Publisher publisher = eventFactory.createPublisher(channel);
     eventFactory.addSubscriber(channel, accumulatorSubscriberStub);
-    eventFactory.enableChannel(channel);
+    eventFactory.openChannel(channel);
 
     publisher.publish(event);
     publisher.publish(event);
@@ -493,7 +487,7 @@ public class EventCoreAcceptanceTests {
     String expectedEventFullyQualifiedName = event.getFullyQualifiedName();
     Publisher publisher = eventFactory.createPublisher(channel);
     eventFactory.addSubscriber(channel, accumulatorSubscriberStub);
-    eventFactory.enableChannel(channel);
+    eventFactory.openChannel(channel);
     publisher.publish(event);
 
     publisher.unpublish(event);
@@ -513,7 +507,7 @@ public class EventCoreAcceptanceTests {
     Event eventForChannelOne = eventFactory.createEvent(channelOne, "test.family", "test.name");
     eventFactory.createEvent(channelTwo, "test.family", "test.name");
     Publisher publisherForChannelTwo = eventFactory.createPublisher(channelTwo);
-    eventFactory.enableChannel(channelTwo);
+    eventFactory.openChannel(channelTwo);
 
     publisherForChannelTwo.publish(eventForChannelOne);
   }
@@ -527,7 +521,7 @@ public class EventCoreAcceptanceTests {
     Event eventForChannelOne = eventFactory.createEvent(channelOne, "test.family", "test.name");
     eventFactory.createEvent(channelTwo, "test.family", "test.name");
     Publisher publisherForChannelTwo = eventFactory.createPublisher(channelTwo);
-    eventFactory.enableChannel(channelTwo);
+    eventFactory.openChannel(channelTwo);
 
     publisherForChannelTwo.unpublish(eventForChannelOne);
   }
@@ -539,7 +533,7 @@ public class EventCoreAcceptanceTests {
     Event event = eventFactory.createEvent(channel, "test.family", "test.name");
     Publisher publisher = eventFactory.createPublisher(channel);
     eventFactory.addSubscriber(channel, accumulatorSubscriberStub);
-    eventFactory.enableChannel(channel);
+    eventFactory.openChannel(channel);
 
     publisher.unpublish(event);
 
@@ -554,9 +548,9 @@ public class EventCoreAcceptanceTests {
     Channel channel = eventFactory.createChannel("test.channel");
     eventFactory.createEvent(channel, "test.family", "test.name");
     Publisher publisher = eventFactory.createPublisher(channel);
-    Subscriber subscriber = createSubscriberStub();
+    Subscriber subscriber = accumulatorSubscriberStub;
     eventFactory.addSubscriber(channel, subscriber);
-    eventFactory.enableChannel(channel);
+    eventFactory.openChannel(channel);
 
     publisher.publish(null);
   }
@@ -568,9 +562,9 @@ public class EventCoreAcceptanceTests {
     Channel channel = eventFactory.createChannel("test.channel");
     eventFactory.createEvent(channel, "test.family", "test.name");
     Publisher publisher = eventFactory.createPublisher(channel);
-    Subscriber subscriber = createSubscriberStub();
+    Subscriber subscriber = accumulatorSubscriberStub;
     eventFactory.addSubscriber(channel, subscriber);
-    eventFactory.enableChannel(channel);
+    eventFactory.openChannel(channel);
 
     publisher.unpublish(null);
   }
@@ -582,9 +576,9 @@ public class EventCoreAcceptanceTests {
     Channel channel = eventFactory.createChannel("test.channel");
     Event event = eventFactory.createEvent(channel, "test.family", "test.name");
     Publisher publisher = eventFactory.createPublisher(channel);
-    Subscriber subscriber = createSubscriberStub();
+    Subscriber subscriber = accumulatorSubscriberStub;
     eventFactory.addSubscriber(channel, subscriber);
-    eventFactory.enableChannel(channel);
+    eventFactory.openChannel(channel);
 
     publisher.publish(event, (Subject) null);
   }
@@ -596,9 +590,9 @@ public class EventCoreAcceptanceTests {
     Channel channel = eventFactory.createChannel("test.channel");
     Event event = eventFactory.createEvent(channel, "test.family", "test.name");
     Publisher publisher = eventFactory.createPublisher(channel);
-    Subscriber subscriber = createSubscriberStub();
+    Subscriber subscriber = accumulatorSubscriberStub;
     eventFactory.addSubscriber(channel, subscriber);
-    eventFactory.enableChannel(channel);
+    eventFactory.openChannel(channel);
 
     publisher.unpublish(event, (Subject) null);
   }
@@ -609,9 +603,9 @@ public class EventCoreAcceptanceTests {
     thrown.expectMessage("event cannot be null");
     Channel channel = eventFactory.createChannel("test.channel");
     Publisher publisher = eventFactory.createPublisher(channel);
-    Subscriber subscriber = createSubscriberStub();
+    Subscriber subscriber = accumulatorSubscriberStub;
     eventFactory.addSubscriber(channel, subscriber);
-    eventFactory.enableChannel(channel);
+    eventFactory.openChannel(channel);
 
     publisher.publish(null, createSubjectStub("test.subject"));
   }
@@ -622,34 +616,34 @@ public class EventCoreAcceptanceTests {
     thrown.expectMessage("event cannot be null");
     Channel channel = eventFactory.createChannel("test.channel");
     Publisher publisher = eventFactory.createPublisher(channel);
-    Subscriber subscriber = createSubscriberStub();
+    Subscriber subscriber = accumulatorSubscriberStub;
     eventFactory.addSubscriber(channel, subscriber);
-    eventFactory.enableChannel(channel);
+    eventFactory.openChannel(channel);
 
     publisher.unpublish(null, createSubjectStub("test.subject"));
   }
 
   @Test
-  public void EventCore_publishEventWithSubjectWhenChannelNotEnabled_unsupportedOperationExceptionIsThrown() {
+  public void EventCore_publishEventWithSubjectWhenChannelNotOpen_unsupportedOperationExceptionIsThrown() {
     thrown.expect(UnsupportedOperationException.class);
-    thrown.expectMessage("channel is not enabled");
+    thrown.expectMessage("channel is not open");
     Channel channel = eventFactory.createChannel("test.channel");
     Event event = eventFactory.createEvent(channel, "test.family", "test.name");
     Publisher publisher = eventFactory.createPublisher(channel);
-    Subscriber subscriber = createSubscriberStub();
+    Subscriber subscriber = accumulatorSubscriberStub;
     eventFactory.addSubscriber(channel, subscriber);
 
     publisher.publish(event, createSubjectStub("test.subject"));
   }
 
   @Test
-  public void EventCore_unpublishEventWithSubjectWhenChannelNotEnabled_unsupportedOperationExceptionIsThrown() {
+  public void EventCore_unpublishEventWithSubjectWhenChannelNotOpen_unsupportedOperationExceptionIsThrown() {
     thrown.expect(UnsupportedOperationException.class);
-    thrown.expectMessage("channel is not enabled");
+    thrown.expectMessage("channel is not open");
     Channel channel = eventFactory.createChannel("test.channel");
     Event event = eventFactory.createEvent(channel, "test.family", "test.name");
     Publisher publisher = eventFactory.createPublisher(channel);
-    Subscriber subscriber = createSubscriberStub();
+    Subscriber subscriber = accumulatorSubscriberStub;
     eventFactory.addSubscriber(channel, subscriber);
 
     publisher.unpublish(event, createSubjectStub("test.subject"));
@@ -663,7 +657,7 @@ public class EventCoreAcceptanceTests {
     Subject expectedSubject = createSubjectStub("test.subject");
     Publisher publisher = eventFactory.createPublisher(channel);
     eventFactory.addSubscriber(channel, accumulatorSubscriberStub);
-    eventFactory.enableChannel(channel);
+    eventFactory.openChannel(channel);
 
     publisher.publish(expectedEvent, expectedSubject);
 
@@ -682,7 +676,7 @@ public class EventCoreAcceptanceTests {
     Subject expectedSubject = createSubjectStub("test.subject");
     Publisher publisher = eventFactory.createPublisher(channel);
     eventFactory.addSubscriber(channel, accumulatorSubscriberStub);
-    eventFactory.enableChannel(channel);
+    eventFactory.openChannel(channel);
     publisher.publish(expectedEvent, expectedSubject);
 
     publisher.unpublish(expectedEvent, expectedSubject);
@@ -702,7 +696,7 @@ public class EventCoreAcceptanceTests {
     Subject expectedSubject = createSubjectStub("test.subject");
     Publisher publisher = eventFactory.createPublisher(channel);
     eventFactory.addSubscriber(channel, accumulatorSubscriberStub);
-    eventFactory.enableChannel(channel);
+    eventFactory.openChannel(channel);
 
     publisher.publish(expectedEvent, expectedSubject);
     publisher.publish(expectedEvent, expectedSubject);
@@ -722,7 +716,7 @@ public class EventCoreAcceptanceTests {
     Subject expectedSubject = createSubjectStub("test.subject");
     Publisher publisher = eventFactory.createPublisher(channel);
     eventFactory.addSubscriber(channel, accumulatorSubscriberStub);
-    eventFactory.enableChannel(channel);
+    eventFactory.openChannel(channel);
     publisher.publish(expectedEvent, expectedSubject);
 
     publisher.unpublish(expectedEvent, expectedSubject);
@@ -744,7 +738,7 @@ public class EventCoreAcceptanceTests {
     Subject expectedSubjectTwo = createSubjectStub("test.subject.two");
     Publisher publisher = eventFactory.createPublisher(channel);
     eventFactory.addSubscriber(channel, accumulatorSubscriberStub);
-    eventFactory.enableChannel(channel);
+    eventFactory.openChannel(channel);
 
     publisher.publish(expectedEvent, expectedSubjectOne);
     publisher.publish(expectedEvent, expectedSubjectTwo);
@@ -768,7 +762,7 @@ public class EventCoreAcceptanceTests {
     Subject expectedSubjectTwo = createSubjectStub("test.subject.two");
     Publisher publisher = eventFactory.createPublisher(channel);
     eventFactory.addSubscriber(channel, accumulatorSubscriberStub);
-    eventFactory.enableChannel(channel);
+    eventFactory.openChannel(channel);
     publisher.publish(expectedEvent, expectedSubjectOne);
     publisher.publish(expectedEvent, expectedSubjectTwo);
 
@@ -794,7 +788,7 @@ public class EventCoreAcceptanceTests {
     Subject expectedSubject = createSubjectStub("test.subject");
     Publisher publisher = eventFactory.createPublisher(channel);
     eventFactory.addSubscriber(channel, accumulatorSubscriberStub);
-    eventFactory.enableChannel(channel);
+    eventFactory.openChannel(channel);
 
     publisher.publish(expectedEventOne, expectedSubject);
     publisher.publish(expectedEventTwo, expectedSubject);
@@ -818,7 +812,7 @@ public class EventCoreAcceptanceTests {
     Subject expectedSubject = createSubjectStub("test.subject");
     Publisher publisher = eventFactory.createPublisher(channel);
     eventFactory.addSubscriber(channel, accumulatorSubscriberStub);
-    eventFactory.enableChannel(channel);
+    eventFactory.openChannel(channel);
     publisher.publish(expectedEventOne, expectedSubject);
     publisher.publish(expectedEventTwo, expectedSubject);
 
@@ -843,7 +837,7 @@ public class EventCoreAcceptanceTests {
     Subject expectedSubject = createSubjectStub("test.subject");
     Publisher publisher = eventFactory.createPublisher(channel);
     eventFactory.addSubscriber(channel, accumulatorSubscriberStub);
-    eventFactory.enableChannel(channel);
+    eventFactory.openChannel(channel);
 
     publisher.publish(expectedEvent, expectedSubject);
     publisher.publish(expectedEvent);
@@ -866,7 +860,7 @@ public class EventCoreAcceptanceTests {
     Subject expectedSubject = createSubjectStub("test.subject");
     Publisher publisher = eventFactory.createPublisher(channel);
     eventFactory.addSubscriber(channel, accumulatorSubscriberStub);
-    eventFactory.enableChannel(channel);
+    eventFactory.openChannel(channel);
     publisher.publish(expectedEvent, expectedSubject);
     publisher.publish(expectedEvent);
 
@@ -894,7 +888,7 @@ public class EventCoreAcceptanceTests {
     Publisher publisherTwo = eventFactory.createPublisher(channel);
     Publisher publisherThree = eventFactory.createPublisher(channel);
     eventFactory.addSubscriber(channel, accumulatorSubscriberStub);
-    eventFactory.enableChannel(channel);
+    eventFactory.openChannel(channel);
 
     publisherOne.publish(expectedEventOne);
     publisherTwo.publish(expectedEventTwo);
@@ -921,7 +915,7 @@ public class EventCoreAcceptanceTests {
     Publisher publisherTwo = eventFactory.createPublisher(channel);
     Publisher publisherThree = eventFactory.createPublisher(channel);
     eventFactory.addSubscriber(channel, accumulatorSubscriberStub);
-    eventFactory.enableChannel(channel);
+    eventFactory.openChannel(channel);
     publisherOne.publish(expectedEventOne);
     publisherTwo.publish(expectedEventTwo);
     publisherThree.publish(expectedEventThree);
@@ -949,7 +943,7 @@ public class EventCoreAcceptanceTests {
     Publisher publisherTwo = eventFactory.createPublisher(channel);
     Publisher publisherThree = eventFactory.createPublisher(channel);
     eventFactory.addSubscriber(channel, accumulatorSubscriberStub);
-    eventFactory.enableChannel(channel);
+    eventFactory.openChannel(channel);
 
     publisherOne.publish(expectedEvent);
     publisherTwo.publish(expectedEvent);
@@ -970,7 +964,7 @@ public class EventCoreAcceptanceTests {
     Publisher publisherTwo = eventFactory.createPublisher(channel);
     Publisher publisherThree = eventFactory.createPublisher(channel);
     eventFactory.addSubscriber(channel, accumulatorSubscriberStub);
-    eventFactory.enableChannel(channel);
+    eventFactory.openChannel(channel);
     publisherOne.publish(expectedEvent);
     publisherTwo.publish(expectedEvent);
     publisherThree.publish(expectedEvent);
@@ -992,15 +986,15 @@ public class EventCoreAcceptanceTests {
     Event expectedEvent = eventFactory.createEvent(channel, "test.family", "test.name.one");
     Publisher publisher = eventFactory.createPublisher(channel);
     AccumulatorSubscriberStub subscriberOne =
-        AccumulatorSubscriberStub.createAccumulatorSubscriber();
+        AccumulatorSubscriberStub.createAccumulatorSubscriber("test.subscriber.one");
     AccumulatorSubscriberStub subscriberTwo =
-        AccumulatorSubscriberStub.createAccumulatorSubscriber();
+        AccumulatorSubscriberStub.createAccumulatorSubscriber("test.subscriber.two");
     AccumulatorSubscriberStub subscriberThree =
-        AccumulatorSubscriberStub.createAccumulatorSubscriber();
+        AccumulatorSubscriberStub.createAccumulatorSubscriber("test.subscriber.three");
     eventFactory.addSubscriber(channel, subscriberOne);
     eventFactory.addSubscriber(channel, subscriberTwo);
     eventFactory.addSubscriber(channel, subscriberThree);
-    eventFactory.enableChannel(channel);
+    eventFactory.openChannel(channel);
 
     publisher.publish(expectedEvent);
 
@@ -1027,15 +1021,15 @@ public class EventCoreAcceptanceTests {
     Event expectedEvent = eventFactory.createEvent(channel, "test.family", "test.name.one");
     Publisher publisher = eventFactory.createPublisher(channel);
     AccumulatorSubscriberStub subscriberOne =
-        AccumulatorSubscriberStub.createAccumulatorSubscriber();
+        AccumulatorSubscriberStub.createAccumulatorSubscriber("test.subscriber.one");
     AccumulatorSubscriberStub subscriberTwo =
-        AccumulatorSubscriberStub.createAccumulatorSubscriber();
+        AccumulatorSubscriberStub.createAccumulatorSubscriber("test.subscriber.two");
     AccumulatorSubscriberStub subscriberThree =
-        AccumulatorSubscriberStub.createAccumulatorSubscriber();
+        AccumulatorSubscriberStub.createAccumulatorSubscriber("test.subscriber.three");
     eventFactory.addSubscriber(channel, subscriberOne);
     eventFactory.addSubscriber(channel, subscriberTwo);
     eventFactory.addSubscriber(channel, subscriberThree);
-    eventFactory.enableChannel(channel);
+    eventFactory.openChannel(channel);
     publisher.publish(expectedEvent);
 
     publisher.unpublish(expectedEvent);
@@ -1067,15 +1061,15 @@ public class EventCoreAcceptanceTests {
     Publisher publisherTwo = eventFactory.createPublisher(channel);
     Publisher publisherThree = eventFactory.createPublisher(channel);
     AccumulatorSubscriberStub subscriberOne =
-        AccumulatorSubscriberStub.createAccumulatorSubscriber();
+        AccumulatorSubscriberStub.createAccumulatorSubscriber("test.subscriber.one");
     AccumulatorSubscriberStub subscriberTwo =
-        AccumulatorSubscriberStub.createAccumulatorSubscriber();
+        AccumulatorSubscriberStub.createAccumulatorSubscriber("test.subscriber.two");
     AccumulatorSubscriberStub subscriberThree =
-        AccumulatorSubscriberStub.createAccumulatorSubscriber();
+        AccumulatorSubscriberStub.createAccumulatorSubscriber("test.subscriber.three");
     eventFactory.addSubscriber(channel, subscriberOne);
     eventFactory.addSubscriber(channel, subscriberTwo);
     eventFactory.addSubscriber(channel, subscriberThree);
-    eventFactory.enableChannel(channel);
+    eventFactory.openChannel(channel);
 
     publisherOne.publish(expectedEventOne);
     publisherTwo.publish(expectedEventTwo);
@@ -1120,15 +1114,15 @@ public class EventCoreAcceptanceTests {
     Publisher publisherTwo = eventFactory.createPublisher(channel);
     Publisher publisherThree = eventFactory.createPublisher(channel);
     AccumulatorSubscriberStub subscriberOne =
-        AccumulatorSubscriberStub.createAccumulatorSubscriber();
+        AccumulatorSubscriberStub.createAccumulatorSubscriber("test.subscriber.one");
     AccumulatorSubscriberStub subscriberTwo =
-        AccumulatorSubscriberStub.createAccumulatorSubscriber();
+        AccumulatorSubscriberStub.createAccumulatorSubscriber("test.subscriber.two");
     AccumulatorSubscriberStub subscriberThree =
-        AccumulatorSubscriberStub.createAccumulatorSubscriber();
+        AccumulatorSubscriberStub.createAccumulatorSubscriber("test.subscriber.three");
     eventFactory.addSubscriber(channel, subscriberOne);
     eventFactory.addSubscriber(channel, subscriberTwo);
     eventFactory.addSubscriber(channel, subscriberThree);
-    eventFactory.enableChannel(channel);
+    eventFactory.openChannel(channel);
     publisherOne.publish(expectedEventOne);
     publisherTwo.publish(expectedEventTwo);
     publisherThree.publish(expectedEventThree);
@@ -1174,15 +1168,15 @@ public class EventCoreAcceptanceTests {
     Publisher publisherTwo = eventFactory.createPublisher(channel);
     Publisher publisherThree = eventFactory.createPublisher(channel);
     AccumulatorSubscriberStub subscriberOne =
-        AccumulatorSubscriberStub.createAccumulatorSubscriber();
+        AccumulatorSubscriberStub.createAccumulatorSubscriber("test.subscriber.one");
     AccumulatorSubscriberStub subscriberTwo =
-        AccumulatorSubscriberStub.createAccumulatorSubscriber();
+        AccumulatorSubscriberStub.createAccumulatorSubscriber("test.subscriber.two");
     AccumulatorSubscriberStub subscriberThree =
-        AccumulatorSubscriberStub.createAccumulatorSubscriber();
+        AccumulatorSubscriberStub.createAccumulatorSubscriber("test.subscriber.three");
     eventFactory.addSubscriber(channel, subscriberOne);
     eventFactory.addSubscriber(channel, subscriberTwo);
     eventFactory.addSubscriber(channel, subscriberThree);
-    eventFactory.enableChannel(channel);
+    eventFactory.openChannel(channel);
 
     publisherOne.publish(expectedEvent);
     publisherTwo.publish(expectedEvent);
@@ -1213,15 +1207,15 @@ public class EventCoreAcceptanceTests {
     Publisher publisherTwo = eventFactory.createPublisher(channel);
     Publisher publisherThree = eventFactory.createPublisher(channel);
     AccumulatorSubscriberStub subscriberOne =
-        AccumulatorSubscriberStub.createAccumulatorSubscriber();
+        AccumulatorSubscriberStub.createAccumulatorSubscriber("test.subscriber.one");
     AccumulatorSubscriberStub subscriberTwo =
-        AccumulatorSubscriberStub.createAccumulatorSubscriber();
+        AccumulatorSubscriberStub.createAccumulatorSubscriber("test.subscriber.two");
     AccumulatorSubscriberStub subscriberThree =
-        AccumulatorSubscriberStub.createAccumulatorSubscriber();
+        AccumulatorSubscriberStub.createAccumulatorSubscriber("test.subscriber.three");
     eventFactory.addSubscriber(channel, subscriberOne);
     eventFactory.addSubscriber(channel, subscriberTwo);
     eventFactory.addSubscriber(channel, subscriberThree);
-    eventFactory.enableChannel(channel);
+    eventFactory.openChannel(channel);
     publisherOne.publish(expectedEvent);
     publisherTwo.publish(expectedEvent);
     publisherThree.publish(expectedEvent);
@@ -1252,7 +1246,7 @@ public class EventCoreAcceptanceTests {
     Event expectedEvent = eventFactory.createEvent(channel, "test.family", "test.name");
     Publisher publisher = eventFactory.createPublisher(channel);
     eventFactory.addSubscriber(channel, accumulatorSubscriberStub);
-    eventFactory.enableChannel(channel);
+    eventFactory.openChannel(channel);
 
     publisher.publish(expectedEvent);
 
@@ -1285,7 +1279,7 @@ public class EventCoreAcceptanceTests {
     Publisher publisherOne = eventFactory.createPublisher(channel);
     Publisher publisherTwo = eventFactory.createPublisher(channel);
     eventFactory.addSubscriber(channel, accumulatorSubscriberStub);
-    eventFactory.enableChannel(channel);
+    eventFactory.openChannel(channel);
     publisherOne.publish(eventFromPublisherOne);
     publisherOne.publish(eventFromBothPublishers);
     publisherTwo.publish(eventFromPublisherTwo);
@@ -1314,13 +1308,13 @@ public class EventCoreAcceptanceTests {
   }
 
   @Test
-  public void publisherAttemptsToUnpublishAnotherPublishersEvent_subscriberReceivesNoUnpublishEvent() {
+  public void EventCore_publisherAttemptsToUnpublishAnotherPublishersEvent_subscriberReceivesNoUnpublishEvent() {
     Channel channel = eventFactory.createChannel("test.channel");
     Event event = eventFactory.createEvent(channel, "test.family", "test.name");
     Publisher publisherOne = eventFactory.createPublisher(channel);
     Publisher publisherTwo = eventFactory.createPublisher(channel);
     eventFactory.addSubscriber(channel, accumulatorSubscriberStub);
-    eventFactory.enableChannel(channel);
+    eventFactory.openChannel(channel);
     publisherOne.publish(event);
 
     publisherTwo.unpublish(event);
@@ -1332,14 +1326,14 @@ public class EventCoreAcceptanceTests {
   }
 
   @Test
-  public void publisherAttemptsToUnpublishAnotherPublishersEventWithSubject_subscriberReceivesNoUnpublishEvent() {
+  public void EventCore_publisherAttemptsToUnpublishAnotherPublishersEventWithSubject_subscriberReceivesNoUnpublishEvent() {
     Channel channel = eventFactory.createChannel("test.channel");
     Event event = eventFactory.createEvent(channel, "test.family", "test.name");
     Subject subject = createSubjectStub("test.subject");
     Publisher publisherOne = eventFactory.createPublisher(channel);
     Publisher publisherTwo = eventFactory.createPublisher(channel);
     eventFactory.addSubscriber(channel, accumulatorSubscriberStub);
-    eventFactory.enableChannel(channel);
+    eventFactory.openChannel(channel);
     publisherOne.publish(event, subject);
 
     publisherTwo.unpublish(event, subject);
@@ -1351,7 +1345,7 @@ public class EventCoreAcceptanceTests {
   }
 
   @Test
-  public void createEventUsingChannelFromAnotherFactoryInstance_unsupportedOperationExceptionIsThrown() {
+  public void EventCore_createEventUsingChannelFromAnotherFactoryInstance_unsupportedOperationExceptionIsThrown() {
     thrown.expect(UnsupportedOperationException.class);
     thrown.expectMessage(" does not exist in this factory");
     EventFactory eventFactoryOne = EventFactory.createFactory();
@@ -1362,7 +1356,7 @@ public class EventCoreAcceptanceTests {
   }
 
   @Test
-  public void createPublisherUsingChannelFromAnotherFactoryInstance_unsupportedOperationExceptionIsThrown() {
+  public void EventCore_createPublisherUsingChannelFromAnotherFactoryInstance_unsupportedOperationExceptionIsThrown() {
     thrown.expect(UnsupportedOperationException.class);
     thrown.expectMessage(" does not exist in this factory");
     EventFactory eventFactoryOne = EventFactory.createFactory();
@@ -1373,7 +1367,7 @@ public class EventCoreAcceptanceTests {
   }
 
   @Test
-  public void addSubscriberUsingChannelFromAnotherFactoryInstance_unsupportedOperationExceptionIsThrown() {
+  public void EventCore_addSubscriberUsingChannelFromAnotherFactoryInstance_unsupportedOperationExceptionIsThrown() {
     thrown.expect(UnsupportedOperationException.class);
     thrown.expectMessage(" does not exist in this factory");
     EventFactory eventFactoryOne = EventFactory.createFactory();
@@ -1384,36 +1378,41 @@ public class EventCoreAcceptanceTests {
   }
 
   @Test
-  public void enableChannelFromAnotherFactoryInstance_unsupportedOperationExceptionIsThrown() {
+  public void EventCore_openChannelFromAnotherFactoryInstance_unsupportedOperationExceptionIsThrown() {
     thrown.expect(UnsupportedOperationException.class);
     thrown.expectMessage(" does not exist in this factory");
     EventFactory eventFactoryOne = EventFactory.createFactory();
     EventFactory eventFactoryTwo = EventFactory.createFactory();
     Channel channel = eventFactoryOne.createChannel("test.channel");
 
-    eventFactoryTwo.enableChannel(channel);
+    eventFactoryTwo.openChannel(channel);
   }
 
   @Test
-  public void publishValidEventAndOneSubscriberThrowsUncheckedException_eventCoreDoesNotDieAndAllOtherSubscribersReceiveEvent() {
+  public void EventCore_publishValidEventAndOneSubscriberThrowsUncheckedException_eventCoreDoesNotDieAndAllOtherSubscribersReceiveEvent() {
     Channel channel = eventFactory.createChannel("test.channel");
     Event event = eventFactory.createEvent(channel, "test.family", "test.name");
     Publisher publisher = eventFactory.createPublisher(channel);
     AccumulatorSubscriberStub stableSubscriberOne =
-        AccumulatorSubscriberStub.createAccumulatorSubscriber();
+        AccumulatorSubscriberStub.createAccumulatorSubscriber("test.subscriber.stable.one");
     Subscriber unstableSubscriber = new Subscriber() {
 
       @Override
       public void processPublishEvent(Event event) {
         throw new NullPointerException();
       }
+
+      @Override
+      public String getName() {
+        return "test.unstable.subscriber";
+      }
     };
     AccumulatorSubscriberStub stableSubscriberTwo =
-        AccumulatorSubscriberStub.createAccumulatorSubscriber();
+        AccumulatorSubscriberStub.createAccumulatorSubscriber("test.subscriber.stable.two");
     eventFactory.addSubscriber(channel, stableSubscriberOne);
     eventFactory.addSubscriber(channel, unstableSubscriber);
     eventFactory.addSubscriber(channel, stableSubscriberTwo);
-    eventFactory.enableChannel(channel);
+    eventFactory.openChannel(channel);
 
     publisher.publish(event);
 
@@ -1426,25 +1425,30 @@ public class EventCoreAcceptanceTests {
   }
 
   @Test
-  public void unpublishValidEventAndOneSubscriberThrowsUncheckedException_eventCoreDoesNotDieAndAllOtherSubscribersReceiveEvent() {
+  public void EventCore_unpublishValidEventAndOneSubscriberThrowsUncheckedException_eventCoreDoesNotDieAndAllOtherSubscribersReceiveEvent() {
     Channel channel = eventFactory.createChannel("test.channel");
     Event event = eventFactory.createEvent(channel, "test.family", "test.name");
     Publisher publisher = eventFactory.createPublisher(channel);
     AccumulatorSubscriberStub stableSubscriberOne =
-        AccumulatorSubscriberStub.createAccumulatorSubscriber();
+        AccumulatorSubscriberStub.createAccumulatorSubscriber("test.stable.subscriber.one");
     Subscriber unstableSubscriber = new Subscriber() {
 
       @Override
       public void processUnpublishEvent(Event event) {
         throw new NullPointerException();
       }
+
+      @Override
+      public String getName() {
+        return "test.unstable.subscriber";
+      }
     };
     AccumulatorSubscriberStub stableSubscriberTwo =
-        AccumulatorSubscriberStub.createAccumulatorSubscriber();
+        AccumulatorSubscriberStub.createAccumulatorSubscriber("test.stable.subscriber.two");
     eventFactory.addSubscriber(channel, stableSubscriberOne);
     eventFactory.addSubscriber(channel, unstableSubscriber);
     eventFactory.addSubscriber(channel, stableSubscriberTwo);
-    eventFactory.enableChannel(channel);
+    eventFactory.openChannel(channel);
     publisher.publish(event);
 
     publisher.unpublish(event);
@@ -1520,20 +1524,26 @@ public class EventCoreAcceptanceTests {
   }
 
   /*
-   * Rough list of test scenarios:
+   * Rough:
+   * 
+   * Looking at the current Event test cases, maybe it would make more sense to differentiate the
+   * types between when the Event instances are being created and when they are being processed
+   * since it seems a little awkward right now. Perhaps during creation the type could be
+   * Description and during processing it would remain Event. However, the Event would become a
+   * composite containing Description and optionally Subject. The behaviour would be more intuitive.
+   * 
+   * There is a lot of duplicate code in the channel implementation. Or code that is mostly exactly
+   * the same. It could be generalized and the duplicates could be removed. It might be easier,
+   * though, if done after differentiating between Description and Event.
+   * 
+   * Could the channel be broken down into parameter validation / cache / processing layers, too,
+   * using the decorator pattern in a similar way to the factory?
    * 
    * Register two subscribers. Publish a number of events. First subscriber requests a resend of all
    * published events. First subscriber receives all published events in the order they were
    * originally sent. Second subscriber does not. As a point of clarification, the objective is NOT
    * to replay the entire publish/unpublish history for all events since the channel was opened. The
    * objective is to simply send all current published events to the subscriber that requested it.
-   * 
-   * There is a lot of duplicate code in the EventChannel implementation. Or code that is mostly
-   * exactly the same. It could be generalized and the duplicates could be removed. It might be
-   * easier, though, if done after differentiating between Description and Event.
-   * 
-   * Could the EventChannel be broken down into parameter validation / cache / processing layers,
-   * too, using the decorator pattern in a similar way to the factory?
    * 
    * Also, it would be useful for testing and debugging to get a list of published events and who
    * published them. Maybe a single method to get an event report for a given channel that lists all
@@ -1545,7 +1555,11 @@ public class EventCoreAcceptanceTests {
    * different in type from standard client defined events. They could be differentiated from the
    * client defined events by being in their own family. You could even enforce a specific naming
    * convention like "event.core.*", so perhaps "event.core.channel.info",
-   * "event.core.system.error", etc.
+   * "event.core.system.error", etc. You can report events like when subscribers misbehave. Should
+   * the messages be in band? Does that make sense from the perspective of the subscribers? The
+   * subscribers should only know about what is relevant to them, so perhaps the messages should be
+   * limited to those events that all subscribers care about such as when the channel is opened or
+   * closed.
    * 
    * Maybe implement an InternalSystem that is a singleton that is created on demand. This
    * InternalSystem could have the instance cache and all factories could reference it, so for
@@ -1558,21 +1572,8 @@ public class EventCoreAcceptanceTests {
    * implement some intelligence in the InternalSystem itself for monitoring to ensure instances are
    * still being used and closing them otherwise.
    * 
-   * Looking at the current Event test cases, maybe it would make more sense to differentiate the
-   * types between when the Event instances are being created and when they are being processed
-   * since it seems a little awkward right now. Perhaps during creation the type could be
-   * Description and during processing it would remain Event. However, the Event would become a
-   * composite containing Description and optionally Subject. The behaviour would be more intuitive.
-   * 
-   * The isEnabled for Subject instances should be implemented in the Subject base class, final, and
-   * hard coded to true.
-   * 
-   * Perhaps it would make more sense to use "open" and "close" for channels instead of
-   * enabled/disabled since the terminology is more consistent.
-   * 
-   * Maybe rename things like "eventChannel" to just "channel", etc. The Event is pretty much
-   * implied.
-   * 
+   * After all the refactoring, implement something to get rid of the two warnings that have been
+   * lingering forever.
    */
 
 }

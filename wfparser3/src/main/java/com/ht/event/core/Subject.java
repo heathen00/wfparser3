@@ -1,9 +1,6 @@
 package com.ht.event.core;
 
-public abstract class Subject implements Comparable<Subject> {
-
-  @Override
-  public abstract int compareTo(Subject o);
+public abstract class Subject implements SubjectPublished<Subject> {
 
   @Override
   public abstract int hashCode();
@@ -11,5 +8,6 @@ public abstract class Subject implements Comparable<Subject> {
   @Override
   public abstract boolean equals(Object obj);
 
-  public abstract boolean isDefined();
+  @Override
+  public abstract int compareTo(Subject o);
 }

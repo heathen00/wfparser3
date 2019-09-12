@@ -8,15 +8,15 @@ import java.util.Set;
 
 final class ChannelInternalImp extends NaturalOrderBase<Channel> implements ChannelInternal {
   private final EventFactoryInternal eventFactoryInternal;
-  private final String channelName;
+  private final String name;
   private final Map<Event, Set<Publisher>> publishedEventToPublisherMap;
-  private boolean isEnabled;
+  private boolean isOpen;
 
-  ChannelInternalImp(EventFactoryInternal eventFactoryInternal, String channelName) {
+  ChannelInternalImp(EventFactoryInternal eventFactoryInternal, String name) {
     this.eventFactoryInternal = eventFactoryInternal;
-    this.channelName = channelName;
+    this.name = name;
     publishedEventToPublisherMap = new HashMap<>();
-    isEnabled = false;
+    isOpen = false;
   }
 
   private void ensureParameterIsNotNull(String parameterName, Object parameter) {
@@ -25,9 +25,9 @@ final class ChannelInternalImp extends NaturalOrderBase<Channel> implements Chan
     }
   }
 
-  private void ensureChannelIsEnabled() {
-    if (!isEnabled()) {
-      throw new UnsupportedOperationException("channel is not enabled");
+  private void ensureChannelIsOpen() {
+    if (!isOpen()) {
+      throw new UnsupportedOperationException("channel is not open");
     }
   }
 
@@ -44,7 +44,7 @@ final class ChannelInternalImp extends NaturalOrderBase<Channel> implements Chan
 
   @Override
   public String getName() {
-    return channelName;
+    return name;
   }
 
   @Override
@@ -65,13 +65,13 @@ final class ChannelInternalImp extends NaturalOrderBase<Channel> implements Chan
   @Override
   public void publish(Publisher publisher, Event event) {
     ensureParameterIsNotNull("event", event);
-    ensureChannelIsEnabled();
+    ensureChannelIsOpen();
     ensureEventDefinedInChannel(event);
     if (publishedEventToPublisherMap.containsKey(event)) {
       publishedEventToPublisherMap.get(event).add(publisher);
       return;
     }
-    for (SubscriberPublished subscriber : getChannelCache().getSubscriberList()) {
+    for (Subscriber subscriber : getChannelCache().getSubscriberList()) {
       subscriber.processPublishEvent(event);
     }
     if (!publishedEventToPublisherMap.containsKey(event)) {
@@ -84,13 +84,13 @@ final class ChannelInternalImp extends NaturalOrderBase<Channel> implements Chan
   public void publish(Publisher publisher, Event event, Subject subject) {
     ensureParameterIsNotNull("event", event);
     ensureParameterIsNotNull("subject", subject);
-    ensureChannelIsEnabled();
+    ensureChannelIsOpen();
     Event eventWithSubject = eventFactoryInternal.createEvent(event, subject);
     if (publishedEventToPublisherMap.containsKey(eventWithSubject)) {
       publishedEventToPublisherMap.get(eventWithSubject).add(publisher);
       return;
     }
-    for (SubscriberPublished subscriber : getChannelCache().getSubscriberList()) {
+    for (Subscriber subscriber : getChannelCache().getSubscriberList()) {
       subscriber.processPublishEvent(eventWithSubject);
     }
     if (!publishedEventToPublisherMap.containsKey(eventWithSubject)) {
@@ -102,7 +102,7 @@ final class ChannelInternalImp extends NaturalOrderBase<Channel> implements Chan
   @Override
   public void unpublish(Publisher publisher, Event event) {
     ensureParameterIsNotNull("event", event);
-    ensureChannelIsEnabled();
+    ensureChannelIsOpen();
     ensureEventDefinedInChannel(event);
     if (!publishedEventToPublisherMap.containsKey(event)
         || !publishedEventToPublisherMap.get(event).contains(publisher)) {
@@ -113,7 +113,7 @@ final class ChannelInternalImp extends NaturalOrderBase<Channel> implements Chan
       publishedEventToPublisherMap.get(event).remove(publisher);
       return;
     }
-    for (SubscriberPublished subscriber : getChannelCache().getSubscriberList()) {
+    for (Subscriber subscriber : getChannelCache().getSubscriberList()) {
       subscriber.processUnpublishEvent(event);
     }
     publishedEventToPublisherMap.get(event).remove(publisher);
@@ -126,7 +126,7 @@ final class ChannelInternalImp extends NaturalOrderBase<Channel> implements Chan
   public void unpublish(Publisher publisher, Event event, Subject subject) {
     ensureParameterIsNotNull("event", event);
     ensureParameterIsNotNull("subject", subject);
-    ensureChannelIsEnabled();
+    ensureChannelIsOpen();
     Event eventWithSubject = eventFactoryInternal.createEvent(event, subject);
     if (!publishedEventToPublisherMap.containsKey(eventWithSubject)
         || !publishedEventToPublisherMap.get(eventWithSubject).contains(publisher)) {
@@ -137,7 +137,7 @@ final class ChannelInternalImp extends NaturalOrderBase<Channel> implements Chan
       publishedEventToPublisherMap.get(eventWithSubject).remove(publisher);
       return;
     }
-    for (SubscriberPublished subscriber : getChannelCache().getSubscriberList()) {
+    for (Subscriber subscriber : getChannelCache().getSubscriberList()) {
       subscriber.processUnpublishEvent(eventWithSubject);
     }
     publishedEventToPublisherMap.get(eventWithSubject).remove(publisher);
@@ -147,20 +147,20 @@ final class ChannelInternalImp extends NaturalOrderBase<Channel> implements Chan
   }
 
   @Override
-  public void enable() {
-    isEnabled = true;
+  public void open() {
+    isOpen = true;
   }
 
   @Override
-  public boolean isEnabled() {
-    return isEnabled;
+  public boolean isOpen() {
+    return isOpen;
   }
 
   @Override
   public int hashCode() {
     final int prime = 31;
     int result = 1;
-    result = prime * result + ((channelName == null) ? 0 : channelName.hashCode());
+    result = prime * result + ((name == null) ? 0 : name.hashCode());
     return result;
   }
 
@@ -176,11 +176,11 @@ final class ChannelInternalImp extends NaturalOrderBase<Channel> implements Chan
       return false;
     }
     ChannelInternalImp other = (ChannelInternalImp) obj;
-    if (channelName == null) {
-      if (other.channelName != null) {
+    if (name == null) {
+      if (other.name != null) {
         return false;
       }
-    } else if (!channelName.equals(other.channelName)) {
+    } else if (!name.equals(other.name)) {
       return false;
     }
     return true;

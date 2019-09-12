@@ -9,13 +9,13 @@ final class EventFactoryInternalCreatorImp implements EventFactoryInternal {
   }
 
   @Override
-  public Channel createChannel(String channelName) {
-    return new ChannelInternalImp(getRootEventFactoryInternal(), channelName);
+  public Channel createChannel(String name) {
+    return new ChannelInternalImp(getRootEventFactoryInternal(), name);
   }
 
   @Override
-  public Event createEvent(Channel eventChannel, String eventFamily, String eventName) {
-    return new EventInternalImp(this, eventChannel, eventFamily, eventName, getNoSubject());
+  public Event createEvent(Channel channel, String family, String name) {
+    return new EventInternalImp(this, channel, family, name, getNoSubject());
   }
 
   @Override
@@ -24,18 +24,18 @@ final class EventFactoryInternalCreatorImp implements EventFactoryInternal {
   }
 
   @Override
-  public Publisher createPublisher(Channel eventChannel) {
-    return new PublisherImp(this, (ChannelInternal) eventChannel);
+  public Publisher createPublisher(Channel channel) {
+    return new PublisherImp(this, (ChannelInternal) channel);
   }
 
   @Override
-  public void addSubscriber(Channel eventChannel, Subscriber eventSubscriber) {
+  public void addSubscriber(Channel channel, Subscriber eventSubscriber) {
     throw new UnsupportedOperationException("EventFactory creator does not create subscribers");
   }
 
   @Override
-  public void enableChannel(Channel eventChannel) {
-    throw new UnsupportedOperationException("EventFactory creator does not enable event channels");
+  public void openChannel(Channel channel) {
+    throw new UnsupportedOperationException("EventFactory creator does not open channels");
   }
 
   @Override

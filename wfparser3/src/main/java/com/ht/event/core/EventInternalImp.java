@@ -7,12 +7,12 @@ public final class EventInternalImp extends NaturalOrderBase<Event> implements E
   private final String name;
   private final Subject subject;
 
-  EventInternalImp(EventFactoryInternal eventFactoryInternal, Channel eventChannel,
-      String eventFamily, String eventName, Subject subject) {
+  EventInternalImp(EventFactoryInternal eventFactoryInternal, Channel channel,
+      String family, String name, Subject subject) {
     this.eventFactoryInternal = eventFactoryInternal;
-    this.channel = eventChannel;
-    this.family = eventFamily;
-    this.name = eventName;
+    this.channel = channel;
+    this.family = family;
+    this.name = name;
     this.subject = subject;
   }
 

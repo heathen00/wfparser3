@@ -5,10 +5,16 @@ import java.util.Collections;
 import java.util.List;
 
 public final class AccumulatorSubscriberStub extends Subscriber {
+  public static AccumulatorSubscriberStub createAccumulatorSubscriber(String name) {
+    return new AccumulatorSubscriberStub(name);
+  }
+
+  private final String name;
   private final List<Event> processedPublishedEventList;
   private final List<Event> processedUnpublishedEventList;
 
-  AccumulatorSubscriberStub() {
+  AccumulatorSubscriberStub(String name) {
+    this.name = name;
     processedPublishedEventList = new ArrayList<>();
     processedUnpublishedEventList = new ArrayList<>();
   }
@@ -31,13 +37,14 @@ public final class AccumulatorSubscriberStub extends Subscriber {
     return Collections.unmodifiableList(processedUnpublishedEventList);
   }
 
-  public static AccumulatorSubscriberStub createAccumulatorSubscriber() {
-    return new AccumulatorSubscriberStub();
-  }
-
   @Override
   public String toString() {
     return "AccumulatorSubscriberStub [hashCode()=" + hashCode() + "]";
+  }
+
+  @Override
+  public String getName() {
+    return name;
   }
 }
 

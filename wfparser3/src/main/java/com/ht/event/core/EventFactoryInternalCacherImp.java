@@ -13,32 +13,32 @@ final class EventFactoryInternalCacherImp implements EventFactoryInternal {
   }
 
 
-  private void ensureChannelBelongsToFactory(Channel eventChannel) {
-    if (null == instanceCache.getChannelCache(eventChannel.getName())) {
+  private void ensureChannelBelongsToFactory(Channel channel) {
+    if (null == instanceCache.getChannelCache(channel.getName())) {
       throw new UnsupportedOperationException(
-          "channel " + eventChannel.getName() + " does not exist in this factory");
+          "channel " + channel.getName() + " does not exist in this factory");
     }
   }
 
   @Override
-  public Channel createChannel(String channelName) {
+  public Channel createChannel(String name) {
     ChannelInternal channelInternal = null;
-    if (null == instanceCache.getChannelCache(channelName)) {
-      channelInternal = (ChannelInternal) nextEventFactoryInternal.createChannel(channelName);
-      instanceCache.addChannelCache(channelName, channelInternal);
+    if (null == instanceCache.getChannelCache(name)) {
+      channelInternal = (ChannelInternal) nextEventFactoryInternal.createChannel(name);
+      instanceCache.addChannelCache(name, channelInternal);
     } else {
-      channelInternal = instanceCache.getChannelCache(channelName).getChannelInternal();
+      channelInternal = instanceCache.getChannelCache(name).getChannelInternal();
     }
     return channelInternal;
   }
 
   @Override
-  public Event createEvent(Channel eventChannel, String eventFamily, String eventName) {
-    ensureChannelBelongsToFactory(eventChannel);
-    Event event = getChannelCache(eventChannel).getEvent(eventChannel, eventFamily, eventName);
+  public Event createEvent(Channel channel, String family, String name) {
+    ensureChannelBelongsToFactory(channel);
+    Event event = getChannelCache(channel).getEvent(channel, family, name);
     if (null == event) {
-      event = nextEventFactoryInternal.createEvent(eventChannel, eventFamily, eventName);
-      getChannelCache(eventChannel).addEvent(event);
+      event = nextEventFactoryInternal.createEvent(channel, family, name);
+      getChannelCache(channel).addEvent(event);
     }
     return event;
   }
@@ -54,35 +54,35 @@ final class EventFactoryInternalCacherImp implements EventFactoryInternal {
   }
 
   @Override
-  public Publisher createPublisher(Channel eventChannel) {
-    ensureChannelBelongsToFactory(eventChannel);
-    Publisher newPublisher = nextEventFactoryInternal.createPublisher(eventChannel);
-    getChannelCache(eventChannel).addPublisher(newPublisher);
+  public Publisher createPublisher(Channel channel) {
+    ensureChannelBelongsToFactory(channel);
+    Publisher newPublisher = nextEventFactoryInternal.createPublisher(channel);
+    getChannelCache(channel).addPublisher(newPublisher);
     return newPublisher;
   }
 
   @Override
-  public void addSubscriber(Channel eventChannel, Subscriber eventSubscriber) {
-    ensureChannelBelongsToFactory(eventChannel);
+  public void addSubscriber(Channel channel, Subscriber eventSubscriber) {
+    ensureChannelBelongsToFactory(channel);
     Subscriber subscriberWrapper = new SubscriberWrapper(eventSubscriber);
     ChannelInternal subscribersCurrentChannelInternal =
         getInstanceCache().getChannelInternalForSubscriber(subscriberWrapper);
     if (null != subscribersCurrentChannelInternal
-        && !eventChannel.equals(subscribersCurrentChannelInternal)) {
+        && !channel.equals(subscribersCurrentChannelInternal)) {
       throw new UnsupportedOperationException("subscriber already subscribed to channel "
           + subscribersCurrentChannelInternal.getName());
     }
-    getChannelCache(eventChannel).addSubscriber(subscriberWrapper);
+    getChannelCache(channel).addSubscriber(subscriberWrapper);
   }
 
   @Override
-  public void enableChannel(Channel eventChannel) {
-    ensureChannelBelongsToFactory(eventChannel);
-    getChannelCache(eventChannel).getChannelInternal().enable();
+  public void openChannel(Channel channel) {
+    ensureChannelBelongsToFactory(channel);
+    getChannelCache(channel).getChannelInternal().open();
   }
 
-  private ChannelCache getChannelCache(Channel eventChannel) {
-    return instanceCache.getChannelCache(eventChannel.getName());
+  private ChannelCache getChannelCache(Channel channel) {
+    return instanceCache.getChannelCache(channel.getName());
   }
 
   @Override

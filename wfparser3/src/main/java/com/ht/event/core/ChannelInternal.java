@@ -11,5 +11,5 @@ interface ChannelInternal extends Channel {
 
   void unpublish(Publisher publisher, Event event, Subject subject);
 
-  void enable();
+  void open();
 }

@@ -5,13 +5,13 @@ public interface EventFactory {
     return new EventFactoryInternalRootImp();
   }
 
-  Channel createChannel(String channelName);
+  Channel createChannel(String name);
 
-  Event createEvent(Channel eventChannel, String eventFamily, String eventName);
+  Event createEvent(Channel channel, String family, String name);
 
-  Publisher createPublisher(Channel eventChannel);
+  Publisher createPublisher(Channel channel);
 
-  void addSubscriber(Channel eventChannel, Subscriber eventSubscriber);
+  void addSubscriber(Channel channel, Subscriber eventSubscriber);
 
-  void enableChannel(Channel eventChannel);
+  void openChannel(Channel channel);
 }

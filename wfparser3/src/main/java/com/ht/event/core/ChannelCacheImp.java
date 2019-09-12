@@ -56,8 +56,8 @@ final class ChannelCacheImp implements ChannelCache {
   }
 
   @Override
-  public Event getEvent(Channel eventChannel, String eventFamily, String eventName) {
-    return getEvent(eventChannel, eventFamily, eventName,
+  public Event getEvent(Channel channel, String family, String name) {
+    return getEvent(channel, family, name,
         channelInternal.getEventFactoryInternal().getNoSubject());
   }
 
@@ -66,12 +66,12 @@ final class ChannelCacheImp implements ChannelCache {
     return getEvent(event.getChannel(), event.getFamily(), event.getName(), subject);
   }
 
-  private Event getEvent(Channel eventChannel, String eventFamily, String eventName,
+  private Event getEvent(Channel channel, String family, String name,
       Subject subject) {
     Event event = null;
-    eventForComparison.setChannel(eventChannel);
-    eventForComparison.setFamily(eventFamily);
-    eventForComparison.setName(eventName);
+    eventForComparison.setChannel(channel);
+    eventForComparison.setFamily(family);
+    eventForComparison.setName(name);
     eventForComparison.setSubject(subject);
     int existingEventIndex = eventList.indexOf(eventForComparison);
     if (-1 != existingEventIndex) {
