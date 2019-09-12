@@ -18,6 +18,7 @@ import com.ht.event.core.AssertNaturalOrder;
 import com.ht.event.core.AssertNaturalOrder.Relation;
 import com.ht.event.core.Channel;
 import com.ht.event.core.Event;
+import com.ht.event.core.EventDescription;
 import com.ht.event.core.EventFactory;
 import com.ht.event.core.Publisher;
 import com.ht.event.core.Subject;
@@ -101,6 +102,26 @@ public class EventCoreAcceptanceTests {
 
     assertEventCore.assertExpectedChannel(expectedChannelName, expectedIsOpen, expectedEventsList,
         expectedPublishersList, expectedSubscribersList, channel);
+  }
+
+  @Test
+  public void EventCore_createEventDescriptionWithValidChannelFamilyAndNameBeforeChannelIsOpen_eventDescriptionCreated() {
+    final String expectedChannelName = "test.channel";
+    boolean expectedIsOpen = false;
+    List<Publisher> expectedPublishersList = Collections.emptyList();
+    List<Subscriber> expectedSubscribersList = Collections.emptyList();
+    List<Event> expectedEvent = Collections.emptyList();
+    final Channel expectedChannel = eventFactory.createChannel(expectedChannelName);
+    final String expectedfamily = "test.family";
+    final String expectedEventName = "test.name";
+
+    EventDescription event =
+        eventFactory.createEventDescription(expectedChannel, expectedfamily, expectedEventName);
+
+    assertEventCore.assertExpectedEventDescription(expectedChannel, expectedfamily,
+        expectedEventName, event);
+//    assertEventCore.assertExpectedChannel(expectedChannelName, expectedIsOpen, Arrays.asList(event),
+//        expectedEvent, expectedPublishersList, expectedSubscribersList, expectedChannel);
   }
 
   @Test

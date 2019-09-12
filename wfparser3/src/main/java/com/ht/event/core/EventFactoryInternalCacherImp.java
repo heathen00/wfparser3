@@ -99,4 +99,17 @@ final class EventFactoryInternalCacherImp implements EventFactoryInternal {
   public Subject getNoSubject() {
     return nextEventFactoryInternal.getNoSubject();
   }
+
+
+  @Override
+  public EventDescription createEventDescription(Channel channel, String family, String name) {
+    ensureChannelBelongsToFactory(channel);
+    EventDescription eventDescription =
+        getChannelCache(channel).getEventDescription(channel, family, name);
+    if (null == eventDescription) {
+      eventDescription = nextEventFactoryInternal.createEventDescription(channel, family, name);
+      getChannelCache(channel).addEventDescription(eventDescription);
+    }
+    return eventDescription;
+  }
 }

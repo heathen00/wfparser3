@@ -55,4 +55,15 @@ public class AssertEventCore {
     assertNotNull(publisher);
     assertEquals(expectedChannel, publisher.getChannel());
   }
+
+  public void assertExpectedEventDescription(Channel expectedChannel, String expectedfamily,
+      String expectedEventName, EventDescription eventDescription) {
+    assertNotNull(eventDescription);
+    assertEquals(expectedChannel, eventDescription.getChannel());
+    assertEquals(expectedfamily, eventDescription.getFamily());
+    assertEquals(expectedEventName, eventDescription.getName());
+    assertEquals(String.join(".", eventDescription.getChannel().getName(),
+        eventDescription.getFamily(), eventDescription.getName()),
+        eventDescription.getFullyQualifiedName());
+  }
 }

@@ -52,4 +52,9 @@ final class EventFactoryInternalRootImp implements EventFactoryInternal {
   public Subject getNoSubject() {
     return nextEventFactoryInternal.getNoSubject();
   }
+
+  @Override
+  public EventDescription createEventDescription(Channel channel, String family, String name) {
+    return nextEventFactoryInternal.createEventDescription(channel, family, name);
+  }
 }

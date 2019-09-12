@@ -101,4 +101,16 @@ final class EventFactoryInternalParameterValidatorImp implements EventFactoryInt
   public Subject getNoSubject() {
     return nextEventFactoryInternal.getNoSubject();
   }
+
+  @Override
+  public EventDescription createEventDescription(Channel channel, String family, String name) {
+    ensureParameterNotNull("channel", channel);
+    ensureExpectedImplementation("channel", ChannelInternal.class, channel);
+    ensureChannelDisabled(channel, "cannot create events after enabling channel");
+    ensureParameterNotNull("family", family);
+    ensureExpectedNamingConvention("family", family);
+    ensureParameterNotNull("name", name);
+    ensureExpectedNamingConvention("name", name);
+    return nextEventFactoryInternal.createEventDescription(channel, family, name);
+  }
 }

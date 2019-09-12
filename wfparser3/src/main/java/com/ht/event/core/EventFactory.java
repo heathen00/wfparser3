@@ -14,4 +14,7 @@ public interface EventFactory {
   void addSubscriber(Channel channel, Subscriber eventSubscriber);
 
   void openChannel(Channel channel);
+
+  EventDescription createEventDescription(Channel channel, String family,
+      String name);
 }

@@ -9,14 +9,18 @@ final class ChannelCacheImp implements ChannelCache {
   private final List<Subscriber> subscriberList;
   private final List<Publisher> publisherList;
   private final List<Event> eventList;
+  private final List<EventDescription> eventDescriptionList;
   private final EventInternalForComparisonImp eventForComparison;
+  private final EventDescriptionForComparisonImp eventDescriptionForComparison;
 
   ChannelCacheImp(ChannelInternal channelInternal) {
     this.channelInternal = channelInternal;
     subscriberList = new ArrayList<>();
     publisherList = new ArrayList<>();
     eventList = new ArrayList<>();
+    eventDescriptionList = new ArrayList<>();
     eventForComparison = new EventInternalForComparisonImp();
+    eventDescriptionForComparison = new EventDescriptionForComparisonImp();
   }
 
   public ChannelInternal getChannelInternal() {
@@ -66,8 +70,7 @@ final class ChannelCacheImp implements ChannelCache {
     return getEvent(event.getChannel(), event.getFamily(), event.getName(), subject);
   }
 
-  private Event getEvent(Channel channel, String family, String name,
-      Subject subject) {
+  private Event getEvent(Channel channel, String family, String name, Subject subject) {
     Event event = null;
     eventForComparison.setChannel(channel);
     eventForComparison.setFamily(family);
@@ -86,5 +89,23 @@ final class ChannelCacheImp implements ChannelCache {
         + ", getSubscriberList()=" + getSubscriberList() + ", getPublisherList()="
         + getPublisherList() + ", getEventList()=" + getEventList() + ", hashCode()=" + hashCode()
         + "]";
+  }
+
+  @Override
+  public EventDescription getEventDescription(Channel channel, String family, String name) {
+    EventDescription eventDescription = null;
+    eventDescriptionForComparison.setChannel(channel);
+    eventDescriptionForComparison.setFamily(family);
+    eventDescriptionForComparison.setName(name);
+    int existingEventIndex = eventDescriptionList.indexOf(eventDescriptionForComparison);
+    if (-1 != existingEventIndex) {
+      eventDescription = eventDescriptionList.get(existingEventIndex);
+    }
+    return eventDescription;
+  }
+
+  @Override
+  public void addEventDescription(EventDescription eventDescription) {
+    eventDescriptionList.add(eventDescription);
   }
 }

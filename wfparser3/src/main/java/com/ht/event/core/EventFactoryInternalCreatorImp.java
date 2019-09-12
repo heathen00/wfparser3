@@ -52,4 +52,9 @@ final class EventFactoryInternalCreatorImp implements EventFactoryInternal {
   public Subject getNoSubject() {
     return noSubjectSingleton;
   }
+
+  @Override
+  public EventDescription createEventDescription(Channel channel, String family, String name) {
+    return new EventDescriptionImp(this, channel, family, name);
+  }
 }
