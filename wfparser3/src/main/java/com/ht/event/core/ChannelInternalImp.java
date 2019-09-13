@@ -59,22 +59,7 @@ final class ChannelInternalImp extends NaturalOrderBase<Channel> implements Chan
 
   @Override
   public void publish(Publisher publisher, EventDescription eventDescription) {
-    ensureParameterIsNotNull("eventDescription", eventDescription);
-    ensureChannelIsOpen();
-    ensureEventDescriptionDefinedInChannel(eventDescription);
-    Event event =
-        eventFactoryInternal.createEvent(eventDescription, eventFactoryInternal.getNoSubject());
-    if (publishedEventToPublisherMap.containsKey(event)) {
-      publishedEventToPublisherMap.get(event).add(publisher);
-      return;
-    }
-    for (Subscriber subscriber : getChannelCache().getSubscriberList()) {
-      subscriber.processPublishEvent(event);
-    }
-    if (!publishedEventToPublisherMap.containsKey(event)) {
-      publishedEventToPublisherMap.put(event, new HashSet<>());
-    }
-    publishedEventToPublisherMap.get(event).add(publisher);
+    publish(publisher, eventDescription, eventFactoryInternal.getNoSubject());
   }
 
   @Override
@@ -82,6 +67,7 @@ final class ChannelInternalImp extends NaturalOrderBase<Channel> implements Chan
     ensureParameterIsNotNull("eventDescription", eventDescription);
     ensureParameterIsNotNull("subject", subject);
     ensureChannelIsOpen();
+    ensureEventDescriptionDefinedInChannel(eventDescription);
     Event event = eventFactoryInternal.createEvent(eventDescription, subject);
     if (publishedEventToPublisherMap.containsKey(event)) {
       publishedEventToPublisherMap.get(event).add(publisher);
@@ -98,34 +84,15 @@ final class ChannelInternalImp extends NaturalOrderBase<Channel> implements Chan
 
   @Override
   public void unpublish(Publisher publisher, EventDescription eventDescription) {
-    ensureParameterIsNotNull("eventDescription", eventDescription);
-    ensureChannelIsOpen();
-    ensureEventDescriptionDefinedInChannel(eventDescription);
-    Event event =
-        eventFactoryInternal.createEvent(eventDescription, eventFactoryInternal.getNoSubject());
-    if (!publishedEventToPublisherMap.containsKey(event)
-        || !publishedEventToPublisherMap.get(event).contains(publisher)) {
-      return;
-    }
-    if (1 < publishedEventToPublisherMap.get(event).size()
-        && publishedEventToPublisherMap.get(event).contains(publisher)) {
-      publishedEventToPublisherMap.get(event).remove(publisher);
-      return;
-    }
-    for (Subscriber subscriber : getChannelCache().getSubscriberList()) {
-      subscriber.processUnpublishEvent(event);
-    }
-    publishedEventToPublisherMap.get(event).remove(publisher);
-    if (0 == publishedEventToPublisherMap.get(event).size()) {
-      publishedEventToPublisherMap.remove(event);
-    }
+    unpublish(publisher, eventDescription, eventFactoryInternal.getNoSubject());
   }
 
   @Override
   public void unpublish(Publisher publisher, EventDescription eventDescription, Subject subject) {
-    ensureParameterIsNotNull("event", eventDescription);
+    ensureParameterIsNotNull("eventDescription", eventDescription);
     ensureParameterIsNotNull("subject", subject);
     ensureChannelIsOpen();
+    ensureEventDescriptionDefinedInChannel(eventDescription);
     Event event = eventFactoryInternal.createEvent(eventDescription, subject);
     if (!publishedEventToPublisherMap.containsKey(event)
         || !publishedEventToPublisherMap.get(event).contains(publisher)) {

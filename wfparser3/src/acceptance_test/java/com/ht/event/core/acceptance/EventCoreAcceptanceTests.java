@@ -572,7 +572,7 @@ public class EventCoreAcceptanceTests {
   @Test
   public void EventCore_unpublishNullEventDescriptionWithValidSubject_nullPointerExceptionIsThrown() {
     thrown.expect(NullPointerException.class);
-    thrown.expectMessage("event cannot be null");
+    thrown.expectMessage("eventDescription cannot be null");
     eventFactory.addSubscriber(defaultTestChannel, accumulatorSubscriberStub);
     eventFactory.openChannel(defaultTestChannel);
 
@@ -1404,16 +1404,6 @@ public class EventCoreAcceptanceTests {
 
   /*
    * Rough:
-   * 
-   * Looking at the current Event test cases, maybe it would make more sense to differentiate the
-   * types between when the Event instances are being created and when they are being processed
-   * since it seems a little awkward right now. Perhaps during creation the type could be
-   * Description and during processing it would remain Event. However, the Event would become a
-   * composite containing Description and optionally Subject. The behaviour would be more intuitive.
-   * 
-   * There is a lot of duplicate code in the channel implementation. Or code that is mostly exactly
-   * the same. It could be generalized and the duplicates could be removed. It might be easier,
-   * though, if done after differentiating between Description and Event.
    * 
    * Could the channel be broken down into parameter validation / cache / processing layers, too,
    * using the decorator pattern in a similar way to the factory?
