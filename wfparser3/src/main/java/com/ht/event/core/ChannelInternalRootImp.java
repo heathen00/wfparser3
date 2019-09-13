@@ -6,7 +6,8 @@ final class ChannelInternalRootImp implements ChannelInternal {
   private final ChannelInternal nextChannelInternal;
 
   ChannelInternalRootImp(EventFactoryInternal eventFactoryInternal, String name) {
-    this.nextChannelInternal = new ChannelInternalImp(eventFactoryInternal, this, name);
+    this.nextChannelInternal = new ChannelInternalParameterValidatorImp(this,
+        new ChannelInternalCoreImp(eventFactoryInternal, this, name));
   }
 
   @Override

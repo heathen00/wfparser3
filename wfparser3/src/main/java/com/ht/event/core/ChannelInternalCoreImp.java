@@ -6,39 +6,20 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-final class ChannelInternalImp extends NaturalOrderBase<Channel> implements ChannelInternal {
+final class ChannelInternalCoreImp extends NaturalOrderBase<Channel> implements ChannelInternal {
   private final EventFactoryInternal eventFactoryInternal;
   private final ChannelInternal rootChannelInternal;
   private final String name;
   private final Map<Event, Set<Publisher>> publishedEventToPublisherMap;
   private boolean isOpen;
 
-  ChannelInternalImp(EventFactoryInternal eventFactoryInternal, ChannelInternal rootChannelInternal,
+  ChannelInternalCoreImp(EventFactoryInternal eventFactoryInternal, ChannelInternal rootChannelInternal,
       String name) {
     this.eventFactoryInternal = eventFactoryInternal;
     this.rootChannelInternal = rootChannelInternal;
     this.name = name;
     publishedEventToPublisherMap = new HashMap<>();
     isOpen = false;
-  }
-
-  private void ensureParameterIsNotNull(String parameterName, Object parameter) {
-    if (null == parameter) {
-      throw new NullPointerException(parameterName + " cannot be null");
-    }
-  }
-
-  private void ensureChannelIsOpen() {
-    if (!isOpen()) {
-      throw new UnsupportedOperationException("channel is not open");
-    }
-  }
-
-  private void ensureEventDescriptionDefinedInChannel(EventDescription eventDescription) {
-    if (!getChannelCache().getEventDescriptionList().contains(eventDescription)) {
-      throw new UnsupportedOperationException("eventDescription "
-          + eventDescription.getFullyQualifiedName() + " is not defined in this channel");
-    }
   }
 
   private ChannelCache getChannelCache() {
@@ -67,10 +48,6 @@ final class ChannelInternalImp extends NaturalOrderBase<Channel> implements Chan
 
   @Override
   public void publish(Publisher publisher, EventDescription eventDescription, Subject subject) {
-    ensureParameterIsNotNull("eventDescription", eventDescription);
-    ensureParameterIsNotNull("subject", subject);
-    ensureChannelIsOpen();
-    ensureEventDescriptionDefinedInChannel(eventDescription);
     Event event = eventFactoryInternal.createEvent(eventDescription, subject);
     if (publishedEventToPublisherMap.containsKey(event)) {
       publishedEventToPublisherMap.get(event).add(publisher);
@@ -92,10 +69,6 @@ final class ChannelInternalImp extends NaturalOrderBase<Channel> implements Chan
 
   @Override
   public void unpublish(Publisher publisher, EventDescription eventDescription, Subject subject) {
-    ensureParameterIsNotNull("eventDescription", eventDescription);
-    ensureParameterIsNotNull("subject", subject);
-    ensureChannelIsOpen();
-    ensureEventDescriptionDefinedInChannel(eventDescription);
     Event event = eventFactoryInternal.createEvent(eventDescription, subject);
     if (!publishedEventToPublisherMap.containsKey(event)
         || !publishedEventToPublisherMap.get(event).contains(publisher)) {
@@ -144,7 +117,7 @@ final class ChannelInternalImp extends NaturalOrderBase<Channel> implements Chan
     if (getClass() != obj.getClass()) {
       return false;
     }
-    ChannelInternalImp other = (ChannelInternalImp) obj;
+    ChannelInternalCoreImp other = (ChannelInternalCoreImp) obj;
     if (name == null) {
       if (other.name != null) {
         return false;
