@@ -112,4 +112,9 @@ final class EventFactoryInternalCacherImp implements EventFactoryInternal {
     }
     return eventDescription;
   }
+
+  @Override
+  public Event createEvent(EventDescription eventDescription, Subject subject) {
+    return nextEventFactoryInternal.createEvent(eventDescription, subject);
+  }
 }

@@ -58,4 +58,9 @@ final class EventFactoryInternalCreatorImp implements EventFactoryInternal {
   public EventDescription createEventDescription(Channel channel, String family, String name) {
     return new EventDescriptionImp(this, channel, family, name);
   }
+
+  @Override
+  public Event createEvent(EventDescription eventDescription, Subject subject) {
+    return new EventInternalImp(this, eventDescription, subject);
+  }
 }

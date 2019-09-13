@@ -8,4 +8,6 @@ interface EventFactoryInternal extends EventFactory {
   Event createEvent(Event event, Subject subject);
 
   Subject getNoSubject();
+
+  Event createEvent(EventDescription eventDescription, Subject subject);
 }

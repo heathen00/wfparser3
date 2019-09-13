@@ -3,11 +3,11 @@ package com.ht.event.core;
 public interface Publisher {
   Channel getChannel();
 
-  void publish(Event event);
+  void publish(EventDescription event);
 
-  void unpublish(Event event);
+  void unpublish(EventDescription event);
 
-  void publish(Event event, Subject subject);
+  void publish(EventDescription event, Subject subject);
 
-  void unpublish(Event event, Subject subject);
+  void unpublish(EventDescription event, Subject subject);
 }

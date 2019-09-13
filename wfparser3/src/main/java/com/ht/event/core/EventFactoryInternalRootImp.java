@@ -57,4 +57,9 @@ final class EventFactoryInternalRootImp implements EventFactoryInternal {
   public EventDescription createEventDescription(Channel channel, String family, String name) {
     return nextEventFactoryInternal.createEventDescription(channel, family, name);
   }
+
+  @Override
+  public Event createEvent(EventDescription eventDescription, Subject subject) {
+    return nextEventFactoryInternal.createEvent(eventDescription, subject);
+  }
 }

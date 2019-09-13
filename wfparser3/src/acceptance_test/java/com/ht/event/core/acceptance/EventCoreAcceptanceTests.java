@@ -115,7 +115,6 @@ public class EventCoreAcceptanceTests {
     boolean expectedIsOpen = false;
     List<Publisher> expectedPublishersList = Collections.emptyList();
     List<Subscriber> expectedSubscribersList = Collections.emptyList();
-    List<Event> expectedEvent = Collections.emptyList();
     final Channel expectedChannel = eventFactory.createChannel(expectedChannelName);
     final String expectedfamily = "test.family";
     final String expectedEventName = "test.name";
@@ -126,27 +125,7 @@ public class EventCoreAcceptanceTests {
     assertEventCore.assertExpectedEventDescription(expectedChannel, expectedfamily,
         expectedEventName, event);
     assertEventCore.assertExpectedChannel_NEW(expectedChannelName, expectedIsOpen,
-        Arrays.asList(event), expectedEvent, expectedPublishersList, expectedSubscribersList,
-        expectedChannel);
-  }
-
-  @Test
-  public void EventCore_createEventWithValidChannelFamilyAndNameBeforeChannelIsOpen_eventCreated() {
-    final String expectedChannelName = "test.channel";
-    boolean expectedIsOpen = false;
-    List<Publisher> expectedPublishersList = Collections.emptyList();
-    List<Subscriber> expectedSubscribersList = Collections.emptyList();
-    final Channel expectedChannel = eventFactory.createChannel(expectedChannelName);
-    final String expectedfamily = "test.family";
-    final String expectedEventName = "test.name";
-    final boolean expectedIsDefined = false;
-
-    Event event = eventFactory.createEvent(expectedChannel, expectedfamily, expectedEventName);
-
-    assertEventCore.assertExpectedEvent(expectedChannel, expectedfamily, expectedEventName, event);
-    assertEventCore.assertExpectedChannel(expectedChannelName, expectedIsOpen, Arrays.asList(event),
-        expectedPublishersList, expectedSubscribersList, expectedChannel);
-    assertEventCore.assertExpectedSubject(expectedIsDefined, event.getSubject());
+        Arrays.asList(event), expectedPublishersList, expectedSubscribersList, expectedChannel);
   }
 
   @Test
@@ -182,31 +161,35 @@ public class EventCoreAcceptanceTests {
   @Test
   public void EventCore_publishValidEvent_subscriberReceivesEventPublish() {
     Channel channel = eventFactory.createChannel("test.channel");
-    Event expectedEvent = eventFactory.createEvent(channel, "test.family", "test.name");
+    EventDescription expectedEventDescription =
+        eventFactory.createEventDescription(channel, "test.family", "test.name");
     Publisher publisher = eventFactory.createPublisher(channel);
     eventFactory.addSubscriber(channel, accumulatorSubscriberStub);
 
     eventFactory.openChannel(channel);
 
-    publisher.publish(expectedEvent);
+    publisher.publish(expectedEventDescription);
 
-    assertTrue(accumulatorSubscriberStub.getProcessedPublishedEventList().contains(expectedEvent));
+    assertTrue(accumulatorSubscriberStub.getProcessedPublishedEventList()
+        .contains(expectedEventDescription));
   }
 
   @Test
   public void EventCore_unpublishValidEvent_subscriberReceivesEventUnPublish() {
     Channel channel = eventFactory.createChannel("test.channel");
-    Event expectedEvent = eventFactory.createEvent(channel, "test.family", "test.name");
+    EventDescription expectedEventDescription =
+        eventFactory.createEventDescription(channel, "test.family", "test.name");
     Publisher publisher = eventFactory.createPublisher(channel);
     eventFactory.addSubscriber(channel, accumulatorSubscriberStub);
     eventFactory.openChannel(channel);
 
-    publisher.publish(expectedEvent);
-    assertTrue(accumulatorSubscriberStub.getProcessedPublishedEventList().contains(expectedEvent));
+    publisher.publish(expectedEventDescription);
+    assertTrue(accumulatorSubscriberStub.getProcessedPublishedEventList()
+        .contains(expectedEventDescription));
 
-    publisher.unpublish(expectedEvent);
-    assertTrue(
-        accumulatorSubscriberStub.getProcessedUnpublishedEventList().contains(expectedEvent));
+    publisher.unpublish(expectedEventDescription);
+    assertTrue(accumulatorSubscriberStub.getProcessedUnpublishedEventList()
+        .contains(expectedEventDescription));
   }
 
   @Test
@@ -236,84 +219,84 @@ public class EventCoreAcceptanceTests {
   }
 
   @Test
-  public void EventCore_createEventWithNullChannelParameter_nullPointerExceptionIsThrown() {
+  public void EventCore_createEventDescriptionWithNullChannelParameter_nullPointerExceptionIsThrown() {
     thrown.expect(NullPointerException.class);
     thrown.expectMessage("channel cannot equal null");
 
-    eventFactory.createEvent(null, "test.family", "test.name");
+    eventFactory.createEventDescription(null, "test.family", "test.name");
   }
 
   @Test
-  public void EventCore_createEventWithUnknownExternalChannelImplementation_invalidParameterExceptionIsThrown() {
+  public void EventCore_createEventDescriptionWithUnknownExternalChannelImplementation_invalidParameterExceptionIsThrown() {
     thrown.expect(InvalidParameterException.class);
     thrown.expectMessage("unknown channel implementation");
 
-    eventFactory.createEvent(createUnsupportedExternalChannelImplementation(), "test.family",
-        "test.name");
+    eventFactory.createEventDescription(createUnsupportedExternalChannelImplementation(),
+        "test.family", "test.name");
   }
 
   @Test
-  public void EventCore_createEventWithNullFamilyParameter_nullPointerExceptionIsThrown() {
+  public void EventCore_createEventDescriptionWithNullFamilyParameter_nullPointerExceptionIsThrown() {
     thrown.expect(NullPointerException.class);
     thrown.expectMessage("family cannot equal null");
 
     Channel channel = eventFactory.createChannel("test.channel");
 
-    eventFactory.createEvent(channel, null, "test.name");
+    eventFactory.createEventDescription(channel, null, "test.name");
   }
 
   @Test
-  public void EventCore_createEventWithEmptyFamilyParameter_invalidParameterExceptionIsThrown() {
+  public void EventCore_createEventDescriptionWithEmptyFamilyParameter_invalidParameterExceptionIsThrown() {
     thrown.expect(InvalidParameterException.class);
     thrown.expectMessage(
         "family can only contain lower case letters, numbers, and periods, and cannot start or end with a period");
 
     Channel channel = eventFactory.createChannel("test.channel");
 
-    eventFactory.createEvent(channel, "", "test.name");
+    eventFactory.createEventDescription(channel, "", "test.name");
   }
 
   @Test
-  public void EventCore_createEventWithInvalidCharactersInFamilyParameter_invalidParameterExceptionIsThrown() {
+  public void EventCore_createEventDescriptionWithInvalidCharactersInFamilyParameter_invalidParameterExceptionIsThrown() {
     thrown.expect(InvalidParameterException.class);
     thrown.expectMessage(
         "family can only contain lower case letters, numbers, and periods, and cannot start or end with a period");
 
     Channel channel = eventFactory.createChannel("test.channel");
 
-    eventFactory.createEvent(channel, ".not.valid", "test.name");
+    eventFactory.createEventDescription(channel, ".not.valid", "test.name");
   }
 
   @Test
-  public void EventCore_createEventWithNullNameParameter_nullPointerExceptionIsThrown() {
+  public void EventCore_createEventDescriptionWithNullNameParameter_nullPointerExceptionIsThrown() {
     thrown.expect(NullPointerException.class);
     thrown.expectMessage("name cannot equal null");
 
     Channel channel = eventFactory.createChannel("test.channel");
 
-    eventFactory.createEvent(channel, "test.family", null);
+    eventFactory.createEventDescription(channel, "test.family", null);
   }
 
   @Test
-  public void EventCore_createEventWithEmptyNameParameter_invalidParameterExceptionIsThrown() {
+  public void EventCore_createEventDescriptionWithEmptyNameParameter_invalidParameterExceptionIsThrown() {
     thrown.expect(InvalidParameterException.class);
     thrown.expectMessage(
         "name can only contain lower case letters, numbers, and periods, and cannot start or end with a period");
 
     Channel channel = eventFactory.createChannel("test.channel");
 
-    eventFactory.createEvent(channel, "test.family", " \n \t");
+    eventFactory.createEventDescription(channel, "test.family", " \n \t");
   }
 
   @Test
-  public void EventCore_createEventWithInvalidCharactersInNameParameter_invalidParameterExceptionIsThrown() {
+  public void EventCore_createEventDescriptionWithInvalidCharactersInNameParameter_invalidParameterExceptionIsThrown() {
     thrown.expect(InvalidParameterException.class);
     thrown.expectMessage(
         "name can only contain lower case letters, numbers, and periods, and cannot start or end with a period");
 
     Channel channel = eventFactory.createChannel("test.channel");
 
-    eventFactory.createEvent(channel, "test.family", "invalid.name.");
+    eventFactory.createEventDescription(channel, "test.family", "invalid.name.");
   }
 
   @Test
@@ -380,7 +363,8 @@ public class EventCoreAcceptanceTests {
     thrown.expectMessage("channel is not open");
 
     Channel channel = eventFactory.createChannel("disabled.channel");
-    Event event = eventFactory.createEvent(channel, "test.family", "test.name");
+    EventDescription event =
+        eventFactory.createEventDescription(channel, "test.family", "test.name");
     Publisher publisher = eventFactory.createPublisher(channel);
     assertFalse(channel.isOpen());
 
@@ -393,7 +377,8 @@ public class EventCoreAcceptanceTests {
     thrown.expectMessage("channel is not open");
 
     Channel channel = eventFactory.createChannel("disabled.channel");
-    Event event = eventFactory.createEvent(channel, "test.family", "test.name");
+    EventDescription event =
+        eventFactory.createEventDescription(channel, "test.family", "test.name");
     Publisher publisher = eventFactory.createPublisher(channel);
     assertFalse(channel.isOpen());
 
@@ -408,7 +393,7 @@ public class EventCoreAcceptanceTests {
     Channel channel = eventFactory.createChannel("test.channel");
     eventFactory.openChannel(channel);
 
-    eventFactory.createEvent(channel, "test.family", "test.name");
+    eventFactory.createEventDescription(channel, "test.family", "test.name");
   }
 
   @Test
@@ -444,20 +429,20 @@ public class EventCoreAcceptanceTests {
     final boolean expectedIsDefined = false;
     Channel expectedchannel = eventFactory.createChannel(expectedChannelName);
 
-    Event firstEvent = eventFactory.createEvent(expectedchannel, expectedfamily, expectedEventName);
-    Event secondEvent =
-        eventFactory.createEvent(expectedchannel, expectedfamily, expectedEventName);
+    EventDescription firstEventDescription =
+        eventFactory.createEventDescription(expectedchannel, expectedfamily, expectedEventName);
+    EventDescription secondEventDescription =
+        eventFactory.createEventDescription(expectedchannel, expectedfamily, expectedEventName);
 
-    assertEventCore.assertExpectedEvent(expectedchannel, expectedfamily, expectedEventName,
-        firstEvent);
-    assertEventCore.assertExpectedSubject(expectedIsDefined, firstEvent.getSubject());
-    assertEventCore.assertExpectedEvent(expectedchannel, expectedfamily, expectedEventName,
-        secondEvent);
-    assertEventCore.assertExpectedSubject(expectedIsDefined, secondEvent.getSubject());
-    assertEventCore.assertExpectedChannel(expectedChannelName, expectedIsChannelOpen,
-        Arrays.asList(firstEvent), expectedPublishersList, expectedSubscribers, expectedchannel);
-    assertEquals(firstEvent, secondEvent);
-    assertTrue(firstEvent == secondEvent);
+    assertEventCore.assertExpectedEventDescription(expectedchannel, expectedfamily,
+        expectedEventName, firstEventDescription);
+    assertEventCore.assertExpectedEventDescription(expectedchannel, expectedfamily,
+        expectedEventName, secondEventDescription);
+    assertEventCore.assertExpectedChannel_NEW(expectedChannelName, expectedIsChannelOpen,
+        Arrays.asList(firstEventDescription), expectedPublishersList, expectedSubscribers,
+        expectedchannel);
+    assertEquals(firstEventDescription, secondEventDescription);
+    assertTrue(firstEventDescription == secondEventDescription);
   }
 
   @Test
@@ -491,14 +476,15 @@ public class EventCoreAcceptanceTests {
   public void EventCore_publishSameValidEventTwice_subscriberOnlyNotifiedOfEventOnce() {
     final int expectedSubscriberProcessedPublishedEventsSize = 1;
     Channel channel = eventFactory.createChannel("test.channel");
-    Event event = eventFactory.createEvent(channel, "test.family", "test.name");
-    String expectedEventFullyQualifiedName = event.getFullyQualifiedName();
+    EventDescription eventDescription =
+        eventFactory.createEventDescription(channel, "test.family", "test.name");
+    String expectedEventFullyQualifiedName = eventDescription.getFullyQualifiedName();
     Publisher publisher = eventFactory.createPublisher(channel);
     eventFactory.addSubscriber(channel, accumulatorSubscriberStub);
     eventFactory.openChannel(channel);
 
-    publisher.publish(event);
-    publisher.publish(event);
+    publisher.publish(eventDescription);
+    publisher.publish(eventDescription);
 
     assertEquals(expectedSubscriberProcessedPublishedEventsSize,
         accumulatorSubscriberStub.getProcessedPublishedEventList().size());
@@ -510,15 +496,16 @@ public class EventCoreAcceptanceTests {
   public void EventCore_unpublishSameValidEventTwice_subscriberOnlyNotifiedOfUnbpublishOnce() {
     final int expectedSubscriberProcessedUnpublishedEventsSize = 1;
     Channel channel = eventFactory.createChannel("test.channel");
-    Event event = eventFactory.createEvent(channel, "test.family", "test.name");
-    String expectedEventFullyQualifiedName = event.getFullyQualifiedName();
+    EventDescription eventDescription =
+        eventFactory.createEventDescription(channel, "test.family", "test.name");
+    String expectedEventFullyQualifiedName = eventDescription.getFullyQualifiedName();
     Publisher publisher = eventFactory.createPublisher(channel);
     eventFactory.addSubscriber(channel, accumulatorSubscriberStub);
     eventFactory.openChannel(channel);
-    publisher.publish(event);
+    publisher.publish(eventDescription);
 
-    publisher.unpublish(event);
-    publisher.unpublish(event);
+    publisher.unpublish(eventDescription);
+    publisher.unpublish(eventDescription);
     assertEquals(expectedSubscriberProcessedUnpublishedEventsSize,
         accumulatorSubscriberStub.getProcessedUnpublishedEventList().size());
     assertEquals(expectedEventFullyQualifiedName, accumulatorSubscriberStub
@@ -531,12 +518,13 @@ public class EventCoreAcceptanceTests {
     thrown.expectMessage(" is not defined in this channel");
     Channel channelOne = eventFactory.createChannel("test.channel.one");
     Channel channelTwo = eventFactory.createChannel("test.channel.two");
-    Event eventForChannelOne = eventFactory.createEvent(channelOne, "test.family", "test.name");
-    eventFactory.createEvent(channelTwo, "test.family", "test.name");
+    EventDescription eventDescriptionForChannelOne =
+        eventFactory.createEventDescription(channelOne, "test.family", "test.name");
+    eventFactory.createEventDescription(channelTwo, "test.family", "test.name");
     Publisher publisherForChannelTwo = eventFactory.createPublisher(channelTwo);
     eventFactory.openChannel(channelTwo);
 
-    publisherForChannelTwo.publish(eventForChannelOne);
+    publisherForChannelTwo.publish(eventDescriptionForChannelOne);
   }
 
   @Test
@@ -545,24 +533,26 @@ public class EventCoreAcceptanceTests {
     thrown.expectMessage(" is not defined in this channel");
     Channel channelOne = eventFactory.createChannel("test.channel.one");
     Channel channelTwo = eventFactory.createChannel("test.channel.two");
-    Event eventForChannelOne = eventFactory.createEvent(channelOne, "test.family", "test.name");
-    eventFactory.createEvent(channelTwo, "test.family", "test.name");
+    EventDescription eventDescriptionForChannelOne =
+        eventFactory.createEventDescription(channelOne, "test.family", "test.name");
+    eventFactory.createEventDescription(channelTwo, "test.family", "test.name");
     Publisher publisherForChannelTwo = eventFactory.createPublisher(channelTwo);
     eventFactory.openChannel(channelTwo);
 
-    publisherForChannelTwo.unpublish(eventForChannelOne);
+    publisherForChannelTwo.unpublish(eventDescriptionForChannelOne);
   }
 
   @Test
   public void EventCore_unpublishEventThatWasNeverPublished_subscribersReceiveNoNotification() {
     final int expectedSubscriberProcessedUnpublishedEventsSize = 0;
     Channel channel = eventFactory.createChannel("test.channel");
-    Event event = eventFactory.createEvent(channel, "test.family", "test.name");
+    EventDescription eventDescription =
+        eventFactory.createEventDescription(channel, "test.family", "test.name");
     Publisher publisher = eventFactory.createPublisher(channel);
     eventFactory.addSubscriber(channel, accumulatorSubscriberStub);
     eventFactory.openChannel(channel);
 
-    publisher.unpublish(event);
+    publisher.unpublish(eventDescription);
 
     assertEquals(expectedSubscriberProcessedUnpublishedEventsSize,
         accumulatorSubscriberStub.getProcessedUnpublishedEventList().size());
@@ -573,7 +563,7 @@ public class EventCoreAcceptanceTests {
     thrown.expect(NullPointerException.class);
     thrown.expectMessage("event cannot be null");
     Channel channel = eventFactory.createChannel("test.channel");
-    eventFactory.createEvent(channel, "test.family", "test.name");
+    eventFactory.createEventDescription(channel, "test.family", "test.name");
     Publisher publisher = eventFactory.createPublisher(channel);
     Subscriber subscriber = accumulatorSubscriberStub;
     eventFactory.addSubscriber(channel, subscriber);
@@ -587,7 +577,7 @@ public class EventCoreAcceptanceTests {
     thrown.expect(NullPointerException.class);
     thrown.expectMessage("event cannot be null");
     Channel channel = eventFactory.createChannel("test.channel");
-    eventFactory.createEvent(channel, "test.family", "test.name");
+    eventFactory.createEventDescription(channel, "test.family", "test.name");
     Publisher publisher = eventFactory.createPublisher(channel);
     Subscriber subscriber = accumulatorSubscriberStub;
     eventFactory.addSubscriber(channel, subscriber);
@@ -601,13 +591,14 @@ public class EventCoreAcceptanceTests {
     thrown.expect(NullPointerException.class);
     thrown.expectMessage("subject cannot be null");
     Channel channel = eventFactory.createChannel("test.channel");
-    Event event = eventFactory.createEvent(channel, "test.family", "test.name");
+    EventDescription eventDescription =
+        eventFactory.createEventDescription(channel, "test.family", "test.name");
     Publisher publisher = eventFactory.createPublisher(channel);
     Subscriber subscriber = accumulatorSubscriberStub;
     eventFactory.addSubscriber(channel, subscriber);
     eventFactory.openChannel(channel);
 
-    publisher.publish(event, (Subject) null);
+    publisher.publish(eventDescription, (Subject) null);
   }
 
   @Test
@@ -615,13 +606,14 @@ public class EventCoreAcceptanceTests {
     thrown.expect(NullPointerException.class);
     thrown.expectMessage("subject cannot be null");
     Channel channel = eventFactory.createChannel("test.channel");
-    Event event = eventFactory.createEvent(channel, "test.family", "test.name");
+    EventDescription eventDescription =
+        eventFactory.createEventDescription(channel, "test.family", "test.name");
     Publisher publisher = eventFactory.createPublisher(channel);
     Subscriber subscriber = accumulatorSubscriberStub;
     eventFactory.addSubscriber(channel, subscriber);
     eventFactory.openChannel(channel);
 
-    publisher.unpublish(event, (Subject) null);
+    publisher.unpublish(eventDescription, (Subject) null);
   }
 
   @Test
@@ -655,12 +647,13 @@ public class EventCoreAcceptanceTests {
     thrown.expect(UnsupportedOperationException.class);
     thrown.expectMessage("channel is not open");
     Channel channel = eventFactory.createChannel("test.channel");
-    Event event = eventFactory.createEvent(channel, "test.family", "test.name");
+    EventDescription eventDescription =
+        eventFactory.createEventDescription(channel, "test.family", "test.name");
     Publisher publisher = eventFactory.createPublisher(channel);
     Subscriber subscriber = accumulatorSubscriberStub;
     eventFactory.addSubscriber(channel, subscriber);
 
-    publisher.publish(event, createSubjectStub("test.subject"));
+    publisher.publish(eventDescription, createSubjectStub("test.subject"));
   }
 
   @Test
@@ -668,266 +661,282 @@ public class EventCoreAcceptanceTests {
     thrown.expect(UnsupportedOperationException.class);
     thrown.expectMessage("channel is not open");
     Channel channel = eventFactory.createChannel("test.channel");
-    Event event = eventFactory.createEvent(channel, "test.family", "test.name");
+    EventDescription eventDescription =
+        eventFactory.createEventDescription(channel, "test.family", "test.name");
     Publisher publisher = eventFactory.createPublisher(channel);
     Subscriber subscriber = accumulatorSubscriberStub;
     eventFactory.addSubscriber(channel, subscriber);
 
-    publisher.unpublish(event, createSubjectStub("test.subject"));
+    publisher.unpublish(eventDescription, createSubjectStub("test.subject"));
   }
 
   @Test
   public void EventCore_publishValidEventWithValidSubject_publishEventWithSubjectReceivedBySubscribers() {
     int expectedProcessedPubishedEventsSize = 1;
     Channel channel = eventFactory.createChannel("test.channel");
-    Event expectedEvent = eventFactory.createEvent(channel, "test.family", "test.name");
+    EventDescription expectedEventDescription =
+        eventFactory.createEventDescription(channel, "test.family", "test.name");
     Subject expectedSubject = createSubjectStub("test.subject");
     Publisher publisher = eventFactory.createPublisher(channel);
     eventFactory.addSubscriber(channel, accumulatorSubscriberStub);
     eventFactory.openChannel(channel);
 
-    publisher.publish(expectedEvent, expectedSubject);
+    publisher.publish(expectedEventDescription, expectedSubject);
 
     assertEquals(expectedProcessedPubishedEventsSize,
         accumulatorSubscriberStub.getProcessedPublishedEventList().size());
 
     Event event = accumulatorSubscriberStub.getProcessedPublishedEventList().get(0);
-    assertEventCore.assertExpectedEvent(expectedEvent, expectedSubject, event);
+    assertEventCore.assertExpectedEvent(expectedEventDescription, expectedSubject, event);
   }
 
   @Test
   public void EventCore_unpublishValidPublishedEventWithValidSubject_unpublishEventWithSubjectReceivedBySubscribers() {
     int expectedProcessedUnpubishedEventsSize = 1;
     Channel channel = eventFactory.createChannel("test.channel");
-    Event expectedEvent = eventFactory.createEvent(channel, "test.family", "test.name");
+    EventDescription expectedEventDescription =
+        eventFactory.createEventDescription(channel, "test.family", "test.name");
     Subject expectedSubject = createSubjectStub("test.subject");
     Publisher publisher = eventFactory.createPublisher(channel);
     eventFactory.addSubscriber(channel, accumulatorSubscriberStub);
     eventFactory.openChannel(channel);
-    publisher.publish(expectedEvent, expectedSubject);
+    publisher.publish(expectedEventDescription, expectedSubject);
 
-    publisher.unpublish(expectedEvent, expectedSubject);
+    publisher.unpublish(expectedEventDescription, expectedSubject);
 
     assertEquals(expectedProcessedUnpubishedEventsSize,
         accumulatorSubscriberStub.getProcessedUnpublishedEventList().size());
 
     Event event = accumulatorSubscriberStub.getProcessedUnpublishedEventList().get(0);
-    assertEventCore.assertExpectedEvent(expectedEvent, expectedSubject, event);
+    assertEventCore.assertExpectedEvent(expectedEventDescription, expectedSubject, event);
   }
 
   @Test
   public void EventCore_publishSameEventWithSameSubjectTwice_publishEventWithSubjectReceivedOnceBySubscribers() {
     int expectedProcessedPublishedEventsSize = 1;
     Channel channel = eventFactory.createChannel("test.channel");
-    Event expectedEvent = eventFactory.createEvent(channel, "test.family", "test.name");
+    EventDescription expectedEventDescription =
+        eventFactory.createEventDescription(channel, "test.family", "test.name");
     Subject expectedSubject = createSubjectStub("test.subject");
     Publisher publisher = eventFactory.createPublisher(channel);
     eventFactory.addSubscriber(channel, accumulatorSubscriberStub);
     eventFactory.openChannel(channel);
 
-    publisher.publish(expectedEvent, expectedSubject);
-    publisher.publish(expectedEvent, expectedSubject);
+    publisher.publish(expectedEventDescription, expectedSubject);
+    publisher.publish(expectedEventDescription, expectedSubject);
 
     assertEquals(expectedProcessedPublishedEventsSize,
         accumulatorSubscriberStub.getProcessedPublishedEventList().size());
 
     Event event = accumulatorSubscriberStub.getProcessedPublishedEventList().get(0);
-    assertEventCore.assertExpectedEvent(expectedEvent, expectedSubject, event);
+    assertEventCore.assertExpectedEvent(expectedEventDescription, expectedSubject, event);
   }
 
   @Test
   public void EventCore_unpublishSamePublishedEventWithSameSubjectTwice_unpublishEventWithSubjectReceivedOnceBySubscribers() {
     int expectedProcessedUnpublishedEventsSize = 1;
     Channel channel = eventFactory.createChannel("test.channel");
-    Event expectedEvent = eventFactory.createEvent(channel, "test.family", "test.name");
+    EventDescription expectedEventDescription =
+        eventFactory.createEventDescription(channel, "test.family", "test.name");
     Subject expectedSubject = createSubjectStub("test.subject");
     Publisher publisher = eventFactory.createPublisher(channel);
     eventFactory.addSubscriber(channel, accumulatorSubscriberStub);
     eventFactory.openChannel(channel);
-    publisher.publish(expectedEvent, expectedSubject);
+    publisher.publish(expectedEventDescription, expectedSubject);
 
-    publisher.unpublish(expectedEvent, expectedSubject);
-    publisher.unpublish(expectedEvent, expectedSubject);
+    publisher.unpublish(expectedEventDescription, expectedSubject);
+    publisher.unpublish(expectedEventDescription, expectedSubject);
 
     assertEquals(expectedProcessedUnpublishedEventsSize,
         accumulatorSubscriberStub.getProcessedUnpublishedEventList().size());
 
     Event event = accumulatorSubscriberStub.getProcessedUnpublishedEventList().get(0);
-    assertEventCore.assertExpectedEvent(expectedEvent, expectedSubject, event);
+    assertEventCore.assertExpectedEvent(expectedEventDescription, expectedSubject, event);
   }
 
   @Test
   public void EventCore_publishSameEventWithDifferentSubjects_publishForAllTheSameEventsWithDifferentSubjectsReceivedBySubscribers() {
     int expectedProcessedPublishedEventsSize = 2;
     Channel channel = eventFactory.createChannel("test.channel");
-    Event expectedEvent = eventFactory.createEvent(channel, "test.family", "test.name");
+    EventDescription expectedEventDescription =
+        eventFactory.createEventDescription(channel, "test.family", "test.name");
     Subject expectedSubjectOne = createSubjectStub("test.subject.one");
     Subject expectedSubjectTwo = createSubjectStub("test.subject.two");
     Publisher publisher = eventFactory.createPublisher(channel);
     eventFactory.addSubscriber(channel, accumulatorSubscriberStub);
     eventFactory.openChannel(channel);
 
-    publisher.publish(expectedEvent, expectedSubjectOne);
-    publisher.publish(expectedEvent, expectedSubjectTwo);
+    publisher.publish(expectedEventDescription, expectedSubjectOne);
+    publisher.publish(expectedEventDescription, expectedSubjectTwo);
 
     assertEquals(expectedProcessedPublishedEventsSize,
         accumulatorSubscriberStub.getProcessedPublishedEventList().size());
 
     Event event = accumulatorSubscriberStub.getProcessedPublishedEventList().get(0);
-    assertEventCore.assertExpectedEvent(expectedEvent, expectedSubjectOne, event);
+    assertEventCore.assertExpectedEvent(expectedEventDescription, expectedSubjectOne, event);
 
     event = accumulatorSubscriberStub.getProcessedPublishedEventList().get(1);
-    assertEventCore.assertExpectedEvent(expectedEvent, expectedSubjectTwo, event);
+    assertEventCore.assertExpectedEvent(expectedEventDescription, expectedSubjectTwo, event);
   }
 
   @Test
   public void EventCore_unpublishSameEventWithDifferentSubjects_unpublishForAllTheSameEventsWithDifferentSubjectsReceivedBySubscribers() {
     int expectedProcessedUnpublishedEventsSize = 2;
     Channel channel = eventFactory.createChannel("test.channel");
-    Event expectedEvent = eventFactory.createEvent(channel, "test.family", "test.name");
+    EventDescription expectedEventDescription =
+        eventFactory.createEventDescription(channel, "test.family", "test.name");
     Subject expectedSubjectOne = createSubjectStub("test.subject.one");
     Subject expectedSubjectTwo = createSubjectStub("test.subject.two");
     Publisher publisher = eventFactory.createPublisher(channel);
     eventFactory.addSubscriber(channel, accumulatorSubscriberStub);
     eventFactory.openChannel(channel);
-    publisher.publish(expectedEvent, expectedSubjectOne);
-    publisher.publish(expectedEvent, expectedSubjectTwo);
+    publisher.publish(expectedEventDescription, expectedSubjectOne);
+    publisher.publish(expectedEventDescription, expectedSubjectTwo);
 
-    publisher.unpublish(expectedEvent, expectedSubjectOne);
-    publisher.unpublish(expectedEvent, expectedSubjectTwo);
+    publisher.unpublish(expectedEventDescription, expectedSubjectOne);
+    publisher.unpublish(expectedEventDescription, expectedSubjectTwo);
 
     assertEquals(expectedProcessedUnpublishedEventsSize,
         accumulatorSubscriberStub.getProcessedUnpublishedEventList().size());
 
     Event event = accumulatorSubscriberStub.getProcessedUnpublishedEventList().get(0);
-    assertEventCore.assertExpectedEvent(expectedEvent, expectedSubjectOne, event);
+    assertEventCore.assertExpectedEvent(expectedEventDescription, expectedSubjectOne, event);
 
     event = accumulatorSubscriberStub.getProcessedUnpublishedEventList().get(1);
-    assertEventCore.assertExpectedEvent(expectedEvent, expectedSubjectTwo, event);
+    assertEventCore.assertExpectedEvent(expectedEventDescription, expectedSubjectTwo, event);
   }
 
   @Test
   public void EventCore_publishDifferentEventsWithTheSameSubjects_publishForAllDifferentEventsWithTheSameSubjectsReceivedBySubscribers() {
     int expectedProcessedPublishedEventsSize = 2;
     Channel channel = eventFactory.createChannel("test.channel");
-    Event expectedEventOne = eventFactory.createEvent(channel, "test.family", "test.name.one");
-    Event expectedEventTwo = eventFactory.createEvent(channel, "test.family", "test.name.two");
+    EventDescription expectedEventDescriptionOne =
+        eventFactory.createEventDescription(channel, "test.family", "test.name.one");
+    EventDescription expectedEventDescriptionTwo =
+        eventFactory.createEventDescription(channel, "test.family", "test.name.two");
     Subject expectedSubject = createSubjectStub("test.subject");
     Publisher publisher = eventFactory.createPublisher(channel);
     eventFactory.addSubscriber(channel, accumulatorSubscriberStub);
     eventFactory.openChannel(channel);
 
-    publisher.publish(expectedEventOne, expectedSubject);
-    publisher.publish(expectedEventTwo, expectedSubject);
+    publisher.publish(expectedEventDescriptionOne, expectedSubject);
+    publisher.publish(expectedEventDescriptionTwo, expectedSubject);
 
     assertEquals(expectedProcessedPublishedEventsSize,
         accumulatorSubscriberStub.getProcessedPublishedEventList().size());
 
     Event event = accumulatorSubscriberStub.getProcessedPublishedEventList().get(0);
-    assertEventCore.assertExpectedEvent(expectedEventOne, expectedSubject, event);
+    assertEventCore.assertExpectedEvent(expectedEventDescriptionOne, expectedSubject, event);
 
     event = accumulatorSubscriberStub.getProcessedPublishedEventList().get(1);
-    assertEventCore.assertExpectedEvent(expectedEventTwo, expectedSubject, event);
+    assertEventCore.assertExpectedEvent(expectedEventDescriptionTwo, expectedSubject, event);
   }
 
   @Test
   public void EventCore_unpublishDifferentEventsWithTheSameSubjects_unpublishForAllDifferentEventsWithTheSameSubjectsReceivedBySubscribers() {
     int expectedProcessedUnpublishedEventsSize = 2;
     Channel channel = eventFactory.createChannel("test.channel");
-    Event expectedEventOne = eventFactory.createEvent(channel, "test.family", "test.name.one");
-    Event expectedEventTwo = eventFactory.createEvent(channel, "test.family", "test.name.two");
+    EventDescription expectedEventDescriptionOne =
+        eventFactory.createEventDescription(channel, "test.family", "test.name.one");
+    EventDescription expectedEventDescriptionTwo =
+        eventFactory.createEventDescription(channel, "test.family", "test.name.two");
     Subject expectedSubject = createSubjectStub("test.subject");
     Publisher publisher = eventFactory.createPublisher(channel);
     eventFactory.addSubscriber(channel, accumulatorSubscriberStub);
     eventFactory.openChannel(channel);
-    publisher.publish(expectedEventOne, expectedSubject);
-    publisher.publish(expectedEventTwo, expectedSubject);
+    publisher.publish(expectedEventDescriptionOne, expectedSubject);
+    publisher.publish(expectedEventDescriptionTwo, expectedSubject);
 
-    publisher.unpublish(expectedEventOne, expectedSubject);
-    publisher.unpublish(expectedEventTwo, expectedSubject);
+    publisher.unpublish(expectedEventDescriptionOne, expectedSubject);
+    publisher.unpublish(expectedEventDescriptionTwo, expectedSubject);
 
     assertEquals(expectedProcessedUnpublishedEventsSize,
         accumulatorSubscriberStub.getProcessedUnpublishedEventList().size());
 
     Event event = accumulatorSubscriberStub.getProcessedUnpublishedEventList().get(0);
-    assertEventCore.assertExpectedEvent(expectedEventOne, expectedSubject, event);
+    assertEventCore.assertExpectedEvent(expectedEventDescriptionOne, expectedSubject, event);
 
     event = accumulatorSubscriberStub.getProcessedUnpublishedEventList().get(1);
-    assertEventCore.assertExpectedEvent(expectedEventTwo, expectedSubject, event);
+    assertEventCore.assertExpectedEvent(expectedEventDescriptionTwo, expectedSubject, event);
   }
 
   @Test
   public void EventCore_publishEventWithSubjectAndWithNoSubject_publishForBothEventWithSubjectAndNoSubjectReceivedBySubscribers() {
     int expectedProcessedPublishedEventsSize = 2;
     Channel channel = eventFactory.createChannel("test.channel");
-    Event expectedEvent = eventFactory.createEvent(channel, "test.family", "test.name");
+    EventDescription expectedEventDescription =
+        eventFactory.createEventDescription(channel, "test.family", "test.name");
     Subject expectedSubject = createSubjectStub("test.subject");
     Publisher publisher = eventFactory.createPublisher(channel);
     eventFactory.addSubscriber(channel, accumulatorSubscriberStub);
     eventFactory.openChannel(channel);
 
-    publisher.publish(expectedEvent, expectedSubject);
-    publisher.publish(expectedEvent);
+    publisher.publish(expectedEventDescription, expectedSubject);
+    publisher.publish(expectedEventDescription);
 
     assertEquals(expectedProcessedPublishedEventsSize,
         accumulatorSubscriberStub.getProcessedPublishedEventList().size());
 
     Event event = accumulatorSubscriberStub.getProcessedPublishedEventList().get(0);
-    assertEventCore.assertExpectedEvent(expectedEvent, expectedSubject, event);
+    assertEventCore.assertExpectedEvent(expectedEventDescription, expectedSubject, event);
 
     event = accumulatorSubscriberStub.getProcessedPublishedEventList().get(1);
-    assertEventCore.assertExpectedEvent(expectedEvent, event);
+    assertEventCore.assertExpectedEvent(expectedEventDescription, event);
   }
 
   @Test
   public void EventCore_unpublishEventWithSubjectAndWithNoSubject_unpublishForBothEventWithSubjectAndNoSubjectReceivedBySubscribers() {
     int expectedProcessedUnpublishedEventsSize = 2;
     Channel channel = eventFactory.createChannel("test.channel");
-    Event expectedEvent = eventFactory.createEvent(channel, "test.family", "test.name");
+    EventDescription expectedEventDescription =
+        eventFactory.createEventDescription(channel, "test.family", "test.name");
     Subject expectedSubject = createSubjectStub("test.subject");
     Publisher publisher = eventFactory.createPublisher(channel);
     eventFactory.addSubscriber(channel, accumulatorSubscriberStub);
     eventFactory.openChannel(channel);
-    publisher.publish(expectedEvent, expectedSubject);
-    publisher.publish(expectedEvent);
+    publisher.publish(expectedEventDescription, expectedSubject);
+    publisher.publish(expectedEventDescription);
 
-    publisher.unpublish(expectedEvent, expectedSubject);
-    publisher.unpublish(expectedEvent);
+    publisher.unpublish(expectedEventDescription, expectedSubject);
+    publisher.unpublish(expectedEventDescription);
 
     assertEquals(expectedProcessedUnpublishedEventsSize,
         accumulatorSubscriberStub.getProcessedUnpublishedEventList().size());
 
     Event event = accumulatorSubscriberStub.getProcessedUnpublishedEventList().get(0);
-    assertEventCore.assertExpectedEvent(expectedEvent, expectedSubject, event);
+    assertEventCore.assertExpectedEvent(expectedEventDescription, expectedSubject, event);
 
     event = accumulatorSubscriberStub.getProcessedUnpublishedEventList().get(1);
-    assertEventCore.assertExpectedEvent(expectedEvent, event);
+    assertEventCore.assertExpectedEvent(expectedEventDescription, event);
   }
 
   @Test
   public void EventCore_multiplePublishersPublishDifferentEventsToOneSubscriber_allPublishedEventsReceivedBySubscriber() {
     int expectedProcessedPublishedEventsSize = 3;
     Channel channel = eventFactory.createChannel("test.channel");
-    Event expectedEventOne = eventFactory.createEvent(channel, "test.family", "test.name.one");
-    Event expectedEventTwo = eventFactory.createEvent(channel, "test.family", "test.name.two");
-    Event expectedEventThree = eventFactory.createEvent(channel, "test.family", "test.name.three");
+    EventDescription expectedEventDescriptionOne =
+        eventFactory.createEventDescription(channel, "test.family", "test.name.one");
+    EventDescription expectedEventDescriptionTwo =
+        eventFactory.createEventDescription(channel, "test.family", "test.name.two");
+    EventDescription expectedEventDescriptionThree =
+        eventFactory.createEventDescription(channel, "test.family", "test.name.three");
     Publisher publisherOne = eventFactory.createPublisher(channel);
     Publisher publisherTwo = eventFactory.createPublisher(channel);
     Publisher publisherThree = eventFactory.createPublisher(channel);
     eventFactory.addSubscriber(channel, accumulatorSubscriberStub);
     eventFactory.openChannel(channel);
 
-    publisherOne.publish(expectedEventOne);
-    publisherTwo.publish(expectedEventTwo);
-    publisherThree.publish(expectedEventThree);
+    publisherOne.publish(expectedEventDescriptionOne);
+    publisherTwo.publish(expectedEventDescriptionTwo);
+    publisherThree.publish(expectedEventDescriptionThree);
 
     assertEquals(expectedProcessedPublishedEventsSize,
         accumulatorSubscriberStub.getProcessedPublishedEventList().size());
-    assertEventCore.assertExpectedEvent(expectedEventOne,
+    assertEventCore.assertExpectedEvent(expectedEventDescriptionOne,
         accumulatorSubscriberStub.getProcessedPublishedEventList().get(0));
-    assertEventCore.assertExpectedEvent(expectedEventTwo,
+    assertEventCore.assertExpectedEvent(expectedEventDescriptionTwo,
         accumulatorSubscriberStub.getProcessedPublishedEventList().get(1));
-    assertEventCore.assertExpectedEvent(expectedEventThree,
+    assertEventCore.assertExpectedEvent(expectedEventDescriptionThree,
         accumulatorSubscriberStub.getProcessedPublishedEventList().get(2));
   }
 
@@ -935,29 +944,32 @@ public class EventCoreAcceptanceTests {
   public void EventCore_multiplePublishersUnpublishDifferentEventsToOneSubscriber_allUnpublishedEventsReceivedBySubscriber() {
     int expectedProcessedUnpublishedEventsSize = 3;
     Channel channel = eventFactory.createChannel("test.channel");
-    Event expectedEventOne = eventFactory.createEvent(channel, "test.family", "test.name.one");
-    Event expectedEventTwo = eventFactory.createEvent(channel, "test.family", "test.name.two");
-    Event expectedEventThree = eventFactory.createEvent(channel, "test.family", "test.name.three");
+    EventDescription expectedEventDescriptionOne =
+        eventFactory.createEventDescription(channel, "test.family", "test.name.one");
+    EventDescription expectedEventDescriptionTwo =
+        eventFactory.createEventDescription(channel, "test.family", "test.name.two");
+    EventDescription expectedEventDescriptionThree =
+        eventFactory.createEventDescription(channel, "test.family", "test.name.three");
     Publisher publisherOne = eventFactory.createPublisher(channel);
     Publisher publisherTwo = eventFactory.createPublisher(channel);
     Publisher publisherThree = eventFactory.createPublisher(channel);
     eventFactory.addSubscriber(channel, accumulatorSubscriberStub);
     eventFactory.openChannel(channel);
-    publisherOne.publish(expectedEventOne);
-    publisherTwo.publish(expectedEventTwo);
-    publisherThree.publish(expectedEventThree);
+    publisherOne.publish(expectedEventDescriptionOne);
+    publisherTwo.publish(expectedEventDescriptionTwo);
+    publisherThree.publish(expectedEventDescriptionThree);
 
-    publisherOne.unpublish(expectedEventOne);
-    publisherTwo.unpublish(expectedEventTwo);
-    publisherThree.unpublish(expectedEventThree);
+    publisherOne.unpublish(expectedEventDescriptionOne);
+    publisherTwo.unpublish(expectedEventDescriptionTwo);
+    publisherThree.unpublish(expectedEventDescriptionThree);
 
     assertEquals(expectedProcessedUnpublishedEventsSize,
         accumulatorSubscriberStub.getProcessedUnpublishedEventList().size());
-    assertEventCore.assertExpectedEvent(expectedEventOne,
+    assertEventCore.assertExpectedEvent(expectedEventDescriptionOne,
         accumulatorSubscriberStub.getProcessedUnpublishedEventList().get(0));
-    assertEventCore.assertExpectedEvent(expectedEventTwo,
+    assertEventCore.assertExpectedEvent(expectedEventDescriptionTwo,
         accumulatorSubscriberStub.getProcessedUnpublishedEventList().get(1));
-    assertEventCore.assertExpectedEvent(expectedEventThree,
+    assertEventCore.assertExpectedEvent(expectedEventDescriptionThree,
         accumulatorSubscriberStub.getProcessedUnpublishedEventList().get(2));
   }
 
@@ -965,20 +977,21 @@ public class EventCoreAcceptanceTests {
   public void EventCore_multiplePublishersPublishSameEventToOneSubscriber_onePublishedEventReceivedBySubscriber() {
     int expectedProcessedPublishedEventsSize = 1;
     Channel channel = eventFactory.createChannel("test.channel");
-    Event expectedEvent = eventFactory.createEvent(channel, "test.family", "test.name.one");
+    EventDescription expectedEventDescription =
+        eventFactory.createEventDescription(channel, "test.family", "test.name.one");
     Publisher publisherOne = eventFactory.createPublisher(channel);
     Publisher publisherTwo = eventFactory.createPublisher(channel);
     Publisher publisherThree = eventFactory.createPublisher(channel);
     eventFactory.addSubscriber(channel, accumulatorSubscriberStub);
     eventFactory.openChannel(channel);
 
-    publisherOne.publish(expectedEvent);
-    publisherTwo.publish(expectedEvent);
-    publisherThree.publish(expectedEvent);
+    publisherOne.publish(expectedEventDescription);
+    publisherTwo.publish(expectedEventDescription);
+    publisherThree.publish(expectedEventDescription);
 
     assertEquals(expectedProcessedPublishedEventsSize,
         accumulatorSubscriberStub.getProcessedPublishedEventList().size());
-    assertEventCore.assertExpectedEvent(expectedEvent,
+    assertEventCore.assertExpectedEvent(expectedEventDescription,
         accumulatorSubscriberStub.getProcessedPublishedEventList().get(0));
   }
 
@@ -986,23 +999,24 @@ public class EventCoreAcceptanceTests {
   public void EventCore_multiplePublishersUnpublishSameEventToOneSubscriber_oneUnpublishedEventReceivedBySubscriber() {
     int expectedProcessedUnpublishedEventsSize = 1;
     Channel channel = eventFactory.createChannel("test.channel");
-    Event expectedEvent = eventFactory.createEvent(channel, "test.family", "test.name.one");
+    EventDescription expectedEventDescription =
+        eventFactory.createEventDescription(channel, "test.family", "test.name.one");
     Publisher publisherOne = eventFactory.createPublisher(channel);
     Publisher publisherTwo = eventFactory.createPublisher(channel);
     Publisher publisherThree = eventFactory.createPublisher(channel);
     eventFactory.addSubscriber(channel, accumulatorSubscriberStub);
     eventFactory.openChannel(channel);
-    publisherOne.publish(expectedEvent);
-    publisherTwo.publish(expectedEvent);
-    publisherThree.publish(expectedEvent);
+    publisherOne.publish(expectedEventDescription);
+    publisherTwo.publish(expectedEventDescription);
+    publisherThree.publish(expectedEventDescription);
 
-    publisherOne.unpublish(expectedEvent);
-    publisherTwo.unpublish(expectedEvent);
-    publisherThree.unpublish(expectedEvent);
+    publisherOne.unpublish(expectedEventDescription);
+    publisherTwo.unpublish(expectedEventDescription);
+    publisherThree.unpublish(expectedEventDescription);
 
     assertEquals(expectedProcessedUnpublishedEventsSize,
         accumulatorSubscriberStub.getProcessedUnpublishedEventList().size());
-    assertEventCore.assertExpectedEvent(expectedEvent,
+    assertEventCore.assertExpectedEvent(expectedEventDescription,
         accumulatorSubscriberStub.getProcessedUnpublishedEventList().get(0));
   }
 
@@ -1010,7 +1024,8 @@ public class EventCoreAcceptanceTests {
   public void EventCore_onePublisherPublishesOneEventToMultipleSubscribers_onePublishedEventReceivedByAllSubscribers() {
     int expectedProcessedPublishedEventsSize = 1;
     Channel channel = eventFactory.createChannel("test.channel");
-    Event expectedEvent = eventFactory.createEvent(channel, "test.family", "test.name.one");
+    EventDescription expectedEventDescription =
+        eventFactory.createEventDescription(channel, "test.family", "test.name.one");
     Publisher publisher = eventFactory.createPublisher(channel);
     AccumulatorSubscriberStub subscriberOne =
         AccumulatorSubscriberStub.createAccumulatorSubscriber("test.subscriber.one");
@@ -1023,21 +1038,21 @@ public class EventCoreAcceptanceTests {
     eventFactory.addSubscriber(channel, subscriberThree);
     eventFactory.openChannel(channel);
 
-    publisher.publish(expectedEvent);
+    publisher.publish(expectedEventDescription);
 
     assertEquals(expectedProcessedPublishedEventsSize,
         subscriberOne.getProcessedPublishedEventList().size());
-    assertEventCore.assertExpectedEvent(expectedEvent,
+    assertEventCore.assertExpectedEvent(expectedEventDescription,
         subscriberOne.getProcessedPublishedEventList().get(0));
 
     assertEquals(expectedProcessedPublishedEventsSize,
         subscriberTwo.getProcessedPublishedEventList().size());
-    assertEventCore.assertExpectedEvent(expectedEvent,
+    assertEventCore.assertExpectedEvent(expectedEventDescription,
         subscriberTwo.getProcessedPublishedEventList().get(0));
 
     assertEquals(expectedProcessedPublishedEventsSize,
         subscriberThree.getProcessedPublishedEventList().size());
-    assertEventCore.assertExpectedEvent(expectedEvent,
+    assertEventCore.assertExpectedEvent(expectedEventDescription,
         subscriberThree.getProcessedPublishedEventList().get(0));
   }
 
@@ -1045,7 +1060,8 @@ public class EventCoreAcceptanceTests {
   public void EventCore_onePublisherUnpublishesOneEventToMultipleSubscribers_oneUnpublishedEventReceivedByAllSubscribers() {
     int expectedProcessedUnpublishedEventsSize = 1;
     Channel channel = eventFactory.createChannel("test.channel");
-    Event expectedEvent = eventFactory.createEvent(channel, "test.family", "test.name.one");
+    EventDescription expectedEventDescription =
+        eventFactory.createEventDescription(channel, "test.family", "test.name.one");
     Publisher publisher = eventFactory.createPublisher(channel);
     AccumulatorSubscriberStub subscriberOne =
         AccumulatorSubscriberStub.createAccumulatorSubscriber("test.subscriber.one");
@@ -1057,23 +1073,23 @@ public class EventCoreAcceptanceTests {
     eventFactory.addSubscriber(channel, subscriberTwo);
     eventFactory.addSubscriber(channel, subscriberThree);
     eventFactory.openChannel(channel);
-    publisher.publish(expectedEvent);
+    publisher.publish(expectedEventDescription);
 
-    publisher.unpublish(expectedEvent);
+    publisher.unpublish(expectedEventDescription);
 
     assertEquals(expectedProcessedUnpublishedEventsSize,
         subscriberOne.getProcessedUnpublishedEventList().size());
-    assertEventCore.assertExpectedEvent(expectedEvent,
+    assertEventCore.assertExpectedEvent(expectedEventDescription,
         subscriberOne.getProcessedUnpublishedEventList().get(0));
 
     assertEquals(expectedProcessedUnpublishedEventsSize,
         subscriberTwo.getProcessedUnpublishedEventList().size());
-    assertEventCore.assertExpectedEvent(expectedEvent,
+    assertEventCore.assertExpectedEvent(expectedEventDescription,
         subscriberTwo.getProcessedUnpublishedEventList().get(0));
 
     assertEquals(expectedProcessedUnpublishedEventsSize,
         subscriberThree.getProcessedUnpublishedEventList().size());
-    assertEventCore.assertExpectedEvent(expectedEvent,
+    assertEventCore.assertExpectedEvent(expectedEventDescription,
         subscriberThree.getProcessedUnpublishedEventList().get(0));
   }
 
@@ -1081,9 +1097,12 @@ public class EventCoreAcceptanceTests {
   public void EventCore_multiplePublishersPublishDifferentEventsToMultipleSubscribers_allPublishedEventsReceivedByAllSubscribers() {
     int expectedProcessedPublishedEventsSize = 3;
     Channel channel = eventFactory.createChannel("test.channel");
-    Event expectedEventOne = eventFactory.createEvent(channel, "test.family", "test.name.one");
-    Event expectedEventTwo = eventFactory.createEvent(channel, "test.family", "test.name.two");
-    Event expectedEventThree = eventFactory.createEvent(channel, "test.family", "test.name.three");
+    EventDescription expectedEventDescriptionOne =
+        eventFactory.createEventDescription(channel, "test.family", "test.name.one");
+    EventDescription expectedEventDescriptionTwo =
+        eventFactory.createEventDescription(channel, "test.family", "test.name.two");
+    EventDescription expectedEventDescriptionThree =
+        eventFactory.createEventDescription(channel, "test.family", "test.name.three");
     Publisher publisherOne = eventFactory.createPublisher(channel);
     Publisher publisherTwo = eventFactory.createPublisher(channel);
     Publisher publisherThree = eventFactory.createPublisher(channel);
@@ -1098,35 +1117,35 @@ public class EventCoreAcceptanceTests {
     eventFactory.addSubscriber(channel, subscriberThree);
     eventFactory.openChannel(channel);
 
-    publisherOne.publish(expectedEventOne);
-    publisherTwo.publish(expectedEventTwo);
-    publisherThree.publish(expectedEventThree);
+    publisherOne.publish(expectedEventDescriptionOne);
+    publisherTwo.publish(expectedEventDescriptionTwo);
+    publisherThree.publish(expectedEventDescriptionThree);
 
     assertEquals(expectedProcessedPublishedEventsSize,
         subscriberOne.getProcessedPublishedEventList().size());
-    assertEventCore.assertExpectedEvent(expectedEventOne,
+    assertEventCore.assertExpectedEvent(expectedEventDescriptionOne,
         subscriberOne.getProcessedPublishedEventList().get(0));
-    assertEventCore.assertExpectedEvent(expectedEventTwo,
+    assertEventCore.assertExpectedEvent(expectedEventDescriptionTwo,
         subscriberOne.getProcessedPublishedEventList().get(1));
-    assertEventCore.assertExpectedEvent(expectedEventThree,
+    assertEventCore.assertExpectedEvent(expectedEventDescriptionThree,
         subscriberOne.getProcessedPublishedEventList().get(2));
 
     assertEquals(expectedProcessedPublishedEventsSize,
         subscriberTwo.getProcessedPublishedEventList().size());
-    assertEventCore.assertExpectedEvent(expectedEventOne,
+    assertEventCore.assertExpectedEvent(expectedEventDescriptionOne,
         subscriberTwo.getProcessedPublishedEventList().get(0));
-    assertEventCore.assertExpectedEvent(expectedEventTwo,
+    assertEventCore.assertExpectedEvent(expectedEventDescriptionTwo,
         subscriberTwo.getProcessedPublishedEventList().get(1));
-    assertEventCore.assertExpectedEvent(expectedEventThree,
+    assertEventCore.assertExpectedEvent(expectedEventDescriptionThree,
         subscriberTwo.getProcessedPublishedEventList().get(2));
 
     assertEquals(expectedProcessedPublishedEventsSize,
         subscriberThree.getProcessedPublishedEventList().size());
-    assertEventCore.assertExpectedEvent(expectedEventOne,
+    assertEventCore.assertExpectedEvent(expectedEventDescriptionOne,
         subscriberThree.getProcessedPublishedEventList().get(0));
-    assertEventCore.assertExpectedEvent(expectedEventTwo,
+    assertEventCore.assertExpectedEvent(expectedEventDescriptionTwo,
         subscriberThree.getProcessedPublishedEventList().get(1));
-    assertEventCore.assertExpectedEvent(expectedEventThree,
+    assertEventCore.assertExpectedEvent(expectedEventDescriptionThree,
         subscriberThree.getProcessedPublishedEventList().get(2));
   }
 
@@ -1134,9 +1153,12 @@ public class EventCoreAcceptanceTests {
   public void EventCore_multiplePublishersUnpublishDifferentEventsToMultipleSubscribers_allUnpublishedEventsReceivedByAllSubscribers() {
     int expectedProcessedUnpublishedEventsSize = 3;
     Channel channel = eventFactory.createChannel("test.channel");
-    Event expectedEventOne = eventFactory.createEvent(channel, "test.family", "test.name.one");
-    Event expectedEventTwo = eventFactory.createEvent(channel, "test.family", "test.name.two");
-    Event expectedEventThree = eventFactory.createEvent(channel, "test.family", "test.name.three");
+    EventDescription expectedEventDescriptionOne =
+        eventFactory.createEventDescription(channel, "test.family", "test.name.one");
+    EventDescription expectedEventDescriptionTwo =
+        eventFactory.createEventDescription(channel, "test.family", "test.name.two");
+    EventDescription expectedEventDescriptionThree =
+        eventFactory.createEventDescription(channel, "test.family", "test.name.three");
     Publisher publisherOne = eventFactory.createPublisher(channel);
     Publisher publisherTwo = eventFactory.createPublisher(channel);
     Publisher publisherThree = eventFactory.createPublisher(channel);
@@ -1150,39 +1172,39 @@ public class EventCoreAcceptanceTests {
     eventFactory.addSubscriber(channel, subscriberTwo);
     eventFactory.addSubscriber(channel, subscriberThree);
     eventFactory.openChannel(channel);
-    publisherOne.publish(expectedEventOne);
-    publisherTwo.publish(expectedEventTwo);
-    publisherThree.publish(expectedEventThree);
+    publisherOne.publish(expectedEventDescriptionOne);
+    publisherTwo.publish(expectedEventDescriptionTwo);
+    publisherThree.publish(expectedEventDescriptionThree);
 
-    publisherOne.unpublish(expectedEventOne);
-    publisherTwo.unpublish(expectedEventTwo);
-    publisherThree.unpublish(expectedEventThree);
+    publisherOne.unpublish(expectedEventDescriptionOne);
+    publisherTwo.unpublish(expectedEventDescriptionTwo);
+    publisherThree.unpublish(expectedEventDescriptionThree);
 
     assertEquals(expectedProcessedUnpublishedEventsSize,
         subscriberOne.getProcessedUnpublishedEventList().size());
-    assertEventCore.assertExpectedEvent(expectedEventOne,
+    assertEventCore.assertExpectedEvent(expectedEventDescriptionOne,
         subscriberOne.getProcessedUnpublishedEventList().get(0));
-    assertEventCore.assertExpectedEvent(expectedEventTwo,
+    assertEventCore.assertExpectedEvent(expectedEventDescriptionTwo,
         subscriberOne.getProcessedUnpublishedEventList().get(1));
-    assertEventCore.assertExpectedEvent(expectedEventThree,
+    assertEventCore.assertExpectedEvent(expectedEventDescriptionThree,
         subscriberOne.getProcessedUnpublishedEventList().get(2));
 
     assertEquals(expectedProcessedUnpublishedEventsSize,
         subscriberTwo.getProcessedUnpublishedEventList().size());
-    assertEventCore.assertExpectedEvent(expectedEventOne,
+    assertEventCore.assertExpectedEvent(expectedEventDescriptionOne,
         subscriberTwo.getProcessedUnpublishedEventList().get(0));
-    assertEventCore.assertExpectedEvent(expectedEventTwo,
+    assertEventCore.assertExpectedEvent(expectedEventDescriptionTwo,
         subscriberTwo.getProcessedUnpublishedEventList().get(1));
-    assertEventCore.assertExpectedEvent(expectedEventThree,
+    assertEventCore.assertExpectedEvent(expectedEventDescriptionThree,
         subscriberTwo.getProcessedUnpublishedEventList().get(2));
 
     assertEquals(expectedProcessedUnpublishedEventsSize,
         subscriberThree.getProcessedUnpublishedEventList().size());
-    assertEventCore.assertExpectedEvent(expectedEventOne,
+    assertEventCore.assertExpectedEvent(expectedEventDescriptionOne,
         subscriberThree.getProcessedUnpublishedEventList().get(0));
-    assertEventCore.assertExpectedEvent(expectedEventTwo,
+    assertEventCore.assertExpectedEvent(expectedEventDescriptionTwo,
         subscriberThree.getProcessedUnpublishedEventList().get(1));
-    assertEventCore.assertExpectedEvent(expectedEventThree,
+    assertEventCore.assertExpectedEvent(expectedEventDescriptionThree,
         subscriberThree.getProcessedUnpublishedEventList().get(2));
   }
 
@@ -1190,7 +1212,8 @@ public class EventCoreAcceptanceTests {
   public void EventCore_multiplePublishersPublisheSameEventToMultipleSubscribers_onePublishedEventReceivedByAllSubscribers() {
     int expectedProcessedPublishedEventsSize = 1;
     Channel channel = eventFactory.createChannel("test.channel");
-    Event expectedEvent = eventFactory.createEvent(channel, "test.family", "test.name.one");
+    EventDescription expectedEventDescription =
+        eventFactory.createEventDescription(channel, "test.family", "test.name.one");
     Publisher publisherOne = eventFactory.createPublisher(channel);
     Publisher publisherTwo = eventFactory.createPublisher(channel);
     Publisher publisherThree = eventFactory.createPublisher(channel);
@@ -1205,23 +1228,23 @@ public class EventCoreAcceptanceTests {
     eventFactory.addSubscriber(channel, subscriberThree);
     eventFactory.openChannel(channel);
 
-    publisherOne.publish(expectedEvent);
-    publisherTwo.publish(expectedEvent);
-    publisherThree.publish(expectedEvent);
+    publisherOne.publish(expectedEventDescription);
+    publisherTwo.publish(expectedEventDescription);
+    publisherThree.publish(expectedEventDescription);
 
     assertEquals(expectedProcessedPublishedEventsSize,
         subscriberOne.getProcessedPublishedEventList().size());
-    assertEventCore.assertExpectedEvent(expectedEvent,
+    assertEventCore.assertExpectedEvent(expectedEventDescription,
         subscriberOne.getProcessedPublishedEventList().get(0));
 
     assertEquals(expectedProcessedPublishedEventsSize,
         subscriberTwo.getProcessedPublishedEventList().size());
-    assertEventCore.assertExpectedEvent(expectedEvent,
+    assertEventCore.assertExpectedEvent(expectedEventDescription,
         subscriberTwo.getProcessedPublishedEventList().get(0));
 
     assertEquals(expectedProcessedPublishedEventsSize,
         subscriberThree.getProcessedPublishedEventList().size());
-    assertEventCore.assertExpectedEvent(expectedEvent,
+    assertEventCore.assertExpectedEvent(expectedEventDescription,
         subscriberThree.getProcessedPublishedEventList().get(0));
   }
 
@@ -1229,7 +1252,8 @@ public class EventCoreAcceptanceTests {
   public void EventCore_multiplePublishersUnpublisheSameEventToMultipleSubscribers_oneUnpublishedEventReceivedByAllSubscribers() {
     int expectedProcessedUnpublishedEventsSize = 1;
     Channel channel = eventFactory.createChannel("test.channel");
-    Event expectedEvent = eventFactory.createEvent(channel, "test.family", "test.name.one");
+    EventDescription expectedEventDescription =
+        eventFactory.createEventDescription(channel, "test.family", "test.name.one");
     Publisher publisherOne = eventFactory.createPublisher(channel);
     Publisher publisherTwo = eventFactory.createPublisher(channel);
     Publisher publisherThree = eventFactory.createPublisher(channel);
@@ -1243,66 +1267,67 @@ public class EventCoreAcceptanceTests {
     eventFactory.addSubscriber(channel, subscriberTwo);
     eventFactory.addSubscriber(channel, subscriberThree);
     eventFactory.openChannel(channel);
-    publisherOne.publish(expectedEvent);
-    publisherTwo.publish(expectedEvent);
-    publisherThree.publish(expectedEvent);
+    publisherOne.publish(expectedEventDescription);
+    publisherTwo.publish(expectedEventDescription);
+    publisherThree.publish(expectedEventDescription);
 
-    publisherOne.unpublish(expectedEvent);
-    publisherTwo.unpublish(expectedEvent);
-    publisherThree.unpublish(expectedEvent);
+    publisherOne.unpublish(expectedEventDescription);
+    publisherTwo.unpublish(expectedEventDescription);
+    publisherThree.unpublish(expectedEventDescription);
 
     assertEquals(expectedProcessedUnpublishedEventsSize,
         subscriberOne.getProcessedUnpublishedEventList().size());
-    assertEventCore.assertExpectedEvent(expectedEvent,
+    assertEventCore.assertExpectedEvent(expectedEventDescription,
         subscriberOne.getProcessedUnpublishedEventList().get(0));
 
     assertEquals(expectedProcessedUnpublishedEventsSize,
         subscriberTwo.getProcessedUnpublishedEventList().size());
-    assertEventCore.assertExpectedEvent(expectedEvent,
+    assertEventCore.assertExpectedEvent(expectedEventDescription,
         subscriberTwo.getProcessedUnpublishedEventList().get(0));
 
     assertEquals(expectedProcessedUnpublishedEventsSize,
         subscriberThree.getProcessedUnpublishedEventList().size());
-    assertEventCore.assertExpectedEvent(expectedEvent,
+    assertEventCore.assertExpectedEvent(expectedEventDescription,
         subscriberThree.getProcessedUnpublishedEventList().get(0));
   }
 
   @Test
   public void EventCore_publisherPublishesEventUnpublishesEventThenPublishesEventAgain_oneEachOfPublishedUnpublishedAndPublishedEventReceivedBySubscriber() {
     Channel channel = eventFactory.createChannel("test.channel");
-    Event expectedEvent = eventFactory.createEvent(channel, "test.family", "test.name");
+    EventDescription expectedEventDescription =
+        eventFactory.createEventDescription(channel, "test.family", "test.name");
     Publisher publisher = eventFactory.createPublisher(channel);
     eventFactory.addSubscriber(channel, accumulatorSubscriberStub);
     eventFactory.openChannel(channel);
 
-    publisher.publish(expectedEvent);
+    publisher.publish(expectedEventDescription);
 
     assertEquals(1, accumulatorSubscriberStub.getProcessedPublishedEventList().size());
-    assertEventCore.assertExpectedEvent(expectedEvent,
+    assertEventCore.assertExpectedEvent(expectedEventDescription,
         accumulatorSubscriberStub.getProcessedPublishedEventList().get(0));
 
-    publisher.unpublish(expectedEvent);
+    publisher.unpublish(expectedEventDescription);
 
     assertEquals(1, accumulatorSubscriberStub.getProcessedUnpublishedEventList().size());
-    assertEventCore.assertExpectedEvent(expectedEvent,
+    assertEventCore.assertExpectedEvent(expectedEventDescription,
         accumulatorSubscriberStub.getProcessedUnpublishedEventList().get(0));
 
-    publisher.publish(expectedEvent);
+    publisher.publish(expectedEventDescription);
 
     assertEquals(2, accumulatorSubscriberStub.getProcessedPublishedEventList().size());
-    assertEventCore.assertExpectedEvent(expectedEvent,
+    assertEventCore.assertExpectedEvent(expectedEventDescription,
         accumulatorSubscriberStub.getProcessedPublishedEventList().get(1));
   }
 
   @Test
   public void EventCore_multiplePublishersPublishOverlappingEventsAndOnePublisherUnpublishesOverlappingEvents_overlappingEventsNotUnpublishedUntilUnpublishedByAllPublishers() {
     Channel channel = eventFactory.createChannel("test.channel");
-    Event eventFromPublisherOne =
-        eventFactory.createEvent(channel, "test.family", "event.from.publisher.one");
-    Event eventFromPublisherTwo =
-        eventFactory.createEvent(channel, "test.family", "event.from.publisher.two");
-    Event eventFromBothPublishers =
-        eventFactory.createEvent(channel, "test.family", "event.from.both.publishers");
+    EventDescription eventFromPublisherOne =
+        eventFactory.createEventDescription(channel, "test.family", "event.from.publisher.one");
+    EventDescription eventFromPublisherTwo =
+        eventFactory.createEventDescription(channel, "test.family", "event.from.publisher.two");
+    EventDescription eventFromBothPublishers =
+        eventFactory.createEventDescription(channel, "test.family", "event.from.both.publishers");
     Publisher publisherOne = eventFactory.createPublisher(channel);
     Publisher publisherTwo = eventFactory.createPublisher(channel);
     eventFactory.addSubscriber(channel, accumulatorSubscriberStub);
@@ -1337,7 +1362,8 @@ public class EventCoreAcceptanceTests {
   @Test
   public void EventCore_publisherAttemptsToUnpublishAnotherPublishersEvent_subscriberReceivesNoUnpublishEvent() {
     Channel channel = eventFactory.createChannel("test.channel");
-    Event event = eventFactory.createEvent(channel, "test.family", "test.name");
+    EventDescription event =
+        eventFactory.createEventDescription(channel, "test.family", "test.name");
     Publisher publisherOne = eventFactory.createPublisher(channel);
     Publisher publisherTwo = eventFactory.createPublisher(channel);
     eventFactory.addSubscriber(channel, accumulatorSubscriberStub);
@@ -1355,7 +1381,8 @@ public class EventCoreAcceptanceTests {
   @Test
   public void EventCore_publisherAttemptsToUnpublishAnotherPublishersEventWithSubject_subscriberReceivesNoUnpublishEvent() {
     Channel channel = eventFactory.createChannel("test.channel");
-    Event event = eventFactory.createEvent(channel, "test.family", "test.name");
+    EventDescription event =
+        eventFactory.createEventDescription(channel, "test.family", "test.name");
     Subject subject = createSubjectStub("test.subject");
     Publisher publisherOne = eventFactory.createPublisher(channel);
     Publisher publisherTwo = eventFactory.createPublisher(channel);
@@ -1379,7 +1406,7 @@ public class EventCoreAcceptanceTests {
     EventFactory eventFactoryTwo = EventFactory.createFactory();
     Channel channel = eventFactoryOne.createChannel("test.channel");
 
-    eventFactoryTwo.createEvent(channel, "test.family", "test.name");
+    eventFactoryTwo.createEventDescription(channel, "test.family", "test.name");
   }
 
   @Test
@@ -1418,7 +1445,8 @@ public class EventCoreAcceptanceTests {
   @Test
   public void EventCore_publishValidEventAndOneSubscriberThrowsUncheckedException_eventCoreDoesNotDieAndAllOtherSubscribersReceiveEvent() {
     Channel channel = eventFactory.createChannel("test.channel");
-    Event event = eventFactory.createEvent(channel, "test.family", "test.name");
+    EventDescription event =
+        eventFactory.createEventDescription(channel, "test.family", "test.name");
     Publisher publisher = eventFactory.createPublisher(channel);
     AccumulatorSubscriberStub stableSubscriberOne =
         AccumulatorSubscriberStub.createAccumulatorSubscriber("test.subscriber.stable.one");
@@ -1454,7 +1482,8 @@ public class EventCoreAcceptanceTests {
   @Test
   public void EventCore_unpublishValidEventAndOneSubscriberThrowsUncheckedException_eventCoreDoesNotDieAndAllOtherSubscribersReceiveEvent() {
     Channel channel = eventFactory.createChannel("test.channel");
-    Event event = eventFactory.createEvent(channel, "test.family", "test.name");
+    EventDescription event =
+        eventFactory.createEventDescription(channel, "test.family", "test.name");
     Publisher publisher = eventFactory.createPublisher(channel);
     AccumulatorSubscriberStub stableSubscriberOne =
         AccumulatorSubscriberStub.createAccumulatorSubscriber("test.stable.subscriber.one");
@@ -1508,45 +1537,49 @@ public class EventCoreAcceptanceTests {
 
   @Test
   public void EventCore_ensureEventRespectsNaturalOrderContract_naturalOrderConstractRespected() {
-    Event leftOperand;
-    Event rightOperand;
+    EventDescription leftOperand;
+    EventDescription rightOperand;
 
-    leftOperand = eventFactory.createEvent(eventFactory.createChannel("same.channel"),
+    leftOperand = eventFactory.createEventDescription(eventFactory.createChannel("same.channel"),
         "same.family", "same.name");
-    rightOperand = eventFactory.createEvent(eventFactory.createChannel("same.channel"),
+    rightOperand = eventFactory.createEventDescription(eventFactory.createChannel("same.channel"),
         "same.family", "same.name");
     assertNaturalOrder.assertExpectedRelation(leftOperand, Relation.EQ, rightOperand);
 
-    leftOperand =
-        eventFactory.createEvent(eventFactory.createChannel("same.channel"), "same.family", "aaa");
-    rightOperand =
-        eventFactory.createEvent(eventFactory.createChannel("same.channel"), "same.family", "zzz");
+    leftOperand = eventFactory.createEventDescription(eventFactory.createChannel("same.channel"),
+        "same.family", "aaa");
+    rightOperand = eventFactory.createEventDescription(eventFactory.createChannel("same.channel"),
+        "same.family", "zzz");
     assertNaturalOrder.assertExpectedRelation(leftOperand, Relation.LT, rightOperand);
 
-    leftOperand =
-        eventFactory.createEvent(eventFactory.createChannel("same.channel"), "same.family", "zzz");
-    rightOperand =
-        eventFactory.createEvent(eventFactory.createChannel("same.channel"), "same.family", "aaa");
+    leftOperand = eventFactory.createEventDescription(eventFactory.createChannel("same.channel"),
+        "same.family", "zzz");
+    rightOperand = eventFactory.createEventDescription(eventFactory.createChannel("same.channel"),
+        "same.family", "aaa");
+    assertNaturalOrder.assertExpectedRelation(leftOperand, Relation.GT, rightOperand);
+
+    leftOperand = eventFactory.createEventDescription(eventFactory.createChannel("same.channel"),
+        "aaa", "zzz");
+    rightOperand = eventFactory.createEventDescription(eventFactory.createChannel("same.channel"),
+        "zzz", "aaa");
+    assertNaturalOrder.assertExpectedRelation(leftOperand, Relation.LT, rightOperand);
+
+    leftOperand = eventFactory.createEventDescription(eventFactory.createChannel("same.channel"),
+        "zzz", "aaa");
+    rightOperand = eventFactory.createEventDescription(eventFactory.createChannel("same.channel"),
+        "aaa", "zzz");
     assertNaturalOrder.assertExpectedRelation(leftOperand, Relation.GT, rightOperand);
 
     leftOperand =
-        eventFactory.createEvent(eventFactory.createChannel("same.channel"), "aaa", "zzz");
+        eventFactory.createEventDescription(eventFactory.createChannel("aaa"), "zzz", "zzz");
     rightOperand =
-        eventFactory.createEvent(eventFactory.createChannel("same.channel"), "zzz", "aaa");
+        eventFactory.createEventDescription(eventFactory.createChannel("zzz"), "aaa", "aaa");
     assertNaturalOrder.assertExpectedRelation(leftOperand, Relation.LT, rightOperand);
 
     leftOperand =
-        eventFactory.createEvent(eventFactory.createChannel("same.channel"), "zzz", "aaa");
+        eventFactory.createEventDescription(eventFactory.createChannel("zzz"), "aaa", "aaa");
     rightOperand =
-        eventFactory.createEvent(eventFactory.createChannel("same.channel"), "aaa", "zzz");
-    assertNaturalOrder.assertExpectedRelation(leftOperand, Relation.GT, rightOperand);
-
-    leftOperand = eventFactory.createEvent(eventFactory.createChannel("aaa"), "zzz", "zzz");
-    rightOperand = eventFactory.createEvent(eventFactory.createChannel("zzz"), "aaa", "aaa");
-    assertNaturalOrder.assertExpectedRelation(leftOperand, Relation.LT, rightOperand);
-
-    leftOperand = eventFactory.createEvent(eventFactory.createChannel("zzz"), "aaa", "aaa");
-    rightOperand = eventFactory.createEvent(eventFactory.createChannel("aaa"), "zzz", "zzz");
+        eventFactory.createEventDescription(eventFactory.createChannel("aaa"), "zzz", "zzz");
     assertNaturalOrder.assertExpectedRelation(leftOperand, Relation.GT, rightOperand);
   }
 
