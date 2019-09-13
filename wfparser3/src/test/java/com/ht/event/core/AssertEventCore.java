@@ -9,7 +9,7 @@ public class AssertEventCore {
     return new AssertEventCore();
   }
 
-  public void assertExpectedChannel_NEW(String expectedChannelName, boolean expectedIsOpen,
+  public void assertExpectedChannel(String expectedChannelName, boolean expectedIsOpen,
       List<EventDescription> expectedEventDescriptionList, List<Publisher> expectedPublisherList,
       List<Subscriber> expectedSubscriberList, Channel channel) {
     assertNotNull(channel);
@@ -18,17 +18,6 @@ public class AssertEventCore {
     assertEquals(expectedEventDescriptionList, channel.getEventDescriptionList());
     assertEquals(expectedPublisherList, channel.getPublisherList());
     assertEquals(expectedSubscriberList, channel.getSubscriberList());
-  }
-
-  public void assertExpectedEventDescription(EventDescription expectedEventDescription,
-      EventDescription eventDescription) {
-    assertNotNull(eventDescription);
-    assertEquals(expectedEventDescription.getChannel(), eventDescription.getChannel());
-    assertEquals(expectedEventDescription.getFamily(), eventDescription.getFamily());
-    assertEquals(expectedEventDescription.getName(), eventDescription.getName());
-    assertEquals(String.join(".", eventDescription.getChannel().getName(),
-        eventDescription.getFamily(), eventDescription.getName()),
-        eventDescription.getFullyQualifiedName());
   }
 
   public void assertExpectedEventDescription(Channel expectedChannel, String expectedfamily,
@@ -42,11 +31,18 @@ public class AssertEventCore {
         eventDescription.getFullyQualifiedName());
   }
 
+  public void assertExpectedEventDescription(EventDescription expectedEventDescription,
+      EventDescription eventDescription) {
+    assertNotNull(eventDescription);
+    assertExpectedEventDescription(expectedEventDescription.getChannel(),
+        expectedEventDescription.getFamily(), expectedEventDescription.getName(), eventDescription);
+  }
+
   public void assertExpectedEvent(EventDescription expectedDescriptionEvent,
       Subject expectedSubject, Event event) {
     assertNotNull(event);
-    assertEquals(expectedSubject, event.getSubject());
-    assertEquals(expectedDescriptionEvent, event.getEventDescription());
+    assertExpectedEventDescription(expectedDescriptionEvent, event.getEventDescription());
+    assertExpectedSubject(expectedSubject, event.getSubject());
   }
 
   public void assertExpectedEvent(EventDescription expectedDescriptionEvent, Event event) {
@@ -57,6 +53,11 @@ public class AssertEventCore {
 
   public void assertExpectedSubject(Subject subject) {
     assertNotNull(subject);
+  }
+
+  public void assertExpectedSubject(Subject expectedSubject, Subject subject) {
+    assertNotNull(subject);
+    assertEquals(expectedSubject, subject);
   }
 
   public void assertExpectedPublisher(Channel expectedChannel, Publisher publisher) {

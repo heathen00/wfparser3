@@ -1,9 +1,14 @@
 package com.ht.event.core;
 
-public class EventDescriptionForComparisonImp implements EventDescription {
+final class EventDescriptionForComparisonImp implements EventDescription {
   private Channel channel;
   private String family;
   private String name;
+  private final EventDescriptionNaturalOrderImp eventDescriptionNaturalOrder;
+
+  EventDescriptionForComparisonImp() {
+    eventDescriptionNaturalOrder = new EventDescriptionNaturalOrderImp(this);
+  }
 
   @Override
   public Channel getChannel() {
@@ -34,38 +39,22 @@ public class EventDescriptionForComparisonImp implements EventDescription {
 
   @Override
   public String getFullyQualifiedName() {
-    return String.join(".", channel.getName(), getFamily(), getName());
+    return eventDescriptionNaturalOrder.getFullyQualifiedName();
   }
 
   @Override
   public int hashCode() {
-    final int prime = 31;
-    int result = 1;
-    result = prime * result + getFullyQualifiedName().hashCode();
-    return result;
+    return eventDescriptionNaturalOrder.hashCode();
   }
 
   @Override
   public boolean equals(Object obj) {
-    if (this == obj) {
-      return true;
-    }
-    if (obj == null) {
-      return false;
-    }
-    if (!Event.class.isInstance(obj)) {
-      return false;
-    }
-    EventDescription other = (EventDescription) obj;
-    if (!getFullyQualifiedName().equals(other.getFullyQualifiedName())) {
-      return false;
-    }
-    return true;
+    return eventDescriptionNaturalOrder.equals(obj);
   }
 
   @Override
   public int compareTo(EventDescription o) {
-    return getFullyQualifiedName().compareTo(o.getFullyQualifiedName());
+    return eventDescriptionNaturalOrder.compareTo(o);
   }
 
   @Override

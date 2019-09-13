@@ -59,9 +59,9 @@ final class ChannelCacheImp implements ChannelCache {
     eventDescriptionForComparison.setChannel(channel);
     eventDescriptionForComparison.setFamily(family);
     eventDescriptionForComparison.setName(name);
-    int existingEventIndex = eventDescriptionList.indexOf(eventDescriptionForComparison);
-    if (-1 != existingEventIndex) {
-      eventDescription = eventDescriptionList.get(existingEventIndex);
+    int existingEventDescriptionIndex = eventDescriptionList.indexOf(eventDescriptionForComparison);
+    if (-1 != existingEventDescriptionIndex) {
+      eventDescription = eventDescriptionList.get(existingEventDescriptionIndex);
     }
     return eventDescription;
   }
