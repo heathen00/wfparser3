@@ -7,14 +7,11 @@ public interface EventFactory {
 
   Channel createChannel(String name);
 
-//  Event createEvent(Channel channel, String family, String name);
+  EventDescription createEventDescription(Channel channel, String family, String name);
 
   Publisher createPublisher(Channel channel);
 
   void addSubscriber(Channel channel, Subscriber eventSubscriber);
 
   void openChannel(Channel channel);
-
-  EventDescription createEventDescription(Channel channel, String family,
-      String name);
 }

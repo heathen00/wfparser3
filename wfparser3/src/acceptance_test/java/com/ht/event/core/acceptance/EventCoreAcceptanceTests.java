@@ -59,11 +59,6 @@ public class EventCoreAcceptanceTests {
       }
 
       @Override
-      public List<Event> getEventList() {
-        throw new UnsupportedOperationException("method not supported by stub");
-      }
-
-      @Override
       public int compareTo(Channel o) {
         throw new UnsupportedOperationException("method not supported by stub");
       }
@@ -100,13 +95,13 @@ public class EventCoreAcceptanceTests {
   public void EventCore_createChannelWithValidChannelName_channelCreated() {
     final String expectedChannelName = "test.channel";
     boolean expectedIsOpen = false;
-    List<Event> expectedEventsList = Collections.emptyList();
+    List<EventDescription> expectedEventDescriptionsList = Collections.emptyList();
     List<Publisher> expectedPublishersList = Collections.emptyList();
     List<Subscriber> expectedSubscribersList = Collections.emptyList();
     final Channel channel = eventFactory.createChannel(expectedChannelName);
 
-    assertEventCore.assertExpectedChannel(expectedChannelName, expectedIsOpen, expectedEventsList,
-        expectedPublishersList, expectedSubscribersList, channel);
+    assertEventCore.assertExpectedChannel_NEW(expectedChannelName, expectedIsOpen,
+        expectedEventDescriptionsList, expectedPublishersList, expectedSubscribersList, channel);
   }
 
   @Test
@@ -132,15 +127,16 @@ public class EventCoreAcceptanceTests {
   public void EventCore_createPublisherWithValidChannelBeforeChannelIsOpen_publisherCreated() {
     final String expectedChannelName = "test.channel";
     final boolean expectedIsOpen = false;
-    final List<Event> expectedEventsList = Collections.emptyList();
+    final List<EventDescription> expectedEventDescriptionsList = Collections.emptyList();
     final List<Subscriber> expectedSubscribersList = Collections.emptyList();
     final Channel expectedChannel = eventFactory.createChannel(expectedChannelName);
 
     Publisher publisher = eventFactory.createPublisher(expectedChannel);
 
     assertEventCore.assertExpectedPublisher(expectedChannel, publisher);
-    assertEventCore.assertExpectedChannel(expectedChannelName, expectedIsOpen, expectedEventsList,
-        Arrays.asList(publisher), expectedSubscribersList, expectedChannel);
+    assertEventCore.assertExpectedChannel_NEW(expectedChannelName, expectedIsOpen,
+        expectedEventDescriptionsList, Arrays.asList(publisher), expectedSubscribersList,
+        expectedChannel);
   }
 
   @Test
@@ -148,14 +144,15 @@ public class EventCoreAcceptanceTests {
     final Subscriber expectedSubscriber = accumulatorSubscriberStub;
     final String expectedChannelName = "test.channel";
     final boolean expectedIsOpen = false;
-    final List<Event> expectedEventsList = Collections.emptyList();
+    final List<EventDescription> expectedEventDescriptionsList = Collections.emptyList();
     final List<Publisher> expectedPublishersList = Collections.emptyList();
     Channel channel = eventFactory.createChannel(expectedChannelName);
 
     eventFactory.addSubscriber(channel, expectedSubscriber);
 
-    assertEventCore.assertExpectedChannel(expectedChannelName, expectedIsOpen, expectedEventsList,
-        expectedPublishersList, Arrays.asList(expectedSubscriber), channel);
+    assertEventCore.assertExpectedChannel_NEW(expectedChannelName, expectedIsOpen,
+        expectedEventDescriptionsList, expectedPublishersList, Arrays.asList(expectedSubscriber),
+        channel);
   }
 
   @Test
@@ -170,8 +167,9 @@ public class EventCoreAcceptanceTests {
 
     publisher.publish(expectedEventDescription);
 
-    assertTrue(accumulatorSubscriberStub.getProcessedPublishedEventList()
-        .contains(expectedEventDescription));
+    assertEquals(
+        accumulatorSubscriberStub.getProcessedPublishedEventList().get(0).getEventDescription(),
+        expectedEventDescription);
   }
 
   @Test
@@ -184,12 +182,14 @@ public class EventCoreAcceptanceTests {
     eventFactory.openChannel(channel);
 
     publisher.publish(expectedEventDescription);
-    assertTrue(accumulatorSubscriberStub.getProcessedPublishedEventList()
-        .contains(expectedEventDescription));
-
     publisher.unpublish(expectedEventDescription);
-    assertTrue(accumulatorSubscriberStub.getProcessedUnpublishedEventList()
-        .contains(expectedEventDescription));
+
+    assertEquals(
+        accumulatorSubscriberStub.getProcessedPublishedEventList().get(0).getEventDescription(),
+        expectedEventDescription);
+    assertEquals(
+        accumulatorSubscriberStub.getProcessedUnpublishedEventList().get(0).getEventDescription(),
+        expectedEventDescription);
   }
 
   @Test
@@ -426,7 +426,6 @@ public class EventCoreAcceptanceTests {
     final List<Subscriber> expectedSubscribers = Collections.emptyList();
     final String expectedfamily = "test.family";
     final String expectedEventName = "test.name";
-    final boolean expectedIsDefined = false;
     Channel expectedchannel = eventFactory.createChannel(expectedChannelName);
 
     EventDescription firstEventDescription =
@@ -450,15 +449,15 @@ public class EventCoreAcceptanceTests {
     final Subscriber expectedSubscriber = accumulatorSubscriberStub;
     final String expectedChannelName = "test.channel";
     final boolean expectedIsOpen = false;
-    final List<Event> expectedEventsList = Collections.emptyList();
+    final List<EventDescription> expectedEventsList = Collections.emptyList();
     final List<Publisher> expectedPublishersList = Collections.emptyList();
     Channel channel = eventFactory.createChannel(expectedChannelName);
 
     eventFactory.addSubscriber(channel, expectedSubscriber);
     eventFactory.addSubscriber(channel, expectedSubscriber);
 
-    assertEventCore.assertExpectedChannel(expectedChannelName, expectedIsOpen, expectedEventsList,
-        expectedPublishersList, Arrays.asList(expectedSubscriber), channel);
+    assertEventCore.assertExpectedChannel_NEW(expectedChannelName, expectedIsOpen,
+        expectedEventsList, expectedPublishersList, Arrays.asList(expectedSubscriber), channel);
   }
 
   @Test
@@ -488,8 +487,8 @@ public class EventCoreAcceptanceTests {
 
     assertEquals(expectedSubscriberProcessedPublishedEventsSize,
         accumulatorSubscriberStub.getProcessedPublishedEventList().size());
-    assertEquals(expectedEventFullyQualifiedName,
-        accumulatorSubscriberStub.getProcessedPublishedEventList().get(0).getFullyQualifiedName());
+    assertEquals(expectedEventFullyQualifiedName, accumulatorSubscriberStub
+        .getProcessedPublishedEventList().get(0).getEventDescription().getFullyQualifiedName());
   }
 
   @Test
@@ -509,7 +508,7 @@ public class EventCoreAcceptanceTests {
     assertEquals(expectedSubscriberProcessedUnpublishedEventsSize,
         accumulatorSubscriberStub.getProcessedUnpublishedEventList().size());
     assertEquals(expectedEventFullyQualifiedName, accumulatorSubscriberStub
-        .getProcessedUnpublishedEventList().get(0).getFullyQualifiedName());
+        .getProcessedUnpublishedEventList().get(0).getEventDescription().getFullyQualifiedName());
   }
 
   @Test

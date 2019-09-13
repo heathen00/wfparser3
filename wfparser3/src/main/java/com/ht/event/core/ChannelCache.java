@@ -13,18 +13,10 @@ interface ChannelCache {
 
   void addPublisher(Publisher eventPublisher);
 
-  List<Event> getEventList();
-
-  void addEvent(Event event);
-
-  Event getEvent(Channel channel, String family, String name);
-
-  Event getEvent(Event event, Subject subject);
-
-  EventDescription getEventDescription(Channel channel, String family, String name);
+  List<EventDescription> getEventDescriptionList();
 
   void addEventDescription(EventDescription eventDescription);
 
-  List<EventDescription> getEventDescriptionList();
+  EventDescription getEventDescription(Channel channel, String family, String name);
 }
 

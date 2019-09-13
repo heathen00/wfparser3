@@ -1,6 +1,6 @@
 package com.ht.event.core;
 
-public final class EventInternalImp extends NaturalOrderBase<Event> implements EventInternal {
+public final class EventInternalImp extends NaturalOrderBase<Event> implements Event {
   private final EventFactoryInternal eventFactoryInternal;
   private final EventDescription eventDescription;
   private final Subject subject;
@@ -19,26 +19,6 @@ public final class EventInternalImp extends NaturalOrderBase<Event> implements E
   @Override
   public EventDescription getEventDescription() {
     return eventDescription;
-  }
-
-  @Override
-  public Channel getChannel() {
-    return eventDescription.getChannel();
-  }
-
-  @Override
-  public String getFamily() {
-    return eventDescription.getFamily();
-  }
-
-  @Override
-  public String getName() {
-    return eventDescription.getName();
-  }
-
-  @Override
-  public String getFullyQualifiedName() {
-    return eventDescription.getFullyQualifiedName();
   }
 
   @Override
@@ -88,10 +68,5 @@ public final class EventInternalImp extends NaturalOrderBase<Event> implements E
   @Override
   public Subject getSubject() {
     return subject;
-  }
-
-  @Override
-  public void setSubject(Subject subject) {
-    throw new UnsupportedOperationException("cannot set subject in no subject event");
   }
 }

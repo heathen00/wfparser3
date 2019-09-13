@@ -33,24 +33,20 @@ final class EventFactoryInternalCacherImp implements EventFactoryInternal {
   }
 
   @Override
-  public Event createEvent(Channel channel, String family, String name) {
+  public EventDescription createEventDescription(Channel channel, String family, String name) {
     ensureChannelBelongsToFactory(channel);
-    Event event = getChannelCache(channel).getEvent(channel, family, name);
-    if (null == event) {
-      event = nextEventFactoryInternal.createEvent(channel, family, name);
-      getChannelCache(channel).addEvent(event);
+    EventDescription eventDescription =
+        getChannelCache(channel).getEventDescription(channel, family, name);
+    if (null == eventDescription) {
+      eventDescription = nextEventFactoryInternal.createEventDescription(channel, family, name);
+      getChannelCache(channel).addEventDescription(eventDescription);
     }
-    return event;
+    return eventDescription;
   }
 
   @Override
-  public Event createEvent(Event event, Subject subject) {
-    Event eventWithSubject = getChannelCache(event.getChannel()).getEvent(event, subject);
-    if (null == eventWithSubject) {
-      eventWithSubject = nextEventFactoryInternal.createEvent(event, subject);
-      getChannelCache(eventWithSubject.getChannel()).addEvent(eventWithSubject);
-    }
-    return eventWithSubject;
+  public Event createEvent(EventDescription eventDescription, Subject subject) {
+    return nextEventFactoryInternal.createEvent(eventDescription, subject);
   }
 
   @Override
@@ -98,23 +94,5 @@ final class EventFactoryInternalCacherImp implements EventFactoryInternal {
   @Override
   public Subject getNoSubject() {
     return nextEventFactoryInternal.getNoSubject();
-  }
-
-
-  @Override
-  public EventDescription createEventDescription(Channel channel, String family, String name) {
-    ensureChannelBelongsToFactory(channel);
-    EventDescription eventDescription =
-        getChannelCache(channel).getEventDescription(channel, family, name);
-    if (null == eventDescription) {
-      eventDescription = nextEventFactoryInternal.createEventDescription(channel, family, name);
-      getChannelCache(channel).addEventDescription(eventDescription);
-    }
-    return eventDescription;
-  }
-
-  @Override
-  public Event createEvent(EventDescription eventDescription, Subject subject) {
-    return nextEventFactoryInternal.createEvent(eventDescription, subject);
   }
 }

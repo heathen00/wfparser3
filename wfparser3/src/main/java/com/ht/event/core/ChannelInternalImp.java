@@ -48,11 +48,6 @@ final class ChannelInternalImp extends NaturalOrderBase<Channel> implements Chan
   }
 
   @Override
-  public List<Event> getEventList() {
-    return getChannelCache().getEventList();
-  }
-
-  @Override
   public List<Subscriber> getSubscriberList() {
     return getChannelCache().getSubscriberList();
   }

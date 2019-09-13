@@ -14,16 +14,6 @@ final class EventFactoryInternalRootImp implements EventFactoryInternal {
   }
 
   @Override
-  public Event createEvent(Channel channel, String family, String name) {
-    return nextEventFactoryInternal.createEvent(channel, family, name);
-  }
-
-  @Override
-  public Event createEvent(Event event, Subject subject) {
-    return nextEventFactoryInternal.createEvent(event, subject);
-  }
-
-  @Override
   public Publisher createPublisher(Channel channel) {
     return nextEventFactoryInternal.createPublisher(channel);
   }

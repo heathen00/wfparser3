@@ -47,20 +47,15 @@ final class EventFactoryInternalParameterValidatorImp implements EventFactoryInt
   }
 
   @Override
-  public Event createEvent(Channel channel, String family, String name) {
+  public EventDescription createEventDescription(Channel channel, String family, String name) {
     ensureParameterNotNull("channel", channel);
     ensureExpectedImplementation("channel", ChannelInternal.class, channel);
-    ensureChannelDisabled(channel, "cannot create events after enabling channel");
+    ensureChannelDisabled(channel, "cannot create event descriptions after enabling channel");
     ensureParameterNotNull("family", family);
     ensureExpectedNamingConvention("family", family);
     ensureParameterNotNull("name", name);
     ensureExpectedNamingConvention("name", name);
-    return nextEventFactoryInternal.createEvent(channel, family, name);
-  }
-
-  @Override
-  public Event createEvent(Event event, Subject subject) {
-    return nextEventFactoryInternal.createEvent(event, subject);
+    return nextEventFactoryInternal.createEventDescription(channel, family, name);
   }
 
   @Override
@@ -100,18 +95,6 @@ final class EventFactoryInternalParameterValidatorImp implements EventFactoryInt
   @Override
   public Subject getNoSubject() {
     return nextEventFactoryInternal.getNoSubject();
-  }
-
-  @Override
-  public EventDescription createEventDescription(Channel channel, String family, String name) {
-    ensureParameterNotNull("channel", channel);
-    ensureExpectedImplementation("channel", ChannelInternal.class, channel);
-    ensureChannelDisabled(channel, "cannot create events after enabling channel");
-    ensureParameterNotNull("family", family);
-    ensureExpectedNamingConvention("family", family);
-    ensureParameterNotNull("name", name);
-    ensureExpectedNamingConvention("name", name);
-    return nextEventFactoryInternal.createEventDescription(channel, family, name);
   }
 
   @Override

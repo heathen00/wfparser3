@@ -14,14 +14,13 @@ final class EventFactoryInternalCreatorImp implements EventFactoryInternal {
   }
 
   @Override
-  public Event createEvent(Channel channel, String family, String name) {
-    return new EventInternalImp(this, new EventDescriptionImp(this, channel, family, name),
-        getNoSubject());
+  public EventDescription createEventDescription(Channel channel, String family, String name) {
+    return new EventDescriptionImp(this, channel, family, name);
   }
 
   @Override
-  public Event createEvent(Event event, Subject subject) {
-    return new EventInternalImp(this, event, subject);
+  public Event createEvent(EventDescription eventDescription, Subject subject) {
+    return new EventInternalImp(this, eventDescription, subject);
   }
 
   @Override
@@ -52,15 +51,5 @@ final class EventFactoryInternalCreatorImp implements EventFactoryInternal {
   @Override
   public Subject getNoSubject() {
     return noSubjectSingleton;
-  }
-
-  @Override
-  public EventDescription createEventDescription(Channel channel, String family, String name) {
-    return new EventDescriptionImp(this, channel, family, name);
-  }
-
-  @Override
-  public Event createEvent(EventDescription eventDescription, Subject subject) {
-    return new EventInternalImp(this, eventDescription, subject);
   }
 }

@@ -1,48 +1,28 @@
 package com.ht.event.core;
 
-final class EventInternalForComparisonImp implements EventInternal {
-  private Channel channel;
-  private String family;
-  private String name;
+final class EventInternalForComparisonImp implements Event {
+  private EventDescription eventDescription;
   private Subject subject;
 
   @Override
-  public Channel getChannel() {
-    return channel;
+  public Subject getSubject() {
+    return subject;
+  }
+
+  public void setSubject(Subject subject) {
+    this.subject = subject;
   }
 
   @Override
-  public String getFamily() {
-    return family;
-  }
-
-  @Override
-  public String getName() {
-    return name;
-  }
-
-  public void setChannel(Channel channel) {
-    this.channel = channel;
-  }
-
-  public void setFamily(String family) {
-    this.family = family;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  @Override
-  public String getFullyQualifiedName() {
-    return String.join(".", channel.getName(), getFamily(), getName());
+  public EventDescription getEventDescription() {
+    return eventDescription;
   }
 
   @Override
   public int hashCode() {
     final int prime = 31;
     int result = 1;
-    result = prime * result + getFullyQualifiedName().hashCode() + getSubject().hashCode();
+    result = prime * result + getEventDescription().hashCode() + getSubject().hashCode();
     return result;
   }
 
@@ -58,7 +38,7 @@ final class EventInternalForComparisonImp implements EventInternal {
       return false;
     }
     Event other = (Event) obj;
-    if (!getFullyQualifiedName().equals(other.getFullyQualifiedName())) {
+    if (!getEventDescription().equals(other.getEventDescription())) {
       return false;
     }
     if (!getSubject().equals(other.getSubject())) {
@@ -69,7 +49,7 @@ final class EventInternalForComparisonImp implements EventInternal {
 
   @Override
   public int compareTo(Event o) {
-    int compareTo = getFullyQualifiedName().compareTo(o.getFullyQualifiedName());
+    int compareTo = getEventDescription().compareTo(o.getEventDescription());
     if (0 == compareTo) {
       compareTo = getSubject().compareTo(o.getSubject());
     }
@@ -79,23 +59,7 @@ final class EventInternalForComparisonImp implements EventInternal {
 
   @Override
   public String toString() {
-    return "EventInternalForComparisonImp [getFullyQualifiedName()=" + getFullyQualifiedName()
+    return "EventInternalForComparisonImp [getEventDescription()=" + getEventDescription()
         + ", getSubject()=" + getSubject() + "]";
-  }
-
-  @Override
-  public Subject getSubject() {
-    return subject;
-  }
-
-  @Override
-  public void setSubject(Subject subject) {
-    this.subject = subject;
-  }
-
-  @Override
-  public EventDescription getEventDescription() {
-    // TODO Auto-generated method stub
-    return null;
   }
 }
