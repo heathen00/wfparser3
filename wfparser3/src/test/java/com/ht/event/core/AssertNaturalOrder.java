@@ -67,9 +67,11 @@ public final class AssertNaturalOrder {
       try {
         operand.compareTo(null);
       } catch (NullPointerException npe) {
+        return;
       } catch (Exception e) {
         fail("operand.compareTo(null) did not throw NullPointerException");
       }
+      fail("operand.compareTo(null) did not throw NullPointerException or any exception at all");
     }
   }
 

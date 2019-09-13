@@ -7,7 +7,7 @@ final class InstanceCacheImp implements InstanceCache {
   private final Map<String, ChannelCache> channelNameToChannelCacheMap;
 
   InstanceCacheImp() {
-    this.channelNameToChannelCacheMap = new HashMap<>();
+    channelNameToChannelCacheMap = new HashMap<>();
   }
 
   @Override

@@ -45,6 +45,9 @@ final class EventDescriptionNaturalOrderImp extends NaturalOrderBase<EventDescri
 
   @Override
   public int compareTo(EventDescription o) {
+    if (null == o) {
+      throw new NullPointerException("o cannot be null");
+    }
     return getFullyQualifiedName().compareTo(o.getFullyQualifiedName());
   }
 }

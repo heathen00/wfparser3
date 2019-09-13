@@ -31,7 +31,7 @@ final class ChannelInternalImp extends NaturalOrderBase<Channel> implements Chan
     }
   }
 
-  private void ensureEventDefinedInChannel(EventDescription eventDescription) {
+  private void ensureEventDescriptionDefinedInChannel(EventDescription eventDescription) {
     if (!getChannelCache().getEventDescriptionList().contains(eventDescription)) {
       throw new UnsupportedOperationException("eventDescription "
           + eventDescription.getFullyQualifiedName() + " is not defined in this channel");
@@ -61,7 +61,7 @@ final class ChannelInternalImp extends NaturalOrderBase<Channel> implements Chan
   public void publish(Publisher publisher, EventDescription eventDescription) {
     ensureParameterIsNotNull("eventDescription", eventDescription);
     ensureChannelIsOpen();
-    ensureEventDefinedInChannel(eventDescription);
+    ensureEventDescriptionDefinedInChannel(eventDescription);
     Event event =
         eventFactoryInternal.createEvent(eventDescription, eventFactoryInternal.getNoSubject());
     if (publishedEventToPublisherMap.containsKey(event)) {
@@ -100,7 +100,7 @@ final class ChannelInternalImp extends NaturalOrderBase<Channel> implements Chan
   public void unpublish(Publisher publisher, EventDescription eventDescription) {
     ensureParameterIsNotNull("eventDescription", eventDescription);
     ensureChannelIsOpen();
-    ensureEventDefinedInChannel(eventDescription);
+    ensureEventDescriptionDefinedInChannel(eventDescription);
     Event event =
         eventFactoryInternal.createEvent(eventDescription, eventFactoryInternal.getNoSubject());
     if (!publishedEventToPublisherMap.containsKey(event)

@@ -55,10 +55,10 @@ final class ChannelCacheImp implements ChannelCache {
 
   @Override
   public EventDescription getEventDescription(Channel channel, String family, String name) {
-    EventDescription eventDescription = null;
     eventDescriptionForComparison.setChannel(channel);
     eventDescriptionForComparison.setFamily(family);
     eventDescriptionForComparison.setName(name);
+    EventDescription eventDescription = null;
     int existingEventDescriptionIndex = eventDescriptionList.indexOf(eventDescriptionForComparison);
     if (-1 != existingEventDescriptionIndex) {
       eventDescription = eventDescriptionList.get(existingEventDescriptionIndex);
