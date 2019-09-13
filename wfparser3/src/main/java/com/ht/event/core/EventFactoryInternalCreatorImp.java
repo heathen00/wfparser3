@@ -10,7 +10,7 @@ final class EventFactoryInternalCreatorImp implements EventFactoryInternal {
 
   @Override
   public Channel createChannel(String name) {
-    return new ChannelInternalImp(getRootEventFactoryInternal(), name);
+    return new ChannelInternalRootImp(getRootEventFactoryInternal(), name);
   }
 
   @Override

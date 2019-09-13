@@ -8,12 +8,15 @@ import java.util.Set;
 
 final class ChannelInternalImp extends NaturalOrderBase<Channel> implements ChannelInternal {
   private final EventFactoryInternal eventFactoryInternal;
+  private final ChannelInternal rootChannelInternal;
   private final String name;
   private final Map<Event, Set<Publisher>> publishedEventToPublisherMap;
   private boolean isOpen;
 
-  ChannelInternalImp(EventFactoryInternal eventFactoryInternal, String name) {
+  ChannelInternalImp(EventFactoryInternal eventFactoryInternal, ChannelInternal rootChannelInternal,
+      String name) {
     this.eventFactoryInternal = eventFactoryInternal;
+    this.rootChannelInternal = rootChannelInternal;
     this.name = name;
     publishedEventToPublisherMap = new HashMap<>();
     isOpen = false;
@@ -165,5 +168,10 @@ final class ChannelInternalImp extends NaturalOrderBase<Channel> implements Chan
   @Override
   public List<EventDescription> getEventDescriptionList() {
     return getChannelCache().getEventDescriptionList();
+  }
+
+  @Override
+  public ChannelInternal getRootChannelInternal() {
+    return rootChannelInternal;
   }
 }

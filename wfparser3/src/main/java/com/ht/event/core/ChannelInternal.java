@@ -12,4 +12,6 @@ interface ChannelInternal extends Channel {
   void unpublish(Publisher publisher, EventDescription eventDescription, Subject subject);
 
   void open();
+
+  ChannelInternal getRootChannelInternal();
 }
