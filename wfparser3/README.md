@@ -5,7 +5,7 @@
 
 The user acceptance tests define the behaviour of the system from the product owner's perspective.  They are used to
 demonstrate the correct behaviour of the system.  The system is structured into several different subsystems.  The
-most important subsystem are the domain objects defined in the "com.ht.wfp3.api.*" packages.  All other subsystems,
+most important subsystem are the domain objects defined in the "com.nickmlanglois.wfp3.api.*" packages.  All other subsystems,
 including the parser itself will be implemented based on these base subsystems.  The user acceptance tests are
 written solely based on the published APIs of their respective subsystems.  This may result in duplication of testing
 if the implementation results in shared classes that is not evident in the published APIs.  Similarly, the
@@ -234,7 +234,7 @@ However, for processing requests, use ONLY the UIDs.
 ### Subsystems: The Guard And Constraint Subsystem
   
 Rough description
-   * I want to create another small subsystem in a package called "com.ht.guard" that provides
+   * I want to create another small subsystem in a package called "com.nickmlanglois.guard" that provides
      reusable guard code that can be used throughout all other subsystems, but I am having a
      difficult time figuring out how to structure the code so that the guard code supports optionally
      throwing exceptions, especially checked exceptions, without explicitly adding a generic

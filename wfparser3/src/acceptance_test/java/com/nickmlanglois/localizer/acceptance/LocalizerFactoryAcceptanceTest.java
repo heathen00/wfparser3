@@ -155,7 +155,7 @@ public class LocalizerFactoryAcceptanceTest {
     final Locale expectedTargetLocale = Locale.CANADA_FRENCH;
     final Locale expectedResolvedLocale = Locale.CANADA_FRENCH;
     final String expectedResourceBundleName =
-        "com.ht.l10n.test.resource.TestL10ResourceBundleForCompositeResourceBundleWithRootLocaleAndNoExceptions";
+        "com.nickmlanglois.l10n.test.resource.TestL10ResourceBundleForCompositeResourceBundleWithRootLocaleAndNoExceptions";
     final boolean expectedIsDefined = true;
     Localizer localizer =
         testableLocalizerFactory.createLocalizer("localizer.name", expectedTargetLocale);
@@ -176,7 +176,7 @@ public class LocalizerFactoryAcceptanceTest {
     resourceBundleWrapperForLocaleConfigurator.resetAll().doesResourceBundleExist(true);
     resourceBundleWrapperForRootLocaleConfigurator.resetAll().doesResourceBundleExist(false);
     final String expectedResourceBundleName =
-        "com.ht.l10n.test.resource.TestL10ResourceBundleForLocaleExistsButRootLocaleDoesNot";
+        "com.nickmlanglois.l10n.test.resource.TestL10ResourceBundleForLocaleExistsButRootLocaleDoesNot";
     Localizer localizer =
         testableLocalizerFactory.createLocalizer("localizer.name", Locale.CANADA_FRENCH);
 

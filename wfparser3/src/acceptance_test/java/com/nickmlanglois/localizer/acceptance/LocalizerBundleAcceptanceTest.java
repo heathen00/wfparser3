@@ -50,7 +50,7 @@ public class LocalizerBundleAcceptanceTest {
         stubWrapperFactory.getResourceBundleWrapperForRootLocaleConfigurator();
     localizerAssert = Assert.createAssert();
     defaultTestingLocale = Locale.CANADA_FRENCH;
-    defaultTestingResourceBundleName = "com.ht.l10n.test.resource.TestResourceBundle";
+    defaultTestingResourceBundleName = "com.nickmlanglois.l10n.test.resource.TestResourceBundle";
     defaultTestingLocalizer =
         testableLocalizerFactory.createLocalizer("testing.localizer.name", defaultTestingLocale);
     defaultTestingLocalizerType = testableLocalizerFactory.createLocalizerType(
