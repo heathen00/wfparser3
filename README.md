@@ -1,234 +1,58 @@
-# WAVEFRONT PARSER VERSION 3
+# WAVEFRONT PARSER
 
 
-## Testing Methodology
+## Introduction
 
-The user acceptance tests define the behaviour of the system from the product owner's perspective.  They are used to
-demonstrate the correct behaviour of the system.  The system is structured into several different subsystems.  The
-most important subsystem are the domain objects defined in the "com.nickmlanglois.wfp3.api.*" packages.  All other subsystems,
-including the parser itself will be implemented based on these base subsystems.  The user acceptance tests are
-written solely based on the published APIs of their respective subsystems.  This may result in duplication of testing
-if the implementation results in shared classes that is not evident in the published APIs.  Similarly, the
-implementation may result in classes or methods not visible from the published APIs.  Testing coverage analysis may
-indicate that these implementation artifacts require additional tests to achieve sufficient testing coverage.  Any
-such supplemental testing will be covered through unit testing.
-
-In consideration of the extent of the coverage for the published APIs: The acceptance tests are defined by the user
-stories acceptance criteria for visible behaviour, and all published API classes are visible, then any behaviour that
-is associated with a published class is required to be defined by the acceptance tests, even if the user stories do
-not explicitly state the behaviour in their acceptance criteria.
+A parser for the Wavefront OBJ and MTL file formats.
 
 
-## Subsystems
+## Build and IDE Integration
+
+This project uses Gradle and follows standard Gradle conventions. I use Eclipse with the Buildship Gradle plugin. Importing this project using Buildship's "Import existing Gradle project" sets up the project with no additional work.
 
 
-### Subsystems: Event Subsystem
+## Testing
 
-WARN: I renamed the "message" subsystem to "event" but did not update the notes in this section.  The subsystem
-is more accurately implemented as an event system and follows a simple event driven architecture.
+All testing is automated and divided into two categories, "unit tests" and "acceptance tests". All unit tests and testing utilities are in the "src/test/" folder. All acceptance tests, that is automated tests that prove the project implements the user stories' acceptance criteria, are in the "src/acceptance_test/" folder. An easy rule of thumb to make a distinction between these two sets of automated tests is that the acceptance tests test the externally visible or "published" behaviour of the software system, whereas the unit tests focus on testing internal or "implementation" behaviour of the software system. I tend to favour acceptance tests over unit tests so if you run test coverage reports you'll likely find that testing coverage is not ideal.
 
-The following description is just a set of guidelines for how I envision this subsystem to work.  Once you
-implement the system, then delete this section since the software should be descriptive enough on its own.
-
-This software system consists of a number of subsystems.  These subsystems require a common mechanism for reporting
-status messages while they perform their tasks in such a way that is not as disruptive as throwing an exception.
-These status messages may not be reported immediately as they may delayed and presented in a final report document
-after the subsystem completes its task.
-
-User stories require that the parser is supported at the UNIX command line.  This implies that the generated
-messages are compatible with the standard UNIX command line.  Thus, the task name, priority name, and status
-message must fit on a single standard UNIX terminal (80 characters at 12pts).  Thus, max lengths of:
-   * task name: 10 characters
-   * priority name: 10 characters
-   * message: 50 characters
-   * additional whitespace and formatting: 10 characters
-   * overall line length (total of above): 80 characters
-
-Alternatively, you may have an optional auto-wrap or simply ignore the line length limit.  I've certainly used
-UNIX command line tools whose status messages are not limited to the standard terminal width.  But it would be
-easier to simply start with the defined limit.  If the limits are implemented to be flexible, as they should be,
-then they can easily be tweaked later.
-
-Following are some relevant, high level usage scenarios.
-
-Scenario: Remove status message during OBJ data model validation.
-   1. Start OBJ data model validation.
-   1. Create an empty OBJ validation report.
-   1. Initialize status of GeoVertex statement to "not used" in validation report.
-   1. Perform OBJ document validation task.
-   1. Validation task determines GeoVertex statement is used by a Face statement.
-   1. Remove "not used" status of GeoVertex statement.
-
-Scenario: Parsing OBJ file requires linking status messages
-   1. Parse OBJ file.
-   1. Find GeoVertex that is incorrectly defined.
-   1. Complete parsing.
-   1. Report that "GeoVertex" statement at line number "XXX" is incorrectly defined because of specific reason.
-
-In the above scenario, the strings in quotes would likely need to be parameterized.  Defining a different status
-event for every statement may be too cumbersome.  What about "specific reason"?  To be more generic, you could
-specify the character number, so it would be 'at character number "YYY"'.  At any rate, you'll likely want to
-start with simple message reporting first, then enhance it with these features.
-
-Scenario: Message system bootstrapping
-   1. Message system is started with the client(s) specifying the configuration for their event messages.
-   1. Message system initializes, possibly hard-coded, "primordial" messages for itself for messages related to the
-      bootstrapping process.
-   1. Message system reads the client configuration specified to it.
-   1. Message system may generate bootstrapping messages if the proper bootstrapping events occur as set in its
-      bootsrapping message configuration.
-
-Since tasks, priorities, and status messages are defined during the reporting bootstrapping process, they can all
-be checked to ensure they conform to the text width limitations, etc.  Alternatively, it may be sufficient for the
-system to throw exceptions while bootstrapping if a non-recoverable error occurs.
-
-Scenario: Validation requires report generation
-   1. Parsing of OBJ file has completed and created OBJ document model successfully.
-   1. Validation subsystem walks across OBJ document model to ensure valid relationships between statements defined
-      on OBJ document model.
-   1. Validation subsystem generates event messages based on information it determines while analyzing the OBJ
-      document model and saves these event messages in a validation report.
-   1. Validation subsystem completes validation of the OBJ document model.
-   1. Validation subsystem publishes results of validation process in validation report.
-
-It was mentioned above that a report is generated.  This will be a simple model, and it will be the responsibility
-of some as of yet undetermined subsystem(s) to format the messages according to those subsystems' requirements.
-However, tools for activities like sorting based on priority/message/etc. should be provided.  At the very least,
-a default natural ordering should be provided.
-
-The messages consist of the following data:
-   * Unique message identifier
-   * Topic
-   * Description
-   * Priority   
-   * Associated object?: The message is optionally associated with an object from another subsystem.  Alternative 1:
-        The tracking is performed by the client system.  As long as the message properly implements equals, hashcode,
-        and compareTo, then the tracking can be done in standard maps, lists, etc.  Alternative 2: Do not implement
-        removing messages at all, and just assume that message reports will be regenerated if the system state
-        changes.  You should delay message removal as long as possible to see if it is actually needed or not.  If
-        it is, then move to "alternative 1".
-
-For the description, the intention is just to use "sprintf", so maybe read up about it, then figure out a simple
-way to construct a formatted message that passing in all the required parameters.
-
-All domain objects are implemented as immutable value objects.  The event handling would likely best be implemented
-using a producer/consumer model.  Thus, if logging of events is desired, then a logging consumer could be
-implemented that immediately logs events.  If a validation report generation is required, then the consumer would
-generate the report by appending the messages to an appropriate, simple data structure.
-
-It may be necessary to provide the ability to disable / enable events for scenarios like a given event was
-incorrectly defined (or something) and should not be used anymore.
+If you are looking for specific client use cases, you will see them in the acceptance tests.
 
 
-#### Subsystems: Event Subsystem: Core
+## Rough Notes
 
-The Purpose of the event subsystem, overall, is to publish and process events.  These events are
-identified by unique IDs (UID).  The purpose of the core message subsystem is to implement the core functionality
-with as few external dependencies as possible.  In particular, the core event subsystem is completely unaware
-of the localization functionality.  It will require the UID subsystem.  The core event subsystem responsibilities
-can be divided into two top level categories: defining events and processing events.  Although not enforced,
-defining and processing events can occur at the same time as long as a message being processed has already been
-defined.  However, it would likely be more useful and efficient if all messages are created at initialization time
-and then then processed afterwards.  The message processing can be further subdivided to publishing and consuming
-messages.  In terms of architecture, the message core subsystem will be an event driven architecture.  For the message
-creation, I want to follow the decorator pattern to separate concerns between:
-  * input data validation.
-  * message caching for reuse.
-  * message creation.
+You should rename the "DocumentView" to "DocumentModel" because that is what it is.  When you start implementing
+things like the "validation" subsystem, then the created validation data structures would be a view of the document
+model, following the Model-View-Controller design pattern.  The same thing for the parser.
 
+When implementing the copying of malicious, mutable data ensure you also handle those statements that contain complex
+member data, such as VertexReferenceGroup containing VertexReferences.  You'll also need to handle defensive copying
+for BigDecimal since it has an implementation flaw (missing "final" keyword in class definition) so it can be sub
+classed and made modifiable.  NOTE: you have a prototype solution for testing BasisMatrix for copying, only.  Try
+making the implementation as simple as possible so that you don't have to write too much code.  You'll have to test
+both creating objects, data members that are non-final classes (BigDecimal) and data members that are classes defined
+in this subsystem.
+   * NOTE: You want to add additional testing to MutabilityTester to ensure the defensive copy ONLY occurs if the
+     object being copied is NOT the expected type.
 
-     
-HERE:
-   * DON'T USE CHECKED EXCEPTIONS EVER!!  It messes up the interface.
-   * You'll need to implement an "undefined" Priority, Topic, Description, and Message.
-   * When mapping the "undefined" entities to localization configuration, you should not need to define any
-     configuration, not for the root locale nor any other locale.  Not for any new resource bundle being added.
-   * When implementing the message system, ensure that it continues to function even if the localization is not
-     working 100% properly, at run time.  Remember, the objective is to decouple the message subsystem from the
-     localization as much as possible.  The message system just passes around codified messages, like UIDs for
-     messages.
-   * I think the message subsystem's current design is deficient and irrecoverable.  There are
-     a number of problems.  First, it contains concepts that are not relevant to messaging
-     (localization, constraints, ...).  And second, it is too coupled to these subsystems.  The
-     messaging system should JUST have messages that consist of UIDs to priorities, topics, and
-     descriptions.  That would be the CORE of the system (...message.core).  Then, it would have
-     its own internally defined messages for message subsystem events (errors, etc).  And on top
-     of that, it would be loosely coupled to the constraints, localization, etc., solutions.  So,
-     I will cease working on the current solution and restart with a new one with these additional
-     architectural considerations.
-   * As such, I will see how much of the current implementation I can recover and fit into the "core"
-     message subsystem.  This subsystem should be completely decoupled from both the localization
-     and the guard/validation.
-     
-Copy and Paste from the EventCoreAcceptanceTests.java module:
+After completing the acceptance tests, check testing coverage to find where supplemental unit testing is required.
 
-I see the use of this API from three different roles:
+You should probably review and clean up the Javadoc for the published APIs.  For example, you should move the
+discussion about the vertex references from the vertex implementations into the vertex reference implementations.
 
-Initializer: The person who creates the Event and Channel definitions.
+If you start using singleton, and fly weight patterns in the implementation, it would make more sense to do so
+on a StatementFactory by StatementFactory basis, since eventually you want to be able to start setting different
+policies changing behaviours when creating the StatementFactory.
 
-Publisher: The person who sends the predefined events created by the EventInitializer to a
-specified Channel.
-
-Subscriber: The person who receives messages sent on a channel.
+It may make the interface simpler to use, and it is possible to enforce the minimum number of members
+for statements with lists of things if you use varargs.  Actually, I'm not sure whether this idea will work
+well with the parser.  I'll leave this idea until last.  NOTE: I started working on a solution for this in
+the branch "refactor".  I'll keep it for now, but this work is no longer a priority.
 
 
-And here are the Event subsystem model concepts and how they relate to one another:
-
-Channel: A communications Channel of interest between like minded Publishers and Subscribers. It
-is identified by a name (String) and can have any number of Publishers and Subscribers
-subscribed. It can also have any number of Events defined for it. Events from one Channel cannot
-be sent to another Channel. Sending the same Event over the Channel does nothing.
-
-Event: A "happening" of interest to like minded Publishers and Subscribers. It is only defined
-within a given Channel. The Event is defined based on a Family and Name. The Family accumulates
-related Events together (I don't want to use the name Group because that implies incorrectly that
-subscribers and not the events are being grouped). The Name is the unique name for that event
-within the given Channel and Family. Thus, two different Events may have the same Family and Name
-if they belong to different Channels. And two different Events may have the same Name if they are
-in the same Channel BUT different Families. Optionally, an Event may also have a Subject that
-identifies that a given Event occurred with respect to that Subject. Thus if the same Event is
-sent on the Channel twice, but the Event specifies two distinct Subjects then the Events are
-treated as separate Events within that channel. Events must be initialized before they can be
-processed in a Channel, however Subjects are specified when the Event is published.
-
-Family: An accumulation of related Event instances. The idea comes from the HTTP protocol where
-the HTTP response codes are subdivided into 5 Families as identified by the first digit of the
-HTTP response code, so (2XX for success cases, 5XX for internal server errors, 4XX for client
-errors, etc).
-
-Name: A unique identifier for an Event within the context of the Event's Channel and Family. In
-the absence of a Subject registered with the event, the Name is the only attribute that uniquely
-identifies an Event on a Channel for a given Family. And the Subject differentiates two Events
-that have the same Channel, Family, and Name assuming the Subjects are themselves unique.
-
-Subscriber: A Subscriber receives Events published on a Channel. A Subscriber can only register
-to a single Channel. Multiple Subscribers can register to the same Channel. All Subscribers
-receive all Events published on the Channel. Optionally, a Subscriber can request all Events
-currently published on its Channel.
-
-Publisher: A Publisher publishes and unpublishes Events to a Channel. A Publisher can only
-register with a single Channel. Multiple Publishers can register to the same Channel.
+## START: OLD
 
 
-Implementation Notes:
-
-Subscribers are interfaces that must be implemented and registered.
-
-Subjects are interfaces that must be implemented.
-
-There must be some standard means of comparing Subjects. I will also define an interface that is
-called "NaturalOrder" that accumulates the "equals", "hashCode", and "compareTo" interfaces since
-I like to keep them all consistent, anyway. That should make testing easier, since I could just
-send in "NaturalOrder" instances into an "AssertNaturalOrder" instance to ensure the contract is
-respected for all defined test scenarios.
-
-To be consistent with the Localizer subsystem that you will be integrating with, you should use
-the ID subsystem.
-
-For the factory, ensure you separate out the creation, the validationm and the caching.
-
-For initialization, use ONLY the actual instances of Channel, Event, when creating the instances.
-However, for processing requests, use ONLY the UIDs.
+Create the following projects in GitHub for potential future projects to work on?
      
 
 ### Subsystems: The Guard And Constraint Subsystem
@@ -272,46 +96,6 @@ Rough description
      not, the creator factory creates one!  All with very clear roles and responsibilities.
 
 
-### Subsystems: The Localizer Subsystem
-
-work:
-   * For LocalizerBundle, I am using an OrderedSet as the data structure.  I think that is wrong.
-     I think what I want is for the LocalizerBundle to maintain the order in which they are added
-     to the Localizer.  This would be different from OrderedSet which will order the
-     LocalizerBundle instances according to their natural order.  Very different.
-   * I want some means to validate the localization at test time so that I can compare all defined field instances
-     against the configured localization and know EXACTLY where each field is defined AND be able to easily compare
-     to ensure it is defined as expected.
-   * I don't like Java properties files and never have.  You should implement the localization resource bundle data
-     as a JSON file, or something, so that it has more structure and internal validation.  But how would it be
-     extendible if someone wants to localize existing data to yet another locale?
-   * Not sure I like using a checked exception.  Finish implementation and review.  The objective of the new Localizer
-     implementation is to ensure there are no unneeded exceptions during runtime.  This also applies to casting errors.
-     From a reuse perspective, it makes more sense to use the standard, conventional Java casting exception instead
-     of rolling your own.  But, the API implementation must check itself, early, right when the object passed in by
-     the client to follow the "fail-fast" convention.  Thus the consequences of the bad client implementation are
-     determined earlier rather than later.
-   * WARNING: There could be overlap between different fields that LOOK distinct based on how the
-     types and fields are named.  That is, the LocalizerType and LocalizerField instances are all
-     unique but the fully qualified names for the fields can be exactly the same.  Since it is the
-     FQDN that are used in the localization properties files, this is an issue.  You should solve this
-     problem, but get things working, first.
-   * Right now the Localizer interface setLocale() throws a LocalizerException, although the CompositeLocalizer
-     class should never throw this exception since it will always set SOME localization bundle.  You should
-     refactor to remove the throws clause from the published interface and have another internal method
-     defined in the internal interface for the Localizer implementations to implement.  The internal class
-     implementations should just throw an unsupported exception for their implementations of the published
-     API since it does not make sense for them to implement them.  You cannot invert the inheritance
-     hierarchy between the published and internal interfaces since this would cause the internal methods
-     to be visible in the published API.
-   * I think it was a mistake to enforce a specific naming convention / structure within the localizer
-     subsystem.  The naming convention should be defined by the system that uses it.  At most the localizer
-     should have something like the LocalizerType with one named field and MAYBE the LocalizerInstance.
-     Maybe the localizer instance does not even use its name when resolving the localized resource.  The
-     role of the LocalizerInstance is just to mark where class data fields use a localized resource.  The
-     actual localized resource is defined in the LocalizerType (whatever it should be called) instances.
-
-
 ### Subsystems: The Connect Subsystem
 
 Rough:
@@ -330,55 +114,3 @@ Rough:
     like to implement what I intended to implement in the "connect" subsystem.  It is just too
     soon, right now, because I don't see the requirements, yet.
 
-
-### Subsystems: The UID Subsystem
-
-Rough:
-   * There is an issue in the UID subsystem that will cause an integration problem when it is
-     integrated with the Localizer subsystem.  The scenario where you try and recreate the same
-     UID using "UidFactory.createUid(...)" twice in a row with the same parameters will fail the
-     second time.  What it should do is return the same instance the second time that was created
-     the first.
-     
-  
-### Subsystems: All Subsystems In General
-
-Rough:
-   * You should go through the implementation and mark method parameters as final to indicate that none of
-     them will be modified.
-   * You should also just look through the code for instances of duplication and remove them using
-     inheritance, pulling out duplicate code into its own class and use composition, instead.
-   * You should consider adding yet another layer of testing: integration, which tests to ensure
-     that independent subsystems of the whole solution work together as expected.  The testing
-     should not be too extensive to reduce redundancy and should only indicate that ... what?
-     Think about what the integration testing should prove in more concrete and limited terms.
-     
-## Rough Notes
-
-You should rename the "DocumentView" to "DocumentModel" because that is what it is.  When you start implementing
-things like the "validation" subsystem, then the created validation data structures would be a view of the document
-model, following the Model-View-Controller design pattern.  The same thing for the parser.
-
-When implementing the copying of malicious, mutable data ensure you also handle those statements that contain complex
-member data, such as VertexReferenceGroup containing VertexReferences.  You'll also need to handle defensive copying
-for BigDecimal since it has an implementation flaw (missing "final" keyword in class definition) so it can be sub
-classed and made modifiable.  NOTE: you have a prototype solution for testing BasisMatrix for copying, only.  Try
-making the implementation as simple as possible so that you don't have to write too much code.  You'll have to test
-both creating objects, data members that are non-final classes (BigDecimal) and data members that are classes defined
-in this subsystem.
-   * NOTE: You want to add additional testing to MutabilityTester to ensure the defensive copy ONLY occurs if the
-     object being copied is NOT the expected type.
-
-After completing the acceptance tests, check testing coverage to find where supplemental unit testing is required.
-
-You should probably review and clean up the Javadoc for the published APIs.  For example, you should move the
-discussion about the vertex references from the vertex implementations into the vertex reference implementations.
-
-If you start using singleton, and fly weight patterns in the implementation, it would make more sense to do so
-on a StatementFactory by StatementFactory basis, since eventually you want to be able to start setting different
-policies changing behaviours when creating the StatementFactory.
-
-It may make the interface simpler to use, and it is possible to enforce the minimum number of members
-for statements with lists of things if you use varargs.  Actually, I'm not sure whether this idea will work
-well with the parser.  I'll leave this idea until last.  NOTE: I started working on a solution for this in
-the branch "refactor".  I'll keep it for now, but this work is no longer a priority.
